@@ -1,0 +1,42 @@
+﻿@{
+    ViewData["Title"] = "Login";
+}
+
+@model User
+
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="text-center mb-4">
+            <img src="~/images/image.png" class="img-fluid" style="max-width: 80px;" alt="Logo" />
+            <h2 class="mt-3 fw-semibold text-primary">Login</h2>
+        </div>
+
+        <form method="POST">
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label">Email</label>
+                <input asp-for="Email" type="email" class="form-control" required />
+                <span asp-validation-for="Email" class="text-danger" id="EmailError"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Password" class="form-label">Password</label>
+                <input asp-for="Password" type="password" class="form-control" required />
+                <span asp-validation-for="Password" class="text-danger" id="PasswordError"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 mt-3" id="LoginData">Login</button>
+
+            <div class="text-center mt-3">
+                <p class="fs-6">
+                    New here?
+                    <a asp-controller="Auth" asp-action="Registration" class="link-dark">Sign up</a>
+                </p>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="~/js/auth/registration.js"></script>
+}

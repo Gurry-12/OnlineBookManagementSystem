@@ -1,0 +1,25 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace OnlineBookManagementSystem.Models;
+
+public partial class Book
+{
+    public int Id { get; set; }
+
+    public string Title { get; set; } = null!;
+
+    public string? Author { get; set; }
+
+    public decimal? Price { get; set; }
+
+    public string? Isbn { get; set; }
+
+    public string? ImgUrl { get; set; }
+
+    public string? Stock { get; set; }
+
+    public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
+
+    public virtual ICollection<ShoppingCart> ShoppingCarts { get; set; } = new List<ShoppingCart>();
+}

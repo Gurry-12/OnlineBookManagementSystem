@@ -1,0 +1,72 @@
+﻿@{
+    ViewData["Title"] = "Books Data";
+    Layout = "_LayoutMain";
+}
+<link href="~/css/booksindex.css" rel="stylesheet" />
+
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="quote-box">
+            <p>“There is more treasure in books than in all the pirate's loot on Treasure Island.”</p>
+            <p class="text-end">-Walt Disney</p>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div>
+            <span class="tag-pill">New Arrivals</span>
+            <div class="book-row mt-2">
+                <div class="book-card">Holy Bible</div>
+                <div class="book-card">Harry Potter</div>
+                <div class="book-card">Lean UX</div>
+                <div class="book-card">Don't Make Me Think</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h4 id="greeting">Good Morning</h4>
+<h6 class="text-muted">Recommended for You</h6>
+<div class="book-row">
+    <div class="book-card">Don't Make Me Think</div>
+    <div class="book-card">The Design of Everyday Things</div>
+    <div class="book-card">Sprint</div>
+    <div class="book-card">Lean UX</div>
+    <div class="book-card">React</div>
+    <div class="book-card">Rich Dad Poor Dad</div>
+</div>
+
+<h6 class="text-muted">Recent Readings</h6>
+<div class="book-row">
+    <div class="book-card">Don't Make Me Think</div>
+    <div class="book-card">The Design of Everyday Things</div>
+    <div class="book-card">Sprint</div>
+    <div class="book-card">Lean UX</div>
+    <div class="book-card">React</div>
+</div>
+
+<!-- 🔒 Admin-only section -->
+<div id="adminSection" style="display: none;" class="mt-4">
+    <h5>Admin Controls</h5>
+    <button class="btn btn-danger">Manage Books</button>
+    <button class="btn btn-secondary">Manage Users</button>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/js/books/bookshome.js"></script>
+
+<script>
+    $(document).ready(function () {
+        const role = sessionStorage.getItem("userRole");
+        const userName = sessionStorage.getItem("userName");
+
+        if (userName) {
+            $("#greeting").text("Hello, " + userName);
+        }
+
+        if (role === "Admin") {
+            $("#adminSection").show();
+        } else {
+            $("#adminSection").hide();
+        }
+    });
+</script>

@@ -1,0 +1,83 @@
+﻿@using OnlineBookManagementSystem.Models.ViewModel
+@model CategoryViewModel;
+@{
+    ViewData["Title"] = "Category";
+    Layout = "_LayoutMain";
+    // IEnumerable<OnlineBookManagementSystem.Models.Category>;
+}
+<partial name="_ValidationScriptsPartial" />
+
+
+<div class="container ">
+    <div class="row p-4">
+        <div class="col-6">
+            <h2 class="text-primary">Category List</h2>
+        </div>
+        <div class="col-6 text-end">
+            <a class="btn btn-outline-primary rounded-2" data-bs-toggle="modal" data-bs-target="#myModal" id="CreateCategory"><i class="bi bi-plus-circle"></i> Add New Category</a>
+        </div>
+    </div>
+</div>
+
+<table class="table table-bordered table-striped table-responsive">
+    <thead>
+        <tr>
+            <th scope="row" style="width: 33%;">ID</th>
+            <th scope="row" style="width: 33%;">Name</th>
+            <th scope="row" style="width: 33%;">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var category in Model.CategoryList)
+        {
+            <tr>
+                <td>@category.Id</td>
+                <td>@category.Name</td>
+                <td class="d-flex align-items-center justify-content-around">
+                    <button class="btn btn-outline-warning rounded-2 " onclick="UpdateCategory(@category.Id)"><i class="bi bi-pen"></i> Edit</button>
+                    <button class="btn btn-outline-danger rounded-2 " onclick="DeleteCategory(@category.Id)"><i class="bi bi-trash"></i> Delete</button>
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+
+
+<!-- Modal Structure -->
+<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <!-- 👈 Centered here -->
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel">Modal Title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <form id="categoryForm" method="POST">
+                    @Html.AntiForgeryToken()
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="mb-3">
+                        <input type="number" class="form-control" asp-for="NewCategory.Id" hidden>
+                        <label asp-for="NewCategory.Name" class="form-label">Category Name</label>
+                        <input type="text" class="form-control" asp-for="NewCategory.Name" required>
+                        <span asp-validation-for="NewCategory.Name" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3 d-flex gap-5">
+                        <button type="button" class="btn btn-primary" onclick="SaveCategory();" id="CategorySave">Save changes</button>
+                        <button type="button" class="btn btn-primary" onclick="UpdateCategoryInDB();" id="CategoryUpdate">Update changes</button>
+                        <a class="btn btn-outline-dark" id="BackToList" data-bs-dismiss="modal" aria-label="Close">Back to List</a>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+@section Scripts {
+<partial name="_ValidationScriptsPartial" />
+    <script src="~/js/category/categoryscript.js"></script>
+}
