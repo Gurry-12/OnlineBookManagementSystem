@@ -49,6 +49,13 @@ namespace OnlineBookManagementSystem.Controllers
             _context.SaveChanges();
             return Json(new { success = true, message = "Book added successfully." });
         }
-    }
+
+        //[Authorize(Roles = "User")]
+        [AllowAnonymous]
+        public IActionResult CreateBookData()
+        {
+            return View();
+        }
+    } 
 }
 

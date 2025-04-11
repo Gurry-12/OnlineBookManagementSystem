@@ -1,0 +1,65 @@
+﻿
+@{
+    ViewData["Title"] = "Add Book";
+    Layout = "_LayoutMain";
+}
+<style>
+    .card {
+        border-radius: 12px;
+        background: #ffffff;
+        border: none;
+    }
+
+    h3 {
+        font-weight: 600;
+        color: #ff5722;
+    }
+
+</style>
+
+<div class="container my-4">
+    <div class="card p-4 shadow-sm">
+        <h3 class="mb-3 text-primary">Add a New Book</h3>
+
+        <form id="addBookForm">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label">Title</label>
+                    <input type="text" id="Title" class="form-control" required />
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Author</label>
+                    <input type="text" id="Author" class="form-control" required />
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label class="form-label">Price</label>
+                    <input type="number" id="Price" class="form-control" required />
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">ISBN</label>
+                    <input type="text" id="ISBN" class="form-control" required />
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Stock</label>
+                    <input type="number" id="Stock" class="form-control" required />
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Cover Image URL</label>
+                <input type="url" id="ImageURL" class="form-control" />
+            </div>
+
+            <div class="text-end">
+                <button type="submit" class="btn btn-primary px-4">Add Book</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script src="~/js/books/bookshome.js"></script>

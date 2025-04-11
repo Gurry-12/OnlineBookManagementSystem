@@ -1,0 +1,45 @@
+/* _content/OnlineBookManagementSystem/Views/Shared/_LayoutAuth.cshtml.rz.scp.css */
+body[b-b2th3mgsj3] {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(to right, #ff6e7f, #bfe9ff);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.auth-container[b-b2th3mgsj3] {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    padding: 2rem;
+}
+
+.auth-card[b-b2th3mgsj3] {
+    background: white;
+    border-radius: 1rem;
+    padding: 2.5rem 2rem;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    max-width: 450px;
+    width: 100%;
+    animation: fadeIn-b-b2th3mgsj3 0.6s ease-in-out;
+}
+
+@keyframes fadeIn-b-b2th3mgsj3 {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.btn-outline-dark:hover[b-b2th3mgsj3] {
+    background-color: #1b6ec2;
+    color: #fff;
+    border-color: #1b6ec2;
+    transition: all 0.3s ease;
+}
