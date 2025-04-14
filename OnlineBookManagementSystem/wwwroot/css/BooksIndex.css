@@ -12,7 +12,8 @@
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     text-align: center;
-    width: 150px;
+    position : relative;
+/*    width: 150px;*/
 }
 
 .book-row {
@@ -20,6 +21,14 @@
     display: flex;
     gap: 1rem;
     padding-bottom: 1rem;
+}
+
+.card-link {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
 }
 
 

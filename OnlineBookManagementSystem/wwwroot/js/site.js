@@ -3,6 +3,14 @@
 
 // Write your JavaScript code.
 
-const name = localStorage.getItem("userName");
+const name = sessionStorage.getItem("userName");
 $("#username").append(name);
 
+const Role = sessionStorage.getItem("userRole");
+const homeLink = document.getElementById("homeLink");
+
+if (Role === "Admin") {
+    homeLink.href = "/Books/AdminIndex";
+} else {
+    homeLink.href = "/Books/UserIndex";
+}

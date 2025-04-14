@@ -53,13 +53,12 @@
             <img src="/images/image.png" alt="Logo" class="img-fluid  ">
         </div>
 
-        <a asp-controller="Books" asp-action="Index"><i class="bi bi-house-door"></i> Home</a>
+        <a id="homeLink"><i class="bi bi-house-door"></i> Explore Books</a>
         <a asp-controller="Category" asp-action="DisplayCategory"><i class="bi bi-search"></i> Category</a>
-        <a asp-controller="Books" asp-action="CreateBookData"><i class="bi bi-book"></i> Add Book</a>
-        <a asp-controller="Contribute" asp-action="Index"><i class="bi bi-pencil-square"></i> Contribute</a>
+       
         <hr />
         <a asp-controller="Home" asp-action="About">About</a>
-        <a asp-controller="Support" asp-action="Index">Support</a>
+        <a asp-controller="Home" asp-action="Support">Support</a>
         <a asp-controller="Home" asp-action="Terms">Terms & Condition</a>
     </div>
 

@@ -77,16 +77,26 @@ namespace OnlineBookManagementSystem.Controllers
                 signingCredentials: creds);
 
             var jwtToken = new JwtSecurityTokenHandler().WriteToken(token);
+            var val = string.Empty; // Default redirect URL
+            if (user.Role == "Admin")
+            {
+                 val = Url.Action("AdminIndex", "Books");
+            }
+            else if (user.Role == "User")
+            {
+                 val = Url.Action("UserIndex", "Books");
+                
+            }
 
             return Json(new
             {
                 success = true,
                 message = "Login Successful",
                 token = jwtToken,
-                redirectUrl = Url.Action("Index", "Books"),
-                userName = user.Name
+                redirectUrl = val,
+                userName = user.Name,
+                role = user.Role // 👈 Add this
             });
-
 
             // With this corrected line:
             // return RedirectToAction("Index", "Books");

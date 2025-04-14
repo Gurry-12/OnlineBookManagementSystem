@@ -95,11 +95,16 @@ $("#LoginData").click(function (event) {
         contentType: "application/json",
         data: JSON.stringify(data),
         success: function (response) {
+            console.log(response.redirectUrl);
             if (response.success) {
                 sessionStorage.setItem("userName", response.userName);
-                sessionStorage.setItem("jwtToken", response.token);
+                sessionStorage.setItem("userRole", response.role); // 👈 So you can use it for RBAC
+                sessionStorage.setItem("jwt", response.token);
+                console.log(response);
+                
                 alert(response.message);
                 window.location.href = response.redirectUrl;
+
             } else {
                 alert("Login failed: " + response.message);
             }

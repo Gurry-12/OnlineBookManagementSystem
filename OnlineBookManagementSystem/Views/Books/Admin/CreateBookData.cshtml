@@ -1,8 +1,9 @@
 ﻿
 @{
     ViewData["Title"] = "Add Book";
-    Layout = "_LayoutMain";
+ //   Layout = "_LayoutMain";
 }
+@model Book
 <style>
     .card {
         border-radius: 12px;
@@ -25,32 +26,32 @@
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label class="form-label">Title</label>
-                    <input type="text" id="Title" class="form-control" required />
+                    <input type="text" asp-for="Title" class="form-control" required />
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Author</label>
-                    <input type="text" id="Author" class="form-control" required />
+                    <input type="text" asp-for="Author" class="form-control" required />
                 </div>
             </div>
 
             <div class="row mb-3">
                 <div class="col-md-4">
                     <label class="form-label">Price</label>
-                    <input type="number" id="Price" class="form-control" required />
+                    <input type="number" asp-for="Price" class="form-control" required />
                 </div>
                 <div class="col-md-4">
                     <label class="form-label">ISBN</label>
-                    <input type="text" id="ISBN" class="form-control" required />
+                    <input type="text" asp-for="Isbn" class="form-control" required />
                 </div>
                 <div class="col-md-4">
                     <label class="form-label">Stock</label>
-                    <input type="number" id="Stock" class="form-control" required />
+                    <input type="number" asp-for="Stock" class="form-control" required />
                 </div>
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Cover Image URL</label>
-                <input type="url" id="ImageURL" class="form-control" />
+                <input type="url" asp-for="ImgUrl" class="form-control" />
             </div>
 
             <div class="text-end">

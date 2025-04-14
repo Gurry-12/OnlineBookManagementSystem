@@ -29,6 +29,10 @@
       "PackagePath": "staticwebassets\\js\\Books\\BooksHome.js"
     },
     {
+      "Id": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\js\\Books\\userList.js",
+      "PackagePath": "staticwebassets\\js\\Books\\userList.js"
+    },
+    {
       "Id": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\js\\Category\\categoryscript.js",
       "PackagePath": "staticwebassets\\js\\Category\\categoryscript.js"
     },

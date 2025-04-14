@@ -4,51 +4,68 @@ using Microsoft.IdentityModel.Tokens;
 using OnlineBookManagementSystem.Models;
 using System.Text;
 
-var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-builder.Services.AddControllersWithViews();
-
-
-builder.Services.AddDbContext<BookManagementContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            ValidAudience = builder.Configuration["Jwt:Issuer"],
-            IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
-        };
-    });
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+internal class Program
 {
-    app.UseExceptionHandler("/Home/Error");
-    app.UseHsts();
+    private static void Main(string[] args)
+    {
+        var builder = WebApplication.CreateBuilder(args);
+
+        // Add services to the container.
+        builder.Services.AddControllersWithViews();
+
+        // Add DbContext for database connection
+        builder.Services.AddDbContext<BookManagementContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+        // Configure JWT Authentication
+        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                    ValidAudience = builder.Configuration["Jwt:Issuer"],
+                    IssuerSigningKey = new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+                };
+            });
+
+        // Add Authorization Policies
+        builder.Services.AddAuthorization(options =>
+        {
+            options.AddPolicy("UserOnly", policy => policy.RequireRole("User"));
+            options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+        });
+
+
+        // Build the application
+        var app = builder.Build();
+
+        // Configure the HTTP request pipeline
+        if (!app.Environment.IsDevelopment())
+        {
+            app.UseExceptionHandler("/Home/Error");
+            app.UseHsts();
+        }
+
+        app.UseHttpsRedirection();
+        app.UseStaticFiles();
+        app.UseRouting();
+
+        // Add Authentication and Authorization middleware
+        app.UseAuthentication(); // JWT Auth
+        app.UseAuthorization();  // Authorization
+
+        // Default route mapping
+        app.MapControllerRoute(
+            name: "default",
+            pattern: "{controller=Auth}/{action=Login}/{id?}");
+
+        // Run the application
+        app.Run();
+    }
 }
-
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-
-app.UseRouting();
-
-// 👇 Important: This order matters
-app.UseAuthentication(); // JWT Auth
-app.UseAuthorization();  // Authorization
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Auth}/{action=Index}/{id?}");
-
-app.Run();

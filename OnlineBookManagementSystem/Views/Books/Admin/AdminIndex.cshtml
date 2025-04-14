@@ -1,0 +1,55 @@
+﻿@{
+    ViewData["Title"] = "Books Data";
+    //Layout = "_LayoutMain";
+}
+@model IEnumerable<OnlineBookManagementSystem.Models.Book>
+
+<link href="~/css/booksindex.css" rel="stylesheet" />
+
+<!-- 📚 Quote and New Arrivals -->
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="quote-box">
+            <p>“There is more treasure in books than in all the pirate's loot on Treasure Island.”</p>
+            <p class="text-end">- Walt Disney</p>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div>
+            <span class="tag-pill">New Arrivals</span>
+            <div id="newArrivals" class=" container d-flex gap-3 mt-3">
+                <!-- Dynamic content will be loaded here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- 🔒 Admin-only section -->
+<div id="adminSection" style="display: none;" class="mt-4">
+    <h5>Admin Controls</h5>
+    <a asp-controller="Books" asp-action="CreateBookData" class="btn btn-success">➕ Add New Book</a>
+    <a asp-action="UserList" asp-controller="Books" class="btn btn-secondary">👥 Manage Users</a>
+
+    <div class="container d-flex gap-3 mt-3 ">
+        @foreach (var data in Model)
+        {   
+            <div class="book-card" >
+                <img src="@data.ImgUrl" alt="@data.Title style="width:100%; height:200px; object-fit:cover;" />
+                <h6>@data.Title</h6>
+                <small>@data.Author</small>
+                <div class="container d-flex align-items-center justify-content-around">
+                    <p>Price : @data.Price</p>
+                    <p>Stock : @data.Stock</p>
+                </div> 
+                <a onclick="OpenBookModal(@data.Id)" class="card-link"></a>
+            </div>
+            
+        }
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/js/books/bookshome.js"></script>
+

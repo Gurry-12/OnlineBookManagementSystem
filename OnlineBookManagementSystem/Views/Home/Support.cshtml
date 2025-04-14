@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "Support";
+    var role = ViewBag.Role as string ?? "Guest";
+}
+
+<div class="container py-5">
+    <h1 class="mb-4">Support</h1>
+
+    <p class="lead">
+        Need help? We're here to assist you.
+    </p>
+
+    <hr />
+
+    <h4>Frequently Asked Questions</h4>
+    <ul>
+        <li><strong>How do I reset my password?</strong> – Go to the login page and click “Forgot Password”.</li>
+        <li><strong>How do I contact an admin?</strong> – Use the contact form below or email support@example.com.</li>
+        <li><strong>How do I report a bug?</strong> – Send us the details using the form below.</li>
+    </ul>
+
+    <hr />
+
+    <h4>Contact Support</h4>
+    <form method="post" action="#">
+        <div class="mb-3">
+            <label for="email" class="form-label">Your Email</label>
+            <input type="email" class="form-control" id="email" placeholder="you@example.com" required />
+        </div>
+        <div class="mb-3">
+            <label for="message" class="form-label">Message</label>
+            <textarea class="form-control" id="message" rows="4" placeholder="Describe your issue..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Send Message</button>
+    </form>
+
+    <hr />
+
+    <p class="text-muted mt-4">You're logged in as: <strong>@role</strong></p>
+</div>
