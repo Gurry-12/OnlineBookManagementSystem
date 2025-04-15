@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-
-namespace OnlineBookManagementSystem.Models.ViewModel
+﻿namespace OnlineBookManagementSystem.Models.ViewModel
 {
     public class RegisterViewModel
     {

@@ -100,9 +100,8 @@ $("#LoginData").click(function (event) {
                 sessionStorage.setItem("userName", response.userName);
                 sessionStorage.setItem("userRole", response.role); // 👈 So you can use it for RBAC
                 sessionStorage.setItem("jwt", response.token);
-                console.log(response);
+
                 
-                alert(response.message);
                 window.location.href = response.redirectUrl;
 
             } else {

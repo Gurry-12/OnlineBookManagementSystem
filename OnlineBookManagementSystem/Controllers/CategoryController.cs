@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using OnlineBookManagementSystem.Models;
 using OnlineBookManagementSystem.Models.ViewModel;
-using System.Linq;
 
 namespace OnlineBookManagementSystem.Controllers
 {
@@ -90,7 +88,7 @@ namespace OnlineBookManagementSystem.Controllers
             if (!ModelState.IsValid)
             {
                 TempData["error"] = "Validation failed";
-                 return Json(new {  message = "Validation failed"});
+                return Json(new { message = "Validation failed" });
             }
             checkCategory.Name = data.Name;
             _context.SaveChanges();

@@ -1,15 +1,11 @@
 ﻿const token = sessionStorage.getItem("jwt");
-$("#addBookForm").on("submit", function (e) {
-    e.preventDefault();
-    
-    const bookData = {
-        Title: $("#Title").val(),
-        Author: $("#Author").val(),
-        Price: parseFloat($("#Price").val()),
-        Isbn: $("#Isbn").val(),
-        ImgUrl: $("#ImgUrl").val(),
-        Stock: $("#Stock").val()
-    };
+const role = sessionStorage.getItem("userRole");
+const userName = sessionStorage.getItem("userName");
+
+function SubmitData() {
+
+ 
+    const bookData = DataFilledByForm();
 
 
     console.log("📘 Book Data:", bookData); // Debugging
@@ -31,7 +27,49 @@ $("#addBookForm").on("submit", function (e) {
             alert("Something went wrong while adding the book.");
         }
     });
-});
+}
+
+function DataFilledByForm() {
+    const bookData = {
+        Id : $("#Id").val(),
+        Title: $("#Title").val(),
+        Author: $("#Author").val(),
+        Price: parseFloat($("#Price").val()),
+        Isbn: $("#Isbn").val(),
+        ImgUrl: $("#ImgUrl").val(),
+        Stock: $("#Stock").val()
+    };
+    return bookData;
+}
+
+
+function UpdateData() {
+    debugger;
+    const bookData = DataFilledByForm();
+    console.log("📘 Book Data:", bookData); // Debugging
+
+    $.ajax({
+        url: "/Books/UpdateBookDetails", // Ensure this matches your controller's route
+        method: "POST",
+        headers: {
+            "Authorization": `Bearer ${token}`
+        },
+        contentType: "application/json",
+        data: JSON.stringify(bookData),
+        success: function (response) {
+
+            debugger;
+            alert("✅ Book Update successfully!");
+            $("#addBookForm")[0].reset(); // Clear form
+            window.location.href = response.redirectUrl;
+        },
+        error: function (xhr, status, error) {
+            console.error("❌ Error adding book:", error);
+            alert("Something went wrong while adding the book.");
+        }
+    });
+}
+
 
 
 function OpenBookModal(id) {
@@ -55,10 +93,7 @@ function OpenBookModal(id) {
 }
 
 $(document).ready(function () {
-    const role = sessionStorage.getItem("userRole");
-    const userName = sessionStorage.getItem("userName");
-    const token = sessionStorage.getItem("jwt");
-
+   
     if (userName) {
         $("#greeting").text("Hello, " + userName);
     }
@@ -100,3 +135,25 @@ $(document).ready(function () {
         alert("Unauthorized: Invalid role");
     }
 });
+
+
+
+//function GetBookDetails(id) {
+  
+//    $.ajax({
+//        url: `/Books/GetBookDetails/${id}`,
+//        type: "GET",
+//        headers: {
+//            "Authorization": `Bearer ${token}`
+//        },
+//        success: function (response) {
+//            console.log(response)
+            
+           
+
+//        },
+//        error: function () {
+//            alert("Failed to load books.");
+//        },
+//    });
+//}

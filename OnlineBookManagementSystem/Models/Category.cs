@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace OnlineBookManagementSystem.Models;
+﻿namespace OnlineBookManagementSystem.Models;
 
 public partial class Category
 {

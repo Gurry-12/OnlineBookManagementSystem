@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace OnlineBookManagementSystem.Views.Shared
+namespace OnlineBookManagementSystem.Views.Books
 {
-    public class _NotificationModel : PageModel
+    public class ProfileViewModel : PageModel
     {
         public void OnGet()
         {

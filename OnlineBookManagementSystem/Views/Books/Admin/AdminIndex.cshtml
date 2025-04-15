@@ -14,14 +14,7 @@
             <p class="text-end">- Walt Disney</p>
         </div>
     </div>
-    <div class="col-md-6">
-        <div>
-            <span class="tag-pill">New Arrivals</span>
-            <div id="newArrivals" class=" container d-flex gap-3 mt-3">
-                <!-- Dynamic content will be loaded here -->
-            </div>
-        </div>
-    </div>
+    
 </div>
 
 
@@ -33,17 +26,36 @@
 
     <div class="container d-flex gap-3 mt-3 ">
         @foreach (var data in Model)
-        {   
-            <div class="book-card" >
+        {
+            <div class="book-card">
+                <!-- Dropdown button for options -->
+                <button class="position-absolute translate-middle btn btn-link z-3 end-0 "   data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-three-dots-vertical"></i>
+                </button>
+
+                <!-- Dropdown menu -->
+                <ul class="dropdown-menu border-0 ">
+                    <li><a class="dropdown-item text-warning" asp-controller="Books" asp-action="GetBookDetails" asp-route-id="@data.Id">Edit</a></li>
+                    <li><a class="dropdown-item text-danger" onclick="DeleteBook(@data.Id)">Delete</a></li>
+                </ul>
+
+                <!-- Book Image -->
                 <img src="@data.ImgUrl" alt="@data.Title style="width:100%; height:200px; object-fit:cover;" />
+                <!-- Book Title and Author -->
                 <h6>@data.Title</h6>
                 <small>@data.Author</small>
-                <div class="container d-flex align-items-center justify-content-around">
-                    <p>Price : @data.Price</p>
-                    <p>Stock : @data.Stock</p>
-                </div> 
+
+                <!-- Book Price and Stock Information -->
+                <div class="container d-flex align-items-center justify-content-between">
+                    <p class="m-0">Price: @data.Price</p>
+                    <i class="bi bi-cart" style="font-size: 1.5rem;"></i> <!-- Adjust the icon size if needed -->
+                </div>
+
+
+                <!-- Link to open the book modal (covers the entire card) -->
                 <a onclick="OpenBookModal(@data.Id)" class="card-link"></a>
             </div>
+
             
         }
     </div>

@@ -7,12 +7,12 @@
 <div class="row mt-4">
     <!-- Book Cover -->
     <div class="col-md-3 text-center">
-        <img src="@Url.Content(Model.ImgUrl ?? "~/images/books/default.jpg")" alt="Book Cover" class="img-fluid mb-3" style="max-height: 300px;" />
-        <div class="d-flex justify-content-around">
-            <button class="btn btn-outline-secondary btn-sm">Review</button>
-            <button class="btn btn-outline-secondary btn-sm">Notes</button>
-            <button class="btn btn-outline-secondary btn-sm">Share</button>
-        </div>
+        <img src="@Url.Content(Model.ImgUrl ?? "~/images/books/default.jpg")" alt="Book Cover" class="img-fluid mb-3" style="max-height: 500px;" />
+        @* <div class="d-flex justify-content-around"> *@
+        @*     <button class="btn btn-outline-secondary btn-sm">Review</button> *@
+        @*     <button class="btn btn-outline-secondary btn-sm">Notes</button> *@
+        @*     <button class="btn btn-outline-secondary btn-sm">Share</button> *@
+        @* </div> *@
     </div>
 
     <!-- Book Info -->
@@ -23,11 +23,11 @@
         <p><strong>Price:</strong> ₹@Model.Price?.ToString("0.00")</p>
         <p><strong>Stock Status:</strong> <span class="badge bg-success">@Model.Stock</span></p>
 
-        <div class="d-flex gap-2">
-            <button class="btn btn-warning">Borrow</button>
-            <button class="btn btn-success">Read Now <i class="bi bi-play-circle ms-1"></i></button>
+        @* <div class="d-flex gap-2"> *@
+        @*     <button class="btn btn-warning">Borrow</button> *@
+        @*     <button class="btn btn-success">Read Now <i class="bi bi-play-circle ms-1"></i></button> *@
             <button class="btn btn-outline-primary">Add to List</button>
-        </div>
+        @* </div> *@
     </div>
 
     <!-- Author Info (Placeholder for now) -->
@@ -47,9 +47,9 @@
     <ul class="nav nav-tabs">
         <li class="nav-item"><a class="nav-link active" href="#">Overview</a></li>
         <li class="nav-item"><a class="nav-link" href="#">Details</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">Reviews</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">Lists</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">Related Books</a></li>
+        @* <li class="nav-item"><a class="nav-link" href="#">Reviews</a></li> *@
+        @* <li class="nav-item"><a class="nav-link" href="#">Lists</a></li> *@
+        @* <li class="nav-item"><a class="nav-link" href="#">Related Books</a></li> *@
     </ul>
 
     <div class="p-3 bg-light">

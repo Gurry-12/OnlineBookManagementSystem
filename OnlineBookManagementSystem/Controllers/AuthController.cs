@@ -1,13 +1,12 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Identity;
 using OnlineBookManagementSystem.Models;
-
 using OnlineBookManagementSystem.Models.ViewModel;
-using Microsoft.AspNetCore.Authorization;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace OnlineBookManagementSystem.Controllers
 {
@@ -59,11 +58,12 @@ namespace OnlineBookManagementSystem.Controllers
             // Create JWT Token
             var claims = new[]
             {
+                new Claim ("userId" , user.Id.ToString()),
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Name, user.Name),
                 // Add more claims as needed
                 new Claim(ClaimTypes.Role, value: user.Role)
-                
+
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
@@ -80,13 +80,15 @@ namespace OnlineBookManagementSystem.Controllers
             var val = string.Empty; // Default redirect URL
             if (user.Role == "Admin")
             {
-                 val = Url.Action("AdminIndex", "Books");
+                val = Url.Action("AdminIndex", "Books");
             }
             else if (user.Role == "User")
             {
-                 val = Url.Action("UserIndex", "Books");
-                
+                val = Url.Action("UserIndex", "Books");
+
             }
+            // During login
+            HttpContext.Session.SetString("userId", user.Id.ToString());
 
             return Json(new
             {

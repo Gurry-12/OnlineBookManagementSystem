@@ -1,28 +1,20 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Add Book";
- //   Layout = "_LayoutMain";
+    //   Layout = "_LayoutMain";
 }
-@model Book
-<style>
-    .card {
-        border-radius: 12px;
-        background: #ffffff;
-        border: none;
-    }
-
-    h3 {
-        font-weight: 600;
-        color: #ff5722;
-    }
-
-</style>
+@model Book;
 
 <div class="container my-4">
     <div class="card p-4 shadow-sm">
-        <h3 class="mb-3 text-primary">Add a New Book</h3>
+       @if(Model == null){
+        <h3 class="mb-3 text-primary" >Add a New Book</h3>
+       } else {
+        <h3 class="mb-3 text-primary" >Update Book</h3>
+       }
 
-        <form id="addBookForm">
+
+        <form id="addBookForm" method="post">
+            <input type="number" asp-for="Id" class="form-control " />
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label class="form-label">Title</label>
@@ -37,7 +29,7 @@
             <div class="row mb-3">
                 <div class="col-md-4">
                     <label class="form-label">Price</label>
-                    <input type="number" asp-for="Price" class="form-control" required />
+                    <input type="number" asp-for="Price" class="form-control"  required />
                 </div>
                 <div class="col-md-4">
                     <label class="form-label">ISBN</label>
@@ -45,17 +37,25 @@
                 </div>
                 <div class="col-md-4">
                     <label class="form-label">Stock</label>
-                    <input type="number" asp-for="Stock" class="form-control" required />
+                    <input type="number" asp-for="Stock" class="form-control"  required />
                 </div>
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Cover Image URL</label>
-                <input type="url" asp-for="ImgUrl" class="form-control" />
+                <input type="url" asp-for="ImgUrl"  class="form-control" />
             </div>
 
             <div class="text-end">
-                <button type="submit" class="btn btn-primary px-4">Add Book</button>
+                @if (Model == null)
+                {
+                    <button type="submit" onclick="SubmitData()" class="btn btn-primary px-4">Add Book</button>
+                }
+                else
+                {
+                    <button type="submit" onclick="UpdateData()" class="btn btn-primary px-4 ">Update Book</button>
+
+                }
             </div>
         </form>
     </div>

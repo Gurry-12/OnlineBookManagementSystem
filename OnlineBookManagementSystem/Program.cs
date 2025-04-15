@@ -41,6 +41,13 @@ internal class Program
             options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
         });
 
+        builder.Services.AddDistributedMemoryCache(); // Required for session
+        builder.Services.AddSession(options =>
+        {
+            options.IdleTimeout = TimeSpan.FromMinutes(30); // Optional: session timeout
+            options.Cookie.HttpOnly = true;
+            options.Cookie.IsEssential = true;
+        });
 
         // Build the application
         var app = builder.Build();
@@ -55,7 +62,7 @@ internal class Program
         app.UseHttpsRedirection();
         app.UseStaticFiles();
         app.UseRouting();
-
+        app.UseSession();
         // Add Authentication and Authorization middleware
         app.UseAuthentication(); // JWT Auth
         app.UseAuthorization();  // Authorization
