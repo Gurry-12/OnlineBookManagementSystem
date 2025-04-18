@@ -2,6 +2,7 @@ wwwroot\css\BooksIndex.css
 wwwroot\css\site.css
 wwwroot\favicon.ico
 wwwroot\images\image.png
+wwwroot\images\img_avatar.png
 wwwroot\js\Auth\registration.js
 wwwroot\js\Books\BooksHome.js
 wwwroot\js\Books\userList.js

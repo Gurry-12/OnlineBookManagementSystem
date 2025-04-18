@@ -8,13 +8,35 @@ const Role = sessionStorage.getItem("userRole");
 
 $("#username").append(name);
 
-const homeLink = document.getElementById("homeLink");
+$("#homeLink").click(function (event) {
+    debugger;
+    event.preventDefault(); // Prevent the default anchor tag action
 
-if (Role === "Admin") {
-    homeLink.href = "/Books/AdminIndex";
-} else {
-    homeLink.href = "/Books/UserIndex";
-}
+    const token = sessionStorage.getItem("jwt");
+
+    if (!token) {
+        alert("Unauthorized! Please login.");
+        return;
+    }
+
+    const role = sessionStorage.getItem("userRole");
+    let targetUrl = role === "Admin" ? "/Books/AdminIndex" : "/Books/UserIndex";
+
+    $.ajax({
+        url: targetUrl,
+        type: "GET",
+        headers: {
+            "Authorization": `Bearer ${token}`
+        },
+        success: function (response) {
+            window.location.href = targetUrl; // Redirect after success
+        },
+        error: function (xhr, status, error) {
+            alert("Error: You don't have access or session expired.");
+        }
+    });
+});
+
 
 
 

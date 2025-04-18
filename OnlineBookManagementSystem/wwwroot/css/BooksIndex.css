@@ -1,4 +1,4 @@
-﻿
+﻿/* 📚 Quote Box */
 .quote-box {
     background: linear-gradient(to right, #aa076b, #61045f);
     color: white;
@@ -6,34 +6,38 @@
     padding: 1.5rem;
 }
 
+/* 📘 Book Card */
 .book-card {
     background: white;
     padding: 1rem;
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     text-align: center;
-    position : relative;
-/*    width: 150px;*/
+    position: relative;
+    height: 100%;
+    transition: transform 0.2s ease-in-out;
 }
 
-.book-row {
-    overflow-x: auto;
-    display: flex;
-    gap: 1rem;
-    padding-bottom: 1rem;
-}
+    .book-card:hover {
+        transform: scale(1.02);
+    }
 
-.card-link {
-    position: absolute;
-    top: 20px;
-    bottom: 0;
-    left: 0;
+/* 🖼️ Book Image */
+.book-image {
     width: 100%;
-    z-index : 1
+    height: 180px;
+    object-fit :contain;
+    display: block;
+    border-radius: 8px;
 }
 
+@media (max-width: 576px) {
+    .book-image {
+        height: 140px;
+    }
+}
 
-
+/* 💬 Admin Tag */
 .tag-pill {
     background-color: #9c27b0;
     color: white;
@@ -41,3 +45,12 @@
     border-radius: 20px;
 }
 
+/* 🔗 Card Click Overlay */
+.card-link, .stretched-link {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+}

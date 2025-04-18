@@ -1,0 +1,44 @@
+﻿@model OnlineBookManagementSystem.Models.User
+
+@{
+    ViewData["Title"] = "User Profile";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="card shadow-sm border-0 rounded-4 p-4">
+                <div class="row g-4 align-items-center">
+
+                    <!-- Profile Image & Role -->
+                    <div class="col-md-4 text-center">
+                        <img src="~/images/img_avatar.png"
+                             class="img-fluid rounded-circle shadow-sm mb-3"
+                             alt="Profile Picture"
+                             style="width: 140px; height: 140px; object-fit: cover;" />
+                        <span class="badge bg-primary text-light px-3 py-2">@Model.Role</span>
+                    </div>
+
+                    <!-- User Details -->
+                    <div class="col-md-8">
+                        <h3 class="fw-bold">@Model.Name</h3>
+                        <p class="text-muted mb-1">@Model.Email</p>
+                        <small class="text-muted">User ID: @Model.Id</small>
+
+                        <hr />
+
+                        <div class="d-flex flex-column flex-md-row gap-3 mt-2">
+                            <div><strong>Orders:</strong> @Model.Orders.Count()</div>
+                            <div><strong>In Cart:</strong> @Model.ShoppingCarts.Count()</div>
+                        </div>
+
+                        <div class="mt-4 d-flex flex-wrap gap-2">
+                            <a  class="btn btn-outline-primary" asp-action="EditProfile" asp-controller="Auth" asp-route-id="@Model.Id"><i class="bi bi-pencil-square"></i> Edit Profile</a>
+                            @* <a href="#" class="btn btn-outline-danger"><i class="bi bi-shield-lock"></i> Change Password</a> *@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using OnlineBookManagementSystem.Models;
 
 namespace OnlineBookManagementSystem.Controllers
 {
-    [Authorize(Roles = "User,Admin")]
+    //[Authorize(Roles = "User,Admin")]
     public class BooksController : Controller
     {
         private readonly BookManagementContext _context;
@@ -14,14 +15,25 @@ namespace OnlineBookManagementSystem.Controllers
             _context = context;
         }
 
-        [AllowAnonymous]
+       // [AllowAnonymous]
+       //[Authorize(Roles ="Admin")]
         public IActionResult AdminIndex()
         {
-            var data = _context.Books.ToList();
-            return View("Admin/AdminIndex", data);
+            //var data = await _context.Books.ToListAsync();
+            return View("Admin/AdminIndex");
         }
 
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetAdminData()
+        {
+            var data = await _context.Books.ToListAsync();
+            return Json(data);  // Return the book data as JSON
+        }
+
+
+        //[AllowAnonymous]
+        [Authorize(Roles = "User")]
+
         public IActionResult UserIndex()
         {
             return View("User/UserIndex");
@@ -42,9 +54,9 @@ namespace OnlineBookManagementSystem.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult GetBook(int id)
+        public async Task<IActionResult> GetBook(int id)
         {
-            var book = _context.Books.FirstOrDefault(b => b.Id == id);
+            var book = await _context.Books.FirstOrDefaultAsync(b => b.Id == id);
             if (book == null)
                 return NotFound();
 
@@ -54,20 +66,21 @@ namespace OnlineBookManagementSystem.Controllers
 
         [HttpPost]
         [Authorize(Policy = "AdminOnly")]
-        public IActionResult AddBook([FromBody] Book bookData)
+        public async Task<IActionResult> AddBook([FromBody] Book bookData)
         {
             if (bookData == null)
-                return BadRequest();
+                return BadRequest(new { message = "Invalid book data." });
 
-            _context.Books.Add(bookData);
-            _context.SaveChanges();
+            await _context.Books.AddAsync(bookData);
+            await _context.SaveChangesAsync();
+
             return Json(new { success = true, message = "Book added successfully.", bookData });
         }
 
         [AllowAnonymous]
         public IActionResult CreateBookData()
         {
-            return View("Admin/CreateBookData"); // ✅ Explicit path
+            return View("Admin/CreateBookData");
         }
 
         [AllowAnonymous]
@@ -78,69 +91,52 @@ namespace OnlineBookManagementSystem.Controllers
 
         [HttpGet]
         [Authorize(Policy = "AdminOnly")]
-        public IActionResult GetAllUsers()
+        public async Task<IActionResult> GetAllUsers()
         {
-            var users = _context.Users
+            var users = await _context.Users
                 .Where(u => u.Role == "User")
-                .Select(u => new
-                {
-                    u.Name,
-                    u.Email,
-                    Role = u.Role
-                }).ToList();
+                .Select(u => new { u.Name, u.Email, Role = u.Role })
+                .ToListAsync();
 
             return Ok(new { success = true, data = users });
         }
 
         [AllowAnonymous]
-        public IActionResult DisplayBookdetails(int id)
+        public async Task<IActionResult> DisplayBookdetails(int id)
         {
-            var book = _context.Books.FirstOrDefault(b => b.Id == id);
+            var book = await _context.Books.FirstOrDefaultAsync(b => b.Id == id);
             if (book == null)
                 return NotFound();
 
             return View(book);
         }
 
-        [AllowAnonymous]
-        public IActionResult ProfileView()
-        {
-            var userIdClaim = HttpContext.Session.GetString("userId");
-
-            if (string.IsNullOrEmpty(userIdClaim))
-                return Unauthorized();
-
-            int userId = int.Parse(userIdClaim);
-            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
-
-            if (user == null)
-                return NotFound();
-
-            return View(user);
-        }
+        
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult GetBookDetails(int id)
+        public async Task<IActionResult> GetBookDetails(int id)
         {
-            var data = _context.Books.FirstOrDefault(b => b.Id == id);
+            var data = await _context.Books.FirstOrDefaultAsync(b => b.Id == id);
             if (data == null)
-                return Unauthorized();
+                return NotFound();
 
-            // ✅ Use the full path since view is inside Admin folder
             return View("Admin/CreateBookData", data);
         }
 
         [HttpPost]
         [Authorize(Policy = "AdminOnly")]
-        public  IActionResult UpdateBookDetails([FromBody] Book bookData)
+        public async Task<IActionResult> UpdateBookDetails([FromBody] Book bookData)
         {
-            if (bookData == null)
-                return BadRequest();
-
-            var updateDetails = _context.Books.FirstOrDefault(b => b.Id == bookData.Id);
-            if (updateDetails != null)
+            try
             {
+                if (bookData == null)
+                    return BadRequest(new { message = "Invalid book data." });
+
+                var updateDetails = await _context.Books.FirstOrDefaultAsync(b => b.Id == bookData.Id);
+                if (updateDetails == null)
+                    return NotFound(new { message = "Error: Book not found." });
+
                 updateDetails.Title = bookData.Title;
                 updateDetails.Author = bookData.Author;
                 updateDetails.Stock = bookData.Stock;
@@ -148,12 +144,30 @@ namespace OnlineBookManagementSystem.Controllers
                 updateDetails.ImgUrl = bookData.ImgUrl;
                 updateDetails.Price = bookData.Price;
 
-                _context.SaveChanges();
-                var redirectUrl = Url.Action("AdminIndex", "Books");
-                return   Json(new { message = "Successfully updated", updateDetails, redirectUrl });
-            }
+                await _context.SaveChangesAsync();
 
-            return Json(new { message = "Error: Book not found." });
+                var redirectUrl = Url.Action("AdminIndex", "Books");
+                return Json(new { redirectUrl });
+            }
+            catch (Exception ex)
+            {
+                // Log the error if necessary
+                return StatusCode(500, new { message = "An error occurred.", error = ex.Message });
+            }
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteBook(int Id)
+        {
+            var book = await _context.Books.FirstOrDefaultAsync(b => b.Id == Id);
+            if(book == null)
+                BadRequest(new { message = "Invalid book data." });
+
+            _context.Books.Remove(book);
+            await _context.SaveChangesAsync();
+
+             var redirectUrl = Url.Action("AdminIndex", "Books");
+            return Json(new { redirectUrl });
         }
     }
 }

@@ -21,6 +21,10 @@
       "PackagePath": "staticwebassets\\images\\image.png"
     },
     {
+      "Id": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\images\\img_avatar.png",
+      "PackagePath": "staticwebassets\\images\\img_avatar.png"
+    },
+    {
       "Id": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\js\\Auth\\registration.js",
       "PackagePath": "staticwebassets\\js\\Auth\\registration.js"
     },

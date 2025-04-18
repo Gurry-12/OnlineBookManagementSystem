@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace OnlineBookManagementSystem.Views.Books
+namespace OnlineBookManagementSystem.Views.Auth
 {
     public class ProfileViewModel : PageModel
     {

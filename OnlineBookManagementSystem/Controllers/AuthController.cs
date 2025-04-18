@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using OnlineBookManagementSystem.Models;
 using OnlineBookManagementSystem.Models.ViewModel;
@@ -36,14 +37,14 @@ namespace OnlineBookManagementSystem.Controllers
         }
 
         [HttpPost]
-        public IActionResult LoginData([FromBody] LoginViewModel data)
+        public async Task<IActionResult> LoginData([FromBody] LoginViewModel data)
         {
             if (data == null || string.IsNullOrEmpty(data.Email) || string.IsNullOrEmpty(data.Password))
             {
                 return Json(new { success = false, message = "Invalid input data." });
             }
 
-            var user = _context.Users.FirstOrDefault(u => u.Email == data.Email);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == data.Email);
             if (user == null)
             {
                 return Json(new { success = false, message = "Invalid login credentials." });
@@ -146,5 +147,34 @@ namespace OnlineBookManagementSystem.Controllers
         {
             return RedirectToAction("Login", "Auth");
         }
+
+        
+        public async Task<IActionResult> ProfileView()
+        {
+            var userIdClaim = HttpContext.Session.GetString("userId");
+
+            if (string.IsNullOrEmpty(userIdClaim))
+                return Unauthorized();
+
+            if (!int.TryParse(userIdClaim, out int userId))
+                return BadRequest("Invalid session userId");
+
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            if (user == null)
+                return NotFound();
+
+            return View(user);
+        }
+
+        public IActionResult EditProfile(int Id)
+        {
+            
+            var user = _context.Users.FirstOrDefault(u => u.Id == Id);
+            if (user == null)
+                return NotFound();
+            return View(user);
+        }
     }
+
+
 }

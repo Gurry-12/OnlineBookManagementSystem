@@ -97,6 +97,7 @@ $("#LoginData").click(function (event) {
         success: function (response) {
             console.log(response.redirectUrl);
             if (response.success) {
+
                 sessionStorage.setItem("userName", response.userName);
                 sessionStorage.setItem("userRole", response.role); // 👈 So you can use it for RBAC
                 sessionStorage.setItem("jwt", response.token);
