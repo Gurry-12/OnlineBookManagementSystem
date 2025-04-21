@@ -2,9 +2,34 @@
 .quote-box {
     background: linear-gradient(to right, #aa076b, #61045f);
     color: white;
-    border-radius: 12px;
-    padding: 1.5rem;
+    border-radius: 15px;
+    padding: 2rem;
+    transition: background 0.5s ease;
 }
+
+.carousel-fade .carousel-item {
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+    .carousel-fade .carousel-item.active {
+        opacity: 1;
+    }
+
+.carousel-indicators button {
+    background-color: white;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin: 0 5px;
+    opacity: 0.5;
+    transition: opacity 0.3s;
+}
+
+.carousel-indicators .active {
+    opacity: 1;
+}
+
 
 /* 📘 Book Card */
 .book-card {

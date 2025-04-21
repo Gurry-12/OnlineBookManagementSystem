@@ -82,8 +82,6 @@ $("#SubmitForm").click(function (event) {
 $("#LoginData").click(function (event) {
     event.preventDefault();
 
-    
-
     const data = {
         Email: $("#Email").val().trim(),
         Password: $("#Password").val().trim()
@@ -95,16 +93,18 @@ $("#LoginData").click(function (event) {
         contentType: "application/json",
         data: JSON.stringify(data),
         success: function (response) {
-            console.log(response.redirectUrl);
             if (response.success) {
-
+                // Store in sessionStorage
                 sessionStorage.setItem("userName", response.userName);
-                sessionStorage.setItem("userRole", response.role); // 👈 So you can use it for RBAC
+                sessionStorage.setItem("userRole", response.role);
                 sessionStorage.setItem("jwt", response.token);
 
-                
-                window.location.href = response.redirectUrl;
+                // Set token cookie (1 hour expiry, path for entire site)
+                //const expiry = new Date();
+                //expiry.setTime(expiry.getTime() + (60 * 60 * 1000)); // 1 hour
+                document.cookie = `jwt=${response.token}; path=/;`;
 
+                window.location.href = response.redirectUrl;
             } else {
                 alert("Login failed: " + response.message);
             }
@@ -114,4 +114,3 @@ $("#LoginData").click(function (event) {
         }
     });
 });
-

@@ -4,7 +4,7 @@ using OnlineBookManagementSystem.Models.ViewModel;
 
 namespace OnlineBookManagementSystem.Controllers
 {
-    public class CategoryController : Controller
+    public class CategoryController : BaseController
     {
         private readonly BookManagementContext _context;
 

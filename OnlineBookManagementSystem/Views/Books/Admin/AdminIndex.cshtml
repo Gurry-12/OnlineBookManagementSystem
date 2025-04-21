@@ -8,12 +8,32 @@
 <!-- 📚 Quote Section -->
 <div class="row mb-4">
     <div class="col-md-8 col-sm-12">
-        <div class="quote-box shadow">
-            <p>“There is more treasure in books than in all the pirate's loot on Treasure Island.”</p>
-            <p class="text-end">- Walt Disney</p>
+        <div id="quoteCarousel" class="carousel slide carousel-fade quote-box shadow" data-bs-ride="carousel" data-bs-interval="5000">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <p class="fs-5 fst-italic">“There is more treasure in books than in all the pirate's loot on Treasure Island.”</p>
+                    <p class="text-end fw-semibold">- Walt Disney</p>
+                </div>
+                <div class="carousel-item">
+                    <p class="fs-5 fst-italic">“A room without books is like a body without a soul.”</p>
+                    <p class="text-end fw-semibold">- Marcus Tullius Cicero</p>
+                </div>
+                <div class="carousel-item">
+                    <p class="fs-5 fst-italic">“So many books, so little time.”</p>
+                    <p class="text-end fw-semibold">- Frank Zappa</p>
+                </div>
+            </div>
+
+            <!-- Optional Indicators -->
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#quoteCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#quoteCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#quoteCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
         </div>
     </div>
 </div>
+
 
 <!-- 🔒 Admin-only section -->
 <div id="adminSection" style="display: none;" class="mt-4">
@@ -25,37 +45,7 @@
 
     <!-- 📚 Book Cards Grid -->
     <div class="row g-4" id="bookGrid">
-        @* @foreach (var data in Model) *@
-        @* { *@
-            @* <div class="col-lg-3 col-md-4 col-sm-6 col-12"> *@
-            @*     <div class="book-card position-relative"> *@
-            @*         <!-- Dropdown --> *@
-            @*         <button class="position-absolute translate-middle btn btn-link z-3 end-0 " data-bs-toggle="dropdown" aria-expanded="false" style="top : 20px"> *@
-            @*             <i class="bi bi-three-dots-vertical"></i> *@
-            @*         </button> *@
-            @*         <ul class="dropdown-menu border-0"> *@
-            @*             <li><a class="dropdown-item text-warning" asp-controller="Books" asp-action="GetBookDetails" asp-route-id="@data.Id">Edit</a></li> *@
-            @*             <li><a class="dropdown-item text-danger" onclick="DeleteBook(@data.Id)">Delete</a></li> *@
-            @*         </ul> *@
-
-            @*         <!-- Book Image --> *@
-            @*         <img src="@data.ImgUrl" alt="@data.Title" class="book-image" /> *@
-
-            @*         <!-- Book Info --> *@
-            @*         <h6 class="mt-2">@data.Title</h6> *@
-            @*         <small class="text-muted">@data.Author</small> *@
-
-            @*         <!-- Price and Icon --> *@
-            @*         <div class="d-flex justify-content-between align-items-center mt-2"> *@
-            @*             <p class="mb-0">Price: @data.Price</p> *@
-            @*             <i class="bi bi-cart" style="font-size: 1.5rem;"></i> *@
-            @*         </div> *@
-
-            @*         <!-- Card overlay click --> *@
-            @*         <a onclick="OpenBookModal(@data.Id)" class="stretched-link"></a> *@
-            @*     </div> *@
-            @* </div> *@
-        @* } *@
+       
     </div>
 </div>
 

@@ -1,6 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Books Data";
-    Layout = "_LayoutUser";
+    // Layout = "_LayoutUser";
 }
 @* @model IEnumerable<OnlineBookManagementSystem.Models.Book> *@
 
@@ -9,15 +9,37 @@
 <!-- 📚 Quote and New Arrivals -->
 <div class="row mb-4">
     <div class="col-md-6">
-        <div class="quote-box">
-            <p>“There is more treasure in books than in all the pirate's loot on Treasure Island.”</p>
-            <p class="text-end">- Walt Disney</p>
+        <div id="quoteCarousel" class="carousel slide quote-box" data-bs-ride="carousel" data-bs-interval="3000">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <p class="fs-5 fst-italic">“There is more treasure in books than in all the pirate's loot on Treasure Island.”</p>
+                    <p class="text-end fw-semibold">- Walt Disney</p>
+                </div>
+                <div class="carousel-item">
+                    <p class="fs-5 fst-italic">“A room without books is like a body without a soul.”</p>
+                    <p class="text-end fw-semibold">- Marcus Tullius Cicero</p>
+                </div>
+                <div class="carousel-item">
+                    <p class="fs-5 fst-italic">“So many books, so little time.”</p>
+                    <p class="text-end fw-semibold">- Frank Zappa</p>
+                </div>
+            </div>
+            <!-- Carousel controls are optional, but I'll add them for better usability -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#quoteCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#quoteCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
     </div>
+
     <div class="col-md-6">
         <div>
             <span class="tag-pill">New Arrivals</span>
-            <div id="newArrivals" class=" container d-flex gap-3 mt-3">
+            <div id="newArrivals" class="row g-4 mt-1">
                 <!-- Dynamic content will be loaded here -->
             </div>
         </div>
@@ -27,7 +49,7 @@
 <!-- 👋 Greeting and Recommendations -->
 <h4 id="greeting">Good Morning</h4>
 <h6 class="text-muted">Recommended for You</h6>
-<div id="recommendedBooks" class="book-row container d-flex gap-3 mt-3">
+<div id="recommendedBooks" class="row g-4 container ">
     <!-- Dynamic content will be loaded here -->
 </div>
 

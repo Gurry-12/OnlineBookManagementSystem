@@ -6,7 +6,7 @@ using OnlineBookManagementSystem.Models;
 namespace OnlineBookManagementSystem.Controllers
 {
     //[Authorize(Roles = "User,Admin")]
-    public class BooksController : Controller
+    public class BooksController : BaseController
     {
         private readonly BookManagementContext _context;
 
@@ -31,16 +31,13 @@ namespace OnlineBookManagementSystem.Controllers
         }
 
 
-        //[AllowAnonymous]
-        [Authorize(Roles = "User")]
-
         public IActionResult UserIndex()
         {
             return View("User/UserIndex");
         }
 
-        [Authorize(Policy = "UserOnly")]
         [HttpGet]
+        [Authorize(Roles = "User")]
         public IActionResult GetBooks()
         {
             var authorizationHeader = Request.Headers["Authorization"].ToString();
@@ -65,7 +62,7 @@ namespace OnlineBookManagementSystem.Controllers
         }
 
         [HttpPost]
-        [Authorize(Policy = "AdminOnly")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddBook([FromBody] Book bookData)
         {
             if (bookData == null)
@@ -77,20 +74,20 @@ namespace OnlineBookManagementSystem.Controllers
             return Json(new { success = true, message = "Book added successfully.", bookData });
         }
 
-        [AllowAnonymous]
+       // [AllowAnonymous]
         public IActionResult CreateBookData()
         {
             return View("Admin/CreateBookData");
         }
 
-        [AllowAnonymous]
+       // [AllowAnonymous]
         public IActionResult UserList()
         {
             return View("Admin/UserList");
         }
 
         [HttpGet]
-        [Authorize(Policy = "AdminOnly")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAllUsers()
         {
             var users = await _context.Users
@@ -101,7 +98,7 @@ namespace OnlineBookManagementSystem.Controllers
             return Ok(new { success = true, data = users });
         }
 
-        [AllowAnonymous]
+       // [AllowAnonymous]
         public async Task<IActionResult> DisplayBookdetails(int id)
         {
             var book = await _context.Books.FirstOrDefaultAsync(b => b.Id == id);
@@ -114,7 +111,7 @@ namespace OnlineBookManagementSystem.Controllers
         
 
         [HttpGet]
-        [AllowAnonymous]
+       // [AllowAnonymous]
         public async Task<IActionResult> GetBookDetails(int id)
         {
             var data = await _context.Books.FirstOrDefaultAsync(b => b.Id == id);
@@ -125,7 +122,7 @@ namespace OnlineBookManagementSystem.Controllers
         }
 
         [HttpPost]
-        [Authorize(Policy = "AdminOnly")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateBookDetails([FromBody] Book bookData)
         {
             try

@@ -13,7 +13,7 @@ namespace OnlineBookManagementSystem.Controllers
 {
 
     [AllowAnonymous]
-    public class AuthController : Controller
+    public class AuthController : BaseController
     {
         private readonly BookManagementContext _context;
         private readonly IConfiguration _config;
@@ -79,6 +79,7 @@ namespace OnlineBookManagementSystem.Controllers
 
             var jwtToken = new JwtSecurityTokenHandler().WriteToken(token);
             var val = string.Empty; // Default redirect URL
+            HttpContext.Session.SetString("userRole", user.Role); // Storing role
             if (user.Role == "Admin")
             {
                 val = Url.Action("AdminIndex", "Books");
@@ -145,10 +146,11 @@ namespace OnlineBookManagementSystem.Controllers
 
         public IActionResult Logout()
         {
+            HttpContext.Session.Clear(); // 💥 This clears all session values
             return RedirectToAction("Login", "Auth");
         }
 
-        
+
         public async Task<IActionResult> ProfileView()
         {
             var userIdClaim = HttpContext.Session.GetString("userId");

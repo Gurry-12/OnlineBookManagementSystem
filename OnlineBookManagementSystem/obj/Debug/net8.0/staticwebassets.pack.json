@@ -9,6 +9,10 @@
       "PackagePath": "staticwebassets\\css\\BooksIndex.css"
     },
     {
+      "Id": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\css\\CartStyleSheet.css",
+      "PackagePath": "staticwebassets\\css\\CartStyleSheet.css"
+    },
+    {
       "Id": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },

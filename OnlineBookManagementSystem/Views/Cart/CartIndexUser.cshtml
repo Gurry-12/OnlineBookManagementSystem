@@ -1,0 +1,100 @@
+﻿@model List<OnlineBookManagementSystem.Models.ShoppingCart>
+
+@{
+    ViewData["Title"] = "My Cart";
+}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" />
+<style>
+    .cart-container {
+        background-color: rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        padding: 25px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    .cart-item {
+        padding: 20px 0;
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+    .cart-image {
+        flex: 0 0 100px;
+        height: 140px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+
+    .cart-details {
+        flex-grow: 1;
+        padding: 0 20px;
+    }
+
+    .cart-actions {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+        .cart-actions span {
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+    .cart-title {
+        color: #333;
+    }
+
+    .text-light {
+        color: #666 !important;
+    }
+</style>
+
+<div class="container py-5">
+    <h2 class="text-center mb-4 cart-title">🛒 My Cart</h2>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-warning text-center">
+            Your cart is empty.
+        </div>
+    }
+    else
+    {
+        <div class="cart-container">
+            @foreach (var item in Model)
+            {
+                <div class="cart-item">
+                    <!-- Left: Book Image -->
+                    <img src="@(!string.IsNullOrEmpty(item.Book?.ImgUrl) ? item.Book.ImgUrl : Url.Content("~/images/default-book-image.jpg"))"
+                         class="cart-image" alt="@item.Book?.Title" />
+
+                    <!-- Middle: Book Info -->
+                    <div class="cart-details">
+                        <h5 class="mb-1">@item.Book?.Title</h5>
+                        <p class="mb-1 text-light">Author: @item.Book?.Author</p>
+                        <p class="mb-0 fw-bold">Price: $@(item.Book?.Price.HasValue == true ? item.Book?.Price.Value.ToString("F2") : "0.00")</p>
+                    </div>
+
+                    <!-- Right: Qty and Remove -->
+                    <div class="cart-actions">
+                        <span>Qty: @item.Quantity</span>
+                        <button class="btn btn-outline-danger btn-sm">
+                            <i class="bi bi-x-circle"></i> Remove
+                        </button>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+}

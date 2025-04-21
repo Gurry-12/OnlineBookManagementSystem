@@ -1,4 +1,5 @@
 wwwroot\css\BooksIndex.css
+wwwroot\css\CartStyleSheet.css
 wwwroot\css\site.css
 wwwroot\favicon.ico
 wwwroot\images\image.png

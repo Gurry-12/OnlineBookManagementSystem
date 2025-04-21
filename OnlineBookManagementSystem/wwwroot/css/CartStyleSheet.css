@@ -1,0 +1,38 @@
+﻿.cart-table thead th {
+    background-color: #f8f9fa;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.cart-summary {
+    border: 1px solid #dee2e6;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+    .cart-summary p {
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+    }
+
+    .cart-summary .total {
+        font-size: 1.25rem;
+        font-weight: bold;
+    }
+
+.cart-actions {
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .cart-table td, .cart-table th {
+        font-size: 0.85rem;
+    }
+
+    .cart-summary {
+        padding: 1rem;
+    }
+}
