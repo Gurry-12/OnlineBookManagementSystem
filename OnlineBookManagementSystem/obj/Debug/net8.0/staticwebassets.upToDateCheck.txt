@@ -4,9 +4,12 @@ wwwroot\css\site.css
 wwwroot\favicon.ico
 wwwroot\images\image.png
 wwwroot\images\img_avatar.png
+wwwroot\images\morgan-housel-aZ_MmSmAcjg-unsplash.jpg
+wwwroot\images\surja-sen-das-raj-ant0goCEx1w-unsplash.jpg
 wwwroot\js\Auth\registration.js
 wwwroot\js\Books\BooksHome.js
 wwwroot\js\Books\userList.js
+wwwroot\js\Cart\CartUser.js
 wwwroot\js\Category\categoryscript.js
 wwwroot\js\site.js
 wwwroot\lib\bootstrap\dist\css\bootstrap.css

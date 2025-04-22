@@ -29,6 +29,14 @@
       "PackagePath": "staticwebassets\\images\\img_avatar.png"
     },
     {
+      "Id": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\images\\morgan-housel-aZ_MmSmAcjg-unsplash.jpg",
+      "PackagePath": "staticwebassets\\images\\morgan-housel-aZ_MmSmAcjg-unsplash.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\images\\surja-sen-das-raj-ant0goCEx1w-unsplash.jpg",
+      "PackagePath": "staticwebassets\\images\\surja-sen-das-raj-ant0goCEx1w-unsplash.jpg"
+    },
+    {
       "Id": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\js\\Auth\\registration.js",
       "PackagePath": "staticwebassets\\js\\Auth\\registration.js"
     },
@@ -39,6 +47,10 @@
     {
       "Id": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\js\\Books\\userList.js",
       "PackagePath": "staticwebassets\\js\\Books\\userList.js"
+    },
+    {
+      "Id": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\js\\Cart\\CartUser.js",
+      "PackagePath": "staticwebassets\\js\\Cart\\CartUser.js"
     },
     {
       "Id": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\js\\Category\\categoryscript.js",

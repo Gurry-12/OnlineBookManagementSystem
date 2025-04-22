@@ -9,7 +9,7 @@ const Role = sessionStorage.getItem("userRole");
 $("#username").append(name);
 
 $("#homeLink").click(function (event) {
-    debugger;
+
     event.preventDefault(); // Prevent the default anchor tag action
 
     const token = sessionStorage.getItem("jwt");
@@ -53,10 +53,19 @@ updateDateTime();
 setInterval(updateDateTime, 1000);
 
 function logout() {
-    debugger;
     sessionStorage.clear();
    // document.cookie = "jwt=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
     window.location.href = "/Auth/Login";
 }
+
+$(document).ready(function () {
+    // Toggle the collapsed class on sidebar
+    $("#toggleSidebar").click(function () {
+        $("#sidebar").toggleClass("collapsed");
+        $(".content").toggleClass("sidebar-collapsed");
+    });
+
+    $("#SupportloginDetail").html(Role);
+});
 
 

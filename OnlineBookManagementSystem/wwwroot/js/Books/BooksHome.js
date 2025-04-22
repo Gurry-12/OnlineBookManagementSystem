@@ -17,9 +17,12 @@ $(document).ready(function () {
         loadAdminBooks();
     } else if (role === "User") {
         loadBooks();
+        restoreCartUI();
     } else {
         alert("Unauthorized: Invalid role");
     }
+
+   
 });
 
 
@@ -152,6 +155,8 @@ function loadBooks() {
     });
 }
 
+
+//Add to favourite - frontend Only
 function AddToFavorites(id) {
     const arrivalIcon = document.getElementById(`fav-icon-arrival-${id}`);
     const recommendIcon = document.getElementById(`fav-icon-recommend-${id}`);
@@ -177,53 +182,7 @@ function AddToFavorites(id) {
 
 
 
-let cartData = {}; // Store cart data (item ID and quantity)
-
-// Add to cart function
-function AddtoCart(id) {
-
-    if (!cartData[id]) {
-        // Initialize the cart item with quantity 1
-        cartData[id] = 1;
-
-        // Hide the cart icon and show the counter
-        $("#cart-icon-" + id).hide();
-        $("#cart-counter-" + id).removeClass("d-none");
-
-        // Set initial quantity to 1
-        $("#cart-quantity-" + id).text(cartData[id]);
-    }
-
-    const payload = {
-         BookId : id,
-        Quantity : cartData[id],
-    }
-
-    console.log(payload);
-
-    console.log(cartData);
-}
-
-// Change quantity function (increase/decrease)
-function changeCartQuantity(id, action) {
-    if (action === "increase") {
-        cartData[id]++;
-    } else if (action === "decrease" && cartData[id] > 0) {
-        cartData[id]--;
-    }
-    console.log(cartData);
-
-    // Update the displayed quantity
-    $("#cart-quantity-" + id).text(cartData[id]);
-
-    // If quantity reaches 0, show the cart icon again
-    if (cartData[id] === 0) {
-        $("#cart-icon-" + id).show();
-        $("#cart-counter-" + id).addClass("d-none");
-        delete cartData[id]; // Remove the item from the cart
-    }
-}
-
+// data for ajax - book adding and updating
 function DataFilledByForm() {
     return {
         Id: parseInt($("#Id").val()) || 0,  // ✅ Ensure it's a number
@@ -232,7 +191,8 @@ function DataFilledByForm() {
         Price: parseFloat($("#Price").val()),
         Isbn: $("#Isbn").val(),
         ImgUrl: $("#ImgUrl").val(),
-        Stock: $("#Stock").val().toString()
+        Stock: $("#Stock").val().toString(),
+        CategoryId: $("#CategoryId").val(),
     };
 }
 
@@ -250,9 +210,14 @@ function SubmitData(event) {
         },
         contentType: "application/json",
         data: JSON.stringify(bookData),
-        success: function () {
-            alert("✅ Book added successfully!");
-            $("#addBookForm")[0].reset();
+        success: function (response) {
+            if (response.success) {
+                alert("✅ Book added successfully!");
+                $("#addBookForm")[0].reset();
+            }
+            else {
+                alert(response.message);
+            }
         },
         error: function (xhr, status, error) {
             console.error("❌ Error adding book:", error);
@@ -277,11 +242,17 @@ function UpdateData(event) {
         data: JSON.stringify(bookData),
 
         success: function (response) {
-            alert("✅ Book updated successfully!");
-            $("#addBookForm")[0].reset();
-            if (response.redirectUrl) {
-                window.location.href = response.redirectUrl;
+            if (response.success) {
+                alert("✅ Book updated successfully!");
+                $("#addBookForm")[0].reset();
+                if (response.redirectUrl) {
+                    window.location.href = response.redirectUrl;
+                }
             }
+            else {
+                alert(response.message);
+            }
+            
         },
         error: function (xhr, status, error) {
             console.error("❌ Error updating book:", error);
@@ -332,3 +303,125 @@ function DeleteBook(Id) {
         }
     })
 }
+
+
+// Cart Section - UserIndex to cart 
+// Add to Cart Function
+// Add to Cart
+function AddtoCart(bookId) {
+    $.ajax({
+        type: "POST",
+        url: "/Cart/AddOrUpdateCart",
+        contentType: "application/json",
+        data: JSON.stringify({ BookId: bookId }),
+        success: function () {
+            $("#cart-icon-" + bookId).hide();
+            $("#cart-counter-" + bookId).removeClass("d-none");
+            $("#cart-quantity-" + bookId).text("1");
+            restoreCartUI();
+        },
+        error: function () {
+            console.error("Error adding book to cart.");
+        }
+    });
+}
+
+// Change Quantity (Increase or Decrease)
+function changeCartQuantity(bookId, action) {
+   
+    let quantity = parseInt($("#cart-quantity-" + bookId).text());
+
+    if (action === "increase") {
+        quantity++;
+    } else if (action === "decrease") {
+        quantity--;
+    }
+
+    $.ajax({
+        type: "POST",
+        url: "/Cart/UpdateQuantity",
+        contentType: "application/json",
+        data: JSON.stringify({ BookId: bookId, Quantity: quantity }),
+        success: function () {
+            if (quantity <= 0) {
+                $("#cart-icon-" + bookId).show();
+                $("#cart-counter-" + bookId).addClass("d-none");
+            } else {
+                $("#cart-quantity-" + bookId).text(quantity);
+            }
+           
+            restoreCartUI();
+           
+        },
+        error: function () {
+            console.error("Error updating quantity.");
+        }
+    });
+}
+
+
+// Restore Cart UI on Page Load
+function restoreCartUI() {
+    
+    $.ajax({
+        type: "GET",
+        url: "/Cart/GetAllCartItems",
+        success: function (cartItems) {
+            let totalQuantity = 0;
+
+            cartItems.forEach(item => {
+                const bookId = item.bookId;
+                const quantity = item.quantity;
+                totalQuantity += quantity;
+
+                // Update book card UI
+                $("#cart-icon-" + bookId).hide();
+                $("#cart-counter-" + bookId).removeClass("d-none");
+                $("#cart-quantity-" + bookId).text(quantity);
+            });
+
+            // Update cart badge
+            const badge = document.getElementById("cartItemCount");
+            if (totalQuantity > 0) {
+                badge.textContent = totalQuantity;
+                badge.style.display = "inline-block";
+            } else {
+                badge.style.display = "none";
+            }
+        },
+        error: function () {
+            console.error("Failed to restore cart UI.");
+        }
+    });
+}
+
+
+// Remove from DB and cart page - 
+function RemoveCartItems(bookid, userid) {
+
+    var Data = {
+        UserId: userid,
+        BookId: bookid
+    };
+
+    console.log(Data)
+    $.ajax({
+        url: `/Cart/RemoveCartItems`,
+        method: "DELETE",
+        contentType: "application/json",
+        data: JSON.stringify(Data), 
+        success: function (response) {
+            if (response.redirectUrl) {
+                window.location.href = response.redirectUrl;
+            } else {
+                alert("Unexpected response format.");
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error("❌ Error loading book:", error);
+            alert("Something went wrong.");
+        }
+    });
+}
+
+

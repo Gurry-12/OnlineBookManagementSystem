@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using OnlineBookManagementSystem.Models;
+using OnlineBookManagementSystem.Models.ViewModel;
 
 namespace OnlineBookManagementSystem.Controllers
 {
@@ -15,11 +17,9 @@ namespace OnlineBookManagementSystem.Controllers
             _context = context;
         }
 
-       // [AllowAnonymous]
-       //[Authorize(Roles ="Admin")]
         public IActionResult AdminIndex()
         {
-            //var data = await _context.Books.ToListAsync();
+           
             return View("Admin/AdminIndex");
         }
 
@@ -50,7 +50,6 @@ namespace OnlineBookManagementSystem.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
         public async Task<IActionResult> GetBook(int id)
         {
             var book = await _context.Books.FirstOrDefaultAsync(b => b.Id == id);
@@ -65,8 +64,14 @@ namespace OnlineBookManagementSystem.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddBook([FromBody] Book bookData)
         {
-            if (bookData == null)
+            if (bookData == null )
                 return BadRequest(new { message = "Invalid book data." });
+
+            if (!ModelState.IsValid)
+            {
+                
+                return Json(new { message = "Validation failed", });
+            }
 
             await _context.Books.AddAsync(bookData);
             await _context.SaveChangesAsync();
@@ -74,13 +79,24 @@ namespace OnlineBookManagementSystem.Controllers
             return Json(new { success = true, message = "Book added successfully.", bookData });
         }
 
-       // [AllowAnonymous]
+
         public IActionResult CreateBookData()
         {
-            return View("Admin/CreateBookData");
+            var viewModel = new BookFormViewModel
+            {
+                Book = new Book(),
+                CategoryList = (IEnumerable<SelectListItem>)_context.Categories
+            .Select(c => new SelectListItem
+            {
+                Value = c.Id.ToString(),
+                Text = c.Name
+            }).ToList()
+            };
+
+            return View("Admin/CreateBookData", viewModel);
         }
 
-       // [AllowAnonymous]
+
         public IActionResult UserList()
         {
             return View("Admin/UserList");
@@ -92,13 +108,12 @@ namespace OnlineBookManagementSystem.Controllers
         {
             var users = await _context.Users
                 .Where(u => u.Role == "User")
-                .Select(u => new { u.Name, u.Email, Role = u.Role })
+                .Select(u => new { u.Name, u.Email, Role = u.Role, CartItemCount = u.ShoppingCarts.Count(sc => sc.UserId == u.Id) })
                 .ToListAsync();
 
-            return Ok(new { success = true, data = users });
+            return Ok(new { success = true,  users });
         }
 
-       // [AllowAnonymous]
         public async Task<IActionResult> DisplayBookdetails(int id)
         {
             var book = await _context.Books.FirstOrDefaultAsync(b => b.Id == id);
@@ -111,14 +126,26 @@ namespace OnlineBookManagementSystem.Controllers
         
 
         [HttpGet]
-       // [AllowAnonymous]
+
         public async Task<IActionResult> GetBookDetails(int id)
         {
             var data = await _context.Books.FirstOrDefaultAsync(b => b.Id == id);
             if (data == null)
                 return NotFound();
 
-            return View("Admin/CreateBookData", data);
+            var viewModel = new BookFormViewModel
+            {
+                Book = new Book(),
+                CategoryList = (IEnumerable<SelectListItem>)_context.Categories
+            .Select(c => new SelectListItem
+            {
+                Value = c.Id.ToString(),
+                Text = c.Name
+            }).ToList()
+            };
+
+
+            return View("Admin/CreateBookData", viewModel);
         }
 
         [HttpPost]
@@ -129,6 +156,10 @@ namespace OnlineBookManagementSystem.Controllers
             {
                 if (bookData == null)
                     return BadRequest(new { message = "Invalid book data." });
+                if (!ModelState.IsValid)
+                {
+                    return Json(new { message = "Validation failed", });
+                }
 
                 var updateDetails = await _context.Books.FirstOrDefaultAsync(b => b.Id == bookData.Id);
                 if (updateDetails == null)
@@ -140,11 +171,11 @@ namespace OnlineBookManagementSystem.Controllers
                 updateDetails.Isbn = bookData.Isbn;
                 updateDetails.ImgUrl = bookData.ImgUrl;
                 updateDetails.Price = bookData.Price;
-
+                updateDetails.CategoryId = bookData.CategoryId;
                 await _context.SaveChangesAsync();
 
                 var redirectUrl = Url.Action("AdminIndex", "Books");
-                return Json(new { redirectUrl });
+                return Json(new {success= true,  redirectUrl });
             }
             catch (Exception ex)
             {

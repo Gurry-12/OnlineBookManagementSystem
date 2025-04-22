@@ -1,6 +1,5 @@
 ﻿@{
     ViewData["Title"] = "Support";
-    var role = ViewBag.Role as string ?? "Guest";
 }
 
 <div class="container py-5">
@@ -36,5 +35,5 @@
 
     <hr />
 
-    <p class="text-muted mt-4">You're logged in as: <strong>@role</strong></p>
+    <p class="text-muted mt-4">You're logged in as: <strong id="SupportloginDetail"></strong></p>
 </div>

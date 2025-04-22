@@ -38,12 +38,7 @@ internal class Program
     });
 
 
-        // Add Authorization Policies
-        builder.Services.AddAuthorization(options =>
-        {
-            options.AddPolicy("UserOnly", policy => policy.RequireRole("User"));
-            options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
-        });
+        
 
         builder.Services.AddDistributedMemoryCache(); // Required for session
         builder.Services.AddSession(options =>

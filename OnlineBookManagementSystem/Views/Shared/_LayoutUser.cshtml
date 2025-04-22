@@ -8,95 +8,79 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
-
-    <style>
-        body {
-            background: #f5f6fb;
-            font-family: 'Segoe UI', sans-serif;
-        }
-
-        .sidebar {
-            background: linear-gradient(to bottom, #ff5e62, #ff9966);
-            color: #fff;
-            height: 100vh;
-            position: fixed;
-            width: 220px;
-            padding: 1rem;
-        }
-
-            .sidebar a {
-                color: #fff;
-                text-decoration: none;
-                margin: 1rem 0;
-                display: block;
-            }
-
-                .sidebar a:hover {
-                    color: #ffe;
-                }
-
-        .content {
-            margin-left: 240px;
-            padding: 2rem;
-        }
-
-        .top-bar {
-            display: flex;
-            justify-content: flex-end;
-            
-            align-items: center;
-            margin-bottom: 1rem;
-            /* float : right; */
-        }
-    </style>
+    <link href="~/css/site.css" rel="stylesheet" />
 </head>
 <body>
-    <div class="sidebar">
-        <div class="container-fluid p-3 mx-auto w-75  bg-white shadow rounded-3">
-            <img src="/images/image.png" alt="Logo" class="img-fluid  ">
+    <div class="sidebar" id="sidebar">
+        <div class="d-flex justify-content-end">
+            <button id="toggleSidebar" class="btn btn-transparent border-0 text-light my-3">
+                <i class="bi bi-list"></i>
+            </button>
         </div>
 
-        <a id="homeLink"><i class="bi bi-house-door"></i> Explore Books</a>
-        <a asp-controller="Category" asp-action="DisplayCategory"><i class="bi bi-search"></i> Category</a>
+        <div class="container-fluid p-3 mx-auto w-75 bg-white shadow rounded-3 logo-card">
+            <img src="/images/image.png" alt="Logo" class="img-fluid logo-img">
+            
+        </div>
+
+        <!-- Sidebar Links with Icons -->
+        <a id="homeLink" class="d-flex align-items-center">
+            <i class="bi bi-house-door me-2"></i> <!-- Home Icon -->
+            <span class="sidebar-text">Explore Books</span>
+        </a>
+        <a asp-controller="Category" asp-action="DisplayCategory" class="d-flex align-items-center">
+            <i class="bi bi-search me-2"></i> <!-- Category Icon -->
+            <span class="sidebar-text">Category</span>
+        </a>
+
+        <a asp-controller="Cart" asp-action="CartIndexUser" class="cart-link">
+            <i class="bi bi-cart"></i> 
+            <span class="sidebar-text">Cart</span>
+        </a>
+
        
         <hr />
-        <a asp-controller="Home" asp-action="About">About</a>
-        <a asp-controller="Home" asp-action="Support">Support</a>
-        <a asp-controller="Home" asp-action="Terms">Terms & Condition</a>
+        <a asp-controller="Home" asp-action="About" class="d-flex align-items-center">
+            <i class="bi bi-info-circle me-2"></i> <!-- About Icon -->
+            <span class="sidebar-text">About</span>
+        </a>
+        <a asp-controller="Home" asp-action="Support" class="d-flex align-items-center">
+            <i class="bi bi-question-circle me-2"></i> <!-- Support Icon -->
+            <span class="sidebar-text">Support</span>
+        </a>
+        <a asp-controller="Home" asp-action="Terms" class="d-flex align-items-center">
+            <i class="bi bi-file-earmark-text me-2"></i> <!-- Terms Icon -->
+            <span class="sidebar-text">Terms & Condition</span>
+        </a>
     </div>
 
-
+    <!-- Content Section -->
     <div class="content">
+        <div class="top-bar gap-3">
+            <span> <i class="bi bi-clock"></i> <span class="currenttime"> </span> </span>
+            <span><i class="bi bi-calendar"></i> <span class="currentdate"> </span> </span>
 
-        <div class="top-bar">
-            @* <div class="d-flex gap-2"> *@
-            @*     <select class="form-select w-auto"> *@
-            @*         <option>All</option> *@
-            @*     </select> *@
-            @*     <input type="text" class="form-control" placeholder="Search"> *@
-            @*     <button class="btn btn-light"><i class="bi bi-search"></i></button> *@
-            @*     <select class="form-select w-auto"> <option>Lang</option> </select> *@
-            @* </div> *@
-            <div class="d-flex align-items-center gap-3">
-                <span> <i class="bi bi-clock"></i> <span class="currenttime"> </span> </span>
-                <span><i class="bi bi-calendar"></i> <span class="currentdate"> </span> </span> 
-                <a class="text-decoration-none text-dark" asp-controller="Cart" asp-action="CartIndexUser"><i class="bi bi-cart" style="font-size: 1.5rem;"></i></a>
-                <div class="dropdown">
-                    <button class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="username">
-                        <i class="bi bi-person-circle"></i> 
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" asp-controller="Auth" asp-action="ProfileView">Profile</a></li>
-                        <li><a class="dropdown-item" asp-controller="Auth" asp-action="Logout">Logout</a></li>
-                    </ul>
-                </div>
+            <div class="position-relative d-inline-block me-3">
+                <a class="text-decoration-none text-dark" asp-controller="Cart" asp-action="CartIndexUser">
+                    <i class="bi bi-cart" style="font-size: 1.5rem;"></i>
+                    <span id="cartItemCount" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="display: none;">
+                        0
+                    </span>
+                </a>
+            </div>
+            <div class="dropdown">
+                <button class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="username">
+                    <i class="bi bi-person-circle"></i>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" asp-controller="Auth" asp-action="ProfileView">Profile</a></li>
+                    <li><a class="dropdown-item" asp-controller="Auth" asp-action="Logout">Logout</a></li>
+                </ul>
             </div>
         </div>
-    <div>
         @RenderBody()
+    </div>
 
-    </div>
-    </div>
     <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="~/js/site.js"></script>

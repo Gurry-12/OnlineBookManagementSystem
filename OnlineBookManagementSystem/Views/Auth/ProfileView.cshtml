@@ -1,4 +1,4 @@
-﻿@model OnlineBookManagementSystem.Models.User
+﻿@model OnlineBookManagementSystem.Models.ViewModel.UserViewModel
 
 @{
     ViewData["Title"] = "User Profile";
@@ -23,13 +23,13 @@
                     <div class="col-md-8">
                         <h3 class="fw-bold">@Model.Name</h3>
                         <p class="text-muted mb-1">@Model.Email</p>
-                        <small class="text-muted">User ID: @Model.Id</small>
+                        
 
                         <hr />
 
                         <div class="d-flex flex-column flex-md-row gap-3 mt-2">
-                            <div><strong>Orders:</strong> @Model.Orders.Count()</div>
-                            <div><strong>In Cart:</strong> @Model.ShoppingCarts.Count()</div>
+                           
+                            <div><strong>In Cart:</strong> @Model.CartItemCount</div>
                         </div>
 
                         <div class="mt-4 d-flex flex-wrap gap-2">
@@ -42,3 +42,7 @@
         </div>
     </div>
 </div>
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/js/books/bookshome.js"></script>
+

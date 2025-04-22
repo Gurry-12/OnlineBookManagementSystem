@@ -1,8 +1,10 @@
-﻿@{
+﻿@using OnlineBookManagementSystem.Models.ViewModel
+@{
     ViewData["Title"] = "Add Book";
     //   Layout = "_LayoutMain";
 }
-@model Book;
+@model BookFormViewModel;
+
 
 <div class="container my-4">
     <div class="card p-4 shadow-sm">
@@ -14,36 +16,52 @@
 
 
         <form id="addBookForm">
-            <input type="number" asp-for="Id" class="form-control " name="Id" hidden/>
+            <input type="number" asp-for="Book.Id" class="form-control " name="Id" hidden/>
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label class="form-label">Title</label>
-                    <input type="text" asp-for="Title" class="form-control" name="Title" required />
+                    <input type="text" asp-for="Book.Title" class="form-control" name="Title" required />
+                    <span asp-validation-for="Book.Title" class="text-danger"></span>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Author</label>
-                    <input type="text" asp-for="Author" class="form-control" name="Author" required />
+                    <input type="text" asp-for="Book.Author" class="form-control" name="Author" required />
+                    <span asp-validation-for="Book.Author" class="text-danger"></span>
                 </div>
             </div>
 
             <div class="row mb-3">
                 <div class="col-md-4">
                     <label class="form-label">Price</label>
-                    <input type="number" asp-for="Price" class="form-control" name="Price"  required />
+                    <input type="number" asp-for="Book.Price" class="form-control" name="Price" required />
+                    <span asp-validation-for="Book.Price" class="text-danger"></span>
                 </div>
                 <div class="col-md-4">
                     <label class="form-label">ISBN</label>
-                    <input type="text" asp-for="Isbn" class="form-control" name="Isbn" required />
+                    <input type="text" asp-for="Book.Isbn" class="form-control" name="Isbn" required />
+                    <span asp-validation-for="Book.Isbn" class="text-danger"></span>
                 </div>
                 <div class="col-md-4">
                     <label class="form-label">Stock</label>
-                    <input type="number" asp-for="Stock" class="form-control" name="Stock"  required />
+                    <input type="number" asp-for="Book.Stock" class="form-control" name="Stock" required />
+                    <span asp-validation-for="Book.Stock" class="text-danger"></span>
                 </div>
             </div>
 
-            <div class="mb-3">
-                <label class="form-label">Cover Image URL</label>
-                <input type="url" asp-for="ImgUrl" name="ImgUrl" class="form-control" />
+            <div class="row mb-3">
+                <div class="col-md-8">
+                    <label class="form-label">Cover Image URL</label>
+                    <input type="url" asp-for="Book.ImgUrl" name="ImgUrl" class="form-control" />
+                    <span asp-validation-for="Book.ImgUrl" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Category</label>
+                    <select asp-for="Book.CategoryId" asp-items="Model.CategoryList" class="form-control">
+                        <option value="">-- Select Category --</option>
+                    </select>
+                    <span asp-validation-for="Book.CategoryId" class="text-danger"></span>
+                </div>
+
             </div>
 
             <div class="text-end">

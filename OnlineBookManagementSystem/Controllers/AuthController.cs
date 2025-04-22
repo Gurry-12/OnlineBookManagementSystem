@@ -74,7 +74,7 @@ namespace OnlineBookManagementSystem.Controllers
                 issuer: _config["Jwt:Issuer"],
                 audience: _config["Jwt:Issuer"],
                 claims: claims,
-                expires: DateTime.Now.AddHours(1),
+                expires: DateTime.Now.AddMonths(1),
                 signingCredentials: creds);
 
             var jwtToken = new JwtSecurityTokenHandler().WriteToken(token);
@@ -99,11 +99,10 @@ namespace OnlineBookManagementSystem.Controllers
                 token = jwtToken,
                 redirectUrl = val,
                 userName = user.Name,
-                role = user.Role // 👈 Add this
+                role = user.Role 
             });
 
-            // With this corrected line:
-            // return RedirectToAction("Index", "Books");
+           
         }
 
         public IActionResult Registration()
@@ -161,7 +160,15 @@ namespace OnlineBookManagementSystem.Controllers
             if (!int.TryParse(userIdClaim, out int userId))
                 return BadRequest("Invalid session userId");
 
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            var user = await _context.Users.Where(u => u.Id == userId).Select(u => new UserViewModel
+            {
+                Id = u.Id,
+                Name = u.Name,
+                Email = u.Email,
+                Role = u.Role,
+                CartItemCount = u.ShoppingCarts.Sum(sc => sc.Quantity) ?? 0
+            })
+    .FirstOrDefaultAsync(); 
             if (user == null)
                 return NotFound();
 

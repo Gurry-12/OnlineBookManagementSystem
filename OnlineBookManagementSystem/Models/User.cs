@@ -1,4 +1,7 @@
-﻿namespace OnlineBookManagementSystem.Models;
+﻿using System;
+using System.Collections.Generic;
+
+namespace OnlineBookManagementSystem.Models;
 
 public partial class User
 {
@@ -10,7 +13,7 @@ public partial class User
 
     public string Password { get; set; } = null!;
 
-    public required string Role { get; set; }
+    public string? Role { get; set; }
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 

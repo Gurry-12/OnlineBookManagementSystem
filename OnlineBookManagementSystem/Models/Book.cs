@@ -1,4 +1,7 @@
-﻿namespace OnlineBookManagementSystem.Models;
+﻿using System;
+using System.Collections.Generic;
+
+namespace OnlineBookManagementSystem.Models;
 
 public partial class Book
 {
@@ -15,6 +18,10 @@ public partial class Book
     public string? ImgUrl { get; set; }
 
     public string? Stock { get; set; }
+
+    public int? CategoryId { get; set; }
+
+    public virtual Category? Category { get; set; }
 
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 

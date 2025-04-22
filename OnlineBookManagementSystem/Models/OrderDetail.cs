@@ -1,4 +1,7 @@
-﻿namespace OnlineBookManagementSystem.Models;
+﻿using System;
+using System.Collections.Generic;
+
+namespace OnlineBookManagementSystem.Models;
 
 public partial class OrderDetail
 {

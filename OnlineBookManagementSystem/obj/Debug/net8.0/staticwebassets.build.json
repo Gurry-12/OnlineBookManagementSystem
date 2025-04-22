@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "UcbmnOgHqRpGSPBZgbpZXTiUIr5GLJafy6DLvRPVeNc=",
+  "Hash": "dbQHUs25G3oyJ5J+7dA1qXW5u8MsO9eR+ETjDxO/97w=",
   "Source": "OnlineBookManagementSystem",
   "BasePath": "_content/OnlineBookManagementSystem",
   "Mode": "Default",
@@ -73,8 +73,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "ajkvh06y4i",
-      "Integrity": "tgplsPNnqF9LDc3jd74gYmgc9DUY1zTJKUwMA8bvoYs=",
+      "Fingerprint": "f7h55m939t",
+      "Integrity": "pYxS4XP0fHTvth8oSaxE0Eo4M7Pvyqv9qnML73uTSw8=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\BooksIndex.css"
@@ -115,8 +115,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "c2tiyv64ts",
-      "Integrity": "pAGv4ietcJNk/EwsQZ5BN9+K4MuNYS2a9wl4Jw+q9D0=",
+      "Fingerprint": "2jgcjmbjkh",
+      "Integrity": "UqZ53AFXOc/q8NkHN3PUolD7WYH16rstMKQRBew8zGc=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\site.css"
@@ -185,6 +185,48 @@
       "OriginalItemSpec": "wwwroot\\images\\img_avatar.png"
     },
     {
+      "Identity": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\images\\morgan-housel-aZ_MmSmAcjg-unsplash.jpg",
+      "SourceId": "OnlineBookManagementSystem",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\",
+      "BasePath": "_content/OnlineBookManagementSystem",
+      "RelativePath": "images/morgan-housel-aZ_MmSmAcjg-unsplash#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "p17rwf62v5",
+      "Integrity": "kwefs47tAgWFVn2IXrUEC/qkNE8oY1nVbXsrNwiJGK4=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\morgan-housel-aZ_MmSmAcjg-unsplash.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\images\\surja-sen-das-raj-ant0goCEx1w-unsplash.jpg",
+      "SourceId": "OnlineBookManagementSystem",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\",
+      "BasePath": "_content/OnlineBookManagementSystem",
+      "RelativePath": "images/surja-sen-das-raj-ant0goCEx1w-unsplash#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "aobevbp88e",
+      "Integrity": "mk1kVDT89ccOLLt1dwcm0n+3H8tHh0/8VWM+UUxdfws=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\surja-sen-das-raj-ant0goCEx1w-unsplash.jpg"
+    },
+    {
       "Identity": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\js\\Auth\\registration.js",
       "SourceId": "OnlineBookManagementSystem",
       "SourceType": "Discovered",
@@ -220,8 +262,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "6q4l0lwnoz",
-      "Integrity": "Lj8seD97lklZc7ggD0hyfqw2s3ZAg7YO09n+oYgJ5uc=",
+      "Fingerprint": "g631lk10oj",
+      "Integrity": "qCQNRw3FJHW6/GHJQ7LIsTH7hjefriVrVeKPZTYz5Lo=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\Books\\BooksHome.js"
@@ -241,11 +283,32 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "kfa9j4us8o",
-      "Integrity": "EABDZKitiPEB21g1tRZwCb1UX7kMc23iIL+3nsBPI44=",
+      "Fingerprint": "61h43krvj3",
+      "Integrity": "OlK0WUpB+AFGdy0uWElgbh4EiXeHZw8Sw/23FabCh7A=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\Books\\userList.js"
+    },
+    {
+      "Identity": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\js\\Cart\\CartUser.js",
+      "SourceId": "OnlineBookManagementSystem",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\",
+      "BasePath": "_content/OnlineBookManagementSystem",
+      "RelativePath": "js/Cart/CartUser#[.{fingerprint}]?.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "3r8b2a0bt1",
+      "Integrity": "8ZRc1sGeVrPBx4lD717BgRaQekyh78QKV9SKsdt638U=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\Cart\\CartUser.js"
     },
     {
       "Identity": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\js\\Category\\categoryscript.js",
@@ -283,8 +346,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "kz20oug2e8",
-      "Integrity": "4CD+Rt30IxD6g0uBGhSZCJgCEu+qcPhJDiesVH1MHMg=",
+      "Fingerprint": "l711656yrc",
+      "Integrity": "YZZZZdQaa/0PE/bOXQZ7c3dc1neDShefXyyjAkLmHq4=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\site.js"
@@ -1510,51 +1573,6 @@
   ],
   "Endpoints": [
     {
-      "Route": "css/BooksIndex.ajkvh06y4i.css",
-      "AssetFile": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\css\\BooksIndex.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "1524"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"tgplsPNnqF9LDc3jd74gYmgc9DUY1zTJKUwMA8bvoYs=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Mon, 21 Apr 2025 10:50:18 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "ajkvh06y4i"
-        },
-        {
-          "Name": "label",
-          "Value": "css/BooksIndex.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-tgplsPNnqF9LDc3jd74gYmgc9DUY1zTJKUwMA8bvoYs="
-        }
-      ]
-    },
-    {
       "Route": "css/BooksIndex.css",
       "AssetFile": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\css\\BooksIndex.css",
       "Selectors": [],
@@ -1565,7 +1583,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "1524"
+          "Value": "1528"
         },
         {
           "Name": "Content-Type",
@@ -1573,11 +1591,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"tgplsPNnqF9LDc3jd74gYmgc9DUY1zTJKUwMA8bvoYs=\""
+          "Value": "\"pYxS4XP0fHTvth8oSaxE0Eo4M7Pvyqv9qnML73uTSw8=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 21 Apr 2025 10:50:18 GMT"
+          "Value": "Tue, 22 Apr 2025 07:06:18 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1587,7 +1605,52 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-tgplsPNnqF9LDc3jd74gYmgc9DUY1zTJKUwMA8bvoYs="
+          "Value": "sha256-pYxS4XP0fHTvth8oSaxE0Eo4M7Pvyqv9qnML73uTSw8="
+        }
+      ]
+    },
+    {
+      "Route": "css/BooksIndex.f7h55m939t.css",
+      "AssetFile": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\css\\BooksIndex.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1528"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"pYxS4XP0fHTvth8oSaxE0Eo4M7Pvyqv9qnML73uTSw8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 22 Apr 2025 07:06:18 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "f7h55m939t"
+        },
+        {
+          "Name": "label",
+          "Value": "css/BooksIndex.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-pYxS4XP0fHTvth8oSaxE0Eo4M7Pvyqv9qnML73uTSw8="
         }
       ]
     },
@@ -1674,7 +1737,7 @@
       ]
     },
     {
-      "Route": "css/site.c2tiyv64ts.css",
+      "Route": "css/site.2jgcjmbjkh.css",
       "AssetFile": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\css\\site.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -1684,7 +1747,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "362"
+          "Value": "2635"
         },
         {
           "Name": "Content-Type",
@@ -1692,11 +1755,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"pAGv4ietcJNk/EwsQZ5BN9+K4MuNYS2a9wl4Jw+q9D0=\""
+          "Value": "\"UqZ53AFXOc/q8NkHN3PUolD7WYH16rstMKQRBew8zGc=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 03 Apr 2025 06:54:17 GMT"
+          "Value": "Tue, 22 Apr 2025 08:35:51 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1706,7 +1769,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "c2tiyv64ts"
+          "Value": "2jgcjmbjkh"
         },
         {
           "Name": "label",
@@ -1714,7 +1777,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-pAGv4ietcJNk/EwsQZ5BN9+K4MuNYS2a9wl4Jw+q9D0="
+          "Value": "sha256-UqZ53AFXOc/q8NkHN3PUolD7WYH16rstMKQRBew8zGc="
         }
       ]
     },
@@ -1729,7 +1792,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "362"
+          "Value": "2635"
         },
         {
           "Name": "Content-Type",
@@ -1737,11 +1800,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"pAGv4ietcJNk/EwsQZ5BN9+K4MuNYS2a9wl4Jw+q9D0=\""
+          "Value": "\"UqZ53AFXOc/q8NkHN3PUolD7WYH16rstMKQRBew8zGc=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 03 Apr 2025 06:54:17 GMT"
+          "Value": "Tue, 22 Apr 2025 08:35:51 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1751,7 +1814,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-pAGv4ietcJNk/EwsQZ5BN9+K4MuNYS2a9wl4Jw+q9D0="
+          "Value": "sha256-UqZ53AFXOc/q8NkHN3PUolD7WYH16rstMKQRBew8zGc="
         }
       ]
     },
@@ -2002,6 +2065,170 @@
       ]
     },
     {
+      "Route": "images/morgan-housel-aZ_MmSmAcjg-unsplash.jpg",
+      "AssetFile": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\images\\morgan-housel-aZ_MmSmAcjg-unsplash.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "319540"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"kwefs47tAgWFVn2IXrUEC/qkNE8oY1nVbXsrNwiJGK4=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 21 Apr 2025 13:33:57 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-kwefs47tAgWFVn2IXrUEC/qkNE8oY1nVbXsrNwiJGK4="
+        }
+      ]
+    },
+    {
+      "Route": "images/morgan-housel-aZ_MmSmAcjg-unsplash.p17rwf62v5.jpg",
+      "AssetFile": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\images\\morgan-housel-aZ_MmSmAcjg-unsplash.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "319540"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"kwefs47tAgWFVn2IXrUEC/qkNE8oY1nVbXsrNwiJGK4=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 21 Apr 2025 13:33:57 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "p17rwf62v5"
+        },
+        {
+          "Name": "label",
+          "Value": "images/morgan-housel-aZ_MmSmAcjg-unsplash.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-kwefs47tAgWFVn2IXrUEC/qkNE8oY1nVbXsrNwiJGK4="
+        }
+      ]
+    },
+    {
+      "Route": "images/surja-sen-das-raj-ant0goCEx1w-unsplash.aobevbp88e.jpg",
+      "AssetFile": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\images\\surja-sen-das-raj-ant0goCEx1w-unsplash.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "570358"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"mk1kVDT89ccOLLt1dwcm0n+3H8tHh0/8VWM+UUxdfws=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 21 Apr 2025 13:35:54 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "aobevbp88e"
+        },
+        {
+          "Name": "label",
+          "Value": "images/surja-sen-das-raj-ant0goCEx1w-unsplash.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-mk1kVDT89ccOLLt1dwcm0n+3H8tHh0/8VWM+UUxdfws="
+        }
+      ]
+    },
+    {
+      "Route": "images/surja-sen-das-raj-ant0goCEx1w-unsplash.jpg",
+      "AssetFile": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\images\\surja-sen-das-raj-ant0goCEx1w-unsplash.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "570358"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"mk1kVDT89ccOLLt1dwcm0n+3H8tHh0/8VWM+UUxdfws=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 21 Apr 2025 13:35:54 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-mk1kVDT89ccOLLt1dwcm0n+3H8tHh0/8VWM+UUxdfws="
+        }
+      ]
+    },
+    {
       "Route": "js/Auth/registration.js",
       "AssetFile": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\js\\Auth\\registration.js",
       "Selectors": [],
@@ -2084,7 +2311,7 @@
       ]
     },
     {
-      "Route": "js/Books/BooksHome.6q4l0lwnoz.js",
+      "Route": "js/Books/BooksHome.g631lk10oj.js",
       "AssetFile": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\js\\Books\\BooksHome.js",
       "Selectors": [],
       "ResponseHeaders": [
@@ -2094,7 +2321,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "12875"
+          "Value": "15539"
         },
         {
           "Name": "Content-Type",
@@ -2102,11 +2329,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"Lj8seD97lklZc7ggD0hyfqw2s3ZAg7YO09n+oYgJ5uc=\""
+          "Value": "\"qCQNRw3FJHW6/GHJQ7LIsTH7hjefriVrVeKPZTYz5Lo=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 21 Apr 2025 13:10:03 GMT"
+          "Value": "Tue, 22 Apr 2025 13:50:50 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2116,7 +2343,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "6q4l0lwnoz"
+          "Value": "g631lk10oj"
         },
         {
           "Name": "label",
@@ -2124,7 +2351,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-Lj8seD97lklZc7ggD0hyfqw2s3ZAg7YO09n+oYgJ5uc="
+          "Value": "sha256-qCQNRw3FJHW6/GHJQ7LIsTH7hjefriVrVeKPZTYz5Lo="
         }
       ]
     },
@@ -2139,7 +2366,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "12875"
+          "Value": "15539"
         },
         {
           "Name": "Content-Type",
@@ -2147,11 +2374,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"Lj8seD97lklZc7ggD0hyfqw2s3ZAg7YO09n+oYgJ5uc=\""
+          "Value": "\"qCQNRw3FJHW6/GHJQ7LIsTH7hjefriVrVeKPZTYz5Lo=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 21 Apr 2025 13:10:03 GMT"
+          "Value": "Tue, 22 Apr 2025 13:50:50 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2161,7 +2388,52 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-Lj8seD97lklZc7ggD0hyfqw2s3ZAg7YO09n+oYgJ5uc="
+          "Value": "sha256-qCQNRw3FJHW6/GHJQ7LIsTH7hjefriVrVeKPZTYz5Lo="
+        }
+      ]
+    },
+    {
+      "Route": "js/Books/userList.61h43krvj3.js",
+      "AssetFile": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\js\\Books\\userList.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1338"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"OlK0WUpB+AFGdy0uWElgbh4EiXeHZw8Sw/23FabCh7A=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 22 Apr 2025 10:52:25 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "61h43krvj3"
+        },
+        {
+          "Name": "label",
+          "Value": "js/Books/userList.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-OlK0WUpB+AFGdy0uWElgbh4EiXeHZw8Sw/23FabCh7A="
         }
       ]
     },
@@ -2176,7 +2448,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "1197"
+          "Value": "1338"
         },
         {
           "Name": "Content-Type",
@@ -2184,11 +2456,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"EABDZKitiPEB21g1tRZwCb1UX7kMc23iIL+3nsBPI44=\""
+          "Value": "\"OlK0WUpB+AFGdy0uWElgbh4EiXeHZw8Sw/23FabCh7A=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 18 Apr 2025 11:19:55 GMT"
+          "Value": "Tue, 22 Apr 2025 10:52:25 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2198,13 +2470,13 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-EABDZKitiPEB21g1tRZwCb1UX7kMc23iIL+3nsBPI44="
+          "Value": "sha256-OlK0WUpB+AFGdy0uWElgbh4EiXeHZw8Sw/23FabCh7A="
         }
       ]
     },
     {
-      "Route": "js/Books/userList.kfa9j4us8o.js",
-      "AssetFile": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\js\\Books\\userList.js",
+      "Route": "js/Cart/CartUser.3r8b2a0bt1.js",
+      "AssetFile": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\js\\Cart\\CartUser.js",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2213,7 +2485,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "1197"
+          "Value": "3"
         },
         {
           "Name": "Content-Type",
@@ -2221,11 +2493,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"EABDZKitiPEB21g1tRZwCb1UX7kMc23iIL+3nsBPI44=\""
+          "Value": "\"8ZRc1sGeVrPBx4lD717BgRaQekyh78QKV9SKsdt638U=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 18 Apr 2025 11:19:55 GMT"
+          "Value": "Tue, 22 Apr 2025 12:00:49 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2235,15 +2507,52 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "kfa9j4us8o"
+          "Value": "3r8b2a0bt1"
         },
         {
           "Name": "label",
-          "Value": "js/Books/userList.js"
+          "Value": "js/Cart/CartUser.js"
         },
         {
           "Name": "integrity",
-          "Value": "sha256-EABDZKitiPEB21g1tRZwCb1UX7kMc23iIL+3nsBPI44="
+          "Value": "sha256-8ZRc1sGeVrPBx4lD717BgRaQekyh78QKV9SKsdt638U="
+        }
+      ]
+    },
+    {
+      "Route": "js/Cart/CartUser.js",
+      "AssetFile": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\js\\Cart\\CartUser.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "3"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"8ZRc1sGeVrPBx4lD717BgRaQekyh78QKV9SKsdt638U=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 22 Apr 2025 12:00:49 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-8ZRc1sGeVrPBx4lD717BgRaQekyh78QKV9SKsdt638U="
         }
       ]
     },
@@ -2340,7 +2649,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "1818"
+          "Value": "2080"
         },
         {
           "Name": "Content-Type",
@@ -2348,11 +2657,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"4CD+Rt30IxD6g0uBGhSZCJgCEu+qcPhJDiesVH1MHMg=\""
+          "Value": "\"YZZZZdQaa/0PE/bOXQZ7c3dc1neDShefXyyjAkLmHq4=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 21 Apr 2025 06:02:09 GMT"
+          "Value": "Tue, 22 Apr 2025 10:15:59 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2362,12 +2671,12 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-4CD+Rt30IxD6g0uBGhSZCJgCEu+qcPhJDiesVH1MHMg="
+          "Value": "sha256-YZZZZdQaa/0PE/bOXQZ7c3dc1neDShefXyyjAkLmHq4="
         }
       ]
     },
     {
-      "Route": "js/site.kz20oug2e8.js",
+      "Route": "js/site.l711656yrc.js",
       "AssetFile": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\js\\site.js",
       "Selectors": [],
       "ResponseHeaders": [
@@ -2377,7 +2686,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "1818"
+          "Value": "2080"
         },
         {
           "Name": "Content-Type",
@@ -2385,11 +2694,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"4CD+Rt30IxD6g0uBGhSZCJgCEu+qcPhJDiesVH1MHMg=\""
+          "Value": "\"YZZZZdQaa/0PE/bOXQZ7c3dc1neDShefXyyjAkLmHq4=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 21 Apr 2025 06:02:09 GMT"
+          "Value": "Tue, 22 Apr 2025 10:15:59 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2399,7 +2708,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "kz20oug2e8"
+          "Value": "l711656yrc"
         },
         {
           "Name": "label",
@@ -2407,7 +2716,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-4CD+Rt30IxD6g0uBGhSZCJgCEu+qcPhJDiesVH1MHMg="
+          "Value": "sha256-YZZZZdQaa/0PE/bOXQZ7c3dc1neDShefXyyjAkLmHq4="
         }
       ]
     },
@@ -7190,7 +7499,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 21 Apr 2025 11:27:38 GMT"
+          "Value": "Tue, 22 Apr 2025 12:21:18 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -7235,7 +7544,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 21 Apr 2025 11:27:38 GMT"
+          "Value": "Tue, 22 Apr 2025 12:21:18 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -7280,7 +7589,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 21 Apr 2025 11:27:38 GMT"
+          "Value": "Tue, 22 Apr 2025 12:21:18 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -7317,7 +7626,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 21 Apr 2025 11:27:38 GMT"
+          "Value": "Tue, 22 Apr 2025 12:21:18 GMT"
         },
         {
           "Name": "Cache-Control",
