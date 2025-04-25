@@ -18,7 +18,7 @@
         <!-- Book Cover -->
         <div class="col-lg-4 col-md-5 col-sm-12 text-center">
             <img src="@Url.Content(Model.ImgUrl )" alt="Book Cover"
-                 class="img-fluid rounded shadow-sm"
+                 class=" rounded shadow-sm img-thumbnail"
                  style="height: 400px; object-fit: cover;" />
         </div>
 
@@ -40,7 +40,10 @@
 
                 <!-- Favorite Icon Button -->
 
-                <i class=" btn btn-outline-danger bi bi-heart me-1" id="fav-icon-recommend-@Model.Id" onclick="AddToFavorites(@Model.Id)"> Favorite </i>
+                <i class="bi @(Model.IsFavorite == true ? "bi-heart-fill" : "bi-heart") me-1" 
+                id="fav-icon-recommend-@Model.Id" 
+                onclick="AddToFavorites(@Model.Id)" 
+                style="cursor: pointer @(Model.IsFavorite == true ? "color: red;" : "")">  </i>
 
 
 

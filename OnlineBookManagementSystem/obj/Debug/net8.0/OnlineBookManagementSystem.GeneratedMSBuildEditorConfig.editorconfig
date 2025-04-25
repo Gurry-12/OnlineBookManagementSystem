@@ -64,6 +64,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va3NcRGlzcGxheUJvb2tEZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Anviam44/source/repos/Practice/OnlineBookManagementSystem/OnlineBookManagementSystem/Views/Books/User/Favorite.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va3NcVXNlclxGYXZvcml0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Anviam44/source/repos/Practice/OnlineBookManagementSystem/OnlineBookManagementSystem/Views/Books/User/UserIndex.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va3NcVXNlclxVc2VySW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -72,8 +76,12 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FydFxDYXJ0SW5kZXhVc2VyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Anviam44/source/repos/Practice/OnlineBookManagementSystem/OnlineBookManagementSystem/Views/Category/DisplayCategory.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZWdvcnlcRGlzcGxheUNhdGVnb3J5LmNzaHRtbA==
+[C:/Users/Anviam44/source/repos/Practice/OnlineBookManagementSystem/OnlineBookManagementSystem/Views/Category/Admin/DisplayCategory.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZWdvcnlcQWRtaW5cRGlzcGxheUNhdGVnb3J5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Anviam44/source/repos/Practice/OnlineBookManagementSystem/OnlineBookManagementSystem/Views/Category/User/CategoryClassify.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZWdvcnlcVXNlclxDYXRlZ29yeUNsYXNzaWZ5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Anviam44/source/repos/Practice/OnlineBookManagementSystem/OnlineBookManagementSystem/Views/Home/About.cshtml]

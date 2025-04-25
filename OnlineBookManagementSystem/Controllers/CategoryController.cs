@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using OnlineBookManagementSystem.Interfaces;
 using OnlineBookManagementSystem.Models;
 using OnlineBookManagementSystem.Models.ViewModel;
 
@@ -8,20 +10,27 @@ namespace OnlineBookManagementSystem.Controllers
     {
         private readonly BookManagementContext _context;
 
-        public CategoryController(BookManagementContext context)
+        private readonly ICategoryInterface _categoryInterface;
+
+        public CategoryController(BookManagementContext context, ICategoryInterface categoryInterface)
         {
             _context = context;
+            _categoryInterface = categoryInterface;
 
         }
 
         public IActionResult DisplayCategory()
         {
-            var viewModel = new CategoryViewModel
-            {
-                CategoryList = _context.Categories.ToList(),
-                NewCategory = new Category()
-            };
-            return View(viewModel);
+            CategoryViewModel CategoryList = _categoryInterface.GetAllCategories();
+
+            return View("Admin/DisplayCategory", CategoryList);
+        }
+
+        public IActionResult CategoryClassify()
+        {
+            // Fix: Adjust the type to match the method's return type
+            List<CategoryClassifyViewModel> categoryClassification = _categoryInterface.GetAllCategoriesClassified();
+            return View("User/CategoryClassify", categoryClassification);
         }
 
         [HttpPost]
@@ -31,13 +40,12 @@ namespace OnlineBookManagementSystem.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-                    TempData["error"] = "Validation failed";
+
                     return Json(new { message = "Validation failed", });
                 }
 
-                _context.Categories.Add(data);
-                _context.SaveChanges();
-                TempData["success"] = "Create SuccessFully";
+                data = _categoryInterface.AddCategory(data);
+
                 return Json(new { success = true, message = "Category successfully added", data });
             }
             catch (Exception ex)
@@ -48,51 +56,43 @@ namespace OnlineBookManagementSystem.Controllers
 
 
 
-        [HttpGet]
-        public IActionResult DeleteCategory(int Id)
+        [HttpDelete]
+        public async Task<IActionResult> DeleteCategory(int Id)
         {
-            var checkCategory = _context.Categories.FirstOrDefault(s => s.Id == Id);
-            if (checkCategory == null)
+
+            bool result = await _categoryInterface.DeleteCategory(Id);
+            if (result == false)
             {
-                TempData["error"] = "Not Found";
+               
                 return Json("Not Found");
             }
-            _context.Categories.Remove(checkCategory);
-            _context.SaveChanges();
-            TempData["success"] = "Delete SuccessFully";
+                       
             return Json("Delete SuccessFully");
         }
 
         [HttpGet]
-        public IActionResult GetCategoryById(int Id)
+        public async Task<IActionResult> GetCategoryById(int Id)
         {
-            var checkCategory = _context.Categories.FirstOrDefault(s => s.Id == Id);
-            if (checkCategory == null)
-            {
-                TempData["error"] = "Not Found";
-                return Json("Not Found");
-            }
-            return Json(new { success = true, checkCategory, message = "Category Found" });
+            var getCategory = await _categoryInterface.GetCategoryById(Id);
+            
+           return Json(new { success = true, getCategory, message = "Category Found" });
         }
 
 
         [HttpPost]
-        public IActionResult UpdateCategory([FromBody] Category data)
-        {
-            var checkCategory = _context.Categories.FirstOrDefault(s => s.Id == data.Id);
-            if (checkCategory == null)
-            {
-                TempData["error"] = "Not Found";
-                return Json("Not Found");
-            }
+        public async Task<IActionResult> UpdateCategory([FromBody] Category data)
+        {      
             if (!ModelState.IsValid)
             {
-                TempData["error"] = "Validation failed";
                 return Json(new { message = "Validation failed" });
             }
-            checkCategory.Name = data.Name;
-            _context.SaveChanges();
-            TempData["success"] = "Update SuccessFully";
+
+            data = await _categoryInterface.UpdateCategory(data);
+            if (data == null)
+            {
+                return Json("Not Updated");
+            }
+          
             return Json(new { success = true, message = "Update Successful ", data });
         }
 

@@ -4,11 +4,12 @@
     //   Layout = "_LayoutMain";
 }
 @model BookFormViewModel;
+<partial name="_ValidationScriptsPartial" />
 
 
 <div class="container my-4">
     <div class="card p-4 shadow-sm">
-       @if(Model == null){
+       @if(Model.Book == null){
         <h3 class="mb-3 text-primary" >Add a New Book</h3>
        } else {
         <h3 class="mb-3 text-primary" >Update Book</h3>
@@ -32,7 +33,7 @@
 
             <div class="row mb-3">
                 <div class="col-md-4">
-                    <label class="form-label">Price</label>
+                    <label class="form-label">Price <small class="text-muted">(in Rs)</small></label>
                     <input type="number" asp-for="Book.Price" class="form-control" name="Price" required />
                     <span asp-validation-for="Book.Price" class="text-danger"></span>
                 </div>
@@ -65,7 +66,7 @@
             </div>
 
             <div class="text-end">
-                @if (Model == null)
+                @if (Model.Book == null)
                 {
                     <button type="button" onclick="SubmitData(event)" class="btn btn-primary px-4">Add Book</button>
                 }

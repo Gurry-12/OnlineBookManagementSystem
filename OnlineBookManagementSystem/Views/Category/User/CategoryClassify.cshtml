@@ -1,0 +1,96 @@
+﻿@model List<OnlineBookManagementSystem.Models.ViewModel.CategoryClassifyViewModel>
+
+@{
+    ViewData["Title"] = "Browse by Category";
+}
+
+<link href="~/css/booksindex.css" rel="stylesheet" />
+
+<h2 class="mb-4">@ViewData["Title"]</h2>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <select id="searchFilter" class="form-select">
+            <option value="title" selected>Search by Title</option>
+            <option value="author">Search by Author</option>
+            <option value="category">Search by Category</option>
+        </select>
+    </div>
+    <div class="col-md-9">
+        <input type="text" id="bookSearchInput" class="form-control" placeholder="Enter search keyword..." />
+    </div>
+</div>
+
+@foreach (var category in Model)
+{
+    <div class="category-section mb-5" data-category="@category.CategoryName">
+        <h4>@category.CategoryName</h4>
+        <div class="row g-4" id="bookGrid">
+            @foreach (var book in category.Books)
+            {
+                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                    <div class="book-card shadow-sm p-2 bg-white rounded position-relative h-100"
+                         data-title="@book.Title.ToLower()"
+                         data-author="@book.Author.ToLower()"
+                         data-category="@category.CategoryName.ToLower()">
+
+                        <div class="position-absolute end-0 top-0 me-1 mt-1 z-3">
+                            <button class="btn btn-link p-0" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-three-dots-vertical"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end border-0 shadow z-3">
+                                <li><a class="dropdown-item text-warning" onclick="OpenBookModal(@book.Id)">Details</a></li>
+                                <li>
+                                    <i class="bi @(book.IsFavorite == true ? "bi-heart-fill" : "bi-heart") dropdown-item"
+                                       id="fav-icon-recommend-@book.Id"
+                                       onclick="AddToFavorites(@book.Id)"
+                                       style="cursor: pointer; @(book.IsFavorite == true ? "color: red;" : "")"> Favorite</i>
+                                </li>
+
+                            </ul>
+                        </div>-
+
+                        <img src="@book.ImgUrl" alt="@book.Title" class="book-image" />
+                        <h6 class="mt-2">@book.Title</h6>
+                        <small class="text-muted">@book.Author</small>
+                        <div class="d-flex justify-content-between align-items-center mt-2">
+                            <p class="mb-0 text-primary fw-bold">₹@book.Price</p>
+                            <i class="bi bi-cart z-2" style="font-size: 1.5rem;" onclick="AddtoCart(@book.Id);" id="cart-icon-@book.Id"></i>
+                            <div id="cart-counter-@book.Id" class="d-none z-2">
+                                <button class="btn btn-sm" onclick="changeCartQuantity(@book.Id, 'decrease')">-</button>
+                                <span id="cart-quantity-@book.Id">1</span>
+                                <button class="btn btn-sm" onclick="changeCartQuantity(@book.Id, 'increase')">+</button>
+                            </div>
+                        </div>
+
+                        <a onclick="OpenBookModal(@book.Id)" class="stretched-link"></a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+                $('#bookSearchInput').on('keyup', function () {
+            const query = $(this).val().toLowerCase().trim();
+            const filter = $('#searchFilter').val();
+
+            $('.book-card').each(function () {
+                const dataValue = $(this).data(filter);
+                const match = dataValue && dataValue.includes(query);
+                $(this).toggle(query === "" || match); // Show all if query is empty
+            });
+
+            $('.category-section').each(function () {
+                const visibleBooks = $(this).find('.book-card:visible').length;
+                $(this).toggle(visibleBooks > 0 || query === ""); // Show all if query is empty
+            });
+        });
+
+    </script>
+
+    <script src="~/js/books/bookshome.js"></script>
+}

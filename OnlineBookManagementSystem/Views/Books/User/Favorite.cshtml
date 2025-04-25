@@ -1,0 +1,31 @@
+﻿@model IEnumerable<OnlineBookManagementSystem.Models.Book>
+
+@{
+    ViewData["Title"] = "My Favorites";
+}
+
+<h2 class="mb-4">My Favorite Books</h2>
+
+<div class="container">
+    @foreach (var book in Model)
+    {
+        <div class="d-flex align-items-center p-3 mb-3 rounded shadow-sm bg-white bg-opacity-75">
+            <!-- Left: Book Image -->
+            <img src="@(!string.IsNullOrEmpty(book.ImgUrl) ? book.ImgUrl : Url.Content("~/images/default-book-image.jpg"))"
+                 alt="@book.Title"
+                 class="rounded me-3"
+                 style="width: 80px; height: auto;" />
+
+            <!-- Middle: Book Info -->
+            <div>
+                <h5 class="mb-1">@book.Title</h5>
+                <p class="mb-1 text-muted">Author: @book.Author</p>
+                <p class="mb-0 fw-bold">Price: ₹@(book.Price.HasValue ? book.Price.Value.ToString("F2") : "0.00")</p>
+            </div>
+        </div>
+    }
+</div>
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/js/books/bookshome.js"></script>
+

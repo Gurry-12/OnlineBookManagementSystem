@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using OnlineBookManagementSystem.Interfaces;
 using OnlineBookManagementSystem.Models;
+using OnlineBookManagementSystem.Services;
 using System.Security.Claims;
 using System.Text;
 
@@ -17,6 +19,9 @@ internal class Program
         // Add DbContext for database connection
         builder.Services.AddDbContext<BookManagementContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+        // Add services for dependency injection
+        builder.Services.AddScoped<ICategoryInterface, CategoryServices>();
 
         // Configure JWT Authentication
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

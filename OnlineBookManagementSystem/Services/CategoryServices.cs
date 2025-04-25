@@ -1,0 +1,97 @@
+﻿using Microsoft.EntityFrameworkCore;
+using OnlineBookManagementSystem.Interfaces;
+using OnlineBookManagementSystem.Models;
+using OnlineBookManagementSystem.Models.ViewModel;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+
+namespace OnlineBookManagementSystem.Services
+{
+    public class CategoryServices : ICategoryInterface
+    {
+        private readonly BookManagementContext _context;
+        public CategoryServices(BookManagementContext context)
+        {
+            _context = context;
+        }
+
+        //Display the Details - Admin Priviledge
+        public CategoryViewModel GetAllCategories()
+        {
+            return new CategoryViewModel
+            {
+                CategoryList = _context.Categories.Where(c => (bool)!c.IsDeleted).ToList(),
+                NewCategory = new Category(),
+                
+            };
+        }
+
+        //Add Categories
+        public Category AddCategory(Category data)
+        {
+            _context.Categories.Add(data);
+            _context.SaveChanges();
+            return data;
+        }
+
+        //Soft Delete the Category
+        public async Task<bool> DeleteCategory(int id)
+        {
+            var checkCategory = await _context.Categories.Where(c => (bool)!c.IsDeleted).FirstOrDefaultAsync(c => c.Id == id);
+            if (checkCategory == null)
+            {
+                return false;
+            }
+            checkCategory.IsDeleted = true;
+            await _context.SaveChangesAsync();
+            return true;
+
+        }
+
+
+        //Get Category Details via ID
+        public async Task<Category> GetCategoryById(int id)
+        {
+            try
+            {
+                return await _context.Categories.Where(c => !c.IsDeleted && c.Id == id).FirstOrDefaultAsync();
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Something went wrong while fetching the category.", ex);
+            }
+        }
+
+        //update Category
+        public async Task<Category> UpdateCategory(Category category)
+        {
+            var checkCategory = await _context.Categories
+                .Where(c => (bool)!c.IsDeleted)
+                .FirstOrDefaultAsync(s => s.Id == category.Id);
+
+            if (checkCategory == null)
+            {
+                throw new InvalidOperationException("Category not found or has been deleted.");
+            }
+
+            checkCategory.Name = category.Name;
+            await _context.SaveChangesAsync();
+            return checkCategory;
+        }
+
+
+        //user - priviledge 
+        public List<CategoryClassifyViewModel> GetAllCategoriesClassified()
+        {
+            return _context.Books.GroupBy(b => b.Category.Name)
+                .Select(s => new CategoryClassifyViewModel
+                {
+                    CategoryName = s.Key,
+                    Books = s.ToList()
+                }).ToList();
+        }
+    }
+}
+
+

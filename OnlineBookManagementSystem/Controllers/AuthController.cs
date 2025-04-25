@@ -160,15 +160,20 @@ namespace OnlineBookManagementSystem.Controllers
             if (!int.TryParse(userIdClaim, out int userId))
                 return BadRequest("Invalid session userId");
 
-            var user = await _context.Users.Where(u => u.Id == userId).Select(u => new UserViewModel
-            {
-                Id = u.Id,
-                Name = u.Name,
-                Email = u.Email,
-                Role = u.Role,
-                CartItemCount = u.ShoppingCarts.Sum(sc => sc.Quantity) ?? 0
-            })
-    .FirstOrDefaultAsync(); 
+            var user = await _context.Users
+    .Where(u => u.Id == userId)
+    .Select(u => new UserViewModel
+    {
+        Id = u.Id,
+        Name = u.Name,
+        Email = u.Email,
+        Role = u.Role,
+        CartItemCount = u.ShoppingCarts
+            .Where(sc => sc.Book.IsDeleted != true)
+            .Sum(sc => sc.Quantity) ?? 0
+    })
+    .FirstOrDefaultAsync();
+
             if (user == null)
                 return NotFound();
 

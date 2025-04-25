@@ -36,11 +36,20 @@ namespace OnlineBookManagementSystem.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(100)");
 
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ImgUrl")
                         .HasMaxLength(255)
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)")
                         .HasColumnName("ImgURL");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsFavorite")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Isbn")
                         .HasMaxLength(100)
@@ -64,6 +73,8 @@ namespace OnlineBookManagementSystem.Migrations
 
                     b.HasKey("Id")
                         .HasName("PK__Books__3214EC2797436376");
+
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Books");
                 });
@@ -225,6 +236,16 @@ namespace OnlineBookManagementSystem.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("OnlineBookManagementSystem.Models.Book", b =>
+                {
+                    b.HasOne("OnlineBookManagementSystem.Models.Category", "Category")
+                        .WithMany("Books")
+                        .HasForeignKey("CategoryId")
+                        .HasConstraintName("FK_Category_Id_Books");
+
+                    b.Navigation("Category");
+                });
+
             modelBuilder.Entity("OnlineBookManagementSystem.Models.Order", b =>
                 {
                     b.HasOne("OnlineBookManagementSystem.Models.User", "User")
@@ -278,6 +299,11 @@ namespace OnlineBookManagementSystem.Migrations
                     b.Navigation("OrderDetails");
 
                     b.Navigation("ShoppingCarts");
+                });
+
+            modelBuilder.Entity("OnlineBookManagementSystem.Models.Category", b =>
+                {
+                    b.Navigation("Books");
                 });
 
             modelBuilder.Entity("OnlineBookManagementSystem.Models.Order", b =>

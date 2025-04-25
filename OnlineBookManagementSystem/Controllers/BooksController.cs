@@ -19,14 +19,14 @@ namespace OnlineBookManagementSystem.Controllers
 
         public IActionResult AdminIndex()
         {
-           
+
             return View("Admin/AdminIndex");
         }
 
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAdminData()
         {
-            var data = await _context.Books.ToListAsync();
+            var data = await _context.Books.Where(b => (bool)!b.IsDeleted).ToListAsync();
             return Json(data);  // Return the book data as JSON
         }
 
@@ -45,7 +45,7 @@ namespace OnlineBookManagementSystem.Controllers
             if (string.IsNullOrEmpty(authorizationHeader))
                 return Unauthorized(new { message = "Authorization header is missing" });
 
-            var books = _context.Books.ToList();
+            var books = _context.Books.Where(b => (bool)!b.IsDeleted).ToList();
             return Ok(new { data = books });
         }
 
@@ -64,12 +64,12 @@ namespace OnlineBookManagementSystem.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddBook([FromBody] Book bookData)
         {
-            if (bookData == null )
+            if (bookData == null)
                 return BadRequest(new { message = "Invalid book data." });
 
             if (!ModelState.IsValid)
             {
-                
+
                 return Json(new { message = "Validation failed", });
             }
 
@@ -84,7 +84,7 @@ namespace OnlineBookManagementSystem.Controllers
         {
             var viewModel = new BookFormViewModel
             {
-                Book = new Book(),
+                Book = null,
                 CategoryList = (IEnumerable<SelectListItem>)_context.Categories
             .Select(c => new SelectListItem
             {
@@ -111,7 +111,7 @@ namespace OnlineBookManagementSystem.Controllers
                 .Select(u => new { u.Name, u.Email, Role = u.Role, CartItemCount = u.ShoppingCarts.Count(sc => sc.UserId == u.Id) })
                 .ToListAsync();
 
-            return Ok(new { success = true,  users });
+            return Ok(new { success = true, users });
         }
 
         public async Task<IActionResult> DisplayBookdetails(int id)
@@ -123,7 +123,7 @@ namespace OnlineBookManagementSystem.Controllers
             return View(book);
         }
 
-        
+
 
         [HttpGet]
 
@@ -135,7 +135,7 @@ namespace OnlineBookManagementSystem.Controllers
 
             var viewModel = new BookFormViewModel
             {
-                Book = new Book(),
+                Book = data,
                 CategoryList = (IEnumerable<SelectListItem>)_context.Categories
             .Select(c => new SelectListItem
             {
@@ -175,7 +175,7 @@ namespace OnlineBookManagementSystem.Controllers
                 await _context.SaveChangesAsync();
 
                 var redirectUrl = Url.Action("AdminIndex", "Books");
-                return Json(new {success= true,  redirectUrl });
+                return Json(new { success = true, redirectUrl });
             }
             catch (Exception ex)
             {
@@ -187,15 +187,34 @@ namespace OnlineBookManagementSystem.Controllers
         [HttpDelete]
         public async Task<IActionResult> DeleteBook(int Id)
         {
-            var book = await _context.Books.FirstOrDefaultAsync(b => b.Id == Id);
-            if(book == null)
+            var book = await _context.Books.Where(b => (bool)!b.IsDeleted).FirstOrDefaultAsync(b => b.Id == Id);
+            if (book == null)
                 BadRequest(new { message = "Invalid book data." });
 
-            _context.Books.Remove(book);
+            book.IsDeleted = true;
             await _context.SaveChangesAsync();
 
-             var redirectUrl = Url.Action("AdminIndex", "Books");
+            var redirectUrl = Url.Action("AdminIndex", "Books");
             return Json(new { redirectUrl });
+        }
+
+        public IActionResult Favorite()
+        {
+            var books = _context.Books.Where(b => (bool)!b.IsDeleted && (bool)b.IsFavorite).ToList();
+            return View("User/Favorite", books);
+        }
+
+        [HttpPost]
+        public IActionResult AddandRemoveFavorite(int id)
+        {
+            var book = _context.Books.Where(b => (bool)!b.IsDeleted).FirstOrDefault(b => b.Id == id);
+            if (book != null)
+            {
+                book.IsFavorite = !(book.IsFavorite ?? false);
+                _context.SaveChanges();
+            }
+            
+            return Json(new { success = true });
         }
     }
 }

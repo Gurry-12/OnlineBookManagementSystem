@@ -28,14 +28,19 @@
             <i class="bi bi-house-door me-2"></i> <!-- Home Icon -->
             <span class="sidebar-text">Explore Books</span>
         </a>
-        <a asp-controller="Category" asp-action="DisplayCategory" class="d-flex align-items-center">
+        <a asp-controller="Category" asp-action="CategoryClassify" class="d-flex align-items-center">
             <i class="bi bi-search me-2"></i> <!-- Category Icon -->
-            <span class="sidebar-text">Category</span>
+            <span class="sidebar-text">Classify Books</span>
         </a>
 
         <a asp-controller="Cart" asp-action="CartIndexUser" class="cart-link">
             <i class="bi bi-cart"></i> 
             <span class="sidebar-text">Cart</span>
+        </a>
+
+        <a asp-controller="Books" asp-action="Favorite" class="favorites-link">
+            <i class="bi bi-heart-fill"></i>
+            <span class="sidebar-text">Favorites</span>
         </a>
 
        

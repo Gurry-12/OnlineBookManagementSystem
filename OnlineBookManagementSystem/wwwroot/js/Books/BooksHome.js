@@ -16,13 +16,14 @@ $(document).ready(function () {
         $("#adminSection").show();
         loadAdminBooks();
     } else if (role === "User") {
+
         loadBooks();
         restoreCartUI();
     } else {
         alert("Unauthorized: Invalid role");
     }
 
-   
+
 });
 
 
@@ -54,7 +55,7 @@ function loadAdminBooks() {
                                 <h6 class="mt-2">${book.title}</h6>
                                 <small class="text-muted">${book.author}</small>
                                 <div class="d-flex justify-content-between align-items-center mt-2">
-                                    <p class="mb-0 text-primary fw-bold">Price: ${book.price}</p>
+                                    <p class="mb-0 text-primary fw-bold">Price: ₹${book.price}</p>
                                     <i class="bi bi-cart" style="font-size: 1.5rem;"></i>
                                 </div>
 
@@ -89,19 +90,24 @@ function loadBooks() {
 
             if (response.data && response.data.length > 0) {
                 $.each(response.data, function (i, book) {
+
                     // HTML for New Arrivals (less information)
                     let arrivalCard = `
-                        <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                            <div class="book-card shadow-sm p-2 bg-white rounded position-relative h-100">
-                                <img src="${book.imgUrl}" alt="${book.title}" class="book-image" />
-                                <h6 class="mt-2">${book.title}</h6>
-                                <small class="text-muted">${book.author}</small>
-                                <div class="d-flex justify-content-between align-items-center mt-2">
-                                   <i class="bi bi-heart" id="fav-icon-arrival-${book.id}"" onclick="AddToFavorites(${book.id});"></i>
-                                </div>
-                            </div>
-                        </div>
-                    `;
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                <div class="book-card shadow-sm p-2 bg-white rounded position-relative">
+                    <img src="${book.imgUrl}" alt="${book.title}" class="img-fluid" style="height: 80px;" />
+                    <h6 class="mt-2">${book.title}</h6>
+                    <small class="text-muted">${book.author}</small>
+                    <div class="d-flex justify-content-between align-items-center mt-2">
+                        <i class="bi ${book.isFavorite === true ? 'bi-heart-fill' : 'bi-heart'}"
+                           id="fav-icon-arrival-${book.id}"
+                           onclick="AddToFavorites(${book.id})"
+                           style="cursor: pointer; ${book.isFavorite === true ? 'color: red;' : ''}">
+                        </i>
+                    </div>
+                </div>
+            </div>
+        `;
 
                     // HTML for Recommended Books (full details)
                     let recommendedCard = `
@@ -111,9 +117,9 @@ function loadBooks() {
                                 <button class="btn btn-link p-0" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="bi bi-three-dots-vertical"></i>
                                 </button>
-                                <ul class="dropdown-menu dropdown-menu-end border-0 shadow  z-3">
-                                    <li><a class="dropdown-item text-warning" onclick="OpenBookModal(${book.id})">Details</a></li>
-                                    <li><i class="bi bi-heart dropdown-item" id="fav-icon-recommend-${book.id}" onclick="AddToFavorites(${book.id})"> Favorite</i> </li>
+                                <ul class="dropdown-menu dropdown-menu-end border-0 shadow  z-3  ">
+                                    <li class="text-center"><a class="dropdown-item text-warning" onclick="OpenBookModal(${book.id})">Details</a></li>
+                                    <li class="text-center" ><i class="bi ${book.isFavorite === true ? 'bi-heart-fill' : 'bi-heart'}" dropdown-item" id="fav-icon-recommend-${book.id}" onclick="AddToFavorites(${book.id})" style="cursor: pointer; ${book.isFavorite === true ? 'color: red;' : ''}"> Favorite</i> </li>
                                 </ul>
                                 </div>
 
@@ -122,7 +128,7 @@ function loadBooks() {
                                 <small class="text-muted">${book.author}</small>
                                 <div class="d-flex justify-content-between align-items-center mt-2">
                                     <p class="mb-0 text-primary fw-bold">₹${book.price}</p>
-                                    <i class="bi bi-cart z-2" style="font-size: 1.5rem;" onclick="AddtoCart(${book.id });" id="cart-icon-${book.id}"></i>
+                                    <i class="bi bi-cart z-2" style="font-size: 1.5rem;" onclick="AddtoCart(${book.id});" id="cart-icon-${book.id}"></i>
                                     <div id="cart-counter-${book.id}" class="d-none z-2">
                                        <button class="btn btn-sm" onclick="changeCartQuantity(${book.id}, 'decrease')">-</button>
                                         <span id="cart-quantity-${book.id}">1</span>
@@ -158,26 +164,39 @@ function loadBooks() {
 
 //Add to favourite - frontend Only
 function AddToFavorites(id) {
-    const arrivalIcon = document.getElementById(`fav-icon-arrival-${id}`);
-    const recommendIcon = document.getElementById(`fav-icon-recommend-${id}`);
+   
+    const $arrivalIcon = $(`#fav-icon-arrival-${id}`);
+    const $recommendIcon = $(`#fav-icon-recommend-${id}`);
 
-    const toggleFavoriteIcon = (icon) => {
-        if (!icon) return;
-        if (icon.classList.contains("bi-heart")) {
-            icon.classList.remove("bi-heart");
-            icon.classList.add("bi-heart-fill");
-            icon.style.color = "red";
+    const toggleFavoriteIcon = ($icon) => {
+        if ($icon.length === 0) return;
+        if ($icon.hasClass("bi-heart")) {
+            $icon.removeClass("bi-heart")
+                .addClass("bi-heart-fill")
+                .css("color", "red");
         } else {
-            icon.classList.remove("bi-heart-fill");
-            icon.classList.add("bi-heart");
-            icon.style.color = "";
+            $icon.removeClass("bi-heart-fill")
+                .addClass("bi-heart")
+                .css("color", "");
         }
     };
 
-    toggleFavoriteIcon(arrivalIcon);
-    toggleFavoriteIcon(recommendIcon);
-
-    //alert("Toggled favorite status for book ID: " + id);
+    // AJAX call to backend
+    $.ajax({
+        type: "POST",
+        url: `/Books/AddandRemoveFavorite/${id}`,
+        
+        success: function (response) {
+            
+            if (response.success) {
+                toggleFavoriteIcon($arrivalIcon);
+                toggleFavoriteIcon($recommendIcon);
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error("Error updating favorite:", error);
+        }
+    });
 }
 
 
@@ -185,18 +204,19 @@ function AddToFavorites(id) {
 // data for ajax - book adding and updating
 function DataFilledByForm() {
     return {
-        Id: parseInt($("#Id").val()) || 0,  // ✅ Ensure it's a number
-        Title: $("#Title").val(),
-        Author: $("#Author").val(),
-        Price: parseFloat($("#Price").val()),
-        Isbn: $("#Isbn").val(),
-        ImgUrl: $("#ImgUrl").val(),
-        Stock: $("#Stock").val().toString(),
-        CategoryId: $("#CategoryId").val(),
+        Id: parseInt($("#Book_Id").val()) || 0,  // ✅ Ensure it's a number
+        Title: $("#Book_Title").val(),
+        Author: $("#Book_Author").val(),
+        Price: parseFloat($("#Book_Price").val()),
+        Isbn: $("#Book_Isbn").val(),
+        ImgUrl: $("#Book_ImgUrl").val(),
+        Stock: $("#Book_Stock").val().toString(),
+        CategoryId: $("#Book_CategoryId").val(),
     };
 }
 
 function SubmitData(event) {
+
     if (event) event.preventDefault(); // ✅ Important line
 
     const bookData = DataFilledByForm();
@@ -227,6 +247,7 @@ function SubmitData(event) {
 }
 
 function UpdateData(event) {
+
     if (event) event.preventDefault(); // ✅ Important line
 
     const bookData = DataFilledByForm();
@@ -252,7 +273,7 @@ function UpdateData(event) {
             else {
                 alert(response.message);
             }
-            
+
         },
         error: function (xhr, status, error) {
             console.error("❌ Error updating book:", error);
@@ -328,7 +349,7 @@ function AddtoCart(bookId) {
 
 // Change Quantity (Increase or Decrease)
 function changeCartQuantity(bookId, action) {
-   
+    
     let quantity = parseInt($("#cart-quantity-" + bookId).text());
 
     if (action === "increase") {
@@ -346,12 +367,14 @@ function changeCartQuantity(bookId, action) {
             if (quantity <= 0) {
                 $("#cart-icon-" + bookId).show();
                 $("#cart-counter-" + bookId).addClass("d-none");
+                window.location.href = "/Cart/CartIndexUser";
             } else {
                 $("#cart-quantity-" + bookId).text(quantity);
             }
-           
+
+            updateCartTotals()
             restoreCartUI();
-           
+
         },
         error: function () {
             console.error("Error updating quantity.");
@@ -362,7 +385,7 @@ function changeCartQuantity(bookId, action) {
 
 // Restore Cart UI on Page Load
 function restoreCartUI() {
-    
+
     $.ajax({
         type: "GET",
         url: "/Cart/GetAllCartItems",
@@ -409,7 +432,7 @@ function RemoveCartItems(bookid, userid) {
         url: `/Cart/RemoveCartItems`,
         method: "DELETE",
         contentType: "application/json",
-        data: JSON.stringify(Data), 
+        data: JSON.stringify(Data),
         success: function (response) {
             if (response.redirectUrl) {
                 window.location.href = response.redirectUrl;
@@ -425,3 +448,30 @@ function RemoveCartItems(bookid, userid) {
 }
 
 
+// Function to update subtotal, tax, and grand total
+function updateCartTotals() {
+
+    var subtotal = 0;
+    $('.cart-item').each(function () {
+        var bookPrice = parseFloat($(this).find('.book-price').text().replace('₹', '').trim());
+        // Get the quantity as a number
+        var quantity = parseInt($(this).find('.cart-quantity').text().trim(), 10); // Convert to integer
+
+        // Ensure that both values are valid numbers before using them
+        if (!isNaN(bookPrice) && !isNaN(quantity)) {
+            // Add to subtotal
+            subtotal += bookPrice * quantity;
+        }
+        console.log(bookPrice)
+        console.log(quantity)
+       
+    });
+
+    var tax = subtotal * 0.10;
+    var grandTotal = subtotal + tax;
+
+    // Update the totals on the page
+    $('#subtotal').text('₹' + subtotal.toFixed(2));  // Format subtotal to 2 decimal places
+    $('#tax').text('₹' + tax.toFixed(2));            // Format tax to 2 decimal places
+    $('#grand-total').text('₹' + grandTotal.toFixed(2));
+}

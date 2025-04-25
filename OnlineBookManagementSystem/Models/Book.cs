@@ -21,6 +21,10 @@ public partial class Book
 
     public int? CategoryId { get; set; }
 
+    public bool? IsFavorite { get; set; }
+
+    public bool IsDeleted { get; set; }
+
     public virtual Category? Category { get; set; }
 
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();

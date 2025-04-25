@@ -18,7 +18,7 @@ namespace OnlineBookManagementSystem.Controllers
         {
             var sessionUserId = HttpContext.Session.GetString("userId");
             int UserId = int.Parse(sessionUserId);
-            var cartData = await _context.ShoppingCarts.Where(sc => sc.UserId == UserId). Include(sc => sc.Book)
+            var cartData = await _context.ShoppingCarts.Where(sc => sc.UserId == UserId && (bool)!sc.Book.IsDeleted). Include(sc => sc.Book)
         .Include(sc => sc.User)
         .ToListAsync();
             return View(cartData);
@@ -97,7 +97,7 @@ namespace OnlineBookManagementSystem.Controllers
             int userId = int.Parse(sessionUserId);
 
             var cartItems = _context.ShoppingCarts
-                .Where(c => c.UserId == userId)
+                .Where(c => c.UserId == userId && (bool)!c.Book.IsDeleted )
                 .Select(c => new {
                     bookId = c.BookId,
                     quantity = c.Quantity ?? 0

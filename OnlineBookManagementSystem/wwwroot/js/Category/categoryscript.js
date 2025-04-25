@@ -33,6 +33,7 @@ function GetDataByForm() {
     };
 }
 
+//Save ajax
 function SaveCategory() {
     const data = GetDataByForm();
 
@@ -64,7 +65,7 @@ function DeleteCategory(Id) {
 
     $.ajax({
         url: `/Category/DeleteCategory/${Id}`,
-        type: "GET",
+        type: "DELETE",
         success: function (response) {
             window.location.href = 'DisplayCategory';
         },
@@ -85,8 +86,8 @@ function UpdateCategory(Id) {
         type: "GET",
         success: function (response) {
             $('#myModal').modal('show');
-            $("#NewCategory_Id").val(response.checkCategory.id);
-            $("#NewCategory_Name").val(response.checkCategory.name);
+            $("#NewCategory_Id").val(response.getCategory.id);
+            $("#NewCategory_Name").val(response.getCategory.name);
 
             EnableValidation();
         },

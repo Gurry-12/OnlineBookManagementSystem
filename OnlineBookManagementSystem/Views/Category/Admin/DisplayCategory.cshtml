@@ -21,8 +21,8 @@
 <table class="table table-bordered table-striped table-responsive">
     <thead>
         <tr>
-            <th scope="row" style="width: 33%;">ID</th>
             <th scope="row" style="width: 33%;">Name</th>
+            <th scope="row" style="width: 33%;">Books</th>
             <th scope="row" style="width: 33%;">Action</th>
         </tr>
     </thead>
@@ -30,7 +30,7 @@
         @foreach (var category in Model.CategoryList)
         {
             <tr>
-                <td>@category.Id</td>
+                <td>@category.Name</td>
                 <td>@category.Name</td>
                 <td class="d-flex align-items-center justify-content-around">
                     <button class="btn btn-outline-warning rounded-2 " onclick="UpdateCategory(@category.Id)"><i class="bi bi-pen"></i> Edit</button>
