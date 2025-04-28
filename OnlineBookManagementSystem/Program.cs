@@ -7,76 +7,74 @@ using OnlineBookManagementSystem.Services;
 using System.Security.Claims;
 using System.Text;
 
-internal class Program
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+builder.Services.AddControllersWithViews();
+
+// Add DbContext for database connection
+builder.Services.AddDbContext<BookManagementContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Add services for dependency injection
+builder.Services.AddScoped<ICategoryInterface, CategoryServices>();
+builder.Services.AddScoped<IBookService, BookServices>();
+builder.Services.AddScoped<IAuthInterface, AuthService>();
+builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+
+// Configure JWT Authentication
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+.AddJwtBearer(options =>
 {
-    private static void Main(string[] args)
+    options.TokenValidationParameters = new TokenValidationParameters
     {
-        var builder = WebApplication.CreateBuilder(args);
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Issuer"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
 
-        // Add services to the container.
-        builder.Services.AddControllersWithViews();
-
-        // Add DbContext for database connection
-        builder.Services.AddDbContext<BookManagementContext>(options =>
-            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-        // Add services for dependency injection
-        builder.Services.AddScoped<ICategoryInterface, CategoryServices>();
-
-        // Configure JWT Authentication
-        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            ValidAudience = builder.Configuration["Jwt:Issuer"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
-
-            // 👇 This is important for role-based authorization to work
-            RoleClaimType = ClaimTypes.Role 
-        };
-    });
+        // 👇 This is important for role-based authorization to work
+        RoleClaimType = ClaimTypes.Role
+    };
+});
 
 
-        
 
-        builder.Services.AddDistributedMemoryCache(); // Required for session
-        builder.Services.AddSession(options =>
-        {
-            options.IdleTimeout = TimeSpan.FromMinutes(30); // Optional: session timeout
-            options.Cookie.HttpOnly = true;
-            options.Cookie.IsEssential = true;
-        });
 
-        // Build the application
-        var app = builder.Build();
+builder.Services.AddDistributedMemoryCache(); // Required for session
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Optional: session timeout
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
-        // Configure the HTTP request pipeline
-        if (!app.Environment.IsDevelopment())
-        {
-            app.UseExceptionHandler("/Home/Error");
-            app.UseHsts();
-        }
+// Build the application
+var app = builder.Build();
 
-        app.UseHttpsRedirection();
-        app.UseStaticFiles();
-        app.UseRouting();
-        app.UseSession();
-        // Add Authentication and Authorization middleware
-        app.UseAuthentication(); // JWT Auth
-        app.UseAuthorization();  // Authorization
-
-        // Default route mapping
-        app.MapControllerRoute(
-            name: "default",
-            pattern: "{controller=Auth}/{action=Login}/{id?}");
-
-        // Run the application
-        app.Run();
-    }
+// Configure the HTTP request pipeline
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
 }
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseRouting();
+app.UseSession();
+// Add Authentication and Authorization middleware
+app.UseAuthentication(); // JWT Auth
+app.UseAuthorization();  // Authorization
+
+// Default route mapping
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Auth}/{action=Login}/{id?}");
+
+// Run the application
+app.Run();

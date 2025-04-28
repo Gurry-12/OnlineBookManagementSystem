@@ -1,35 +1,32 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using OnlineBookManagementSystem.Models;
 using OnlineBookManagementSystem.Models.ViewModel;
+using OnlineBookManagementSystem.Services;
 
 namespace OnlineBookManagementSystem.Controllers
 {
-    //[Authorize(Roles = "User,Admin")]
+    
     public class BooksController : BaseController
     {
-        private readonly BookManagementContext _context;
+        private readonly IBookService _bookService;
 
-        public BooksController(BookManagementContext context)
+        public BooksController(IBookService bookService)
         {
-            _context = context;
+            _bookService = bookService;
         }
 
         public IActionResult AdminIndex()
         {
-
             return View("Admin/AdminIndex");
         }
 
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAdminData()
         {
-            var data = await _context.Books.Where(b => (bool)!b.IsDeleted).ToListAsync();
-            return Json(data);  // Return the book data as JSON
+            var data = await _bookService.GetAllBooksAsync();
+            return Json(data);
         }
-
 
         public IActionResult UserIndex()
         {
@@ -38,21 +35,16 @@ namespace OnlineBookManagementSystem.Controllers
 
         [HttpGet]
         [Authorize(Roles = "User")]
-        public IActionResult GetBooks()
+        public async Task<IActionResult> GetBooks()
         {
-            var authorizationHeader = Request.Headers["Authorization"].ToString();
-
-            if (string.IsNullOrEmpty(authorizationHeader))
-                return Unauthorized(new { message = "Authorization header is missing" });
-
-            var books = _context.Books.Where(b => (bool)!b.IsDeleted).ToList();
+            var books = await _bookService.GetAllBooksAsync();
             return Ok(new { data = books });
         }
 
         [HttpGet]
         public async Task<IActionResult> GetBook(int id)
         {
-            var book = await _context.Books.FirstOrDefaultAsync(b => b.Id == id);
+            var book = await _bookService.GetBookByIdAsync(id);
             if (book == null)
                 return NotFound();
 
@@ -64,38 +56,21 @@ namespace OnlineBookManagementSystem.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddBook([FromBody] Book bookData)
         {
-            if (bookData == null)
+            if (bookData == null || !ModelState.IsValid)
                 return BadRequest(new { message = "Invalid book data." });
 
-            if (!ModelState.IsValid)
-            {
-
-                return Json(new { message = "Validation failed", });
-            }
-
-            await _context.Books.AddAsync(bookData);
-            await _context.SaveChangesAsync();
+            var success = await _bookService.AddBookAsync(bookData);
+            if (!success)
+                return StatusCode(500, new { message = "Failed to add book." });
 
             return Json(new { success = true, message = "Book added successfully.", bookData });
         }
 
-
-        public IActionResult CreateBookData()
+        public async Task<IActionResult> CreateBookData()
         {
-            var viewModel = new BookFormViewModel
-            {
-                Book = null,
-                CategoryList = (IEnumerable<SelectListItem>)_context.Categories
-            .Select(c => new SelectListItem
-            {
-                Value = c.Id.ToString(),
-                Text = c.Name
-            }).ToList()
-            };
-
+            var viewModel = await _bookService.GetCreateBookViewModelAsync();
             return View("Admin/CreateBookData", viewModel);
         }
-
 
         public IActionResult UserList()
         {
@@ -106,44 +81,25 @@ namespace OnlineBookManagementSystem.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAllUsers()
         {
-            var users = await _context.Users
-                .Where(u => u.Role == "User")
-                .Select(u => new { u.Name, u.Email, Role = u.Role, CartItemCount = u.ShoppingCarts.Count(sc => sc.UserId == u.Id) })
-                .ToListAsync();
-
+            var users = await _bookService.GetAllUsersAsync();
             return Ok(new { success = true, users });
         }
 
         public async Task<IActionResult> DisplayBookdetails(int id)
         {
-            var book = await _context.Books.FirstOrDefaultAsync(b => b.Id == id);
+            var book = await _bookService.GetBookByIdAsync(id);
             if (book == null)
                 return NotFound();
 
             return View(book);
         }
 
-
-
         [HttpGet]
-
         public async Task<IActionResult> GetBookDetails(int id)
         {
-            var data = await _context.Books.FirstOrDefaultAsync(b => b.Id == id);
-            if (data == null)
+            var viewModel = await _bookService.GetEditBookViewModelAsync(id);
+            if (viewModel == null)
                 return NotFound();
-
-            var viewModel = new BookFormViewModel
-            {
-                Book = data,
-                CategoryList = (IEnumerable<SelectListItem>)_context.Categories
-            .Select(c => new SelectListItem
-            {
-                Value = c.Id.ToString(),
-                Text = c.Name
-            }).ToList()
-            };
-
 
             return View("Admin/CreateBookData", viewModel);
         }
@@ -152,68 +108,41 @@ namespace OnlineBookManagementSystem.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateBookDetails([FromBody] Book bookData)
         {
-            try
-            {
-                if (bookData == null)
-                    return BadRequest(new { message = "Invalid book data." });
-                if (!ModelState.IsValid)
-                {
-                    return Json(new { message = "Validation failed", });
-                }
+            if (bookData == null || !ModelState.IsValid)
+                return BadRequest(new { message = "Invalid book data." });
 
-                var updateDetails = await _context.Books.FirstOrDefaultAsync(b => b.Id == bookData.Id);
-                if (updateDetails == null)
-                    return NotFound(new { message = "Error: Book not found." });
+            var success = await _bookService.UpdateBookAsync(bookData);
+            if (!success)
+                return NotFound(new { message = "Error: Book not found." });
 
-                updateDetails.Title = bookData.Title;
-                updateDetails.Author = bookData.Author;
-                updateDetails.Stock = bookData.Stock;
-                updateDetails.Isbn = bookData.Isbn;
-                updateDetails.ImgUrl = bookData.ImgUrl;
-                updateDetails.Price = bookData.Price;
-                updateDetails.CategoryId = bookData.CategoryId;
-                await _context.SaveChangesAsync();
-
-                var redirectUrl = Url.Action("AdminIndex", "Books");
-                return Json(new { success = true, redirectUrl });
-            }
-            catch (Exception ex)
-            {
-                // Log the error if necessary
-                return StatusCode(500, new { message = "An error occurred.", error = ex.Message });
-            }
+            var redirectUrl = Url.Action("AdminIndex", "Books");
+            return Json(new { success = true, redirectUrl });
         }
 
         [HttpDelete]
-        public async Task<IActionResult> DeleteBook(int Id)
+        public async Task<IActionResult> DeleteBook(int id)
         {
-            var book = await _context.Books.Where(b => (bool)!b.IsDeleted).FirstOrDefaultAsync(b => b.Id == Id);
-            if (book == null)
-                BadRequest(new { message = "Invalid book data." });
-
-            book.IsDeleted = true;
-            await _context.SaveChangesAsync();
+            var success = await _bookService.SoftDeleteBookAsync(id);
+            if (!success)
+                return BadRequest(new { message = "Invalid book data." });
 
             var redirectUrl = Url.Action("AdminIndex", "Books");
             return Json(new { redirectUrl });
         }
 
-        public IActionResult Favorite()
+        public async Task<IActionResult> Favorite()
         {
-            var books = _context.Books.Where(b => (bool)!b.IsDeleted && (bool)b.IsFavorite).ToList();
+            var books = await _bookService.GetFavoriteBooksAsync();
             return View("User/Favorite", books);
         }
 
         [HttpPost]
-        public IActionResult AddandRemoveFavorite(int id)
+        public async Task<IActionResult> AddandRemoveFavorite(int id)
         {
-            var book = _context.Books.Where(b => (bool)!b.IsDeleted).FirstOrDefault(b => b.Id == id);
-            if (book != null)
-            {
-                book.IsFavorite = !(book.IsFavorite ?? false);
-                _context.SaveChanges();
-            }
-            
+            var success = await _bookService.ToggleFavoriteAsync(id);
+            if (!success)
+                return BadRequest(new { message = "Book not found." });
+
             return Json(new { success = true });
         }
     }

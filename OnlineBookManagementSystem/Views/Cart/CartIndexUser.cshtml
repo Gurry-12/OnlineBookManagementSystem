@@ -1,8 +1,11 @@
-﻿@model List<OnlineBookManagementSystem.Models.ShoppingCart>
+﻿@using System.Security.Claims
+@model List<OnlineBookManagementSystem.Models.ShoppingCart>
 
 @{
     ViewData["Title"] = "My Cart";
     decimal subtotal = 0;
+    var userId = Model.FirstOrDefault()?.UserId;
+    
 }
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" />
@@ -25,7 +28,7 @@
                 var total = @item.Book?.Price * @item.Quantity;
                 subtotal += (decimal)total;
 
-                <div class="cart-item">
+                <div class="cart-item" id="cart-item-@item.BookId">
                     <!-- Left: Book Image -->
                     <img src="@(!string.IsNullOrEmpty(item.Book?.ImgUrl) ? item.Book.ImgUrl : Url.Content("~/images/default-book-image.jpg"))"
                          class="cart-image" alt="@item.Book?.Title" />
@@ -40,14 +43,14 @@
                     <!-- Right: Qty and Remove -->
                     <div class="cart-actions gap-2">
 
-                        <div class="d-flex justify-content-between align-items-center ">
+                        <div class="d-flex justify-content-between align-items-center">
                             <div id="cart-counter-@item.BookId">
-                                <button class="btn btn-sm" onclick="changeCartQuantity(@item.BookId, 'decrease')">-</button>
-                                <span id="cart-quantity-@item.BookId" class="cart-quantity"></span>
-                                <button class="btn btn-sm" onclick="changeCartQuantity(@item.BookId, 'increase')">+</button>
+                                <button class="btn btn-sm" onclick="changeCartQuantity(@item.BookId, 'decrease', 'Cart')">-</button>
+                                <span id="cart-quantity-@item.BookId" class="cart-quantity">@item.Quantity</span>
+                                <button class="btn btn-sm" onclick="changeCartQuantity(@item.BookId, 'increase', 'Cart')">+</button>
                             </div>
                         </div>
-                        <button class="btn btn-outline-danger " onclick="RemoveCartItems(@item.BookId, @item.UserId)">
+                        <button class="btn btn-outline-danger" onclick="RemoveCartItems(@item.BookId, @item.UserId)">
                             <i class="bi bi-x-circle"></i> Remove
                         </button>
                     </div>
@@ -63,7 +66,7 @@
 
             <div class="cart-summary text-dark">
                 <h5 class="mb-3">Order Summary</h5>
-                <p>Subtotal: <span class="float-end " id="subtotal">₹@subtotal.ToString("F2")</span></p>
+                <p>Subtotal: <span class="float-end" id="subtotal">₹@subtotal.ToString("F2")</span></p>
                 <p>Sales Tax (10%): <span class="float-end" id="tax">₹@tax.ToString("F2")</span></p>
                 <hr />
                 <p class="total">Grand Total: <span class="float-end" id="grand-total">₹@grandTotal.ToString("F2")</span></p>
@@ -76,13 +79,14 @@
                     <p class="text-warning mt-2"> Shipping Charges applicable</p>
                 }
                 <div class="cart-actions">
-                    <button class="btn btn-primary btn-lg w-100">Proceed to Checkout</button>
+                    <a class="btn btn-primary btn-lg w-100" asp-action="CheckOut" asp-controller="Cart" asp-route-id="@userId">Proceed to Checkout</a>
                 </div>
             </div>
 
         </div>
     }
 </div>
+
 
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

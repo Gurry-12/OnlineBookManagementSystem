@@ -17,13 +17,25 @@ namespace OnlineBookManagementSystem.Services
         //Display the Details - Admin Priviledge
         public CategoryViewModel GetAllCategories()
         {
+            var categories = _context.Categories.Include(b => b.Books)
+                .Where(c => !c.IsDeleted)  // Filter categories that are not deleted
+                .ToList();  // Load categories first
+
+            // Now filter the books for each category
+            foreach (var category in categories)
+            {
+                // Filter books that are not deleted and belong to the current category
+                category.Books = category.Books.Where(b => b.IsDeleted == false).ToList();
+            }
+
             return new CategoryViewModel
             {
-                CategoryList = _context.Categories.Where(c => (bool)!c.IsDeleted).ToList(),
-                NewCategory = new Category(),
-                
+                CategoryList = categories,  // Return the filtered categories with books
+                NewCategory = new Category()  // Initialize NewCategory
             };
         }
+
+
 
         //Add Categories
         public Category AddCategory(Category data)

@@ -1,9 +1,4 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
-
-const name = sessionStorage.getItem("userName");
+﻿const name = sessionStorage.getItem("userName");
 const Role = sessionStorage.getItem("userRole");
 
 $("#username").append(name);
@@ -19,8 +14,8 @@ $("#homeLink").click(function (event) {
         return;
     }
 
-    const role = sessionStorage.getItem("userRole");
-    let targetUrl = role === "Admin" ? "/Books/AdminIndex" : "/Books/UserIndex";
+
+    let targetUrl = Role === "Admin" ? "/Books/AdminIndex" : "/Books/UserIndex";
 
     $.ajax({
         url: targetUrl,
@@ -39,7 +34,13 @@ $("#homeLink").click(function (event) {
 
 
 
+if (Role == "User") {
+    $("#UserTimeBookOption").show();
+}
+else {
+    $("#UserTimeBookOption").hide();
 
+}
 function updateDateTime() {
     var time = new Date();
     var formattedTime = time.toLocaleTimeString(); // e.g., "3:24:15 PM"

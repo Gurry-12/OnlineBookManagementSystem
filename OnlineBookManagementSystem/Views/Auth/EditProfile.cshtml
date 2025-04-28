@@ -9,7 +9,7 @@
         <div class="col-md-8">
             <div class="card shadow-lg p-4 rounded-4">
                 <h3 class="mb-4 text-center">Edit Profile</h3>
-                <form asp-action="EditProfile" method="post">
+                <form  >
                     <input type="hidden" asp-for="Id" />
 
                     <!-- Name -->
@@ -34,7 +34,7 @@
 
                     <div class="d-flex justify-content-between mt-4">
                         <a asp-action="ProfileView" class="btn btn-secondary">Cancel</a>
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <button class="btn btn-primary" onclick="updateProfile()">Save Changes</button>
                     </div>
                 </form>
             </div>
@@ -45,4 +45,32 @@
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="~/js/auth/registration.js"></script>
+
+    <script>
+
+        function updateProfile(){
+            debugger;
+            const data = {
+                Id : $("#Id").Val(),
+                NewName : $("#Name").Val(),
+                NewEmail : $("#Email").Val()
+            }
+            comsole.log(data);
+            $.ajax({
+                        url: "/Auth/UpdateUserDetails",
+        method: "POST",
+        headers: { "Authorization": `Bearer ${token}` },
+        contentType: "application/json",
+        data: JSON.stringify(data),
+        success: function (response) {
+            alert("User details updated successfully!");
+                }, 
+            error: function () {
+                alert("Failed to update user details.");
+            }
+
+
+            });
+        }
+    </script>
 }

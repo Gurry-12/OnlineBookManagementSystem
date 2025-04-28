@@ -28,6 +28,7 @@ $(document).ready(function () {
 
 
 function loadAdminBooks() {
+    
     $.ajax({
         url: '/Books/GetAdminData', // Get book data via AJAX
         type: 'GET',
@@ -130,9 +131,9 @@ function loadBooks() {
                                     <p class="mb-0 text-primary fw-bold">₹${book.price}</p>
                                     <i class="bi bi-cart z-2" style="font-size: 1.5rem;" onclick="AddtoCart(${book.id});" id="cart-icon-${book.id}"></i>
                                     <div id="cart-counter-${book.id}" class="d-none z-2">
-                                       <button class="btn btn-sm" onclick="changeCartQuantity(${book.id}, 'decrease')">-</button>
+                                       <button class="btn btn-sm" onclick="changeCartQuantity(${book.id}, 'decrease', 'Book')">-</button>
                                         <span id="cart-quantity-${book.id}">1</span>
-                                        <button class="btn btn-sm" onclick="changeCartQuantity(${book.id}, 'increase')">+</button>
+                                        <button class="btn btn-sm" onclick="changeCartQuantity(${book.id}, 'increase', 'Book')">+</button>
                                     </div>
                                 </div>
 
@@ -330,6 +331,7 @@ function DeleteBook(Id) {
 // Add to Cart Function
 // Add to Cart
 function AddtoCart(bookId) {
+
     $.ajax({
         type: "POST",
         url: "/Cart/AddOrUpdateCart",
@@ -348,7 +350,7 @@ function AddtoCart(bookId) {
 }
 
 // Change Quantity (Increase or Decrease)
-function changeCartQuantity(bookId, action) {
+function changeCartQuantity(bookId, action, type) {
     
     let quantity = parseInt($("#cart-quantity-" + bookId).text());
 
@@ -357,7 +359,8 @@ function changeCartQuantity(bookId, action) {
     } else if (action === "decrease") {
         quantity--;
     }
-
+    
+    
     $.ajax({
         type: "POST",
         url: "/Cart/UpdateQuantity",
@@ -367,7 +370,12 @@ function changeCartQuantity(bookId, action) {
             if (quantity <= 0) {
                 $("#cart-icon-" + bookId).show();
                 $("#cart-counter-" + bookId).addClass("d-none");
-                window.location.href = "/Cart/CartIndexUser";
+                if (type == 'Cart')
+                    window.location.href = "/Cart/CartIndexUser";
+                else if (type == "Book")
+                    window.location.href = "/Books/UserIndex";
+                else if (type == 'profile')
+                    window.location.href = `/Books/DisplayBookdetails/${BookId}`;
             } else {
                 $("#cart-quantity-" + bookId).text(quantity);
             }

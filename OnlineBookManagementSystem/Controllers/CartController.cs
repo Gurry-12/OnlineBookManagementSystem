@@ -1,31 +1,33 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using OnlineBookManagementSystem.Interfaces;
 using OnlineBookManagementSystem.Models;
+using OnlineBookManagementSystem.Models.ViewModel;
+using OnlineBookManagementSystem.Services;
 
 namespace OnlineBookManagementSystem.Controllers
 {
     public class CartController : BaseController
     {
-        private readonly BookManagementContext _context;
+        private readonly ICartService _cartService;
 
-        public CartController(BookManagementContext context)
+        public CartController(ICartService cartService)
         {
-            _context = context;
+            _cartService = cartService;
         }
 
-        
         public async Task<IActionResult> CartIndexUser()
         {
             var sessionUserId = HttpContext.Session.GetString("userId");
-            int UserId = int.Parse(sessionUserId);
-            var cartData = await _context.ShoppingCarts.Where(sc => sc.UserId == UserId && (bool)!sc.Book.IsDeleted). Include(sc => sc.Book)
-        .Include(sc => sc.User)
-        .ToListAsync();
+            if (sessionUserId == null) return RedirectToAction("Login", "Account");
+
+            int userId = int.Parse(sessionUserId);
+            var cartData = await _cartService.GetUserCartAsync(userId);
             return View(cartData);
         }
 
         [HttpPost]
-        public IActionResult AddOrUpdateCart([FromBody] ShoppingCart data)
+        public async Task<IActionResult> AddOrUpdateCart([FromBody] ShoppingCart data)
         {
             var sessionUserId = HttpContext.Session.GetString("userId");
             if (sessionUserId == null || data.BookId == 0)
@@ -34,31 +36,12 @@ namespace OnlineBookManagementSystem.Controllers
             }
 
             int userId = int.Parse(sessionUserId);
-            var existingCart = _context.ShoppingCarts
-                .FirstOrDefault(c => c.UserId == userId && c.BookId == data.BookId);
-
-            if (existingCart != null)
-            {
-                existingCart.Quantity = (existingCart.Quantity ?? 0) + 1;
-                _context.ShoppingCarts.Update(existingCart);
-            }
-            else
-            {
-                var cart = new ShoppingCart
-                {
-                    UserId = userId,
-                    BookId = data.BookId,
-                    Quantity = 1
-                };
-                _context.ShoppingCarts.Add(cart);
-            }
-
-            _context.SaveChanges();
+            await _cartService.AddOrUpdateCartAsync(userId, data.BookId);
             return Json(new { success = true });
         }
 
         [HttpPost]
-        public IActionResult UpdateQuantity([FromBody] ShoppingCart data)
+        public async Task<IActionResult> UpdateQuantity([FromBody] ShoppingCart data)
         {
             var sessionUserId = HttpContext.Session.GetString("userId");
             if (sessionUserId == null || data.BookId == 0)
@@ -67,25 +50,9 @@ namespace OnlineBookManagementSystem.Controllers
             }
 
             int userId = int.Parse(sessionUserId);
-            var cartItem = _context.ShoppingCarts
-                .FirstOrDefault(c => c.UserId == userId && c.BookId == data.BookId);
-
-            if (cartItem != null)
-            {
-                cartItem.Quantity = data.Quantity;
-
-                if (data.Quantity <= 0)
-                    _context.ShoppingCarts.Remove(cartItem);
-                else
-                    _context.ShoppingCarts.Update(cartItem);
-
-                _context.SaveChanges();
-            }
-
+            await _cartService.UpdateCartQuantityAsync(userId, data.BookId, data.Quantity ?? 0);
             return Json(new { success = true });
         }
-
-
 
         [HttpGet]
         public IActionResult GetAllCartItems()
@@ -95,33 +62,60 @@ namespace OnlineBookManagementSystem.Controllers
                 return Json(new List<object>());
 
             int userId = int.Parse(sessionUserId);
-
-            var cartItems = _context.ShoppingCarts
-                .Where(c => c.UserId == userId && (bool)!c.Book.IsDeleted )
-                .Select(c => new {
-                    bookId = c.BookId,
-                    quantity = c.Quantity ?? 0
-                })
-                .ToList();
-
+            var cartItems = _cartService.GetAllCartItems(userId);
             return Json(cartItems);
         }
 
         [HttpDelete]
-        public async Task<IActionResult> RemoveCartItems([FromBody] ShoppingCart Data)
+        public async Task<IActionResult> RemoveCartItems([FromBody] ShoppingCart data)
         {
-            var Item = await _context.ShoppingCarts.FirstOrDefaultAsync(sc => sc.UserId == Data.UserId && sc.BookId == Data.BookId);
-            if ( Item == null)
-            {
-                return BadRequest("Invalid User or book.");
-            }
+            var sessionUserId = HttpContext.Session.GetString("userId");
+            if (sessionUserId == null)
+                return BadRequest("Invalid session.");
 
-            _context.ShoppingCarts.Remove(Item);
-            await _context.SaveChangesAsync();
+            int userId = int.Parse(sessionUserId);
+            var removed = await _cartService.RemoveCartItemAsync(userId, data.BookId);
+
+            if (!removed)
+                return BadRequest("Invalid User or book.");
+
             var redirectUrl = Url.Action("CartIndexUser", "Cart");
             return Json(new { redirectUrl });
+        }
 
+        public IActionResult CheckOut(int id)
+        {
+            CheckOutViewModel viewModel = _cartService.CheckoutDetails(id).Result;
 
+            return View(viewModel);
+        }
+
+        public IActionResult OrderConfirmation()
+        {
+            return View();
+        }
+
+      
+
+        [HttpPost]
+public async Task<IActionResult> ProcessCheckout(string Name, string Address, string PaymentMethod)
+{
+            var userIdString = HttpContext.Session.GetString("userId");
+
+            if (string.IsNullOrEmpty(userIdString))
+            {
+                return BadRequest("User ID is missing from session.");
+            }
+
+            var userId = int.Parse(userIdString);
+            var result = await _cartService.ProcessCheckoutAsync(userId, Name, Address, PaymentMethod);
+
+            if (!result)
+            {
+                return RedirectToAction("CheckOut", "Cart"); // Cart empty
+            }
+
+            return RedirectToAction("OrderConfirmation");
         }
 
     }

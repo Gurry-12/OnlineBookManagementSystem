@@ -31,15 +31,30 @@
         {
             <tr>
                 <td>@category.Name</td>
-                <td>@category.Name</td>
+                <td>
+                    @if (category.Books != null && category.Books.Any())
+                    {
+                        
+                            @foreach (var book in category.Books)
+                            {
+                                <span>@book.Title ,</span>
+
+                            }
+                        
+                    }
+                    else
+                    {
+                        <span>No Books</span>
+                    }
+                </td>
                 <td class="d-flex align-items-center justify-content-around">
-                    <button class="btn btn-outline-warning rounded-2 " onclick="UpdateCategory(@category.Id)"><i class="bi bi-pen"></i> Edit</button>
-                    <button class="btn btn-outline-danger rounded-2 " onclick="DeleteCategory(@category.Id)"><i class="bi bi-trash"></i> Delete</button>
+                    <button class="btn btn-outline-warning rounded-2" onclick="UpdateCategory(@category.Id)"><i class="bi bi-pen"></i> Edit</button>
+                    <button class="btn btn-outline-danger rounded-2" onclick="DeleteCategory(@category.Id)"><i class="bi bi-trash"></i> Delete</button>
                 </td>
             </tr>
         }
-
     </tbody>
+
 </table>
 
 

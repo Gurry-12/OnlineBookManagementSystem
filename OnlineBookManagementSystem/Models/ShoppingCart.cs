@@ -13,6 +13,8 @@ public partial class ShoppingCart
 
     public int? Quantity { get; set; }
 
+    public bool? IsDeleted { get; set; }
+
     public virtual Book Book { get; set; } = null!;
 
     public virtual User User { get; set; } = null!;

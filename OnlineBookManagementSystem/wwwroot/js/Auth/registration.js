@@ -81,7 +81,7 @@ $("#SubmitForm").click(function (event) {
 
 $("#LoginData").click(function (event) {
     event.preventDefault();
-
+    
     const data = {
         Email: $("#Email").val().trim(),
         Password: $("#Password").val().trim()

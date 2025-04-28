@@ -70,7 +70,6 @@ public partial class BookManagementContext : DbContext
             entity.HasKey(e => e.Id).HasName("PK__Categori__3214EC27985D730D");
 
             entity.Property(e => e.Id).HasColumnName("ID");
-            entity.Property(e => e.IsDeleted).HasDefaultValue(false);
             entity.Property(e => e.Name)
                 .HasMaxLength(100)
                 .IsUnicode(false);
@@ -81,7 +80,9 @@ public partial class BookManagementContext : DbContext
             entity.HasKey(e => e.Id).HasName("PK__Orders__3214EC272BC5AF07");
 
             entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.FullName).HasMaxLength(255);
             entity.Property(e => e.OrderDate).HasColumnName("Order_Date");
+            entity.Property(e => e.PaymentMethod).HasMaxLength(50);
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .IsUnicode(false);
@@ -123,6 +124,7 @@ public partial class BookManagementContext : DbContext
 
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.BookId).HasColumnName("BookID");
+            entity.Property(e => e.IsDeleted).HasDefaultValue(false);
             entity.Property(e => e.UserId).HasColumnName("UserID");
 
             entity.HasOne(d => d.Book).WithMany(p => p.ShoppingCarts)

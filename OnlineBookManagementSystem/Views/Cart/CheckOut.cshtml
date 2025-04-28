@@ -1,0 +1,93 @@
+﻿@{
+    ViewData["Title"] = "Checkout";
+    var tax = (Model.TotalAmount * 10) / 100;
+}
+@model OnlineBookManagementSystem.Models.ViewModel.CheckOutViewModel
+
+<div class="container py-5">
+    <h1 class="mb-4 text-center">Checkout</h1>
+
+    <div class="row g-4">
+        <!-- Cart Items -->
+        <div class="col-lg-7">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h4 class="card-title mb-4">Your Cart</h4>
+
+                    @if (Model.CartItems != null && Model.CartItems.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Book</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.CartItems)
+                                    {
+                                        <tr>
+                                            <td>@item.Book.Title</td>
+                                            <td>@item.Book.Price</td>
+                                            <td>@item.Quantity</td>
+                                            <td>@(item.Book.Price * item.Quantity)</td>
+                                        </tr>
+                                    }
+                                    <tr class="table-secondary">
+                                        <td colspan="3" class="text-end"><strong>Tax</strong></td>
+                                        <td><strong>@tax</strong></td>
+                                    </tr>
+                                    <tr class="table-primary">
+                                        <td colspan="3" class="text-end"><strong>Grand Total</strong></td>
+                                        <td><strong>@(Model.TotalAmount + tax)</strong></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-center">Your cart is empty!</p>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Checkout Form -->
+        <div class="col-lg-5">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h4 class="card-title mb-4">Shipping Information</h4>
+                    <form asp-action="ProcessCheckout" method="post">
+                        <div class="mb-3">
+                            <label for="Name" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="Name" name="Name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Address" class="form-label">Shipping Address</label>
+                            <textarea class="form-control" id="Address" name="Address" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="PaymentMethod" class="form-label">Payment Method</label>
+                            <select class="form-select" id="PaymentMethod" name="PaymentMethod" required>
+                                <option value="COD">Cash on Delivery</option>
+                                <option value="Paypal">PayPal</option>
+                            </select>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success btn-lg">Complete Purchase</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="~/js/books/bookshome.js"></script>
+}

@@ -23,7 +23,7 @@ public partial class Book
 
     public bool? IsFavorite { get; set; }
 
-    public bool IsDeleted { get; set; }
+    public bool? IsDeleted { get; set; }
 
     public virtual Category? Category { get; set; }
 
