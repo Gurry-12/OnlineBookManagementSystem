@@ -269,12 +269,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
-            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -300,8 +296,7 @@
               "ViewState": "AgIAALIAAAAAMjMzMzMpwMEAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-18T04:57:10.786Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
@@ -314,8 +309,7 @@
               "ViewState": "AgIAABUAAAAAMjMzMzMvwCsAAABWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-18T06:01:54.508Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
@@ -331,6 +325,10 @@
               "IsPinned": true
             },
             {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
               "$type": "Document",
               "DocumentIndex": 4,
               "Title": "ICategoryInterface.cs",
@@ -340,8 +338,7 @@
               "RelativeToolTip": "OnlineBookManagementSystem\\Interfaces\\ICategoryInterface.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-25T08:17:21.958Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-25T08:17:21.958Z"
             },
             {
               "$type": "Document",
@@ -353,8 +350,7 @@
               "RelativeToolTip": "OnlineBookManagementSystem\\Models\\ViewModel\\CategoryViewModel.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-22T10:23:48.951Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-22T10:23:48.951Z"
             },
             {
               "$type": "Document",
@@ -366,8 +362,7 @@
               "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Books\\Admin\\AdminIndex.cshtml",
               "ViewState": "AgIAAB0AAAAAMTMzMzP5vy4AAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-18T05:35:44.767Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-18T05:35:44.767Z"
             },
             {
               "$type": "Document",
@@ -379,8 +374,7 @@
               "RelativeToolTip": "OnlineBookManagementSystem\\Services\\CategoryServices.cs",
               "ViewState": "AgIAAAMAAAAAAAAAAAAAABcAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-25T09:45:53.146Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-25T09:45:53.146Z"
             },
             {
               "$type": "Document",
@@ -392,8 +386,7 @@
               "RelativeToolTip": "OnlineBookManagementSystem\\Models\\ViewModel\\CategoryClassifyViewModel.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-23T07:23:49.022Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-23T07:23:49.022Z"
             },
             {
               "$type": "Document",
@@ -405,8 +398,7 @@
               "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Category\\Admin\\DisplayCategory.cshtml",
               "ViewState": "AgIAABEAAAAAAAAAAAAcwCAAAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-18T11:46:17.294Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-18T11:46:17.294Z"
             },
             {
               "$type": "Document",
@@ -418,8 +410,7 @@
               "RelativeToolTip": "OnlineBookManagementSystem\\Models\\ViewModel\\RegisterViewModel.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-22T10:23:46.645Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-22T10:23:46.645Z"
             },
             {
               "$type": "Document",
@@ -431,8 +422,7 @@
               "RelativeToolTip": "OnlineBookManagementSystem\\Models\\ViewModel\\UserViewModel.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-22T10:27:20.755Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-22T10:27:20.755Z"
             },
             {
               "$type": "Document",
@@ -444,8 +434,7 @@
               "RelativeToolTip": "OnlineBookManagementSystem\\Interfaces\\IUserInterface.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-25T13:34:32.754Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-25T13:34:32.754Z"
             },
             {
               "$type": "Document",
@@ -457,8 +446,7 @@
               "RelativeToolTip": "OnlineBookManagementSystem\\Services\\UserServices.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-25T13:36:40.492Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-25T13:36:40.492Z"
             },
             {
               "$type": "Document",
@@ -470,8 +458,7 @@
               "RelativeToolTip": "OnlineBookManagementSystem\\Controllers\\CategoryController.cs",
               "ViewState": "AgIAAFIAAACAZmZmZmYywFMAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-21T05:17:49.661Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-21T05:17:49.661Z"
             },
             {
               "$type": "Document",
@@ -483,8 +470,7 @@
               "RelativeToolTip": "OnlineBookManagementSystem\\Models\\Category.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-21T05:04:51.784Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-21T05:04:51.784Z"
             },
             {
               "$type": "Document",
@@ -496,8 +482,7 @@
               "RelativeToolTip": "OnlineBookManagementSystem\\Views\\_ViewStart.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-18T11:36:34.972Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-18T11:36:34.972Z"
             },
             {
               "$type": "Document",
@@ -509,8 +494,7 @@
               "RelativeToolTip": "OnlineBookManagementSystem\\wwwroot\\js\\Category\\categoryscript.js",
               "ViewState": "AgIAAFAAAAAAzszMzMwqwFkAAAAzAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2025-04-25T10:08:49.907Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-25T10:08:49.907Z"
             },
             {
               "$type": "Document",
@@ -522,8 +506,7 @@
               "RelativeToolTip": "OnlineBookManagementSystem\\Models\\Book.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-18T09:33:29.857Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-18T09:33:29.857Z"
             },
             {
               "$type": "Document",
@@ -535,8 +518,7 @@
               "RelativeToolTip": "OnlineBookManagementSystem\\Program.cs",
               "ViewState": "AgIAABIAAACAmZmZmZklwB4AAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-18T05:08:57.689Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-18T05:08:57.689Z"
             },
             {
               "$type": "Document",
@@ -548,8 +530,7 @@
               "RelativeToolTip": "OnlineBookManagementSystem\\Models\\BookManagementContext.cs",
               "ViewState": "AgIAAB0AAABgZmZmZmY8wB4AAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-21T05:04:53.872Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-21T05:04:53.872Z"
             },
             {
               "$type": "Document",
@@ -561,8 +542,7 @@
               "RelativeToolTip": "OnlineBookManagementSystem\\Controllers\\CartController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-22T06:38:02.081Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-22T06:38:02.081Z"
             },
             {
               "$type": "Document",
@@ -598,8 +578,7 @@
               "RelativeToolTip": "OnlineBookManagementSystem\\Controllers\\BaseController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-21T05:16:25.209Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-21T05:16:25.209Z"
             },
             {
               "$type": "Document",
