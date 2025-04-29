@@ -90,7 +90,7 @@ namespace OnlineBookManagementSystem.Services
         public async Task<List<object>> GetAllUsersAsync()
         {
             return await _context.Users
-                .Where(u => u.Role == "User")
+                .Where(u => u.Role == "User" && u.IsDeleted == false)
                 .Select(u => new
                 {   u.Id,
                     u.Name,
@@ -105,6 +105,7 @@ namespace OnlineBookManagementSystem.Services
         public async Task<BookFormViewModel?> GetCreateBookViewModelAsync()
         {
             var categories = await _context.Categories
+                .Where(c => c.IsDeleted == false)
                 .Select(c => new SelectListItem
                 {
                     Value = c.Id.ToString(),
@@ -125,6 +126,7 @@ namespace OnlineBookManagementSystem.Services
                 return null;
 
             var categories = await _context.Categories
+                .Where(c => c.IsDeleted == false)
                 .Select(c => new SelectListItem
                 {
                     Value = c.Id.ToString(),

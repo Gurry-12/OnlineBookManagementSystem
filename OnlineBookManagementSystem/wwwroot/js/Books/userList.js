@@ -71,11 +71,11 @@
                     newName: newName,
                     newEmail: newEmail
                 });
-                debugger;
+
                 $.ajax({
                     url: "/Auth/UpdateUserDetails",
                     method: "POST",
-                    headers: { "Authorization": `Bearer ${token}` },
+                    
                     contentType: "application/json",
                     data: data,
                     success: function (response) {
@@ -105,8 +105,8 @@ function deleteUser(userId) {
         const token = sessionStorage.getItem("jwt");
 
         $.ajax({
-            url: "/Books/DeleteUser",
-            method: "POST",
+            url: `/Auth/DeleteUser/${userId}`,
+            method: "DELETE",
             headers: { "Authorization": `Bearer ${token}` },
             contentType: "application/json",
             data: JSON.stringify({ userId: userId }),

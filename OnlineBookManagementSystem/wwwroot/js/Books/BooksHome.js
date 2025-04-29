@@ -14,9 +14,10 @@ $(document).ready(function () {
 
     if (role === "Admin") {
         $("#adminSection").show();
+        $("#UserTimeBookOption").addClass("d-none").removeClass("d-flex");
         loadAdminBooks();
     } else if (role === "User") {
-
+        $("#UserTimeBookOption").removeClass("d-none").addClass("d-flex");
         loadBooks();
         restoreCartUI();
     } else {
@@ -55,10 +56,10 @@ function loadAdminBooks() {
                                 <img src="${book.imgUrl}" alt="${book.title}" class="book-image" />
                                 <h6 class="mt-2">${book.title}</h6>
                                 <small class="text-muted">${book.author}</small>
-                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                
                                     <p class="mb-0 text-primary fw-bold">Price: ₹${book.price}</p>
-                                    <i class="bi bi-cart" style="font-size: 1.5rem;"></i>
-                                </div>
+
+                                
 
                                 <!-- Card overlay click --> 
                                 <a onclick="OpenBookModal(${book.id})" class="stretched-link"></a> 

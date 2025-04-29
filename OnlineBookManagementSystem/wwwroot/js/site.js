@@ -34,13 +34,6 @@ $("#homeLink").click(function (event) {
 
 
 
-if (Role == "User") {
-    $("#UserTimeBookOption").show();
-}
-else {
-    $("#UserTimeBookOption").hide();
-
-}
 function updateDateTime() {
     var time = new Date();
     var formattedTime = time.toLocaleTimeString(); // e.g., "3:24:15 PM"

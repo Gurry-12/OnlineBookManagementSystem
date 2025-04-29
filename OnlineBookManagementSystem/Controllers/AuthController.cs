@@ -109,10 +109,10 @@ namespace OnlineBookManagementSystem.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+
         public IActionResult UpdateUserDetails([FromBody] ProfileViewModel model)
         {
-           
+
             var val = _authService.UpdateUserDetailAsync(model);
             if (!val.Result)
                 return BadRequest(new { success = false, message = "Failed to update user details." });
@@ -120,5 +120,15 @@ namespace OnlineBookManagementSystem.Controllers
             return Ok(new { success = true });
         }
 
+        [HttpDelete]
+        public IActionResult DeleteUser(int id)
+        {
+            var user = _authService.GetUserById(id);
+            if (user == null)
+                return NotFound();
+            user.IsDeleted = true;
+            _authService.UpdateUserDetailAsync(user);
+            return Ok(new { success = true, message = "User deleted successfully." });
+        }
     }
 }

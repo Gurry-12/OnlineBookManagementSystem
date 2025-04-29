@@ -72,7 +72,8 @@ namespace OnlineBookManagementSystem.Services
                 Name = data.Name,
                 Email = data.Email,
                 Password = _hasher.HashPassword(null, data.Password),
-                Role = data.Role == "Admin" ? "Admin" : "User"
+                Role = data.Role == "Admin" ? "Admin" : "User",
+                IsDeleted = false
             };
 
             _context.Users.Add(user);
@@ -82,8 +83,9 @@ namespace OnlineBookManagementSystem.Services
 
         public async Task<UserViewModel> GetUserProfileAsync(int userId)
         {
+
             return await _context.Users
-                .Where(u => u.Id == userId)
+                .Where(u => u.Id == userId && !(u.IsDeleted ?? true)) // Use null-coalescing operator to handle nullable bool
                 .Select(u => new UserViewModel
                 {
                     Id = u.Id,
@@ -91,20 +93,20 @@ namespace OnlineBookManagementSystem.Services
                     Email = u.Email,
                     Role = u.Role,
                     CartItemCount = u.ShoppingCarts
-                        .Where(sc => sc.Book.IsDeleted == false && sc.IsDeleted == false)
-                        .Sum(sc => sc.Quantity) ?? 0
+                        .Where(sc => !(sc.Book.IsDeleted ?? true) && !(sc.IsDeleted ?? true)) // Use null-coalescing operator to handle nullable bool
+                        .Sum(sc => sc.Quantity.GetValueOrDefault())
                 })
                 .FirstOrDefaultAsync();
-        }
 
+        }
         public User GetUserById(int id)
         {
-            return _context.Users.FirstOrDefault(u => u.Id == id) ?? throw new InvalidOperationException("User not found.");
+            return _context.Users.FirstOrDefault(u => u.Id == id && u.IsDeleted == false) ?? throw new InvalidOperationException("User not found.");
         }
 
         public async Task<bool> UpdateUserDetailAsync(ProfileViewModel model)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == model.Id);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == model.Id && u.IsDeleted == false);
             if (user == null)
                 return false;
 
@@ -113,6 +115,25 @@ namespace OnlineBookManagementSystem.Services
 
             await _context.SaveChangesAsync();
             return true;
+        }
+
+        public void UpdateUserDetailAsync(User user)
+        {
+
+            var existingUser = _context.Users.FirstOrDefault(u => u.Id == user.Id && u.IsDeleted == false);
+            if (existingUser != null)
+            {
+                existingUser.Name = user.Name;
+                existingUser.Email = user.Email;
+                existingUser.Password = user.Password;
+                existingUser.Role = user.Role;
+                existingUser.IsDeleted = user.IsDeleted;
+                _context.SaveChanges();
+            }
+            else
+            {
+                throw new InvalidOperationException("User not found.");
+            }
         }
     }
 }

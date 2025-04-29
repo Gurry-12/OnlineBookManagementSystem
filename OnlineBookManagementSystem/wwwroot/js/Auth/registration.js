@@ -114,3 +114,27 @@ $("#LoginData").click(function (event) {
         }
     });
 });
+
+function updateProfile() {
+
+    const data = {
+        id: $("#Id").val(),
+        newName: $("#Name").val(),
+        newEmail: $("#Email").val()
+    }
+
+    $.ajax({
+        url: "/Auth/UpdateUserDetails",
+        method: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(data),
+        success: function (response) {
+            alert("User details updated successfully!");
+        },
+        error: function () {
+            alert("Failed to update user details.");
+        }
+
+
+    });
+}

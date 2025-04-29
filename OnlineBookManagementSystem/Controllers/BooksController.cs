@@ -34,6 +34,7 @@ namespace OnlineBookManagementSystem.Controllers
         }
 
         [HttpGet]
+        
         [Authorize(Roles = "User")]
         public async Task<IActionResult> GetBooks()
         {

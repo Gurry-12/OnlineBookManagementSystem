@@ -11,5 +11,6 @@ namespace OnlineBookManagementSystem.Services
         Task<UserViewModel> GetUserProfileAsync(int userId);
         User GetUserById(int id);
 Task<bool> UpdateUserDetailAsync(ProfileViewModel model);
+        void UpdateUserDetailAsync(User user);
     }
 }
