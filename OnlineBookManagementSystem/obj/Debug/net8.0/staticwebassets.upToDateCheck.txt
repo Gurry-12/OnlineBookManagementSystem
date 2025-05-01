@@ -2,10 +2,16 @@ wwwroot\css\BooksIndex.css
 wwwroot\css\CartStyleSheet.css
 wwwroot\css\site.css
 wwwroot\favicon.ico
+wwwroot\images\combine-image.png
 wwwroot\images\image.png
 wwwroot\images\img_avatar.png
+wwwroot\images\Maain_Logo.png
 wwwroot\images\morgan-housel-aZ_MmSmAcjg-unsplash.jpg
+wwwroot\images\Render_main_logo.png
+wwwroot\images\Render_main_logo_30x301.png
+wwwroot\images\Render_Website_Name.png
 wwwroot\images\surja-sen-das-raj-ant0goCEx1w-unsplash.jpg
+wwwroot\images\Website Name.png
 wwwroot\js\Auth\registration.js
 wwwroot\js\Books\BooksHome.js
 wwwroot\js\Books\userList.js

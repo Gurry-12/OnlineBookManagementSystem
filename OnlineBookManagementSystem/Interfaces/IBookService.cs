@@ -15,5 +15,6 @@ namespace OnlineBookManagementSystem.Services
         Task<List<object>> GetAllUsersAsync();
         Task<BookFormViewModel?> GetCreateBookViewModelAsync();
         Task<BookFormViewModel?> GetEditBookViewModelAsync(int id);
+        AdminViewModel GetQuickStats(int id);
     }
 }

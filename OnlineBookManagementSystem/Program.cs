@@ -21,6 +21,8 @@ builder.Services.AddScoped<ICategoryInterface, CategoryServices>();
 builder.Services.AddScoped<IBookService, BookServices>();
 builder.Services.AddScoped<IAuthInterface, AuthService>();
 builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddScoped<IActivityLogger, ActivityLogger>();
+
 
 // Configure JWT Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

@@ -15,6 +15,8 @@ public partial class BookManagementContext : DbContext
     {
     }
 
+    public virtual DbSet<ActivityLog> ActivityLogs { get; set; }
+
     public virtual DbSet<Book> Books { get; set; }
 
     public virtual DbSet<Category> Categories { get; set; }
@@ -33,6 +35,22 @@ public partial class BookManagementContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<ActivityLog>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Activity__3214EC07468235BA");
+
+            entity.Property(e => e.ActionType)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.Timestamp)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+
+            entity.HasOne(d => d.User).WithMany(p => p.ActivityLogs)
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("FK_ActivityLogs_User");
+        });
+
         modelBuilder.Entity<Book>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__Books__3214EC2797436376");

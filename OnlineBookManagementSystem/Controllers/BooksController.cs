@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using OnlineBookManagementSystem.Models;
 using OnlineBookManagementSystem.Models.ViewModel;
 using OnlineBookManagementSystem.Services;
@@ -18,7 +19,16 @@ namespace OnlineBookManagementSystem.Controllers
 
         public IActionResult AdminIndex()
         {
-            return View("Admin/AdminIndex");
+            var strId = HttpContext.Session.GetString("userId");
+
+            if(strId == null)
+                return RedirectToAction("Login", "Auth");
+            int id = int.Parse(strId);
+
+
+            var AdminInfo = _bookService.GetQuickStats(id);
+
+            return View("Admin/AdminIndex", AdminInfo);
         }
 
         [Authorize(Roles = "Admin")]
@@ -146,5 +156,8 @@ namespace OnlineBookManagementSystem.Controllers
 
             return Json(new { success = true });
         }
+
+        
+        
     }
 }

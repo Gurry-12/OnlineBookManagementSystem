@@ -12,14 +12,13 @@ body {
     position: fixed;
     width: 220px;
     padding: 1rem;
-    transition: width 0.3s ease; /* Smooth transition for width */
+    transition: width 0.3s ease;
 }
 
     .sidebar.collapsed {
-        width: 60px; /* Reduced width for collapsed state */
+        width: 60px;
     }
 
-    /* Logo card behavior */
     /* Logo card behavior */
     .sidebar .logo-card {
         display: block;
@@ -30,10 +29,9 @@ body {
 
     .sidebar.collapsed .logo-card {
         opacity: 0;
-        transform: translateY(-10px); /* slight slide up */
-        pointer-events: none; /* prevent interaction while hidden */
+        transform: translateY(-10px);
+        pointer-events: none;
     }
-
 
     /* Sidebar links styling */
     .sidebar a {
@@ -43,43 +41,42 @@ body {
         display: flex;
         align-items: center;
         font-size: 1.1rem;
-        transition: color 0.2s ease;
-        height: 40px; /* Ensure height consistency */
+        transition: all 0.2s ease;
+        height: 40px;
+        border-radius: 6px;
+        padding: 0.5rem;
     }
 
         .sidebar a:hover {
-            color: #ffe;
+            background: rgba(255, 255, 255, 0.1); /* subtle hover background */
+            color: #fff; /* Keep text color white */
         }
 
-        /* Ensure icon is centered and aligned */
+        /* Icon styling */
         .sidebar a i {
-            font-size: 1.4rem; /* Icon size */
-            margin-right: 10px; /* Space between icon and text */
+            font-size: 1.4rem;
+            margin-right: 10px;
+            color: #fff; /* Force icon color to white */
+            transition: color 0.2s ease;
         }
 
-    /* Hide the text when collapsed */
     .sidebar.collapsed .sidebar-text {
-        display: none; /* Hide text when collapsed */
+        display: none;
     }
 
     .sidebar.collapsed a i {
-        margin-right: 0; /* Remove the right margin when collapsed */
+        margin-right: 0;
     }
-
-    
-
-    
 
 /* Content section */
 .content {
-    margin-left: 220px; /* Adjust for the full sidebar width */
+    margin-left: 220px;
     padding: 2rem;
-    transition: margin-left 0.3s; /* Smooth transition for content shift */
-
+    transition: margin-left 0.3s;
 }
 
     .content.sidebar-collapsed {
-        margin-left: 60px; /* Adjust for the collapsed sidebar */
+        margin-left: 60px;
     }
 
 /* Top bar styles */
@@ -90,22 +87,21 @@ body {
     margin-bottom: 1rem;
 }
 
-/* Responsive design for small screens */
-/*@media (max-width: 768px) {
+/* Responsive design (optional enhancement) */
+/*
+@media (max-width: 768px) {
     .sidebar {
         width: 100%;
         position: relative;
     }
 
-    .content {
+    .content,
+    .content.sidebar-collapsed {
         margin-left: 0;
     }
 
     .sidebar.collapsed {
-        display: none;*/ /* Hide collapsed sidebar in small screens */
-    /*}
-
-    .content.sidebar-collapsed {
-        margin-left: 0;*/ /* Adjust content for mobile */
-    /*}
-}*/
+        display: none;
+    }
+}
+*/

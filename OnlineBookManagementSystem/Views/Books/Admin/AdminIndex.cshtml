@@ -1,13 +1,13 @@
 ﻿@{
     ViewData["Title"] = "Books Data";
 }
-@model IEnumerable<OnlineBookManagementSystem.Models.Book>
-
+@* @model IEnumerable<OnlineBookManagementSystem.Models.Book> *@
+    @model OnlineBookManagementSystem.Models.ViewModel.AdminViewModel;
 <link href="~/css/booksindex.css" rel="stylesheet" />
 
 <!-- 📚 Quote Section -->
-<div class="row mb-4">
-    <div class="col-md-8 col-sm-12">
+<div class="row mb-4 gap-3 ">
+    <div class="col-md-6 col-sm-12">
         <div id="quoteCarousel" class="carousel slide carousel-fade quote-box shadow" data-bs-ride="carousel" data-bs-interval="5000">
             <div class="carousel-inner">
                 <div class="carousel-item active">
@@ -32,8 +32,84 @@
             </div>
         </div>
     </div>
-</div>
 
+    <!-- 🧑‍💼 Admin Profile (right of carousel) -->
+    <div class="col-md-4 col-sm-12">
+        <div class="card shadow-sm mb-4">
+            <div class="card-body text-center">
+
+                <img src="~/images/img_avatar.png" alt="Admin" class="rounded-circle mb-3" width="80" height="80">
+                <h5 class="card-title">@Model.User.Name</h5>
+                <p class="card-text">@Model.User.Role</p>
+            </div>
+        </div>
+    </div>
+</div> <!-- End of row with carousel and profile -->
+<!-- 📊 Stats & Activities Row -->
+<div class="row mb-4">
+    <!-- Quick Stats -->
+    <div class="col-md-6 col-sm-12">
+        <div class="card shadow-sm h-100 border-0 bg-light">
+            <div class="card-body">
+                <h5 class="card-title mb-4 text-primary"><i class="bi bi-bar-chart-fill me-2"></i>Quick Stats</h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span><i class="bi bi-book me-2 text-success"></i>Books</span>
+                        <span class="badge bg-success rounded-pill" id="totalBooks">@Model.TotalBooks</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span><i class="bi bi-tags me-2 text-info"></i>Categories</span>
+                        <span class="badge bg-info rounded-pill" id="totalCategories">@Model.TotalCategories</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span><i class="bi bi-people-fill me-2 text-warning"></i>Users</span>
+                        <span class="badge bg-warning text-dark rounded-pill" id="totalUsers">@Model.TotalUsers</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span><i class="bi bi-cart-check-fill me-2 text-danger"></i>Orders</span>
+                        <span class="badge bg-danger rounded-pill" id="totalOrders">@Model.TotalOrders</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-6 col-sm-12">
+        <div class="card shadow-sm h-100 border-0 bg-light">
+            <div class="card-body">
+                <h5 class="card-title mb-4 text-primary"><i class="bi bi-clock-history me-2"></i>Recent Activities</h5>
+                <ul class="list-group list-group-flush" style="max-height: 250px; overflow-y: auto;">
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="me-auto">
+                            <i class="bi bi-book-fill text-success me-2"></i>
+                            New book added: <strong>"Book Title"</strong>
+                            <div class="small text-muted">5 mins ago</div>
+                        </div>
+                        <span class="badge bg-success">Add</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="me-auto">
+                            <i class="bi bi-person-plus-fill text-info me-2"></i>
+                            User <strong>"John Doe"</strong> registered
+                            <div class="small text-muted">10 mins ago</div>
+                        </div>
+                        <span class="badge bg-info text-dark">Register</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="me-auto">
+                            <i class="bi bi-pencil-square text-warning me-2"></i>
+                            Book <strong>"Another Title"</strong> updated
+                            <div class="small text-muted">1 hour ago</div>
+                        </div>
+                        <span class="badge bg-warning text-dark">Update</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>
 
 <!-- 🔒 Admin-only section -->
 <div id="adminSection" style="display: none;" class="mt-4">
@@ -45,10 +121,32 @@
 
     <!-- 📚 Book Cards Grid -->
     <div class="row g-4" id="bookGrid">
-       
+        <!-- Sample Book Cards (these can be dynamically generated) -->
+        <div class="col-md-3 col-sm-12">
+            <div class="card shadow-sm">
+                <img src="~/images/sample-book.jpg" class="card-img-top" alt="Sample Book">
+                <div class="card-body">
+                    <h5 class="card-title">Sample Book Title</h5>
+                    <p class="card-text">A brief description of the book.</p>
+                    <a href="#" class="btn btn-primary">View Details</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-12">
+            <div class="card shadow-sm">
+                <img src="~/images/sample-book.jpg" class="card-img-top" alt="Sample Book">
+                <div class="card-body">
+                    <h5 class="card-title">Sample Book Title</h5>
+                    <p class="card-text">A brief description of the book.</p>
+                    <a href="#" class="btn btn-primary">View Details</a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
 <!-- Scripts -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="~/js/books/bookshome.js"></script>
+
+

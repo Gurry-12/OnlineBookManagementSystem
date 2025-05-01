@@ -17,7 +17,7 @@ namespace OnlineBookManagementSystem.Services
         public async Task<List<Models.Book>> GetAllBooksAsync()
         {
             return await _context.Books
-                .Where(b => (bool)!b.IsDeleted)
+                .Where(b => b.IsDeleted == false)
                 .ToListAsync();
         }
 
@@ -137,6 +137,20 @@ namespace OnlineBookManagementSystem.Services
             {
                 Book = book,
                 CategoryList = categories
+            };
+        }
+
+        public AdminViewModel GetQuickStats(int id)
+        {
+            
+            return new AdminViewModel
+            {
+                TotalBooks = _context.Books.Where(b => b.IsDeleted == false).Count(),
+                TotalUsers = _context.Users.Where(u => u.IsDeleted == false && u.Role == "User").Count(),
+
+                TotalOrders = _context.Orders.Count(),
+                TotalCategories = _context.Categories.Where(c => c.IsDeleted == false).Count(),
+                User = _context.Users.Where(u => u.Id == id).Where(u => u.IsDeleted == false).FirstOrDefault()
             };
         }
     }
