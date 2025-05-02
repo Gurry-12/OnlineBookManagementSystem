@@ -1,55 +1,58 @@
 ﻿@{
-    ViewData["Title"] = "Books Data";
+    ViewData["Title"] = "Admin Dashboard - Whispering Pages";
 }
-@* @model IEnumerable<OnlineBookManagementSystem.Models.Book> *@
-    @model OnlineBookManagementSystem.Models.ViewModel.AdminViewModel;
-<link href="~/css/booksindex.css" rel="stylesheet" />
+@model OnlineBookManagementSystem.Models.ViewModel.AdminViewModel;
+<link href="~/css/BooksIndex.css" rel="stylesheet" />
 
-<!-- 📚 Quote Section -->
-<div class="row mb-4 gap-3 ">
-    <div class="col-md-6 col-sm-12">
-        <div id="quoteCarousel" class="carousel slide carousel-fade quote-box shadow" data-bs-ride="carousel" data-bs-interval="5000">
+<!-- 📚 Inspirational Quotes Carousel Section -->
+<div class="row mb-4 g-3">
+    <div class="col-md-8 col-sm-12">
+        <div id="quoteCarousel" class="carousel slide quote-box shadow-sm rounded" data-bs-ride="carousel" aria-label="Quote Carousel" data-bs-interval="3000">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <p class="fs-5 fst-italic">“There is more treasure in books than in all the pirate's loot on Treasure Island.”</p>
-                    <p class="text-end fw-semibold">- Walt Disney</p>
+                    <p class="fs-6 fst-italic px-2">“There is more treasure in books than in all the pirate's loot on Treasure Island.”</p>
+                    <p class="text-end fw-semibold px-2">- Walt Disney</p>
                 </div>
                 <div class="carousel-item">
-                    <p class="fs-5 fst-italic">“A room without books is like a body without a soul.”</p>
-                    <p class="text-end fw-semibold">- Marcus Tullius Cicero</p>
+                    <p class="fs-6 fst-italic px-2">“A room without books is like a body without a soul.”</p>
+                    <p class="text-end fw-semibold px-2">- Marcus Tullius Cicero</p>
                 </div>
                 <div class="carousel-item">
-                    <p class="fs-5 fst-italic">“So many books, so little time.”</p>
-                    <p class="text-end fw-semibold">- Frank Zappa</p>
+                    <p class="fs-6 fst-italic px-2">“So many books, so little time.”</p>
+                    <p class="text-end fw-semibold px-2">- Frank Zappa</p>
                 </div>
             </div>
-
-            <!-- Optional Indicators -->
-            <div class="carousel-indicators">
-                <button type="button" data-bs-target="#quoteCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                <button type="button" data-bs-target="#quoteCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                <button type="button" data-bs-target="#quoteCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            <div class=" d-none d-md-block">
+                <small class="text-light fst-italic">— A journey through Whispering Pages</small>
             </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#quoteCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#quoteCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
+
     </div>
 
-    <!-- 🧑‍💼 Admin Profile (right of carousel) -->
+    <!-- 🧑‍💼 Admin Profile Section (right of carousel) -->
     <div class="col-md-4 col-sm-12">
-        <div class="card shadow-sm mb-4">
+        <div class="card shadow-lg rounded-3 mb-4">
             <div class="card-body text-center">
-
-                <img src="~/images/img_avatar.png" alt="Admin" class="rounded-circle mb-3" width="80" height="80">
-                <h5 class="card-title">@Model.User.Name</h5>
-                <p class="card-text">@Model.User.Role</p>
+                <img src="~/images/img_avatar.png" alt="Admin" class="rounded-circle mb-3" width="75" height="75">
+                <h5 class="card-title text-dark">@Model.User.Name</h5>
+                <p class="card-text text-muted">@Model.User.Role</p>
             </div>
         </div>
     </div>
 </div> <!-- End of row with carousel and profile -->
-<!-- 📊 Stats & Activities Row -->
+<!-- 📊 Quick Stats & Recent Activities Section -->
 <div class="row mb-4">
-    <!-- Quick Stats -->
+    <!-- Quick Stats Card -->
     <div class="col-md-6 col-sm-12">
-        <div class="card shadow-sm h-100 border-0 bg-light">
+        <div class="card shadow-lg rounded-3 h-100 border-0 bg-light">
             <div class="card-body">
                 <h5 class="card-title mb-4 text-primary"><i class="bi bi-bar-chart-fill me-2"></i>Quick Stats</h5>
                 <ul class="list-group list-group-flush">
@@ -74,79 +77,71 @@
         </div>
     </div>
 
-
+    <!-- Recent Activities Card -->
     <div class="col-md-6 col-sm-12">
-        <div class="card shadow-sm h-100 border-0 bg-light">
+        <div class="card shadow-lg rounded-3 h-100 border-0 bg-light">
             <div class="card-body">
                 <h5 class="card-title mb-4 text-primary"><i class="bi bi-clock-history me-2"></i>Recent Activities</h5>
                 <ul class="list-group list-group-flush" style="max-height: 250px; overflow-y: auto;">
-                    <li class="list-group-item d-flex justify-content-between align-items-start">
-                        <div class="me-auto">
-                            <i class="bi bi-book-fill text-success me-2"></i>
-                            New book added: <strong>"Book Title"</strong>
-                            <div class="small text-muted">5 mins ago</div>
-                        </div>
-                        <span class="badge bg-success">Add</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-start">
-                        <div class="me-auto">
-                            <i class="bi bi-person-plus-fill text-info me-2"></i>
-                            User <strong>"John Doe"</strong> registered
-                            <div class="small text-muted">10 mins ago</div>
-                        </div>
-                        <span class="badge bg-info text-dark">Register</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-start">
-                        <div class="me-auto">
-                            <i class="bi bi-pencil-square text-warning me-2"></i>
-                            Book <strong>"Another Title"</strong> updated
-                            <div class="small text-muted">1 hour ago</div>
-                        </div>
-                        <span class="badge bg-warning text-dark">Update</span>
-                    </li>
+                    @if (Model.ActivityLogs != null && Model.ActivityLogs.Any())
+                    {
+                        foreach (var log in Model.ActivityLogs)
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div class="me-auto">
+                                    @{
+                                        var iconClass = log.ActionType switch
+                                        {
+                                            "Add" => "bi bi-book-fill text-success",
+                                            "Update" => "bi bi-pencil-square text-warning",
+                                            "Delete" => "bi bi-trash-fill text-danger",
+                                            "Register" => "bi bi-person-plus-fill text-info",
+                                            "Login" => "bi bi-box-arrow-in-right text-primary",
+                                            _ => "bi bi-info-circle-fill text-secondary"
+                                        };
+                                    }
+                                    <i class="@iconClass me-2"></i>
+                                    @log.Description
+                                    <div class="small text-muted">@log.TimeAgo</div>
+                                </div>
+                                <span class="badge
+                                    @(log.ActionType == "Add" ? "bg-success" :
+                                    log.ActionType == "Update" ? "bg-warning text-dark" :
+                                    log.ActionType == "Delete" ? "bg-danger" :
+                                    log.ActionType == "Register" ? "bg-info text-dark" :
+                                    log.ActionType == "Login" ? "bg-primary" :
+                                    "bg-secondary")">
+                                    @log.ActionType
+                                </span>
+                            </li>
+                        }
+                    }
+                    else
+                    {
+                        <li class="list-group-item text-muted">No recent activity found.</li>
+                    }
                 </ul>
             </div>
         </div>
     </div>
-
 </div>
 
-<!-- 🔒 Admin-only section -->
+<!-- 🔒 Admin-only Controls Section -->
 <div id="adminSection" style="display: none;" class="mt-4">
     <h5>Admin Controls</h5>
     <div class="d-flex flex-wrap gap-2 mb-3">
-        <a asp-controller="Books" asp-action="CreateBookData" class="btn btn-success">➕ Add New Book</a>
-        <a asp-controller="Books" asp-action="UserList" class="btn btn-secondary">👥 Manage Users</a>
+        <a asp-controller="Books" asp-action="CreateBookData" class="btn btn-success"><i class="bi bi-plus-circle me-2"></i> Add New Book</a>
+        <a asp-controller="Books" asp-action="UserList" class="btn btn-secondary"><i class="bi bi-person-lines-fill me-2"></i> Manage Users</a>
+        <a asp-controller="Order" asp-action="AdminIndex" class="btn btn-danger"><i class="bi bi-cart-check-fill me-2"></i> Manage Orders</a>
     </div>
 
     <!-- 📚 Book Cards Grid -->
     <div class="row g-4" id="bookGrid">
-        <!-- Sample Book Cards (these can be dynamically generated) -->
-        <div class="col-md-3 col-sm-12">
-            <div class="card shadow-sm">
-                <img src="~/images/sample-book.jpg" class="card-img-top" alt="Sample Book">
-                <div class="card-body">
-                    <h5 class="card-title">Sample Book Title</h5>
-                    <p class="card-text">A brief description of the book.</p>
-                    <a href="#" class="btn btn-primary">View Details</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 col-sm-12">
-            <div class="card shadow-sm">
-                <img src="~/images/sample-book.jpg" class="card-img-top" alt="Sample Book">
-                <div class="card-body">
-                    <h5 class="card-title">Sample Book Title</h5>
-                    <p class="card-text">A brief description of the book.</p>
-                    <a href="#" class="btn btn-primary">View Details</a>
-                </div>
-            </div>
-        </div>
+        <!-- Example Card -->
+        
     </div>
 </div>
 
 <!-- Scripts -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="~/js/books/bookshome.js"></script>
-
-
+<script src="~/js/Books/BooksHome.js"></script>

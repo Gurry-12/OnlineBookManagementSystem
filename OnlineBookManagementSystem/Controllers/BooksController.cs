@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using OnlineBookManagementSystem.Interfaces;
 using OnlineBookManagementSystem.Models;
 using OnlineBookManagementSystem.Models.ViewModel;
 using OnlineBookManagementSystem.Services;
@@ -11,10 +12,12 @@ namespace OnlineBookManagementSystem.Controllers
     public class BooksController : BaseController
     {
         private readonly IBookService _bookService;
+        private readonly IActivityLogger _activityLoggerService;
 
-        public BooksController(IBookService bookService)
+        public BooksController(IBookService bookService, IActivityLogger activityLogger)
         {
             _bookService = bookService;
+            _activityLoggerService = activityLogger;
         }
 
         public IActionResult AdminIndex()
@@ -73,7 +76,9 @@ namespace OnlineBookManagementSystem.Controllers
             var success = await _bookService.AddBookAsync(bookData);
             if (!success)
                 return StatusCode(500, new { message = "Failed to add book." });
-
+            
+            //Logs For Add
+            await _activityLoggerService.LogAsync("Add", $"Added book: {bookData.Title}.");
             return Json(new { success = true, message = "Book added successfully.", bookData });
         }
 
@@ -126,17 +131,22 @@ namespace OnlineBookManagementSystem.Controllers
             if (!success)
                 return NotFound(new { message = "Error: Book not found." });
 
+            // Logs for Update
+            await _activityLoggerService.LogAsync("Update", $"Updated book: {bookData.Title}.");
+
             var redirectUrl = Url.Action("AdminIndex", "Books");
             return Json(new { success = true, redirectUrl });
         }
 
         [HttpDelete]
         public async Task<IActionResult> DeleteBook(int id)
-        {
+        {   var book = await _bookService.GetBookByIdAsync(id);
             var success = await _bookService.SoftDeleteBookAsync(id);
             if (!success)
                 return BadRequest(new { message = "Invalid book data." });
 
+            //Logs for Delete
+            await _activityLoggerService.LogAsync("Delete", $"Deleted book: {book.Title}.");
             var redirectUrl = Url.Action("AdminIndex", "Books");
             return Json(new { redirectUrl });
         }
@@ -157,7 +167,20 @@ namespace OnlineBookManagementSystem.Controllers
             return Json(new { success = true });
         }
 
-        
-        
+
+        [HttpGet]
+        [ActionName("BookList")]
+        public async Task<IActionResult> BookListAsync(int page = 1)
+        {
+            int pageSize = 8;
+            var model = await _bookService.GetPaginatedBooksAsync(page, pageSize);
+            return View("Admin/BookList", model);
+        }
+
+        public async Task<IActionResult> ActivityLogs()
+        {
+            var logs = await _activityLoggerService.GetAllLogsAsync();
+            return View("Admin/ActivityLogs", logs);
+        }
     }
 }

@@ -3,14 +3,17 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - My Book Shelf</title>
+    <title>@ViewData["Title"] - Whispering Pages</title>
 
+    <!-- CSS Links -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
     <link href="~/css/site.css" rel="stylesheet" />
+    
 </head>
 <body>
+    <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
         <div class="d-flex justify-content-end">
             <button id="toggleSidebar" class="btn btn-transparent border-0 text-light my-3">
@@ -18,12 +21,12 @@
             </button>
         </div>
 
+        <!-- Logo Section -->
         <div class="container-fluid p-3 mx-auto w-75 bg-white shadow rounded-3 logo-card">
-            <img src="~/images/render_website_name.png" alt="Logo" class="img-fluid logo-img">
-            
+            <img src="~/images/render_website_name.png" alt="Whispering Pages" class="img-fluid logo-img">
         </div>
 
-        <!-- Sidebar Links with Icons -->
+        <!-- Sidebar Links -->
         <a id="homeLink" class="d-flex align-items-center">
             <i class="bi bi-house-door me-2"></i> <!-- Home Icon -->
             <span class="sidebar-text">Explore Books</span>
@@ -32,19 +35,25 @@
             <i class="bi bi-search me-2"></i> <!-- Category Icon -->
             <span class="sidebar-text">Classify Books</span>
         </a>
-
         <a asp-controller="Cart" asp-action="CartIndexUser" class="cart-link">
-            <i class="bi bi-cart"></i> 
+            <i class="bi bi-cart"></i>
             <span class="sidebar-text">Cart</span>
         </a>
-
         <a asp-controller="Books" asp-action="Favorite" class="favorites-link">
             <i class="bi bi-heart-fill"></i>
             <span class="sidebar-text">Favorites</span>
         </a>
 
-       
+        <a asp-controller="Order" asp-action="Index" class="d-flex align-items-center">
+            <i class="bi bi-bag-check me-2"></i>
+            <span class="sidebar-text">My Orders</span>
+        </a>
+
+
+        <!-- Divider -->
         <hr />
+
+        <!-- Additional Links -->
         <a asp-controller="Home" asp-action="About" class="d-flex align-items-center">
             <i class="bi bi-info-circle me-2"></i> <!-- About Icon -->
             <span class="sidebar-text">About</span>
@@ -61,10 +70,18 @@
 
     <!-- Content Section -->
     <div class="content">
+        <!-- Top Bar -->
         <div class="top-bar gap-3">
+            <div class="d-none d-md-block">
+                <h3 class="fw-bold">Welcome to <span class="text-primary">Whispering Pages</span></h3>
+                <h5 id="greeting" class="text-muted">Good Morning, Reader</h5>
+            </div>
+
+            <!-- Date & Time -->
             <span> <i class="bi bi-clock"></i> <span class="currenttime"> </span> </span>
             <span><i class="bi bi-calendar"></i> <span class="currentdate"> </span> </span>
 
+            <!-- Cart Icon with Badge -->
             <div class="position-relative d-inline-block me-3">
                 <a class="text-decoration-none text-dark" asp-controller="Cart" asp-action="CartIndexUser">
                     <i class="bi bi-cart" style="font-size: 1.5rem;"></i>
@@ -73,9 +90,12 @@
                     </span>
                 </a>
             </div>
+
+            <!-- User Profile Dropdown -->
             <div class="dropdown">
                 <button class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="username">
-                    <i class="bi bi-person-circle"></i>
+                    <img src="~/images/img_avatar.png" alt="User" class="rounded-circle" width="30" height="30" />
+                    <span>@User.Identity.Name</span>
                 </button>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" asp-controller="Auth" asp-action="ProfileView">Profile</a></li>
@@ -83,9 +103,15 @@
                 </ul>
             </div>
         </div>
+
+        <!-- Content Body -->
         @RenderBody()
+
     </div>
 
+
+
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="~/js/site.js"></script>

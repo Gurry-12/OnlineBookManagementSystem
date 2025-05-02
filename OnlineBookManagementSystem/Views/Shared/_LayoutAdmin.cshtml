@@ -9,6 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
     <link href="~/css/site.css" rel="stylesheet" />
+    @RenderSection("Styles", required: false)
 </head>
 <body>
     <div class="sidebar" id="sidebar">
@@ -25,35 +26,56 @@
         <!-- Sidebar links with icons -->
         <a id="homeLink" href="#">
             <i class="bi bi-house-door"></i>
-            <span class="sidebar-text"> Books</span>
+            <span class="sidebar-text">Dashboard</span>
         </a>
+
+        <a asp-controller="Books" asp-action="BookList" asp-route-page="1">
+            <i class="bi bi-book"></i>
+            <span class="sidebar-text">Books</span>
+        </a>
+
         <a asp-controller="Category" asp-action="DisplayCategory">
             <i class="bi bi-search"></i>
             <span class="sidebar-text">Category</span>
         </a>
+
         <a asp-controller="Books" asp-action="CreateBookData">
-            <i class="bi bi-book"></i>
-            <span class="sidebar-text"> Add Book</span>
-        </a><br />
+            <i class="bi bi-plus-square"></i>
+            <span class="sidebar-text">Add Book</span>
+        </a>
+
+
+        <a asp-controller="Books" asp-action="ActivityLogs">
+            <i class="bi bi-clock-history"></i>
+            <span class="sidebar-text">Activity Logs</span>
+        </a>
+
+
+
         <hr />
+
         <a asp-controller="Home" asp-action="About">
             <i class="bi bi-info-circle"></i>
-            <span class="sidebar-text"> About</span>
+            <span class="sidebar-text">About</span>
         </a>
+
         <a asp-controller="Home" asp-action="Support">
             <i class="bi bi-telephone"></i>
-            <span class="sidebar-text"> Support</span>
+            <span class="sidebar-text">Support</span>
         </a>
+
         <a asp-controller="Home" asp-action="Terms">
             <i class="bi bi-file-earmark-text"></i>
-            <span class="sidebar-text"> Terms & Condition</span>
+            <span class="sidebar-text">Terms & Condition</span>
         </a>
     </div>
 
     <div class="content">
-        <div class="top-bar gap-3">
+        <div class="top-bar-Admin gap-3">
             <span> <i class="bi bi-clock"></i> <span class="currenttime"> </span> </span>
             <span><i class="bi bi-calendar"></i> <span class="currentdate"> </span> </span>
+
+
             <div class="dropdown">
                 <button class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="username">
                     <i class="bi bi-person-circle"></i>

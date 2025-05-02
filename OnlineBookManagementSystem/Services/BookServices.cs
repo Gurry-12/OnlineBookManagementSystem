@@ -142,15 +142,62 @@ namespace OnlineBookManagementSystem.Services
 
         public AdminViewModel GetQuickStats(int id)
         {
-            
+            var logs = _context.ActivityLogs
+                .Include(l => l.User)
+                .OrderByDescending(l => l.Timestamp)
+                .Take(3)
+                .ToList();
+
+            var admin = _context.Users.FirstOrDefault(u => u.Id == id && u.IsDeleted == false);
+
             return new AdminViewModel
             {
-                TotalBooks = _context.Books.Where(b => b.IsDeleted == false).Count(),
-                TotalUsers = _context.Users.Where(u => u.IsDeleted == false && u.Role == "User").Count(),
-
+                TotalBooks = _context.Books.Count(b => b.IsDeleted == false),
+                TotalUsers = _context.Users.Count(u => u.IsDeleted == false && u.Role == "User"),
                 TotalOrders = _context.Orders.Count(),
-                TotalCategories = _context.Categories.Where(c => c.IsDeleted == false).Count(),
-                User = _context.Users.Where(u => u.Id == id).Where(u => u.IsDeleted == false).FirstOrDefault()
+                TotalCategories = _context.Categories.Count(c => !c.IsDeleted),
+                User = admin!,
+                ActivityLogs = logs.Select(log => new ActivityLogViewModel
+                {
+                    ActionType = log.ActionType,
+                    Description = log.Description,
+                    Timestamp = log.Timestamp,
+                    UserName = log.User?.Name ?? "System",
+                    TimeAgo = GetTimeAgo(log.Timestamp)
+                }).ToList()
+            };
+        }
+
+        public string GetTimeAgo(DateTime time)
+        {
+            // Convert the input time (which is in IST) to UTC for comparison
+            var timeInUtc = TimeZoneInfo.ConvertTimeToUtc(time, TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
+            var span = DateTime.UtcNow.Subtract(timeInUtc);
+
+            if (span.TotalMinutes < 1) return "Just now";
+            if (span.TotalMinutes < 60) return $"{(int)span.TotalMinutes} mins ago";
+            if (span.TotalHours < 24) return $"{(int)span.TotalHours} hours ago";
+            return $"{(int)span.TotalDays} days ago";
+        }
+
+
+
+        public async Task<BookListViewModel> GetPaginatedBooksAsync(int page, int pageSize)
+        {
+            // Await the task to get the list of books and then count them
+            int totalBooks = (await GetAllBooksAsync()).Count;
+            var totalPages = (int)Math.Ceiling((double)totalBooks / pageSize);
+
+            var books = _context.Books.Where(b => b.IsDeleted == false)
+                                .Skip((page - 1) * pageSize)
+                                .Take(pageSize)
+                                .ToList();
+
+            return new BookListViewModel
+            {
+                Books = books,
+                CurrentPage = page,
+                TotalPages = totalPages
             };
         }
     }

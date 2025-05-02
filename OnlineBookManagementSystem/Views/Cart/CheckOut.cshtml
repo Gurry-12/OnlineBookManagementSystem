@@ -1,8 +1,11 @@
-﻿@{
+﻿@model OnlineBookManagementSystem.Models.ViewModel.CheckOutViewModel
+
+@{
     ViewData["Title"] = "Checkout";
     var tax = (Model.TotalAmount * 10) / 100;
+    var shipping = (Model.TotalAmount + tax > 1000) ? 0 : 50;
+    var grandTotal = Model.TotalAmount + tax + shipping;
 }
-@model OnlineBookManagementSystem.Models.ViewModel.CheckOutViewModel
 
 <div class="container py-5">
     <h1 class="mb-4 text-center">Checkout</h1>
@@ -31,21 +34,33 @@
                                     {
                                         <tr>
                                             <td>@item.Book.Title</td>
-                                            <td>@item.Book.Price</td>
+                                            <td>₹@item.Book.Price</td>
                                             <td>@item.Quantity</td>
-                                            <td>@(item.Book.Price * item.Quantity)</td>
+                                            <td>₹@(item.Book.Price * item.Quantity)</td>
                                         </tr>
                                     }
                                     <tr class="table-secondary">
-                                        <td colspan="3" class="text-end"><strong>Tax</strong></td>
-                                        <td><strong>@tax</strong></td>
+                                        <td colspan="3" class="text-end"><strong>Tax (10%)</strong></td>
+                                        <td><strong>₹@tax.ToString("F2")</strong></td>
+                                    </tr>
+                                    <tr class="table-secondary">
+                                        <td colspan="3" class="text-end"><strong>Shipping</strong></td>
+                                        <td><strong>₹@shipping.ToString("F2")</strong></td>
                                     </tr>
                                     <tr class="table-primary">
                                         <td colspan="3" class="text-end"><strong>Grand Total</strong></td>
-                                        <td><strong>@(Model.TotalAmount + tax)</strong></td>
+                                        <td><strong>₹@grandTotal.ToString("F2")</strong></td>
                                     </tr>
                                 </tbody>
                             </table>
+                            @if (shipping == 0)
+                            {
+                                <p class="text-success mt-2">🎉 You are eligible for Free Shipping!</p>
+                            }
+                            else
+                            {
+                                <p class="text-warning mt-2">🚚 ₹@shipping shipping charge applied.</p>
+                            }
                         </div>
                     }
                     else

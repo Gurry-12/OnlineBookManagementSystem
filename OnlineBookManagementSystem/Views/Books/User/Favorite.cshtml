@@ -3,28 +3,63 @@
 @{
     ViewData["Title"] = "My Favorites";
 }
-
-<h2 class="mb-4">My Favorite Books</h2>
-
+<link href="~/css/booksindex.css" rel="stylesheet" />
 <div class="container">
-    @foreach (var book in Model)
-    {
-        <div class="d-flex align-items-center p-3 mb-3 rounded shadow-sm bg-white bg-opacity-75">
-            <!-- Left: Book Image -->
-            <img src="@(!string.IsNullOrEmpty(book.ImgUrl) ? book.ImgUrl : Url.Content("~/images/default-book-image.jpg"))"
-                 alt="@book.Title"
-                 class="rounded me-3"
-                 style="width: 80px; height: auto;" />
+    <h2 class="mb-4">My Favorite Books</h2>
 
-            <!-- Middle: Book Info -->
-            <div>
-                <h5 class="mb-1">@book.Title</h5>
-                <p class="mb-1 text-muted">Author: @book.Author</p>
-                <p class="mb-0 fw-bold">Price: ₹@(book.Price.HasValue ? book.Price.Value.ToString("F2") : "0.00")</p>
+    <div class="row g-4 mb-4">
+        @if (!Model.Any())
+        {
+            <div class="col-12">
+                <div class="alert alert-info" role="alert">
+                    You have no favorite books yet. Start adding some!
+                </div>
             </div>
-        </div>
-    }
+        }
+        else
+        {
+            @foreach (var book in Model)
+            {
+                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                    <div class="book-card shadow-sm p-2 bg-white rounded position-relative h-100">
+
+                        <img src="@(!string.IsNullOrEmpty(book.ImgUrl) ? book.ImgUrl : Url.Content("~/images/default-book-image.jpg"))"
+                             alt="@book.Title"
+                             class="book-image" />
+
+                        <h6 class="mt-2">@book.Title</h6>
+                        <small class="text-muted">@book.Author</small>
+
+                        <!-- Favorite icon (bottom-left aligned, no overlap) -->
+                        <div class="d-flex justify-content-start mt-2 z-10">
+                            <i class="bi @((bool)book.IsFavorite ? "bi-heart-fill" : "bi-heart")"
+                               id="fav-icon-recommend-@book.Id"
+                               onclick="AddToFavorites(@book.Id)"
+                               style="cursor: pointer; font-size: 1.3rem; @((bool)book.IsFavorite ? "color: red;" : "")">
+                            </i>
+                        </div>
+
+                        <!-- Price and Cart -->
+                        <div class="d-flex justify-content-between align-items-center mt-2">
+                            <p class="mb-0 text-primary fw-bold">₹@book.Price</p>
+                            <i class="bi bi-cart z-2" style="font-size: 1.5rem;" onclick="AddtoCart(@book.Id);" id="cart-icon-@book.Id"></i>
+                            <div id="cart-counter-@book.Id" class="d-none z-2">
+                                <button class="btn btn-sm" onclick="changeCartQuantity(@book.Id, 'decrease', 'favorite')">-</button>
+                                <span id="cart-quantity-@book.Id">1</span>
+                                <button class="btn btn-sm" onclick="changeCartQuantity(@book.Id, 'increase', 'favorite')">+</button>
+                            </div>
+                        </div>
+
+                        <a onclick="OpenBookModal(@book.Id)" class="stretched-link"></a>
+                    </div>
+                </div>
+
+            }
+        }
+    </div>
 </div>
+
+
 <!-- Scripts -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="~/js/books/bookshome.js"></script>

@@ -8,5 +8,7 @@
         public int TotalCategories { get; set; }
         public int TotalOrders { get; set; }
         public User User { get; set; }
+
+        public List<ActivityLogViewModel> ActivityLogs { get; set; } = new();
     }
 }

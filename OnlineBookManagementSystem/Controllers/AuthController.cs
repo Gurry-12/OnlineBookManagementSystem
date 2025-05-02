@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using OnlineBookManagementSystem.Interfaces;
 using OnlineBookManagementSystem.Models;
 using OnlineBookManagementSystem.Models.ViewModel;
 using OnlineBookManagementSystem.Services;
@@ -11,10 +12,11 @@ namespace OnlineBookManagementSystem.Controllers
     public class AuthController : BaseController
     {
         private readonly IAuthInterface _authService;
-
-        public AuthController(IAuthInterface authService)
+        private readonly IActivityLogger _activityLoggerService;
+        public AuthController(IAuthInterface authService, IActivityLogger activityLoggerService)
         {
             _authService = authService;
+            _activityLoggerService = activityLoggerService;
         }
 
         public IActionResult Index()
@@ -41,7 +43,10 @@ namespace OnlineBookManagementSystem.Controllers
             var redirectUrl = user.Role == "Admin"
                 ? Url.Action("AdminIndex", "Books")
                 : Url.Action("UserIndex", "Books");
-
+            if (user.Role == "User")
+            {
+                await _activityLoggerService.LogAsync("Login", $"User {user.Name} logged in.");
+            }
             return Json(new
             {
                 success = true,
@@ -68,6 +73,10 @@ namespace OnlineBookManagementSystem.Controllers
             if (!registered)
                 return Json(new { success = false, message = "Email already registered." });
 
+            if (data.Role == "User")
+            {
+                await _activityLoggerService.LogAsync("Register", $"User {data.Name} Registered.");
+            }
             return Json(new
             {
                 success = true,
@@ -78,6 +87,12 @@ namespace OnlineBookManagementSystem.Controllers
 
         public IActionResult Logout()
         {
+            var sessionUserId = HttpContext.Session.GetString("userId");
+            var userId = int.Parse(sessionUserId);
+            var user = _authService.GetUserById(userId);
+           if(user != null) { 
+                _activityLoggerService.LogAsync("Logout", $"User with ID {user.Name} logged out.", userId);
+            }
             HttpContext.Session.Clear();
             return RedirectToAction("Login", "Auth");
         }
@@ -128,6 +143,8 @@ namespace OnlineBookManagementSystem.Controllers
                 return NotFound();
             user.IsDeleted = true;
             _authService.UpdateUserDetailAsync(user);
+
+             _activityLoggerService.LogAsync("Delete", $"User with ID {user.Name} was soft-deleted.", id);
             return Ok(new { success = true, message = "User deleted successfully." });
         }
     }

@@ -4,10 +4,14 @@ using Microsoft.IdentityModel.Tokens;
 using OnlineBookManagementSystem.Interfaces;
 using OnlineBookManagementSystem.Models;
 using OnlineBookManagementSystem.Services;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
+JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
 var builder = WebApplication.CreateBuilder(args);
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -15,6 +19,9 @@ builder.Services.AddControllersWithViews();
 // Add DbContext for database connection
 builder.Services.AddDbContext<BookManagementContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+//Add Hosted service
+builder.Services.AddHostedService<LogCleanupService>();
 
 // Add services for dependency injection
 builder.Services.AddScoped<ICategoryInterface, CategoryServices>();

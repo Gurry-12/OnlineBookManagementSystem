@@ -1,0 +1,73 @@
+﻿@using OnlineBookManagementSystem.Models.ViewModel
+@model BookListViewModel
+<link href="~/css/booksindex.css" rel="stylesheet" />
+
+@{
+    ViewData["Title"] = "Books List";
+}
+
+<div class="container">
+    <div class="row g-4 mb-4" id="books-list">
+        @foreach (var book in Model.Books)
+        {
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 p-2">
+                <div class="book-card shadow-sm p-2 bg-white rounded position-relative h-100 ">
+                    <div class="position-absolute end-0 top-0 me-1 mt-1 z-3">
+                        <button class="btn btn-link p-0" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-three-dots-vertical"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end border-0 shadow z-3">
+                            <li><a class="dropdown-item text-warning" href="/Books/GetBookDetails/@book.Id">Edit</a></li>
+                            <li><a class="dropdown-item text-danger" onclick="DeleteBook(@book.Id)">Delete</a></li>
+                        </ul>
+                    </div>
+                    <img src="@book.ImgUrl" alt="@book.Title" class="book-image" />
+                    <h6 class="mt-2">@book.Title</h6>
+                    <small class="text-muted">@book.Author</small>
+                    <p class="mb-0 text-primary fw-bold">Price: ₹@book.Price</p>
+                    <a onclick="OpenBookModal(@book.Id)" class="stretched-link"></a>  @* Card overlay click *@
+                </div>
+            </div>
+        }
+    </div>
+
+    @* Pagination Section *@
+    <div class="row">
+        <div class="col text-center">
+            <ul class="pagination justify-content-center">
+                @if (Model.TotalPages > 1)
+                {
+                    <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
+                        <a class="page-link" href="?page=1" aria-label="First">
+                            <span aria-hidden="true">&laquo;&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
+                        <a class="page-link" href="?page=@(Model.CurrentPage - 1)" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    @for (var i = 1; i <= Model.TotalPages; i++)
+                    {
+                        <li class="page-item @(Model.CurrentPage == i ? "active" : "")">
+                            <a class="page-link" href="?page=@i">@i</a>
+                        </li>
+                    }
+                    <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
+                        <a class="page-link" href="?page=@(Model.CurrentPage + 1)" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
+                        <a class="page-link" href="?page=@(Model.TotalPages)" aria-label="Last">
+                            <span aria-hidden="true">&raquo;&raquo;</span>
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/js/books/bookshome.js"></script>

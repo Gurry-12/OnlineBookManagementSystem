@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Order\" />
+    <Folder Include="wwwroot\js\Order\" />
     <Folder Include="wwwroot\lib\NewFolder\" />
   </ItemGroup>
 

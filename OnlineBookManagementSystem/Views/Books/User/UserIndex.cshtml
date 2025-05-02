@@ -1,30 +1,36 @@
 ﻿@{
-    ViewData["Title"] = "Books Data";
-    // Layout = "_LayoutUser";
+    ViewData["Title"] = "User Dashboard - Whispering Pages";
+    Layout = "_LayoutUser"; // Custom layout for user
 }
-@* @model IEnumerable<OnlineBookManagementSystem.Models.Book> *@
 
 <link href="~/css/booksindex.css" rel="stylesheet" />
 
-<!-- 📚 Quote and New Arrivals -->
-<div class="row ">
-    <div class="col-md-4 mt-5" style="height : 200px">
-        <div id="quoteCarousel" class="carousel slide quote-box" data-bs-ride="carousel" data-bs-interval="3000">
+
+
+<hr />
+
+<!-- 📚 Quote and New Arrivals Section -->
+<div class="row">
+    <!-- Quotes Carousel -->
+    <div class="col-md-4 mt-3">
+        <div id="quoteCarousel" class="carousel slide quote-box shadow-sm rounded" data-bs-ride="carousel" aria-label="Quote Carousel" data-bs-interval="3000">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <p class="fs-5 fst-italic">“There is more treasure i n books than in all the pirate's loot on Treasure Island.”</p>
-                    <p class="text-end fw-semibold">- Walt Disney</p>
+                    <p class="fs-6 fst-italic px-2">“There is more treasure in books than in all the pirate's loot on Treasure Island.”</p>
+                    <p class="text-end fw-semibold px-2">- Walt Disney</p>
                 </div>
                 <div class="carousel-item">
-                    <p class="fs-5 fst-italic">“A room without books is like a body without a soul.”</p>
-                    <p class="text-end fw-semibold">- Marcus Tullius Cicero</p>
+                    <p class="fs-6 fst-italic px-2">“A room without books is like a body without a soul.”</p>
+                    <p class="text-end fw-semibold px-2">- Marcus Tullius Cicero</p>
                 </div>
                 <div class="carousel-item">
-                    <p class="fs-5 fst-italic">“So many books, so little time.”</p>
-                    <p class="text-end fw-semibold">- Frank Zappa</p>
+                    <p class="fs-6 fst-italic px-2">“So many books, so little time.”</p>
+                    <p class="text-end fw-semibold px-2">- Frank Zappa</p>
                 </div>
             </div>
-            <!-- Carousel controls are optional, but I'll add them for better usability -->
+            <div class=" d-none d-md-block">
+                <small class="text-light fst-italic">— A journey through Whispering Pages</small>
+            </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#quoteCarousel" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Previous</span>
@@ -36,21 +42,23 @@
         </div>
     </div>
 
-    <div class="col-md-8 ">
-        <div class="mt-3">
-            <span class="tag-pill mt-2">New Arrivals</span>
-            <div id="newArrivals" class="row g-4 mt-1">
-                <!-- Dynamic content will be loaded here -->
-            </div>
+    <!-- New Arrivals -->
+    <div class="col-md-8 mt-3">
+        <span class="tag-pill">📦 New Arrivals</span>
+        <div id="newArrivals" class="row g-4 mt-2">
+            <div class="text-muted">Loading new books...</div>
         </div>
     </div>
 </div>
 
-<!-- 👋 Greeting and Recommendations -->
-<h4 id="greeting">Good Morning</h4>
-<h6 class="text-muted">Recommended for You</h6>
-<div id="recommendedBooks" class="row g-4  ">
-    <!-- Dynamic content will be loaded here -->
+<hr class="mt-4 mb-3" />
+
+<!-- 🎯 Recommendations Section -->
+<div class="mb-3">
+    <h5 class="fw-semibold">📚 Recommended for You</h5>
+    <div id="recommendedBooks" class="row g-4">
+        <div class="text-muted">Loading recommendations...</div>
+    </div>
 </div>
 
 

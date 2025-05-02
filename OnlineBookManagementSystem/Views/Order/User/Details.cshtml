@@ -1,0 +1,68 @@
+﻿@model OnlineBookManagementSystem.Models.Order
+
+@{
+    ViewData["Title"] = "Order Details - User";
+}
+
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow-sm">
+                <div class="card-header bg-info text-white">
+                    <h4 class="mb-0">📦 Order Details</h4>
+                </div>
+                <div class="card-body">
+
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <p><strong>Order ID:</strong> @Model.Id</p>
+                            <p><strong>Status:</strong> @Model.Status</p>
+                            <p><strong>Order Date:</strong> @Model.OrderDate</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Total Amount:</strong> ₹@Model.TotalAmount</p>
+                            <p><strong>Payment Method:</strong> @Model.PaymentMethod</p>
+                            <p><strong>Shipping Address:</strong><br /> @Model.Address</p>
+                        </div>
+                    </div>
+
+                    <h5 class="mb-3">📚 Ordered Items</h5>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Book Title</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var detail in Model.OrderDetails)
+                                {
+                                    <tr>
+                                        <td>@detail.Book.Title</td>
+                                        <td>@detail.Quantity</td>
+                                        <td>₹@detail.Price</td>
+                                        <td>₹@(detail.Quantity * detail.Price)</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="text-end mt-3">
+                        <a href="@Url.Action("Index", "Order")" class="btn btn-secondary">🔙 Back to My Orders</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="~/js/books/bookshome.js"></script>
+}

@@ -25,7 +25,7 @@ namespace OnlineBookManagementSystem.Services
             foreach (var category in categories)
             {
                 // Filter books that are not deleted and belong to the current category
-                category.Books = category.Books.Where(b => b.IsDeleted == false).ToList();
+                category.Books = category.Books.Where(b => b.IsDeleted == false).Take(3).ToList();
             }
 
             return new CategoryViewModel
@@ -96,7 +96,7 @@ namespace OnlineBookManagementSystem.Services
         //user - priviledge 
         public List<CategoryClassifyViewModel> GetAllCategoriesClassified()
         {
-            return _context.Books.GroupBy(b => b.Category.Name)
+            return _context.Books.Where(b => b.IsDeleted == false).GroupBy(b => b.Category.Name)
                 .Select(s => new CategoryClassifyViewModel
                 {
                     CategoryName = s.Key,

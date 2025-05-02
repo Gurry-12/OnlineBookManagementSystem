@@ -61,13 +61,16 @@
         <div class="col-lg-6 float-end mt-4">
             @{
                 decimal tax = subtotal * 0.10M;
-                decimal grandTotal = subtotal + tax;
+                decimal shipping = subtotal + tax > 1000 ? 0 : 50; // ₹50 shipping charge if not eligible for free shipping
+                decimal grandTotal = subtotal + tax + shipping;
+
             }
 
             <div class="cart-summary text-dark">
                 <h5 class="mb-3">Order Summary</h5>
                 <p>Subtotal: <span class="float-end" id="subtotal">₹@subtotal.ToString("F2")</span></p>
                 <p>Sales Tax (10%): <span class="float-end" id="tax">₹@tax.ToString("F2")</span></p>
+                <p>Shipping: <span class="float-end" id="shipping">₹@shipping.ToString("F2")</span></p>
                 <hr />
                 <p class="total">Grand Total: <span class="float-end" id="grand-total">₹@grandTotal.ToString("F2")</span></p>
                 @if (grandTotal > 1000)

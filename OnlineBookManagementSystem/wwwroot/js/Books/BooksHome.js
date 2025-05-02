@@ -29,44 +29,48 @@ $(document).ready(function () {
 
 
 function loadAdminBooks() {
-    
     $.ajax({
-        url: '/Books/GetAdminData', // Get book data via AJAX
+        url: '/Books/GetAdminData',
         type: 'GET',
         headers: {
-            'Authorization': 'Bearer ' + sessionStorage.getItem("jwt") // Include the JWT in the header
+            'Authorization': 'Bearer ' + sessionStorage.getItem("jwt")
         },
         success: function (data) {
-            // Loop through the data and display book cards
-            let bookGrid = $('#bookGrid');
-            bookGrid.empty(); // Clear any existing content in the book grid
+            const bookGrid = $('#bookGrid');
+            bookGrid.empty();
+
+            const categoryMap = new Map();
+
+            // Group by categoryId and keep only one book per category
             data.forEach(function (book) {
-                let bookCard = `
-                        <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                            <div class="book-card shadow-sm p-2 bg-white rounded position-relative h-100">
+                if (!categoryMap.has(book.categoryId)) {
+                    categoryMap.set(book.categoryId, book); // Add only the first book of each category
+                }
+            });
+
+            // Display one book per category
+            categoryMap.forEach(function (book) {
+                const bookCard = `
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                        <div class="book-card shadow-sm p-2 bg-white rounded position-relative h-100">
                             <div class="position-absolute end-0 top-0 me-1 mt-1 z-3">
                                 <button class="btn btn-link p-0" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="bi bi-three-dots-vertical"></i>
                                 </button>
-                                <ul class="dropdown-menu dropdown-menu-end border-0 shadow  z-3">
+                                <ul class="dropdown-menu dropdown-menu-end border-0 shadow z-3">
                                     <li><a class="dropdown-item text-warning" href="/Books/GetBookDetails/${book.id}">Edit</a></li>
                                     <li><a class="dropdown-item text-danger" onclick="DeleteBook(${book.id})">Delete</a></li>
                                 </ul>
-                                </div>
-                                <img src="${book.imgUrl}" alt="${book.title}" class="book-image" />
-                                <h6 class="mt-2">${book.title}</h6>
-                                <small class="text-muted">${book.author}</small>
-                                
-                                    <p class="mb-0 text-primary fw-bold">Price: ₹${book.price}</p>
-
-                                
-
-                                <!-- Card overlay click --> 
-                                <a onclick="OpenBookModal(${book.id})" class="stretched-link"></a> 
                             </div>
+                            <img src="${book.imgUrl}" alt="${book.title}" class="book-image" />
+                            <h6 class="mt-2">${book.title}</h6>
+                            <small class="text-muted">${book.author}</small>
+                            <p class="mb-0 text-primary fw-bold">Price: ₹${book.price}</p>
+                            <a onclick="OpenBookModal(${book.id})" class="stretched-link"></a>
                         </div>
-                    `;
-                bookGrid.append(bookCard); // Add each book card to the grid
+                    </div>
+                `;
+                bookGrid.append(bookCard);
             });
         },
         error: function () {
@@ -74,6 +78,7 @@ function loadAdminBooks() {
         }
     });
 }
+
 
 
 //for the User Index Books
@@ -92,47 +97,51 @@ function loadBooks() {
 
             if (response.data && response.data.length > 0) {
                 $.each(response.data, function (i, book) {
-
-                    // HTML for New Arrivals (less information)
                     let arrivalCard = `
-            <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                <div class="book-card shadow-sm p-2 bg-white rounded position-relative">
-                    <img src="${book.imgUrl}" alt="${book.title}" class="img-fluid" style="height: 80px;" />
-                    <h6 class="mt-2">${book.title}</h6>
-                    <small class="text-muted">${book.author}</small>
-                    <div class="d-flex justify-content-between align-items-center mt-2">
-                        <i class="bi ${book.isFavorite === true ? 'bi-heart-fill' : 'bi-heart'}"
-                           id="fav-icon-arrival-${book.id}"
-                           onclick="AddToFavorites(${book.id})"
-                           style="cursor: pointer; ${book.isFavorite === true ? 'color: red;' : ''}">
-                        </i>
-                    </div>
-                </div>
-            </div>
-        `;
+                        <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                            <div class="book-card shadow-sm p-3 bg-light rounded text-center position-relative h-100">
+                                <img src="${book.imgUrl}" alt="${book.title}" class="img-fluid" style="height: 90px;" />
+                                <h6 class="mt-2 fw-semibold">${book.title}</h6>
+                                <small class="text-muted d-block">${book.author}</small>
+                                <div class="mt-2">
+                                    <i class="bi ${book.isFavorite ? 'bi-heart-fill text-danger' : 'bi-heart'}"
+                                       id="fav-icon-arrival-${book.id}"
+                                       onclick="AddToFavorites(${book.id})"
+                                       style="cursor: pointer;">
+                                    </i>
+                                </div>
+                            </div>
+                        </div>
+                    `;
 
-                    // HTML for Recommended Books (full details)
                     let recommendedCard = `
                         <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                            <div class="book-card shadow-sm p-2 bg-white rounded position-relative h-100">
-                            <div class="position-absolute end-0 top-0 me-1 mt-1 z-3">
-                                <button class="btn btn-link p-0" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="bi bi-three-dots-vertical"></i>
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-end border-0 shadow  z-3  ">
-                                    <li class="text-center"><a class="dropdown-item text-warning" onclick="OpenBookModal(${book.id})">Details</a></li>
-                                    <li class="text-center" ><i class="bi ${book.isFavorite === true ? 'bi-heart-fill' : 'bi-heart'}" dropdown-item" id="fav-icon-recommend-${book.id}" onclick="AddToFavorites(${book.id})" style="cursor: pointer; ${book.isFavorite === true ? 'color: red;' : ''}"> Favorite</i> </li>
-                                </ul>
+                            <div class="book-card shadow p-3 bg-white rounded h-100 position-relative">
+                                <div class="position-absolute end-0 top-0 me-1 mt-1 z-3">
+                                    <button class="btn btn-link p-0" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-three-dots-vertical"></i>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end border-0 shadow z-3">
+                                        <li><a class="dropdown-item text-warning" onclick="OpenBookModal(${book.id})">📖 Details</a></li>
+                                        <li><a class="dropdown-item text-danger">
+                                            <i class="bi ${book.isFavorite ? 'bi-heart-fill text-danger' : 'bi-heart'}"
+                                               id="fav-icon-recommend-${book.id}"
+                                               onclick="AddToFavorites(${book.id})"
+                                               style="cursor: pointer;">
+                                            </i> Favorite
+                                        </a></li>
+                                    </ul>
                                 </div>
 
                                 <img src="${book.imgUrl}" alt="${book.title}" class="book-image" />
-                                <h6 class="mt-2">${book.title}</h6>
-                                <small class="text-muted">${book.author}</small>
+                                <h6 class="mt-2 fw-semibold">${book.title}</h6>
+                                <small class="text-muted d-block">${book.author}</small>
+
                                 <div class="d-flex justify-content-between align-items-center mt-2">
-                                    <p class="mb-0 text-primary fw-bold">₹${book.price}</p>
-                                    <i class="bi bi-cart z-2" style="font-size: 1.5rem;" onclick="AddtoCart(${book.id});" id="cart-icon-${book.id}"></i>
-                                    <div id="cart-counter-${book.id}" class="d-none z-2">
-                                       <button class="btn btn-sm" onclick="changeCartQuantity(${book.id}, 'decrease', 'Book')">-</button>
+                                    <span class="text-primary fw-bold">₹${book.price}</span>
+                                    <i class="bi bi-cart z-3" style="font-size: 1.5rem; cursor: pointer;" onclick="AddtoCart(${book.id});" id="cart-icon-${book.id}"></i>
+                                    <div id="cart-counter-${book.id}" class="d-none z-3">
+                                        <button class="btn btn-sm" onclick="changeCartQuantity(${book.id}, 'decrease', 'Book')">−</button>
                                         <span id="cart-quantity-${book.id}">1</span>
                                         <button class="btn btn-sm" onclick="changeCartQuantity(${book.id}, 'increase', 'Book')">+</button>
                                     </div>
@@ -143,22 +152,19 @@ function loadBooks() {
                         </div>
                     `;
 
-                    // Add the book to New Arrivals section (only first 4)
                     if (i < 4) arrivals += arrivalCard;
-
-                    // Add the book to Recommended Books section (full details)
                     recommended += recommendedCard;
                 });
             } else {
-                arrivals = "<p>No new arrivals found.</p>";
-                recommended = "<p>No recommendations available.</p>";
+                arrivals = "<div class='text-muted'>📭 No new arrivals found.</div>";
+                recommended = "<div class='text-muted'>🕊️ No recommendations available.</div>";
             }
 
             $("#newArrivals").html(arrivals);
             $("#recommendedBooks").html(recommended);
         },
         error: function () {
-            alert("Failed to load books.");
+            alert("⚠️ Failed to load books. Please try again.");
         }
     });
 }
@@ -377,6 +383,8 @@ function changeCartQuantity(bookId, action, type) {
                     window.location.href = "/Books/UserIndex";
                 else if (type == 'profile')
                     window.location.href = `/Books/DisplayBookdetails/${BookId}`;
+                else if (type == "favorite")
+                    window.location.href = "/Books/Favorite";
             } else {
                 $("#cart-quantity-" + bookId).text(quantity);
             }
@@ -477,10 +485,14 @@ function updateCartTotals() {
     });
 
     var tax = subtotal * 0.10;
-    var grandTotal = subtotal + tax;
+    var shipping = subtotal + tax > 1000 ? 0 : 50;
+    var grandTotal = subtotal + tax + shipping;
 
     // Update the totals on the page
     $('#subtotal').text('₹' + subtotal.toFixed(2));  // Format subtotal to 2 decimal places
     $('#tax').text('₹' + tax.toFixed(2));            // Format tax to 2 decimal places
     $('#grand-total').text('₹' + grandTotal.toFixed(2));
 }
+
+
+
