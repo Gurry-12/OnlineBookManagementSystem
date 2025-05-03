@@ -1,7 +1,7 @@
 ﻿using OnlineBookManagementSystem.Models;
 using OnlineBookManagementSystem.Models.ViewModel;
 
-namespace OnlineBookManagementSystem.Services
+namespace OnlineBookManagementSystem.Interfaces
 {
     public interface IAuthInterface
     {

@@ -3,20 +3,80 @@
   "WorkspaceRootPath": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\services\\logcleanupservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\services\\logcleanupservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\controllers\\bookscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\controllers\\bookscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\views\\shared\\_layoutadmin.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\views\\shared\\_layoutadmin.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\services\\bookservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\services\\bookservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\interfaces\\ibookservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\interfaces\\ibookservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\views\\books\\displaybookdetails.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\views\\books\\displaybookdetails.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\models\\book.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\models\\book.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\models\\viewmodel\\checkoutviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\models\\viewmodel\\checkoutviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\models\\viewmodel\\confirmationviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\models\\viewmodel\\confirmationviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\models\\viewmodel\\categoryclassifyviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\models\\viewmodel\\categoryclassifyviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\models\\viewmodel\\booklistviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\models\\viewmodel\\booklistviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\models\\viewmodel\\bookformviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\models\\viewmodel\\bookformviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\wwwroot\\js\\auth\\registration.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\wwwroot\\js\\auth\\registration.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\services\\categoryservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\services\\categoryservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\services\\logcleanupservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\services\\logcleanupservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\views\\books\\admin\\activitylogs.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\views\\books\\admin\\activitylogs.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\services\\activitylogger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\services\\activitylogger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\wwwroot\\js\\books\\bookshome.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\wwwroot\\js\\books\\bookshome.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\views\\shared\\_layoutadmin.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\views\\shared\\_layoutadmin.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\views\\books\\admin\\adminindex.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -25,14 +85,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\views\\order\\admin\\admindetails.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\views\\order\\admin\\admindetails.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\controllers\\bookscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\controllers\\bookscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\services\\bookservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\services\\bookservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -49,10 +101,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\views\\cart\\cartindexuser.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\views\\cart\\cartindexuser.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\services\\activitylogger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\services\\activitylogger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\interfaces\\iactivitylogger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -73,10 +121,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\views\\order\\user\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -119,10 +163,6 @@
       "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\wwwroot\\js\\books\\userlist.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\wwwroot\\js\\books\\bookshome.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\wwwroot\\js\\books\\bookshome.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\views\\_viewstart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\views\\_viewstart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
@@ -147,10 +187,6 @@
       "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\views\\books\\user\\userindex.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\views\\books\\displaybookdetails.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\views\\books\\displaybookdetails.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\views\\books\\admin\\userlist.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\views\\books\\admin\\userlist.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
@@ -165,10 +201,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\views\\shared\\_notification.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\views\\shared\\_notification.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\services\\categoryservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\services\\categoryservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\views\\books\\admin\\createbookdata.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -187,24 +219,12 @@
       "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\views\\category\\admin\\displaycategory.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\models\\book.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\models\\book.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\interfaces\\ibookservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\interfaces\\ibookservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\views\\category\\user\\categoryclassify.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\views\\category\\user\\categoryclassify.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\models\\bookmanagementcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\models\\bookmanagementcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\models\\viewmodel\\booklistviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\models\\viewmodel\\booklistviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\models\\viewmodel\\userviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -223,24 +243,8 @@
       "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\models\\viewmodel\\loginviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\models\\viewmodel\\confirmationviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\models\\viewmodel\\confirmationviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\models\\viewmodel\\checkoutviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\models\\viewmodel\\checkoutviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\models\\viewmodel\\categoryviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\models\\viewmodel\\categoryviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\models\\viewmodel\\categoryclassifyviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\models\\viewmodel\\categoryclassifyviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\models\\viewmodel\\bookformviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\models\\viewmodel\\bookformviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\models\\viewmodel\\adminviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -273,10 +277,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\views\\auth\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\views\\auth\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\wwwroot\\js\\auth\\registration.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|solutionrelative:onlinebookmanagementsystem\\wwwroot\\js\\auth\\registration.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{ABDF5778-69D9-4E89-B117-AE900B7C829F}|OnlineBookManagementSystem\\OnlineBookManagementSystem.csproj|c:\\users\\anviam44\\source\\repos\\practice\\onlinebookmanagementsystem\\onlinebookmanagementsystem\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
@@ -368,35 +368,30 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 1,
           "Children": [
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
-            },
-            {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 17,
               "Title": "BooksHome.js",
               "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\js\\Books\\BooksHome.js",
               "RelativeDocumentMoniker": "OnlineBookManagementSystem\\wwwroot\\js\\Books\\BooksHome.js",
               "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\js\\Books\\BooksHome.js",
               "RelativeToolTip": "OnlineBookManagementSystem\\wwwroot\\js\\Books\\BooksHome.js",
-              "ViewState": "AgIAANYBAAAANDMzMzMbwN4BAAAeAAAAAAAAAA==",
+              "ViewState": "AgIAAOMAAAAAm5mZmZkRwDwBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
               "WhenOpened": "2025-04-18T04:57:32.144Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 0,
               "Title": "BooksController.cs",
               "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Controllers\\BooksController.cs",
               "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Controllers\\BooksController.cs",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Controllers\\BooksController.cs",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Controllers\\BooksController.cs",
-              "ViewState": "AgIAAJsAAAAAmpmZmZnpv7oAAAAAAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Controllers\\BooksController.cs*",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Controllers\\BooksController.cs*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-18T04:57:10.786Z",
               "IsPinned": true,
@@ -404,13 +399,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 11,
               "Title": "AuthController.cs",
               "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Controllers\\AuthController.cs",
               "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Controllers\\AuthController.cs",
               "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Controllers\\AuthController.cs",
               "RelativeToolTip": "OnlineBookManagementSystem\\Controllers\\AuthController.cs",
-              "ViewState": "AgIAAIEAAAAAAAAAAAAuwJIAAABQAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAABCAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-18T06:01:54.508Z",
               "IsPinned": true,
@@ -418,7 +413,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 68,
+              "DocumentIndex": 12,
               "Title": "registration.js",
               "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\js\\Auth\\registration.js",
               "RelativeDocumentMoniker": "OnlineBookManagementSystem\\wwwroot\\js\\Auth\\registration.js",
@@ -427,45 +422,50 @@
               "ViewState": "AgIAABgAAAAAMzMzMzMlwEAAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
               "WhenOpened": "2025-04-18T06:03:39.596Z",
-              "IsPinned": true
+              "IsPinned": true,
+              "EditorCaption": ""
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "LogCleanupService.cs",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Services\\LogCleanupService.cs",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Services\\LogCleanupService.cs",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Services\\LogCleanupService.cs",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Services\\LogCleanupService.cs",
-              "ViewState": "AgIAAA0AAABgZmZmZmYswBwAAABOAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-02T13:41:21.812Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "_LayoutAdmin.cshtml",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Shared\\_LayoutAdmin.cshtml",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Shared\\_LayoutAdmin.cshtml",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Shared\\_LayoutAdmin.cshtml",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Shared\\_LayoutAdmin.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAtAAAAAAAAAA==",
+              "Title": "BookServices.cs",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Services\\BookServices.cs",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Services\\BookServices.cs",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Services\\BookServices.cs*",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Services\\BookServices.cs*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAwAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-28T05:56:27.331Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "DisplayBookDetails.cshtml",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Books\\DisplayBookDetails.cshtml",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Books\\DisplayBookDetails.cshtml",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Books\\DisplayBookDetails.cshtml*",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Books\\DisplayBookDetails.cshtml*",
+              "ViewState": "AgIAAEwAAAAAAAAAAAAIwFkAAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-18T10:47:04.739Z",
+              "WhenOpened": "2025-04-18T07:20:27.566Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "ActivityLogs.cshtml",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Books\\Admin\\ActivityLogs.cshtml",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Books\\Admin\\ActivityLogs.cshtml",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Books\\Admin\\ActivityLogs.cshtml",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Books\\Admin\\ActivityLogs.cshtml",
-              "ViewState": "AgIAABkAAAAANDMzMzMLwAcAAAAxAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-05-02T13:09:41.511Z",
+              "Title": "IBookService.cs",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Interfaces\\IBookService.cs",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Interfaces\\IBookService.cs",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Interfaces\\IBookService.cs*",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Interfaces\\IBookService.cs*",
+              "ViewState": "AgIAAAgAAACQmZmZmZkxwBQAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-28T05:55:41.086Z",
               "EditorCaption": ""
             },
             {
@@ -476,638 +476,27 @@
               "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Program.cs",
               "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Program.cs*",
               "RelativeToolTip": "OnlineBookManagementSystem\\Program.cs*",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAABYAAAAUAAAAAAAAAA==",
+              "ViewState": "AgIAABIAAAAAAAAAAAD4vx8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-18T05:08:57.689Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "AdminIndex.cshtml",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Books\\Admin\\AdminIndex.cshtml",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Books\\Admin\\AdminIndex.cshtml",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Books\\Admin\\AdminIndex.cshtml",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Books\\Admin\\AdminIndex.cshtml",
-              "ViewState": "AgIAAGMAAAAAAAAAAAAAAG8AAAA+AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-18T05:35:44.767Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "AdminDetails.cshtml",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Order\\Admin\\AdminDetails.cshtml",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Order\\Admin\\AdminDetails.cshtml",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Order\\Admin\\AdminDetails.cshtml",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Order\\Admin\\AdminDetails.cshtml",
-              "ViewState": "AgIAAA8AAACAZmZmZmYkwBoAAAAUAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-05-02T10:22:06.853Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "BookServices.cs",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Services\\BookServices.cs",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Services\\BookServices.cs",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Services\\BookServices.cs",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Services\\BookServices.cs",
-              "ViewState": "AgIAAJ8AAAAAyczMzMz0v7MAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-28T05:56:27.331Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "AuthService.cs",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Services\\AuthService.cs",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Services\\AuthService.cs",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Services\\AuthService.cs",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Services\\AuthService.cs",
-              "ViewState": "AgIAACcAAAAAMDMzMzMDwDsAAAAgAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-25T13:36:40.492Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "BookList.cshtml",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Books\\Admin\\BookList.cshtml",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Books\\Admin\\BookList.cshtml",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Books\\Admin\\BookList.cshtml",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Books\\Admin\\BookList.cshtml",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAAAB4AAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-05-02T06:26:09.096Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "CheckOut.cshtml",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Cart\\CheckOut.cshtml",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Cart\\CheckOut.cshtml",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Cart\\CheckOut.cshtml",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Cart\\CheckOut.cshtml",
-              "ViewState": "AgIAACQAAAAAAAAAAAAAAE4AAAAwAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-28T07:03:02.274Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "CartIndexUser.cshtml",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Cart\\CartIndexUser.cshtml",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Cart\\CartIndexUser.cshtml",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Cart\\CartIndexUser.cshtml",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Cart\\CartIndexUser.cshtml",
-              "ViewState": "AgIAAFAAAACAZmZmZmYkwF0AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-21T06:56:40.617Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "IActivityLogger.cs",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Interfaces\\IActivityLogger.cs",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Interfaces\\IActivityLogger.cs",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Interfaces\\IActivityLogger.cs",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Interfaces\\IActivityLogger.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAoAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-01T13:20:29.639Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "OrderController.cs",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Controllers\\OrderController.cs",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Controllers\\OrderController.cs",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Controllers\\OrderController.cs",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Controllers\\OrderController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-02T10:26:21.829Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "HomeController.cs",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Controllers\\HomeController.cs",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Controllers\\HomeController.cs",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Controllers\\HomeController.cs",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Controllers\\HomeController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-29T06:08:34.481Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "ActivityLogger.cs",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Services\\ActivityLogger.cs",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Services\\ActivityLogger.cs",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Services\\ActivityLogger.cs",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Services\\ActivityLogger.cs",
-              "ViewState": "AgIAABoAAAAAzczMzMwEwCwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-01T13:22:11.595Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "CategoryController.cs",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Controllers\\CategoryController.cs",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Controllers\\CategoryController.cs",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Controllers\\CategoryController.cs",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Controllers\\CategoryController.cs",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAUwBkAAAA/AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-21T05:17:49.661Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "CartController.cs",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Controllers\\CartController.cs",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Controllers\\CartController.cs",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Controllers\\CartController.cs",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Controllers\\CartController.cs",
-              "ViewState": "AgIAAGMAAAAAAAAAAAAowHUAAAA5AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-22T06:38:02.081Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Order\\User\\Index.cshtml",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Order\\User\\Index.cshtml",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Order\\User\\Index.cshtml",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Order\\User\\Index.cshtml",
-              "ViewState": "AgIAAAUAAAAAMzMzMzMbwB4AAAAkAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-05-02T10:24:36.257Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "_LayoutUser.cshtml",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Shared\\_LayoutUser.cshtml",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Shared\\_LayoutUser.cshtml",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Shared\\_LayoutUser.cshtml",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Shared\\_LayoutUser.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-18T11:06:22.076Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 21,
-              "Title": "_LayoutAuth.cshtml",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Shared\\_LayoutAuth.cshtml",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Shared\\_LayoutAuth.cshtml",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Shared\\_LayoutAuth.cshtml",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Shared\\_LayoutAuth.cshtml",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAABAAAAAHAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-18T11:06:16.12Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 22,
-              "Title": "site.css",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\css\\site.css",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\wwwroot\\css\\site.css",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\css\\site.css",
-              "RelativeToolTip": "OnlineBookManagementSystem\\wwwroot\\css\\site.css",
-              "ViewState": "AgIAAFkAAAAAAAAAAAAkwHIAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2025-04-18T11:07:58.815Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 23,
-              "Title": "site.js",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\js\\site.js",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\wwwroot\\js\\site.js",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\js\\site.js",
-              "RelativeToolTip": "OnlineBookManagementSystem\\wwwroot\\js\\site.js",
-              "ViewState": "AgIAACoAAAAAAAAAAAAowEEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2025-04-18T11:08:02.643Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 24,
-              "Title": "Details.cshtml",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Order\\User\\Details.cshtml",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Order\\User\\Details.cshtml",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Order\\User\\Details.cshtml",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Order\\User\\Details.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-05-02T10:25:20.567Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 25,
-              "Title": "Edit.cshtml",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Order\\Admin\\Edit.cshtml",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Order\\Admin\\Edit.cshtml",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Order\\Admin\\Edit.cshtml",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Order\\Admin\\Edit.cshtml",
-              "ViewState": "AgIAAA4AAABAMzMzMzMnwBAAAAAoAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-05-02T10:22:48.22Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 26,
-              "Title": "AdminIndex.cshtml",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Order\\Admin\\AdminIndex.cshtml",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Order\\Admin\\AdminIndex.cshtml",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Order\\Admin\\AdminIndex.cshtml",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Order\\Admin\\AdminIndex.cshtml",
-              "ViewState": "AgIAAC4AAADAzMzMzMwcwDAAAAAjAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-05-02T10:21:31.856Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 27,
-              "Title": "BooksIndex.css",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\css\\BooksIndex.css",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\wwwroot\\css\\BooksIndex.css",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\css\\BooksIndex.css",
-              "RelativeToolTip": "OnlineBookManagementSystem\\wwwroot\\css\\BooksIndex.css",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAlAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2025-04-18T10:12:51.369Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 28,
-              "Title": "userList.js",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\js\\Books\\userList.js",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\wwwroot\\js\\Books\\userList.js",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\js\\Books\\userList.js",
-              "RelativeToolTip": "OnlineBookManagementSystem\\wwwroot\\js\\Books\\userList.js",
-              "ViewState": "AgIAABoAAAAwMzMzMzMlwCsAAAAuAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2025-04-18T11:14:20.926Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 30,
-              "Title": "_ViewStart.cshtml",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\_ViewStart.cshtml",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\_ViewStart.cshtml",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\_ViewStart.cshtml",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\_ViewStart.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-18T11:36:34.972Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 31,
-              "Title": "IAuthInterface.cs",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Interfaces\\IAuthInterface.cs",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Interfaces\\IAuthInterface.cs",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Interfaces\\IAuthInterface.cs",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Interfaces\\IAuthInterface.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAA+AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-25T13:34:32.754Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 32,
-              "Title": "Order.cs",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\Order.cs",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Models\\Order.cs",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\Order.cs",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Models\\Order.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAiAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-21T06:42:17.477Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 33,
-              "Title": "OrderDetail.cs",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\OrderDetail.cs",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Models\\OrderDetail.cs",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\OrderDetail.cs",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Models\\OrderDetail.cs",
-              "ViewState": "AgIAAAoAAAAAAAAAAAAwwBEAAAAtAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-21T06:42:22.799Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 34,
-              "Title": "ShoppingCart.cs",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\ShoppingCart.cs",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Models\\ShoppingCart.cs",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\ShoppingCart.cs",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Models\\ShoppingCart.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAlwBEAAAAtAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-21T06:43:20.165Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 35,
-              "Title": "UserIndex.cshtml",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Books\\User\\UserIndex.cshtml",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Books\\User\\UserIndex.cshtml",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Books\\User\\UserIndex.cshtml",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Books\\User\\UserIndex.cshtml",
-              "ViewState": "AgIAABQAAAAAAAAAAAAswCoAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-18T11:46:23.063Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 36,
-              "Title": "DisplayBookDetails.cshtml",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Books\\DisplayBookDetails.cshtml",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Books\\DisplayBookDetails.cshtml",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Books\\DisplayBookDetails.cshtml",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Books\\DisplayBookDetails.cshtml",
-              "ViewState": "AgIAAD0AAADgMjMzMzMlwBgAAAAKAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-18T07:20:27.566Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 37,
-              "Title": "UserList.cshtml",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Books\\Admin\\UserList.cshtml",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Books\\Admin\\UserList.cshtml",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Books\\Admin\\UserList.cshtml",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Books\\Admin\\UserList.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-18T11:46:34.02Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 38,
-              "Title": "ProfileView.cshtml",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Auth\\ProfileView.cshtml",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Auth\\ProfileView.cshtml",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Auth\\ProfileView.cshtml",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Auth\\ProfileView.cshtml",
-              "ViewState": "AgIAAAQAAACAMzMzMzMLwA4AAAA6AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-18T11:21:15.46Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 39,
-              "Title": "Favorite.cshtml",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Books\\User\\Favorite.cshtml",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Books\\User\\Favorite.cshtml",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Books\\User\\Favorite.cshtml",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Books\\User\\Favorite.cshtml",
-              "ViewState": "AgIAABUAAAAAAAAAAAAswCEAAABKAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-23T12:12:12.147Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 40,
-              "Title": "_Notification.cshtml",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Shared\\_Notification.cshtml",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Shared\\_Notification.cshtml",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Shared\\_Notification.cshtml",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Shared\\_Notification.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-22T07:56:38.052Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 41,
-              "Title": "CategoryServices.cs",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Services\\CategoryServices.cs",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Services\\CategoryServices.cs",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Services\\CategoryServices.cs",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Services\\CategoryServices.cs",
-              "ViewState": "AgIAAA4AAAAAMzMzM7MwwGcAAAAcAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-25T09:45:53.146Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 42,
-              "Title": "CreateBookData.cshtml",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Books\\Admin\\CreateBookData.cshtml",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Books\\Admin\\CreateBookData.cshtml",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Books\\Admin\\CreateBookData.cshtml",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Books\\Admin\\CreateBookData.cshtml",
-              "ViewState": "AgIAAEwAAAAAAAAAAAAAAEYAAAAtAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-18T07:24:24.515Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 43,
-              "Title": "BaseController.cs",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Controllers\\BaseController.cs",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Controllers\\BaseController.cs",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Controllers\\BaseController.cs",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Controllers\\BaseController.cs",
-              "ViewState": "AgIAAAQAAAAAAAAAAAAowA8AAAAkAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-21T05:16:25.209Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 44,
-              "Title": "Login.cshtml",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Auth\\Login.cshtml",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Auth\\Login.cshtml",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Auth\\Login.cshtml",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Auth\\Login.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAdAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-18T11:46:56.049Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 45,
-              "Title": "DisplayCategory.cshtml",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Category\\Admin\\DisplayCategory.cshtml",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Category\\Admin\\DisplayCategory.cshtml",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Category\\Admin\\DisplayCategory.cshtml",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Category\\Admin\\DisplayCategory.cshtml",
-              "ViewState": "AgIAAAAAAAAAy8zMzMwcwBAAAAAOAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-18T11:46:17.294Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 46,
               "Title": "Book.cs",
               "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\Book.cs",
               "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Models\\Book.cs",
               "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\Book.cs",
               "RelativeToolTip": "OnlineBookManagementSystem\\Models\\Book.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAA1wAkAAAAaAAAAAAAAAA==",
+              "ViewState": "AgIAABAAAAAAAAAAAAAwwBMAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-18T09:33:29.857Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 47,
-              "Title": "IBookService.cs",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Interfaces\\IBookService.cs",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Interfaces\\IBookService.cs",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Interfaces\\IBookService.cs",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Interfaces\\IBookService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAcAAAAwAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-28T05:55:41.086Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 48,
-              "Title": "CategoryClassify.cshtml",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Category\\User\\CategoryClassify.cshtml",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Category\\User\\CategoryClassify.cshtml",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Category\\User\\CategoryClassify.cshtml",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Category\\User\\CategoryClassify.cshtml",
-              "ViewState": "AgIAAEkAAAAAAAAAAAAswGEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-23T06:56:53.318Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 49,
-              "Title": "BookManagementContext.cs",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\BookManagementContext.cs",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Models\\BookManagementContext.cs",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\BookManagementContext.cs",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Models\\BookManagementContext.cs",
-              "ViewState": "AgIAAA0AAAAAAAAAAAAAAA8AAAAEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-21T05:04:53.872Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 53,
-              "Title": "ProfileViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\ViewModel\\ProfileViewModel.cs",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Models\\ViewModel\\ProfileViewModel.cs",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\ViewModel\\ProfileViewModel.cs",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Models\\ViewModel\\ProfileViewModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAATAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-28T13:18:46.298Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 50,
-              "Title": "BookListViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\ViewModel\\BookListViewModel.cs",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Models\\ViewModel\\BookListViewModel.cs",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\ViewModel\\BookListViewModel.cs",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Models\\ViewModel\\BookListViewModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-02T07:18:43.887Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 54,
-              "Title": "LoginViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\ViewModel\\LoginViewModel.cs",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Models\\ViewModel\\LoginViewModel.cs",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\ViewModel\\LoginViewModel.cs",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Models\\ViewModel\\LoginViewModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-22T10:23:45.019Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 52,
-              "Title": "RegisterViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\ViewModel\\RegisterViewModel.cs",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Models\\ViewModel\\RegisterViewModel.cs",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\ViewModel\\RegisterViewModel.cs",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Models\\ViewModel\\RegisterViewModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-22T10:23:46.645Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 51,
-              "Title": "UserViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\ViewModel\\UserViewModel.cs",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Models\\ViewModel\\UserViewModel.cs",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\ViewModel\\UserViewModel.cs",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Models\\ViewModel\\UserViewModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-22T10:27:20.755Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 55,
+              "DocumentIndex": 7,
               "Title": "ConfirmationViewModel.cs",
               "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\ViewModel\\ConfirmationViewModel.cs",
               "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Models\\ViewModel\\ConfirmationViewModel.cs",
@@ -1120,7 +509,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 56,
+              "DocumentIndex": 6,
               "Title": "CheckOutViewModel.cs",
               "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\ViewModel\\CheckOutViewModel.cs",
               "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Models\\ViewModel\\CheckOutViewModel.cs",
@@ -1133,33 +522,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 57,
-              "Title": "CategoryViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\ViewModel\\CategoryViewModel.cs",
-              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Models\\ViewModel\\CategoryViewModel.cs",
-              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\ViewModel\\CategoryViewModel.cs",
-              "RelativeToolTip": "OnlineBookManagementSystem\\Models\\ViewModel\\CategoryViewModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-22T10:23:48.951Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 58,
+              "DocumentIndex": 8,
               "Title": "CategoryClassifyViewModel.cs",
               "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\ViewModel\\CategoryClassifyViewModel.cs",
               "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Models\\ViewModel\\CategoryClassifyViewModel.cs",
               "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\ViewModel\\CategoryClassifyViewModel.cs",
               "RelativeToolTip": "OnlineBookManagementSystem\\Models\\ViewModel\\CategoryClassifyViewModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-23T07:23:49.022Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 59,
+              "DocumentIndex": 9,
+              "Title": "BookListViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\ViewModel\\BookListViewModel.cs",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Models\\ViewModel\\BookListViewModel.cs",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\ViewModel\\BookListViewModel.cs",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Models\\ViewModel\\BookListViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-02T07:18:43.887Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
               "Title": "BookFormViewModel.cs",
               "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\ViewModel\\BookFormViewModel.cs",
               "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Models\\ViewModel\\BookFormViewModel.cs",
@@ -1172,7 +561,573 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "CategoryServices.cs",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Services\\CategoryServices.cs",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Services\\CategoryServices.cs",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Services\\CategoryServices.cs",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Services\\CategoryServices.cs",
+              "ViewState": "AgIAAAsAAAAAMzMzM7M/wBcAAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-25T09:45:53.146Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "ActivityLogs.cshtml",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Books\\Admin\\ActivityLogs.cshtml",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Books\\Admin\\ActivityLogs.cshtml",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Books\\Admin\\ActivityLogs.cshtml",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Books\\Admin\\ActivityLogs.cshtml",
+              "ViewState": "AgIAAE8AAAAAAAAAAAAswF8AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-02T13:09:41.511Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "LogCleanupService.cs",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Services\\LogCleanupService.cs",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Services\\LogCleanupService.cs",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Services\\LogCleanupService.cs",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Services\\LogCleanupService.cs",
+              "ViewState": "AgIAACcAAACAMzMzMzMlwDEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-02T13:41:21.812Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "ActivityLogger.cs",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Services\\ActivityLogger.cs",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Services\\ActivityLogger.cs",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Services\\ActivityLogger.cs",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Services\\ActivityLogger.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAAYwBoAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-01T13:22:11.595Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "_LayoutAdmin.cshtml",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Shared\\_LayoutAdmin.cshtml",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Shared\\_LayoutAdmin.cshtml",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Shared\\_LayoutAdmin.cshtml",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Shared\\_LayoutAdmin.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-04-18T10:47:04.739Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "AdminIndex.cshtml",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Books\\Admin\\AdminIndex.cshtml",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Books\\Admin\\AdminIndex.cshtml",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Books\\Admin\\AdminIndex.cshtml",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Books\\Admin\\AdminIndex.cshtml",
+              "ViewState": "AgIAAGMAAAAAAAAAAAAAAG8AAAA+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-04-18T05:35:44.767Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "AdminDetails.cshtml",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Order\\Admin\\AdminDetails.cshtml",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Order\\Admin\\AdminDetails.cshtml",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Order\\Admin\\AdminDetails.cshtml",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Order\\Admin\\AdminDetails.cshtml",
+              "ViewState": "AgIAAA8AAACAZmZmZmYkwBoAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-02T10:22:06.853Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "AuthService.cs",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Services\\AuthService.cs",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Services\\AuthService.cs",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Services\\AuthService.cs",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Services\\AuthService.cs",
+              "ViewState": "AgIAACcAAAAAMDMzMzMDwDsAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-25T13:36:40.492Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "BookList.cshtml",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Books\\Admin\\BookList.cshtml",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Books\\Admin\\BookList.cshtml",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Books\\Admin\\BookList.cshtml",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Books\\Admin\\BookList.cshtml",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAAB4AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-02T06:26:09.096Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "CheckOut.cshtml",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Cart\\CheckOut.cshtml",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Cart\\CheckOut.cshtml",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Cart\\CheckOut.cshtml",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Cart\\CheckOut.cshtml",
+              "ViewState": "AgIAACQAAAAAAAAAAAAAAE4AAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-04-28T07:03:02.274Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "CartIndexUser.cshtml",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Cart\\CartIndexUser.cshtml",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Cart\\CartIndexUser.cshtml",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Cart\\CartIndexUser.cshtml",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Cart\\CartIndexUser.cshtml",
+              "ViewState": "AgIAAFAAAACAZmZmZmYkwF0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-04-21T06:56:40.617Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "IActivityLogger.cs",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Interfaces\\IActivityLogger.cs",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Interfaces\\IActivityLogger.cs",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Interfaces\\IActivityLogger.cs",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Interfaces\\IActivityLogger.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-01T13:20:29.639Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "OrderController.cs",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Controllers\\OrderController.cs",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Controllers\\OrderController.cs",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Controllers\\OrderController.cs",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Controllers\\OrderController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-02T10:26:21.829Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Controllers\\HomeController.cs",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Controllers\\HomeController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-29T06:08:34.481Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "CategoryController.cs",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Controllers\\CategoryController.cs",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Controllers\\CategoryController.cs",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Controllers\\CategoryController.cs",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Controllers\\CategoryController.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAUwBkAAAA/AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-21T05:17:49.661Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "CartController.cs",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Controllers\\CartController.cs",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Controllers\\CartController.cs",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Controllers\\CartController.cs",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Controllers\\CartController.cs",
+              "ViewState": "AgIAAGMAAAAAAAAAAAAowHUAAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-22T06:38:02.081Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Order\\User\\Index.cshtml",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Order\\User\\Index.cshtml",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Order\\User\\Index.cshtml",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Order\\User\\Index.cshtml",
+              "ViewState": "AgIAAAUAAAAAMzMzMzMbwB4AAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-02T10:24:36.257Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "_LayoutUser.cshtml",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Shared\\_LayoutUser.cshtml",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Shared\\_LayoutUser.cshtml",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Shared\\_LayoutUser.cshtml",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Shared\\_LayoutUser.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-04-18T11:06:22.076Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "_LayoutAuth.cshtml",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Shared\\_LayoutAuth.cshtml",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Shared\\_LayoutAuth.cshtml",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Shared\\_LayoutAuth.cshtml",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Shared\\_LayoutAuth.cshtml",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABAAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-04-18T11:06:16.12Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "site.css",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\css\\site.css",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\wwwroot\\css\\site.css",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\css\\site.css",
+              "RelativeToolTip": "OnlineBookManagementSystem\\wwwroot\\css\\site.css",
+              "ViewState": "AgIAAFkAAAAAAAAAAAAkwHIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-04-18T11:07:58.815Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 34,
+              "Title": "site.js",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\js\\site.js",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\wwwroot\\js\\site.js",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\js\\site.js",
+              "RelativeToolTip": "OnlineBookManagementSystem\\wwwroot\\js\\site.js",
+              "ViewState": "AgIAACoAAAAAAAAAAAAowEEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-04-18T11:08:02.643Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 35,
+              "Title": "Details.cshtml",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Order\\User\\Details.cshtml",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Order\\User\\Details.cshtml",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Order\\User\\Details.cshtml",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Order\\User\\Details.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-02T10:25:20.567Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 36,
+              "Title": "Edit.cshtml",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Order\\Admin\\Edit.cshtml",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Order\\Admin\\Edit.cshtml",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Order\\Admin\\Edit.cshtml",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Order\\Admin\\Edit.cshtml",
+              "ViewState": "AgIAAA4AAABAMzMzMzMnwBAAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-02T10:22:48.22Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 37,
+              "Title": "AdminIndex.cshtml",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Order\\Admin\\AdminIndex.cshtml",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Order\\Admin\\AdminIndex.cshtml",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Order\\Admin\\AdminIndex.cshtml",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Order\\Admin\\AdminIndex.cshtml",
+              "ViewState": "AgIAAC4AAADAzMzMzMwcwDAAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-02T10:21:31.856Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 38,
+              "Title": "BooksIndex.css",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\css\\BooksIndex.css",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\wwwroot\\css\\BooksIndex.css",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\css\\BooksIndex.css",
+              "RelativeToolTip": "OnlineBookManagementSystem\\wwwroot\\css\\BooksIndex.css",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-04-18T10:12:51.369Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 39,
+              "Title": "userList.js",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\js\\Books\\userList.js",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\wwwroot\\js\\Books\\userList.js",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\js\\Books\\userList.js",
+              "RelativeToolTip": "OnlineBookManagementSystem\\wwwroot\\js\\Books\\userList.js",
+              "ViewState": "AgIAABoAAAAwMzMzMzMlwCsAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-04-18T11:14:20.926Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 40,
+              "Title": "_ViewStart.cshtml",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\_ViewStart.cshtml",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\_ViewStart.cshtml",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\_ViewStart.cshtml",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\_ViewStart.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-04-18T11:36:34.972Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 41,
+              "Title": "IAuthInterface.cs",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Interfaces\\IAuthInterface.cs",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Interfaces\\IAuthInterface.cs",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Interfaces\\IAuthInterface.cs",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Interfaces\\IAuthInterface.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAA+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-25T13:34:32.754Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 42,
+              "Title": "Order.cs",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\Order.cs",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Models\\Order.cs",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\Order.cs",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Models\\Order.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-21T06:42:17.477Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 43,
+              "Title": "OrderDetail.cs",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\OrderDetail.cs",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Models\\OrderDetail.cs",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\OrderDetail.cs",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Models\\OrderDetail.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAwwBEAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-21T06:42:22.799Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 44,
+              "Title": "ShoppingCart.cs",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\ShoppingCart.cs",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Models\\ShoppingCart.cs",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\ShoppingCart.cs",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Models\\ShoppingCart.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAlwBEAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-21T06:43:20.165Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 45,
+              "Title": "UserIndex.cshtml",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Books\\User\\UserIndex.cshtml",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Books\\User\\UserIndex.cshtml",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Books\\User\\UserIndex.cshtml",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Books\\User\\UserIndex.cshtml",
+              "ViewState": "AgIAABQAAAAAAAAAAAAswCoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-04-18T11:46:23.063Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 46,
+              "Title": "UserList.cshtml",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Books\\Admin\\UserList.cshtml",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Books\\Admin\\UserList.cshtml",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Books\\Admin\\UserList.cshtml",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Books\\Admin\\UserList.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-04-18T11:46:34.02Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 47,
+              "Title": "ProfileView.cshtml",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Auth\\ProfileView.cshtml",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Auth\\ProfileView.cshtml",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Auth\\ProfileView.cshtml",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Auth\\ProfileView.cshtml",
+              "ViewState": "AgIAAAQAAACAMzMzMzMLwA4AAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-04-18T11:21:15.46Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 48,
+              "Title": "Favorite.cshtml",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Books\\User\\Favorite.cshtml",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Books\\User\\Favorite.cshtml",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Books\\User\\Favorite.cshtml",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Books\\User\\Favorite.cshtml",
+              "ViewState": "AgIAABUAAAAAAAAAAAAswCEAAABKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-04-23T12:12:12.147Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 49,
+              "Title": "_Notification.cshtml",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Shared\\_Notification.cshtml",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Shared\\_Notification.cshtml",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Shared\\_Notification.cshtml",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Shared\\_Notification.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-04-22T07:56:38.052Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 50,
+              "Title": "CreateBookData.cshtml",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Books\\Admin\\CreateBookData.cshtml",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Books\\Admin\\CreateBookData.cshtml",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Books\\Admin\\CreateBookData.cshtml",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Books\\Admin\\CreateBookData.cshtml",
+              "ViewState": "AgIAAEwAAAAAAAAAAAAAAEYAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-04-18T07:24:24.515Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 51,
+              "Title": "BaseController.cs",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Controllers\\BaseController.cs",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Controllers\\BaseController.cs",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Controllers\\BaseController.cs",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Controllers\\BaseController.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAowA8AAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-21T05:16:25.209Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 52,
+              "Title": "Login.cshtml",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Auth\\Login.cshtml",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Auth\\Login.cshtml",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Auth\\Login.cshtml",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Auth\\Login.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-04-18T11:46:56.049Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 53,
+              "Title": "DisplayCategory.cshtml",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Category\\Admin\\DisplayCategory.cshtml",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Category\\Admin\\DisplayCategory.cshtml",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Category\\Admin\\DisplayCategory.cshtml",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Category\\Admin\\DisplayCategory.cshtml",
+              "ViewState": "AgIAAAAAAAAAy8zMzMwcwBAAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-04-18T11:46:17.294Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 54,
+              "Title": "CategoryClassify.cshtml",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Category\\User\\CategoryClassify.cshtml",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Category\\User\\CategoryClassify.cshtml",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Category\\User\\CategoryClassify.cshtml",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Views\\Category\\User\\CategoryClassify.cshtml",
+              "ViewState": "AgIAAEkAAAAAAAAAAAAswGEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-04-23T06:56:53.318Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 55,
+              "Title": "BookManagementContext.cs",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\BookManagementContext.cs",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Models\\BookManagementContext.cs",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\BookManagementContext.cs",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Models\\BookManagementContext.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAAAA8AAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-21T05:04:53.872Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 58,
+              "Title": "ProfileViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\ViewModel\\ProfileViewModel.cs",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Models\\ViewModel\\ProfileViewModel.cs",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\ViewModel\\ProfileViewModel.cs",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Models\\ViewModel\\ProfileViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-28T13:18:46.298Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 59,
+              "Title": "LoginViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\ViewModel\\LoginViewModel.cs",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Models\\ViewModel\\LoginViewModel.cs",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\ViewModel\\LoginViewModel.cs",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Models\\ViewModel\\LoginViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-22T10:23:45.019Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 57,
+              "Title": "RegisterViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\ViewModel\\RegisterViewModel.cs",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Models\\ViewModel\\RegisterViewModel.cs",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\ViewModel\\RegisterViewModel.cs",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Models\\ViewModel\\RegisterViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-22T10:23:46.645Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 56,
+              "Title": "UserViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\ViewModel\\UserViewModel.cs",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Models\\ViewModel\\UserViewModel.cs",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\ViewModel\\UserViewModel.cs",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Models\\ViewModel\\UserViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-22T10:27:20.755Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 60,
+              "Title": "CategoryViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\ViewModel\\CategoryViewModel.cs",
+              "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Models\\ViewModel\\CategoryViewModel.cs",
+              "ToolTip": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\ViewModel\\CategoryViewModel.cs",
+              "RelativeToolTip": "OnlineBookManagementSystem\\Models\\ViewModel\\CategoryViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-22T10:23:48.951Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 61,
               "Title": "AdminViewModel.cs",
               "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\ViewModel\\AdminViewModel.cs",
               "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Models\\ViewModel\\AdminViewModel.cs",
@@ -1180,12 +1135,11 @@
               "RelativeToolTip": "OnlineBookManagementSystem\\Models\\ViewModel\\AdminViewModel.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-01T12:18:57.844Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-01T12:18:57.844Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 61,
+              "DocumentIndex": 62,
               "Title": "ActivityLog.cs",
               "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\ActivityLog.cs",
               "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Models\\ActivityLog.cs",
@@ -1193,12 +1147,11 @@
               "RelativeToolTip": "OnlineBookManagementSystem\\Models\\ActivityLog.cs",
               "ViewState": "AgIAAAIAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-01T13:39:38.367Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-01T13:39:38.367Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 62,
+              "DocumentIndex": 63,
               "Title": "ActivityLogViewModel.cs",
               "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\ViewModel\\ActivityLogViewModel.cs",
               "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Models\\ViewModel\\ActivityLogViewModel.cs",
@@ -1206,12 +1159,11 @@
               "RelativeToolTip": "OnlineBookManagementSystem\\Models\\ViewModel\\ActivityLogViewModel.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-02T05:42:58.992Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-02T05:42:58.992Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 63,
+              "DocumentIndex": 64,
               "Title": "User.cs",
               "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\User.cs",
               "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Models\\User.cs",
@@ -1219,12 +1171,11 @@
               "RelativeToolTip": "OnlineBookManagementSystem\\Models\\User.cs",
               "ViewState": "AgIAAAgAAAAAAAAAAAAAwBMAAABZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-22T10:23:41.513Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-22T10:23:41.513Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 64,
+              "DocumentIndex": 65,
               "Title": "Category.cs",
               "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Models\\Category.cs",
               "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Models\\Category.cs",
@@ -1236,7 +1187,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 65,
+              "DocumentIndex": 66,
               "Title": "_LayoutAuth.cshtml.css",
               "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Shared\\_LayoutAuth.cshtml.css",
               "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Shared\\_LayoutAuth.cshtml.css",
@@ -1248,7 +1199,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 66,
+              "DocumentIndex": 67,
               "Title": "Registration.cshtml",
               "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Auth\\Registration.cshtml",
               "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Auth\\Registration.cshtml",
@@ -1260,7 +1211,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 67,
+              "DocumentIndex": 68,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\Views\\Auth\\Index.cshtml",
               "RelativeDocumentMoniker": "OnlineBookManagementSystem\\Views\\Auth\\Index.cshtml",
