@@ -182,5 +182,43 @@ namespace OnlineBookManagementSystem.Controllers
             var logs = await _activityLoggerService.GetAllLogsAsync();
             return View("Admin/ActivityLogs", logs);
         }
+
+        [HttpGet]
+        public JsonResult GetMonthlyBookUploads()
+        {
+            var monthlyData = _bookService.MonthlyBookUpload();
+            var labels = monthlyData.Select(m => m.Month).ToList();
+            var counts = monthlyData.Select(m => m.Count).ToList();
+            return Json(new { labels, counts });
+        }
+
+        [HttpGet]
+        public JsonResult GetBooksByCategory()
+        {
+            var data = _bookService.BooksByCategory();
+            var labels = data.Select(c => c.CategoryName).ToList();
+            var counts = data.Select(c => c.Count).ToList();
+            return Json(new { labels, counts });
+        }
+
+        [HttpGet]
+        public JsonResult GetBooksByAuthor()
+        {
+            var data = _bookService.BooksByAuthor();
+            var labels = data.Select(a => a.AuthorName).ToList();
+            var counts = data.Select(a => a.Count).ToList();
+            return Json(new { labels, counts });
+        }
+
+        [HttpGet]
+        public JsonResult GetFavoriteBookStats()
+        {
+            var data = _bookService.FavoriteStats();
+            var labels = new List<string> { "Favorite", "Not Favorite" };
+            var counts = new List<int> { data.FavoriteCount, data.NonFavoriteCount };
+            return Json(new { labels, counts });
+        }
+
+
     }
 }

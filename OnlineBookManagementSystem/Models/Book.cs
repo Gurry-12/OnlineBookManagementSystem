@@ -27,6 +27,9 @@ public partial class Book
 
     public virtual Category? Category { get; set; }
 
+    public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
+
+
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 
     public virtual ICollection<ShoppingCart> ShoppingCarts { get; set; } = new List<ShoppingCart>();

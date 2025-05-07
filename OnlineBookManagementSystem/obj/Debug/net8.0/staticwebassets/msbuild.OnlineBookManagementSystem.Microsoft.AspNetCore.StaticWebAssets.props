@@ -282,8 +282,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>wbiz4s7mkn</Fingerprint>
-      <Integrity>dFSzK2eB5AOJq7J8tZNFzJv9eucWWRQxMSOTXmavF58=</Integrity>
+      <Fingerprint>ob3y5pcodt</Fingerprint>
+      <Integrity>rNHRRpzfeHL2iTqJ4IqBEc6JxhI6XyHDBV8quQNNwfM=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\Books\BooksHome.js'))</OriginalItemSpec>

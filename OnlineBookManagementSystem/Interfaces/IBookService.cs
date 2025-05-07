@@ -1,5 +1,6 @@
 ﻿using OnlineBookManagementSystem.Models;
 using OnlineBookManagementSystem.Models.ViewModel;
+using OnlineBookManagementSystem.Models.ViewModel.ChartViewModel;
 
 namespace OnlineBookManagementSystem.Services
 {
@@ -19,5 +20,9 @@ namespace OnlineBookManagementSystem.Services
 
         Task<BookListViewModel> GetPaginatedBooksAsync(int page, int pageSize);
         string GetTimeAgo(DateTime time);
+        IEnumerable<MonthlyBookUploadViewModel> MonthlyBookUpload();
+        IEnumerable<CategoryBookCountViewModel> BooksByCategory();
+        IEnumerable<AuthorBookCountViewModel> BooksByAuthor();
+        FavoriteStatsViewModel FavoriteStats();
     }
 }

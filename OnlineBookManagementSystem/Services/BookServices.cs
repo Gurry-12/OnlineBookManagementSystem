@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using OnlineBookManagementSystem.Models;
 using OnlineBookManagementSystem.Models.ViewModel;
+using OnlineBookManagementSystem.Models.ViewModel.ChartViewModel;
 
 namespace OnlineBookManagementSystem.Services
 {
@@ -200,5 +201,66 @@ namespace OnlineBookManagementSystem.Services
                 TotalPages = totalPages
             };
         }
+
+        public IEnumerable<MonthlyBookUploadViewModel> MonthlyBookUpload()
+        {
+            // Fetch books with a valid CreatedDate
+            var books = _context.Books
+                .Where(b => b.CreatedDate != null && b.IsDeleted == false) // Ensure CreatedDate is not null
+                .ToList(); // Fetch data to perform client-side operations
+
+            // Group by Year and Month, and create the result
+            var monthlyData = books
+                .GroupBy(b => new { b.CreatedDate.Year, b.CreatedDate.Month }) // Use Value for nullable DateTime
+                .Select(g => new MonthlyBookUploadViewModel
+                {
+                    Month = new DateTime(g.Key.Year, g.Key.Month, 1).ToString("MMM yyyy"),
+                    Count = g.Count()
+                })
+                .OrderBy(x => x.Month)
+                .ToList();
+
+            return monthlyData;
+        }
+
+        public IEnumerable<CategoryBookCountViewModel> BooksByCategory()
+        {
+            return _context.Books
+                .Where(b => b.Category != null && b.IsDeleted == false)
+                .GroupBy(b => b.Category!.Name)
+                .Select(g => new CategoryBookCountViewModel
+                {
+                    CategoryName = g.Key,
+                    Count = g.Count()
+                })
+                .ToList();
+        }
+
+        public IEnumerable<AuthorBookCountViewModel> BooksByAuthor()
+        {
+            return _context.Books
+                .Where(b => !string.IsNullOrEmpty(b.Author) && b.IsDeleted == false) 
+                .GroupBy(b => b.Author!)
+                .Select(g => new AuthorBookCountViewModel
+                {
+                    AuthorName = g.Key,
+                    Count = g.Count()
+                })
+                .OrderByDescending(a => a.Count)
+                .ToList();
+        }
+
+        public FavoriteStatsViewModel FavoriteStats()
+        {
+            var total = _context.Books.Count();
+            var favoriteCount = _context.Books.Count(b => b.IsFavorite == true && b.IsDeleted == false);
+            return new FavoriteStatsViewModel
+            {
+                FavoriteCount = favoriteCount,
+                NonFavoriteCount = total - favoriteCount
+            };
+        }
+
+
     }
 }
