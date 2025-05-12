@@ -2,7 +2,14 @@
 const role = sessionStorage.getItem("userRole");
 const userName = sessionStorage.getItem("userName");
 
+
+
 $(document).ready(function () {
+
+    if (!token) {
+        // Redirect to login page if token is missing (i.e., session expired or user not logged in)
+        window.location.href = "/Auth/Login";
+    }
     if (userName) {
         $("#greeting").text("Hello, " + userName);
     }
@@ -16,7 +23,7 @@ $(document).ready(function () {
         $("#adminSection").show();
         $("#UserTimeBookOption").addClass("d-none").removeClass("d-flex");
         loadAdminBooks();
-        charts();
+        
     } else if (role === "User") {
         $("#UserTimeBookOption").removeClass("d-none").addClass("d-flex");
         loadBooks();
@@ -211,25 +218,57 @@ function AddToFavorites(id) {
 
 
 // data for ajax - book adding and updating
+function getImageInputValue() {
+    const fileInput = $("input[name='ImgUrl']")[0];
+    const imageUrlInput = $("#imageUrl").val();
+    const hasFile = fileInput && fileInput.files && fileInput.files.length > 0;
+
+    if (hasFile) {
+        return { type: "file", file: fileInput.files[0] };
+    } else if (imageUrlInput) {
+        return { type: "url", url: imageUrlInput };
+    } else {
+        const existing = $("#ExistingImgUrl").val();
+        return { type: "existing", url: existing };
+    }
+}
+
 function DataFilledByForm() {
     return {
-        Id: parseInt($("#Book_Id").val()) || 0,  // ✅ Ensure it's a number
+        Id: parseInt($("#Book_Id").val()) || 0,
         Title: $("#Book_Title").val(),
         Author: $("#Book_Author").val(),
         Price: parseFloat($("#Book_Price").val()),
         Isbn: $("#Book_Isbn").val(),
-        ImgUrl: $("#Book_ImgUrl").val(),
         Stock: $("#Book_Stock").val().toString(),
-        CategoryId: $("#Book_CategoryId").val(),
+        CategoryId: $("#Book_CategoryId").val()
     };
 }
 
+function appendFormDataWithBookData(formData, data) {
+    for (const key in data) {
+        formData.append(key, data[key]);
+    }
+
+    const imageData = getImageInputValue();
+    if (imageData.type === "file") {
+        formData.append("ImageFile", imageData.file);
+    } else if (imageData.type === "url") {
+        formData.append("ImgUrl", imageData.url);
+    } else if (imageData.type === "existing") {
+        formData.append("ExistingImgUrl", imageData.url);
+    }
+}
+
 function SubmitData(event) {
+    
+    if (event) event.preventDefault();
 
-    if (event) event.preventDefault(); // ✅ Important line
-
+    const form = document.getElementById("addBookForm");
+    const formData = new FormData(form);
     const bookData = DataFilledByForm();
-    console.log("📘 Book Data:", JSON.stringify(bookData));
+
+    appendFormDataWithBookData(formData, bookData);
 
     $.ajax({
         url: "/Books/AddBook",
@@ -237,14 +276,14 @@ function SubmitData(event) {
         headers: {
             "Authorization": `Bearer ${token}`
         },
-        contentType: "application/json",
-        data: JSON.stringify(bookData),
+        data: formData,
+        contentType: false,
+        processData: false,
         success: function (response) {
             if (response.success) {
                 alert("✅ Book added successfully!");
                 $("#addBookForm")[0].reset();
-            }
-            else {
+            } else {
                 alert(response.message);
             }
         },
@@ -256,11 +295,14 @@ function SubmitData(event) {
 }
 
 function UpdateData(event) {
+    
+    if (event) event.preventDefault();
 
-    if (event) event.preventDefault(); // ✅ Important line
-
+    const form = document.getElementById("addBookForm");
+    const formData = new FormData(form);
     const bookData = DataFilledByForm();
-    console.log("📘 Final Book Data:", JSON.stringify(bookData));
+
+    appendFormDataWithBookData(formData, bookData);
 
     $.ajax({
         url: "/Books/UpdateBookDetails",
@@ -268,9 +310,9 @@ function UpdateData(event) {
         headers: {
             "Authorization": `Bearer ${token}`
         },
-        contentType: "application/json",
-        data: JSON.stringify(bookData),
-
+        data: formData,
+        contentType: false,
+        processData: false,
         success: function (response) {
             if (response.success) {
                 alert("✅ Book updated successfully!");
@@ -278,11 +320,9 @@ function UpdateData(event) {
                 if (response.redirectUrl) {
                     window.location.href = response.redirectUrl;
                 }
-            }
-            else {
+            } else {
                 alert(response.message);
             }
-
         },
         error: function (xhr, status, error) {
             console.error("❌ Error updating book:", error);
@@ -290,7 +330,6 @@ function UpdateData(event) {
         }
     });
 }
-
 
 function OpenBookModal(id) {
     $.ajax({
@@ -496,96 +535,3 @@ function updateCartTotals() {
 }
 
 
-function charts() {
-    // Chart 1: Monthly Book Uploads
-    fetch('/Books/GetMonthlyBookUploads')
-        .then(res => res.json())
-        .then(data => {
-            createBarChart('chart1', data.labels, data.counts, 'Books Uploaded');
-        });
-
-    // Chart 2: Books by Category
-    fetch('/Books/GetBooksByCategory')
-        .then(res => res.json())
-        .then(data => {
-            createBarChart('chart2', data.labels, data.counts, 'Books by Category');
-        });
-
-    // Chart 3: Books by Author
-    fetch('/Books/GetBooksByAuthor')
-        .then(res => res.json())
-        .then(data => {
-            createBarChart('chart3', data.labels, data.counts, 'Books by Author');
-        });
-
-    // Chart 4: Favorite vs Non-Favorite Books
-    fetch('/Books/GetFavoriteBookStats')
-        .then(res => res.json())
-        .then(data => {
-            createPieChart('chart4', data.labels, data.counts, 'Favorite Books');
-        });
-}
-
-function createBarChart(canvasId, labels, data, labelText) {
-    const ctx = document.getElementById(canvasId).getContext('2d');
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels,
-            datasets: [{
-                label: labelText,
-                data,
-                backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: { display: false }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: 'Count'
-                    }
-                },
-                x: {
-                    title: {
-                        display: true,
-                        text: 'Category'
-                    }
-                }
-            }
-        }
-    });
-}
-
-function createPieChart(canvasId, labels, data, labelText) {
-    const ctx = document.getElementById(canvasId).getContext('2d');
-    new Chart(ctx, {
-        type: 'pie',
-        data: {
-            labels,
-            datasets: [{
-                label: labelText,
-                data,
-                backgroundColor: ['#36A2EB', '#FF6384'],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: { position: 'top' },
-                title: {
-                    display: true,
-                    text: labelText
-                }
-            }
-        }
-    });
-}

@@ -10,6 +10,8 @@ namespace OnlineBookManagementSystem.Services
         Task<Models.Book?> GetBookByIdAsync(int id);
         Task<bool> AddBookAsync(Models.Book bookData);
         Task<bool> UpdateBookAsync(Models.Book bookData);
+
+        Task<string> SaveImageAsync(IFormFile image);
         Task<bool> SoftDeleteBookAsync(int id);
         Task<List<Models.Book>> GetFavoriteBooksAsync();
         Task<bool> ToggleFavoriteAsync(int id);

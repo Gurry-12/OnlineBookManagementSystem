@@ -1,8 +1,16 @@
+wwwroot\css\AuthStyle.css
+wwwroot\css\BookDisplay.css
 wwwroot\css\BooksIndex.css
 wwwroot\css\CartStyleSheet.css
+wwwroot\css\color.css
 wwwroot\css\site.css
 wwwroot\favicon.ico
+wwwroot\images\books-section\ChatGPT Image Apr 29, 2025, 04_47_47 PM.png
+wwwroot\images\books-section\ChatGPT Image May 1, 2025, 04_36_17 PM.png
+wwwroot\images\books-section\full-template-580-woox-travel.jpg
+wwwroot\images\books-section\img_avatar.png
 wwwroot\images\combine-image.png
+wwwroot\images\fad096d3-35e5-4aaf-908f-39291c9dbfb8.png
 wwwroot\images\image.png
 wwwroot\images\img_avatar.png
 wwwroot\images\Maain_Logo.png
@@ -14,6 +22,7 @@ wwwroot\images\surja-sen-das-raj-ant0goCEx1w-unsplash.jpg
 wwwroot\images\Website Name.png
 wwwroot\js\Auth\registration.js
 wwwroot\js\Books\BooksHome.js
+wwwroot\js\Books\ChartsAdmin.js
 wwwroot\js\Books\userList.js
 wwwroot\js\Cart\CartUser.js
 wwwroot\js\Category\categoryscript.js

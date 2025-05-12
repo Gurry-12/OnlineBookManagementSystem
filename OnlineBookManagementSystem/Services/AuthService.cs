@@ -4,9 +4,11 @@ using Microsoft.IdentityModel.Tokens;
 using OnlineBookManagementSystem.Interfaces;
 using OnlineBookManagementSystem.Models;
 using OnlineBookManagementSystem.Models.ViewModel;
+using OnlineBookManagementSystem.Models.ViewModel.AuthViewModels;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace OnlineBookManagementSystem.Services
 {
@@ -136,5 +138,21 @@ namespace OnlineBookManagementSystem.Services
                 throw new InvalidOperationException("User not found.");
             }
         }
+
+        public User ValidateUserViaEmail(string email)
+        {
+            return _context.Users.FirstOrDefault(u => u.Email == email && u.IsDeleted == false);
+        }
+
+        public async Task<bool> UpdatePasswordAsync(string email, string newPassword)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            if (user == null) return false;
+
+            user.Password = _hasher.HashPassword(null, newPassword); // Ideally hash this!
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
     }
 }

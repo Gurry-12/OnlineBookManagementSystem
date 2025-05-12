@@ -1,86 +1,153 @@
 ﻿@using OnlineBookManagementSystem.Models.ViewModel
+@model BookFormViewModel;
 @{
     ViewData["Title"] = "Add Book";
-    //   Layout = "_LayoutMain";
 }
-@model BookFormViewModel;
-<partial name="_ValidationScriptsPartial" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+
+<style>
+    .text-gradient {
+        background: linear-gradient(to right, #6366F1, #EC4899);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .btn-gradient {
+        background: linear-gradient(to right, #6366F1, #EC4899);
+        color: white;
+        border: none;
+    }
+
+        .btn-gradient:hover {
+            opacity: 0.9;
+        }
+
+    .form-floating > label {
+        padding-left: 1.25rem;
+    }
+
+    .form-label {
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-control, .form-select {
+        border-radius: 0.75rem;
+    }
+
+    .card {
+        background-color: #fefefe;
+        border-radius: 1rem;
+    }
+
+    .form-section {
+        margin-bottom: 2rem;
+    }
+
+    .shadow-lg {
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08) !important;
+    }
+
+    .rounded-pill {
+        padding: 0.6rem 2rem;
+        font-size: 1.1rem;
+    }
+</style>
+
+<div class="container my-5">
+    <div class="card shadow-lg border-0 p-5">
+        <div class="mb-4">
+            <h2 class="text-gradient fw-bold">
+                <i class="bi @(Model.Book == null ? "bi-bookmark-plus" : "bi-pencil-square") me-2"></i>
+                @(Model.Book == null ? "Add a New Book" : "Update Book")
+            </h2>
+        </div>
+
+        <form id="addBookForm" enctype="multipart/form-data">
+            <input type="number" asp-for="Book.Id" name="Book.Id" hidden />
 
 
-<div class="container my-4">
-    <div class="card p-4 shadow-sm">
-       @if(Model.Book == null){
-        <h3 class="mb-3 text-primary" >Add a New Book</h3>
-       } else {
-        <h3 class="mb-3 text-primary" >Update Book</h3>
-       }
-
-
-        <form id="addBookForm">
-            <input type="number" asp-for="Book.Id" class="form-control " name="Id" hidden/>
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    <label class="form-label">Title</label>
-                    <input type="text" asp-for="Book.Title" class="form-control" name="Title" required />
-                    <span asp-validation-for="Book.Title" class="text-danger"></span>
+            <!-- Title & Author -->
+            <div class="row form-section">
+                <div class="col-md-6 form-floating">
+                    <input type="text" asp-for="Book.Title" name="Title" class="form-control" placeholder="Title" required />
+                    <label>📘 Title</label>
+                    <span asp-validation-for="Book.Title" class="text-danger small"></span>
                 </div>
-                <div class="col-md-6">
-                    <label class="form-label">Author</label>
-                    <input type="text" asp-for="Book.Author" class="form-control" name="Author" required />
-                    <span asp-validation-for="Book.Author" class="text-danger"></span>
+                <div class="col-md-6 form-floating">
+                    <input type="text" asp-for="Book.Author" name="Author" class="form-control" placeholder="Author" required />
+                    <label>✍️ Author</label>
+                    <span asp-validation-for="Book.Author" class="text-danger small"></span>
                 </div>
             </div>
 
-            <div class="row mb-3">
-                <div class="col-md-4">
-                    <label class="form-label">Price <small class="text-muted">(in Rs)</small></label>
-                    <input type="number" asp-for="Book.Price" class="form-control" name="Price" required />
-                    <span asp-validation-for="Book.Price" class="text-danger"></span>
+            <!-- Price, ISBN, Stock -->
+            <div class="row form-section">
+                <div class="col-md-4 form-floating">
+                    <input type="number" asp-for="Book.Price" name="Price" class="form-control" placeholder="Price" required />
+                    <label>💰 Price (Rs)</label>
+                    <span asp-validation-for="Book.Price" class="text-danger small"></span>
                 </div>
-                <div class="col-md-4">
-                    <label class="form-label">ISBN</label>
-                    <input type="text" asp-for="Book.Isbn" class="form-control" name="Isbn" required />
-                    <span asp-validation-for="Book.Isbn" class="text-danger"></span>
+                <div class="col-md-4 form-floating">
+                    <input type="text" asp-for="Book.Isbn" name="Isbn" class="form-control" placeholder="ISBN" required />
+                    <label>🔢 ISBN</label>
+                    <span asp-validation-for="Book.Isbn" class="text-danger small"></span>
                 </div>
-                <div class="col-md-4">
-                    <label class="form-label">Stock</label>
-                    <input type="number" asp-for="Book.Stock" class="form-control" name="Stock" required />
-                    <span asp-validation-for="Book.Stock" class="text-danger"></span>
+                <div class="col-md-4 form-floating">
+                    <input type="number" asp-for="Book.Stock" name="Stock" class="form-control" placeholder="Stock" required />
+                    <label>📦 Stock</label>
+                    <span asp-validation-for="Book.Stock" class="text-danger small"></span>
                 </div>
             </div>
 
-            <div class="row mb-3">
+            <!-- Image Upload & Category -->
+            <div class="row form-section align-items-end">
                 <div class="col-md-8">
-                    <label class="form-label">Cover Image URL</label>
-                    <input type="url" asp-for="Book.ImgUrl" name="ImgUrl" class="form-control" />
-                    <span asp-validation-for="Book.ImgUrl" class="text-danger"></span>
+                    <label class="form-label">📤 Book Image (Upload or URL)</label>
+
+                    <!-- Image Upload -->
+                    <div class="input-group mb-2">
+                        <span class="input-group-text bg-light"><i class="bi bi-upload"></i></span>
+                        <input type="file" accept="image/*" id="imageFile" name="ImageFile" class="form-control" />
+                    </div>
+
+                    <!-- OR Separator -->
+                    <div class="text-center mb-2">— OR —</div>
+
+                    <!-- Image URL Input -->
+                    <div class="input-group">
+                        <span class="input-group-text bg-light"><i class="bi bi-link-45deg"></i></span>
+                        <input type="text" id="imageUrl" name="ImgUrl" value="@Model.Book?.ImgUrl" class="form-control" placeholder="Paste image URL (optional)" />
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(Model.Book?.ImgUrl))
+                    {
+                        <input type="hidden" id="ExistingImgUrl" name="ExistingImgUrl" value="@Model.Book.ImgUrl" />
+                    }
+
+
+                   
                 </div>
                 <div class="col-md-4">
-                    <label class="form-label">Category</label>
-                    <select asp-for="Book.CategoryId" asp-items="Model.CategoryList" class="form-control">
+                    <label class="form-label">🏷️ Category</label>
+                    <select asp-for="Book.CategoryId" asp-items="Model.CategoryList" class="form-select">
                         <option value="">-- Select Category --</option>
                     </select>
-                    <span asp-validation-for="Book.CategoryId" class="text-danger"></span>
+                    <span asp-validation-for="Book.CategoryId" class="text-danger small"></span>
                 </div>
-
             </div>
 
-            <div class="text-end">
-                @if (Model.Book == null)
-                {
-                    <button type="button" onclick="SubmitData(event)" class="btn btn-primary px-4">Add Book</button>
-                }
-                else
-                {
-                    <button type="button" onclick="UpdateData(event)" class="btn btn-primary px-4">Update Book</button>
-
-
-                }
+            <!-- Submit Button -->
+            <div class="text-end mt-4">
+                <button type="button" onclick="@(Model.Book == null ? "SubmitData(event)" : "UpdateData(event)")" class="btn btn-lg btn-gradient rounded-pill shadow-sm">
+                    <i class="bi @(Model.Book == null ? "bi-plus-circle" : "bi-save2") me-2"></i>
+                    @(Model.Book == null ? "Add Book" : "Update Book")
+                </button>
             </div>
         </form>
     </div>
 </div>
 
+<!-- Include jQuery and custom JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 <script src="~/js/books/bookshome.js"></script>

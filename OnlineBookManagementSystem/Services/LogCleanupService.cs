@@ -36,7 +36,7 @@ namespace OnlineBookManagementSystem.Services
 
             // Query to get the logs older than 1 day
             var oldLogs = dbContext.ActivityLogs
-                .Where(log => log.ActionType == "Login" && log.Timestamp < cutoff);
+                .Where(log =>  log.Timestamp < cutoff);
 
             // Remove old login logs
             dbContext.ActivityLogs.RemoveRange(oldLogs);

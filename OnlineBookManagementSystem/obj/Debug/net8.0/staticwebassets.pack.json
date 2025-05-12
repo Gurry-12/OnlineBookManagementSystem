@@ -1,8 +1,12 @@
 {
   "Files": [
     {
-      "Id": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\OnlineBookManagementSystem.bundle.scp.css",
-      "PackagePath": "staticwebassets\\OnlineBookManagementSystem.2bpeecwvmh.bundle.scp.css"
+      "Id": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\css\\AuthStyle.css",
+      "PackagePath": "staticwebassets\\css\\AuthStyle.css"
+    },
+    {
+      "Id": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\css\\BookDisplay.css",
+      "PackagePath": "staticwebassets\\css\\BookDisplay.css"
     },
     {
       "Id": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\css\\BooksIndex.css",
@@ -11,6 +15,10 @@
     {
       "Id": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\css\\CartStyleSheet.css",
       "PackagePath": "staticwebassets\\css\\CartStyleSheet.css"
+    },
+    {
+      "Id": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\css\\color.css",
+      "PackagePath": "staticwebassets\\css\\color.css"
     },
     {
       "Id": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\css\\site.css",
@@ -41,8 +49,28 @@
       "PackagePath": "staticwebassets\\images\\Website Name.png"
     },
     {
+      "Id": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\images\\books-section\\ChatGPT Image Apr 29, 2025, 04_47_47 PM.png",
+      "PackagePath": "staticwebassets\\images\\books-section\\ChatGPT Image Apr 29, 2025, 04_47_47 PM.png"
+    },
+    {
+      "Id": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\images\\books-section\\ChatGPT Image May 1, 2025, 04_36_17 PM.png",
+      "PackagePath": "staticwebassets\\images\\books-section\\ChatGPT Image May 1, 2025, 04_36_17 PM.png"
+    },
+    {
+      "Id": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\images\\books-section\\full-template-580-woox-travel.jpg",
+      "PackagePath": "staticwebassets\\images\\books-section\\full-template-580-woox-travel.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\images\\books-section\\img_avatar.png",
+      "PackagePath": "staticwebassets\\images\\books-section\\img_avatar.png"
+    },
+    {
       "Id": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\images\\combine-image.png",
       "PackagePath": "staticwebassets\\images\\combine-image.png"
+    },
+    {
+      "Id": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\images\\fad096d3-35e5-4aaf-908f-39291c9dbfb8.png",
+      "PackagePath": "staticwebassets\\images\\fad096d3-35e5-4aaf-908f-39291c9dbfb8.png"
     },
     {
       "Id": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\images\\image.png",
@@ -67,6 +95,10 @@
     {
       "Id": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\js\\Books\\BooksHome.js",
       "PackagePath": "staticwebassets\\js\\Books\\BooksHome.js"
+    },
+    {
+      "Id": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\js\\Books\\ChartsAdmin.js",
+      "PackagePath": "staticwebassets\\js\\Books\\ChartsAdmin.js"
     },
     {
       "Id": "C:\\Users\\Anviam44\\source\\repos\\Practice\\OnlineBookManagementSystem\\OnlineBookManagementSystem\\wwwroot\\js\\Books\\userList.js",

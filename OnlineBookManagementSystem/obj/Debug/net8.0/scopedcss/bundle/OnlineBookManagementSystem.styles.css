@@ -1,4 +1,5 @@
 /* _content/OnlineBookManagementSystem/Views/Shared/_LayoutAuth.cshtml.rz.scp.css */
+
 body[b-b2th3mgsj3] {
     font-family: 'Poppins', sans-serif;
     background: linear-gradient(to right, #ff6e7f, #bfe9ff);
@@ -37,9 +38,65 @@ body[b-b2th3mgsj3] {
     }
 }
 
-.btn-outline-dark:hover[b-b2th3mgsj3] {
-    background-color: #1b6ec2;
-    color: #fff;
-    border-color: #1b6ec2;
-    transition: all 0.3s ease;
+.auth-card h2[b-b2th3mgsj3] {
+    font-weight: 700;
+    background: linear-gradient(to right, #6366F1, #EC4899);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
 }
+
+.form-label[b-b2th3mgsj3] {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    display: block;
+    color: #333;
+}
+
+.form-control[b-b2th3mgsj3] {
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid #ccc;
+    box-shadow: none;
+    transition: border-color 0.3s ease;
+}
+
+    .form-control:focus[b-b2th3mgsj3] {
+        border-color: #6366F1;
+        outline: none;
+        box-shadow: 0 0 0 0.15rem rgba(99, 102, 241, 0.25);
+    }
+
+.btn-gradient[b-b2th3mgsj3] {
+    background: linear-gradient(to right, #6366F1, #EC4899);
+    color: white;
+    border: none;
+    border-radius: 2rem;
+    padding: 0.6rem 2rem;
+    font-weight: 600;
+    transition: opacity 0.3s ease;
+}
+
+    .btn-gradient:hover[b-b2th3mgsj3] {
+        opacity: 0.9;
+    }
+
+.forgot-password-link[b-b2th3mgsj3], .login-link[b-b2th3mgsj3] {
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    color: #6366F1;
+    transition: color 0.3s ease;
+}
+
+    .forgot-password-link:hover[b-b2th3mgsj3], .login-link:hover[b-b2th3mgsj3] {
+        color: #EC4899;
+        text-decoration: underline;
+    }
+
+@media (max-width: 576px) {
+    .auth-card[b-b2th3mgsj3] {
+        padding: 2rem 1rem;
+    }
+}
+

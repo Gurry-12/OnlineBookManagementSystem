@@ -1,17 +1,27 @@
-﻿$(document).ready(function () {
-    $("#CreateCategory").click(function () {
-        $("#CategorySave").show();
-        $("#CategoryUpdate").hide();
-        $("#categoryForm")[0].reset();
-        $("#myModalLabel").text("Add New Category");
+﻿
+const token = sessionStorage.getItem("jwt");
 
-        EnableValidation();
-    });
+$(document).ready(function () {
 
-    $("#BackToList").click(function () {
-        $("#categoryForm")[0].reset();
-        $(".text-danger").text(""); // Clear validation error messages
-    });
+    if (!token) {
+        // Redirect to login page if token is missing (i.e., session expired or user not logged in)
+        window.location.href = "/Auth/Login";
+    } else {
+
+        $("#CreateCategory").click(function () {
+            $("#CategorySave").show();
+            $("#CategoryUpdate").hide();
+            $("#categoryForm")[0].reset();
+            $("#myModalLabel").text("Add New Category");
+
+            EnableValidation();
+        });
+
+        $("#BackToList").click(function () {
+            $("#categoryForm")[0].reset();
+            $(".text-danger").text(""); // Clear validation error messages
+        });
+    }
 });
 
 function EnableValidation() {

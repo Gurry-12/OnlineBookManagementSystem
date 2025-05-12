@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\images\books-section\" />
     <Folder Include="wwwroot\js\Order\" />
     <Folder Include="wwwroot\lib\NewFolder\" />
   </ItemGroup>

@@ -1,0 +1,151 @@
+﻿:root {
+    --color-primary: #3E64FF; /* Vivid Blue */
+    --color-secondary: #F6F5F2; /* Soft Gray-Beige */
+    --color-accent: #FF6B6B; /* Coral Red */
+    --color-bg: #FBFBFB; /* Very Light Background */
+    --color-text-main: #1F1F1F; /* Near Black */
+    --color-text-muted: #6C757D; /* Muted Gray */
+
+    --color-success: #4CAF50; /* Green */
+    --color-error: #E63946; /* Red */
+    --color-warning: #FFC107; /* Amber */
+    --color-info: #17A2B8; /* Teal */
+    --color-dark: #343A40; /* Dark Gray */
+}
+
+/* General body styling */
+body {
+    background-color: var(--color-bg);
+    color: var(--color-text-main);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Navbar */
+.navbar {
+    background-color: var(--color-primary);
+    color: white;
+}
+
+    .navbar a {
+        color: white;
+        text-decoration: none;
+    }
+
+        .navbar a:hover {
+            color: var(--color-accent);
+        }
+
+/* Sidebar */
+.sidebar {
+    background-color: var(--color-secondary);
+    color: var(--color-text-main);
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+}
+
+    .btn-primary:hover {
+        background-color: #2f50cc;
+    }
+
+.btn-secondary {
+    background-color: var(--color-secondary);
+    color: var(--color-primary);
+    border: 1px solid var(--color-primary);
+}
+
+    .btn-secondary:hover {
+        background-color: #e8e7e2;
+    }
+
+/* Cards */
+.card {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+/* Alerts */
+.alert-success {
+    background-color: var(--color-success);
+    color: white;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.alert-error {
+    background-color: var(--color-error);
+    color: white;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+/* Muted text */
+.text-muted {
+    color: var(--color-text-muted);
+}
+
+/* Badge Overrides */
+.badge.bg-success {
+    background-color: var(--color-success) !important;
+    color: white !important;
+}
+
+.badge.bg-warning {
+    background-color: var(--color-warning) !important;
+    color: #212529 !important;
+}
+
+.badge.bg-danger {
+    background-color: var(--color-error) !important;
+    color: white !important;
+}
+
+.badge.bg-info {
+    background-color: var(--color-info) !important;
+    color: white !important;
+}
+
+.badge.bg-primary {
+    background-color: var(--color-primary) !important;
+    color: white !important;
+}
+
+.badge.bg-dark {
+    background-color: var(--color-dark) !important;
+    color: white !important;
+}
+
+.badge.bg-secondary {
+    background-color: var(--color-text-muted) !important;
+    color: white !important;
+}
+
+.login-link {
+    color: var(--color-text-main);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease, text-decoration 0.2s ease;
+}
+
+    .login-link:hover {
+        color: #333333; /* slightly darker coral (or use a new --color-accent-dark if desired) */
+        text-decoration: underline;
+    }
+
+.forgot-password-link {
+    color: var(--color-accent); /* Coral Red */
+    font-size: 0.9rem;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+    .forgot-password-link:hover {
+        color: #FF4A4A; /* Slightly darker coral */
+        text-decoration: underline;
+    }

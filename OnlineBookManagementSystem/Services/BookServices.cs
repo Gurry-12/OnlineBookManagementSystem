@@ -9,10 +9,11 @@ namespace OnlineBookManagementSystem.Services
     public class BookServices : IBookService
     {
         private readonly BookManagementContext _context;
-
-        public BookServices(BookManagementContext context)
+        private readonly IWebHostEnvironment _env;
+        public BookServices(BookManagementContext context, IWebHostEnvironment env)
         {
             _context = context;
+            _env = env;
         }
 
         public async Task<List<Models.Book>> GetAllBooksAsync()
@@ -28,8 +29,10 @@ namespace OnlineBookManagementSystem.Services
                 .FirstOrDefaultAsync(b => b.Id == id);
         }
 
-        public async Task<bool> AddBookAsync(Models.Book bookData)
+        public async Task<bool> AddBookAsync(Book bookData)
         {
+           
+            // Save to DB
             await _context.Books.AddAsync(bookData);
             await _context.SaveChangesAsync();
             return true;
@@ -52,6 +55,28 @@ namespace OnlineBookManagementSystem.Services
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public async Task<string> SaveImageAsync(IFormFile imgFile)
+        {
+            // Define the upload folder path (relative to wwwroot)
+            // Ensure the folder exists
+            var imagesFolder = Path.Combine(_env.WebRootPath, "images", "books-section");
+            if (!Directory.Exists(imagesFolder))
+                Directory.CreateDirectory(imagesFolder);
+
+            // Full file path
+            var filePath = Path.Combine(imagesFolder, imgFile.FileName);
+
+            // Save the file
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await imgFile.CopyToAsync(stream);
+            }
+
+            // Return the relative path to the image (to be stored in the database)
+            return $"/images/books-section/{imgFile.FileName}" ;
+        }
+
 
         public async Task<bool> SoftDeleteBookAsync(int id)
         {

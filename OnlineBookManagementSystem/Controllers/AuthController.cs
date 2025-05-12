@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using OnlineBookManagementSystem.Interfaces;
 using OnlineBookManagementSystem.Models;
 using OnlineBookManagementSystem.Models.ViewModel;
+using OnlineBookManagementSystem.Models.ViewModel.AuthViewModels;
 
 namespace OnlineBookManagementSystem.Controllers
 {
@@ -89,8 +90,8 @@ namespace OnlineBookManagementSystem.Controllers
             var sessionUserId = HttpContext.Session.GetString("userId");
             var userId = int.Parse(sessionUserId);
             var user = _authService.GetUserById(userId);
-           if(user != null) { 
-                _activityLoggerService.LogAsync("Logout", $"User with ID {user.Name} logged out.", userId);
+           if(user.Role != "Admin") { 
+                _activityLoggerService.LogAsync("Logout", $"User  {user.Name} logged out.", userId);
             }
             HttpContext.Session.Clear();
             return RedirectToAction("Login", "Auth");
@@ -146,5 +147,53 @@ namespace OnlineBookManagementSystem.Controllers
              _activityLoggerService.LogAsync("Delete", $"User with ID {user.Name} was soft-deleted.", id);
             return Ok(new { success = true, message = "User deleted successfully." });
         }
+
+        
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult ForgotPassword(ForgotPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var user = _authService.ValidateUserViaEmail(model.Email);
+            if (user == null)
+            {
+                ModelState.AddModelError("", "No user found with that email.");
+                return View(model);
+            }
+
+            // Redirect to Reset Password view with email
+            return RedirectToAction("ResetPassword", new { email = model.Email });
+        }
+
+        [HttpGet]
+        public IActionResult ResetPassword(string email)
+        {
+            var model = new ResetPasswordViewModel { Email = email };
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var success = await _authService.UpdatePasswordAsync(model.Email, model.NewPassword);
+            if (!success)
+            {
+                ModelState.AddModelError("", "Failed to update password.");
+                return View(model);
+            }
+
+            TempData["Success"] = "Password reset successful. Please login.";
+            return RedirectToAction("Login");
+        }
+
     }
 }

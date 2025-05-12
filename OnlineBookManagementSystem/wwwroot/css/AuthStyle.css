@@ -1,0 +1,103 @@
+﻿:root {
+    --gradient-start: #e0e7ff;
+    --gradient-end: #fce7f3;
+    --btn-gradient-start: #6366F1;
+    --btn-gradient-end: #EC4899;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end)); /* soft background */
+}
+
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    padding: 2rem;
+}
+
+/* Glass effect card */
+.auth-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 1.5rem;
+    padding: 2.5rem 2rem;
+    max-width: 420px;
+    width: 100%;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.auth-card h2 {
+    font-weight: 700;
+    background: linear-gradient(to right, var(--btn-gradient-start), var(--btn-gradient-end));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+}
+
+.form-label {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    display: block;
+    color: #333;
+}
+
+.form-control {
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid #ccc;
+    box-shadow: none;
+    transition: border-color 0.3s ease;
+}
+
+    .form-control:focus {
+        border-color: var(--btn-gradient-start);
+        outline: none;
+        box-shadow: 0 0 0 0.15rem rgba(99, 102, 241, 0.25);
+    }
+
+    .form-control:focus-visible {
+        outline: 3px solid var(--btn-gradient-start);
+    }
+
+.btn-gradient {
+    background: linear-gradient(to right, var(--btn-gradient-start), var(--btn-gradient-end));
+    color: white;
+    border: none;
+    border-radius: 2rem;
+    padding: 0.6rem 2rem;
+    font-weight: 600;
+    transition: opacity 0.3s ease, transform 0.2s ease;
+    will-change: transform, opacity;
+}
+
+    .btn-gradient:hover {
+        opacity: 0.9;
+        transform: scale(1.05);
+    }
+
+@media (max-width: 576px) {
+    .auth-card {
+        max-width: 100%;
+        padding: 1.5rem 1rem;
+    }
+}

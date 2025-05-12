@@ -68,19 +68,32 @@ namespace OnlineBookManagementSystem.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> AddBook([FromBody] Book bookData)
+        public async Task<IActionResult> AddBook([FromForm] Book bookData, [FromForm] IFormFile? ImgUrl)
         {
-            if (bookData == null || !ModelState.IsValid)
+            if (!ModelState.IsValid)
                 return BadRequest(new { message = "Invalid book data." });
+
+            // Decide image source: file upload > direct URL
+            if (ImgUrl != null && ImgUrl.Length > 0)
+            {
+                var imagePath = await _bookService.SaveImageAsync(ImgUrl);
+                bookData.ImgUrl = imagePath;
+            }
+            else if (!string.IsNullOrWhiteSpace(bookData.ImgUrl))
+            {
+                bookData.ImgUrl = bookData.ImgUrl;
+            }
+            
 
             var success = await _bookService.AddBookAsync(bookData);
             if (!success)
                 return StatusCode(500, new { message = "Failed to add book." });
-            
-            //Logs For Add
+
             await _activityLoggerService.LogAsync("Add", $"Added book: {bookData.Title}.");
             return Json(new { success = true, message = "Book added successfully.", bookData });
         }
+
+
 
         public async Task<IActionResult> CreateBookData()
         {
@@ -122,21 +135,43 @@ namespace OnlineBookManagementSystem.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateBookDetails([FromBody] Book bookData)
+        public async Task<IActionResult> UpdateBookDetails([FromForm] Book bookData, [FromForm] IFormFile? ImgUrl, string? ExistingImgUrl)
         {
-            if (bookData == null || !ModelState.IsValid)
+            if (!ModelState.IsValid)
                 return BadRequest(new { message = "Invalid book data." });
+
+            // Priority: New file upload > ImgUrl string > Existing
+            if (ImgUrl != null && ImgUrl.Length > 0)
+            {
+                // Save the uploaded file and update ImgUrl
+                var imagePath = await _bookService.SaveImageAsync(ImgUrl);
+                bookData.ImgUrl = imagePath;
+            }
+            else if (!string.IsNullOrWhiteSpace(bookData.ImgUrl))
+            {
+                bookData.ImgUrl = bookData.ImgUrl;
+            }
+            else if (!string.IsNullOrWhiteSpace(ExistingImgUrl))
+            {
+                // Fall back to existing
+                bookData.ImgUrl = ExistingImgUrl;
+            }
+            else
+            {
+                // No image input at all
+                bookData.ImgUrl = null; // or return BadRequest if image is required
+            }
 
             var success = await _bookService.UpdateBookAsync(bookData);
             if (!success)
                 return NotFound(new { message = "Error: Book not found." });
 
-            // Logs for Update
             await _activityLoggerService.LogAsync("Update", $"Updated book: {bookData.Title}.");
 
             var redirectUrl = Url.Action("AdminIndex", "Books");
             return Json(new { success = true, redirectUrl });
         }
+
 
         [HttpDelete]
         public async Task<IActionResult> DeleteBook(int id)

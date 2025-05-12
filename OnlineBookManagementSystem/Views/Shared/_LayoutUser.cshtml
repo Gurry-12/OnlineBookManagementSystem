@@ -7,10 +7,10 @@
 
     <!-- CSS Links -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link href="~/css/site.css" rel="stylesheet" />
-    
+    <link href="~/css/color.css" rel="stylesheet" />
 </head>
 <body>
     <!-- Sidebar -->
@@ -117,5 +117,24 @@
     <script src="~/js/site.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     @RenderSection("Scripts", required: false)
+    <script>
+        function autoCollapseSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const content = document.querySelector('.content');
+
+            if (window.innerWidth <= 768) {
+                sidebar.classList.add('collapsed');
+                content.classList.add('sidebar-collapsed');
+            } else {
+                sidebar.classList.remove('collapsed');
+                content.classList.remove('sidebar-collapsed');
+            }
+        }
+
+        // Run on load and resize
+        window.addEventListener('load', autoCollapseSidebar);
+        window.addEventListener('resize', autoCollapseSidebar);
+    </script>
+
 </body>
 </html>

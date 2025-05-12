@@ -2,6 +2,11 @@
     const role = sessionStorage.getItem("userRole");
     const token = sessionStorage.getItem("jwt");
 
+    if (!token) {
+        // Redirect to login page if token is missing (i.e., session expired or user not logged in)
+        window.location.href = "/Auth/Login";
+    } 
+
     if (role !== "Admin") {
         alert("Access Denied. Admins only.");
         window.location.href = "/Auth/Index"; // redirect if not admin
