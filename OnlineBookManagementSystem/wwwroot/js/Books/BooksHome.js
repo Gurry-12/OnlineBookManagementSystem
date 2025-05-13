@@ -1,23 +1,39 @@
-﻿const token = sessionStorage.getItem("jwt");
+﻿
 const role = sessionStorage.getItem("userRole");
-const userName = sessionStorage.getItem("userName");
+const token = sessionStorage.getItem("jwt");
+
+toastr.options = {
+    "closeButton": true,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": true,
+    "positionClass": "toast-top-right",  // position of the toast
+    "preventDuplicates": true,
+    "showDuration": "300",  // Duration of the showing animation
+    "hideDuration": "1000", // Duration of the hide animation
+    "timeOut": "5000",      // Duration before it disappears
+    "extendedTimeOut": "1000", // Duration for hover-to-pause
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn", // Method for showing the toast
+    "hideMethod": "fadeOut" // Method for hiding the toast
+};
 
 
 
 $(document).ready(function () {
+    const userName = sessionStorage.getItem("userName");
 
     if (!token) {
-        // Redirect to login page if token is missing (i.e., session expired or user not logged in)
-        window.location.href = "/Auth/Login";
+        // Call controller view with layout
+        window.location.href = "/Base/SessionExpired"; // or /Home/SessionExpired
     }
+
     if (userName) {
         $("#greeting").text("Hello, " + userName);
     }
 
-    if (!token) {
-        alert("Unauthorized access. Please log in.");
-        return;
-    }
+   
 
     if (role === "Admin") {
         $("#adminSection").show();
@@ -29,7 +45,7 @@ $(document).ready(function () {
         loadBooks();
         restoreCartUI();
     } else {
-        alert("Unauthorized: Invalid role");
+        toastr.error("Unauthorized: Invalid role");
     }
 
 
@@ -82,7 +98,7 @@ function loadAdminBooks() {
             });
         },
         error: function () {
-            alert('Error loading book data.');
+            toastr.error('Error loading book data.');
         }
     });
 }
@@ -172,7 +188,7 @@ function loadBooks() {
             $("#recommendedBooks").html(recommended);
         },
         error: function () {
-            alert("⚠️ Failed to load books. Please try again.");
+            toastr.error("⚠️ Failed to load books. Please try again.");
         }
     });
 }
@@ -210,7 +226,7 @@ function AddToFavorites(id) {
             }
         },
         error: function (xhr, status, error) {
-            console.error("Error updating favorite:", error);
+            toastr.error("Error updating favorite ");
         }
     });
 }
@@ -218,60 +234,28 @@ function AddToFavorites(id) {
 
 
 // data for ajax - book adding and updating
-function getImageInputValue() {
-    const fileInput = $("input[name='ImgUrl']")[0];
-    const imageUrlInput = $("#imageUrl").val();
-    const hasFile = fileInput && fileInput.files && fileInput.files.length > 0;
 
-    if (hasFile) {
-        return { type: "file", file: fileInput.files[0] };
-    } else if (imageUrlInput) {
-        return { type: "url", url: imageUrlInput };
-    } else {
-        const existing = $("#ExistingImgUrl").val();
-        return { type: "existing", url: existing };
-    }
-}
+//function DataFilledByForm() {
+//    return {
+//        Id: parseInt($("#Book_Id").val()) || 0,
+//        Title: $("#Book_Title").val(),
+//        Author: $("#Book_Author").val(),
+//        Price: parseFloat($("#Book_Price").val()),
+//        Isbn: $("#Book_Isbn").val(),
+//        Stock: $("#Book_Stock").val().toString(),
+//        CategoryId: $("#Book_CategoryId").val()
+//    };
+//}
 
-function DataFilledByForm() {
-    return {
-        Id: parseInt($("#Book_Id").val()) || 0,
-        Title: $("#Book_Title").val(),
-        Author: $("#Book_Author").val(),
-        Price: parseFloat($("#Book_Price").val()),
-        Isbn: $("#Book_Isbn").val(),
-        Stock: $("#Book_Stock").val().toString(),
-        CategoryId: $("#Book_CategoryId").val()
-    };
-}
 
-function appendFormDataWithBookData(formData, data) {
-    for (const key in data) {
-        formData.append(key, data[key]);
-    }
-
-    const imageData = getImageInputValue();
-    if (imageData.type === "file") {
-        formData.append("ImageFile", imageData.file);
-    } else if (imageData.type === "url") {
-        formData.append("ImgUrl", imageData.url);
-    } else if (imageData.type === "existing") {
-        formData.append("ExistingImgUrl", imageData.url);
-    }
-}
-
-function SubmitData(event) {
-    
+function handleBookFormSubmission(event, url, successMessage, redirect = false) {
     if (event) event.preventDefault();
 
     const form = document.getElementById("addBookForm");
     const formData = new FormData(form);
-    const bookData = DataFilledByForm();
-
-    appendFormDataWithBookData(formData, bookData);
 
     $.ajax({
-        url: "/Books/AddBook",
+        url: url,
         method: "POST",
         headers: {
             "Authorization": `Bearer ${token}`
@@ -281,54 +265,33 @@ function SubmitData(event) {
         processData: false,
         success: function (response) {
             if (response.success) {
-                alert("✅ Book added successfully!");
+                if (url == "/Books/AddBook") {
+                    toastr.success(`✅ ${successMessage}`);
+                }
+                else {
+                    toastr.warning(`✅ ${successMessage}`);
+                }
                 $("#addBookForm")[0].reset();
-            } else {
-                alert(response.message);
-            }
-        },
-        error: function (xhr, status, error) {
-            console.error("❌ Error adding book:", error);
-            alert("Something went wrong while adding the book.");
-        }
-    });
-}
-
-function UpdateData(event) {
-    
-    if (event) event.preventDefault();
-
-    const form = document.getElementById("addBookForm");
-    const formData = new FormData(form);
-    const bookData = DataFilledByForm();
-
-    appendFormDataWithBookData(formData, bookData);
-
-    $.ajax({
-        url: "/Books/UpdateBookDetails",
-        method: "POST",
-        headers: {
-            "Authorization": `Bearer ${token}`
-        },
-        data: formData,
-        contentType: false,
-        processData: false,
-        success: function (response) {
-            if (response.success) {
-                alert("✅ Book updated successfully!");
-                $("#addBookForm")[0].reset();
-                if (response.redirectUrl) {
+                if (redirect && response.redirectUrl) {
                     window.location.href = response.redirectUrl;
                 }
             } else {
-                alert(response.message);
+                toastr.warning(response.message);
             }
         },
         error: function (xhr, status, error) {
-            console.error("❌ Error updating book:", error);
-            alert("Something went wrong while updating the book.");
+           
+            toastr.error("Something went wrong while submitting the form.");
         }
     });
+}
+
+function SubmitData(event) {
+    handleBookFormSubmission(event, "/Books/AddBook", "Book added successfully!");
+}
+
+function UpdateData(event) {
+    handleBookFormSubmission(event, "/Books/UpdateBookDetails", "Book updated successfully!", true);
 }
 
 function OpenBookModal(id) {
@@ -342,12 +305,12 @@ function OpenBookModal(id) {
             if (response.redirectUrl) {
                 window.location.href = response.redirectUrl;
             } else {
-                alert("Unexpected response format.");
+                toastr.warning("Unexpected response format.");
             }
         },
         error: function (xhr, status, error) {
-            console.error("❌ Error loading book:", error);
-            alert("Something went wrong.");
+            //console.error("❌ Error loading book:", error);
+            toastr.error("Something went wrong.");
         }
     });
 }
@@ -362,13 +325,12 @@ function DeleteBook(Id) {
             "Authorization": `Bearer ${token}`
         },
         success: function (response) {
-            alert("Book Deleted");
+            toastr.error("Book Deleted");
             window.location.href = response.redirectUrl;
 
         },
         error: function (xhr, status, error) {
-            console.error("❌ Error loading book:", error);
-            alert("Something went wrong.");
+            toastr.error("Something went wrong.");
         }
     })
 }
@@ -391,7 +353,7 @@ function AddtoCart(bookId) {
             restoreCartUI();
         },
         error: function () {
-            console.error("Error adding book to cart.");
+            toastr.error("Error adding book to cart.");
         }
     });
 }
@@ -434,7 +396,7 @@ function changeCartQuantity(bookId, action, type) {
 
         },
         error: function () {
-            console.error("Error updating quantity.");
+            toastr.error("Error updating quantity.");
         }
     });
 }
@@ -470,7 +432,7 @@ function restoreCartUI() {
             }
         },
         error: function () {
-            console.error("Failed to restore cart UI.");
+            toastr.error("Failed to restore cart UI.");
         }
     });
 }
@@ -484,7 +446,7 @@ function RemoveCartItems(bookid, userid) {
         BookId: bookid
     };
 
-    console.log(Data)
+    
     $.ajax({
         url: `/Cart/RemoveCartItems`,
         method: "DELETE",
@@ -494,12 +456,11 @@ function RemoveCartItems(bookid, userid) {
             if (response.redirectUrl) {
                 window.location.href = response.redirectUrl;
             } else {
-                alert("Unexpected response format.");
+                toastr.warning("Unexpected response format.");
             }
         },
         error: function (xhr, status, error) {
-            console.error("❌ Error loading book:", error);
-            alert("Something went wrong.");
+            toastr.error("Something went wrong.");
         }
     });
 }

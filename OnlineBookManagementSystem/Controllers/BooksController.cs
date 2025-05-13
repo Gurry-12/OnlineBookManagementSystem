@@ -68,22 +68,21 @@ namespace OnlineBookManagementSystem.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> AddBook([FromForm] Book bookData, [FromForm] IFormFile? ImgUrl)
+        public async Task<IActionResult> AddBook([FromForm] Book bookData, [FromForm(Name = "ImageFile")] IFormFile? imageFile, [FromForm(Name = "ImageUrl")] string? imageUrl)
         {
             if (!ModelState.IsValid)
                 return BadRequest(new { message = "Invalid book data." });
 
             // Decide image source: file upload > direct URL
-            if (ImgUrl != null && ImgUrl.Length > 0)
+            if (imageFile != null && imageFile.Length > 0)
             {
-                var imagePath = await _bookService.SaveImageAsync(ImgUrl);
+                var imagePath = await _bookService.SaveImageAsync(imageFile);
                 bookData.ImgUrl = imagePath;
             }
-            else if (!string.IsNullOrWhiteSpace(bookData.ImgUrl))
+            else if (!string.IsNullOrWhiteSpace(imageUrl))
             {
-                bookData.ImgUrl = bookData.ImgUrl;
+                bookData.ImgUrl = imageUrl;
             }
-            
 
             var success = await _bookService.AddBookAsync(bookData);
             if (!success)
@@ -135,31 +134,27 @@ namespace OnlineBookManagementSystem.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateBookDetails([FromForm] Book bookData, [FromForm] IFormFile? ImgUrl, string? ExistingImgUrl)
+        public async Task<IActionResult> UpdateBookDetails( [FromForm] Book bookData, [FromForm(Name = "ImageFile")] IFormFile? imageFile,
+    [FromForm(Name = "ImageUrl")] string? imageUrl)
         {
             if (!ModelState.IsValid)
                 return BadRequest(new { message = "Invalid book data." });
 
-            // Priority: New file upload > ImgUrl string > Existing
-            if (ImgUrl != null && ImgUrl.Length > 0)
+            
+            // Priority: New file upload > New image URL > Existing image URL
+            if (imageFile != null && imageFile.Length > 0)
             {
-                // Save the uploaded file and update ImgUrl
-                var imagePath = await _bookService.SaveImageAsync(ImgUrl);
+                var imagePath = await _bookService.SaveImageAsync(imageFile);
                 bookData.ImgUrl = imagePath;
+                imageUrl = null;
             }
-            else if (!string.IsNullOrWhiteSpace(bookData.ImgUrl))
+            else if (!string.IsNullOrWhiteSpace(imageUrl))
             {
-                bookData.ImgUrl = bookData.ImgUrl;
+                bookData.ImgUrl = imageUrl;
             }
-            else if (!string.IsNullOrWhiteSpace(ExistingImgUrl))
+                        else
             {
-                // Fall back to existing
-                bookData.ImgUrl = ExistingImgUrl;
-            }
-            else
-            {
-                // No image input at all
-                bookData.ImgUrl = null; // or return BadRequest if image is required
+                bookData.ImgUrl = null; // Or consider returning BadRequest if image is required
             }
 
             var success = await _bookService.UpdateBookAsync(bookData);

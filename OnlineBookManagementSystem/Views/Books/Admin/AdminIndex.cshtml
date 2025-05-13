@@ -7,7 +7,7 @@
 <!-- 📚 Inspirational Quotes Carousel Section -->
 <div class="row mb-4 g-3">
     <div class="col-md-8 col-sm-12">
-        <div id="quoteCarousel" class="carousel slide quote-box shadow-sm rounded" data-bs-ride="carousel" aria-label="Quote Carousel" data-bs-interval="3000">
+        <div id="quoteCarousel" class="carousel slide quote-box  shadow-sm rounded" data-bs-ride="carousel" aria-label="Quote Carousel" data-bs-interval="3000">
             <div class="carousel-inner">
                 <div class="carousel-item active">
                     <p class="fs-6 fst-italic px-2">“There is more treasure in books than in all the pirate's loot on Treasure Island.”</p>
@@ -39,80 +39,95 @@
 
     <!-- 🧑‍💼 Admin Profile Section (right of carousel) -->
     <div class="col-md-4 col-sm-12">
-        <div class="card shadow-lg rounded-3 mb-4">
-            <div class="card-body text-center">
-                <img src="~/images/img_avatar.png" alt="Admin" class="rounded-circle mb-3" width="75" height="75">
-                <h5 class="card-title text-dark">@Model.User.Name</h5>
-                <p class="card-text text-muted">@Model.User.Role</p>
+        <div class="card bg-secondary bg-gradient text-white shadow-lg rounded-4 border-0 h-100">
+            <div class="card-body d-flex flex-column justify-content-center align-items-start gap-2">
+                <h5 class="card-title fw-semibold"><i class="bi bi-tools me-2"></i>Admin Tools</h5>
+                <ul class="list-unstyled ms-1">
+                    <li class="mb-2">
+                        <i class="bi bi-plus-circle me-2"></i>Add or Update Books
+                    </li>
+                    <li class="mb-2">
+                        <i class="bi bi-person-lines-fill me-2"></i>Manage User Accounts
+                    </li>
+                    <li class="mb-2">
+                        <i class="bi bi-cart-check me-2"></i>View & Process Orders
+                    </li>
+                    <li class="mb-2">
+                        <i class="bi bi-shield-lock me-2"></i>Access Control
+                    </li>
+                </ul>
+                
             </div>
         </div>
     </div>
-</div> <!-- End of row with carousel and profile -->
+
+</div>
+<!-- End of row with carousel and profile -->
 <!-- 📊 Quick Stats & Recent Activities Section -->
-<div class="row mb-4">
-    <!-- Quick Stats Card -->
-    <div class="col-md-6 col-sm-12">
-        <div class="card shadow-lg rounded-3 h-100 border-0 bg-light">
+<div class="row g-4 mb-5">
+    <!-- Quick Stats -->
+    <div class="col-md-6">
+        <div class="card shadow-sm rounded-4 bg-white">
             <div class="card-body">
-                <h5 class="card-title mb-4 text-primary"><i class="bi bi-bar-chart-fill me-2"></i>Quick Stats</h5>
+                <h5 class="text-primary mb-3"><i class="bi bi-bar-chart-fill me-2"></i>Quick Stats</h5>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <li class="list-group-item d-flex justify-content-between">
                         <span><i class="bi bi-book me-2 text-success"></i>Books</span>
-                        <span class="badge bg-success rounded-pill" id="totalBooks">@Model.TotalBooks</span>
+                        <span class="badge bg-success rounded-pill">@Model.TotalBooks</span>
                     </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <li class="list-group-item d-flex justify-content-between">
                         <span><i class="bi bi-tags me-2 text-info"></i>Categories</span>
-                        <span class="badge bg-info rounded-pill" id="totalCategories">@Model.TotalCategories</span>
+                        <span class="badge bg-info rounded-pill">@Model.TotalCategories</span>
                     </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <span><i class="bi bi-people-fill me-2 text-warning"></i>Users</span>
-                        <span class="badge bg-warning text-dark rounded-pill" id="totalUsers">@Model.TotalUsers</span>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span><i class="bi bi-people me-2 text-warning"></i>Users</span>
+                        <span class="badge bg-warning text-dark rounded-pill">@Model.TotalUsers</span>
                     </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <span><i class="bi bi-cart-check-fill me-2 text-danger"></i>Orders</span>
-                        <span class="badge bg-danger rounded-pill" id="totalOrders">@Model.TotalOrders</span>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span><i class="bi bi-cart-check me-2 text-danger"></i>Orders</span>
+                        <span class="badge bg-danger rounded-pill">@Model.TotalOrders</span>
                     </li>
                 </ul>
             </div>
         </div>
     </div>
 
-    <!-- Recent Activities Card -->
-    <div class="col-md-6 col-sm-12">
-        <div class="card shadow-lg rounded-3 h-100 border-0 bg-light">
+    <!-- Recent Activities -->
+    <div class="col-md-6">
+        <div class="card shadow-sm rounded-4 bg-white">
             <div class="card-body">
-                <h5 class="card-title mb-4 text-primary"><i class="bi bi-clock-history me-2"></i>Recent Activities</h5>
-                <ul class="list-group list-group-flush" style="max-height: 250px; overflow-y: auto;">
+                <h5 class="text-primary mb-3"><i class="bi bi-clock-history me-2"></i>Recent Activities</h5>
+                <ul class="list-group" style="max-height: 260px; overflow-y: auto;">
                     @if (Model.ActivityLogs != null && Model.ActivityLogs.Any())
                     {
                         foreach (var log in Model.ActivityLogs)
                         {
+                            var iconClass = log.ActionType switch
+                            {
+                                "Add" => "bi bi-book text-success",
+                                "Update" => "bi bi-pencil-square text-warning",
+                                "Delete" => "bi bi-trash text-danger",
+                                "Register" => "bi bi-person-plus text-info",
+                                "Login" => "bi bi-box-arrow-in-right text-primary",
+                                _ => "bi bi-info-circle text-secondary"
+                            };
+
+                            var badgeClass = log.ActionType switch
+                            {
+                                "Add" => "bg-success",
+                                "Update" => "bg-warning text-dark",
+                                "Delete" => "bg-danger",
+                                "Register" => "bg-info text-dark",
+                                "Login" => "bg-primary",
+                                _ => "bg-secondary"
+                            };
+
                             <li class="list-group-item d-flex justify-content-between align-items-start">
                                 <div class="me-auto">
-                                    @{
-                                        var iconClass = log.ActionType switch
-                                        {
-                                            "Add" => "bi bi-book-fill text-success",
-                                            "Update" => "bi bi-pencil-square text-warning",
-                                            "Delete" => "bi bi-trash-fill text-danger",
-                                            "Register" => "bi bi-person-plus-fill text-info",
-                                            "Login" => "bi bi-box-arrow-in-right text-primary",
-                                            _ => "bi bi-info-circle-fill text-secondary"
-                                        };
-                                    }
-                                    <i class="@iconClass me-2"></i>
-                                    @log.Description
+                                    <i class="@iconClass me-2"></i>@log.Description
                                     <div class="small text-muted">@log.TimeAgo</div>
                                 </div>
-                                <span class="badge
-                                    @(log.ActionType == "Add" ? "bg-success" :
-                                    log.ActionType == "Update" ? "bg-warning text-dark" :
-                                    log.ActionType == "Delete" ? "bg-danger" :
-                                    log.ActionType == "Register" ? "bg-info text-dark" :
-                                    log.ActionType == "Login" ? "bg-primary" :
-                                    "bg-secondary")">
-                                    @log.ActionType
-                                </span>
+                                <span class="badge @badgeClass">@log.ActionType</span>
                             </li>
                         }
                     }
@@ -169,12 +184,56 @@
 
 
 <!-- 🔒 Admin-only Controls Section -->
-<div id="adminSection" style="display: none;" class="mt-4">
-    <h5>Admin Controls</h5>
-    <div class="d-flex flex-wrap gap-2 mb-3">
-        <a asp-controller="Books" asp-action="CreateBookData" class="btn btn-success"><i class="bi bi-plus-circle me-2"></i> Add New Book</a>
-        <a asp-controller="Books" asp-action="UserList" class="btn btn-secondary"><i class="bi bi-person-lines-fill me-2"></i> Manage Users</a>
-        <a asp-controller="Order" asp-action="AdminIndex" class="btn btn-danger"><i class="bi bi-cart-check-fill me-2"></i> Manage Orders</a>
+<!-- 🔒 Admin Controls -->
+<div id="adminSection" style="display: none;" class="mt-5">
+    <h5 class="mb-3"><i class="bi bi-tools me-2"></i>Admin Controls</h5>
+    <div class="row g-3 mb-4">
+
+        <!-- Add New Book -->
+        <div class="col-md-4 col-sm-6">
+            <a asp-controller="Books" asp-action="CreateBookData" class="text-decoration-none">
+                <div class="card h-100 shadow-sm border-0 bg-light hover-lift rounded-4 text-center py-4">
+                    <div class="card-body">
+                        <div class="text-success mb-2" style="font-size: 2rem;">
+                            <i class="bi bi-plus-circle-fill"></i>
+                        </div>
+                        <h6 class="text-dark">Add New Book</h6>
+                        <p class="text-muted small">Upload or manage book records</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Manage Users -->
+        <div class="col-md-4 col-sm-6">
+            <a asp-controller="Books" asp-action="UserList" class="text-decoration-none">
+                <div class="card h-100 shadow-sm border-0 bg-light hover-lift rounded-4 text-center py-4">
+                    <div class="card-body">
+                        <div class="text-secondary mb-2" style="font-size: 2rem;">
+                            <i class="bi bi-person-lines-fill"></i>
+                        </div>
+                        <h6 class="text-dark">Manage Users</h6>
+                        <p class="text-muted small">View, edit or delete users</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Manage Orders -->
+        <div class="col-md-4 col-sm-6">
+            <a asp-controller="Order" asp-action="AdminIndex" class="text-decoration-none">
+                <div class="card h-100 shadow-sm border-0 bg-light hover-lift rounded-4 text-center py-4">
+                    <div class="card-body">
+                        <div class="text-danger mb-2" style="font-size: 2rem;">
+                            <i class="bi bi-cart-check-fill"></i>
+                        </div>
+                        <h6 class="text-dark">Manage Orders</h6>
+                        <p class="text-muted small">Track and process orders</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
     </div>
 
     <!-- 📚 Book Cards Grid -->
@@ -188,5 +247,7 @@
 <!-- Chart.js CDN -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Toastr JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script src="~/js/Books/BooksHome.js"></script>
 <script src="~/js/books/chartsadmin.js"></script>

@@ -64,7 +64,7 @@
         </div>
 
         <form id="addBookForm" enctype="multipart/form-data">
-            <input type="number" asp-for="Book.Id" name="Book.Id" hidden />
+            <input type="number" asp-for="Book.Id" name="Id" hidden />
 
 
             <!-- Title & Author -->
@@ -108,7 +108,8 @@
                     <!-- Image Upload -->
                     <div class="input-group mb-2">
                         <span class="input-group-text bg-light"><i class="bi bi-upload"></i></span>
-                        <input type="file" accept="image/*" id="imageFile" name="ImageFile" class="form-control" />
+                        <input type="file" accept="image/*" id="imageFile" name="ImageFile" asp-for="Book.ImgUrl" class="form-control" />
+
                     </div>
 
                     <!-- OR Separator -->
@@ -117,20 +118,16 @@
                     <!-- Image URL Input -->
                     <div class="input-group">
                         <span class="input-group-text bg-light"><i class="bi bi-link-45deg"></i></span>
-                        <input type="text" id="imageUrl" name="ImgUrl" value="@Model.Book?.ImgUrl" class="form-control" placeholder="Paste image URL (optional)" />
+                        <input type="text" id="imageUrl" name="ImageUrl" asp-for="Book.ImgUrl" class="form-control" placeholder="Paste image URL (optional)" />
                     </div>
 
-                    @if (!string.IsNullOrEmpty(Model.Book?.ImgUrl))
-                    {
-                        <input type="hidden" id="ExistingImgUrl" name="ExistingImgUrl" value="@Model.Book.ImgUrl" />
-                    }
-
-
                    
+
+
                 </div>
                 <div class="col-md-4">
                     <label class="form-label">🏷️ Category</label>
-                    <select asp-for="Book.CategoryId" asp-items="Model.CategoryList" class="form-select">
+                    <select asp-for="Book.CategoryId" asp-items="Model.CategoryList" name="CategoryId" class="form-select">
                         <option value="">-- Select Category --</option>
                     </select>
                     <span asp-validation-for="Book.CategoryId" class="text-danger small"></span>
@@ -150,4 +147,6 @@
 
 <!-- Include jQuery and custom JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Toastr JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script src="~/js/books/bookshome.js"></script>

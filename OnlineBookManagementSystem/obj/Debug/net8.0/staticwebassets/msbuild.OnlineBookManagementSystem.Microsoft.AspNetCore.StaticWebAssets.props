@@ -12,8 +12,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>8czhne94c2</Fingerprint>
-      <Integrity>KMxD+qxP8Z4tL7R5bHLeUA1GaLRCdR7NZqZJDOxt+CE=</Integrity>
+      <Fingerprint>1tzrcgbd12</Fingerprint>
+      <Integrity>BaoZDNQ4Y/U4pzWeKuJxW/T0tmS1TWsUkpKU8QJ3RLY=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\AuthStyle.css'))</OriginalItemSpec>
@@ -30,8 +30,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>nrvqo0bwvv</Fingerprint>
-      <Integrity>rRTt4RI2YSP9gY10gwKy5kTdCZ0rToK5kd17dm4mRbw=</Integrity>
+      <Fingerprint>mqks1f7b1p</Fingerprint>
+      <Integrity>/sTY0wySfbZaJfF+6nlMUPeR3FX5LnCJ/METyA2ghwU=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\BookDisplay.css'))</OriginalItemSpec>
@@ -48,8 +48,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>f7h55m939t</Fingerprint>
-      <Integrity>pYxS4XP0fHTvth8oSaxE0Eo4M7Pvyqv9qnML73uTSw8=</Integrity>
+      <Fingerprint>x309fy1lv6</Fingerprint>
+      <Integrity>MxBecaPHz/uPwe8x8PLbDv73Ogc5Z3K047e7Mr/Xkks=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\BooksIndex.css'))</OriginalItemSpec>
@@ -102,8 +102,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>bhme100q42</Fingerprint>
-      <Integrity>T4pS7E3/ggcSdhepn/+AaXe6D+vhQJ50oskXhqeZKPo=</Integrity>
+      <Fingerprint>cch0t3glt4</Fingerprint>
+      <Integrity>ND8PyF9IaxSvLBb3PdAsYQBykLz8jFUuSW7m9QdnleU=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\site.css'))</OriginalItemSpec>
@@ -125,6 +125,24 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\favicon.ico'))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\books-section\2021-pure-css-calculator.png'))">
+      <SourceType>Package</SourceType>
+      <SourceId>OnlineBookManagementSystem</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/OnlineBookManagementSystem</BasePath>
+      <RelativePath>images/books-section/2021-pure-css-calculator.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>sv29mp7x5n</Fingerprint>
+      <Integrity>KP/qttvox9q8gW0DwzqOLSPLa6nFQAK5vDElf8ZqEfU=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\books-section\2021-pure-css-calculator.png'))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\books-section\ChatGPT Image Apr 29, 2025, 04_47_47 PM.png'))">
       <SourceType>Package</SourceType>
@@ -179,6 +197,24 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\books-section\full-template-580-woox-travel.jpg'))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\books-section\full-template-586-scholar.jpg'))">
+      <SourceType>Package</SourceType>
+      <SourceId>OnlineBookManagementSystem</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/OnlineBookManagementSystem</BasePath>
+      <RelativePath>images/books-section/full-template-586-scholar.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>u1c6zlg1ln</Fingerprint>
+      <Integrity>fsbqBco5wX2C3qjmt0vNoG1R3IoajKZjg417ZLn62UY=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\books-section\full-template-586-scholar.jpg'))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\books-section\img_avatar.png'))">
       <SourceType>Package</SourceType>
@@ -408,8 +444,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>gm5tjo2gab</Fingerprint>
-      <Integrity>SMvclIe8MNaVfdm22OM0yOTYoKsiuXT4SacUys4RpHM=</Integrity>
+      <Fingerprint>xf6pczg0ev</Fingerprint>
+      <Integrity>IxtLRge7wfefKdpH4rPoWio2Gk/yhhroungOtV4gbdQ=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\Auth\registration.js'))</OriginalItemSpec>
@@ -426,8 +462,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>g2gk6i4ys8</Fingerprint>
-      <Integrity>WJzE/07RdTRB7oxlhQ9t5cwjAkhewCjWCNd56OPSEec=</Integrity>
+      <Fingerprint>ksdc0elwtl</Fingerprint>
+      <Integrity>LOc8Bs8e1yHBa5frxQIEOxnI51dMM8yiR531PCmgkEM=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\Books\BooksHome.js'))</OriginalItemSpec>
@@ -462,8 +498,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>gjvvza8smy</Fingerprint>
-      <Integrity>lGPoEvEt5miJVhpObmotXAEs1qY9F0okdasKEF/nyZI=</Integrity>
+      <Fingerprint>22wm1fk4gi</Fingerprint>
+      <Integrity>ysg34hoRB/JEpckBirxHya6uIZ56rd+JqojcP6vGHfQ=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\Books\userList.js'))</OriginalItemSpec>
@@ -498,8 +534,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>ue8okp3czl</Fingerprint>
-      <Integrity>lgg7YJRTQ9oXHHI3Rnjd7KKts2nyxYn5Hk0pw06xlEM=</Integrity>
+      <Fingerprint>zcbfxmga5h</Fingerprint>
+      <Integrity>vb8EndM2JxLe/v9yPMuFRYuZmmeoYtw5AqLteZeskQ8=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\Category\categoryscript.js'))</OriginalItemSpec>
@@ -516,8 +552,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>cpzi94j5t3</Fingerprint>
-      <Integrity>wNGigReZ5iTWlcEICfHH4OJk7FWjMPC89+x4gfTqF6Q=</Integrity>
+      <Fingerprint>9e61tgfch1</Fingerprint>
+      <Integrity>X7wbhl2pcQbKtgl2b9lda+aLs8447naU6yolR/VG6e4=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\site.js'))</OriginalItemSpec>

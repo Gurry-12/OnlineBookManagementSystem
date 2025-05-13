@@ -101,3 +101,31 @@ body {
         padding: 1.5rem 1rem;
     }
 }
+
+
+.navbar-brand img {
+    height: 40px;
+}
+
+.navbar {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+    .navbar .btn {
+        border-radius: 8px;
+        padding: 0.4rem 1rem;
+    }
+
+footer {
+    border-top: 1px solid #e5e5e5;
+}
+
+    footer i {
+        color: #6c757d;
+    }
+
+/* Optional: Fade-out effect on redirect */
+body.fade-out {
+    opacity: 0;
+    transition: opacity 0.5s ease-out;
+}

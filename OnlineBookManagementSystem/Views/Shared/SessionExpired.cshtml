@@ -1,0 +1,10 @@
+﻿@{
+    ViewData["Title"] = "Session Expired";
+    Layout = "_LayoutAuth";
+}
+
+<div class="container text-center mt-5">
+    <h2>Session Expired</h2>
+    <p class="text-danger">@ViewData["Message"]</p>
+    <a href="/Auth/Login" class="btn btn-primary">Login Again</a>
+</div>

@@ -24,4 +24,12 @@ public class BaseController : Controller
         ViewData["Layout"] = layout; // Set the layout dynamically
         base.OnActionExecuting(context); // Continue with the action execution
     }
+
+    public IActionResult SessionExpired()
+    {
+        HttpContext.Session.Clear();
+        ViewData["Message"] = "Your session has expired. Please log in again.";
+        return View("SessionExpired");
+    }
+
 }

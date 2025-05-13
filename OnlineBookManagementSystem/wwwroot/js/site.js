@@ -1,19 +1,15 @@
-﻿const name = sessionStorage.getItem("userName");
+﻿const userName = sessionStorage.getItem("userName");
 const Role = sessionStorage.getItem("userRole");
 
-$("#username").append(name);
+$("#username").append(userName);
+
+
+
 
 $("#homeLink").click(function (event) {
+    var token = sessionStorage.getItem("jwt");
 
     event.preventDefault(); // Prevent the default anchor tag action
-
-    const token = sessionStorage.getItem("jwt");
-
-    if (!token) {
-        alert("Unauthorized! Please login.");
-        return;
-    }
-
 
     let targetUrl = Role === "Admin" ? "/Books/AdminIndex" : "/Books/UserIndex";
 
@@ -60,6 +56,8 @@ $(document).ready(function () {
     });
 
     $("#SupportloginDetail").html(Role);
+
+    
 });
 
 

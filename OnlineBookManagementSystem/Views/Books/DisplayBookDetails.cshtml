@@ -7,41 +7,49 @@
 }
 <link href="~/css/bookdisplay.css" rel="stylesheet" />
 
-
 <div class="container my-5">
     <div class="book-container">
-        <div class="row g-5">
+        <div class="row g-5 align-items-start">
             <!-- Book Cover -->
-            <div class="col-lg-4 col-md-5 col-sm-12 text-center">
-                <img src="@Url.Content(Model.ImgUrl)" alt="Book Cover" class="book-cover shadow-sm img-fluid" />
+            <div class="col-lg-4 col-md-5 col-sm-6 col-10 text-center">
+                <img src="@Url.Content(Model.ImgUrl)" alt="Book Cover" class="book-cover shadow-sm img-fluid rounded" />
             </div>
 
             <!-- Book Info -->
-            <div class="col-lg-5 col-md-7 col-sm-12">
-                <h2 class="book-title">@Model.Title</h2>
-                <p class="book-author">by <strong>@Model.Author</strong></p>
+            <div class="col-lg-5 col-md-7 col-sm-6 col-12">
+                <h2 class="book-title mb-3">@Model.Title</h2>
+                <p class="book-author text-muted mb-3">by <strong>@Model.Author</strong></p>
 
                 <p><i class="bi bi-upc-scan me-2"></i><strong>ISBN:</strong> @Model.Isbn</p>
-                <p><i class="bi bi-currency-rupee me-2"></i><strong>Price:</strong> <span class="price-tag">₹@Model.Price?.ToString("0.00")</span></p>
-                <p><i class="bi bi-box-seam me-2"></i><strong>Stock:</strong> <span class="badge stock-badge bg-@(stockValue > 0 ? "success" : "danger")">@Model.Stock</span></p>
+                <p><i class="bi bi-currency-rupee me-2"></i><strong>Price:</strong> <span class="price-tag text-success">₹@Model.Price?.ToString("0.00")</span></p>
+                <p>
+                    <i class="bi bi-box-seam me-2"></i>
+                    <strong>Stock:</strong>
+                    <span class="badge bg-@(stockValue > 0 ? "success" : "danger")">@Model.Stock</span>
+                </p>
 
+                <!-- User Options -->
                 <div id="UserTimeBookOption" class="d-flex flex-wrap gap-3 mt-4 d-none">
-                    <i class="bi @(Model.IsFavorite == true ? "bi-heart-fill" : "bi-heart") icon-button"
+                    <!-- Favorite Icon -->
+                    <i class="bi @(Model.IsFavorite == true ? "bi-heart-fill" : "bi-heart") icon-button fs-4"
                        id="fav-icon-recommend-@Model.Id"
                        onclick="AddToFavorites(@Model.Id)"
                        title="Add to Favorites"
-                       style="@(Model.IsFavorite == true ? "color: red;" : "")">
+                       style="cursor: pointer; @(Model.IsFavorite == true ? "color: red;" : "")">
                     </i>
 
-                    <i class="bi bi-cart icon-button"
-                       onclick="AddtoCart(@Model.Id);"
+                    <!-- Cart Icon -->
+                    <i class="bi bi-cart icon-button fs-4"
+                       onclick="AddtoCart(@Model.Id)"
                        title="Add to Cart"
-                       id="cart-icon-@Model.Id">
+                       id="cart-icon-@Model.Id"
+                       style="cursor: pointer;">
                     </i>
 
-                    <div id="cart-counter-@Model.Id" class="d-none">
+                    <!-- Cart Quantity Controls -->
+                    <div id="cart-counter-@Model.Id" class="d-none d-flex align-items-center gap-2">
                         <button class="btn btn-outline-secondary btn-sm" onclick="changeCartQuantity(@Model.Id, 'decrease', 'profile')">-</button>
-                        <span id="cart-quantity-@Model.Id" class="px-2">1</span>
+                        <span id="cart-quantity-@Model.Id">1</span>
                         <button class="btn btn-outline-secondary btn-sm" onclick="changeCartQuantity(@Model.Id, 'increase', 'profile')">+</button>
                     </div>
                 </div>
@@ -73,7 +81,7 @@
                 </li>
             </ul>
 
-            <div class="tab-content p-4 border border-top-0">
+            <div class="tab-content p-4 border border-top-0 bg-light rounded-bottom">
                 <div class="tab-pane fade show active" id="overview">
                     <p class="mb-2"><strong>ISBN:</strong> @Model.Isbn</p>
                     <p class="mb-2"><strong>Price:</strong> ₹@Model.Price</p>
@@ -87,5 +95,8 @@
     </div>
 </div>
 
+<!-- Scripts -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Toastr JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script src="~/js/books/bookshome.js"></script>

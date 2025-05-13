@@ -1,7 +1,23 @@
 ﻿
-const token = sessionStorage.getItem("jwt");
+toastr.options = {
+    "closeButton": true,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": true,
+    "positionClass": "toast-top-right",  // position of the toast
+    "preventDuplicates": true,
+    "showDuration": "300",  // Duration of the showing animation
+    "hideDuration": "1000", // Duration of the hide animation
+    "timeOut": "5000",      // Duration before it disappears
+    "extendedTimeOut": "1000", // Duration for hover-to-pause
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn", // Method for showing the toast
+    "hideMethod": "fadeOut" // Method for hiding the toast
+};
 
 $(document).ready(function () {
+    const token = sessionStorage.getItem("jwt");
 
     if (!token) {
         // Redirect to login page if token is missing (i.e., session expired or user not logged in)
@@ -59,8 +75,9 @@ function SaveCategory() {
                 $('#myModal').modal('hide');
                 $("#categoryForm")[0].reset();
                 window.location.href = 'DisplayCategory';
+                toastr.success(response.message);
             } else {
-                alert(response.message);
+                toastr.warning(response.message);
             }
         },
         error: function (xhr) {
@@ -78,10 +95,11 @@ function DeleteCategory(Id) {
         type: "DELETE",
         success: function (response) {
             window.location.href = 'DisplayCategory';
+            toastr.error("Successfully Deleted");
         },
         error: function (xhr) {
-            alert("Error deleting category.");
-            console.error(xhr);
+            toastr.error("Error deleting category.");
+            
         }
     });
 }
@@ -98,12 +116,12 @@ function UpdateCategory(Id) {
             $('#myModal').modal('show');
             $("#NewCategory_Id").val(response.getCategory.id);
             $("#NewCategory_Name").val(response.getCategory.name);
-
+            toastr.success("form Open");
             EnableValidation();
         },
         error: function (xhr) {
-            alert("Error loading category data.");
-            console.error(xhr);
+            toastr.error("Error loading category data.");
+            
         }
     });
 }
@@ -120,16 +138,17 @@ function UpdateCategoryInDB() {
         data: JSON.stringify(data),
         success: function (response) {
             if (response.success) {
+                toastr.warning("Update Successfully");
                 $('#myModal').modal('hide');
                 $("#categoryForm")[0].reset();
                 window.location.href = 'DisplayCategory';
             } else {
-                alert(response.message);
+                toastr.error(response.message);
             }
         },
         error: function (xhr) {
-            alert("An error occurred while updating data.");
-            console.error(xhr);
+            toastr.error("An error occurred while updating data.");
+            
         }
     });
 }

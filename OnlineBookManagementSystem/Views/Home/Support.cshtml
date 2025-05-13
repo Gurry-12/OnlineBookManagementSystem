@@ -3,37 +3,49 @@
 }
 
 <div class="container py-5">
-    <h1 class="mb-4">Support</h1>
+    <div class="text-center mb-5">
+        <h1 class="display-4">🛠️ Support Center</h1>
+        <p class="lead text-muted">
+            Need assistance? We're here to help you with anything related to <strong>Whispering Pages</strong>.
+        </p>
+        <hr class="w-25 mx-auto" />
+    </div>
 
-    <p class="lead">
-        Need help? We're here to assist you.
-    </p>
+    <div class="mb-5">
+        <h4 class="text-primary">📌 Frequently Asked Questions</h4>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <strong>How do I reset my password?</strong><br />
+                Navigate to the login page and click on <em>"Forgot Password"</em> to receive a reset link.
+            </li>
+            <li class="list-group-item">
+                <strong>How do I contact an admin?</strong><br />
+                Use the form below or email us at <a href="mailto:support@example.com">support@example.com</a>.
+            </li>
+            <li class="list-group-item">
+                <strong>How do I report a bug?</strong><br />
+                Please fill in the issue details using the contact form. We’ll review and respond as soon as possible.
+            </li>
+        </ul>
+    </div>
 
-    <hr />
+    <div class="mb-5">
+        <h4 class="text-primary">✉️ Contact Support</h4>
+        <form method="post" action="#">
+            <div class="mb-3">
+                <label for="email" class="form-label">Your Email</label>
+                <input type="email" class="form-control shadow-sm" id="email" placeholder="you@example.com" required />
+            </div>
+            <div class="mb-3">
+                <label for="message" class="form-label">Message</label>
+                <textarea class="form-control shadow-sm" id="message" rows="4" placeholder="Describe your issue..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary px-4">Send Message</button>
+        </form>
+    </div>
 
-    <h4>Frequently Asked Questions</h4>
-    <ul>
-        <li><strong>How do I reset my password?</strong> – Go to the login page and click “Forgot Password”.</li>
-        <li><strong>How do I contact an admin?</strong> – Use the contact form below or email support@example.com.</li>
-        <li><strong>How do I report a bug?</strong> – Send us the details using the form below.</li>
-    </ul>
-
-    <hr />
-
-    <h4>Contact Support</h4>
-    <form method="post" action="#">
-        <div class="mb-3">
-            <label for="email" class="form-label">Your Email</label>
-            <input type="email" class="form-control" id="email" placeholder="you@example.com" required />
-        </div>
-        <div class="mb-3">
-            <label for="message" class="form-label">Message</label>
-            <textarea class="form-control" id="message" rows="4" placeholder="Describe your issue..." required></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary">Send Message</button>
-    </form>
-
-    <hr />
-
-    <p class="text-muted mt-4">You're logged in as: <strong id="SupportloginDetail"></strong></p>
+    <div class="text-end text-muted mt-4 border-top pt-3">
+        <p>You're logged in as: <strong id="SupportloginDetail"></strong></p>
+        <p><small>Support provided as part of an academic project — Whispering Pages, 2025</small></p>
+    </div>
 </div>
