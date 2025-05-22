@@ -24,32 +24,51 @@ toastr.options = {
 $(document).ready(function () {
     const userName = sessionStorage.getItem("userName");
 
+    // 1. Session check
     if (!token) {
-        // Call controller view with layout
-        window.location.href = "/Base/SessionExpired"; // or /Home/SessionExpired
+        window.location.href = "/Base/SessionExpired";
+        return;
     }
 
+    // 2. Greet the user with a fade-in effect
     if (userName) {
-        $("#greeting").text("Hello, " + userName);
+        $("#greeting")
+            .hide()
+            .text("Hello, " + userName)
+            .fadeIn(500);
     }
 
-   
-
+    // 3. Role-based UI with smooth transitions
     if (role === "Admin") {
-        $("#adminSection").show();
-        $("#UserTimeBookOption").addClass("d-none").removeClass("d-flex");
-        loadAdminBooks();
-        
+        $("#adminSection").hide().fadeIn(400);
+        $("#UserTimeBookOption")
+            .removeClass("d-flex")
+            .fadeOut(300, function () {
+                $(this).addClass("d-none");
+            });
+
+        // Slight delay before loading books to allow animation
+        setTimeout(() => {
+            loadAdminBooks();
+        }, 400);
+
     } else if (role === "User") {
-        $("#UserTimeBookOption").removeClass("d-none").addClass("d-flex");
-        loadBooks();
-        restoreCartUI();
+        $("#UserTimeBookOption")
+            .removeClass("d-none")
+            .css("display", "none") // to override d-none layout
+            .fadeIn(400)
+            .addClass("d-flex");
+
+        setTimeout(() => {
+            loadBooks();
+            restoreCartUI();
+        }, 400);
+
     } else {
         toastr.error("Unauthorized: Invalid role");
     }
-
-
 });
+
 
 
 function loadAdminBooks() {
@@ -141,21 +160,8 @@ function loadBooks() {
                     let recommendedCard = `
                         <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                             <div class="book-card shadow p-3 bg-white rounded h-100 position-relative">
-                                <div class="position-absolute end-0 top-0 me-1 mt-1 z-3">
-                                    <button class="btn btn-link p-0" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="bi bi-three-dots-vertical"></i>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-end border-0 shadow z-3">
-                                        <li><a class="dropdown-item text-warning" onclick="OpenBookModal(${book.id})">📖 Details</a></li>
-                                        <li><a class="dropdown-item text-danger">
-                                            <i class="bi ${book.isFavorite ? 'bi-heart-fill text-danger' : 'bi-heart'}"
-                                               id="fav-icon-recommend-${book.id}"
-                                               onclick="AddToFavorites(${book.id})"
-                                               style="cursor: pointer;">
-                                            </i> Favorite
-                                        </a></li>
-                                    </ul>
-                                </div>
+
+
 
                                 <img src="${book.imgUrl}" alt="${book.title}" class="book-image" />
                                 <h6 class="mt-2 fw-semibold">${book.title}</h6>
@@ -194,39 +200,44 @@ function loadBooks() {
 }
 
 
-//Add to favourite - frontend Only
+// Add to favourite - frontend Only
 function AddToFavorites(id) {
-   
     const $arrivalIcon = $(`#fav-icon-arrival-${id}`);
     const $recommendIcon = $(`#fav-icon-recommend-${id}`);
 
+    // Smooth toggle with animation
     const toggleFavoriteIcon = ($icon) => {
         if ($icon.length === 0) return;
-        if ($icon.hasClass("bi-heart")) {
-            $icon.removeClass("bi-heart")
-                .addClass("bi-heart-fill")
-                .css("color", "red");
-        } else {
-            $icon.removeClass("bi-heart-fill")
-                .addClass("bi-heart")
-                .css("color", "");
-        }
+
+        $icon.fadeOut(150, function () {
+            if ($icon.hasClass("bi-heart")) {
+                $icon.removeClass("bi-heart")
+                    .addClass("bi-heart-fill")
+                    .css("color", "red");
+            } else {
+                $icon.removeClass("bi-heart-fill")
+                    .addClass("bi-heart")
+                    .css("color", "");
+            }
+
+            // Add scale bounce effect
+            $icon.fadeIn(150).addClass("animate-fav");
+            setTimeout(() => $icon.removeClass("animate-fav"), 300);
+        });
     };
 
     // AJAX call to backend
     $.ajax({
         type: "POST",
         url: `/Books/AddandRemoveFavorite/${id}`,
-        
         success: function (response) {
-            
             if (response.success) {
                 toggleFavoriteIcon($arrivalIcon);
                 toggleFavoriteIcon($recommendIcon);
             }
         },
-        error: function (xhr, status, error) {
-            toastr.error("Error updating favorite ");
+        error: function () {
+            toastr.error("Error updating favorite");
         }
     });
 }
@@ -265,16 +276,18 @@ function handleBookFormSubmission(event, url, successMessage, redirect = false) 
         processData: false,
         success: function (response) {
             if (response.success) {
-                if (url == "/Books/AddBook") {
-                    toastr.success(`✅ ${successMessage}`);
-                }
-                else {
-                    toastr.warning(`✅ ${successMessage}`);
-                }
+                              
                 $("#addBookForm")[0].reset();
                 if (redirect && response.redirectUrl) {
-                    window.location.href = response.redirectUrl;
+                    // Show the success message first
+                    toastr.success(`✅ ${successMessage}`);
+
+                    // Delay the redirection to allow the message to appear
+                    setTimeout(function () {
+                        window.location.href = response.redirectUrl;
+                    }, 2000); // Adjust the delay time (in milliseconds) as needed (e.g., 2000ms = 2 seconds)
                 }
+
             } else {
                 toastr.warning(response.message);
             }
@@ -295,6 +308,7 @@ function UpdateData(event) {
 }
 
 function OpenBookModal(id) {
+    debugger;
     $.ajax({
         url: `/Books/GetBook/${id}`,
         method: "GET",
@@ -302,19 +316,16 @@ function OpenBookModal(id) {
             "Authorization": `Bearer ${token}`
         },
         success: function (response) {
-            if (response.redirectUrl) {
+            debugger;
+            $("body").fadeOut(300, function () {
                 window.location.href = response.redirectUrl;
-            } else {
-                toastr.warning("Unexpected response format.");
-            }
+            }); 
         },
-        error: function (xhr, status, error) {
-            //console.error("❌ Error loading book:", error);
+        error: function () {
             toastr.error("Something went wrong.");
         }
     });
 }
-
 
 function DeleteBook(Id) {
 
@@ -326,7 +337,9 @@ function DeleteBook(Id) {
         },
         success: function (response) {
             toastr.error("Book Deleted");
-            window.location.href = response.redirectUrl;
+            setTimeout(function () {
+                window.location.href = response.redirectUrl;
+            }, 2000);
 
         },
         error: function (xhr, status, error) {
@@ -351,6 +364,8 @@ function AddtoCart(bookId) {
             $("#cart-counter-" + bookId).removeClass("d-none");
             $("#cart-quantity-" + bookId).text("1");
             restoreCartUI();
+
+            toastr.success("Book added to cart successfully!");
         },
         error: function () {
             toastr.error("Error adding book to cart.");
@@ -454,7 +469,12 @@ function RemoveCartItems(bookid, userid) {
         data: JSON.stringify(Data),
         success: function (response) {
             if (response.redirectUrl) {
-                window.location.href = response.redirectUrl;
+
+                toastr.error("Cart Empty");
+
+                setTimeout(function () {
+                    window.location.href = response.redirectUrl;
+                }, 2000);
             } else {
                 toastr.warning("Unexpected response format.");
             }

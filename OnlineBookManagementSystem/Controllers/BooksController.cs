@@ -164,7 +164,7 @@ namespace OnlineBookManagementSystem.Controllers
             await _activityLoggerService.LogAsync("Update", $"Updated book: {bookData.Title}.");
 
             var redirectUrl = Url.Action("AdminIndex", "Books");
-            return Json(new { success = true, redirectUrl });
+            return Json(new { success = true, message = "Book Update successfully.", redirectUrl });
         }
 
 

@@ -160,7 +160,7 @@ namespace OnlineBookManagementSystem.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
-            var user = _authService.ValidateUserViaEmail(model.Email);
+            var user = _authService.ValidateUserViaEmailAsync(model.Email);
             if (user == null)
             {
                 ModelState.AddModelError("", "No user found with that email.");

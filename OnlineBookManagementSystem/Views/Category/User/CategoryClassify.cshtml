@@ -35,22 +35,7 @@
                          data-author="@book.Author.ToLower()"
                          data-category="@category.CategoryName.ToLower()">
 
-                        <div class="position-absolute end-0 top-0 me-1 mt-1 z-3">
-                            <button class="btn btn-link p-0" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-three-dots-vertical"></i>
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-end border-0 shadow z-3">
-                                <li><a class="dropdown-item text-warning" onclick="OpenBookModal(@book.Id)">Details</a></li>
-                                <li>
-                                    <i class="bi @(book.IsFavorite == true ? "bi-heart-fill" : "bi-heart") dropdown-item"
-                                       id="fav-icon-recommend-@book.Id"
-                                       onclick="AddToFavorites(@book.Id)"
-                                       style="cursor: pointer; @(book.IsFavorite == true ? "color: red;" : "")"> Favorite</i>
-                                </li>
-
-                            </ul>
-                        </div>-
-
+                        
                         <img src="@book.ImgUrl" alt="@book.Title" class="book-image" />
                         <h6 class="mt-2">@book.Title</h6>
                         <small class="text-muted">@book.Author</small>

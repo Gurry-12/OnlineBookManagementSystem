@@ -12,7 +12,7 @@ namespace OnlineBookManagementSystem.Interfaces
         Task<UserViewModel> GetUserProfileAsync(int userId);
         User GetUserById(int id);
 
-        User ValidateUserViaEmail(string email);
+        Task<User> ValidateUserViaEmailAsync(string email);
 Task<bool> UpdateUserDetailAsync(ProfileViewModel model);
         void UpdateUserDetailAsync(User user);
 

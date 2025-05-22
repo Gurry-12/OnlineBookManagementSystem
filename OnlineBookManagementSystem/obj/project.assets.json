@@ -47,6 +47,19 @@
           }
         }
       },
+      "DnsClient/1.8.0": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/DnsClient.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/DnsClient.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Humanizer.Core/2.14.1": {
         "type": "package",
         "compile": {
@@ -1731,6 +1744,29 @@
         "azureicon.png",
         "lib/netstandard2.0/Azure.Identity.dll",
         "lib/netstandard2.0/Azure.Identity.xml"
+      ]
+    },
+    "DnsClient/1.8.0": {
+      "sha512": "RRwtaCXkXWsx0mmsReGDqCbRLtItfUbkRJlet1FpdciVhyMGKcPd57T1+8Jki9ojHlq9fntVhXQroOOgRak8DQ==",
+      "type": "package",
+      "path": "dnsclient/1.8.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "dnsclient.1.8.0.nupkg.sha512",
+        "dnsclient.nuspec",
+        "icon.png",
+        "lib/net472/DnsClient.dll",
+        "lib/net472/DnsClient.xml",
+        "lib/net6.0/DnsClient.dll",
+        "lib/net6.0/DnsClient.xml",
+        "lib/net8.0/DnsClient.dll",
+        "lib/net8.0/DnsClient.xml",
+        "lib/netstandard2.0/DnsClient.dll",
+        "lib/netstandard2.0/DnsClient.xml",
+        "lib/netstandard2.1/DnsClient.dll",
+        "lib/netstandard2.1/DnsClient.xml"
       ]
     },
     "Humanizer.Core/2.14.1": {
@@ -4740,6 +4776,7 @@
   },
   "projectFileDependencyGroups": {
     "net8.0": [
+      "DnsClient >= 1.8.0",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 8.0.4",
       "Microsoft.EntityFrameworkCore >= 9.0.3",
       "Microsoft.EntityFrameworkCore.Abstractions >= 9.0.3",
@@ -4800,6 +4837,10 @@
       "net8.0": {
         "targetAlias": "net8.0",
         "dependencies": {
+          "DnsClient": {
+            "target": "Package",
+            "version": "[1.8.0, )"
+          },
           "Microsoft.AspNetCore.Authentication.JwtBearer": {
             "target": "Package",
             "version": "[8.0.4, )"

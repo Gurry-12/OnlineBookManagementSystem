@@ -9,7 +9,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using static System.Runtime.InteropServices.JavaScript.JSType;
-
+using OnlineBookManagementSystem.Helper;
+using System;
 namespace OnlineBookManagementSystem.Services
 {
     public class AuthService : IAuthInterface
@@ -17,12 +18,14 @@ namespace OnlineBookManagementSystem.Services
         private readonly BookManagementContext _context;
         private readonly IConfiguration _config;
         private readonly PasswordHasher<User> _hasher;
+        private readonly IDnsChecker _dnsChecker;
 
-        public AuthService(BookManagementContext context, IConfiguration config)
+        public AuthService(BookManagementContext context, IConfiguration config, IDnsChecker dnsChecker)
         {
             _context = context;
             _config = config;
             _hasher = new PasswordHasher<User>();
+            _dnsChecker = dnsChecker;
         }
 
         public async Task<(bool Success, string Message, User User)> ValidateUserAsync(LoginViewModel data)
@@ -30,7 +33,11 @@ namespace OnlineBookManagementSystem.Services
             if (data == null || string.IsNullOrEmpty(data.Email) || string.IsNullOrEmpty(data.Password))
                 return (false, "Invalid input data.", null);
 
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == data.Email);
+            // Check if domain has a valid MX record
+            if (!await _dnsChecker.DomainHasMxRecordAsync(data.Email))
+                return (false, "Email domain is not valid.", null);
+
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == data.Email && u.IsDeleted == false);
             if (user == null)
                 return (false, "Invalid login credentials.", null);
 
@@ -67,7 +74,11 @@ namespace OnlineBookManagementSystem.Services
 
         public async Task<bool> RegisterUserAsync(RegisterViewModel data)
         {
-            if (!string.IsNullOrEmpty(data.Email) && _context.Users.Any(u => u.Email == data.Email))
+            if (string.IsNullOrEmpty(data.Email) || _context.Users.Any(u => u.Email == data.Email))
+                return false;
+
+            // Validate domain using DNS MX record
+            if (!await _dnsChecker.DomainHasMxRecordAsync(data.Email))
                 return false;
 
             var user = new User
@@ -113,6 +124,10 @@ namespace OnlineBookManagementSystem.Services
             if (user == null)
                 return false;
 
+            if (!await _dnsChecker.DomainHasMxRecordAsync(model.NewEmail))
+                return false; // Invalid domain
+
+
             user.Name = model.NewName;
             user.Email = model.NewEmail;
 
@@ -139,9 +154,12 @@ namespace OnlineBookManagementSystem.Services
             }
         }
 
-        public User ValidateUserViaEmail(string email)
+        public async Task<User> ValidateUserViaEmailAsync(string email)
         {
-            return _context.Users.FirstOrDefault(u => u.Email == email && u.IsDeleted == false);
+            if (!await _dnsChecker.DomainHasMxRecordAsync(email))
+                return null; // Invalid domain
+
+            return await _context.Users.FirstOrDefaultAsync(u => u.Email == email && u.IsDeleted == false);
         }
 
         public async Task<bool> UpdatePasswordAsync(string email, string newPassword)

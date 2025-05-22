@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using OnlineBookManagementSystem.Helper;
 using OnlineBookManagementSystem.Interfaces;
 using OnlineBookManagementSystem.Models;
 using OnlineBookManagementSystem.Services;
@@ -29,6 +30,9 @@ builder.Services.AddScoped<IBookService, BookServices>();
 builder.Services.AddScoped<IAuthInterface, AuthService>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IActivityLogger, ActivityLogger>();
+
+//Helper Interface injection 
+builder.Services.AddScoped<IDnsChecker , DNSCheckerHelper>();
 
 
 // Configure JWT Authentication
