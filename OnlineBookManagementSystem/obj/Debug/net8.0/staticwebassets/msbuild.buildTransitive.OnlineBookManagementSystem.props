@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\buildMultiTargeting\OnlineBookManagementSystem.props" />
-</Project>
