@@ -1,0 +1,20 @@
+# Build results
+bin/
+obj/
+
+# User-specific files
+.vs/
+*.user
+*.suo
+
+# Auto-generated files
+*.cache
+*.log
+
+# NuGet packages
+*.nupkg
+packages/
+
+# Other temp files
+*.tmp
+*.dbmdl

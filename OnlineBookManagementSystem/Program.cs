@@ -19,7 +19,7 @@ builder.Services.AddControllersWithViews();
 
 // Add DbContext for database connection
 builder.Services.AddDbContext<BookManagementContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 //Add Hosted service
 builder.Services.AddHostedService<LogCleanupService>();
@@ -32,7 +32,7 @@ builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IActivityLogger, ActivityLogger>();
 
 //Helper Interface injection 
-builder.Services.AddScoped<IDnsChecker , DNSCheckerHelper>();
+builder.Services.AddScoped<IDnsChecker, DNSCheckerHelper>();
 
 
 // Configure JWT Authentication
@@ -60,9 +60,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddDistributedMemoryCache(); // Required for session
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(30); // Optional: session timeout
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
+    options.Cookie.SameSite = SameSiteMode.None;     // ✅ allow session in redirects
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // ✅ if using HTTPS
 });
 
 // Build the application
@@ -77,16 +79,17 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-app.UseRouting();
-app.UseSession();
-// Add Authentication and Authorization middleware
-app.UseAuthentication(); // JWT Auth
-app.UseAuthorization();  // Authorization
 
-// Default route mapping
+app.UseRouting();
+
+app.UseSession();        // ✅ session must come before auth
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Auth}/{action=Login}/{id?}");
+
 
 // Run the application
 app.Run();
