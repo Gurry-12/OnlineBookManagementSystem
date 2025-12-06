@@ -11,7 +11,7 @@ using OnlineBookManagementSystem.Models;
 namespace OnlineBookManagementSystem.Migrations
 {
     [DbContext(typeof(BookManagementContext))]
-    [Migration("20250908023959_InitialCreate")]
+    [Migration("20251126080524_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

@@ -1,5 +1,4 @@
-﻿using OnlineBookManagementSystem.Models;
-using Microsoft.Extensions.Logging;
+using OnlineBookManagementSystem.Models;
 
 namespace OnlineBookManagementSystem.Services
 {
@@ -36,10 +35,10 @@ namespace OnlineBookManagementSystem.Services
 
             // Query to get the logs older than 1 day
             var oldLogs = dbContext.ActivityLogs
-                .Where(log =>  log.Timestamp < cutoff);
+                .Where(log => log.Timestamp < cutoff);
 
             // Remove old login logs
-            dbContext.ActivityLogs.RemoveRange(oldLogs);
+            //   dbContext.ActivityLogs.RemoveRange(oldLogs);
             await dbContext.SaveChangesAsync();
 
             // Log the cleanup activity (Optional for debugging or tracking)
