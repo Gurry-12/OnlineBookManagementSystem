@@ -8,8 +8,8 @@ namespace OnlineBookManagementSystem.Services
     {
         Task<List<Models.Book>> GetAllBooksAsync();
         Task<Models.Book?> GetBookByIdAsync(int id);
-        Task<bool> AddBookAsync(Models.Book bookData);
-        Task<bool> UpdateBookAsync(Models.Book bookData);
+        Task<bool> AddBookAsync(BookViewModel bookData);
+        Task<bool> UpdateBookAsync(BookViewModel bookData);
 
         Task<string> SaveImageAsync(IFormFile image);
         Task<bool> SoftDeleteBookAsync(int id);

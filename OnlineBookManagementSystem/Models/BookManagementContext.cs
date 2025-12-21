@@ -60,16 +60,23 @@ public partial class BookManagementContext : DbContext
                 .HasColumnName("ImgURL");
             entity.Property(e => e.IsDeleted).HasDefaultValue(false);
             entity.Property(e => e.IsFavorite).HasDefaultValue(false);
+
+            // Validation Constraints
+            entity.Property(e => e.Title)
+                .IsRequired()
+                .HasMaxLength(255)
+                .IsUnicode(false);
+
             entity.Property(e => e.Isbn)
                 .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasColumnName("ISBN");
+
+            entity.HasIndex(e => e.Isbn).IsUnique(); // Ensure ISBN is unique
+
             entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.Stock)
                 .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.Title)
-                .HasMaxLength(255)
                 .IsUnicode(false);
 
             entity.HasOne(d => d.Category).WithMany(p => p.Books)

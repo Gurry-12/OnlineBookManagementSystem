@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OnlineBookManagementSystem.Interfaces;
@@ -68,7 +68,7 @@ namespace OnlineBookManagementSystem.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> AddBook([FromForm] Book bookData, [FromForm(Name = "ImageFile")] IFormFile? imageFile, [FromForm(Name = "ImageUrl")] string? imageUrl)
+        public async Task<IActionResult> AddBook([FromForm(Name = "Book")] BookViewModel bookData, [FromForm(Name = "ImageFile")] IFormFile? imageFile, [FromForm(Name = "ImageUrl")] string? imageUrl)
         {
             if (!ModelState.IsValid)
                 return BadRequest(new { message = "Invalid book data." });
@@ -134,7 +134,7 @@ namespace OnlineBookManagementSystem.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateBookDetails( [FromForm] Book bookData, [FromForm(Name = "ImageFile")] IFormFile? imageFile,
+        public async Task<IActionResult> UpdateBookDetails( [FromForm(Name = "Book")] BookViewModel bookData, [FromForm(Name = "ImageFile")] IFormFile? imageFile,
     [FromForm(Name = "ImageUrl")] string? imageUrl)
         {
             if (!ModelState.IsValid)
@@ -177,8 +177,7 @@ namespace OnlineBookManagementSystem.Controllers
 
             //Logs for Delete
             await _activityLoggerService.LogAsync("Delete", $"Deleted book: {book.Title}.");
-            var redirectUrl = Url.Action("AdminIndex", "Books");
-            return Json(new { redirectUrl });
+            return Json(new { success = true, message = "Book deleted successfully." });
         }
 
         public async Task<IActionResult> Favorite()
@@ -200,10 +199,13 @@ namespace OnlineBookManagementSystem.Controllers
 
         [HttpGet]
         [ActionName("BookList")]
-        public async Task<IActionResult> BookListAsync(int page = 1)
+        public async Task<IActionResult> BookListAsync()
         {
-            int pageSize = 8;
-            var model = await _bookService.GetPaginatedBooksAsync(page, pageSize);
+            // Fetch all books for DataTables client-side pagination
+            // Passing a large page size to reuse the service method, or strictly we should add GetAll method to Service that returns ViewModel.
+            // But GetPaginatedBooksAsync maps to ViewModel. Let's use it with a very large number.
+            int pageSize = 10000;
+            var model = await _bookService.GetPaginatedBooksAsync(1, pageSize);
             return View("Admin/BookList", model);
         }
 
