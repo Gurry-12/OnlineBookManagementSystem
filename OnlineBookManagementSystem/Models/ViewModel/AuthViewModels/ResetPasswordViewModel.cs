@@ -1,5 +1,3 @@
-﻿using System.ComponentModel.DataAnnotations;
-
 namespace OnlineBookManagementSystem.Models.ViewModel.AuthViewModels
 {
     public class ResetPasswordViewModel
@@ -7,5 +5,7 @@ namespace OnlineBookManagementSystem.Models.ViewModel.AuthViewModels
         public string Email { get; set; }
 
         public string NewPassword { get; set; }
+        public string ConfirmPassword { get; set; }
+        public string Token { get; set; }
     }
 }

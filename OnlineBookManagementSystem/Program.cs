@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using OnlineBookManagementSystem.Helper;
@@ -9,68 +10,202 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-
 var builder = WebApplication.CreateBuilder(args);
 
+// Clear default claim mapping
+JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
-
-// Add DbContext for database connection
+// Add DbContext (SQLite by default here; change if needed)
 builder.Services.AddDbContext<BookManagementContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+{
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    options.UseSqlite(connectionString);
+});
 
-//Add Hosted service
-builder.Services.AddHostedService<LogCleanupService>();
+// Identity
+builder.Services.AddIdentity<User, IdentityRole<int>>(options =>
+{
+    options.Password.RequiredLength = 6;
+    options.Password.RequireDigit = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireLowercase = false;
 
-// Add services for dependency injection
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
+    options.Lockout.MaxFailedAccessAttempts = 5;
+    options.Lockout.AllowedForNewUsers = true;
+
+    options.User.RequireUniqueEmail = true;
+    options.SignIn.RequireConfirmedEmail = false; // dev-friendly
+})
+.AddEntityFrameworkStores<BookManagementContext>()
+.AddDefaultTokenProviders();
+
+// Read JWT settings from configuration (appsettings.json / env)
+var jwtKey = builder.Configuration["Jwt:Key"] ?? "YourSecretKeyMustBeLongEnough12345!";
+var jwtIssuer = builder.Configuration["Jwt:Issuer"] ?? "WhisperingPages";
+var jwtAudience = builder.Configuration["Jwt:Audience"] ?? jwtIssuer;
+
+// Add Authentication (keep Identity cookie scheme for MVC; add JwtBearer for APIs and cookie fallback)
+builder.Services.AddAuthentication()
+    .AddJwtBearer(options =>
+    {
+        options.RequireHttpsMetadata = false; // set true in production
+        options.SaveToken = true;
+
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = jwtIssuer,
+            ValidAudience = jwtAudience,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
+            ClockSkew = TimeSpan.FromMinutes(5),
+            RoleClaimType = ClaimTypes.Role
+        };
+
+        // If Authorization header is missing, fallback to accessToken cookie
+        options.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                // Prefer Authorization header
+                var authHeader = context.Request.Headers["Authorization"].FirstOrDefault();
+                if (!string.IsNullOrEmpty(authHeader) && authHeader.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
+                {
+                    context.Token = authHeader.Substring("Bearer ".Length).Trim();
+                    return Task.CompletedTask;
+                }
+
+                // Fallback to cookie named "accessToken"
+                if (context.Request.Cookies.TryGetValue("accessToken", out var cookieToken) && !string.IsNullOrEmpty(cookieToken))
+                {
+                    context.Token = cookieToken;
+                }
+
+                return Task.CompletedTask;
+            }
+        };
+    });
+
+// Authorization policies
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("SuperAdminOnly", policy => policy.RequireRole("SuperAdmin"));
+    options.AddPolicy("AdminOrHigher", policy => policy.RequireRole("SuperAdmin", "Admin"));
+    options.AddPolicy("UserOrHigher", policy => policy.RequireRole("SuperAdmin", "Admin", "User"));
+});
+
+// Your custom services
 builder.Services.AddScoped<ICategoryInterface, CategoryServices>();
 builder.Services.AddScoped<IBookService, BookServices>();
 builder.Services.AddScoped<IAuthInterface, AuthService>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IActivityLogger, ActivityLogger>();
-
-//Helper Interface injection 
 builder.Services.AddScoped<IDnsChecker, DNSCheckerHelper>();
+builder.Services.AddHostedService<LogCleanupService>();
 
-
-// Configure JWT Authentication
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-.AddJwtBearer(options =>
-{
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-        ValidAudience = builder.Configuration["Jwt:Issuer"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
-
-        // 👇 This is important for role-based authorization to work
-        RoleClaimType = ClaimTypes.Role
-    };
-});
-
-
-
-
-builder.Services.AddDistributedMemoryCache(); // Required for session
+// Session & Cache
+builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
-    options.Cookie.SameSite = SameSiteMode.None;     // ✅ allow session in redirects
-    options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // ✅ if using HTTPS
 });
 
-// Build the application
+// MVC
+builder.Services.AddControllersWithViews();
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline
+// --- Database WAL mode fix for SQLite (prevents "database is locked") ---
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<BookManagementContext>();
+    try
+    {
+        dbContext.Database.OpenConnection();
+        using (var command = dbContext.Database.GetDbConnection().CreateCommand())
+        {
+            command.CommandText = "PRAGMA journal_mode=WAL;";
+            command.ExecuteNonQuery();
+        }
+    }
+    catch
+    {
+        // ignore if cannot set WAL (hosted environments may not support)
+    }
+}
+
+// --- Seeding (roles + superadmin) ---
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<BookManagementContext>();
+        // Optional: context.Database.Migrate();
+
+        var userManager = services.GetRequiredService<UserManager<User>>();
+        var authService = services.GetRequiredService<IAuthInterface>();
+
+        await authService.SeedRolesAsync();
+
+        var adminEmail = builder.Configuration["SuperAdmin:Email"] ?? "superadmin@example.com";
+        var adminPassword = builder.Configuration["SuperAdmin:Password"] ?? "Admin@123";
+
+        var existingUser = await userManager.FindByEmailAsync(adminEmail);
+        if (existingUser == null)
+        {
+            var superAdmin = new User
+            {
+                UserName = adminEmail,
+                Email = adminEmail,
+                Name = "Super Admin",
+                IsEmailConfirmed = true,
+                EmailConfirmed = true,
+                IsDeleted = false
+            };
+            var result = await userManager.CreateAsync(superAdmin, adminPassword);
+            if (result.Succeeded)
+            {
+                await userManager.AddToRoleAsync(superAdmin, "SuperAdmin");
+            }
+        }
+        else
+        {
+            // Ensure properties are correct for existing user
+            existingUser.EmailConfirmed = true;
+            existingUser.IsEmailConfirmed = true;
+
+            if (string.IsNullOrEmpty(existingUser.SecurityStamp))
+            {
+                existingUser.SecurityStamp = Guid.NewGuid().ToString();
+            }
+
+            // Force update password hash using IPasswordHasher
+            var passwordHasher = services.GetRequiredService<IPasswordHasher<User>>();
+            existingUser.PasswordHash = passwordHasher.HashPassword(existingUser, adminPassword);
+
+            await userManager.UpdateAsync(existingUser);
+
+            if (!await userManager.IsInRoleAsync(existingUser, "SuperAdmin"))
+            {
+                await userManager.AddToRoleAsync(existingUser, "SuperAdmin");
+            }
+        }
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred while seeding the database.");
+    }
+}
+
+// Error / HSTS
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -82,14 +217,13 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseSession();        // ✅ session must come before auth
+// Middleware order
+app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Auth}/{action=Login}/{id?}");
+    pattern: "{controller=Auth}/{action=Index}/{id?}");
 
-
-// Run the application
 app.Run();

@@ -1,0 +1,64 @@
+/* ~/css/layouts.css */
+
+/* Role-specific animations */
+.superadmin-layout {
+    animation: superEntry 0.5s ease-in;
+}
+
+@keyframes superEntry {
+    from {
+        background-color: white;
+    }
+
+    to {
+        background-color: var(--superadmin-bg);
+    }
+}
+
+.admin-layout .card {
+    border-left: 4px solid var(--admin-accent);
+}
+
+.user-layout .card {
+    border-left: 4px solid var(--user-accent);
+}
+
+/* Nav dropdowns */
+.dropdown-menu {
+    border: 1px solid var(--color-secondary);
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-item:hover {
+    background-color: rgba(var(--color-primary-rgb), 0.1);
+}
+
+/* Footer role tweaks */
+.superadmin-layout footer {
+    background: var(--superadmin-bg);
+    border-top: 1px solid var(--superadmin-primary);
+}
+
+.admin-layout footer {
+    background: var(--admin-bg);
+    border-top: 1px solid var(--admin-primary);
+}
+
+/* Mobile nav toggle (add JS for hamburger if needed) */
+@media (max-width: 768px) {
+    .navbar-collapse {
+        background: var(--color-primary);
+    }
+
+    .nav-link {
+        color: white !important;
+    }
+}
+
+/* Glassmorphism for admin cards */
+.admin-layout .card, .superadmin-layout .card {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}

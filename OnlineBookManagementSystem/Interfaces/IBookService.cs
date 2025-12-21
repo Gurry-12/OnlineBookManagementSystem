@@ -1,30 +1,31 @@
-﻿using OnlineBookManagementSystem.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using OnlineBookManagementSystem.Models;
 using OnlineBookManagementSystem.Models.ViewModel;
 using OnlineBookManagementSystem.Models.ViewModel.ChartViewModel;
 
-namespace OnlineBookManagementSystem.Services
+namespace OnlineBookManagementSystem.Interfaces
 {
     public interface IBookService
     {
-        Task<List<Models.Book>> GetAllBooksAsync();
-        Task<Models.Book?> GetBookByIdAsync(int id);
-        Task<bool> AddBookAsync(Models.Book bookData);
-        Task<bool> UpdateBookAsync(Models.Book bookData);
-
-        Task<string> SaveImageAsync(IFormFile image);
-        Task<bool> SoftDeleteBookAsync(int id);
-        Task<List<Models.Book>> GetFavoriteBooksAsync();
-        Task<bool> ToggleFavoriteAsync(int id);
-        Task<List<object>> GetAllUsersAsync();
+        Task<List<Book>> GetAllBooksAsync();
+        Task<Book?> GetBookByIdAsync(int id);
+        Task<bool> AddBookAsync(Book bookData, IFormFile? imageFile);
+        Task<bool> UpdateBookAsync(Book bookData, IFormFile? imageFile = null);
+        Task<string?> SaveImageAsync(IFormFile image, string bookId);
+        Task<bool> SoftDeleteBookAsync(int id, int userId);  // Log soft delete
+        Task<List<Book>> GetFavoriteBooksAsync(int userId);  // User-specific
+        Task<bool> ToggleFavoriteAsync(int bookId, int userId);  // User-specific
+        Task<List<object>> GetAllUsersAsync();  // For admin
         Task<BookFormViewModel?> GetCreateBookViewModelAsync();
         Task<BookFormViewModel?> GetEditBookViewModelAsync(int id);
-        AdminViewModel GetQuickStats(int id);
+        AdminViewModel GetQuickStats(int userId);  // Cached
 
-        Task<BookListViewModel> GetPaginatedBooksAsync(int page, int pageSize);
-        string GetTimeAgo(DateTime time);
-        IEnumerable<MonthlyBookUploadViewModel> MonthlyBookUpload();
+        Task<BookListViewModel> GetPaginatedBooksAsync(int page, int pageSize, string? search = null, int? categoryId = null, string? sortBy = null);
+        string GetTimeAgo(DateTimeOffset time);
+        IEnumerable<MonthlyBookUploadViewModel> MonthlyBookUpload(DateTimeOffset? startDate = null, DateTimeOffset? endDate = null);  // Filtered
         IEnumerable<CategoryBookCountViewModel> BooksByCategory();
         IEnumerable<AuthorBookCountViewModel> BooksByAuthor();
         FavoriteStatsViewModel FavoriteStats();
+        Task<List<SelectListItem>> GetCategoriesAsync();
     }
 }

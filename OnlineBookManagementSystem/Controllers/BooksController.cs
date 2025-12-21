@@ -1,14 +1,13 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using OnlineBookManagementSystem.Interfaces;
 using OnlineBookManagementSystem.Models;
 using OnlineBookManagementSystem.Models.ViewModel;
-using OnlineBookManagementSystem.Services;
+using System.Security.Claims;
 
 namespace OnlineBookManagementSystem.Controllers
 {
-    
+    [Authorize]  // Global auth; per-action policies
     public class BooksController : BaseController
     {
         private readonly IBookService _bookService;
@@ -20,208 +19,165 @@ namespace OnlineBookManagementSystem.Controllers
             _activityLoggerService = activityLogger;
         }
 
-        public IActionResult AdminIndex()
+        [Authorize(Policy = "AdminOrHigher")]
+        public async Task<IActionResult> AdminIndex()
         {
-            var strId = HttpContext.Session.GetString("userId");
+            var userId = GetUserIdFromClaims();  // Helper below
+            if (userId == 0) return RedirectToAction("Login", "Auth");
 
-            if(strId == null)
-                return RedirectToAction("Login", "Auth");
-            int id = int.Parse(strId);
-
-
-            var AdminInfo = _bookService.GetQuickStats(id);
-
-            return View("Admin/AdminIndex", AdminInfo);
+            var adminInfo = _bookService.GetQuickStats(userId);
+            return View("Admin/AdminIndex", adminInfo);
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "AdminOrHigher")]
+        [HttpGet]
         public async Task<IActionResult> GetAdminData()
         {
             var data = await _bookService.GetAllBooksAsync();
-            return Json(data);
+            return Json(new { data, success = true });
         }
 
+        [Authorize(Policy = "UserOrHigher")]
         public IActionResult UserIndex()
         {
             return View("User/UserIndex");
         }
 
+        [Authorize(Policy = "UserOrHigher")]
         [HttpGet]
-        
-        [Authorize(Roles = "User")]
-        public async Task<IActionResult> GetBooks()
+        public async Task<IActionResult> GetBooks(string? search = null, int? categoryId = null)
         {
-            var books = await _bookService.GetAllBooksAsync();
-            return Ok(new { data = books });
+            var userId = GetUserIdFromClaims();
+            var books = await _bookService.GetPaginatedBooksAsync(1, 12, search, categoryId, "title");
+            var favorites = await _bookService.GetFavoriteBooksAsync(userId);  // For UI highlight
+            return Ok(new { data = books.Books, favorites = favorites.Select(f => f.Id).ToList(), success = true });
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetBook(int id)
+        [AllowAnonymous]  // Public browse for Guests
+        public async Task<IActionResult> PublicList(string? search = null, int? categoryId = null)
         {
-            var book = await _bookService.GetBookByIdAsync(id);
-            if (book == null)
-                return NotFound();
-
-            var redirectUrl = Url.Action("DisplayBookdetails", "Books", new { id = book.Id });
-            return Json(new { redirectUrl });
+            var books = await _bookService.GetPaginatedBooksAsync(1, 20, search, categoryId, "title");
+            return View("Public/BookList", books);
         }
 
+        // CRUD Actions (AdminOrHigher)
+        [Authorize(Policy = "AdminOrHigher")]
+        [HttpGet]
+        public async Task<IActionResult> Create()
+        {
+            var vm = await _bookService.GetCreateBookViewModelAsync();
+            return View("Admin/CreateBook", vm);
+        }
+
+        [Authorize(Policy = "AdminOrHigher")]
         [HttpPost]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> AddBook([FromForm] Book bookData, [FromForm(Name = "ImageFile")] IFormFile? imageFile, [FromForm(Name = "ImageUrl")] string? imageUrl)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(BookFormViewModel model)
         {
             if (!ModelState.IsValid)
-                return BadRequest(new { message = "Invalid book data." });
-
-            // Decide image source: file upload > direct URL
-            if (imageFile != null && imageFile.Length > 0)
             {
-                var imagePath = await _bookService.SaveImageAsync(imageFile);
-                bookData.ImgUrl = imagePath;
-            }
-            else if (!string.IsNullOrWhiteSpace(imageUrl))
-            {
-                bookData.ImgUrl = imageUrl;
+                model.Categories = await _bookService.GetCategoriesAsync();  // Repopulate
+                return View("Admin/CreateBook", model);
             }
 
-            var success = await _bookService.AddBookAsync(bookData);
-            if (!success)
-                return StatusCode(500, new { message = "Failed to add book." });
+            var book = new Book
+            {
+                Title = model.Book.Title,
+                Author = model.Book.Author,
+                ISBN = model.Book.ISBN,
+                Price = model.Book.Price,
+                Description = model.Book.Description,
+                StockQuantity = model.Book.StockQuantity,
+                CategoryId = model.Book.CategoryId,
+                // Image handled in service
+            };
 
-            await _activityLoggerService.LogAsync("Add", $"Added book: {bookData.Title}.");
-            return Json(new { success = true, message = "Book added successfully.", bookData });
+            var success = await _bookService.AddBookAsync(book, model.ImageFile);
+            if (success)
+            {
+                TempData["Success"] = "Book created successfully!";
+                return RedirectToAction("AdminIndex");
+            }
+
+            ModelState.AddModelError("", "Failed to create book.");
+            model.Categories = await _bookService.GetCategoriesAsync();
+            return View("Admin/CreateBook", model);
         }
 
-
-
-        public async Task<IActionResult> CreateBookData()
-        {
-            var viewModel = await _bookService.GetCreateBookViewModelAsync();
-            return View("Admin/CreateBookData", viewModel);
-        }
-
-        public IActionResult UserList()
-        {
-            return View("Admin/UserList");
-        }
-
+        [Authorize(Policy = "AdminOrHigher")]
         [HttpGet]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> GetAllUsers()
+        public async Task<IActionResult> Edit(int id)
         {
-            var users = await _bookService.GetAllUsersAsync();
-            return Ok(new { success = true, users });
+            var vm = await _bookService.GetEditBookViewModelAsync(id);
+            if (vm == null) return NotFound();
+            return View("Admin/EditBook", vm);
         }
 
-        public async Task<IActionResult> DisplayBookdetails(int id)
-        {
-            var book = await _bookService.GetBookByIdAsync(id);
-            if (book == null)
-                return NotFound();
-
-            return View(book);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetBookDetails(int id)
-        {
-            var viewModel = await _bookService.GetEditBookViewModelAsync(id);
-            if (viewModel == null)
-                return NotFound();
-
-            return View("Admin/CreateBookData", viewModel);
-        }
-
+        [Authorize(Policy = "AdminOrHigher")]
         [HttpPost]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateBookDetails( [FromForm] Book bookData, [FromForm(Name = "ImageFile")] IFormFile? imageFile,
-    [FromForm(Name = "ImageUrl")] string? imageUrl)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, BookFormViewModel model)
         {
+            if (id != model.Book.Id) return BadRequest();
+
             if (!ModelState.IsValid)
-                return BadRequest(new { message = "Invalid book data." });
-
-            
-            // Priority: New file upload > New image URL > Existing image URL
-            if (imageFile != null && imageFile.Length > 0)
             {
-                var imagePath = await _bookService.SaveImageAsync(imageFile);
-                bookData.ImgUrl = imagePath;
-                imageUrl = null;
-            }
-            else if (!string.IsNullOrWhiteSpace(imageUrl))
-            {
-                bookData.ImgUrl = imageUrl;
-            }
-                        else
-            {
-                bookData.ImgUrl = null; // Or consider returning BadRequest if image is required
+                model.Categories = await _bookService.GetCategoriesAsync();
+                return View("Admin/EditBook", model);
             }
 
-            var success = await _bookService.UpdateBookAsync(bookData);
-            if (!success)
-                return NotFound(new { message = "Error: Book not found." });
+            var success = await _bookService.UpdateBookAsync(model.Book, model.ImageFile);
+            if (success)
+            {
+                TempData["Success"] = "Book updated!";
+                return RedirectToAction("AdminIndex");
+            }
 
-            await _activityLoggerService.LogAsync("Update", $"Updated book: {bookData.Title}.");
-
-            var redirectUrl = Url.Action("AdminIndex", "Books");
-            return Json(new { success = true, message = "Book Update successfully.", redirectUrl });
+            ModelState.AddModelError("", "Failed to update.");
+            model.Categories = await _bookService.GetCategoriesAsync();
+            return View("Admin/EditBook", model);
         }
 
-
-        [HttpDelete]
-        public async Task<IActionResult> DeleteBook(int id)
-        {   var book = await _bookService.GetBookByIdAsync(id);
-            var success = await _bookService.SoftDeleteBookAsync(id);
-            if (!success)
-                return BadRequest(new { message = "Invalid book data." });
-
-            //Logs for Delete
-            await _activityLoggerService.LogAsync("Delete", $"Deleted book: {book.Title}.");
-            var redirectUrl = Url.Action("AdminIndex", "Books");
-            return Json(new { redirectUrl });
-        }
-
-        public async Task<IActionResult> Favorite()
-        {
-            var books = await _bookService.GetFavoriteBooksAsync();
-            return View("User/Favorite", books);
-        }
-
+        [Authorize(Policy = "AdminOrHigher")]
         [HttpPost]
-        public async Task<IActionResult> AddandRemoveFavorite(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var success = await _bookService.ToggleFavoriteAsync(id);
-            if (!success)
-                return BadRequest(new { message = "Book not found." });
-
-            return Json(new { success = true });
+            var userId = GetUserIdFromClaims();
+            var success = await _bookService.SoftDeleteBookAsync(id, userId);
+            return Json(new { success });
         }
 
-
-        [HttpGet]
-        [ActionName("BookList")]
-        public async Task<IActionResult> BookListAsync(int page = 1)
+        // User Actions
+        [Authorize(Policy = "UserOrHigher")]
+        [HttpPost]
+        public async Task<IActionResult> ToggleFavorite(int bookId)
         {
-            int pageSize = 8;
-            var model = await _bookService.GetPaginatedBooksAsync(page, pageSize);
+            var userId = GetUserIdFromClaims();
+            var success = await _bookService.ToggleFavoriteAsync(bookId, userId);
+            return Json(new { success });
+        }
+
+        // Pagination/List (shared)
+        [HttpGet]
+        public async Task<IActionResult> BookList(int page = 1, string? search = null, int? categoryId = null, string? sortBy = null)
+        {
+            var model = await _bookService.GetPaginatedBooksAsync(page, 8, search, categoryId, sortBy);
             return View("Admin/BookList", model);
         }
 
-        public async Task<IActionResult> ActivityLogs()
-        {
-            var logs = await _activityLoggerService.GetAllLogsAsync();
-            return View("Admin/ActivityLogs", logs);
-        }
-
+        // Stats/Charts (cached, AdminOrHigher)
+        [Authorize(Policy = "AdminOrHigher")]
         [HttpGet]
-        public JsonResult GetMonthlyBookUploads()
+        public async Task<JsonResult> GetMonthlyBookUploads(DateTimeOffset? startDate, DateTimeOffset? endDate)
         {
-            var monthlyData = _bookService.MonthlyBookUpload();
-            var labels = monthlyData.Select(m => m.Month).ToList();
-            var counts = monthlyData.Select(m => m.Count).ToList();
+            var data = _bookService.MonthlyBookUpload(startDate, endDate);
+            var labels = data.Select(m => m.Month).ToList();
+            var counts = data.Select(m => m.Count).ToList();
             return Json(new { labels, counts });
         }
 
+        [Authorize(Policy = "AdminOrHigher")]
         [HttpGet]
         public JsonResult GetBooksByCategory()
         {
@@ -231,6 +187,7 @@ namespace OnlineBookManagementSystem.Controllers
             return Json(new { labels, counts });
         }
 
+        [Authorize(Policy = "AdminOrHigher")]
         [HttpGet]
         public JsonResult GetBooksByAuthor()
         {
@@ -240,6 +197,7 @@ namespace OnlineBookManagementSystem.Controllers
             return Json(new { labels, counts });
         }
 
+        [Authorize(Policy = "AdminOrHigher")]
         [HttpGet]
         public JsonResult GetFavoriteBookStats()
         {
@@ -247,6 +205,13 @@ namespace OnlineBookManagementSystem.Controllers
             var labels = new List<string> { "Favorite", "Not Favorite" };
             var counts = new List<int> { data.FavoriteCount, data.NonFavoriteCount };
             return Json(new { labels, counts });
+        }
+
+        // Helpers
+        private int GetUserIdFromClaims()
+        {
+            var idClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            return int.TryParse(idClaim, out var id) ? id : 0;
         }
 
 

@@ -1,4 +1,4 @@
-﻿namespace OnlineBookManagementSystem.Models.ViewModel
+namespace OnlineBookManagementSystem.Models.ViewModel
 {
     public class ProfileViewModel
     {

@@ -1,48 +1,30 @@
-﻿@model OnlineBookManagementSystem.Models.ViewModel.UserViewModel
-
+@using OnlineBookManagementSystem.Models.ViewModel
+@model UserViewModel
 @{
-    ViewData["Title"] = "User Profile";
+    ViewData["Title"] = "Profile";
 }
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-8 col-md-10">
-            <div class="card shadow-sm border-0 rounded-4 p-4">
-                <div class="row g-4 align-items-center">
-
-                    <!-- Profile Image & Role -->
-                    <div class="col-md-4 text-center">
-                        <img src="~/images/img_avatar.png"
-                             class="img-fluid rounded-circle shadow-sm mb-3"
-                             alt="Profile Picture"
-                             style="width: 140px; height: 140px; object-fit: cover;" />
-                        <span class="badge bg-primary text-light px-3 py-2">@Model.Role</span>
-                    </div>
-
-                    <!-- User Details -->
-                    <div class="col-md-8">
-                        <h3 class="fw-bold">@Model.Name</h3>
-                        <p class="text-muted mb-1">@Model.Email</p>
-                        
-
-                        <hr />
-
-                        <div class="d-flex flex-column flex-md-row gap-3 mt-2">
-                           
-                            <div><strong>In Cart:</strong> @Model.CartItemCount</div>
-                        </div>
-
-                        <div class="mt-4 d-flex flex-wrap gap-2">
-                            <a  class="btn btn-outline-primary" asp-action="EditProfile" asp-controller="Auth" asp-route-id="@Model.Id"><i class="bi bi-pencil-square"></i> Edit Profile</a>
-                            
-                        </div>
-                    </div>
-                </div>
-            </div>
+<div class="container">
+    <h2><i class="bi bi-person-circle me-2"></i>Your Profile</h2>
+    <div class="row">
+        <div class="col-md-6">
+            <dl class="row">
+                <dt class="col-sm-3">Name</dt>
+                <dd class="col-sm-9">@Model.Name</dd>
+                <dt class="col-sm-3">Email</dt>
+                <dd class="col-sm-9">@Model.Email</dd>
+                <dt class="col-sm-3">Role</dt>
+                <dd class="col-sm-9">@Model.Role</dd>
+                <dt class="col-sm-3">Cart Items</dt>
+                <dd class="col-sm-9">@Model.CartItemCount</dd>
+            </dl>
+            <a asp-action="EditProfile" class="btn btn-primary">Edit Profile</a>
+            <button id="LogoutBtn" class="btn btn-secondary">Logout</button>
         </div>
     </div>
 </div>
-<!-- Scripts -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="~/js/books/bookshome.js"></script>
 
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="~/js/auth/auth.js"></script>
+}

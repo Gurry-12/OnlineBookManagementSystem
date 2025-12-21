@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link href="~/css/site.css" rel="stylesheet" />
     <link href="~/css/color.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/layouts.css" asp-append-version="true" />
 
     <!-- Toastr CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
@@ -113,18 +114,11 @@
     </div>
 
 
-
-    <!-- Scripts -->
+    @await RenderSectionAsync("Scripts", required: false)
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="~/js/site.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- jQuery (required by Toastr) -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <!-- Toastr JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
-    @RenderSection("Scripts", required: false)
+    <script src="~/js/books/bookshome.js"></script>
+    <script src="~/js/site.js"></script>
     <script>
         function autoCollapseSidebar() {
             const sidebar = document.querySelector('.sidebar');

@@ -1,78 +1,123 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using OnlineBookManagementSystem.Interfaces;
 using OnlineBookManagementSystem.Models;
+using OnlineBookManagementSystem.Models.ViewModel;
 using System.Security.Claims;
 
 namespace OnlineBookManagementSystem.Controllers
 {
+    [Authorize]
     public class OrderController : BaseController
     {
         private readonly BookManagementContext _context;
-        public OrderController(BookManagementContext context)
+        private readonly IActivityLogger _logger;
+
+        public OrderController(BookManagementContext context, IActivityLogger logger)
         {
             _context = context;
-        }
-        public async Task<IActionResult> AdminIndex()
-        {
-            var orders = await _context.Orders.Include(o => o.OrderDetails).ToListAsync();
-            return View("Admin/AdminIndex", orders);
+            _logger = logger;
         }
 
+        private int CurrentUserId => int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "0");
+
+        // ==================== USER VIEWS ====================
+
+        [Authorize(Policy = "AdminOrHigher")]
+        public async Task<IActionResult> AdminIndex(string search = "", string status = "", int page = 1)
+        {
+            int pageSize = 10;
+            var query = _context.Orders
+                .Include(o => o.User)
+                .Include(o => o.OrderDetails)
+                .ThenInclude(od => od.Book)
+                .Where(o => !o.IsDeleted);
+
+            if (!string.IsNullOrEmpty(search))
+                query = query.Where(o => o.FullName.Contains(search) || o.Id.ToString() == search);
+
+            if (!string.IsNullOrEmpty(status))
+                query = query.Where(o => o.Status == status);
+
+            var total = await query.CountAsync();
+            var orders = await query
+                .OrderByDescending(o => o.OrderDate)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var model = new AdminOrderListViewModel
+            {
+                Orders = orders,
+                CurrentPage = page,
+                TotalPages = (int)Math.Ceiling(total / (double)pageSize),
+                SearchTerm = search,
+                StatusFilter = status
+            };
+
+            return View("Admin/AdminIndex", model);
+        }
+
+        [Authorize(Policy = "AdminOrHigher")]
         public async Task<IActionResult> AdminDetails(int id)
         {
-            var order = await _context.Orders.Include(o => o.OrderDetails)
-                                              .ThenInclude(od => od.Book)
-                                              .FirstOrDefaultAsync(o => o.Id == id);
+            var order = await _context.Orders
+                .Include(o => o.User)
+                .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.Book)
+                .FirstOrDefaultAsync(o => o.Id == id && !o.IsDeleted);
+
             if (order == null) return NotFound();
-            return View("Admin/AdminDetails" , order);
+
+            return View("Admin/AdminDetails", order);
         }
 
-        public IActionResult Edit(int id)
-        {
-            var order = _context.Orders.FirstOrDefault(o => o.Id == id);
-            return View("Admin/Edit", order);
-        }
-
+        [Authorize(Policy = "AdminOrHigher")]
         [HttpPost]
-        public async Task<IActionResult> Edit(int id, string status)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateStatus(int id, string status)
         {
             var order = await _context.Orders.FindAsync(id);
             if (order == null) return NotFound();
 
+            var oldStatus = order.Status;
             order.Status = status;
-            _context.Update(order);
-            await _context.SaveChangesAsync();
+            order.UpdatedAt = DateTimeOffset.UtcNow;
 
-            return RedirectToAction(nameof(AdminIndex));
+            await _context.SaveChangesAsync();
+            await _logger.LogAsync("OrderStatusUpdate", $"Order #{id} status changed: {oldStatus} → {status}", CurrentUserId);
+
+            TempData["Success"] = $"Order #{id} updated to {status}";
+            return RedirectToAction(nameof(AdminDetails), new { id });
         }
 
-       
+        // ==================== USER VIEWS ====================
+
+        [Authorize(Policy = "UserOrHigher")]
         public async Task<IActionResult> Index()
         {
-            var sessionUserId = HttpContext.Session.GetString("userId");
-            if (sessionUserId == null) return RedirectToAction("Login", "Account");
+            var orders = await _context.Orders
+                .Where(o => o.UserId == CurrentUserId && !o.IsDeleted)
+                .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.Book)
+                .OrderByDescending(o => o.OrderDate)
+                .ToListAsync();
 
-            int userId = int.Parse(sessionUserId);
-            
-
-            var orders = await _context.Orders.Where(o => o.UserId == userId).ToListAsync();
             return View("User/Index", orders);
         }
 
+        [Authorize(Policy = "UserOrHigher")]
         public async Task<IActionResult> Details(int id)
         {
-            var sessionUserId = HttpContext.Session.GetString("userId");
-            if (sessionUserId == null) return RedirectToAction("Login", "Account");
+            var order = await _context.Orders
+                .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.Book)
+                .FirstOrDefaultAsync(o => o.Id == id && o.UserId == CurrentUserId && !o.IsDeleted);
 
-            int userId = int.Parse(sessionUserId);
-
-            var order = await _context.Orders.Include(o => o.OrderDetails)
-                                              .ThenInclude(od => od.Book)
-                                              .FirstOrDefaultAsync(o => o.Id == id && o.UserId == userId);
             if (order == null) return NotFound();
-            return View("User/Details" , order);
-        }
 
+            return View("User/Details", order);
+        }
     }
 }

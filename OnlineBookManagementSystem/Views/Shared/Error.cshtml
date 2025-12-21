@@ -1,6 +1,7 @@
-﻿@model ErrorViewModel
+@model ErrorViewModel
 @{
     ViewData["Title"] = "Error";
+    Layout = ViewData["Layout"]?.ToString() ?? "_LayoutAuth";  // Dynamic
 }
 
 <div class="card" style="max-width: 700px; margin: 40px auto;">
@@ -29,3 +30,5 @@
         <strong>Development</strong> and restart the app.
     </p>
 </div>
+
+@await Html.PartialAsync("_Notification")

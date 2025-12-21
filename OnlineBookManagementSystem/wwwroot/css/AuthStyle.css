@@ -1,4 +1,5 @@
-﻿:root {
+/* ~/css/AuthStyle.css */
+:root {
     --gradient-start: #e0e7ff;
     --gradient-end: #fce7f3;
     --btn-gradient-start: #6366F1;
@@ -34,7 +35,7 @@ body {
     animation: fadeInUp 0.6s ease-out;
 }
 
-@keyframes fadeIn {
+@keyframes fadeInUp {
     from {
         opacity: 0;
         transform: translateY(30px);
@@ -61,6 +62,19 @@ body {
     color: #333;
 }
 
+/* Role-specific form tweaks */
+.admin-layout .form-control {
+    border-left: 3px solid var(--admin-accent);
+}
+
+.superadmin-layout .form-control {
+    border-left: 3px solid var(--superadmin-accent);
+}
+
+.user-layout .form-control {
+    border-left: 3px solid var(--user-accent);
+}
+
 .form-control {
     border-radius: 0.75rem;
     padding: 0.75rem 1rem;
@@ -70,13 +84,13 @@ body {
 }
 
     .form-control:focus {
-        border-color: var(--btn-gradient-start);
+        border-color: var(--color-primary);
         outline: none;
         box-shadow: 0 0 0 0.15rem rgba(99, 102, 241, 0.25);
     }
 
     .form-control:focus-visible {
-        outline: 3px solid var(--btn-gradient-start);
+        outline: 3px solid var(--color-primary);
     }
 
 .btn-gradient {
@@ -101,7 +115,6 @@ body {
         padding: 1.5rem 1rem;
     }
 }
-
 
 .navbar-brand img {
     height: 40px;
@@ -128,4 +141,20 @@ footer {
 body.fade-out {
     opacity: 0;
     transition: opacity 0.5s ease-out;
+}
+
+/* Role nav hover effects */
+.user-layout .nav-link:hover {
+    background-color: rgba(40, 167, 69, 0.1);
+    color: var(--user-accent);
+}
+
+.admin-layout .nav-link:hover {
+    background-color: rgba(255, 193, 7, 0.1);
+    color: var(--admin-accent);
+}
+
+.superadmin-layout .nav-link:hover {
+    background-color: rgba(220, 53, 69, 0.1);
+    color: var(--superadmin-accent);
 }

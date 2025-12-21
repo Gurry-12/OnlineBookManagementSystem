@@ -1,4 +1,5 @@
-﻿namespace OnlineBookManagementSystem.Models.ViewModel
+
+namespace OnlineBookManagementSystem.Models.ViewModel
 {
     public class UserViewModel
     {
@@ -7,6 +8,7 @@
         public string Email { get; set; }
         public string Role { get; set; }
         public int CartItemCount { get; set; }
+        public List<string> Roles { get; internal set; }
     }
 
 }

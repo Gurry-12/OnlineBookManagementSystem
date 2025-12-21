@@ -1,33 +1,27 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using OnlineBookManagementSystem.Interfaces;
-using OnlineBookManagementSystem.Models;
 using OnlineBookManagementSystem.Models.ViewModel;
 using OnlineBookManagementSystem.Models.ViewModel.AuthViewModels;
+using System.Security.Claims;
 
 namespace OnlineBookManagementSystem.Controllers
 {
-
+    [AllowAnonymous]  // Per-action overrides
     public class AuthController : BaseController
     {
         private readonly IAuthInterface _authService;
-        private readonly IActivityLogger _activityLoggerService;
+        private readonly IActivityLogger _activityLoggerService;  // Assume exists
+
         public AuthController(IAuthInterface authService, IActivityLogger activityLoggerService)
         {
             _authService = authService;
             _activityLoggerService = activityLoggerService;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+        public IActionResult Index() => RedirectToAction(nameof(Login));
 
-        public IActionResult Login()
-        {
-            return View();
-        }
+        public IActionResult Login() => View();
 
         [HttpPost]
         public async Task<IActionResult> LoginData([FromBody] LoginViewModel data)
@@ -36,164 +30,156 @@ namespace OnlineBookManagementSystem.Controllers
             if (!success)
                 return Json(new { success = false, message });
 
-            var jwtToken = _authService.GenerateJwtToken(user);
-            HttpContext.Session.SetString("userRole", user.Role);
-            HttpContext.Session.SetString("userId", user.Id.ToString());
+            var (accessToken, refreshToken) = _authService.GenerateTokens(user);
+            var roles = await _authService.GetUserRolesAsync(user.Id);
 
-            var redirectUrl = user.Role == "Admin"
-                ? Url.Action("AdminIndex", "Books")
-                : Url.Action("UserIndex", "Books");
-            if (user.Role == "User")
-            {
-                await _activityLoggerService.LogAsync("Login", $"User {user.Name} logged in.");
-            }
+            string redirectUrl = roles.Contains("SuperAdmin") ? "/SuperAdmin/Dashboard" :
+                                 roles.Contains("Admin") ? "/Books/AdminIndex" :
+                                 "/Books/UserIndex";
+
+            // Log activity
+            await _activityLoggerService.LogAsync("Login", $"User {user.Name} logged in.", user.Id);
+
+            SetAccessTokenCookie(accessToken);
+
             return Json(new
             {
                 success = true,
-                message = "Login Successful",
-                token = jwtToken,
+                message = "Login successful",
+                accessToken,
+                refreshToken,
                 redirectUrl,
                 userName = user.Name,
-                role = user.Role
+                roles
             });
         }
 
-        public IActionResult Registration()
+        [HttpPost]
+        public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenViewModel model)
         {
-            return View();
+            var result = await _authService.RefreshTokenAsync(model.RefreshToken);
+            if (!result.Success)
+            {
+                // Clear cookie if refresh fails
+                Response.Cookies.Delete("accessToken");
+                return Json(new { success = false, message = result.Message });
+            }
+
+            SetAccessTokenCookie(result.AccessToken);
+
+            return Json(new
+            {
+                success = true,
+                accessToken = result.AccessToken,
+                refreshToken = result.RefreshToken
+            });
         }
+
+        private void SetAccessTokenCookie(string token)
+        {
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true, // Ensure secure is true for production/HSTS envs
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTime.UtcNow.AddMinutes(60)
+            };
+            Response.Cookies.Append("accessToken", token, cookieOptions);
+        }
+
+        public IActionResult Registration() => View();
 
         [HttpPost]
         public async Task<IActionResult> SaveData([FromBody] RegisterViewModel data)
         {
-            if (!ModelState.IsValid || data == null)
-                return Json(new { success = false, message = "Invalid input data." });
+            if (!ModelState.IsValid)
+                return Json(new { success = false, message = "Invalid data." });
 
-            var registered = await _authService.RegisterUserAsync(data);
-            if (!registered)
-                return Json(new { success = false, message = "Email already registered." });
+            var (success, message, token) = await _authService.RegisterUserAsync(data);
+            if (!success)
+                return Json(new { success = false, message });
 
-            if (data.Role == "User")
-            {
-                await _activityLoggerService.LogAsync("Register", $"User {data.Name} Registered.");
-            }
             return Json(new
             {
                 success = true,
-                message = "Registered successfully",
-                redirectUrl = Url.Action("Login", "Auth")
+                message,
+                confirmationToken = token,
+                redirectUrl = Url.Action("ConfirmEmail", new { token, email = data.Email })
             });
         }
 
-        public IActionResult Logout()
+        public async Task<IActionResult> ConfirmEmail(string token, string email)
         {
-            var sessionUserId = HttpContext.Session.GetString("userId");
-            var userId = int.Parse(sessionUserId);
-            var user = _authService.GetUserById(userId);
-           if(user.Role != "Admin") { 
-                _activityLoggerService.LogAsync("Logout", $"User  {user.Name} logged out.", userId);
-            }
-            HttpContext.Session.Clear();
-            return RedirectToAction("Login", "Auth");
-        }
-
-        public async Task<IActionResult> ProfileView()
-        {
-            var sessionUserId = HttpContext.Session.GetString("userId");
-
-            if (string.IsNullOrEmpty(sessionUserId))
-                return Unauthorized();
-
-            if (!int.TryParse(sessionUserId, out int userId))
-                return BadRequest("Invalid session userId");
-
-            var user = await _authService.GetUserProfileAsync(userId);
-            if (user == null)
-                return NotFound();
-
-            return View(user);
-        }
-
-        public IActionResult EditProfile(int Id)
-        {
-            var user = _authService.GetUserById(Id);
-            if (user == null)
-                return NotFound();
-
-            return View(user);
-        }
-
-        [HttpPost]
-
-        public IActionResult UpdateUserDetails([FromBody] ProfileViewModel model)
-        {
-
-            var val = _authService.UpdateUserDetailAsync(model);
-            if (!val.Result)
-                return BadRequest(new { success = false, message = "Failed to update user details." });
-
-            return Ok(new { success = true });
-        }
-
-        [HttpDelete]
-        public IActionResult DeleteUser(int id)
-        {
-            var user = _authService.GetUserById(id);
-            if (user == null)
-                return NotFound();
-            user.IsDeleted = true;
-            _authService.UpdateUserDetailAsync(user);
-
-             _activityLoggerService.LogAsync("Delete", $"User with ID {user.Name} was soft-deleted.", id);
-            return Ok(new { success = true, message = "User deleted successfully." });
-        }
-
-        
-        public IActionResult ForgotPassword()
-        {
+            var confirmed = await _authService.ConfirmEmailAsync(token, email);
+            ViewBag.Success = confirmed;
+            ViewBag.Message = confirmed ? "Email confirmed! Please log in." : "Invalid token.";
             return View();
         }
 
         [HttpPost]
-        public IActionResult ForgotPassword(ForgotPasswordViewModel model)
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordViewModel model)
         {
             if (!ModelState.IsValid)
-                return View(model);
+                return Json(new { success = false, message = "Invalid email." });
 
-            var user = _authService.ValidateUserViaEmailAsync(model.Email);
-            if (user == null)
-            {
-                ModelState.AddModelError("", "No user found with that email.");
-                return View(model);
-            }
-
-            // Redirect to Reset Password view with email
-            return RedirectToAction("ResetPassword", new { email = model.Email });
-        }
-
-        [HttpGet]
-        public IActionResult ResetPassword(string email)
-        {
-            var model = new ResetPasswordViewModel { Email = email };
-            return View(model);
+            var token = await _authService.GeneratePasswordResetTokenAsync(model.Email);
+            // Always return success for security (no email leak)
+            return Json(new { success = true, message = "If email exists, reset link sent." });
         }
 
         [HttpPost]
-        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordViewModel model)
         {
             if (!ModelState.IsValid)
-                return View(model);
+                return Json(new { success = false, message = "Invalid data." });
 
-            var success = await _authService.UpdatePasswordAsync(model.Email, model.NewPassword);
-            if (!success)
-            {
-                ModelState.AddModelError("", "Failed to update password.");
-                return View(model);
-            }
-
-            TempData["Success"] = "Password reset successful. Please login.";
-            return RedirectToAction("Login");
+            var success = await _authService.UpdatePasswordAsync(model.Token, model.NewPassword);
+            return Json(new { success, message = success ? "Password reset." : "Invalid/expired token." });
         }
 
+        [Authorize(Policy = "UserOrHigher")]
+        public async Task<IActionResult> ProfileView()
+        {
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "0");
+            var profile = await _authService.GetUserProfileAsync(userId);
+            if (profile == null) return NotFound();
+            return View(profile);
+        }
+
+        [HttpPost]
+        [Authorize(Policy = "UserOrHigher")]
+        public async Task<IActionResult> UpdateUserDetails([FromBody] ProfileViewModel model)
+        {
+            var success = await _authService.UpdateUserDetailAsync(model);
+            return Json(new { success, message = success ? "Updated." : "Failed." });
+        }
+
+        [Authorize(Policy = "SuperAdminOnly")]
+        [HttpPost]
+        public async Task<IActionResult> AssignRole([FromBody] AssignRoleViewModel model)
+        {
+            var success = await _authService.AssignRoleAsync(model.UserId, model.Role);
+            return Json(new { success });
+        }
+
+        [HttpPost]
+        [Authorize(Policy = "UserOrHigher")]
+        public async Task<IActionResult> Logout()
+        {
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "0");
+            await _authService.RevokeRefreshTokensAsync(userId);
+            await _activityLoggerService.LogAsync("Logout", "User logged out.", userId);
+            return Json(new { success = true, redirectUrl = "/Auth/Login" });
+        }
+
+        // New view for SuperAdmin role management
+        [Authorize(Policy = "SuperAdminOnly")]
+        public async Task<IActionResult> ManageUsers()
+        {
+            var users = await _authService.ManageUsers();
+            // Project to VM in prod
+            return View(users);
+        }
     }
 }
+

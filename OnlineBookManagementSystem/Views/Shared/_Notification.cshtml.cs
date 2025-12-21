@@ -6,6 +6,7 @@ namespace OnlineBookManagementSystem.Views.Shared
     {
         public void OnGet()
         {
+            // No-op; partial doesn't need OnGet
         }
     }
 }

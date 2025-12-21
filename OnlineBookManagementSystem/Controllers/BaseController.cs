@@ -1,35 +1,44 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System.Security.Claims;
 
 public class BaseController : Controller
 {
     public override void OnActionExecuting(ActionExecutingContext context)
     {
-        string layout = "_LayoutAuth"; // Default layout for unauthenticated users
+        string layout = "_LayoutAuth"; // Default for unauthenticated/Guest
 
-        // Get role from session
-        var userRole = HttpContext.Session.GetString("userRole");
-
-        if (!string.IsNullOrEmpty(userRole))
+        // Prefer JWT claims over session for stateless auth
+        var roleClaim = User.FindFirst(ClaimTypes.Role)?.Value;
+        if (!string.IsNullOrEmpty(roleClaim))
         {
-            // Set layout based on user role
-            layout = userRole switch
+            // Multi-role support: Use highest privilege (e.g., SuperAdmin > Admin)
+            var userRoles = User.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).ToList();
+            var primaryRole = userRoles.Contains("SuperAdmin") ? "SuperAdmin" :
+                              userRoles.Contains("Admin") ? "Admin" :
+                              userRoles.Contains("User") ? "User" : "Guest";
+
+            layout = primaryRole switch
             {
-                "Admin" => "_LayoutAdmin",  // Admin layout
-                "User" => "_LayoutUser",    // User layout
-                _ => "_AuthLayout"          // Fallback layout
+                "SuperAdmin" => "_LayoutSuperAdmin",
+                "Admin" => "_LayoutAdmin",
+                "User" => "_LayoutUser",
+                "Guest" => "_LayoutPublic",  // Public/anonymous
+                _ => "_LayoutAuth"  // Fallback
             };
         }
 
-        ViewData["Layout"] = layout; // Set the layout dynamically
-        base.OnActionExecuting(context); // Continue with the action execution
+        ViewData["Layout"] = layout;
+        base.OnActionExecuting(context);
     }
 
     public IActionResult SessionExpired()
     {
-        HttpContext.Session.Clear();
+        HttpContext.Session?.Clear();  // Clear if using hybrid session/JWT
         ViewData["Message"] = "Your session has expired. Please log in again.";
-        return View("SessionExpired");
+        return View("SessionExpired");  // Uses dynamic layout
     }
 
+    // Helper: Get current role (for views)
+    protected string GetCurrentRole() => User.FindFirst(ClaimTypes.Role)?.Value ?? "Guest";
 }
