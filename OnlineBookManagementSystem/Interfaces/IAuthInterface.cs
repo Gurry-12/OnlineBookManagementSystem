@@ -20,6 +20,7 @@ namespace OnlineBookManagementSystem.Interfaces
         Task<bool> AssignRoleAsync(int userId, string roleName);
         Task<List<string>> GetUserRolesAsync(int userId);
         Task RevokeRefreshTokensAsync(int userId);
+        Task<(bool Success, string AccessToken, string RefreshToken, string Message)> RefreshTokenAsync(string token);
         Task<List<UserViewModel>> ManageUsers();
     }
 }
