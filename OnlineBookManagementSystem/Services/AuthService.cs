@@ -328,6 +328,36 @@ namespace OnlineBookManagementSystem.Services
             await _context.SaveChangesAsync();
         }
 
+        public async Task<(bool Success, string AccessToken, string RefreshToken, string Message)> RefreshTokenAsync(string token)
+        {
+            var hashedToken = HashToken(token);
+            var existingToken = await _context.RefreshTokens
+                .Include(rt => rt.User)
+                .SingleOrDefaultAsync(rt => rt.Token == hashedToken);
+
+            if (existingToken == null)
+                return (false, "", "", "Invalid token.");
+
+            if (existingToken.IsRevoked || existingToken.ExpiryDate < DateTimeOffset.UtcNow)
+                return (false, "", "", "Token expired or revoked.");
+
+            var user = existingToken.User;
+            if (user == null || (bool)user.IsDeleted)
+                return (false, "", "", "User not valid.");
+
+            // Revoke current token
+            existingToken.IsRevoked = true;
+
+            // Generate new tokens
+            var (newAccessToken, newRefreshToken) = GenerateTokens(user);
+
+            existingToken.ReplacedByToken = HashToken(newRefreshToken); // Store hash of new token
+
+            await _context.SaveChangesAsync();
+
+            return (true, newAccessToken, newRefreshToken, "Token refreshed.");
+        }
+
         // Optimized ManageUsers (Fixes N+1 problem)
         public async Task<List<UserViewModel>> ManageUsers()
         {

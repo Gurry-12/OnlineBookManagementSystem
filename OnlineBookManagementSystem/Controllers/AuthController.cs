@@ -40,6 +40,8 @@ namespace OnlineBookManagementSystem.Controllers
             // Log activity
             await _activityLoggerService.LogAsync("Login", $"User {user.Name} logged in.", user.Id);
 
+            SetAccessTokenCookie(accessToken);
+
             return Json(new
             {
                 success = true,
@@ -50,6 +52,39 @@ namespace OnlineBookManagementSystem.Controllers
                 userName = user.Name,
                 roles
             });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenViewModel model)
+        {
+            var result = await _authService.RefreshTokenAsync(model.RefreshToken);
+            if (!result.Success)
+            {
+                // Clear cookie if refresh fails
+                Response.Cookies.Delete("accessToken");
+                return Json(new { success = false, message = result.Message });
+            }
+
+            SetAccessTokenCookie(result.AccessToken);
+
+            return Json(new
+            {
+                success = true,
+                accessToken = result.AccessToken,
+                refreshToken = result.RefreshToken
+            });
+        }
+
+        private void SetAccessTokenCookie(string token)
+        {
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true, // Ensure secure is true for production/HSTS envs
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTime.UtcNow.AddMinutes(60)
+            };
+            Response.Cookies.Append("accessToken", token, cookieOptions);
         }
 
         public IActionResult Registration() => View();
