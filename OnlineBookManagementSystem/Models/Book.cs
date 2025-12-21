@@ -36,10 +36,10 @@ public partial class Book
     public bool IsDeleted { get; set; } = false;
 
     // Timestamps (replace CreatedDate)
-    [Column(TypeName = "datetimeoffset")]
-    public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
-    [Column(TypeName = "datetimeoffset")]
-    public DateTimeOffset UpdatedAt { get; set; } = DateTimeOffset.UtcNow;
+    [Column(TypeName = "datetime")]
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    [Column(TypeName = "DateTime")]
+    public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
     public virtual Category? Category { get; set; }
 

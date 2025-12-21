@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -39,9 +39,9 @@ namespace OnlineBookManagementSystem.Migrations
                     IsEmailConfirmed = table.Column<bool>(type: "INTEGER", nullable: false),
                     EmailConfirmationToken = table.Column<string>(type: "TEXT", nullable: true),
                     PasswordResetToken = table.Column<string>(type: "TEXT", nullable: true),
-                    PasswordResetExpiry = table.Column<DateTimeOffset>(type: "TEXT", nullable: true),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false, defaultValueSql: "datetimeoffset('now')"),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false, defaultValueSql: "datetimeoffset('now')"),
+                    PasswordResetExpiry = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "DateTime", nullable: false, defaultValueSql: "DateTime('now')"),
+                    UpdatedAt = table.Column<DateTime>(type: "DateTime", nullable: false, defaultValueSql: "DateTime('now')"),
                     UserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
@@ -53,7 +53,7 @@ namespace OnlineBookManagementSystem.Migrations
                     PhoneNumber = table.Column<string>(type: "TEXT", nullable: true),
                     PhoneNumberConfirmed = table.Column<bool>(type: "INTEGER", nullable: false),
                     TwoFactorEnabled = table.Column<bool>(type: "INTEGER", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "TEXT", nullable: true),
+                    LockoutEnd = table.Column<DateTime>(type: "TEXT", nullable: true),
                     LockoutEnabled = table.Column<bool>(type: "INTEGER", nullable: false),
                     AccessFailedCount = table.Column<int>(type: "INTEGER", nullable: false)
                 },
@@ -71,8 +71,8 @@ namespace OnlineBookManagementSystem.Migrations
                     Name = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "TEXT", maxLength: 500, nullable: true),
                     IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false, defaultValue: false),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false, defaultValueSql: "datetimeoffset('now')"),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false, defaultValueSql: "datetimeoffset('now')")
+                    CreatedAt = table.Column<DateTime>(type: "DateTime", nullable: false, defaultValueSql: "DateTime('now')"),
+                    UpdatedAt = table.Column<DateTime>(type: "DateTime", nullable: false, defaultValueSql: "DateTime('now')")
                 },
                 constraints: table =>
                 {
@@ -112,7 +112,7 @@ namespace OnlineBookManagementSystem.Migrations
                     IpAddress = table.Column<string>(type: "TEXT", maxLength: 45, nullable: true),
                     UserAgent = table.Column<string>(type: "TEXT", maxLength: 500, nullable: true),
                     Level = table.Column<string>(type: "TEXT", maxLength: 20, nullable: false, defaultValue: "Info"),
-                    Timestamp = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "datetimeoffset('now')"),
+                    Timestamp = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "DateTime('now')"),
                     ActionType = table.Column<string>(type: "TEXT", nullable: false),
                     Description = table.Column<string>(type: "TEXT", nullable: true)
                 },
@@ -220,15 +220,15 @@ namespace OnlineBookManagementSystem.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     UserId = table.Column<int>(type: "INTEGER", nullable: true),
                     TotalAmount = table.Column<decimal>(type: "decimal(10,2)", nullable: false, defaultValue: 0m),
-                    OrderDate = table.Column<DateTimeOffset>(type: "TEXT", nullable: true, defaultValueSql: "datetimeoffset('now')"),
+                    OrderDate = table.Column<DateTime>(type: "TEXT", nullable: true, defaultValueSql: "DateTime('now')"),
                     Status = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false, defaultValue: "Pending"),
                     FullName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
                     Address = table.Column<string>(type: "TEXT", maxLength: 500, nullable: true),
                     PaymentMethod = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
                     PaymentStatus = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false, defaultValue: "Unpaid"),
                     IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false, defaultValue: false),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false, defaultValueSql: "datetimeoffset('now')"),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false, defaultValueSql: "datetimeoffset('now')")
+                    CreatedAt = table.Column<DateTime>(type: "DateTime", nullable: false, defaultValueSql: "DateTime('now')"),
+                    UpdatedAt = table.Column<DateTime>(type: "DateTime", nullable: false, defaultValueSql: "DateTime('now')")
                 },
                 constraints: table =>
                 {
@@ -249,9 +249,9 @@ namespace OnlineBookManagementSystem.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     UserId = table.Column<int>(type: "INTEGER", nullable: false),
                     Token = table.Column<string>(type: "TEXT", maxLength: 450, nullable: false),
-                    ExpiryDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    ExpiryDate = table.Column<DateTime>(type: "DateTime", nullable: false),
                     IsRevoked = table.Column<bool>(type: "INTEGER", nullable: false, defaultValue: false),
-                    Created = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false, defaultValueSql: "datetimeoffset('now')"),
+                    Created = table.Column<DateTime>(type: "DateTime", nullable: false, defaultValueSql: "DateTime('now')"),
                     ReplacedByToken = table.Column<string>(type: "TEXT", maxLength: 450, nullable: true),
                     CreatedByIp = table.Column<string>(type: "TEXT", maxLength: 45, nullable: true)
                 },
@@ -283,8 +283,8 @@ namespace OnlineBookManagementSystem.Migrations
                     ImgUrl = table.Column<string>(type: "TEXT", nullable: false),
                     IsFavorite = table.Column<bool>(type: "INTEGER", nullable: false, defaultValue: false),
                     IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false, defaultValue: false),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false, defaultValueSql: "datetimeoffset('now')"),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false, defaultValueSql: "datetimeoffset('now')")
+                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "DateTime('now')"),
+                    UpdatedAt = table.Column<DateTime>(type: "DateTime", nullable: false, defaultValueSql: "DateTime('now')")
                 },
                 constraints: table =>
                 {
@@ -334,7 +334,7 @@ namespace OnlineBookManagementSystem.Migrations
                     BookId = table.Column<int>(type: "INTEGER", nullable: false),
                     Quantity = table.Column<int>(type: "INTEGER", nullable: false, defaultValue: 1),
                     IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false, defaultValue: false),
-                    AddedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false, defaultValueSql: "datetimeoffset('now')")
+                    AddedAt = table.Column<DateTime>(type: "DateTime", nullable: false, defaultValueSql: "DateTime('now')")
                 },
                 constraints: table =>
                 {

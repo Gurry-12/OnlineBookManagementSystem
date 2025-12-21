@@ -12,13 +12,13 @@ public partial class RefreshToken
     [StringLength(450)]
     public string Token { get; set; } = string.Empty;  // Hashed
 
-    [Column(TypeName = "datetimeoffset")]
-    public DateTimeOffset ExpiryDate { get; set; }
+    [Column(TypeName = "DateTime")]
+    public DateTime ExpiryDate { get; set; }
 
     public bool IsRevoked { get; set; } = false;
 
-    [Column(TypeName = "datetimeoffset")]
-    public DateTimeOffset Created { get; set; } = DateTimeOffset.UtcNow;
+    [Column(TypeName = "DateTime")]
+    public DateTime Created { get; set; } = DateTime.UtcNow;
 
     [StringLength(450)]
     public string? ReplacedByToken { get; set; }

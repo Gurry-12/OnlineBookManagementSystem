@@ -14,8 +14,8 @@ public partial class ShoppingCart
 
     public bool IsDeleted { get; set; } = false;
 
-    [Column(TypeName = "datetimeoffset")]
-    public DateTimeOffset AddedAt { get; set; } = DateTimeOffset.UtcNow;  // New
+    [Column(TypeName = "DateTime")]
+    public DateTime AddedAt { get; set; } = DateTime.UtcNow;  // New
 
     public virtual Book Book { get; set; } = null!;
 

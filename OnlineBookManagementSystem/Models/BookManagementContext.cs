@@ -38,7 +38,7 @@ public partial class BookManagementContext : IdentityDbContext<User, IdentityRol
             entity.Property(e => e.IpAddress).HasMaxLength(45);
             entity.Property(e => e.UserAgent).HasMaxLength(500);
             entity.Property(e => e.Level).HasMaxLength(20).HasDefaultValue("Info");
-            entity.Property(e => e.Timestamp).HasDefaultValueSql("datetimeoffset('now')");
+            entity.Property(e => e.Timestamp).HasDefaultValueSql("DateTime('now')");
             entity.HasOne(d => d.User).WithMany(p => p.ActivityLogs)
                 .HasForeignKey(d => d.UserId).OnDelete(DeleteBehavior.SetNull);
             entity.HasIndex(e => e.Timestamp);
@@ -58,8 +58,8 @@ public partial class BookManagementContext : IdentityDbContext<User, IdentityRol
             entity.Property(e => e.StockQuantity).HasDefaultValue(0);
             entity.Property(e => e.IsFavorite).HasDefaultValue(false);
             entity.Property(e => e.IsDeleted).HasDefaultValue(false);
-            entity.Property(e => e.CreatedAt).HasDefaultValueSql("datetimeoffset('now')");
-            entity.Property(e => e.UpdatedAt).HasDefaultValueSql("datetimeoffset('now')");
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("DateTime('now')");
+            entity.Property(e => e.UpdatedAt).HasDefaultValueSql("DateTime('now')");
             entity.HasOne(d => d.Category).WithMany(p => p.Books)
                 .HasForeignKey(d => d.CategoryId).OnDelete(DeleteBehavior.Restrict);
             entity.HasIndex(e => e.ISBN).IsUnique();
@@ -73,8 +73,8 @@ public partial class BookManagementContext : IdentityDbContext<User, IdentityRol
             entity.Property(e => e.Name).HasMaxLength(100).IsRequired();
             entity.Property(e => e.Description).HasMaxLength(500);
             entity.Property(e => e.IsDeleted).HasDefaultValue(false);
-            entity.Property(e => e.CreatedAt).HasDefaultValueSql("datetimeoffset('now')");
-            entity.Property(e => e.UpdatedAt).HasDefaultValueSql("datetimeoffset('now')");
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("DateTime('now')");
+            entity.Property(e => e.UpdatedAt).HasDefaultValueSql("DateTime('now')");
             entity.HasIndex(e => e.Name).IsUnique();
             entity.HasQueryFilter(e => !e.IsDeleted);
         });
@@ -90,9 +90,9 @@ public partial class BookManagementContext : IdentityDbContext<User, IdentityRol
             entity.Property(e => e.PaymentMethod).HasMaxLength(50);
             entity.Property(e => e.PaymentStatus).HasMaxLength(50).HasDefaultValue("Unpaid");
             entity.Property(e => e.IsDeleted).HasDefaultValue(false);
-            entity.Property(e => e.OrderDate).HasDefaultValueSql("datetimeoffset('now')");
-            entity.Property(e => e.CreatedAt).HasDefaultValueSql("datetimeoffset('now')");
-            entity.Property(e => e.UpdatedAt).HasDefaultValueSql("datetimeoffset('now')");
+            entity.Property(e => e.OrderDate).HasDefaultValueSql("DateTime('now')");
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("DateTime('now')");
+            entity.Property(e => e.UpdatedAt).HasDefaultValueSql("DateTime('now')");
             entity.HasOne(d => d.User).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.UserId).OnDelete(DeleteBehavior.Restrict);
             entity.HasIndex(e => e.UserId);
@@ -119,7 +119,7 @@ public partial class BookManagementContext : IdentityDbContext<User, IdentityRol
             entity.HasKey(e => e.Id);
             entity.Property(e => e.Quantity).HasDefaultValue(1);
             entity.Property(e => e.IsDeleted).HasDefaultValue(false);
-            entity.Property(e => e.AddedAt).HasDefaultValueSql("datetimeoffset('now')");
+            entity.Property(e => e.AddedAt).HasDefaultValueSql("DateTime('now')");
             entity.HasOne(d => d.Book).WithMany(p => p.ShoppingCarts)
                 .HasForeignKey(d => d.BookId).OnDelete(DeleteBehavior.ClientSetNull);
             entity.HasOne(d => d.User).WithMany(p => p.ShoppingCarts)
@@ -136,13 +136,13 @@ public partial class BookManagementContext : IdentityDbContext<User, IdentityRol
             entity.Property(e => e.ReplacedByToken).HasMaxLength(450);
             entity.Property(e => e.CreatedByIp).HasMaxLength(45);
             entity.Property(e => e.ExpiryDate).IsRequired();
-            entity.Property(e => e.Created).HasDefaultValueSql("datetimeoffset('now')");
+            entity.Property(e => e.Created).HasDefaultValueSql("DateTime('now')");
             entity.Property(e => e.IsRevoked).HasDefaultValue(false);
             entity.HasOne(rt => rt.User).WithMany(u => u.RefreshTokens)
                 .HasForeignKey(rt => rt.UserId).OnDelete(DeleteBehavior.Cascade);
             entity.HasIndex(rt => rt.Token).IsUnique();
             entity.HasIndex(rt => new { rt.UserId, rt.IsRevoked, rt.ExpiryDate });
-            entity.HasQueryFilter(rt => !rt.IsRevoked && rt.ExpiryDate > DateTimeOffset.UtcNow);
+            entity.HasQueryFilter(rt => !rt.IsRevoked && rt.ExpiryDate > DateTime.UtcNow);
         });
 
         // User (extend Identity)
@@ -151,8 +151,8 @@ public partial class BookManagementContext : IdentityDbContext<User, IdentityRol
             entity.HasIndex(e => new { e.Email, e.IsDeleted }).IsUnique();
             entity.Property(e => e.Name).HasMaxLength(100).IsRequired();
             entity.Property(e => e.IsDeleted).HasDefaultValue(false);
-            entity.Property(e => e.CreatedAt).HasDefaultValueSql("datetimeoffset('now')");
-            entity.Property(e => e.UpdatedAt).HasDefaultValueSql("datetimeoffset('now')");
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("DateTime('now')");
+            entity.Property(e => e.UpdatedAt).HasDefaultValueSql("DateTime('now')");
             entity.HasQueryFilter(e => EF.Property<bool>(e, "IsDeleted") == false);
         });
 

@@ -21,8 +21,8 @@ namespace OnlineBookManagementSystem.Interfaces
         AdminViewModel GetQuickStats(int userId);  // Cached
 
         Task<BookListViewModel> GetPaginatedBooksAsync(int page, int pageSize, string? search = null, int? categoryId = null, string? sortBy = null);
-        string GetTimeAgo(DateTimeOffset time);
-        IEnumerable<MonthlyBookUploadViewModel> MonthlyBookUpload(DateTimeOffset? startDate = null, DateTimeOffset? endDate = null);  // Filtered
+        string GetTimeAgo(DateTime time);
+        IEnumerable<MonthlyBookUploadViewModel> MonthlyBookUpload(DateTime? startDate = null, DateTime? endDate = null);  // Filtered
         IEnumerable<CategoryBookCountViewModel> BooksByCategory();
         IEnumerable<AuthorBookCountViewModel> BooksByAuthor();
         FavoriteStatsViewModel FavoriteStats();

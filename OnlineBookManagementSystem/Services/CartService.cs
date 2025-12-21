@@ -104,7 +104,7 @@ namespace OnlineBookManagementSystem.Services
                         BookId = bookId,
                         Quantity = quantity,
                         IsDeleted = false,
-                        AddedAt = DateTimeOffset.UtcNow
+                        AddedAt = DateTime.UtcNow
                     };
                     await _context.ShoppingCarts.AddAsync(existingCart);
                 }
@@ -219,12 +219,12 @@ namespace OnlineBookManagementSystem.Services
                     Address = request.Address,
                     PaymentMethod = request.PaymentMethod,
                     TotalAmount = total,
-                    OrderDate = DateTimeOffset.UtcNow,
+                    OrderDate = DateTime.UtcNow,
                     Status = "Pending",
                     PaymentStatus = "Unpaid",
                     IsDeleted = false,
-                    CreatedAt = DateTimeOffset.UtcNow,
-                    UpdatedAt = DateTimeOffset.UtcNow
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
                 };
 
                 _context.Orders.Add(order);

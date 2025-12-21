@@ -22,8 +22,9 @@ builder.Services.AddDbContext<BookManagementContext>(options =>
     options.UseSqlite(connectionString);
 });
 
-// Identity
-builder.Services.AddIdentity<User, IdentityRole<int>>(options =>
+// Switch to AddIdentityCore — removes the unwanted cookie scheme that causes /Account/Login redirects
+// You still get UserManager, RoleManager, password hashing, etc.
+builder.Services.AddIdentityCore<User>(options =>
 {
     options.Password.RequiredLength = 6;
     options.Password.RequireDigit = false;
@@ -38,6 +39,7 @@ builder.Services.AddIdentity<User, IdentityRole<int>>(options =>
     options.User.RequireUniqueEmail = true;
     options.SignIn.RequireConfirmedEmail = false; // dev-friendly
 })
+.AddRoles<IdentityRole<int>>()  // If you use roles
 .AddEntityFrameworkStores<BookManagementContext>()
 .AddDefaultTokenProviders();
 
@@ -46,8 +48,9 @@ var jwtKey = builder.Configuration["Jwt:Key"] ?? "YourSecretKeyMustBeLongEnough1
 var jwtIssuer = builder.Configuration["Jwt:Issuer"] ?? "WhisperingPages";
 var jwtAudience = builder.Configuration["Jwt:Audience"] ?? jwtIssuer;
 
-// Add Authentication (keep Identity cookie scheme for MVC; add JwtBearer for APIs and cookie fallback)
-builder.Services.AddAuthentication()
+// Make JWT the default AND challenge scheme
+// Add custom OnChallenge to redirect MVC/HTML requests to your login page
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
         options.RequireHttpsMetadata = false; // set true in production
@@ -66,9 +69,29 @@ builder.Services.AddAuthentication()
             RoleClaimType = ClaimTypes.Role
         };
 
-        // If Authorization header is missing, fallback to accessToken cookie
         options.Events = new JwtBearerEvents
         {
+            // Custom challenge: redirect to your Auth/Login for browser/MVC requests
+            OnChallenge = context =>
+            {
+                // Suppress default 401 behavior for HTML requests
+                context.HandleResponse();
+
+                // Only redirect if it's a browser request (accepts text/html)
+                if (context.Request.Headers.Accept.ToString().Contains("text/html"))
+                {
+                    var returnUrl = Uri.EscapeDataString(context.Request.Path + context.Request.QueryString);
+                    context.Response.Redirect($"/Auth/Login?ReturnUrl={returnUrl}");
+                }
+                else
+                {
+                    // For API/JSON requests, return plain 401
+                    context.Response.StatusCode = 401;
+                }
+
+                return Task.CompletedTask;
+            },
+
             OnMessageReceived = context =>
             {
                 // Prefer Authorization header
@@ -79,7 +102,7 @@ builder.Services.AddAuthentication()
                     return Task.CompletedTask;
                 }
 
-                // Fallback to cookie named "accessToken"
+                // Fallback to your "accessToken" cookie
                 if (context.Request.Cookies.TryGetValue("accessToken", out var cookieToken) && !string.IsNullOrEmpty(cookieToken))
                 {
                     context.Token = cookieToken;
@@ -141,13 +164,14 @@ using (var scope = app.Services.CreateScope())
 }
 
 // --- Seeding (roles + superadmin) ---
+// (Your existing seeding code — unchanged, UserManager still works)
+
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     try
     {
         var context = services.GetRequiredService<BookManagementContext>();
-        // Optional: context.Database.Migrate();
 
         var userManager = services.GetRequiredService<UserManager<User>>();
         var authService = services.GetRequiredService<IAuthInterface>();
@@ -177,7 +201,6 @@ using (var scope = app.Services.CreateScope())
         }
         else
         {
-            // Ensure properties are correct for existing user
             existingUser.EmailConfirmed = true;
             existingUser.IsEmailConfirmed = true;
 
@@ -186,7 +209,6 @@ using (var scope = app.Services.CreateScope())
                 existingUser.SecurityStamp = Guid.NewGuid().ToString();
             }
 
-            // Force update password hash using IPasswordHasher
             var passwordHasher = services.GetRequiredService<IPasswordHasher<User>>();
             existingUser.PasswordHash = passwordHasher.HashPassword(existingUser, adminPassword);
 

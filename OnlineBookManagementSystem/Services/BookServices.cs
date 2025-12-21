@@ -60,8 +60,8 @@ namespace OnlineBookManagementSystem.Services
                     bookData.ImageUrl = await SaveImageAsync(imageFile, bookData.Id.ToString());
                 }
 
-                bookData.CreatedAt = DateTimeOffset.UtcNow;
-                bookData.UpdatedAt = DateTimeOffset.UtcNow;
+                bookData.CreatedAt = DateTime.UtcNow;
+                bookData.UpdatedAt = DateTime.UtcNow;
                 bookData.IsDeleted = false;
 
                 await _context.Books.AddAsync(bookData);
@@ -106,7 +106,7 @@ namespace OnlineBookManagementSystem.Services
                 existing.Price = bookData.Price;
                 existing.Description = bookData.Description;
                 existing.CategoryId = bookData.CategoryId;
-                existing.UpdatedAt = DateTimeOffset.UtcNow;
+                existing.UpdatedAt = DateTime.UtcNow;
 
                 await _context.SaveChangesAsync();
                 await transaction.CommitAsync();
@@ -138,7 +138,7 @@ namespace OnlineBookManagementSystem.Services
             Directory.CreateDirectory(uploadsDir);
 
             // Generate unique filename: bookId_hash.jpg
-            var hash = SHA256.HashData(Encoding.UTF8.GetBytes(image.FileName + DateTimeOffset.UtcNow.Ticks.ToString()));
+            var hash = SHA256.HashData(Encoding.UTF8.GetBytes(image.FileName + DateTime.UtcNow.Ticks.ToString()));
             var filename = $"{bookId}_{Convert.ToBase64String(hash).Replace("/", "_").Replace("+", "-")}.{image.ContentType.Split('/')[1]}";
             var filepath = Path.Combine(uploadsDir, filename);
 
@@ -158,7 +158,7 @@ namespace OnlineBookManagementSystem.Services
             if (book == null) return false;
 
             book.IsDeleted = true;
-            book.UpdatedAt = DateTimeOffset.UtcNow;
+            book.UpdatedAt = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
             _cache.Remove($"book_{id}");
@@ -183,7 +183,7 @@ namespace OnlineBookManagementSystem.Services
             if (book == null) return false;
 
             book.IsFavorite = !book.IsFavorite;
-            book.UpdatedAt = DateTimeOffset.UtcNow;
+            book.UpdatedAt = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
             _logger.LogInformation("Favorite toggled for book {BookId} by {UserId}", bookId, userId);
@@ -284,9 +284,9 @@ namespace OnlineBookManagementSystem.Services
             };
         }
 
-        public string GetTimeAgo(DateTimeOffset time)
+        public string GetTimeAgo(DateTime time)
         {
-            var now = DateTimeOffset.UtcNow;
+            var now = DateTime.UtcNow;
             var diff = now - time;
             return diff.TotalMinutes switch
             {
@@ -297,7 +297,7 @@ namespace OnlineBookManagementSystem.Services
             };
         }
 
-        public IEnumerable<MonthlyBookUploadViewModel> MonthlyBookUpload(DateTimeOffset? startDate = null, DateTimeOffset? endDate = null)
+        public IEnumerable<MonthlyBookUploadViewModel> MonthlyBookUpload(DateTime? startDate = null, DateTime? endDate = null)
         {
             var query = _context.Books
                 .Where(b => !b.IsDeleted)

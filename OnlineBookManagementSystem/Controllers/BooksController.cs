@@ -169,7 +169,7 @@ namespace OnlineBookManagementSystem.Controllers
         // Stats/Charts (cached, AdminOrHigher)
         [Authorize(Policy = "AdminOrHigher")]
         [HttpGet]
-        public async Task<JsonResult> GetMonthlyBookUploads(DateTimeOffset? startDate, DateTimeOffset? endDate)
+        public async Task<JsonResult> GetMonthlyBookUploads(DateTime? startDate, DateTime? endDate)
         {
             var data = _bookService.MonthlyBookUpload(startDate, endDate);
             var labels = data.Select(m => m.Month).ToList();

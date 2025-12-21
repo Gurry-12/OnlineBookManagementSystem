@@ -12,7 +12,7 @@ public partial class Order
     [Column(TypeName = "decimal(10,2)")]
     public decimal TotalAmount { get; set; } = 0;
 
-    public DateTimeOffset? OrderDate { get; set; } = DateTimeOffset.UtcNow;  // Changed to DateTimeOffset
+    public DateTime? OrderDate { get; set; } = DateTime.UtcNow;  // Changed to DateTime
 
     [StringLength(50)]
     public string Status { get; set; } = "Pending";
@@ -32,10 +32,10 @@ public partial class Order
     public bool IsDeleted { get; set; } = false;  // New
 
     // Timestamps
-    [Column(TypeName = "datetimeoffset")]
-    public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
-    [Column(TypeName = "datetimeoffset")]
-    public DateTimeOffset UpdatedAt { get; set; } = DateTimeOffset.UtcNow;
+    [Column(TypeName = "DateTime")]
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    [Column(TypeName = "DateTime")]
+    public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
     public virtual User? User { get; set; }

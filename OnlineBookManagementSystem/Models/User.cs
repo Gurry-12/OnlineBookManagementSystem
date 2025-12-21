@@ -17,13 +17,13 @@ public partial class User : IdentityUser<int>  // PK int for consistency
     public bool IsEmailConfirmed { get; set; }
     public string? EmailConfirmationToken { get; set; }
     public string? PasswordResetToken { get; set; }  // Hashed
-    public DateTimeOffset? PasswordResetExpiry { get; set; }
+    public DateTime? PasswordResetExpiry { get; set; }
 
     // Timestamps
-    [Column(TypeName = "datetimeoffset")]
-    public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
-    [Column(TypeName = "datetimeoffset")]
-    public DateTimeOffset UpdatedAt { get; set; } = DateTimeOffset.UtcNow;
+    [Column(TypeName = "DateTime")]
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    [Column(TypeName = "DateTime")]
+    public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
     // Existing nav props
     public virtual ICollection<ActivityLog> ActivityLogs { get; set; } = new List<ActivityLog>();

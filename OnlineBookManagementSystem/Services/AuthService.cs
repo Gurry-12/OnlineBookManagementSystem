@@ -17,9 +17,9 @@ namespace OnlineBookManagementSystem.Services
 {
     public class AuthService : IAuthInterface
     {
-        private const int Minutes = 60; // Increased to 60 for easier testing
+        private const int Minutes = 2; // Increased to 60 for easier testing
         private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
+
         private readonly RoleManager<IdentityRole<int>> _roleManager;
         private readonly BookManagementContext _context;
         private readonly IConfiguration _config;
@@ -30,7 +30,7 @@ namespace OnlineBookManagementSystem.Services
 
         public AuthService(
             UserManager<User> userManager,
-            SignInManager<User> signInManager,
+
             RoleManager<IdentityRole<int>> roleManager,
             BookManagementContext context,
             IConfiguration config,
@@ -40,7 +40,6 @@ namespace OnlineBookManagementSystem.Services
             IEmailSender emailSender = null)
         {
             _userManager = userManager;
-            _signInManager = signInManager;
             _roleManager = roleManager;
             _context = context;
             _config = config;
@@ -128,7 +127,7 @@ namespace OnlineBookManagementSystem.Services
             {
                 UserId = user.Id,
                 Token = hashedRefresh,
-                ExpiryDate = DateTimeOffset.UtcNow.AddDays(7),
+                ExpiryDate = DateTime.UtcNow.AddDays(7),
                 CreatedByIp = "127.0.0.1" // Placeholder
             };
 
@@ -205,7 +204,7 @@ namespace OnlineBookManagementSystem.Services
 
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             user.PasswordResetToken = HashToken(token);
-            user.PasswordResetExpiry = DateTimeOffset.UtcNow.AddMinutes(15);
+            user.PasswordResetExpiry = DateTime.UtcNow.AddMinutes(15);
             await _userManager.UpdateAsync(user);
 
             if (_emailSender != null)
@@ -216,7 +215,7 @@ namespace OnlineBookManagementSystem.Services
 
         public async Task<bool> UpdatePasswordAsync(string token, string newPassword)
         {
-            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.PasswordResetToken != null && u.PasswordResetExpiry > DateTimeOffset.UtcNow);
+            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.PasswordResetToken != null && u.PasswordResetExpiry > DateTime.UtcNow);
             if (user == null) return false;
 
             if (HashToken(token) != user.PasswordResetToken) return false;
@@ -277,7 +276,7 @@ namespace OnlineBookManagementSystem.Services
             user.Name = model.NewName;
             user.Email = model.NewEmail;
             user.UserName = model.NewEmail;
-            user.UpdatedAt = DateTimeOffset.UtcNow;
+            user.UpdatedAt = DateTime.UtcNow;
 
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)
@@ -338,7 +337,7 @@ namespace OnlineBookManagementSystem.Services
             if (existingToken == null)
                 return (false, "", "", "Invalid token.");
 
-            if (existingToken.IsRevoked || existingToken.ExpiryDate < DateTimeOffset.UtcNow)
+            if (existingToken.IsRevoked || existingToken.ExpiryDate < DateTime.UtcNow)
                 return (false, "", "", "Token expired or revoked.");
 
             var user = existingToken.User;

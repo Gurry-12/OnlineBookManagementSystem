@@ -83,7 +83,7 @@ namespace OnlineBookManagementSystem.Controllers
 
             var oldStatus = order.Status;
             order.Status = status;
-            order.UpdatedAt = DateTimeOffset.UtcNow;
+            order.UpdatedAt = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
             await _logger.LogAsync("OrderStatusUpdate", $"Order #{id} status changed: {oldStatus} → {status}", CurrentUserId);
