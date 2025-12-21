@@ -1,4 +1,4 @@
-﻿using OnlineBookManagementSystem.Models;
+using OnlineBookManagementSystem.Models;
 using OnlineBookManagementSystem.Models.ViewModel;
 using OnlineBookManagementSystem.Models.ViewModel.AuthViewModels;
 
@@ -6,16 +6,20 @@ namespace OnlineBookManagementSystem.Interfaces
 {
     public interface IAuthInterface
     {
-        Task<(bool Success, string Message, User User)> ValidateUserAsync(LoginViewModel data);
-        string GenerateJwtToken(User user);
-        Task<bool> RegisterUserAsync(RegisterViewModel data);
-        Task<UserViewModel> GetUserProfileAsync(int userId);
+        Task SeedRolesAsync();
+        Task<(bool Success, string Message, User? User)> ValidateUserAsync(LoginViewModel data);
+        (string AccessToken, string RefreshToken) GenerateTokens(User user);
+        Task<(bool Success, string Message, string? ConfirmationToken)> RegisterUserAsync(RegisterViewModel data);
+        Task<bool> ConfirmEmailAsync(string token, string email);
+        Task<bool> UpdatePasswordAsync(string token, string newPassword);
+        Task<string?> GeneratePasswordResetTokenAsync(string email);
+        Task<UserViewModel?> GetUserProfileAsync(int userId);
         User GetUserById(int id);
-
-        Task<User> ValidateUserViaEmailAsync(string email);
-Task<bool> UpdateUserDetailAsync(ProfileViewModel model);
-        void UpdateUserDetailAsync(User user);
-
-        Task<bool> UpdatePasswordAsync(string email, string newPassword);
+        Task<bool> UpdateUserDetailAsync(ProfileViewModel model);
+        void UpdateUserDetailAsync(User user);  // Legacy; prefer async
+        Task<bool> AssignRoleAsync(int userId, string roleName);
+        Task<List<string>> GetUserRolesAsync(int userId);
+        Task RevokeRefreshTokensAsync(int userId);
+        Task<List<UserViewModel>> ManageUsers();
     }
 }

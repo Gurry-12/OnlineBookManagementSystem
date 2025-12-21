@@ -1,4 +1,5 @@
-﻿:root {
+/* ~/css/color.css */
+:root {
     --color-primary: #3E64FF; /* Vivid Blue */
     --color-secondary: #F6F5F2; /* Soft Gray-Beige */
     --color-accent: #FF6B6B; /* Coral Red */
@@ -11,6 +12,18 @@
     --color-warning: #FFC107; /* Amber */
     --color-info: #17A2B8; /* Teal */
     --color-dark: #343A40; /* Dark Gray */
+    /* Role-specific themes */
+    --public-bg: linear-gradient(135deg, #f8f9fa, #e9ecef); /* Light/neutral for Guest */
+    --user-primary: #007bff; /* Blue for personal */
+    --user-accent: #28a745; /* Green for actions */
+    --admin-bg: #fff3cd; /* Yellow/warm for moderation */
+    --admin-primary: #ffc107; /* Amber */
+    --admin-accent: #fd7e14; /* Orange */
+    --superadmin-bg: #f8d7da; /* Red tint for power/caution */
+    --superadmin-primary: #dc3545; /* Danger red */
+    --superadmin-accent: #e83e8c; /* Pink for alerts */
+    --auth-gradient-start: #e0e7ff;
+    --auth-gradient-end: #fce7f3;
 }
 
 /* General body styling */
@@ -18,6 +31,32 @@ body {
     background-color: var(--color-bg);
     color: var(--color-text-main);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Role overrides */
+.public-layout {
+    background: var(--public-bg);
+}
+
+.user-layout {
+    --color-primary: var(--user-primary);
+    --color-accent: var(--user-accent);
+}
+
+.admin-layout {
+    --color-bg: var(--admin-bg);
+    --color-primary: var(--admin-primary);
+    --color-accent: var(--admin-accent);
+}
+
+.superadmin-layout {
+    --color-bg: var(--superadmin-bg);
+    --color-primary: var(--superadmin-primary);
+    --color-accent: var(--superadmin-accent);
+}
+
+.auth-layout {
+    background: linear-gradient(135deg, var(--auth-gradient-start), var(--auth-gradient-end));
 }
 
 /* Navbar */
@@ -35,10 +74,22 @@ body {
             color: var(--color-accent);
         }
 
-/* Sidebar */
+/* Sidebar (from site.css; role overrides) */
 .sidebar {
-    background-color: var(--color-secondary);
-    color: var(--color-text-main);
+    background: linear-gradient(to bottom, var(--color-primary), var(--color-accent));
+    color: #fff;
+}
+
+.user-layout .sidebar {
+    background: linear-gradient(to bottom, var(--user-primary), var(--user-accent));
+}
+
+.admin-layout .sidebar {
+    background: linear-gradient(to bottom, var(--admin-primary), var(--admin-accent));
+}
+
+.superadmin-layout .sidebar {
+    background: linear-gradient(to bottom, var(--superadmin-primary), var(--superadmin-accent));
 }
 
 /* Buttons */
@@ -49,7 +100,7 @@ body {
 }
 
     .btn-primary:hover {
-        background-color: #2f50cc;
+        background-color: color-mix(in srgb, var(--color-primary) 80%, black);
     }
 
 .btn-secondary {
@@ -67,8 +118,12 @@ body {
     background-color: white;
     border: 1px solid #ddd;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
+
+    .card:hover {
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
 
 /* Alerts */
 .alert-success {
@@ -134,7 +189,7 @@ body {
 }
 
     .login-link:hover {
-        color: #333333; /* slightly darker coral (or use a new --color-accent-dark if desired) */
+        color: #333333;
         text-decoration: underline;
     }
 
@@ -146,6 +201,19 @@ body {
 }
 
     .forgot-password-link:hover {
-        color: #FF4A4A; /* Slightly darker coral */
+        color: color-mix(in srgb, var(--color-accent) 80%, black);
         text-decoration: underline;
     }
+
+/* Role-specific nav accents */
+.user-layout .nav-link {
+    border-left: 3px solid var(--user-accent);
+}
+
+.admin-layout .nav-link {
+    border-left: 3px solid var(--admin-accent);
+}
+
+.superadmin-layout .nav-link {
+    border-left: 3px solid var(--superadmin-accent);
+}

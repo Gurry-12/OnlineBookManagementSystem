@@ -1,2 +1,46 @@
-﻿
+@* ~/Views/Shared/_Notification.cshtml *@
+@{
+    var currentRole = ViewContext.HttpContext.User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value ?? "Guest";
+}
 
+@if (TempData["Success"] != null)
+{
+    <script>
+        toastr.success('@TempData["Success"]');
+    </script>
+}
+@if (TempData["Error"] != null)
+{
+    <script>
+        toastr.error('@TempData["Error"]');
+    </script>
+}
+@if (TempData["Info"] != null)
+{
+    <script>
+        toastr.info('@TempData["Info"]');
+    </script>
+}
+
+@if (currentRole == "SuperAdmin" && TempData["AuditAlert"] != null)
+{
+    <script>
+        toastr.warning('@TempData["AuditAlert"]');  // e.g., "New logs pending review"
+    </script>
+}
+@if (currentRole == "Admin" && TempData["ModAlert"] != null)
+{
+    <script>
+        toastr.warning('@TempData["ModAlert"]');  // e.g., "Pending book approvals"
+    </script>
+}
+
+<script>
+    // Role-specific page-load alerts (e.g., from session)
+    @if (TempData["RoleAlert"] != null)
+    {
+            <text>
+                toastr.info('@TempData["RoleAlert"]');
+            </text>
+    }
+</script>

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace OnlineBookManagementSystem.Models.ViewModel
 {
@@ -7,6 +7,8 @@ namespace OnlineBookManagementSystem.Models.ViewModel
         public Book Book { get; set; }
 
         public IEnumerable<SelectListItem> CategoryList { get; set; }
+        public List<SelectListItem> Categories { get; internal set; }
+        public IFormFile? ImageFile { get; set; }
     }
 
 }

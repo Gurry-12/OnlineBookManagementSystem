@@ -1,11 +1,11 @@
-﻿@{
+@using OnlineBookManagementSystem.Models.ViewModel.AuthViewModels
+@model RegisterViewModel
+@{
     ViewData["Title"] = "Registration";
 }
-@model User
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
-@* <link href="~/css/authstyle.css" rel="stylesheet" /> *@
 
 <div class="auth-container">
     <div class="auth-card">
@@ -14,7 +14,7 @@
             <h2 class="mt-3"><i class="bi bi-person-plus-fill me-2"></i>Sign Up</h2>
         </div>
 
-        <form method="POST">
+        <form id="regForm">
             <div class="mb-3">
                 <label asp-for="Name" class="form-label"><i class="bi bi-person-fill me-1"></i>Name</label>
                 <input asp-for="Name" type="text" class="form-control" required />
@@ -33,32 +33,33 @@
                 <span asp-validation-for="Password" class="text-danger" id="PasswordError"></span>
             </div>
 
-            <div class="mb-3">
-                <label asp-for="Role" class="form-label"><i class="bi bi-shield-lock-fill me-1"></i>Role</label>
-                <select class="form-select" asp-for="Role" required>
-                    <option disabled selected value="">-- Select Role --</option>
-                    <option value="Admin">Admin</option>
-                    <option value="User">User</option>
-                </select>
-            </div>
-
             <div class="d-grid mt-3 mb-3">
-                <button type="submit" class="btn btn-gradient" id="SubmitForm">
+                <button type="button" class="btn btn-gradient" id="SubmitForm">
                     <i class="bi bi-person-check-fill me-1"></i>Sign Up
                 </button>
             </div>
 
             <div class="text-center mt-2">
                 <span class="fs-6">
-                    Already registered?
-                    <a asp-controller="Auth" asp-action="Login" class="login-link ms-1">Login</a>
+                    Already registered? <a asp-action="Login" class="login-link ms-1">Login</a>
                 </span>
             </div>
         </form>
     </div>
 </div>
 
+@if (TempData["Error"] != null)
+{
+    <script>toastr.error('@TempData["Error"]');</script>
+}
 @section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="~/js/auth/registration.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <!-- ONLY THIS ONE AUTH SCRIPT -->
+    <script src="~/js/auth/auth.js"></script>
+
+    <!-- Remove any reference to registration.js or BooksHome.js here -->
 }

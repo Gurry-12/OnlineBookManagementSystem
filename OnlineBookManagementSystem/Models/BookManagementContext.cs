@@ -1,8 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace OnlineBookManagementSystem.Models;
 
-public partial class BookManagementContext : DbContext
+public partial class BookManagementContext : IdentityDbContext<User, IdentityRole<int>, int>
 {
     public BookManagementContext()
     {
@@ -13,162 +15,154 @@ public partial class BookManagementContext : DbContext
     {
     }
 
+    // Existing DbSets
     public virtual DbSet<ActivityLog> ActivityLogs { get; set; }
-
     public virtual DbSet<Book> Books { get; set; }
-
     public virtual DbSet<Category> Categories { get; set; }
-
     public virtual DbSet<Order> Orders { get; set; }
-
     public virtual DbSet<OrderDetail> OrderDetails { get; set; }
-
     public virtual DbSet<ShoppingCart> ShoppingCarts { get; set; }
-
-    public virtual DbSet<User> Users { get; set; }
-
+    public virtual DbSet<User> Users { get; set; }  // Now Identity-backed
+    public virtual DbSet<RefreshToken> RefreshTokens { get; set; }  // New
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);  // Identity tables & configs
+
+        // ActivityLog
         modelBuilder.Entity<ActivityLog>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Activity__3214EC07468235BA");
-
-            entity.Property(e => e.ActionType)
-                .HasMaxLength(100)
-                .IsUnicode(false);
-            entity.Property(e => e.Timestamp)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
-
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Action).HasMaxLength(100);
+            entity.Property(e => e.Message).HasMaxLength(1000);
+            entity.Property(e => e.IpAddress).HasMaxLength(45);
+            entity.Property(e => e.UserAgent).HasMaxLength(500);
+            entity.Property(e => e.Level).HasMaxLength(20).HasDefaultValue("Info");
+            entity.Property(e => e.Timestamp).HasDefaultValueSql("datetimeoffset('now')");
             entity.HasOne(d => d.User).WithMany(p => p.ActivityLogs)
-                .HasForeignKey(d => d.UserId)
-                .HasConstraintName("FK_ActivityLogs_User");
+                .HasForeignKey(d => d.UserId).OnDelete(DeleteBehavior.SetNull);
+            entity.HasIndex(e => e.Timestamp);
+            entity.HasIndex(e => e.UserId);
         });
 
+        // Book
         modelBuilder.Entity<Book>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Books__3214EC2797436376");
-
-            entity.Property(e => e.Id).HasColumnName("ID");
-            entity.Property(e => e.Author)
-                .HasMaxLength(100)
-                .IsUnicode(false);
-            entity.Property(e => e.ImgUrl)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("ImgURL");
-            entity.Property(e => e.IsDeleted).HasDefaultValue(false);
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Author).HasMaxLength(100);
+            entity.Property(e => e.ISBN).HasMaxLength(20);
+            entity.Property(e => e.ImageUrl).HasMaxLength(500);
+            entity.Property(e => e.Description).HasMaxLength(1000);
+            entity.Property(e => e.Title).HasMaxLength(200).IsRequired();
+            entity.Property(e => e.Price).HasColumnType("decimal(10,2)").HasDefaultValue(0);
+            entity.Property(e => e.StockQuantity).HasDefaultValue(0);
             entity.Property(e => e.IsFavorite).HasDefaultValue(false);
-            entity.Property(e => e.Isbn)
-                .HasMaxLength(100)
-                .IsUnicode(false)
-                .HasColumnName("ISBN");
-            entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
-            entity.Property(e => e.Stock)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.Title)
-                .HasMaxLength(255)
-                .IsUnicode(false);
-
+            entity.Property(e => e.IsDeleted).HasDefaultValue(false);
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("datetimeoffset('now')");
+            entity.Property(e => e.UpdatedAt).HasDefaultValueSql("datetimeoffset('now')");
             entity.HasOne(d => d.Category).WithMany(p => p.Books)
-                .HasForeignKey(d => d.CategoryId)
-                .HasConstraintName("FK_Category_Id_Books");
+                .HasForeignKey(d => d.CategoryId).OnDelete(DeleteBehavior.Restrict);
+            entity.HasIndex(e => e.ISBN).IsUnique();
+            entity.HasQueryFilter(e => !e.IsDeleted);  // Soft delete
         });
 
+        // Category
         modelBuilder.Entity<Category>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Categori__3214EC27985D730D");
-
-            entity.Property(e => e.Id).HasColumnName("ID");
-            entity.Property(e => e.Name)
-                .HasMaxLength(100)
-                .IsUnicode(false);
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Name).HasMaxLength(100).IsRequired();
+            entity.Property(e => e.Description).HasMaxLength(500);
+            entity.Property(e => e.IsDeleted).HasDefaultValue(false);
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("datetimeoffset('now')");
+            entity.Property(e => e.UpdatedAt).HasDefaultValueSql("datetimeoffset('now')");
+            entity.HasIndex(e => e.Name).IsUnique();
+            entity.HasQueryFilter(e => !e.IsDeleted);
         });
 
+        // Order
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Orders__3214EC272BC5AF07");
-
-            entity.Property(e => e.Id).HasColumnName("ID");
-            entity.Property(e => e.FullName).HasMaxLength(255);
-            entity.Property(e => e.OrderDate).HasColumnName("Order_Date");
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.TotalAmount).HasColumnType("decimal(10,2)").HasDefaultValue(0);
+            entity.Property(e => e.Status).HasMaxLength(50).HasDefaultValue("Pending");
+            entity.Property(e => e.FullName).HasMaxLength(100);
+            entity.Property(e => e.Address).HasMaxLength(500);
             entity.Property(e => e.PaymentMethod).HasMaxLength(50);
-            entity.Property(e => e.Status)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.TotalAmount)
-                .HasColumnType("decimal(10, 2)")
-                .HasColumnName("Total_Amount");
-            entity.Property(e => e.UserId).HasColumnName("UserID");
-
+            entity.Property(e => e.PaymentStatus).HasMaxLength(50).HasDefaultValue("Unpaid");
+            entity.Property(e => e.IsDeleted).HasDefaultValue(false);
+            entity.Property(e => e.OrderDate).HasDefaultValueSql("datetimeoffset('now')");
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("datetimeoffset('now')");
+            entity.Property(e => e.UpdatedAt).HasDefaultValueSql("datetimeoffset('now')");
             entity.HasOne(d => d.User).WithMany(p => p.Orders)
-                .HasForeignKey(d => d.UserId)
-                .HasConstraintName("FK_User_ID");
+                .HasForeignKey(d => d.UserId).OnDelete(DeleteBehavior.Restrict);
+            entity.HasIndex(e => e.UserId);
+            entity.HasQueryFilter(e => !e.IsDeleted);
         });
 
+        // OrderDetail
         modelBuilder.Entity<OrderDetail>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__OrderDet__3214EC27E596107A");
-
-            entity.Property(e => e.Id).HasColumnName("ID");
-            entity.Property(e => e.BookId).HasColumnName("BookID");
-            entity.Property(e => e.OrderId).HasColumnName("OrderID");
-            entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
-
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Quantity).HasDefaultValue(1);
+            entity.Property(e => e.Price).HasColumnType("decimal(10,2)");
+            entity.Property(e => e.Subtotal).HasColumnType("decimal(10,2)").HasDefaultValue(0);
             entity.HasOne(d => d.Book).WithMany(p => p.OrderDetails)
-                .HasForeignKey(d => d.BookId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Book_ID");
-
+                .HasForeignKey(d => d.BookId).OnDelete(DeleteBehavior.ClientSetNull);
             entity.HasOne(d => d.Order).WithMany(p => p.OrderDetails)
-                .HasForeignKey(d => d.OrderId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Order_ID");
+                .HasForeignKey(d => d.OrderId).OnDelete(DeleteBehavior.ClientSetNull);
+            entity.HasIndex(e => e.OrderId);
         });
 
+        // ShoppingCart
         modelBuilder.Entity<ShoppingCart>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Shopping__3214EC27C38578FA");
-
-            entity.ToTable("ShoppingCart");
-
-            entity.Property(e => e.Id).HasColumnName("ID");
-            entity.Property(e => e.BookId).HasColumnName("BookID");
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Quantity).HasDefaultValue(1);
             entity.Property(e => e.IsDeleted).HasDefaultValue(false);
-            entity.Property(e => e.UserId).HasColumnName("UserID");
-
+            entity.Property(e => e.AddedAt).HasDefaultValueSql("datetimeoffset('now')");
             entity.HasOne(d => d.Book).WithMany(p => p.ShoppingCarts)
-                .HasForeignKey(d => d.BookId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Book_ID_SC");
-
+                .HasForeignKey(d => d.BookId).OnDelete(DeleteBehavior.ClientSetNull);
             entity.HasOne(d => d.User).WithMany(p => p.ShoppingCarts)
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_User_ID_SC");
+                .HasForeignKey(d => d.UserId).OnDelete(DeleteBehavior.ClientSetNull);
+            entity.HasIndex(e => new { e.UserId, e.BookId }).IsUnique();
+            entity.HasQueryFilter(e => !e.IsDeleted);
         });
 
+        // RefreshToken (new)
+        modelBuilder.Entity<RefreshToken>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Token).HasMaxLength(450);
+            entity.Property(e => e.ReplacedByToken).HasMaxLength(450);
+            entity.Property(e => e.CreatedByIp).HasMaxLength(45);
+            entity.Property(e => e.ExpiryDate).IsRequired();
+            entity.Property(e => e.Created).HasDefaultValueSql("datetimeoffset('now')");
+            entity.Property(e => e.IsRevoked).HasDefaultValue(false);
+            entity.HasOne(rt => rt.User).WithMany(u => u.RefreshTokens)
+                .HasForeignKey(rt => rt.UserId).OnDelete(DeleteBehavior.Cascade);
+            entity.HasIndex(rt => rt.Token).IsUnique();
+            entity.HasIndex(rt => new { rt.UserId, rt.IsRevoked, rt.ExpiryDate });
+            entity.HasQueryFilter(rt => !rt.IsRevoked && rt.ExpiryDate > DateTimeOffset.UtcNow);
+        });
+
+        // User (extend Identity)
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Users__3214EC2771C39264");
-
-            entity.HasIndex(e => e.Email, "UQ_Users_Email").IsUnique();
-
-            entity.Property(e => e.Id).HasColumnName("ID");
-            entity.Property(e => e.Email).HasMaxLength(256);
+            entity.HasIndex(e => new { e.Email, e.IsDeleted }).IsUnique();
+            entity.Property(e => e.Name).HasMaxLength(100).IsRequired();
             entity.Property(e => e.IsDeleted).HasDefaultValue(false);
-            entity.Property(e => e.Name)
-                .HasMaxLength(255)
-                .IsUnicode(false);
-            entity.Property(e => e.Password)
-                .HasMaxLength(255)
-                .IsUnicode(false);
-            entity.Property(e => e.Role)
-                .HasMaxLength(50)
-                .IsUnicode(false);
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("datetimeoffset('now')");
+            entity.Property(e => e.UpdatedAt).HasDefaultValueSql("datetimeoffset('now')");
+            entity.HasQueryFilter(e => EF.Property<bool>(e, "IsDeleted") == false);
         });
+
+        // Seed roles (runs on migration)
+        modelBuilder.Entity<IdentityRole<int>>().HasData(
+            new IdentityRole<int> { Id = 1, Name = "SuperAdmin", NormalizedName = "SUPERADMIN" },
+            new IdentityRole<int> { Id = 2, Name = "Admin", NormalizedName = "ADMIN" },
+            new IdentityRole<int> { Id = 3, Name = "User", NormalizedName = "USER" },
+            new IdentityRole<int> { Id = 4, Name = "Guest", NormalizedName = "GUEST" }
+        );
 
         OnModelCreatingPartial(modelBuilder);
     }

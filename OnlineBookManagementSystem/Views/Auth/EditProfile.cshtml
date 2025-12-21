@@ -1,50 +1,31 @@
-﻿@model OnlineBookManagementSystem.Models.User
-
+@using OnlineBookManagementSystem.Models.ViewModel
+@model ProfileViewModel
 @{
     ViewData["Title"] = "Edit Profile";
+    // Assume Model populated from session/user
+    <input type="hidden" id="UserId" value="@Model.Id" />
 }
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow-lg p-4 rounded-4">
-                <h3 class="mb-4 text-center">Edit Profile</h3>
-                <form  >
-                    <input type="hidden" asp-for="Id" />
-
-                    <!-- Name -->
-                    <div class="mb-3">
-                        <label asp-for="Name" class="form-label">Full Name</label>
-                        <input asp-for="Name" class="form-control" placeholder="Enter your name" />
-                        <span asp-validation-for="Name" class="text-danger"></span>
-                    </div>
-
-                    <!-- Email -->
-                    <div class="mb-3">
-                        <label asp-for="Email" class="form-label">Email</label>
-                        <input asp-for="Email" class="form-control" placeholder="Enter your email" />
-                        <span asp-validation-for="Email" class="text-danger"></span>
-                    </div>
-
-                    <!-- Role (Optional/Readonly for User) -->
-                    <div class="mb-3">
-                        <label class="form-label">Role</label>
-                        <input class="form-control bg-light" value="@Model.Role" readonly />
-                    </div>
-
-                    <div class="d-flex justify-content-between mt-4">
-                        <a asp-action="ProfileView" class="btn btn-secondary">Cancel</a>
-                        <button class="btn btn-primary" onclick="updateProfile();">Save Changes</button>
-                    </div>
-                </form>
-            </div>
+<div class="container">
+    <h2>Edit Profile</h2>
+    <form id="profileForm">
+        <div class="mb-3">
+            <label asp-for="NewName" class="form-label">Name</label>
+            <input asp-for="NewName" type="text" class="form-control" value="@Model.NewName" required />
+            <span asp-validation-for="NewName" class="text-danger" id="NameError"></span>
         </div>
-    </div>
+        <div class="mb-3">
+            <label asp-for="NewEmail" class="form-label">Email</label>
+            <input asp-for="NewEmail" type="email" class="form-control" value="@Model.NewEmail" required />
+            <span asp-validation-for="NewEmail" class="text-danger" id="EmailError"></span>
+        </div>
+        <button type="button" class="btn btn-primary" id="UpdateProfileBtn">Update</button>
+        <a asp-action="ProfileView" class="btn btn-secondary">Cancel</a>
+    </form>
 </div>
 
 @section Scripts {
+    <partial name="_ValidationScriptsPartial" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="~/js/auth/registration.js"></script>
-
-    
+    <script src="~/js/auth/auth.js"></script>
 }

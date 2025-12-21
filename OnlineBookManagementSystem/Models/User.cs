@@ -1,25 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OnlineBookManagementSystem.Models;
 
-public partial class User
+[Table("AspNetUsers")]  // Identity table name
+public partial class User : IdentityUser<int>  // PK int for consistency
 {
-    public int Id { get; set; }
+    [PersonalData]  // GDPR
+    [StringLength(100)]
+    public string Name { get; set; } = string.Empty;
 
-    public string Name { get; set; } = null!;
+    public bool? IsDeleted { get; set; } = false;
 
-    public string Email { get; set; } = null!;
+    // From prior upgrades: Email confirmation & reset
+    public bool IsEmailConfirmed { get; set; }
+    public string? EmailConfirmationToken { get; set; }
+    public string? PasswordResetToken { get; set; }  // Hashed
+    public DateTimeOffset? PasswordResetExpiry { get; set; }
 
-    public string Password { get; set; } = null!;
+    // Timestamps
+    [Column(TypeName = "datetimeoffset")]
+    public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
+    [Column(TypeName = "datetimeoffset")]
+    public DateTimeOffset UpdatedAt { get; set; } = DateTimeOffset.UtcNow;
 
-    public string? Role { get; set; }
-
-    public bool? IsDeleted { get; set; }
-
+    // Existing nav props
     public virtual ICollection<ActivityLog> ActivityLogs { get; set; } = new List<ActivityLog>();
-
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
-
     public virtual ICollection<ShoppingCart> ShoppingCarts { get; set; } = new List<ShoppingCart>();
+    public virtual ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();  // New
 }

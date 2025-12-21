@@ -1,0 +1,143 @@
+@{
+    ViewData["Title"] = "Super Admin Dashboard - Whispering Pages";
+    Layout = ViewData["Layout"]?.ToString() ?? "_LayoutSuperAdmin";
+}
+
+<link href="~/css/booksindex.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
+
+<div class="container-fluid px-3 px-md-5 py-4">
+    <h2 class="mb-4 text-danger fw-bold">
+        <i class="bi bi-crown me-2"></i>Super Admin Dashboard
+    </h2>
+
+    <!-- Quick Stats Row -->
+    <div class="row g-4 mb-4">
+        <div class="col-xl-3 col-md-6">
+            <div class="card h-100 border-0 shadow-sm bg-gradient-danger text-white rounded-4">
+                <div class="card-body text-center p-4">
+                    <i class="bi bi-people-fill fs-1 mb-3"></i>
+                    <h3 class="card-title">@Model?.TotalUsers</h3>
+                    <p class="card-text">Total Users</p>
+                    <a asp-controller="Auth" asp-action="ManageUsers" class="btn btn-light btn-sm">Manage Users</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card h-100 border-0 shadow-sm bg-gradient-primary text-white rounded-4">
+                <div class="card-body text-center p-4">
+                    <i class="bi bi-book-fill fs-1 mb-3"></i>
+                    <h3 class="card-title">@Model?.TotalBooks</h3>
+                    <p class="card-text">Total Books</p>
+                    <a asp-controller="Books" asp-action="AdminIndex" class="btn btn-light btn-sm">View Books</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card h-100 border-0 shadow-sm bg-gradient-warning text-dark rounded-4">
+                <div class="card-body text-center p-4">
+                    <i class="bi bi-receipt-cutoff fs-1 mb-3"></i>
+                    <h3 class="card-title">@Model?.TotalOrders</h3>
+                    <p class="card-text">Total Orders</p>
+                    <a asp-controller="Orders" asp-action="AdminOrders" class="btn btn-outline-dark btn-sm">Manage Orders</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card h-100 border-0 shadow-sm bg-gradient-info text-white rounded-4">
+                <div class="card-body text-center p-4">
+                    <i class="bi bi-journal-text fs-1 mb-3"></i>
+                    <h3 class="card-title">@Model?.RecentActivity.Count</h3>
+                    <p class="card-text">Recent Activities</p>
+                    <a asp-controller="Logs" asp-action="Index" class="btn btn-light btn-sm">View Logs</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions Row -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm rounded-4">
+                <div class="card-body p-4">
+                    <h5 class="card-title text-danger"><i class="bi bi-shield-check me-2"></i>Role Management</h5>
+                    <p class="text-muted">Assign roles and audit users.</p>
+                    <a asp-controller="Auth" asp-action="ManageUsers" class="btn btn-outline-danger">Manage Roles</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm rounded-4">
+                <div class="card-body p-4">
+                    <h5 class="card-title text-primary"><i class="bi bi-gear me-2"></i>System Settings</h5>
+                    <p class="text-muted">Configure site-wide options.</p>
+                    <a asp-controller="Settings" asp-action="Index" class="btn btn-outline-primary">Settings</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity Table -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm rounded-4">
+                <div class="card-header bg-transparent border-0 py-3">
+                    <h5 class="mb-0 fw-semibold text-dark"><i class="bi bi-clock me-2"></i>Recent Activity</h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Action</th>
+                                    <th>User</th>
+                                    <th>Details</th>
+                                    <th>Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var log in Model?.RecentActivity ?? Enumerable.Empty<ActivityLog>())
+                                {
+                                    <tr>
+                                        <td><span class="badge bg-primary">@log.Action</span></td>
+                                        <td>@(log.User?.Name ?? "System")</td>
+                                        <td>@log.Message</td>
+                                        <td>@GetTimeAgo(log.Timestamp)</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@await Html.PartialAsync("_Notification")
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script>
+        function GetTimeAgo(time) {
+            const span = new Date() - new Date(time);
+            if (span < 60000) return 'Just now';
+            if (span < 3600000) return Math.floor(span / 60000) + ' min ago';
+            if (span < 86400000) return Math.floor(span / 3600000) + ' hrs ago';
+            return Math.floor(span / 86400000) + ' days ago';
+        }
+    </script>
+}
+
+@functions {
+    public string GetTimeAgo(DateTimeOffset time)
+    {
+        var span = DateTimeOffset.UtcNow - time;
+        if (span.TotalMinutes < 1) return "Just now";
+        if (span.TotalMinutes < 60) return $"{(int)span.TotalMinutes} min ago";
+        if (span.TotalHours < 24) return $"{(int)span.TotalHours} hrs ago";
+        return $"{(int)span.TotalDays} days ago";
+    }
+}

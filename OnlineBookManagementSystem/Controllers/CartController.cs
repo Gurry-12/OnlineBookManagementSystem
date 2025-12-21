@@ -1,12 +1,11 @@
-ï»¿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OnlineBookManagementSystem.Interfaces;
-using OnlineBookManagementSystem.Models;
 using OnlineBookManagementSystem.Models.ViewModel;
-using OnlineBookManagementSystem.Services;
 
 namespace OnlineBookManagementSystem.Controllers
 {
+    [Authorize]  // Global; per-action overrides
     public class CartController : BaseController
     {
         private readonly ICartService _cartService;
@@ -16,107 +15,103 @@ namespace OnlineBookManagementSystem.Controllers
             _cartService = cartService;
         }
 
+        [Authorize(Policy = "UserOrHigher")]
         public async Task<IActionResult> CartIndexUser()
         {
-            var sessionUserId = HttpContext.Session.GetString("userId");
-            if (sessionUserId == null) return RedirectToAction("Login", "Account");
+            var userId = GetUserIdFromClaims();  // JWT
+            if (userId == 0) return Unauthorized();
 
-            int userId = int.Parse(sessionUserId);
             var cartData = await _cartService.GetUserCartAsync(userId);
-            return View(cartData);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> AddOrUpdateCart([FromBody] ShoppingCart data)
-        {
-            var sessionUserId = HttpContext.Session.GetString("userId");
-            if (sessionUserId == null || data.BookId == 0)
-            {
-                return BadRequest("Invalid session or book.");
-            }
-
-            int userId = int.Parse(sessionUserId);
-            await _cartService.AddOrUpdateCartAsync(userId, data.BookId);
-            return Json(new { success = true });
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> UpdateQuantity([FromBody] ShoppingCart data)
-        {
-            var sessionUserId = HttpContext.Session.GetString("userId");
-            if (sessionUserId == null || data.BookId == 0)
-            {
-                return BadRequest("Invalid session or book.");
-            }
-
-            int userId = int.Parse(sessionUserId);
-            await _cartService.UpdateCartQuantityAsync(userId, data.BookId, data.Quantity ?? 0);
-            return Json(new { success = true });
-        }
-
-        [HttpGet]
-        public IActionResult GetAllCartItems()
-        {
-            var sessionUserId = HttpContext.Session.GetString("userId");
-            if (sessionUserId == null)
-                return Json(new List<object>());
-
-            int userId = int.Parse(sessionUserId);
-            var cartItems = _cartService.GetAllCartItems(userId);
-            return Json(cartItems);
-        }
-
-        [HttpDelete]
-        public async Task<IActionResult> RemoveCartItems([FromBody] ShoppingCart data)
-        {
-            var sessionUserId = HttpContext.Session.GetString("userId");
-            if (sessionUserId == null)
-                return BadRequest("Invalid session.");
-
-            int userId = int.Parse(sessionUserId);
-            var removed = await _cartService.RemoveCartItemAsync(userId, data.BookId);
-
-            if (!removed)
-                return BadRequest("Invalid User or book.");
-
-            var redirectUrl = Url.Action("CartIndexUser", "Cart");
-            return Json(new { redirectUrl });
-        }
-
-        public IActionResult CheckOut(int id)
-        {
-            CheckOutViewModel viewModel = _cartService.CheckoutDetails(id).Result;
-
+            var summary = await _cartService.GetCartSummaryAsync(userId);
+            var viewModel = new CartViewModel { CartItems = cartData, Summary = summary };
             return View(viewModel);
         }
 
-        public IActionResult OrderConfirmation()
+        [Authorize(Policy = "UserOrHigher")]
+        [HttpPost]
+        public async Task<IActionResult> AddOrUpdateCart([FromBody] CartItemRequestViewModel data)
         {
+            var userId = GetUserIdFromClaims();
+            if (userId == 0 || data.BookId == 0 || data.Quantity <= 0)
+                return BadRequest("Invalid request.");
+
+            var success = await _cartService.AddOrUpdateCartAsync(userId, data.BookId, data.Quantity);
+            return Json(new { success, message = success ? "Added to cart!" : "Failed (stock low?)" });
+        }
+
+        [Authorize(Policy = "UserOrHigher")]
+        [HttpPut]
+        public async Task<IActionResult> UpdateQuantity([FromBody] CartItemRequestViewModel data)
+        {
+            var userId = GetUserIdFromClaims();
+            if (userId == 0) return Unauthorized();
+
+            var success = await _cartService.UpdateCartQuantityAsync(userId, data.BookId, data.Quantity);
+            return Json(new { success });
+        }
+
+        [Authorize(Policy = "UserOrHigher")]
+        [HttpDelete]
+        public async Task<IActionResult> RemoveItem(int bookId)
+        {
+            var userId = GetUserIdFromClaims();
+            if (userId == 0) return Unauthorized();
+
+            var success = await _cartService.RemoveCartItemAsync(userId, bookId);
+            return Json(new { success, redirectUrl = Url.Action("CartIndexUser") });
+        }
+
+        [Authorize(Policy = "AdminOrHigher")]
+        public async Task<IActionResult> AdminCarts()
+        {
+            var adminId = GetUserIdFromClaims();
+            var carts = await _cartService.GetAllCartsAsync(adminId);
+            return View(carts);
+        }
+
+        [Authorize(Policy = "UserOrHigher")]
+        public async Task<IActionResult> Checkout()
+        {
+            var userId = GetUserIdFromClaims();
+            if (userId == 0) return Unauthorized();
+
+            var viewModel = await _cartService.CheckoutDetailsAsync(userId);
+            return View(viewModel);
+        }
+
+        [Authorize(Policy = "UserOrHigher")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ProcessCheckout(CheckOutRequestViewModel request)
+        {
+            if (!ModelState.IsValid) return View(request);
+
+            var userId = GetUserIdFromClaims();
+            if (userId == 0) return Unauthorized();
+
+            var success = await _cartService.ProcessCheckoutAsync(userId, request);
+            if (success)
+            {
+                TempData["Success"] = "Order placed! Check your email.";
+                return RedirectToAction("OrderConfirmation");
+            }
+
+            ModelState.AddModelError("", "Checkout failed—cart empty or error.");
+            var viewModel = await _cartService.CheckoutDetailsAsync(userId);
+            return View(viewModel);
+        }
+
+        public IActionResult OrderConfirmation(int? orderId = null)
+        {
+            ViewBag.OrderId = orderId;
             return View();
         }
 
-      
-
-        [HttpPost]
-public async Task<IActionResult> ProcessCheckout(string Name, string Address, string PaymentMethod)
-{
-            var userIdString = HttpContext.Session.GetString("userId");
-
-            if (string.IsNullOrEmpty(userIdString))
-            {
-                return BadRequest("User ID is missing from session.");
-            }
-
-            var userId = int.Parse(userIdString);
-            var result = await _cartService.ProcessCheckoutAsync(userId, Name, Address, PaymentMethod);
-
-            if (!result)
-            {
-                return RedirectToAction("CheckOut", "Cart"); // Cart empty
-            }
-
-            return RedirectToAction("OrderConfirmation");
+        // Helper
+        private int GetUserIdFromClaims()
+        {
+            var idClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            return int.TryParse(idClaim, out var id) ? id : 0;
         }
-
     }
 }

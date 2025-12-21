@@ -1,8 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
+using OnlineBookManagementSystem.Interfaces;
 using OnlineBookManagementSystem.Models;
 using OnlineBookManagementSystem.Models.ViewModel;
 using OnlineBookManagementSystem.Models.ViewModel.ChartViewModel;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
+using System.Security.Cryptography;
+using System.Text;
+using Image = SixLabors.ImageSharp.Image;
 
 namespace OnlineBookManagementSystem.Services
 {
@@ -10,233 +17,297 @@ namespace OnlineBookManagementSystem.Services
     {
         private readonly BookManagementContext _context;
         private readonly IWebHostEnvironment _env;
-        public BookServices(BookManagementContext context, IWebHostEnvironment env)
+        private readonly IMemoryCache _cache;
+        private readonly ILogger<BookServices> _logger;
+        private readonly IActivityLogger _activityLogger;  // For audit
+
+        public BookServices(
+            BookManagementContext context,
+            IWebHostEnvironment env,
+            IMemoryCache cache,
+            ILogger<BookServices> logger,
+            IActivityLogger activityLogger)
         {
             _context = context;
             _env = env;
+            _cache = cache;
+            _logger = logger;
+            _activityLogger = activityLogger;
         }
 
-        public async Task<List<Models.Book>> GetAllBooksAsync()
+        public async Task<List<Book>> GetAllBooksAsync()
         {
             return await _context.Books
+                .Include(b => b.Category)
                 .Where(b => b.IsDeleted == false)
                 .ToListAsync();
         }
 
-        public async Task<Models.Book?> GetBookByIdAsync(int id)
+        public async Task<Book?> GetBookByIdAsync(int id)
         {
             return await _context.Books
-                .FirstOrDefaultAsync(b => b.Id == id);
+                .Include(b => b.Category)
+                .FirstOrDefaultAsync(b => b.Id == id && b.IsDeleted == false);
         }
 
-        public async Task<bool> AddBookAsync(Book bookData)
+        public async Task<bool> AddBookAsync(Book bookData, IFormFile? imageFile = null)
         {
-           
-            // Save to DB
-            await _context.Books.AddAsync(bookData);
-            await _context.SaveChangesAsync();
-            return true;
-        }
-
-        public async Task<bool> UpdateBookAsync(Models.Book bookData)
-        {
-            var existingBook = await _context.Books.FirstOrDefaultAsync(b => b.Id == bookData.Id);
-            if (existingBook == null)
-                return false;
-
-            existingBook.Title = bookData.Title;
-            existingBook.Author = bookData.Author;
-            existingBook.Stock = bookData.Stock;
-            existingBook.Isbn = bookData.Isbn;
-            existingBook.ImgUrl = bookData.ImgUrl;
-            existingBook.Price = bookData.Price;
-            existingBook.CategoryId = bookData.CategoryId;
-
-            await _context.SaveChangesAsync();
-            return true;
-        }
-
-        public async Task<string> SaveImageAsync(IFormFile imgFile)
-        {
-            // Define the upload folder path (relative to wwwroot)
-            // Ensure the folder exists
-            var imagesFolder = Path.Combine(_env.WebRootPath, "images", "books-section");
-            if (!Directory.Exists(imagesFolder))
-                Directory.CreateDirectory(imagesFolder);
-
-            // Full file path
-            var filePath = Path.Combine(imagesFolder, imgFile.FileName);
-
-            // Save the file
-            using (var stream = new FileStream(filePath, FileMode.Create))
+            using var transaction = await _context.Database.BeginTransactionAsync();
+            try
             {
-                await imgFile.CopyToAsync(stream);
+                if (imageFile != null)
+                {
+                    bookData.ImageUrl = await SaveImageAsync(imageFile, bookData.Id.ToString());
+                }
+
+                bookData.CreatedAt = DateTimeOffset.UtcNow;
+                bookData.UpdatedAt = DateTimeOffset.UtcNow;
+                bookData.IsDeleted = false;
+
+                await _context.Books.AddAsync(bookData);
+                await _context.SaveChangesAsync();
+
+                await transaction.CommitAsync();
+                _cache.Remove("allBooks");  // Invalidate cache
+                _logger.LogInformation("Book added: {Title} by User {UserId}", bookData.Title, bookData.CategoryId);  // UserId from context?
+                await _activityLogger.LogAsync("BookAdded", $"New book '{bookData.Title}' created.", bookData.CategoryId);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                _logger.LogError(ex, "Failed to add book: {Title}", bookData.Title);
+                return false;
+            }
+        }
+
+        public async Task<bool> UpdateBookAsync(Book bookData, IFormFile? imageFile = null)
+        {
+            using var transaction = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                var existing = await _context.Books.FirstOrDefaultAsync(b => b.Id == bookData.Id && b.IsDeleted == false);
+                if (existing == null) return false;
+
+                if (imageFile != null)
+                {
+                    // Delete old image if exists
+                    if (!string.IsNullOrEmpty(existing.ImageUrl))
+                    {
+                        var oldPath = Path.Combine(_env.WebRootPath, "images/books", existing.ImageUrl);
+                        if (System.IO.File.Exists(oldPath)) System.IO.File.Delete(oldPath);
+                    }
+                    existing.ImageUrl = await SaveImageAsync(imageFile, bookData.Id.ToString());
+                }
+
+                existing.Title = bookData.Title;
+                existing.Author = bookData.Author;
+                existing.ISBN = bookData.ISBN;
+                existing.Price = bookData.Price;
+                existing.Description = bookData.Description;
+                existing.CategoryId = bookData.CategoryId;
+                existing.UpdatedAt = DateTimeOffset.UtcNow;
+
+                await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
+                _cache.Remove($"book_{bookData.Id}");  // Invalidate
+                _logger.LogInformation("Book updated: {Id}", bookData.Id);
+                await _activityLogger.LogAsync("BookUpdated", $"Book '{bookData.Title}' updated.", bookData.CategoryId);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                _logger.LogError(ex, "Failed to update book: {Id}", bookData.Id);
+                return false;
+            }
+        }
+
+        public async Task<string?> SaveImageAsync(IFormFile image, string bookId)
+        {
+            if (image == null || image.Length == 0) return null;
+
+            // Validate: Size < 5MB, type jpg/png
+            if (image.Length > 5 * 1024 * 1024 || !image.ContentType.StartsWith("image/"))
+            {
+                _logger.LogWarning("Invalid image upload: {ContentType}, Size: {Length}", image.ContentType, image.Length);
+                return null;
             }
 
-            // Return the relative path to the image (to be stored in the database)
-            return $"/images/books-section/{imgFile.FileName}" ;
+            var uploadsDir = Path.Combine(_env.WebRootPath, "images/books");
+            Directory.CreateDirectory(uploadsDir);
+
+            // Generate unique filename: bookId_hash.jpg
+            var hash = SHA256.HashData(Encoding.UTF8.GetBytes(image.FileName + DateTimeOffset.UtcNow.Ticks.ToString()));
+            var filename = $"{bookId}_{Convert.ToBase64String(hash).Replace("/", "_").Replace("+", "-")}.{image.ContentType.Split('/')[1]}";
+            var filepath = Path.Combine(uploadsDir, filename);
+
+            using var inputStream = image.OpenReadStream();
+            using var imageSharp = await Image.LoadAsync(inputStream);
+            // Resize to 400x600 max, maintain aspect
+            imageSharp.Mutate(x => x.Resize(new ResizeOptions { Mode = ResizeMode.Max, Size = new Size(400, 600) }));
+            await imageSharp.SaveAsJpegAsync(filepath);
+
+            _logger.LogInformation("Image saved: {Filename}", filename);
+            return filename;
         }
 
-
-        public async Task<bool> SoftDeleteBookAsync(int id)
+        public async Task<bool> SoftDeleteBookAsync(int id, int userId)
         {
-            var book = await _context.Books
-                .Where(b => (bool)!b.IsDeleted)
-                .FirstOrDefaultAsync(b => b.Id == id);
-
-            if (book == null)
-                return false;
+            var book = await _context.Books.FirstOrDefaultAsync(b => b.Id == id && b.IsDeleted == false);
+            if (book == null) return false;
 
             book.IsDeleted = true;
+            book.UpdatedAt = DateTimeOffset.UtcNow;
+
             await _context.SaveChangesAsync();
+            _cache.Remove($"book_{id}");
+            _logger.LogInformation("Book soft-deleted: {Id} by User {UserId}", id, userId);
+            await _activityLogger.LogAsync("BookDeleted", $"Book '{book.Title}' soft-deleted.", userId);
             return true;
         }
 
-        public async Task<List<Models.Book>> GetFavoriteBooksAsync()
+        public async Task<List<Book>> GetFavoriteBooksAsync(int userId)
         {
+            // Assuming favorites are user-specific; add UserId to a junction if needed
+            // For now, global favorites; extend to per-user
             return await _context.Books
-                .Where(b => (bool)!b.IsDeleted && (bool)b.IsFavorite)
+                .Where(b => b.IsFavorite == true && b.IsDeleted == false)
+                .OrderByDescending(b => b.UpdatedAt)
                 .ToListAsync();
         }
 
-        public async Task<bool> ToggleFavoriteAsync(int id)
+        public async Task<bool> ToggleFavoriteAsync(int bookId, int userId)
         {
-            var book = await _context.Books
-                .Where(b => (bool)!b.IsDeleted)
-                .FirstOrDefaultAsync(b => b.Id == id);
+            var book = await _context.Books.FirstOrDefaultAsync(b => b.Id == bookId && b.IsDeleted == false);
+            if (book == null) return false;
 
-            if (book == null)
-                return false;
+            book.IsFavorite = !book.IsFavorite;
+            book.UpdatedAt = DateTimeOffset.UtcNow;
 
-            book.IsFavorite = !(book.IsFavorite ?? false);
             await _context.SaveChangesAsync();
+            _logger.LogInformation("Favorite toggled for book {BookId} by {UserId}", bookId, userId);
+            await _activityLogger.LogAsync("FavoriteToggled", $"Book '{book.Title}' favorited/unfavorited.", userId);
             return true;
         }
 
         public async Task<List<object>> GetAllUsersAsync()
         {
             return await _context.Users
-                .Where(u => u.Role == "User" && u.IsDeleted == false)
-                .Select(u => new
-                {   u.Id,
-                    u.Name,
-                    u.Email,
-                    Role = u.Role,
-                    CartItemCount = u.ShoppingCarts.Count(sc => sc.UserId == u.Id && sc.IsDeleted == false)
-                })
-                .Cast<object>()
-                .ToListAsync();
+                .Where(u => u.IsDeleted == false)
+                .Select(u => new { u.Id, u.Name, u.Email })
+                .ToListAsync<object>();
         }
 
         public async Task<BookFormViewModel?> GetCreateBookViewModelAsync()
         {
             var categories = await _context.Categories
-                .Where(c => c.IsDeleted == false)
-                .Select(c => new SelectListItem
-                {
-                    Value = c.Id.ToString(),
-                    Text = c.Name
-                }).ToListAsync();
-
-            return new BookFormViewModel
-            {
-                Book = null,
-                CategoryList = categories
-            };
+                .Where(c => !c.IsDeleted)
+                .Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name })
+                .ToListAsync();
+            return new BookFormViewModel { Categories = categories };
         }
 
         public async Task<BookFormViewModel?> GetEditBookViewModelAsync(int id)
         {
-            var book = await _context.Books.FirstOrDefaultAsync(b => b.Id == id);
-            if (book == null)
-                return null;
+            var book = await GetBookByIdAsync(id);
+            if (book == null) return null;
 
             var categories = await _context.Categories
-                .Where(c => c.IsDeleted == false)
-                .Select(c => new SelectListItem
-                {
-                    Value = c.Id.ToString(),
-                    Text = c.Name
-                }).ToListAsync();
+                .Where(c => !c.IsDeleted)
+                .Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name })
+                .ToListAsync();
 
             return new BookFormViewModel
             {
                 Book = book,
-                CategoryList = categories
+                Categories = categories
             };
         }
 
-        public AdminViewModel GetQuickStats(int id)
+        public AdminViewModel GetQuickStats(int userId)
         {
-            var logs = _context.ActivityLogs
-                .Include(l => l.User)
-                .OrderByDescending(l => l.Timestamp)
-                .Take(3)
-                .ToList();
-
-            var admin = _context.Users.FirstOrDefault(u => u.Id == id && u.IsDeleted == false);
-
-            return new AdminViewModel
+            if (!_cache.TryGetValue($"stats_{userId}", out AdminViewModel? stats))
             {
-                TotalBooks = _context.Books.Count(b => b.IsDeleted == false),
-                TotalUsers = _context.Users.Count(u => u.IsDeleted == false && u.Role == "User"),
-                TotalOrders = _context.Orders.Count(),
-                TotalCategories = _context.Categories.Count(c => !c.IsDeleted),
-                User = admin!,
-                ActivityLogs = logs.Select(log => new ActivityLogViewModel
+                stats = new AdminViewModel
                 {
-                    ActionType = log.ActionType,
-                    Description = log.Description,
-                    Timestamp = log.Timestamp,
-                    UserName = log.User?.Name ?? "System",
-                    TimeAgo = GetTimeAgo(log.Timestamp)
-                }).ToList()
+                    TotalBooks = _context.Books.Count(b => !b.IsDeleted),
+                    TotalOrders = _context.Orders.Count(o => !o.IsDeleted),
+                    TotalUsers = _context.Users.Count(u => (bool)!u.IsDeleted),
+                    RecentActivity = _context.ActivityLogs.OrderByDescending(l => l.Timestamp).Take(5).ToList()
+                };
+                _cache.Set($"stats_{userId}", stats, TimeSpan.FromMinutes(5));
+            }
+            return stats;
+        }
+
+        public async Task<BookListViewModel> GetPaginatedBooksAsync(int page, int pageSize, string? search = null, int? categoryId = null, string? sortBy = null)
+        {
+            var query = _context.Books
+                .Include(b => b.Category)
+                .Where(b => !b.IsDeleted);
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                query = query.Where(b => b.Title.Contains(search) || b.Author.Contains(search));
+            }
+
+            if (categoryId.HasValue)
+            {
+                query = query.Where(b => b.CategoryId == categoryId);
+            }
+
+            var totalCount = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+
+            query = sortBy switch
+            {
+                "priceAsc" => query.OrderBy(b => b.Price),
+                "priceDesc" => query.OrderByDescending(b => b.Price),
+                "title" => query.OrderBy(b => b.Title),
+                _ => query.OrderByDescending(b => b.CreatedAt)  // Default recent
             };
-        }
 
-        public string GetTimeAgo(DateTime time)
-        {
-            // Convert the input time (which is in IST) to UTC for comparison
-            var timeInUtc = TimeZoneInfo.ConvertTimeToUtc(time, TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
-            var span = DateTime.UtcNow.Subtract(timeInUtc);
-
-            if (span.TotalMinutes < 1) return "Just now";
-            if (span.TotalMinutes < 60) return $"{(int)span.TotalMinutes} mins ago";
-            if (span.TotalHours < 24) return $"{(int)span.TotalHours} hours ago";
-            return $"{(int)span.TotalDays} days ago";
-        }
-
-
-
-        public async Task<BookListViewModel> GetPaginatedBooksAsync(int page, int pageSize)
-        {
-            // Await the task to get the list of books and then count them
-            int totalBooks = (await GetAllBooksAsync()).Count;
-            var totalPages = (int)Math.Ceiling((double)totalBooks / pageSize);
-
-            var books = _context.Books.Where(b => b.IsDeleted == false)
-                                .Skip((page - 1) * pageSize)
-                                .Take(pageSize)
-                                .ToList();
+            var books = await query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
 
             return new BookListViewModel
             {
                 Books = books,
                 CurrentPage = page,
-                TotalPages = totalPages
+                TotalPages = totalPages,
+                SearchTerm = search,
+                CategoryId = categoryId,
+                SortBy = sortBy
             };
         }
 
-        public IEnumerable<MonthlyBookUploadViewModel> MonthlyBookUpload()
+        public string GetTimeAgo(DateTimeOffset time)
         {
-            // Fetch books with a valid CreatedDate
-            var books = _context.Books
-                .Where(b => b.CreatedDate != null && b.IsDeleted == false) // Ensure CreatedDate is not null
-                .ToList(); // Fetch data to perform client-side operations
+            var now = DateTimeOffset.UtcNow;
+            var diff = now - time;
+            return diff.TotalMinutes switch
+            {
+                < 1 => "Just now",
+                < 60 => $"{(int)diff.TotalMinutes} min ago",
+                < 1440 => $"{(int)diff.TotalHours} hrs ago",
+                _ => $"{(int)diff.TotalDays} days ago"
+            };
+        }
 
-            // Group by Year and Month, and create the result
-            var monthlyData = books
-                .GroupBy(b => new { b.CreatedDate.Year, b.CreatedDate.Month }) // Use Value for nullable DateTime
+        public IEnumerable<MonthlyBookUploadViewModel> MonthlyBookUpload(DateTimeOffset? startDate = null, DateTimeOffset? endDate = null)
+        {
+            var query = _context.Books
+                .Where(b => !b.IsDeleted)
+                .Select(b => b.CreatedAt.Date);
+
+            if (startDate.HasValue) query = query.Where(d => d >= startDate.Value.Date);
+            if (endDate.HasValue) query = query.Where(d => d <= endDate.Value.Date);
+
+            var monthlyData = query
+                .GroupBy(d => new { d.Year, d.Month })
                 .Select(g => new MonthlyBookUploadViewModel
                 {
                     Month = new DateTime(g.Key.Year, g.Key.Month, 1).ToString("MMM yyyy"),
@@ -251,7 +322,7 @@ namespace OnlineBookManagementSystem.Services
         public IEnumerable<CategoryBookCountViewModel> BooksByCategory()
         {
             return _context.Books
-                .Where(b => b.Category != null && b.IsDeleted == false)
+                .Where(b => b.Category != null && !b.IsDeleted)
                 .GroupBy(b => b.Category!.Name)
                 .Select(g => new CategoryBookCountViewModel
                 {
@@ -264,7 +335,7 @@ namespace OnlineBookManagementSystem.Services
         public IEnumerable<AuthorBookCountViewModel> BooksByAuthor()
         {
             return _context.Books
-                .Where(b => !string.IsNullOrEmpty(b.Author) && b.IsDeleted == false) 
+                .Where(b => !string.IsNullOrEmpty(b.Author) && !b.IsDeleted)
                 .GroupBy(b => b.Author!)
                 .Select(g => new AuthorBookCountViewModel
                 {
@@ -277,8 +348,8 @@ namespace OnlineBookManagementSystem.Services
 
         public FavoriteStatsViewModel FavoriteStats()
         {
-            var total = _context.Books.Count();
-            var favoriteCount = _context.Books.Count(b => b.IsFavorite == true && b.IsDeleted == false);
+            var total = _context.Books.Count(b => !b.IsDeleted);
+            var favoriteCount = _context.Books.Count(b => b.IsFavorite == true && !b.IsDeleted);
             return new FavoriteStatsViewModel
             {
                 FavoriteCount = favoriteCount,
@@ -286,6 +357,12 @@ namespace OnlineBookManagementSystem.Services
             };
         }
 
-
+        public async Task<List<SelectListItem>> GetCategoriesAsync()
+        {
+            return await _context.Categories
+                .Where(c => !c.IsDeleted)
+                .Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name })
+                .ToListAsync();
+        }
     }
 }

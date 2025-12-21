@@ -1,4 +1,4 @@
-﻿namespace OnlineBookManagementSystem.Models.ViewModel
+namespace OnlineBookManagementSystem.Models.ViewModel.AuthViewModels
 {
     public class RegisterViewModel
     {
@@ -6,7 +6,6 @@
         public string Email { get; set; }
         public string Password { get; set; }
 
-        public string Role { get; set; }
     }
 
 }

@@ -2,67 +2,62 @@
 
 @{
     ViewData["Title"] = "My Favorites";
+    Layout = ViewData["Layout"]?.ToString() ?? "_LayoutUser";
 }
-<link href="~/css/booksindex.css" rel="stylesheet" />
-<div class="container">
-    <h2 class="mb-4">My Favorite Books</h2>
 
-    <div class="row g-4 mb-4">
-        @if (!Model.Any())
-        {
-            <div class="col-12">
-                <div class="alert alert-info" role="alert">
-                    You have no favorite books yet. Start adding some!
-                </div>
-            </div>
-        }
-        else
-        {
+<link href="~/css/booksindex.css" rel="stylesheet" />
+
+<div class="container">
+    <h2 class="mb-4">❤️ My Favorite Books</h2>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info text-center">
+            <i class="bi bi-heart fs-1 mb-2"></i>
+            <h4>No favorites yet!</h4>
+            <p>Browse books and add some to your favorites.</p>
+            <a asp-controller="Books" asp-action="UserIndex" class="btn btn-primary">Start Browsing</a>
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
             @foreach (var book in Model)
             {
                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                     <div class="book-card shadow-sm p-2 bg-white rounded position-relative h-100">
-
-                        <img src="@(!string.IsNullOrEmpty(book.ImgUrl) ? book.ImgUrl : Url.Content("~/images/default-book-image.jpg"))"
-                             alt="@book.Title"
-                             class="book-image" />
-
+                        <img src="@(book.ImageUrl ?? Url.Content("~/images/default-book.jpg"))" alt="@book.Title" class="book-image" />
                         <h6 class="mt-2">@book.Title</h6>
                         <small class="text-muted">@book.Author</small>
-
-                        <!-- Favorite icon (bottom-left aligned, no overlap) -->
-                        <div class="d-flex justify-content-start mt-2 z-10">
-                            <i class="bi @((bool)book.IsFavorite ? "bi-heart-fill" : "bi-heart")"
-                               id="fav-icon-recommend-@book.Id"
-                               onclick="AddToFavorites(@book.Id)"
-                               style="cursor: pointer; font-size: 1.3rem; @((bool)book.IsFavorite ? "color: red;" : "")">
-                            </i>
-                        </div>
-
-                        <!-- Price and Cart -->
+                        <p class="text-primary fw-bold">₹@book.Price</p>
                         <div class="d-flex justify-content-between align-items-center mt-2">
-                            <p class="mb-0 text-primary fw-bold">₹@book.Price</p>
-                            <i class="bi bi-cart z-2" style="font-size: 1.5rem;" onclick="AddtoCart(@book.Id);" id="cart-icon-@book.Id"></i>
-                            <div id="cart-counter-@book.Id" class="d-none z-2">
-                                <button class="btn btn-sm" onclick="changeCartQuantity(@book.Id, 'decrease', 'favorite')">-</button>
-                                <span id="cart-quantity-@book.Id">1</span>
-                                <button class="btn btn-sm" onclick="changeCartQuantity(@book.Id, 'increase', 'favorite')">+</button>
-                            </div>
+                            <button onclick="ToggleFavorite(@book.Id)" class="btn btn-outline-danger btn-sm">
+                                <i class="bi bi-heart-fill"></i> Remove
+                            </button>
+                            <a asp-controller="Cart" asp-action="Add" asp-route-id="@book.Id" class="btn btn-primary btn-sm">Add to Cart</a>
                         </div>
-
-                        <a onclick="OpenBookModal(@book.Id)" class="stretched-link"></a>
+                        <a asp-controller="Books" asp-action="Details" asp-route-id="@book.Id" class="stretched-link"></a>
                     </div>
                 </div>
-
             }
-        }
-    </div>
+        </div>
+    }
 </div>
 
+@await Html.PartialAsync("_Notification")
 
-<!-- Scripts -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- Toastr JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-<script src="~/js/books/bookshome.js"></script>
-
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="~/js/books/bookshome.js"></script>
+    <script>
+        function ToggleFavorite(id) {
+            $.post('/Books/ToggleFavorite', { bookId: id }, function(res) {
+                if (res.success) {
+                    toastr.success('Removed from favorites!');
+                    location.reload();
+                } else toastr.error('Failed to update.');
+            });
+        }
+    </script>
+}

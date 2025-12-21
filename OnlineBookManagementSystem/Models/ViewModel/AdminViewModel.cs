@@ -1,4 +1,4 @@
-﻿namespace OnlineBookManagementSystem.Models.ViewModel
+namespace OnlineBookManagementSystem.Models.ViewModel
 {
     public class AdminViewModel
     {
@@ -10,5 +10,6 @@
         public User User { get; set; }
 
         public List<ActivityLogViewModel> ActivityLogs { get; set; } = new();
+        public List<ActivityLog> RecentActivity { get; internal set; }
     }
 }
