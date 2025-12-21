@@ -157,7 +157,8 @@ using (var scope = app.Services.CreateScope())
         var adminEmail = builder.Configuration["SuperAdmin:Email"] ?? "superadmin@example.com";
         var adminPassword = builder.Configuration["SuperAdmin:Password"] ?? "Admin@123";
 
-        if (await userManager.FindByEmailAsync(adminEmail) == null)
+        var existingUser = await userManager.FindByEmailAsync(adminEmail);
+        if (existingUser == null)
         {
             var superAdmin = new User
             {
@@ -165,12 +166,35 @@ using (var scope = app.Services.CreateScope())
                 Email = adminEmail,
                 Name = "Super Admin",
                 IsEmailConfirmed = true,
+                EmailConfirmed = true,
                 IsDeleted = false
             };
             var result = await userManager.CreateAsync(superAdmin, adminPassword);
             if (result.Succeeded)
             {
                 await userManager.AddToRoleAsync(superAdmin, "SuperAdmin");
+            }
+        }
+        else
+        {
+            // Ensure properties are correct for existing user
+            existingUser.EmailConfirmed = true;
+            existingUser.IsEmailConfirmed = true;
+
+            if (string.IsNullOrEmpty(existingUser.SecurityStamp))
+            {
+                existingUser.SecurityStamp = Guid.NewGuid().ToString();
+            }
+
+            // Force update password hash using IPasswordHasher
+            var passwordHasher = services.GetRequiredService<IPasswordHasher<User>>();
+            existingUser.PasswordHash = passwordHasher.HashPassword(existingUser, adminPassword);
+
+            await userManager.UpdateAsync(existingUser);
+
+            if (!await userManager.IsInRoleAsync(existingUser, "SuperAdmin"))
+            {
+                await userManager.AddToRoleAsync(existingUser, "SuperAdmin");
             }
         }
     }
