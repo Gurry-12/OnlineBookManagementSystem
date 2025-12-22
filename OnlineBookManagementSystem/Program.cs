@@ -124,9 +124,11 @@ builder.Services.AddAuthorization(options =>
 // Your custom services
 builder.Services.AddScoped<ICategoryInterface, CategoryServices>();
 builder.Services.AddScoped<IBookService, BookServices>();
-builder.Services.AddScoped<IAuthInterface, AuthService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IActivityLogger, ActivityLogger>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IUsersService, UsersService>();
 builder.Services.AddScoped<IDnsChecker, DNSCheckerHelper>();
 builder.Services.AddHostedService<LogCleanupService>();
 
@@ -166,66 +168,66 @@ using (var scope = app.Services.CreateScope())
 // --- Seeding (roles + superadmin) ---
 // (Your existing seeding code — unchanged, UserManager still works)
 
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-    try
-    {
-        var context = services.GetRequiredService<BookManagementContext>();
+//using (var scope = app.Services.CreateScope())
+//{
+//    var services = scope.ServiceProvider;
+//    try
+//    {
+//        var context = services.GetRequiredService<BookManagementContext>();
 
-        var userManager = services.GetRequiredService<UserManager<User>>();
-        var authService = services.GetRequiredService<IAuthInterface>();
+//        var userManager = services.GetRequiredService<UserManager<User>>();
+//        var authService = services.GetRequiredService<IAuthService>();
 
-        await authService.SeedRolesAsync();
+//        await authService.SeedRolesAsync();
 
-        var adminEmail = builder.Configuration["SuperAdmin:Email"] ?? "superadmin@example.com";
-        var adminPassword = builder.Configuration["SuperAdmin:Password"] ?? "Admin@123";
+//        var adminEmail = builder.Configuration["User:Email"] ?? "admin@example.com";
+//        var adminPassword = builder.Configuration["User:Password"] ?? "Admin@123";
 
-        var existingUser = await userManager.FindByEmailAsync(adminEmail);
-        if (existingUser == null)
-        {
-            var superAdmin = new User
-            {
-                UserName = adminEmail,
-                Email = adminEmail,
-                Name = "Super Admin",
-                IsEmailConfirmed = true,
-                EmailConfirmed = true,
-                IsDeleted = false
-            };
-            var result = await userManager.CreateAsync(superAdmin, adminPassword);
-            if (result.Succeeded)
-            {
-                await userManager.AddToRoleAsync(superAdmin, "SuperAdmin");
-            }
-        }
-        else
-        {
-            existingUser.EmailConfirmed = true;
-            existingUser.IsEmailConfirmed = true;
+//        var existingUser = await userManager.FindByEmailAsync(adminEmail);
+//        if (existingUser == null)
+//        {
+//            var user = new User
+//            {
+//                UserName = adminEmail,
+//                Email = adminEmail,
+//                Name = "User",
+//                IsEmailConfirmed = true,
+//                EmailConfirmed = true,
+//                IsDeleted = false
+//            };
+//            var result = await userManager.CreateAsync(user, adminPassword);
+//            if (result.Succeeded)
+//            {
+//                await userManager.AddToRoleAsync(user, "User");
+//            }
+//        }
+//        else
+//        {
+//            existingUser.EmailConfirmed = true;
+//            existingUser.IsEmailConfirmed = true;
 
-            if (string.IsNullOrEmpty(existingUser.SecurityStamp))
-            {
-                existingUser.SecurityStamp = Guid.NewGuid().ToString();
-            }
+//            if (string.IsNullOrEmpty(existingUser.SecurityStamp))
+//            {
+//                existingUser.SecurityStamp = Guid.NewGuid().ToString();
+//            }
 
-            var passwordHasher = services.GetRequiredService<IPasswordHasher<User>>();
-            existingUser.PasswordHash = passwordHasher.HashPassword(existingUser, adminPassword);
+//            var passwordHasher = services.GetRequiredService<IPasswordHasher<User>>();
+//            existingUser.PasswordHash = passwordHasher.HashPassword(existingUser, adminPassword);
 
-            await userManager.UpdateAsync(existingUser);
+//            //await userManager.UpdateAsync(existingUser);
 
-            if (!await userManager.IsInRoleAsync(existingUser, "SuperAdmin"))
-            {
-                await userManager.AddToRoleAsync(existingUser, "SuperAdmin");
-            }
-        }
-    }
-    catch (Exception ex)
-    {
-        var logger = services.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "An error occurred while seeding the database.");
-    }
-}
+//            //if (!await userManager.IsInRoleAsync(existingUser, "SuperAdmin"))
+//            //{
+//            //    await userManager.AddToRoleAsync(existingUser, "SuperAdmin");
+//            //}
+//        }
+//    }
+//    catch (Exception ex)
+//    {
+//        var logger = services.GetRequiredService<ILogger<Program>>();
+//        logger.LogError(ex, "An error occurred while seeding the database.");
+//    }
+//}
 
 // Error / HSTS
 if (!app.Environment.IsDevelopment())

@@ -74,6 +74,24 @@ body {
             color: var(--color-accent);
         }
 
+.navbar-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 2.5rem 2rem;
+    width: 100%;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(16px);
+    /* FIXED BORDER & GLOW */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Light glass border instead of harsh black */
+    /* FIXED SHADOW - soft all-around + stronger bottom for "under" effect */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); /* soft overall shadow */    /* OPTIONAL EXTRA: subtle inner glow for premium feel */
+    /* box-shadow: 
+        0 4px 15px rgba(0, 0, 0, 0.15),
+        0 8px 25px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2); */
+}
+
+
 /* Sidebar (from site.css; role overrides) */
 .sidebar {
     background: linear-gradient(to bottom, var(--color-primary), var(--color-accent));

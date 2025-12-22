@@ -4,17 +4,14 @@ using Microsoft.AspNetCore.Mvc;
 namespace OnlineBookManagementSystem.Controllers
 {
     [Authorize]
-    public class SuperAdminController : BaseController
+    public class UserController : Controller
     {
+        public UserController() { }
 
-        public SuperAdminController() { }
-
-        [Authorize(Policy = "SuperAdminOnly")]
+        [Authorize(Policy = "UserOrHigher")]
         public IActionResult Dashboard()
         {
             return View();
         }
-
-        public IActionResult ManageUsers() => View();
     }
 }

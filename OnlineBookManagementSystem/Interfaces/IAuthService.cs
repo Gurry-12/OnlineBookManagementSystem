@@ -4,7 +4,7 @@ using OnlineBookManagementSystem.Models.ViewModel.AuthViewModels;
 
 namespace OnlineBookManagementSystem.Interfaces
 {
-    public interface IAuthInterface
+    public interface IAuthService
     {
         Task SeedRolesAsync();
         Task<(bool Success, string Message, User? User)> ValidateUserAsync(LoginViewModel data);

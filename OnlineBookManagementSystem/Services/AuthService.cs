@@ -15,7 +15,7 @@ using System.Text;
 
 namespace OnlineBookManagementSystem.Services
 {
-    public class AuthService : IAuthInterface
+    public class AuthService : IAuthService
     {
         private const int Minutes = 2; // Increased to 60 for easier testing
         private readonly UserManager<User> _userManager;

@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using OnlineBookManagementSystem.Interfaces;
 using OnlineBookManagementSystem.Models;
+using OnlineBookManagementSystem.Models.ViewModel;
 
 namespace OnlineBookManagementSystem.Services
 {
@@ -45,7 +46,10 @@ namespace OnlineBookManagementSystem.Services
                                  .ToListAsync();
         }
 
-
+        public List<ActivityLogViewModel> GetRecentActivity()
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }

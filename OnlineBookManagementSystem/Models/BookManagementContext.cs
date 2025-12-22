@@ -163,6 +163,18 @@ public partial class BookManagementContext : IdentityDbContext<User, IdentityRol
             new IdentityRole<int> { Id = 3, Name = "User", NormalizedName = "USER" },
             new IdentityRole<int> { Id = 4, Name = "Guest", NormalizedName = "GUEST" }
         );
+        // Make ActivityLog.UserId optional (nullable FK)
+        modelBuilder.Entity<ActivityLog>(entity =>
+        {
+            entity.Property(al => al.UserId)
+                  .IsRequired(false); // This makes the column nullable
+
+            // If you have navigation properties:
+            entity.HasOne(al => al.User)
+                  .WithMany(u => u.ActivityLogs)
+                  .HasForeignKey(al => al.UserId)
+                  .OnDelete(DeleteBehavior.SetNull); // or Restrict
+        });
 
         OnModelCreatingPartial(modelBuilder);
     }

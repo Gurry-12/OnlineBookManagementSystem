@@ -1,4 +1,5 @@
-﻿using OnlineBookManagementSystem.Models;
+using OnlineBookManagementSystem.Models;
+using OnlineBookManagementSystem.Models.ViewModel;
 
 namespace OnlineBookManagementSystem.Interfaces
 {
@@ -8,9 +9,7 @@ namespace OnlineBookManagementSystem.Interfaces
             Task<List<ActivityLog>> GetLogsAsync(int? userId = null);
 
         Task<List<ActivityLog>> GetAllLogsAsync();
-
-
-
+        List<ActivityLogViewModel> GetRecentActivity();
     }
 
 }

@@ -314,7 +314,7 @@ namespace OnlineBookManagementSystem.Services
                     Count = g.Count()
                 })
                 .OrderBy(x => x.Month)
-                .ToList();
+                .ToList() ?? new List<MonthlyBookUploadViewModel>();
 
             return monthlyData;
         }
@@ -363,6 +363,16 @@ namespace OnlineBookManagementSystem.Services
                 .Where(c => !c.IsDeleted)
                 .Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name })
                 .ToListAsync();
+        }
+
+        public int GetTotalBooks()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetTotalCategories()
+        {
+            throw new NotImplementedException();
         }
     }
 }

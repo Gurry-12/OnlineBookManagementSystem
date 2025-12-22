@@ -3,121 +3,100 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Whispering Pages Admin </title>
+    <title>@ViewData["Title"] - Whispering Pages Admin</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-    <link href="~/css/site.css" rel="stylesheet" />
-    <link href="~/css/color.css" rel="stylesheet" />
-    <link rel="stylesheet" href="~/css/layouts.css" asp-append-version="true" />
-    <!-- Toastr CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+    <!-- Shared CSS -->
+    <link href="~/css/color-layout.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/site.css" rel="stylesheet" asp-append-version="true" />
+
+    <!-- Admin-Specific CSS -->
+    <link href="~/css/admin.css" rel="stylesheet" asp-append-version="true" />
 
     @RenderSection("Styles", required: false)
 </head>
-<body>
+<body class="admin-layout">
     <div class="sidebar" id="sidebar">
         <div class="d-flex justify-content-end">
-            <button id="toggleSidebar" class="btn btn-transparent border-0 text-light my-3">
+            <button id="toggleSidebar" class="btn btn-transparent border-0 text-light my-3" aria-label="Toggle Sidebar">
                 <i class="bi bi-list"></i>
             </button>
         </div>
         <div class="container-fluid p-3 mx-auto w-75 bg-white shadow rounded-3 logo-card">
-            <img src="~/images/render_website_name.png" alt="Logo" class="img-fluid logo-img">
-            
+            <img src="@Url.Content("~/images/render_website_name.png")" alt="Whispering Pages Logo" class="img-fluid">
         </div>
 
-        <!-- Sidebar links with icons -->
-        <a id="homeLink" href="#">
+        <!-- Sidebar Navigation -->
+        <a asp-controller="Admin" asp-action="Dashboard">
             <i class="bi bi-house-door"></i>
             <span class="sidebar-text">Dashboard</span>
         </a>
-
         <a asp-controller="Books" asp-action="BookList" asp-route-page="1">
             <i class="bi bi-book"></i>
             <span class="sidebar-text">Books</span>
         </a>
-
         <a asp-controller="Category" asp-action="DisplayCategory">
             <i class="bi bi-search"></i>
-            <span class="sidebar-text">Category</span>
+            <span class="sidebar-text">Categories</span>
         </a>
-
         <a asp-controller="Books" asp-action="CreateBookData">
             <i class="bi bi-plus-square"></i>
             <span class="sidebar-text">Add Book</span>
         </a>
-
-
         <a asp-controller="Books" asp-action="ActivityLogs">
             <i class="bi bi-clock-history"></i>
             <span class="sidebar-text">Activity Logs</span>
         </a>
-
-
-
         <hr />
-
         <a asp-controller="Home" asp-action="About">
             <i class="bi bi-info-circle"></i>
             <span class="sidebar-text">About</span>
         </a>
-
         <a asp-controller="Home" asp-action="Support">
             <i class="bi bi-telephone"></i>
             <span class="sidebar-text">Support</span>
         </a>
-
         <a asp-controller="Home" asp-action="Terms">
             <i class="bi bi-file-earmark-text"></i>
-            <span class="sidebar-text">Terms & Condition</span>
+            <span class="sidebar-text">Terms & Conditions</span>
         </a>
     </div>
 
     <div class="content">
-        <div class="top-bar-Admin gap-3">
-            <span> <i class="bi bi-clock"></i> <span class="currenttime"> </span> </span>
-            <span><i class="bi bi-calendar"></i> <span class="currentdate"> </span> </span>
-
-
-            <div class="dropdown">
-                <button class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="username">
-                    <i class="bi bi-person-circle"></i>
+        <div class="top-bar d-flex justify-content-end gap-3 p-3">
+            <span><i class="bi bi-clock me-1"></i><span class="currenttime"></span></span>
+            <span><i class="bi bi-calendar me-1"></i><span class="currentdate"></span></span>
+            <form asp-controller="Auth" asp-action="Logout" method="post" class="d-inline">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-outline-light">
+                    <i class="bi bi-box-arrow-right me-1"></i>Logout
                 </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" asp-controller="Auth" asp-action="ProfileView">Profile</a></li>
-                    <li><a class="dropdown-item" asp-controller="Auth" asp-action="Logout">Logout</a></li>
-                </ul>
-            </div>
+            </form>
         </div>
-        @RenderBody() <!-- The section where the page content will be injected -->
+
+        @RenderBody()
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <!-- Bootstrap Toast Container -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1100">
+        <!-- Toasts injected via JS -->
+    </div>
 
-    <script src="~/js/books/bookshome.js"></script>
-    <script src="~/js/site.js"></script>
-    @RenderSection("Scripts", required: false) <!-- For additional scripts -->
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
-    <script>
-        function autoCollapseSidebar() {
-            const sidebar = document.querySelector('.sidebar');
-            const content = document.querySelector('.content');
+    @await RenderSectionAsync("Scripts", required: false)
 
-            if (window.innerWidth <= 768) {
-                sidebar.classList.add('collapsed');
-                content.classList.add('sidebar-collapsed');
-            } else {
-                sidebar.classList.remove('collapsed');
-                content.classList.remove('sidebar-collapsed');
-            }
-        }
-
-        // Run on load and resize
-        window.addEventListener('load', autoCollapseSidebar);
-        window.addEventListener('resize', autoCollapseSidebar);
-    </script>
+    <!-- Shared Scripts -->
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/Auth/auth.js" asp-append-version="true"></script>
 
 </body>
 </html>

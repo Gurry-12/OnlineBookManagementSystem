@@ -1,0 +1,45 @@
+@{
+    ViewData["Title"] = "Manage Users & Roles";
+}
+
+<div class="container-fluid py-4">
+    <h2 class="mb-4 text-danger fw-bold"><i class="bi bi-people-fill me-2"></i>Manage Users & Roles</h2>
+
+    <div class="card">
+        <div class="card-header py-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">User List</h5>
+                <button class="btn btn-primary rounded-pill"><i class="bi bi-plus-lg me-1"></i>Add User</button>
+            </div>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                                                <tr>
+                                                        <td> John Doe </td>
+                                                        <td> john@example.com </td>
+                            <td><span class="badge bg-danger">SuperAdmin</span></td>
+                            <td><span class="badge bg-success">Active</span></td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></button>
+                                <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                            </td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

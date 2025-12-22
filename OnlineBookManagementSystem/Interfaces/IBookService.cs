@@ -27,5 +27,7 @@ namespace OnlineBookManagementSystem.Interfaces
         IEnumerable<AuthorBookCountViewModel> BooksByAuthor();
         FavoriteStatsViewModel FavoriteStats();
         Task<List<SelectListItem>> GetCategoriesAsync();
+        int GetTotalBooks();
+        int GetTotalCategories();
     }
 }
