@@ -125,7 +125,6 @@ $('#LoginData').on('click', async function (e) {
         if (result.success) {
             // Store refresh token securely
             localStorage.setItem('refreshToken', result.refreshToken);
-            localStorage.setItem('jwtToken', result.accessToken); // Store for authFetch
             localStorage.setItem('userRoles', JSON.stringify(result.roles));
             localStorage.setItem('userName', result.userName);
             debugger;
@@ -163,7 +162,6 @@ async function refreshAccessToken() {
 
         if (result.accessToken) {
             // Server sets new cookie
-            localStorage.setItem('jwtToken', result.accessToken); // Update local storage
             toastr.info('Session refreshed.');
         } else {
             // Invalid refresh: Logout

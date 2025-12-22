@@ -12,6 +12,6 @@ namespace OnlineBookManagementSystem.Interfaces
         Task<bool> DeleteCategory(int id);
 
         List<CategoryClassifyViewModel> GetAllCategoriesClassified();
-        Task<List<Category>> GetAllCategoriesAsync();
+      
     }
 }
