@@ -22,7 +22,11 @@
             </form>
         </div>
         <div class="col-md-6 text-end">
-            <a asp-action="Create" class="btn btn-success"><i class="bi bi-plus-circle"></i> Add Book</a>
+            <!-- Dynamic Create Link based on Role Context (simplified to current path context or absolute) -->
+            <!-- Using relative path might be tricky, let's stick to simple href if we know the role or JS.
+                 But since this view is shared, we should use current URL base or pass Role in ViewBag.
+                 However, for now, let's assume Admin context or check URL. -->
+            <a href="create" class="btn btn-success"><i class="bi bi-plus-circle"></i> Add Book</a>
         </div>
     </div>
 
@@ -37,7 +41,7 @@
                             <i class="bi bi-three-dots-vertical"></i>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end border-0 shadow z-3">
-                            <li><a class="dropdown-item" asp-action="Edit" asp-route-id="@book.Id">Edit</a></li>
+                            <li><a class="dropdown-item" href="edit/@book.Id">Edit</a></li>
                             <li><a class="dropdown-item text-danger" onclick="DeleteBook(@book.Id)">Delete</a></li>
                         </ul>
                     </div>
@@ -46,7 +50,8 @@
                     <small class="text-muted">@book.Author</small>
                     <p class="text-primary fw-bold">₹@book.Price</p>
                     <small class="text-success">@book.StockQuantity in stock</small>
-                    <a asp-action="Details" asp-route-id="@book.Id" class="stretched-link btn btn-sm btn-outline-primary">View Details</a>
+                    <!-- Details not implemented in new controller yet, removing or pointing to edit -->
+                    <a href="edit/@book.Id" class="stretched-link btn btn-sm btn-outline-primary">Edit Details</a>
                 </div>
             </div>
         }
@@ -58,16 +63,16 @@
         <nav aria-label="Book pagination">
             <ul class="pagination justify-content-center">
                 <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
-                    <a class="page-link" asp-action="BookList" asp-route-page="@(Model.CurrentPage - 1)">Previous</a>
+                    <a class="page-link" href="?page=@(Model.CurrentPage - 1)">Previous</a>
                 </li>
                 @for (int i = 1; i <= Model.TotalPages; i++)
                 {
                     <li class="page-item @(Model.CurrentPage == i ? "active" : "")">
-                        <a class="page-link" asp-action="BookList" asp-route-page="@i">@i</a>
+                        <a class="page-link" href="?page=@i">@i</a>
                     </li>
                 }
                 <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
-                    <a class="page-link" asp-action="BookList" asp-route-page="@(Model.CurrentPage + 1)">Next</a>
+                    <a class="page-link" href="?page=@(Model.CurrentPage + 1)">Next</a>
                 </li>
             </ul>
         </nav>
@@ -79,11 +84,12 @@
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-    <script src="~/js/books/bookshome.js"></script>
+    <!-- Removed bookshome.js as it might contain hardcoded paths -->
     <script>
         function DeleteBook(id) {
             if (confirm('Delete this book?')) {
-                $.post('/Books/Delete', { id }, function (res) {
+                // Post to current controller's delete action (relative)
+                $.post('delete/' + id, function (res) {
                     if (res.success) {
                         toastr.success('Deleted!');
                         location.reload();

@@ -144,3 +144,45 @@ This project is licensed under the MIT License.
 
 For feedback or support, contact [work.gurpreetsw@gmail.com](mailto\:work.gurpreetsw@gmail.com).
 
+
+# Advanced Architecture Refactor
+
+This branch (`feature/advanced-architecture`) implements a strict separation of concerns based on Clean Architecture and SOLID principles.
+
+## Architecture Overview
+
+### Controllers
+Controllers are now split by role in `Controllers/SuperAdmin`, `Controllers/Admin`, and `Controllers/User`.
+Each controller exposes only the endpoints relevant to that role and uses `[Authorize(Policy = "...")]` to enforce access.
+
+**Key Changes:**
+- **No Direct EF Access:** Controllers never touch `DbContext`. They rely solely on Services.
+- **DTOs:** Request and response bodies use DTOs (`Models/DTOs`), not EF entities.
+
+### Services
+Services are similarly split into `Services/SuperAdmin`, `Services/Admin`, and `Services/User`.
+Shared logic (like image processing or generic mapping) is extracted to `Services/Common/BookManager.cs`.
+
+### Repositories
+Data access is encapsulated in `Interfaces/Repositories` and `Services/Repositories`.
+Services depend on `IBookRepository` and `IOrderRepository`.
+
+### Frontend
+A new helper `wwwroot/js/authFetch.js` is available to automatically inject the JWT Bearer token from `localStorage` ('jwtToken') into fetch requests.
+
+## How to Run
+
+1. **Build:** `dotnet build`
+2. **Run:** `dotnet run`
+3. **Login:** Log in as SuperAdmin/Admin. The Access Token is stored in `localStorage` and injected via `authFetch`.
+
+## Testing
+
+### Unit Tests
+A new test project `OnlineBookManagementSystem.Tests` includes unit tests for the controllers.
+Run: `dotnet test`
+
+### Manual Verification
+- Navigate to SuperAdmin Dashboard.
+- Click 'Test authFetch'.
+- Verify successful API call to `api/superadmin/books`.

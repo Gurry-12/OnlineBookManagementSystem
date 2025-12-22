@@ -33,11 +33,11 @@
         </div>
 
         <!-- Sidebar Navigation -->
-        <a asp-controller="Admin" asp-action="Dashboard">
+        <a href="/Admin/Books">
             <i class="bi bi-house-door"></i>
             <span class="sidebar-text">Dashboard</span>
         </a>
-        <a asp-controller="Books" asp-action="BookList" asp-route-page="1">
+        <a href="/Admin/Books/list">
             <i class="bi bi-book"></i>
             <span class="sidebar-text">Books</span>
         </a>
@@ -45,7 +45,7 @@
             <i class="bi bi-search"></i>
             <span class="sidebar-text">Categories</span>
         </a>
-        <a asp-controller="Books" asp-action="CreateBookData">
+        <a href="/Admin/Books/create">
             <i class="bi bi-plus-square"></i>
             <span class="sidebar-text">Add Book</span>
         </a>
