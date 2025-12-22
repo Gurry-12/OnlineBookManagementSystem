@@ -604,7 +604,7 @@ async function ToggleFavorite(bookId) {
     const isFav = btn.hasClass('text-danger');
 
     try {
-        const response = await fetch('/api/user/books/favorite', {
+        const response = await fetch('/Books/ToggleFavorite', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

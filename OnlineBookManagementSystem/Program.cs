@@ -123,6 +123,7 @@ builder.Services.AddAuthorization(options =>
 
 // Your custom services
 builder.Services.AddScoped<ICategoryInterface, CategoryServices>();
+builder.Services.AddScoped<IBookService, BookServices>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IActivityLogger, ActivityLogger>();
@@ -130,18 +131,6 @@ builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IUsersService, UsersService>();
 builder.Services.AddScoped<IDnsChecker, DNSCheckerHelper>();
 builder.Services.AddHostedService<LogCleanupService>();
-
-// Advanced Architecture Services
-builder.Services.AddScoped<OnlineBookManagementSystem.Interfaces.Repositories.IBookRepository, OnlineBookManagementSystem.Services.Repositories.BookRepository>();
-builder.Services.AddScoped<OnlineBookManagementSystem.Services.Common.IBookManager, OnlineBookManagementSystem.Services.Common.BookManager>();
-
-builder.Services.AddScoped<OnlineBookManagementSystem.Services.SuperAdmin.ISuperAdminBookService, OnlineBookManagementSystem.Services.SuperAdmin.SuperAdminBookService>();
-builder.Services.AddScoped<OnlineBookManagementSystem.Services.Admin.IAdminBookService, OnlineBookManagementSystem.Services.Admin.AdminBookService>();
-builder.Services.AddScoped<OnlineBookManagementSystem.Services.User.IUserBookService, OnlineBookManagementSystem.Services.User.UserBookService>();
-
-builder.Services.AddScoped<OnlineBookManagementSystem.Interfaces.Repositories.IOrderRepository, OnlineBookManagementSystem.Services.Repositories.OrderRepository>();
-builder.Services.AddScoped<OnlineBookManagementSystem.Services.Admin.IAdminOrderService, OnlineBookManagementSystem.Services.Admin.AdminOrderService>();
-builder.Services.AddScoped<OnlineBookManagementSystem.Services.User.IUserOrderService, OnlineBookManagementSystem.Services.User.UserOrderService>();
 
 // Session & Cache
 builder.Services.AddDistributedMemoryCache();
@@ -256,10 +245,6 @@ app.UseRouting();
 app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
-
-app.MapControllerRoute(
-    name: "areas",
-    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "default",
