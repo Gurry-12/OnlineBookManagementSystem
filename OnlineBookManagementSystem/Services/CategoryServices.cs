@@ -103,6 +103,11 @@ namespace OnlineBookManagementSystem.Services
                     Books = s.ToList()
                 }).ToList();
         }
+
+        public async Task<List<Category>> GetAllCategoriesAsync()
+        {
+            return await _context.Categories.Where(c => !c.IsDeleted).ToListAsync();
+        }
     }
 }
 
