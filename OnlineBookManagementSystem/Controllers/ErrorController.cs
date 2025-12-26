@@ -1,67 +1,63 @@
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using OnlineBookManagementSystem.Models;
+using OnlineBookManagementSystem.Interfaces;
 using System.Diagnostics;
 
 namespace OnlineBookManagementSystem.Controllers
 {
     public class ErrorController : Controller
     {
+        private readonly IErrorViewModelFactory _errorFactory;
+        private readonly ILogger<ErrorController> _logger;
+
+        public ErrorController(IErrorViewModelFactory errorFactory, ILogger<ErrorController> logger)
+        {
+            _errorFactory = errorFactory;
+            _logger = logger;
+        }
+
         [Route("Error/{statusCode}")]
         public IActionResult HttpStatusCodeHandler(int statusCode)
         {
-            var errorViewModel = new ErrorViewModel
-            {
-                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
-            };
+            var requestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
 
-            switch (statusCode)
+            // Log the error (Centralized logging)
+            var statusCodeReExecuteFeature = HttpContext.Features.Get<IStatusCodeReExecuteFeature>();
+            if (statusCodeReExecuteFeature != null)
             {
-                case 404:
-                    ViewData["Title"] = "Page Not Found";
-                    ViewData["ErrorMessage"] = "Sorry, the page you are looking for could not be found.";
-                    ViewData["ErrorCode"] = "404";
-                    break;
-                case 500:
-                    ViewData["Title"] = "Internal Server Error";
-                    ViewData["ErrorMessage"] = "Sorry, something went wrong on our end. Please try again later.";
-                    ViewData["ErrorCode"] = "500";
-                    break;
-                case 401:
-                    ViewData["Title"] = "Unauthorized";
-                    ViewData["ErrorMessage"] = "You do not have permission to access this resource.";
-                    ViewData["ErrorCode"] = "401";
-                    break;
-                case 403:
-                    ViewData["Title"] = "Forbidden";
-                    ViewData["ErrorMessage"] = "Access to this resource is denied.";
-                    ViewData["ErrorCode"] = "403";
-                    break;
-                default:
-                    ViewData["Title"] = "Error";
-                    ViewData["ErrorMessage"] = "An unexpected error occurred.";
-                    ViewData["ErrorCode"] = statusCode.ToString();
-                    break;
+                _logger.LogWarning("Error {StatusCode} for request {Path}{QueryString}",
+                    statusCode,
+                    statusCodeReExecuteFeature.OriginalPath,
+                    statusCodeReExecuteFeature.OriginalQueryString);
+            }
+            else
+            {
+                _logger.LogWarning("Error {StatusCode} occurred.", statusCode);
             }
 
-            return View("Error", errorViewModel);
+            var viewModel = _errorFactory.Create(statusCode, requestId);
+            return View("Error", viewModel);
         }
 
         [Route("Error")]
         public IActionResult Error()
         {
-            var exceptionDetails = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
+            var requestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
+            var exceptionHandlerPathFeature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
 
-            var errorViewModel = new ErrorViewModel
+            if (exceptionHandlerPathFeature?.Error != null)
             {
-                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
-            };
+                _logger.LogError(exceptionHandlerPathFeature.Error, "Unhandled exception occurred. Request ID: {RequestId}", requestId);
+                var viewModel = _errorFactory.Create(exceptionHandlerPathFeature.Error, requestId);
 
-            ViewData["Title"] = "Error";
-            ViewData["ErrorMessage"] = "An unexpected error occurred. Please try again later.";
-            ViewData["ErrorCode"] = "500";
+                // Return 500 status code explicitly for unhandled exceptions
+                HttpContext.Response.StatusCode = 500;
 
-            return View(errorViewModel);
+                return View("Error", viewModel);
+            }
+
+            // Fallback if accessed directly without an exception
+            return HttpStatusCodeHandler(500);
         }
     }
 }
