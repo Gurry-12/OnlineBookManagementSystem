@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -12,6 +13,7 @@ using Serilog;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -144,7 +146,37 @@ builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IUsersService, UsersService>();
 builder.Services.AddScoped<IDnsChecker, DNSCheckerHelper>();
 builder.Services.AddScoped<ISystemSettingsService, SystemSettingsService>();
+builder.Services.AddScoped<ICacheService, CacheService>();
 builder.Services.AddHostedService<LogCleanupService>();
+
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddRateLimiter(options =>
+{
+    options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(httpContext =>
+        RateLimitPartition.GetFixedWindowLimiter(
+            partitionKey: httpContext.User.Identity?.Name ?? httpContext.Request.Headers.Host.ToString(),
+            factory: partition => new FixedWindowRateLimiterOptions
+            {
+                AutoReplenishment = true,
+                PermitLimit = builder.Configuration.GetValue<int>("RateLimiting:PermitLimit", 100),
+                QueueLimit = builder.Configuration.GetValue<int>("RateLimiting:QueueLimit", 10),
+                Window = TimeSpan.Parse(builder.Configuration["RateLimiting:Window"] ?? "00:01:00")
+            }));
+
+    options.OnRejected = async (context, token) =>
+    {
+        context.HttpContext.Response.StatusCode = 429;
+        if (context.Lease.TryGetMetadata(MetadataName.RetryAfter, out var retryAfter))
+        {
+            await context.HttpContext.Response.WriteAsync($"Too many requests. Please try again after {retryAfter.TotalSeconds} seconds.", token);
+        }
+        else
+        {
+            await context.HttpContext.Response.WriteAsync("Too many requests. Please try again later.", token);
+        }
+    };
+});
 
 // Health Checks
 if (builder.Configuration.GetValue<bool>("Features:EnableHealthChecks"))
@@ -324,6 +356,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseRateLimiter();
 
 // Middleware order
 app.UseMiddleware<RequestLoggingMiddleware>();
