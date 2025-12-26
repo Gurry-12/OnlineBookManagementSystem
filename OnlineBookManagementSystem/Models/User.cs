@@ -24,10 +24,14 @@ public partial class User : IdentityUser<int>  // PK int for consistency
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     [Column(TypeName = "DateTime")]
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+    [Column(TypeName = "DateTime")]
+    public DateTime? LastLoginDate { get; set; }
 
     // Existing nav props
     public virtual ICollection<ActivityLog> ActivityLogs { get; set; } = new List<ActivityLog>();
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
     public virtual ICollection<ShoppingCart> ShoppingCarts { get; set; } = new List<ShoppingCart>();
     public virtual ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();  // New
+    public virtual ICollection<BookReview> BookReviews { get; set; } = new List<BookReview>();
+    public virtual ICollection<BookReview> ModeratedReviews { get; set; } = new List<BookReview>();
 }

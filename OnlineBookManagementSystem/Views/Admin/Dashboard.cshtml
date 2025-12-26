@@ -1,7 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Admin Dashboard - Whispering Pages";
 }
-@model OnlineBookManagementSystem.Models.ViewModel.AdminViewModel;
+@model OnlineBookManagementSystem.Models.ViewModel.AdminDashboardViewModel;
 <link href="~/css/BooksIndex.css" rel="stylesheet" />
 
 <!-- 📚 Inspirational Quotes Carousel Section -->
@@ -98,9 +98,9 @@
             <div class="card-body">
                 <h5 class="text-primary mb-3"><i class="bi bi-clock-history me-2"></i>Recent Activities</h5>
                 <ul class="list-group" style="max-height: 260px; overflow-y: auto;">
-                    @if (Model.ActivityLogs != null && Model.ActivityLogs.Any())
+                    @if (Model.RecentActivity != null && Model.RecentActivity.Any())
                     {
-                        foreach (var log in Model.ActivityLogs)
+                        foreach (var log in Model.RecentActivity)
                         {
                             var iconClass = log.ActionType switch
                             {
@@ -125,7 +125,10 @@
                             <li class="list-group-item d-flex justify-content-between align-items-start">
                                 <div class="me-auto">
                                     <i class="@iconClass me-2"></i>@log.Description
-                                    <div class="small text-muted">@log.TimeAgo</div>
+                                    <div class="small text-muted">@((DateTime.UtcNow - log.Timestamp).TotalMinutes < 1 ? "Just now" : 
+                                        (DateTime.UtcNow - log.Timestamp).TotalMinutes < 60 ? $"{(int)(DateTime.UtcNow - log.Timestamp).TotalMinutes} min ago" :
+                                        (DateTime.UtcNow - log.Timestamp).TotalHours < 24 ? $"{(int)(DateTime.UtcNow - log.Timestamp).TotalHours} hrs ago" :
+                                        $"{(int)(DateTime.UtcNow - log.Timestamp).TotalDays} days ago")</div>
                                 </div>
                                 <span class="badge @badgeClass">@log.ActionType</span>
                             </li>
@@ -339,5 +342,4 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- Toastr JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-<script src="~/js/Books/BooksHome.js"></script>
 <script src="~/js/books/chartsadmin.js"></script>

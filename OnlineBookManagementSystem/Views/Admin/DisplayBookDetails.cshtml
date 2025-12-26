@@ -143,7 +143,6 @@
     <partial name="_ValidationScriptsPartial" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-    <script src="~/js/books/bookshome.js"></script>
     <script>
         function AddToCart(id) {
             $.post('/Cart/Add', { bookId: id }, function(res) {

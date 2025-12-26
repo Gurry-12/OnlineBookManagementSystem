@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authorization;
+ï»¿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OnlineBookManagementSystem.Interfaces;
 using OnlineBookManagementSystem.Models.ViewModel.AuthViewModels;
@@ -7,7 +7,7 @@ using System.Security.Claims;
 namespace OnlineBookManagementSystem.Controllers
 {
     [AllowAnonymous]
-    public class AuthController : BaseController // Remove BaseController if it sets layout based on claims — auth views should force auth layout
+    public class AuthController : BaseController // Remove BaseController if it sets layout based on claims ï¿½ auth views should force auth layout
     {
         private readonly IAuthService _authService;
         private readonly IActivityLogger _activityLoggerService;
@@ -75,7 +75,7 @@ namespace OnlineBookManagementSystem.Controllers
         }
 
         [HttpPost]
-        [Authorize(Policy = "UserOrHigher")] // Keep on logout — ensures only authenticated can logout
+        [Authorize(Policy = "UserOrHigher")] // Keep on logout ï¿½ ensures only authenticated can logout
         public async Task<IActionResult> Logout()
         {
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -94,7 +94,7 @@ namespace OnlineBookManagementSystem.Controllers
             var options = new CookieOptions
             {
                 HttpOnly = true,
-                Secure = true,
+                Secure = Request.IsHttps, // Only secure in HTTPS
                 SameSite = SameSiteMode.Strict,
                 Expires = DateTime.UtcNow.AddMinutes(60)
             };
@@ -106,12 +106,12 @@ namespace OnlineBookManagementSystem.Controllers
             Response.Cookies.Delete("accessToken", new CookieOptions
             {
                 HttpOnly = true,
-                Secure = true,
+                Secure = Request.IsHttps, // Only secure in HTTPS
                 SameSite = SameSiteMode.Strict
             });
         }
 
-        // Registration & Password reset — pure auth
+        // Registration & Password reset ï¿½ pure auth
         public IActionResult Registration() => View();
 
         [HttpPost]

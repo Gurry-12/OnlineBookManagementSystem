@@ -78,7 +78,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" id="ForgotPasswordBtn">Send Reset Link</button>
+                <button type="button" class="btn btn-primary" id="SendResetLinkBtn">Send Reset Link</button>
             </div>
         </div>
     </div>
@@ -86,12 +86,11 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="~/js/auth/auth.js"></script>
 
     <script>
         $(document).ready(function () {
+            // Password toggle functionality
             $('.toggle-password').click(function () {
                 const input = $(this).prev('input');
                 const icon = $(this).find('[toggle-password-icon]');
@@ -103,6 +102,9 @@
                     icon.removeClass('bi-eye').addClass('bi-eye-slash');
                 }
             });
+
+            // Clear any previous error messages
+            $('.text-danger').text('').hide();
         });
     </script>
 }

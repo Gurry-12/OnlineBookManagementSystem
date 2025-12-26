@@ -33,6 +33,8 @@ public partial class Book
 
     public string ImgUrl { get; set; }
     public bool IsFavorite { get; set; } = false;
+    public bool IsFeatured { get; set; } = false;  // New property for featured books
+    public double AverageRating { get; set; } = 0.0;  // New property for ratings
     public bool IsDeleted { get; set; } = false;
 
     // Timestamps (replace CreatedDate)
@@ -46,4 +48,5 @@ public partial class Book
 
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
     public virtual ICollection<ShoppingCart> ShoppingCarts { get; set; } = new List<ShoppingCart>();
+    public virtual ICollection<BookReview> BookReviews { get; set; } = new List<BookReview>();
 }

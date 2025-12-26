@@ -22,8 +22,11 @@ public partial class BookManagementContext : IdentityDbContext<User, IdentityRol
     public virtual DbSet<Order> Orders { get; set; }
     public virtual DbSet<OrderDetail> OrderDetails { get; set; }
     public virtual DbSet<ShoppingCart> ShoppingCarts { get; set; }
-    public virtual DbSet<User> Users { get; set; }  // Now Identity-backed
+    public new virtual DbSet<User> Users { get; set; }  // Now Identity-backed
     public virtual DbSet<RefreshToken> RefreshTokens { get; set; }  // New
+    public virtual DbSet<UserFavorite> UserFavorites { get; set; }  // New
+    public virtual DbSet<BookReview> BookReviews { get; set; }  // Book Review System
+    public virtual DbSet<BookRatingCache> BookRatingCache { get; set; }  // Book Review System
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -145,6 +148,18 @@ public partial class BookManagementContext : IdentityDbContext<User, IdentityRol
             entity.HasQueryFilter(rt => !rt.IsRevoked && rt.ExpiryDate > DateTime.UtcNow);
         });
 
+        // UserFavorite (new)
+        modelBuilder.Entity<UserFavorite>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("DateTime('now')");
+            entity.HasOne(d => d.User).WithMany()
+                .HasForeignKey(d => d.UserId).OnDelete(DeleteBehavior.Cascade);
+            entity.HasOne(d => d.Book).WithMany()
+                .HasForeignKey(d => d.BookId).OnDelete(DeleteBehavior.Cascade);
+            entity.HasIndex(e => new { e.UserId, e.BookId }).IsUnique();
+        });
+
         // User (extend Identity)
         modelBuilder.Entity<User>(entity =>
         {
@@ -174,6 +189,56 @@ public partial class BookManagementContext : IdentityDbContext<User, IdentityRol
                   .WithMany(u => u.ActivityLogs)
                   .HasForeignKey(al => al.UserId)
                   .OnDelete(DeleteBehavior.SetNull); // or Restrict
+        });
+
+        // BookReview (Book Review System)
+        modelBuilder.Entity<BookReview>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Rating).IsRequired();
+            entity.Property(e => e.ReviewText).HasMaxLength(1000).IsRequired();
+            entity.Property(e => e.Status).HasDefaultValue(ReviewStatus.Pending);
+            entity.Property(e => e.RejectionReason).HasMaxLength(500);
+            entity.Property(e => e.IsDeleted).HasDefaultValue(false);
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("DateTime('now')");
+            entity.Property(e => e.UpdatedAt).HasDefaultValueSql("DateTime('now')");
+            
+            // Foreign key relationships
+            entity.HasOne(d => d.Book).WithMany(b => b.BookReviews)
+                .HasForeignKey(d => d.BookId).OnDelete(DeleteBehavior.Restrict);
+            entity.HasOne(d => d.User).WithMany(u => u.BookReviews)
+                .HasForeignKey(d => d.UserId).OnDelete(DeleteBehavior.Restrict);
+            entity.HasOne(d => d.Moderator).WithMany(u => u.ModeratedReviews)
+                .HasForeignKey(d => d.ModeratedBy).OnDelete(DeleteBehavior.SetNull);
+            
+            // Indexes for performance
+            entity.HasIndex(e => new { e.BookId, e.Status });
+            entity.HasIndex(e => e.UserId);
+            entity.HasIndex(e => new { e.Status, e.CreatedAt });
+            entity.HasIndex(e => e.Rating);
+            
+            // Unique constraint: one review per user per book
+            entity.HasIndex(e => new { e.BookId, e.UserId }).IsUnique();
+            
+            // Soft delete query filter
+            entity.HasQueryFilter(e => !e.IsDeleted);
+            
+            // Check constraints for rating
+            entity.ToTable(t => t.HasCheckConstraint("CK_BookReview_Rating", "Rating >= 1 AND Rating <= 5"));
+            entity.ToTable(t => t.HasCheckConstraint("CK_BookReview_ReviewText_Length", "LENGTH(ReviewText) >= 10 AND LENGTH(ReviewText) <= 1000"));
+        });
+
+        // BookRatingCache (Book Review System)
+        modelBuilder.Entity<BookRatingCache>(entity =>
+        {
+            entity.HasKey(e => e.BookId);
+            entity.Property(e => e.AverageRating).HasColumnType("real").IsRequired();
+            entity.Property(e => e.TotalReviews).IsRequired();
+            entity.Property(e => e.LastUpdated).HasDefaultValueSql("DateTime('now')");
+            
+            // Foreign key relationship
+            entity.HasOne(d => d.Book).WithOne()
+                .HasForeignKey<BookRatingCache>(d => d.BookId).OnDelete(DeleteBehavior.Cascade);
         });
 
         OnModelCreatingPartial(modelBuilder);

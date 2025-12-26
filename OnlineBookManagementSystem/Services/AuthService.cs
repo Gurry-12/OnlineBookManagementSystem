@@ -37,7 +37,7 @@ namespace OnlineBookManagementSystem.Services
             IDnsChecker dnsChecker,
             IMemoryCache cache,
             ILogger<AuthService> logger,
-            IEmailSender emailSender = null)
+            IEmailSender? emailSender = null)
         {
             _userManager = userManager;
             _roleManager = roleManager;

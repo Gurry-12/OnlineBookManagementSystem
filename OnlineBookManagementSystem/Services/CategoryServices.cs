@@ -103,6 +103,77 @@ namespace OnlineBookManagementSystem.Services
                     Books = s.ToList()
                 }).ToList();
         }
+
+        // New methods for enhanced functionality
+        public async Task<List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>> GetCategoriesForDropdownAsync()
+        {
+            return await _context.Categories
+                .Where(c => !c.IsDeleted)
+                .Select(c => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+                {
+                    Value = c.Id.ToString(),
+                    Text = c.Name
+                })
+                .ToListAsync();
+        }
+
+        public async Task<List<Category>> GetAllCategoriesAsync()
+        {
+            return await _context.Categories
+                .Where(c => !c.IsDeleted)
+                .OrderBy(c => c.Name)
+                .ToListAsync();
+        }
+
+        public async Task<int> GetTotalCategoriesCountAsync()
+        {
+            return await _context.Categories.CountAsync(c => !c.IsDeleted);
+        }
+
+        public async Task<List<CategoryWithCount>> GetCategoriesWithCountAsync()
+        {
+            return await _context.Categories
+                .Where(c => !c.IsDeleted)
+                .Select(c => new CategoryWithCount
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    Description = c.Description,
+                    BookCount = c.Books.Count(b => !b.IsDeleted),
+                    CreatedAt = c.CreatedAt
+                })
+                .OrderBy(c => c.Name)
+                .ToListAsync();
+        }
+
+        public async Task<Category?> GetCategoryByIdAsync(int categoryId)
+        {
+            return await _context.Categories
+                .FirstOrDefaultAsync(c => c.Id == categoryId && !c.IsDeleted);
+        }
+
+        public async Task<bool> CreateCategoryAsync(string name, string description, int userId)
+        {
+            try
+            {
+                var category = new Category
+                {
+                    Name = name,
+                    Description = description,
+                    IsDeleted = false,
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                };
+
+                _context.Categories.Add(category);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }
 

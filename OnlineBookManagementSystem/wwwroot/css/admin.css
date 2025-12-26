@@ -54,3 +54,29 @@
     .admin-layout .form-control:focus {
         box-shadow: 0 0 0 0.15rem rgba(var(--admin-primary), 0.25);
     }
+
+.quote-box {
+    background: linear-gradient(to left, #d369f1, #5ccf82);
+    border-left: 5px solid #4a90e2;
+    margin: 2rem 0;
+    padding: 1.5rem 2rem;
+    font-style: italic;
+    color: #333;
+}
+
+    .quote-box p {
+        margin: 0 0 0.75rem 0;
+        font-size: 1.1rem;
+        line-height: 1.5;
+    }
+
+    .quote-box footer {
+        text-align: right;
+        font-style: normal;
+        font-size: 0.95rem;
+        color: #666;
+    }
+
+        .quote-box footer::before {
+            content: "— ";
+        }

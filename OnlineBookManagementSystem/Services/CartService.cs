@@ -20,7 +20,7 @@ namespace OnlineBookManagementSystem.Services
             IMemoryCache cache,
             ILogger<CartService> logger,
             IActivityLogger activityLogger,
-            IEmailSender emailSender = null)
+            IEmailSender? emailSender = null)
         {
             _context = context;
             _cache = cache;
@@ -295,6 +295,32 @@ namespace OnlineBookManagementSystem.Services
             await _context.SaveChangesAsync();
             _logger.LogInformation("Inventory deducted for Order {OrderId}", orderId);
             return true;
+        }
+
+        // New methods for enhanced functionality
+        public async Task<int> GetCartItemCountAsync(int userId)
+        {
+            return await _context.ShoppingCarts
+                .CountAsync(sc => sc.UserId == userId && !sc.IsDeleted);
+        }
+
+        public async Task<(bool Success, string Message, int CartCount)> AddToCartAsync(int userId, int bookId, int quantity)
+        {
+            try
+            {
+                var success = await AddOrUpdateCartAsync(userId, bookId, quantity);
+                if (success)
+                {
+                    var cartCount = await GetCartItemCountAsync(userId);
+                    return (true, "Item added to cart successfully", cartCount);
+                }
+                return (false, "Failed to add item to cart", 0);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to add item to cart for user {UserId}", userId);
+                return (false, "An error occurred while adding item to cart", 0);
+            }
         }
     }
 }

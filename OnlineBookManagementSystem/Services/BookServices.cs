@@ -297,27 +297,27 @@ namespace OnlineBookManagementSystem.Services
             };
         }
 
-        public IEnumerable<MonthlyBookUploadViewModel> MonthlyBookUpload(DateTime? startDate = null, DateTime? endDate = null)
-        {
-            var query = _context.Books
-                .Where(b => !b.IsDeleted)
-                .Select(b => b.CreatedAt.Date);
+        //public IEnumerable<MonthlyBookUploadViewModel> MonthlyBookUpload(DateTime? startDate = null, DateTime? endDate = null)
+        //{
+        //    var query = _context.Books
+        //        .Where(b => !b.IsDeleted)
+        //        .Select(b => b.CreatedAt.Date);
 
-            if (startDate.HasValue) query = query.Where(d => d >= startDate.Value.Date);
-            if (endDate.HasValue) query = query.Where(d => d <= endDate.Value.Date);
+        //    if (startDate.HasValue) query = query.Where(d => d >= startDate.Value.Date);
+        //    if (endDate.HasValue) query = query.Where(d => d <= endDate.Value.Date);
 
-            var monthlyData = query
-                .GroupBy(d => new { d.Year, d.Month })
-                .Select(g => new MonthlyBookUploadViewModel
-                {
-                    Month = new DateTime(g.Key.Year, g.Key.Month, 1).ToString("MMM yyyy"),
-                    Count = g.Count()
-                })
-                .OrderBy(x => x.Month)
-                .ToList() ?? new List<MonthlyBookUploadViewModel>();
+        //    var monthlyData = query
+        //        .GroupBy(d => new { d.Year, d.Month })
+        //        .Select(g => new MonthlyBookUploadViewModel
+        //        {
+        //            Month = new DateTime(g.Key.Year, g.Key.Month, 1).ToString("MMM yyyy"),
+        //            Count = g.Count()
+        //        })
+        //        .OrderBy(x => x.Month)
+        //        .ToList() ?? new List<MonthlyBookUploadViewModel>();
 
-            return monthlyData;
-        }
+        //    return monthlyData;
+        //}
 
         public IEnumerable<CategoryBookCountViewModel> BooksByCategory()
         {
@@ -367,12 +367,350 @@ namespace OnlineBookManagementSystem.Services
 
         public int GetTotalBooks()
         {
-            throw new NotImplementedException();
+            return _context.Books.Count(b => !b.IsDeleted);
         }
 
         public int GetTotalCategories()
         {
-            throw new NotImplementedException();
+            return _context.Categories.Count(c => !c.IsDeleted);
+        }
+
+        // New methods for enhanced functionality
+        public async Task<int> GetTotalBooksCountAsync()
+        {
+            return await _context.Books.CountAsync(b => !b.IsDeleted);
+        }
+
+        public async Task<BookListViewModel> GetBooksForUserAsync(int page, int pageSize, string? search = null, int? categoryId = null, string? sortBy = null, decimal? minPrice = null, decimal? maxPrice = null)
+        {
+            var query = _context.Books
+                .Include(b => b.Category)
+                .Where(b => !b.IsDeleted);
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                query = query.Where(b => b.Title.Contains(search) || b.Author.Contains(search) || b.Description.Contains(search));
+            }
+
+            if (categoryId.HasValue)
+            {
+                query = query.Where(b => b.CategoryId == categoryId);
+            }
+
+            if (minPrice.HasValue)
+            {
+                query = query.Where(b => b.Price >= minPrice);
+            }
+
+            if (maxPrice.HasValue)
+            {
+                query = query.Where(b => b.Price <= maxPrice);
+            }
+
+            var totalCount = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+
+            query = sortBy switch
+            {
+                "priceAsc" => query.OrderBy(b => b.Price),
+                "priceDesc" => query.OrderByDescending(b => b.Price),
+                "title" => query.OrderBy(b => b.Title),
+                "author" => query.OrderBy(b => b.Author),
+                "rating" => query.OrderByDescending(b => b.AverageRating),
+                _ => query.OrderByDescending(b => b.CreatedAt)
+            };
+
+            var books = await query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return new BookListViewModel
+            {
+                Books = books,
+                CurrentPage = page,
+                TotalPages = totalPages,
+                SearchTerm = search,
+                CategoryId = categoryId,
+                SortBy = sortBy
+            };
+        }
+
+        public async Task<BookDetailsViewModel?> GetBookDetailsForUserAsync(int bookId, int userId)
+        {
+            var book = await _context.Books
+                .Include(b => b.Category)
+                .FirstOrDefaultAsync(b => b.Id == bookId && !b.IsDeleted);
+
+            if (book == null) return null;
+
+            // Check if user has favorited this book
+            var isFavorite = await _context.UserFavorites
+                .AnyAsync(uf => uf.UserId == userId && uf.BookId == bookId);
+
+            // Get related books from same category
+            var relatedBooks = await _context.Books
+                .Where(b => b.CategoryId == book.CategoryId && b.Id != bookId && !b.IsDeleted)
+                .Take(4)
+                .ToListAsync();
+
+            return new BookDetailsViewModel
+            {
+                Id = book.Id,
+                Title = book.Title,
+                Author = book.Author,
+                ISBN = book.ISBN,
+                Price = book.Price,
+                Description = book.Description,
+                ImageUrl = book.ImageUrl,
+                CategoryId = book.CategoryId,
+                Category = book.Category,
+                StockQuantity = book.StockQuantity,
+                AverageRating = book.AverageRating,
+                CreatedAt = book.CreatedAt,
+                UpdatedAt = book.UpdatedAt,
+                IsFavorite = isFavorite,
+                RelatedBooks = relatedBooks,
+                Reviews = new List<Models.BookReview>(), // TODO: Implement reviews
+                ReviewCount = 0
+            };
+        }
+
+        public async Task<List<Book>> GetUserFavoriteBooksAsync(int userId)
+        {
+            return await _context.UserFavorites
+                .Where(uf => uf.UserId == userId)
+                .Include(uf => uf.Book)
+                    .ThenInclude(b => b.Category)
+                .Select(uf => uf.Book)
+                .Where(b => !b.IsDeleted)
+                .OrderByDescending(b => b.UpdatedAt)
+                .ToListAsync();
+        }
+
+        public async Task<(bool Success, string Message, bool IsFavorite)> ToggleUserFavoriteAsync(int bookId, int userId)
+        {
+            try
+            {
+                var book = await _context.Books.FirstOrDefaultAsync(b => b.Id == bookId && !b.IsDeleted);
+                if (book == null)
+                    return (false, "Book not found", false);
+
+                var existingFavorite = await _context.UserFavorites
+                    .FirstOrDefaultAsync(uf => uf.UserId == userId && uf.BookId == bookId);
+
+                bool isFavorite;
+                if (existingFavorite != null)
+                {
+                    _context.UserFavorites.Remove(existingFavorite);
+                    isFavorite = false;
+                    await _activityLogger.LogAsync("FavoriteRemoved", $"Removed '{book.Title}' from favorites", userId);
+                }
+                else
+                {
+                    _context.UserFavorites.Add(new UserFavorite
+                    {
+                        UserId = userId,
+                        BookId = bookId,
+                        CreatedAt = DateTime.UtcNow
+                    });
+                    isFavorite = true;
+                    await _activityLogger.LogAsync("FavoriteAdded", $"Added '{book.Title}' to favorites", userId);
+                }
+
+                await _context.SaveChangesAsync();
+                return (true, isFavorite ? "Added to favorites" : "Removed from favorites", isFavorite);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to toggle favorite for book {BookId} and user {UserId}", bookId, userId);
+                return (false, "An error occurred", false);
+            }
+        }
+
+        public async Task<UserProfileViewModel?> GetUserProfileAsync(int userId)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId && u.IsDeleted != true);
+            if (user == null) return null;
+
+            var favoritesCount = await _context.UserFavorites.CountAsync(uf => uf.UserId == userId);
+            var ordersCount = await _context.Orders.CountAsync(o => o.UserId == userId && !o.IsDeleted);
+            var totalSpent = await _context.Orders
+                .Where(o => o.UserId == userId && !o.IsDeleted && o.PaymentStatus == "Paid")
+                .SumAsync(o => o.TotalAmount);
+
+            return new UserProfileViewModel
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Email = user.Email,
+                CreatedAt = user.CreatedAt,
+                LastLoginDate = user.LastLoginDate,
+                FavoritesCount = favoritesCount,
+                OrdersCount = ordersCount,
+                TotalSpent = totalSpent
+            };
+        }
+
+        public async Task<bool> UpdateUserProfileAsync(int userId, UserProfileViewModel model)
+        {
+            try
+            {
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId && u.IsDeleted != true);
+                if (user == null) return false;
+
+                user.Name = model.Name;
+                user.UpdatedAt = DateTime.UtcNow;
+
+                await _context.SaveChangesAsync();
+                await _activityLogger.LogAsync("ProfileUpdated", "User profile updated", userId);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to update user profile for user {UserId}", userId);
+                return false;
+            }
+        }
+
+        public async Task<BookListViewModel> SearchBooksAsync(string query, int page, int pageSize)
+        {
+            return await GetBooksForUserAsync(page, pageSize, query);
+        }
+
+        public async Task<BookListViewModel> GetBooksByCategoryAsync(int categoryId, int page, int pageSize)
+        {
+            return await GetBooksForUserAsync(page, pageSize, null, categoryId);
+        }
+
+        public async Task<List<Book>> GetPersonalizedRecommendationsAsync(int userId, int count)
+        {
+            // Simple recommendation based on user's favorite categories
+            var userFavoriteCategories = await _context.UserFavorites
+                .Where(uf => uf.UserId == userId)
+                .Include(uf => uf.Book)
+                .Select(uf => uf.Book.CategoryId)
+                .Distinct()
+                .ToListAsync();
+
+            if (!userFavoriteCategories.Any())
+            {
+                // Return popular books if no favorites
+                return await GetFeaturedBooksAsync(count);
+            }
+
+            return await _context.Books
+                .Where(b => !b.IsDeleted && userFavoriteCategories.Contains(b.CategoryId ?? 0))
+                .OrderByDescending(b => b.AverageRating)
+                .ThenByDescending(b => b.CreatedAt)
+                .Take(count)
+                .ToListAsync();
+        }
+
+        public async Task<List<Book>> GetFeaturedBooksAsync(int count)
+        {
+            return await _context.Books
+                .Where(b => !b.IsDeleted && b.IsFeatured == true)
+                .OrderByDescending(b => b.AverageRating)
+                .ThenByDescending(b => b.CreatedAt)
+                .Take(count)
+                .ToListAsync();
+        }
+
+        public async Task<List<Book>> GetNewArrivalsAsync(int count)
+        {
+            return await _context.Books
+                .Where(b => !b.IsDeleted)
+                .OrderByDescending(b => b.CreatedAt)
+                .Take(count)
+                .ToListAsync();
+        }
+
+        public async Task<int> GetUserFavoritesCountAsync(int userId)
+        {
+            return await _context.UserFavorites.CountAsync(uf => uf.UserId == userId);
+        }
+
+        // Chart and analytics methods
+        public async Task<List<Models.ViewModel.ChartViewModel.MonthlyBookUploadViewModel>> GetMonthlyBookUploadsAsync()
+        {
+            var sixMonthsAgo = DateTime.UtcNow.AddMonths(-6);
+            
+            // First get the grouped data from database
+            var monthlyData = await _context.Books
+                .Where(b => !b.IsDeleted && b.CreatedAt >= sixMonthsAgo)
+                .GroupBy(b => new { b.CreatedAt.Year, b.CreatedAt.Month })
+                .Select(g => new 
+                {
+                    Year = g.Key.Year,
+                    Month = g.Key.Month,
+                    Count = g.Count()
+                })
+                .OrderBy(x => x.Year)
+                .ThenBy(x => x.Month)
+                .ToListAsync();
+
+            // Then format the month names on the client side
+            return monthlyData
+                .Select(x => new Models.ViewModel.ChartViewModel.MonthlyBookUploadViewModel
+                {
+                    Month = new DateTime(x.Year, x.Month, 1).ToString("MMM yyyy"),
+                    Count = x.Count
+                })
+                .ToList();
+        }
+
+        public async Task<List<CategoryBookCountViewModel>> GetBooksByCategoryAsync()
+        {
+            return await _context.Books
+                .Where(b => !b.IsDeleted)
+                .Include(b => b.Category)
+                .GroupBy(b => b.Category.Name)
+                .Select(g => new CategoryBookCountViewModel
+                {
+                    CategoryName = g.Key,
+                    Count = g.Count()
+                })
+                .OrderByDescending(x => x.Count)
+                .ToListAsync();
+        }
+
+        public async Task<List<AuthorBookCountViewModel>> GetBooksByAuthorAsync()
+        {
+            return await _context.Books
+                .Where(b => !b.IsDeleted && !string.IsNullOrEmpty(b.Author))
+                .GroupBy(b => b.Author)
+                .Select(g => new AuthorBookCountViewModel
+                {
+                    AuthorName = g.Key,
+                    Count = g.Count()
+                })
+                .OrderByDescending(x => x.Count)
+                .Take(10)
+                .ToListAsync();
+        }
+
+        public async Task<FavoriteStatsViewModel> GetFavoriteStatsAsync()
+        {
+            var totalBooks = await _context.Books.CountAsync(b => !b.IsDeleted);
+            var favoriteCount = await _context.UserFavorites.CountAsync();
+            
+            return new FavoriteStatsViewModel
+            {
+                FavoriteCount = favoriteCount,
+                NonFavoriteCount = totalBooks - favoriteCount
+            };
+        }
+
+        public async Task<AdminMonthlyStatsViewModel> GetMonthlyStatsAsync()
+        {
+            return new AdminMonthlyStatsViewModel
+            {
+                MonthlyUploads = await GetMonthlyBookUploadsAsync(),
+                CategoryDistribution = await GetBooksByCategoryAsync(),
+                AuthorDistribution = await GetBooksByAuthorAsync(),
+                FavoriteStats = await GetFavoriteStatsAsync()
+            };
         }
     }
 }

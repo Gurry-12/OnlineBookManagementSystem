@@ -2,15 +2,28 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using OnlineBookManagementSystem.Helper;
 using OnlineBookManagementSystem.Interfaces;
+using OnlineBookManagementSystem.Middleware;
 using OnlineBookManagementSystem.Models;
 using OnlineBookManagementSystem.Services;
+using Serilog;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Configure Serilog
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .Enrich.FromLogContext()
+    .WriteTo.Console()
+    .WriteTo.File("logs/app-.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
+
+builder.Host.UseSerilog();
 
 // Clear default claim mapping
 JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
@@ -22,7 +35,7 @@ builder.Services.AddDbContext<BookManagementContext>(options =>
     options.UseSqlite(connectionString);
 });
 
-// Switch to AddIdentityCore — removes the unwanted cookie scheme that causes /Account/Login redirects
+// Switch to AddIdentityCore ï¿½ removes the unwanted cookie scheme that causes /Account/Login redirects
 // You still get UserManager, RoleManager, password hashing, etc.
 builder.Services.AddIdentityCore<User>(options =>
 {
@@ -44,7 +57,7 @@ builder.Services.AddIdentityCore<User>(options =>
 .AddDefaultTokenProviders();
 
 // Read JWT settings from configuration (appsettings.json / env)
-var jwtKey = builder.Configuration["Jwt:Key"] ?? "YourSecretKeyMustBeLongEnough12345!";
+var jwtKey = builder.Configuration["Jwt:Key"] ?? Environment.GetEnvironmentVariable("JWT_KEY") ?? throw new InvalidOperationException("JWT Key not configured");
 var jwtIssuer = builder.Configuration["Jwt:Issuer"] ?? "WhisperingPages";
 var jwtAudience = builder.Configuration["Jwt:Audience"] ?? jwtIssuer;
 
@@ -130,7 +143,54 @@ builder.Services.AddScoped<IActivityLogger, ActivityLogger>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IUsersService, UsersService>();
 builder.Services.AddScoped<IDnsChecker, DNSCheckerHelper>();
+builder.Services.AddScoped<ISystemSettingsService, SystemSettingsService>();
 builder.Services.AddHostedService<LogCleanupService>();
+
+// Health Checks
+if (builder.Configuration.GetValue<bool>("Features:EnableHealthChecks"))
+{
+    builder.Services.AddHealthChecks()
+        .AddDbContextCheck<BookManagementContext>();
+}
+
+// API Documentation
+if (builder.Configuration.GetValue<bool>("Features:EnableSwagger"))
+{
+    builder.Services.AddEndpointsApiExplorer();
+    builder.Services.AddSwaggerGen(c =>
+    {
+        c.SwaggerDoc("v1", new OpenApiInfo 
+        { 
+            Title = "Whispering Pages API", 
+            Version = "v1",
+            Description = "Online Book Management System API"
+        });
+        
+        c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+        {
+            Description = "JWT Authorization header using the Bearer scheme",
+            Name = "Authorization",
+            In = ParameterLocation.Header,
+            Type = SecuritySchemeType.ApiKey,
+            Scheme = "Bearer"
+        });
+        
+        c.AddSecurityRequirement(new OpenApiSecurityRequirement
+        {
+            {
+                new OpenApiSecurityScheme
+                {
+                    Reference = new OpenApiReference
+                    {
+                        Type = ReferenceType.SecurityScheme,
+                        Id = "Bearer"
+                    }
+                },
+                Array.Empty<string>()
+            }
+        });
+    });
+}
 
 // Session & Cache
 builder.Services.AddDistributedMemoryCache();
@@ -145,6 +205,31 @@ builder.Services.AddSession(options =>
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+
+// Configure request pipeline
+if (app.Environment.IsDevelopment())
+{
+    if (builder.Configuration.GetValue<bool>("Features:EnableSwagger"))
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI(c =>
+        {
+            c.SwaggerEndpoint("/swagger/v1/swagger.json", "Whispering Pages API V1");
+            c.RoutePrefix = "api-docs";
+        });
+    }
+}
+else
+{
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
+}
+
+// Health Checks
+if (builder.Configuration.GetValue<bool>("Features:EnableHealthChecks"))
+{
+    app.MapHealthChecks("/health");
+}
 
 // --- Database WAL mode fix for SQLite (prevents "database is locked") ---
 using (var scope = app.Services.CreateScope())
@@ -166,7 +251,7 @@ using (var scope = app.Services.CreateScope())
 }
 
 // --- Seeding (roles + superadmin) ---
-// (Your existing seeding code — unchanged, UserManager still works)
+// (Your existing seeding code ï¿½ unchanged, UserManager still works)
 
 //using (var scope = app.Services.CreateScope())
 //{
@@ -232,8 +317,7 @@ using (var scope = app.Services.CreateScope())
 // Error / HSTS
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
-    app.UseHsts();
+    // Already handled above
 }
 
 app.UseHttpsRedirection();
@@ -242,6 +326,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 // Middleware order
+app.UseMiddleware<RequestLoggingMiddleware>();
 app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
