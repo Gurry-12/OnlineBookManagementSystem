@@ -11,12 +11,14 @@ namespace OnlineBookManagementSystem.Services
         private readonly BookManagementContext _context;
         private readonly UserManager<User> _userManager;
         private readonly ILogger<ActivityLogger> _logger;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public ActivityLogger(BookManagementContext context, UserManager<User> userManager, ILogger<ActivityLogger> logger)
+        public ActivityLogger(BookManagementContext context, UserManager<User> userManager, ILogger<ActivityLogger> logger, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
             _userManager = userManager;
             _logger = logger;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task LogAsync(string actionType, string? description, int? userId = null)
@@ -26,6 +28,10 @@ namespace OnlineBookManagementSystem.Services
                 var indianTimeZone = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
                 var indianTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, indianTimeZone);
 
+                var context = _httpContextAccessor.HttpContext;
+                var ipAddress = context?.Connection?.RemoteIpAddress?.ToString() ?? "Unknown";
+                var userAgent = context?.Request?.Headers["User-Agent"].ToString() ?? "Unknown";
+
                 var log = new ActivityLog
                 {
                     ActionType = actionType,
@@ -34,8 +40,8 @@ namespace OnlineBookManagementSystem.Services
                     Message = description, // For backward compatibility
                     Timestamp = indianTime,
                     UserId = userId,
-                    IpAddress = "127.0.0.1", // In production, get from HttpContext
-                    UserAgent = "System" // In production, get from HttpContext
+                    IpAddress = ipAddress,
+                    UserAgent = userAgent
                 };
 
                 _context.ActivityLogs.Add(log);

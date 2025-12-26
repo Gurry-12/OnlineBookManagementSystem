@@ -194,7 +194,7 @@
 
         <!-- Add New Book -->
         <div class="col-md-4 col-sm-6">
-            <a asp-controller="Books" asp-action="CreateBookData" class="text-decoration-none">
+            <a asp-controller="Admin" asp-action="CreateBook" class="text-decoration-none">
                 <div class="card h-100 shadow-sm border-0 bg-light hover-lift rounded-4 text-center py-4">
                     <div class="card-body">
                         <div class="text-success mb-2" style="font-size: 2rem;">
@@ -209,7 +209,7 @@
 
         <!-- Manage Users -->
         <div class="col-md-4 col-sm-6">
-            <a asp-controller="Books" asp-action="UserList" class="text-decoration-none">
+            <a asp-controller="Admin" asp-action="UserList" class="text-decoration-none">
                 <div class="card h-100 shadow-sm border-0 bg-light hover-lift rounded-4 text-center py-4">
                     <div class="card-body">
                         <div class="text-secondary mb-2" style="font-size: 2rem;">
@@ -275,7 +275,7 @@
                     <i class="bi bi-receipt fs-1 mb-3"></i>
                     <h3>@Model.TotalOrders</h3>
                     <p>Total Orders</p>
-                    <a asp-controller="Orders" asp-action="AdminIndex" class="btn btn-light btn-sm">View Orders</a>
+                    <a asp-controller="Order" asp-action="AdminIndex" class="btn btn-light btn-sm">View Orders</a>
                 </div>
             </div>
         </div>
