@@ -243,10 +243,22 @@ namespace OnlineBookManagementSystem.Services
             var subject = "Welcome to Whispering Pages!";
             var message = $@"
                 <h1>Welcome, {user.Name}!</h1>
-                <p>Your account has been approved. You can now log in and explore our collection.</p>
-                <p><a href='{_config["AppUrl"]}/Auth/Login'>Login Now</a></p>";
+                <p>Thank you for registering. Your account is currently under review by our administrators.</p>
+                <p>You will receive another email once your account is approved.</p>";
 
             await _emailSender.SendEmailAsync(user.Email, subject, message);
+        }
+
+        public async Task SendUserApprovedEmailAsync(User user, string confirmationLink)
+        {
+            var message = $@"
+                <h2>Welcome to Whispering Pages!</h2>
+                <p>Your account has been approved by the administrator.</p>
+                <p>Please confirm your email address to activate your account and login:</p>
+                <p><a href='{confirmationLink}' style='background-color: #28a745; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;'>Confirm Email</a></p>
+                <p>Link expires in 24 hours.</p>";
+
+            await _emailSender.SendEmailAsync(user.Email, "Account Approved - Confirm Email", message, $"Your account is approved. Confirm email: {confirmationLink}");
         }
 
         public async Task<bool> UpdatePasswordAsync(string token, string newPassword)
