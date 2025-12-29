@@ -14,19 +14,22 @@ namespace OnlineBookManagementSystem.Controllers
         private readonly IOrderService _orderService;
         private readonly IActivityLogger _activityLogger;
         private readonly ICategoryInterface _categoryService;
+        private readonly IAuthService _authService;
 
         public UserController(
             IBookService bookService,
             ICartService cartService,
             IOrderService orderService,
             IActivityLogger activityLogger,
-            ICategoryInterface categoryService)
+            ICategoryInterface categoryService,
+            IAuthService authService)
         {
             _bookService = bookService;
             _cartService = cartService;
             _orderService = orderService;
             _activityLogger = activityLogger;
             _categoryService = categoryService;
+            _authService = authService;
         }
 
         [Authorize(Policy = "UserOrHigher")]
@@ -324,6 +327,57 @@ namespace OnlineBookManagementSystem.Controllers
             var idClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             return int.TryParse(idClaim, out var id) ? id : 0;
         }
+
+        [HttpPost]
+        [Authorize(Policy = "UserOrHigher")]
+        public async Task<IActionResult> CancelOrder([FromBody] CancelOrderRequest request)
+        {
+            var userId = GetUserIdFromClaims();
+            if (userId == 0) return Json(new { success = false, message = "Unauthorized" });
+
+            try
+            {
+                var success = await _orderService.CancelOrderAsync(request.OrderId, userId);
+                if (success)
+                {
+                    await _activityLogger.LogAsync("CancelOrder", $"Order {request.OrderId} cancelled by user", userId);
+                    return Json(new { success = true, message = "Order cancelled successfully" });
+                }
+                return Json(new { success = false, message = "Unable to cancel order or order not found" });
+            }
+            catch (Exception)
+            {
+                return Json(new { success = false, message = "An error occurred while cancelling the order" });
+            }
+        }
+
+        [HttpPost]
+        [Authorize(Policy = "UserOrHigher")]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequest request)
+        {
+            var userId = GetUserIdFromClaims();
+            if (userId == 0) return Json(new { success = false, message = "Unauthorized" });
+
+            if (request.NewPassword != request.ConfirmPassword)
+            {
+                return Json(new { success = false, message = "New passwords do not match" });
+            }
+
+            try
+            {
+                var success = await _authService.ChangePasswordAsync(userId, request.CurrentPassword, request.NewPassword);
+                if (success)
+                {
+                    await _activityLogger.LogAsync("ChangePassword", "User password changed", userId);
+                    return Json(new { success = true, message = "Password changed successfully" });
+                }
+                return Json(new { success = false, message = "Current password is incorrect" });
+            }
+            catch (Exception)
+            {
+                return Json(new { success = false, message = "An error occurred while changing password" });
+            }
+        }
     }
 
     // Request models
@@ -336,5 +390,17 @@ namespace OnlineBookManagementSystem.Controllers
     {
         public int BookId { get; set; }
         public int Quantity { get; set; } = 1;
+    }
+
+    public class CancelOrderRequest
+    {
+        public int OrderId { get; set; }
+    }
+
+    public class ChangePasswordRequest
+    {
+        public string CurrentPassword { get; set; } = string.Empty;
+        public string NewPassword { get; set; } = string.Empty;
+        public string ConfirmPassword { get; set; } = string.Empty;
     }
 }

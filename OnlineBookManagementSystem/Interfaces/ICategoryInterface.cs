@@ -20,5 +20,7 @@ namespace OnlineBookManagementSystem.Interfaces
         Task<List<CategoryWithCount>> GetCategoriesWithCountAsync();
         Task<Category?> GetCategoryByIdAsync(int categoryId);
         Task<bool> CreateCategoryAsync(string name, string description, int userId);
+        Task<bool> UpdateCategoryAsync(int id, string name, string description, int userId);
+        Task<bool> DeleteCategoryAsync(int id, int userId);
     }
 }

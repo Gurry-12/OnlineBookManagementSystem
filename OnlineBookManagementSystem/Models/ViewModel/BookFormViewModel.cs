@@ -4,6 +4,7 @@ namespace OnlineBookManagementSystem.Models.ViewModel
 {
     public class BookFormViewModel
     {
+  
         public Book? Book { get; set; }
         public List<SelectListItem> Categories { get; set; } = new();
         public IFormFile? ImageFile { get; set; }

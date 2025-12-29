@@ -12,8 +12,9 @@ namespace OnlineBookManagementSystem.Interfaces
         Task<List<Order>> GetUserRecentOrdersAsync(int userId, int count);
         Task<OrderHistoryViewModel> GetUserOrderHistoryAsync(int userId, int page, int pageSize, string? status = null, DateTime? dateFrom = null, DateTime? dateTo = null);
         Task<Order?> GetUserOrderDetailsAsync(int orderId, int userId);
-        Task<AdminOrdersViewModel> GetOrdersForAdminAsync(int page, int pageSize, string? search = null, string? status = null, DateTime? dateFrom = null, DateTime? dateTo = null);
+        Task<AdminOrderListViewModel> GetOrdersForAdminAsync(int page, int pageSize, string? search = null, string? status = null, DateTime? dateFrom = null, DateTime? dateTo = null);
         Task<bool> UpdateOrderStatusAsync(int orderId, string status, int userId);
+        Task<bool> CancelOrderAsync(int orderId, int userId);
     }
 
     // Additional ViewModels for Orders

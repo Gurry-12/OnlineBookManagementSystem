@@ -43,12 +43,20 @@
             <span class="sidebar-text">Books</span>
         </a>
         <a asp-controller="Admin" asp-action="CategoryManagement">
-            <i class="bi bi-search"></i>
+            <i class="bi bi-tags"></i>
             <span class="sidebar-text">Categories</span>
         </a>
         <a asp-controller="Admin" asp-action="CreateBook">
             <i class="bi bi-plus-square"></i>
             <span class="sidebar-text">Add Book</span>
+        </a>
+        <a asp-controller="Admin" asp-action="OrderManagement">
+            <i class="bi bi-box-seam"></i>
+            <span class="sidebar-text">Orders</span>
+        </a>
+        <a asp-controller="Admin" asp-action="UserList">
+            <i class="bi bi-people"></i>
+            <span class="sidebar-text">Users</span>
         </a>
         <a asp-controller="Admin" asp-action="ActivityLogs">
             <i class="bi bi-clock-history"></i>
@@ -73,6 +81,9 @@
         <div class="top-bar d-flex justify-content-end gap-3 p-3">
             <span><i class="bi bi-clock me-1"></i><span class="currenttime"></span></span>
             <span><i class="bi bi-calendar me-1"></i><span class="currentdate"></span></span>
+            <a asp-controller="Auth" asp-action="ProfileView" class="btn btn-outline-light btn-sm">
+                <i class="bi bi-person-circle me-1"></i>Profile
+            </a>
             <form asp-controller="Auth" asp-action="Logout" method="post" class="d-inline">
                 @Html.AntiForgeryToken()
                 <button type="submit" class="btn btn-outline-light">

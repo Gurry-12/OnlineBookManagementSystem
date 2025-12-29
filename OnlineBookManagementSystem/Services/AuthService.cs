@@ -16,7 +16,7 @@ namespace OnlineBookManagementSystem.Services
 {
     public class AuthService : IAuthService
     {
-        private const int Minutes = 2; // Increased to 60 for easier testing
+        private const int Minutes = 30; // Increased to 60 for easier testing
         private readonly UserManager<User> _userManager;
 
         private readonly RoleManager<IdentityRole<int>> _roleManager;
@@ -427,6 +427,20 @@ namespace OnlineBookManagementSystem.Services
             }
 
             return userViewModels;
+        }
+
+        public async Task<bool> ChangePasswordAsync(int userId, string currentPassword, string newPassword)
+        {
+            var user = await _userManager.FindByIdAsync(userId.ToString());
+            if (user == null || (bool)user.IsDeleted) return false;
+
+            var result = await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
+            if (result.Succeeded)
+            {
+                _cache.Remove($"user_{userId}");
+                return true;
+            }
+            return false;
         }
     }
 }

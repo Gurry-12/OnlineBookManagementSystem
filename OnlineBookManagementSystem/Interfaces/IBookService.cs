@@ -43,7 +43,7 @@ namespace OnlineBookManagementSystem.Interfaces
         Task<List<Book>> GetFeaturedBooksAsync(int count);
         Task<List<Book>> GetNewArrivalsAsync(int count);
         Task<int> GetUserFavoritesCountAsync(int userId);
-        
+
         // Chart and analytics methods
         Task<List<Models.ViewModel.ChartViewModel.MonthlyBookUploadViewModel>> GetMonthlyBookUploadsAsync();
         Task<List<CategoryBookCountViewModel>> GetBooksByCategoryAsync();
@@ -52,27 +52,9 @@ namespace OnlineBookManagementSystem.Interfaces
         Task<AdminMonthlyStatsViewModel> GetMonthlyStatsAsync();
     }
 
-    // Additional ViewModels
-    public class BookDetailsViewModel : Book
-    {
-        public new bool IsFavorite { get; set; }
-        public List<Book> RelatedBooks { get; set; } = new();
-        public List<Models.BookReview> Reviews { get; set; } = new();
-        public new double AverageRating { get; set; }
-        public int ReviewCount { get; set; }
-    }
 
-    public class UserProfileViewModel
-    {
-        public int Id { get; set; }
-        public string Name { get; set; } = string.Empty;
-        public string Email { get; set; } = string.Empty;
-        public DateTime CreatedAt { get; set; }
-        public DateTime? LastLoginDate { get; set; }
-        public int FavoritesCount { get; set; }
-        public int OrdersCount { get; set; }
-        public decimal TotalSpent { get; set; }
-    }
+
+
 
     public class MonthlyBookUploadViewModel
     {

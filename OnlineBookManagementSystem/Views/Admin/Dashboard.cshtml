@@ -2,7 +2,6 @@
     ViewData["Title"] = "Admin Dashboard - Whispering Pages";
 }
 @model OnlineBookManagementSystem.Models.ViewModel.AdminDashboardViewModel;
-<link href="~/css/BooksIndex.css" rel="stylesheet" />
 
 <!-- 📚 Inspirational Quotes Carousel Section -->
 <div class="row mb-4 g-3">
@@ -265,7 +264,7 @@
                     <i class="bi bi-book fs-1 mb-3"></i>
                     <h3>@Model.TotalBooks</h3>
                     <p>Total Books</p>
-                    <a asp-action="BookList" class="btn btn-outline-dark btn-sm">Manage</a>
+                    <a asp-action="Books" class="btn btn-outline-dark btn-sm">Manage</a>
                 </div>
             </div>
         </div>
@@ -309,7 +308,7 @@
     <!-- Quick Actions -->
     <div class="row g-3 mt-4">
         <div class="col-md-3">
-            <a asp-action="Create" class="text-decoration-none">
+            <a asp-action="CreateBook" class="text-decoration-none">
                 <div class="card h-100 shadow-sm border-0 bg-light rounded-4 text-center py-4">
                     <i class="bi bi-plus-circle fs-1 text-success mb-2"></i>
                     <h6>Add New Book</h6>
@@ -317,7 +316,7 @@
             </a>
         </div>
         <div class="col-md-3">
-            <a asp-action="BookList" class="text-decoration-none">
+            <a asp-action="Books" class="text-decoration-none">
                 <div class="card h-100 shadow-sm border-0 bg-light rounded-4 text-center py-4">
                     <i class="bi bi-list-ul fs-1 text-primary mb-2"></i>
                     <h6>View Books</h6>

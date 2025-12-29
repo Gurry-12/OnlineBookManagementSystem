@@ -109,7 +109,7 @@ namespace OnlineBookManagementSystem.Services
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<AdminOrdersViewModel> GetOrdersForAdminAsync(int page, int pageSize, string? search = null, string? status = null, DateTime? dateFrom = null, DateTime? dateTo = null)
+        public async Task<AdminOrderListViewModel> GetOrdersForAdminAsync(int page, int pageSize, string? search = null, string? status = null, DateTime? dateFrom = null, DateTime? dateTo = null)
         {
             var query = _context.Orders
                 .Where(o => !o.IsDeleted)
@@ -150,16 +150,17 @@ namespace OnlineBookManagementSystem.Services
                 .Take(pageSize)
                 .ToListAsync();
 
-            return new AdminOrdersViewModel
+            return new AdminOrderListViewModel
             {
                 Orders = orders,
                 CurrentPage = page,
                 TotalPages = totalPages,
                 TotalOrders = totalOrders,
-                SearchTerm = search,
-                StatusFilter = status,
-                DateFrom = dateFrom,
-                DateTo = dateTo
+                SearchTerm = search ?? string.Empty,
+                StatusFilter = status ?? string.Empty,
+                PendingOrders = await _context.Orders.CountAsync(o => !o.IsDeleted && o.Status == "Pending"),
+                ProcessingOrders = await _context.Orders.CountAsync(o => !o.IsDeleted && o.Status == "Processing"),
+                CompletedOrders = await _context.Orders.CountAsync(o => !o.IsDeleted && (o.Status == "Delivered" || o.Status == "Completed"))
             };
         }
 
@@ -207,6 +208,48 @@ namespace OnlineBookManagementSystem.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Failed to update order status for order {OrderId}", orderId);
+                return false;
+            }
+        }
+
+        public async Task<bool> CancelOrderAsync(int orderId, int userId)
+        {
+            try
+            {
+                var order = await _context.Orders
+                    .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.Book)
+                    .FirstOrDefaultAsync(o => o.Id == orderId && o.UserId == userId && !o.IsDeleted);
+
+                if (order == null)
+                    return false;
+
+                // Only allow cancellation of pending or processing orders
+                if (order.Status != "Pending" && order.Status != "Processing")
+                    return false;
+
+                var oldStatus = order.Status;
+                order.Status = "Cancelled";
+                order.PaymentStatus = "Refunded";
+                order.UpdatedAt = DateTime.UtcNow;
+
+                // Restore stock quantities
+                foreach (var detail in order.OrderDetails)
+                {
+                    detail.Book.StockQuantity += detail.Quantity;
+                }
+
+                await _context.SaveChangesAsync();
+                await _activityLogger.LogAsync("OrderCancelled", 
+                    $"Order #{orderId} cancelled by user", userId);
+
+                _logger.LogInformation("Order {OrderId} cancelled by user {UserId}", orderId, userId);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to cancel order {OrderId} for user {UserId}", orderId, userId);
                 return false;
             }
         }

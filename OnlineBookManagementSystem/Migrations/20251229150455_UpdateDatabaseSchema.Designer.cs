@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineBookManagementSystem.Models;
 
@@ -10,9 +11,11 @@ using OnlineBookManagementSystem.Models;
 namespace OnlineBookManagementSystem.Migrations
 {
     [DbContext(typeof(BookManagementContext))]
-    partial class BookManagementContextModelSnapshot : ModelSnapshot
+    [Migration("20251229150455_UpdateDatabaseSchema")]
+    partial class UpdateDatabaseSchema
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.3");
@@ -450,14 +453,6 @@ namespace OnlineBookManagementSystem.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("City")
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Country")
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT");
-
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("DateTime")
@@ -489,14 +484,6 @@ namespace OnlineBookManagementSystem.Migrations
                         .HasColumnType("TEXT")
                         .HasDefaultValue("Unpaid");
 
-                    b.Property<string>("PhoneNumber")
-                        .HasMaxLength(20)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("State")
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Status")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
@@ -516,10 +503,6 @@ namespace OnlineBookManagementSystem.Migrations
 
                     b.Property<int?>("UserId")
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("ZipCode")
-                        .HasMaxLength(20)
-                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 

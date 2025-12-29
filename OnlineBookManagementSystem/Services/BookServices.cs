@@ -566,10 +566,10 @@ namespace OnlineBookManagementSystem.Services
                 Id = user.Id,
                 Name = user.Name,
                 Email = user.Email,
-                CreatedAt = user.CreatedAt,
+                MemberSince = user.CreatedAt,
                 LastLoginDate = user.LastLoginDate,
-                FavoritesCount = favoritesCount,
-                OrdersCount = ordersCount,
+                TotalFavorites = favoritesCount,
+                TotalOrders = ordersCount,
                 TotalSpent = totalSpent
             };
         }

@@ -274,18 +274,28 @@ body.user-layout, body.admin-layout, body.superadmin-layout, body.public-layout 
         }
 }
 
-/* Role-Specific Overrides (add to respective files if needed) */
-/* Example for Admin (in admin.css) */
-/*.admin-layout .top-bar {
-    background-color: var(--admin-primary);
-}*/
+.quote-box {
+    background: linear-gradient(to left, #d369f1, #5ccf82);
+    border-left: 5px solid #4a90e2;
+    margin: 2rem 0;
+    padding: 1.5rem 2rem;
+    font-style: italic;
+    color: #333;
+}
 
-/* Example for User (in user.css) */
-/*.user-layout .top-bar {
-    background-color: var(--user-primary);
-}*/
+    .quote-box p {
+        margin: 0 0 0.75rem 0;
+        font-size: 1.1rem;
+        line-height: 1.5;
+    }
 
-/* Example for SuperAdmin (in superadmin.css) */
-/*.superadmin-layout .top-bar {
-    background-color: var(--superadmin-primary);
-}*/
+    .quote-box footer {
+        text-align: right;
+        font-style: normal;
+        font-size: 0.95rem;
+        color: #666;
+    }
+
+        .quote-box footer::before {
+            content: "— ";
+        }

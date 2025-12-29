@@ -71,6 +71,12 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
+// Seed database with default data
+if (builder.Configuration.GetValue<bool>("Features:EnableDatabaseSeeding"))
+{
+    await app.SeedDatabaseAsync();
+}
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 

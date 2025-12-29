@@ -22,5 +22,6 @@ namespace OnlineBookManagementSystem.Interfaces
         Task RevokeRefreshTokensAsync(int userId);
         Task<(bool Success, string AccessToken, string RefreshToken, string Message)> RefreshTokenAsync(string token);
         Task<List<UserViewModel>> ManageUsers();
+        Task<bool> ChangePasswordAsync(int userId, string currentPassword, string newPassword);
     }
 }

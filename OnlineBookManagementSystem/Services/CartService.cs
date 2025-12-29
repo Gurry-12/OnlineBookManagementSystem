@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity.UI.Services;
+﻿
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using OnlineBookManagementSystem.Interfaces;
@@ -285,10 +285,10 @@ namespace OnlineBookManagementSystem.Services
                     if (lowStockBooks.Any())
                     {
                         // In real app, fetch admin email from settings
-                         var settings = await _context.Users
-                            .Where(u => u.Email == "admin@whisperingpages.com") // Example
-                            .Select(u => u.Email)
-                            .FirstOrDefaultAsync() ?? "admin@whisperingpages.com";
+                        var settings = await _context.Users
+                           .Where(u => u.Email == "admin@whisperingpages.com") // Example
+                           .Select(u => u.Email)
+                           .FirstOrDefaultAsync() ?? "admin@whisperingpages.com";
 
                         await _emailSender.SendEmailAsync(
                             settings,

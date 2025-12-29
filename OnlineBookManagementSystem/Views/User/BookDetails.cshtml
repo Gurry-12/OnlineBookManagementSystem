@@ -1,4 +1,4 @@
-@using OnlineBookManagementSystem.Models.ViewModel
+﻿@using OnlineBookManagementSystem.Models.ViewModel
 @model BookDetailsViewModel
 
 @{
@@ -18,32 +18,32 @@
         <!-- Image Column -->
         <div class="col-md-4 mb-4">
             <div class="card border-0 shadow-sm">
-                <img src="@(Model.ImageUrl ?? Url.Content("~/images/default-book.jpg"))" class="card-img-top" alt="@Model.Title">
+                <img src="@(Model.Book.ImageUrl ?? Url.Content("~/images/default-book.jpg"))" class="card-img-top" alt="@Model.Title">
             </div>
         </div>
 
         <!-- Details Column -->
         <div class="col-md-8">
             <h1 class="display-5 fw-bold">@Model.Title</h1>
-            <p class="fs-4 text-muted">by @Model.Author</p>
+            <p class="fs-4 text-muted">by @Model.Book.Author</p>
 
             <div class="d-flex align-items-center mb-3">
                 <span class="text-warning fs-5 me-2">
                     @for(int i=0; i < 5; i++) {
-                        if (i < Math.Round(Model.AverageRating)) { <i class="bi bi-star-fill"></i> }
+                        if (i < Math.Round(Model.Book.AverageRating)) { <i class="bi bi-star-fill"></i> }
                         else { <i class="bi bi-star"></i> }
                     }
                 </span>
-                <span class="text-muted">(@Model.ReviewCount reviews)</span>
+                <span class="text-muted">(@Model.Book.BookReviews reviews)</span>
             </div>
 
-            <h2 class="text-primary mb-3">₹@Model.Price</h2>
+            <h2 class="text-primary mb-3">₹@Model.Book.Price</h2>
 
             <!-- Stock Status -->
             <div class="mb-4">
-                @if (Model.StockQuantity > 0)
+                @if (Model.Book.StockQuantity > 0)
                 {
-                    <span class="badge bg-success fs-6"><i class="bi bi-check-circle me-1"></i>In Stock (@Model.StockQuantity available)</span>
+                    <span class="badge bg-success fs-6"><i class="bi bi-check-circle me-1"></i>In Stock (@Model.Book.StockQuantity available)</span>
                 }
                 else
                 {
@@ -51,16 +51,16 @@
                 }
             </div>
 
-            <p class="lead">@Model.Description</p>
+            <p class="lead">@Model.Book.Description</p>
 
             <div class="row mt-4">
                 <div class="col-md-6 d-grid gap-2">
-                    @if (Model.StockQuantity > 0)
+                    @if (Model.Book.StockQuantity > 0)
                     {
                         <div class="input-group mb-3">
                             <span class="input-group-text">Qty</span>
-                            <input type="number" id="qty" class="form-control" value="1" min="1" max="@Model.StockQuantity">
-                            <button class="btn btn-primary" onclick="AddToCart(@Model.Id)">
+                            <input type="number" id="qty" class="form-control" value="1" min="1" max="@Model.Book.StockQuantity">
+                            <button class="btn btn-primary" onclick="AddToCart(@Model.Book.Id)">
                                 <i class="bi bi-cart-plus me-2"></i>Add to Cart
                             </button>
                         </div>
@@ -73,9 +73,9 @@
                     }
                 </div>
                 <div class="col-md-6 d-grid gap-2">
-                     <button class="btn btn-outline-danger" onclick="ToggleFavorite(@Model.Id)">
-                        <i class="bi @(Model.IsFavorite ? "bi-heart-fill" : "bi-heart")" id="fav-icon-@Model.Id"></i>
-                        <span id="fav-text-@Model.Id">@(Model.IsFavorite ? "Remove from Favorites" : "Add to Favorites")</span>
+                     <button class="btn btn-outline-danger" onclick="ToggleFavorite(@Model.Book.Id)">
+                        <i class="bi @(Model.Book.IsFavorite ? "bi-heart-fill" : "bi-heart")" id="fav-icon-@Model.Book.Id"></i>
+                        <span id="fav-text-@Model.Book.Id">@(Model.Book.IsFavorite ? "Remove from Favorites" : "Add to Favorites")</span>
                     </button>
                 </div>
             </div>
@@ -83,9 +83,9 @@
             <div class="mt-4">
                 <h5>Product Details</h5>
                 <ul class="list-unstyled">
-                    <li><strong>ISBN:</strong> @Model.ISBN</li>
-                    <li><strong>Category:</strong> @Model.Category?.Name</li>
-                    <li><strong>Added:</strong> @Model.CreatedAt.ToString("MMM dd, yyyy")</li>
+                    <li><strong>ISBN:</strong> @Model.Book.ISBN</li>
+                    <li><strong>Category:</strong> @Model.Book.Category?.Name</li>
+                    <li><strong>Added:</strong> @Model.Book.CreatedAt.ToString("MMM dd, yyyy")</li>
                 </ul>
             </div>
         </div>

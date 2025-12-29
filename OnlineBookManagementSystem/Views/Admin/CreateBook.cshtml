@@ -1,4 +1,4 @@
-﻿@using OnlineBookManagementSystem.Models.ViewModel
+@using OnlineBookManagementSystem.Models.ViewModel
 @model BookFormViewModel
 
 @{
@@ -66,7 +66,7 @@
                     <h2 class="mb-0 text-gradient"><i class="bi bi-plus-circle me-2"></i>Add New Book</h2>
                 </div>
                 <div class="card-body p-4">
-                    <form asp-action="Create" method="post" enctype="multipart/form-data">
+                    <form asp-action="CreateBook" method="post" enctype="multipart/form-data">
                         @Html.AntiForgeryToken()
 
                         <!-- Basic Info -->

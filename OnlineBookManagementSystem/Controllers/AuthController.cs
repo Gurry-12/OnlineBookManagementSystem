@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OnlineBookManagementSystem.Interfaces;
+using OnlineBookManagementSystem.Models.ViewModel;
 using OnlineBookManagementSystem.Models.ViewModel.AuthViewModels;
 using System.Security.Claims;
 
@@ -169,6 +170,61 @@ namespace OnlineBookManagementSystem.Controllers
 
             var success = await _authService.UpdatePasswordAsync(model.Token, model.NewPassword);
             return Json(new { success, message = success ? "Password reset successfully. Please login." : "Invalid/expired token." });
+        }
+
+        [Authorize(Policy = "UserOrHigher")]
+        public async Task<IActionResult> ProfileView()
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userId = int.TryParse(userIdClaim, out var id) ? id : 0;
+            
+            if (userId == 0)
+                return RedirectToAction("Login");
+
+            var userProfile = await _authService.GetUserProfileAsync(userId);
+            if (userProfile == null)
+                return RedirectToAction("Login");
+
+            var roles = await _authService.GetUserRolesAsync(userId);
+            
+            var viewModel = new ProfileViewModel
+            {
+                Id = userProfile.Id,
+                Name = userProfile.Name,
+                Email = userProfile.Email,
+                Roles = roles,
+                CreatedAt = userProfile.CreatedAt,
+                LastLoginDate = userProfile.LastLoginDate
+            };
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [Authorize(Policy = "UserOrHigher")]
+        public async Task<IActionResult> UpdateProfile([FromBody] ProfileViewModel model)
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userId = int.TryParse(userIdClaim, out var id) ? id : 0;
+            
+            if (userId == 0 || userId != model.Id)
+                return Json(new { success = false, message = "Unauthorized" });
+
+            try
+            {
+                var success = await _authService.UpdateUserDetailAsync(model);
+                if (success)
+                {
+                    await _activityLoggerService.LogAsync("ProfileUpdate", "User profile updated", userId);
+                    return Json(new { success = true, message = "Profile updated successfully" });
+                }
+                
+                return Json(new { success = false, message = "Failed to update profile" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "An error occurred while updating profile" });
+            }
         }
     }
 }

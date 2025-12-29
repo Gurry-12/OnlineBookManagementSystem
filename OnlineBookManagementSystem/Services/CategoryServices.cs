@@ -177,6 +177,40 @@ namespace OnlineBookManagementSystem.Services
                 return false;
             }
         }
+
+        public async Task<bool> UpdateCategoryAsync(int id, string name, string description, int userId)
+        {
+            try
+            {
+                var category = await _context.Categories.FirstOrDefaultAsync(c => c.Id == id && !c.IsDeleted);
+                if (category == null)
+                    return false;
+
+                category.Name = name;
+                category.Description = description;
+                category.UpdatedAt = DateTime.UtcNow;
+
+                _context.Categories.Update(category);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> DeleteCategoryAsync(int id, int userId)
+        {
+            try
+            {
+                return await DeleteCategory(id); // Use existing method
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }
 

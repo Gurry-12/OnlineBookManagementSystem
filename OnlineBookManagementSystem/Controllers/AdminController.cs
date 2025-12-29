@@ -291,6 +291,52 @@ namespace OnlineBookManagementSystem.Controllers
             }
         }
 
+        [HttpPost]
+        [Authorize(Policy = "AdminOrHigher")]
+        public async Task<IActionResult> UpdateCategory([FromBody] UpdateCategoryRequest request)
+        {
+            var userId = GetUserIdFromClaims();
+            if (userId == 0) return Json(new { success = false, message = "Unauthorized" });
+
+            try
+            {
+                var success = await _categoryService.UpdateCategoryAsync(request.Id, request.Name, request.Description, userId);
+                if (success)
+                {
+                    await _activityLogger.LogAsync("UpdateCategory", $"Category '{request.Name}' updated", userId);
+                    return Json(new { success = true, message = "Category updated successfully" });
+                }
+                return Json(new { success = false, message = "Failed to update category" });
+            }
+            catch (Exception)
+            {
+                return Json(new { success = false, message = "An error occurred while updating category" });
+            }
+        }
+
+        [HttpPost]
+        [Authorize(Policy = "AdminOrHigher")]
+        public async Task<IActionResult> DeleteCategory(int id)
+        {
+            var userId = GetUserIdFromClaims();
+            if (userId == 0) return Json(new { success = false, message = "Unauthorized" });
+
+            try
+            {
+                var success = await _categoryService.DeleteCategoryAsync(id, userId);
+                if (success)
+                {
+                    await _activityLogger.LogAsync("DeleteCategory", $"Category with ID {id} deleted", userId);
+                    return Json(new { success = true, message = "Category deleted successfully" });
+                }
+                return Json(new { success = false, message = "Failed to delete category or category not found" });
+            }
+            catch (Exception)
+            {
+                return Json(new { success = false, message = "An error occurred while deleting category" });
+            }
+        }
+
         // API endpoint for dashboard charts
         [HttpGet]
         [Authorize(Policy = "AdminOrHigher")]
@@ -351,6 +397,13 @@ namespace OnlineBookManagementSystem.Controllers
     // Request models
     public class CreateCategoryRequest
     {
+        public string Name { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+    }
+
+    public class UpdateCategoryRequest
+    {
+        public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
     }
