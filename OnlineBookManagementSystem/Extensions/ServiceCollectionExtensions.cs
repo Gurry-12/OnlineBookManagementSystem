@@ -125,12 +125,9 @@ namespace OnlineBookManagementSystem.Extensions
             services.Configure<Models.Configuration.EmailSettings>(configuration.GetSection("EmailSettings"));
 
             // Register Custom IEmailSender (MailKit)
+            // Using AddTransient because MailKit SmtpClient implements IDisposable and is lightweight to create.
+            // Using AddScoped would also be acceptable if we want to share connection within a request, but SmtpClient is usually meant to be used and disposed per operation or session.
             services.AddTransient<OnlineBookManagementSystem.Interfaces.IEmailSender, MailKitEmailSender>();
-
-            // Bridge for Identity (Optional, if using Identity UI default pages, which we are mostly not, but good for compatibility)
-            // We previously added Microsoft.AspNetCore.Identity.UI.Services.IEmailSender.
-            // We can create an adapter if needed, or just let AuthService use our new interface.
-            // For this task, we will remove the old EmailService and use our new clean interface.
 
             services.AddHostedService<LogCleanupService>();
 
