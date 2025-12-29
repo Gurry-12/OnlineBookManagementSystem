@@ -85,6 +85,12 @@ namespace OnlineBookManagementSystem.Services
                 return (false, "Invalid credentials.", null);
             }
 
+            if (user.IsPendingApproval)
+            {
+                _logger.LogWarning("Login attempt for pending user {Email}", data.Email);
+                return (false, "Account under review. Please wait for approval.", null);
+            }
+
             // ---------------------------------------------------------
             // DEV FIX: Commented out Email Confirmation check for login
             // ---------------------------------------------------------
@@ -160,6 +166,9 @@ namespace OnlineBookManagementSystem.Services
                 UserName = data.Email,
                 Email = data.Email,
                 Name = data.Name,
+                IsPendingApproval = true,
+                RequestDate = DateTime.UtcNow,
+                RequestedRole = data.RequestedRole,
                 // ---------------------------------------------------------
                 // DEV FIX: Auto-confirm email so you can login immediately
                 // ---------------------------------------------------------
@@ -170,22 +179,11 @@ namespace OnlineBookManagementSystem.Services
             if (!result.Succeeded)
                 return (false, string.Join(", ", result.Errors.Select(e => e.Description)), null);
 
-            await _userManager.AddToRoleAsync(user, "User");
+            // No role assigned yet - waiting for approval
+            // await _userManager.AddToRoleAsync(user, "User");
 
-            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-
-            // Only send email if sender is configured
-            if (_emailSender != null)
-            {
-                try
-                {
-                    await _emailSender.SendEmailAsync(data.Email, "Confirm Your Email", $"Confirm: {token}");
-                }
-                catch { /* Ignore email errors in dev */ }
-            }
-
-            _logger.LogInformation("User {Email} registered.", data.Email);
-            return (true, "Registration successful.", token);
+            _logger.LogInformation("User {Email} registered (pending approval).", data.Email);
+            return (true, "Registration successful. Your account is pending approval.", null);
         }
 
         public async Task<bool> ConfirmEmailAsync(string token, string email)

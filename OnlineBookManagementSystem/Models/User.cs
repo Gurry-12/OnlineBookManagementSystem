@@ -19,6 +19,11 @@ public partial class User : IdentityUser<int>  // PK int for consistency
     public string? PasswordResetToken { get; set; }  // Hashed
     public DateTime? PasswordResetExpiry { get; set; }
 
+    // New fields for Approval Workflow
+    public bool IsPendingApproval { get; set; } = true;
+    public DateTime? RequestDate { get; set; }
+    public string? RequestedRole { get; set; }
+
     // Timestamps
     [Column(TypeName = "DateTime")]
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

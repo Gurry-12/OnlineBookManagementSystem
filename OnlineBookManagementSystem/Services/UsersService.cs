@@ -319,6 +319,77 @@ namespace OnlineBookManagementSystem.Services
             }
         }
 
+        public async Task<List<UserWithRoleViewModel>> GetPendingUsersAsync()
+        {
+            var pendingUsers = await _context.Users
+                .Where(u => u.IsPendingApproval && (u.IsDeleted == null || (bool)!u.IsDeleted))
+                .OrderBy(u => u.RequestDate)
+                .ToListAsync();
+
+            var result = new List<UserWithRoleViewModel>();
+
+            foreach (var user in pendingUsers)
+            {
+                result.Add(new UserWithRoleViewModel
+                {
+                    Id = user.Id,
+                    Name = user.Name,
+                    Email = user.Email,
+                    Role = user.RequestedRole ?? "User", // Use requested role as current "role" for display
+                    IsDeleted = false,
+                    CreatedDate = user.RequestDate ?? user.CreatedAt,
+                    EmailConfirmed = user.EmailConfirmed
+                });
+            }
+
+            return result;
+        }
+
+        public async Task<(bool Success, string Message)> ApproveUserAsync(int userId, string role)
+        {
+            var user = await _userManager.FindByIdAsync(userId.ToString());
+            if (user == null) return (false, "User not found");
+
+            if (!await _roleManager.RoleExistsAsync(role)) return (false, "Invalid role");
+
+            user.IsPendingApproval = false;
+            user.IsEmailConfirmed = true; // Auto confirm email on approval if not already
+
+            var result = await _userManager.UpdateAsync(user);
+            if (!result.Succeeded) return (false, "Failed to update user");
+
+            // Assign role
+            var currentRoles = await _userManager.GetRolesAsync(user);
+            await _userManager.RemoveFromRolesAsync(user, currentRoles);
+            await _userManager.AddToRoleAsync(user, role);
+
+            // Send email notification (placeholder)
+            // await _emailSender.SendEmailAsync(user.Email, "Account Approved", "Your account has been approved.");
+
+            await _activityLogger.LogAsync("ApproveUser", $"User {user.Email} approved as {role}", 0); // System action
+
+            return (true, "User approved successfully");
+        }
+
+        public async Task<(bool Success, string Message)> RejectUserAsync(int userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId.ToString());
+            if (user == null) return (false, "User not found");
+
+            // Soft delete
+            user.IsDeleted = true;
+            user.IsPendingApproval = false; // clear pending
+
+            var result = await _userManager.UpdateAsync(user);
+            if (!result.Succeeded) return (false, "Failed to reject user");
+
+             // Send email notification (placeholder)
+
+            await _activityLogger.LogAsync("RejectUser", $"User {user.Email} rejected", 0);
+
+            return (true, "User rejected successfully");
+        }
+
         private int CalculateStorageUsage()
         {
             try
