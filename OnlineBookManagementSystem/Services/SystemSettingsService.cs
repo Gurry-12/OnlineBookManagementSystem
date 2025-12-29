@@ -1,10 +1,15 @@
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Options;
 using OnlineBookManagementSystem.Controllers;
 using OnlineBookManagementSystem.Interfaces;
 using OnlineBookManagementSystem.Models;
+using OnlineBookManagementSystem.Models.Configuration;
 using OnlineBookManagementSystem.Models.ViewModel;
-using System.Net.Mail;
+using MailKit.Net.Smtp;
+using MimeKit;
+using MailKit.Security;
 using System.Reflection;
 
 namespace OnlineBookManagementSystem.Services;
@@ -16,19 +21,25 @@ public class SystemSettingsService : ISystemSettingsService
     private readonly ILogger<SystemSettingsService> _logger;
     private readonly BookManagementContext _context;
     private readonly IWebHostEnvironment _environment;
+    private readonly EmailSettings _fallbackSettings;
+    private readonly IDataProtector _protector;
 
     public SystemSettingsService(
         IConfiguration configuration,
         IMemoryCache cache,
         ILogger<SystemSettingsService> logger,
         BookManagementContext context,
-        IWebHostEnvironment environment)
+        IWebHostEnvironment environment,
+        IOptions<EmailSettings> fallbackSettings,
+        IDataProtectionProvider dataProtectionProvider)
     {
         _configuration = configuration;
         _cache = cache;
         _logger = logger;
         _context = context;
         _environment = environment;
+        _fallbackSettings = fallbackSettings.Value;
+        _protector = dataProtectionProvider.CreateProtector("OnlineBookManagementSystem.EmailSettings.SmtpPassword");
     }
 
     public async Task<SystemSettingsViewModel> GetSystemSettingsAsync()
@@ -61,78 +72,118 @@ public class SystemSettingsService : ISystemSettingsService
         };
     }
 
+    public async Task<EmailSettings> GetEmailSettingsAsync()
+    {
+        // 1. Try to get from Cache
+        if (_cache.TryGetValue("EmailSettings", out EmailSettings? cachedSettings) && cachedSettings != null)
+        {
+            return cachedSettings;
+        }
+
+        // 2. Try to get from DB
+        try
+        {
+            var dbSettings = await _context.SystemSettings.OrderByDescending(s => s.Id).FirstOrDefaultAsync();
+            if (dbSettings != null)
+            {
+                var settings = new EmailSettings
+                {
+                    SmtpHost = dbSettings.SmtpHost,
+                    SmtpPort = dbSettings.SmtpPort,
+                    SmtpUsername = dbSettings.SmtpUsername,
+                    SmtpPassword = TryDecrypt(dbSettings.SmtpPassword),
+                    EnableSsl = dbSettings.EnableSsl,
+                    SenderName = dbSettings.SenderName,
+                    SenderEmail = dbSettings.SenderEmail
+                };
+
+                _cache.Set("EmailSettings", settings, TimeSpan.FromHours(1));
+                return settings;
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to load settings from DB");
+        }
+
+        // 3. Fallback to AppSettings / Environment / IOptions defaults
+        var fallback = new EmailSettings
+        {
+            SmtpHost = _configuration["Email:SmtpHost"] ?? _fallbackSettings.SmtpHost,
+            SmtpPort = _configuration.GetValue<int?>("Email:SmtpPort") ?? _fallbackSettings.SmtpPort,
+            SmtpUsername = _configuration["Email:SmtpUsername"] ?? _fallbackSettings.SmtpUsername,
+            SmtpPassword = _configuration["Email:SmtpPassword"] ?? _fallbackSettings.SmtpPassword,
+            EnableSsl = _configuration.GetValue<bool?>("Email:EnableSsl") ?? _fallbackSettings.EnableSsl,
+            SenderName = _configuration["SiteName"] ?? _fallbackSettings.SenderName,
+            SenderEmail = _configuration["ContactEmail"] ?? _fallbackSettings.SenderEmail
+        };
+
+        if (string.IsNullOrEmpty(fallback.SenderEmail)) fallback.SenderEmail = fallback.SmtpUsername;
+
+        return fallback;
+    }
+
     public async Task<bool> UpdateGeneralSettingsAsync(GeneralSettingsRequest request)
     {
         try
         {
-            // In a real application, you would save these to a database or configuration file
-            // For now, we'll just cache them and log the changes
-            
             _cache.Set("SiteName", request.SiteName, TimeSpan.FromHours(24));
             _cache.Set("SiteDescription", request.SiteDescription, TimeSpan.FromHours(24));
             _cache.Set("ContactEmail", request.ContactEmail, TimeSpan.FromHours(24));
             _cache.Set("MaintenanceMode", request.MaintenanceMode, TimeSpan.FromHours(24));
-
-            _logger.LogInformation("General settings updated: SiteName={SiteName}, MaintenanceMode={MaintenanceMode}", 
-                request.SiteName, request.MaintenanceMode);
-
             return true;
         }
-        catch (Exception ex)
+        catch
         {
-            _logger.LogError(ex, "Failed to update general settings");
             return false;
         }
     }
 
     public async Task<bool> UpdateSecuritySettingsAsync(SecuritySettingsRequest request)
     {
-        try
+         try
         {
-            // Validate settings
-            if (request.JwtExpiry < 5 || request.JwtExpiry > 1440)
-                return false;
-
-            if (request.MaxLoginAttempts < 3 || request.MaxLoginAttempts > 10)
-                return false;
-
-            if (request.LockoutDuration < 5 || request.LockoutDuration > 60)
-                return false;
+            if (request.JwtExpiry < 5 || request.JwtExpiry > 1440) return false;
+            if (request.MaxLoginAttempts < 3 || request.MaxLoginAttempts > 10) return false;
+            if (request.LockoutDuration < 5 || request.LockoutDuration > 60) return false;
 
             _cache.Set("Jwt:ExpiryMinutes", request.JwtExpiry, TimeSpan.FromHours(24));
             _cache.Set("Security:MaxLoginAttempts", request.MaxLoginAttempts, TimeSpan.FromHours(24));
             _cache.Set("Security:LockoutDurationMinutes", request.LockoutDuration, TimeSpan.FromHours(24));
             _cache.Set("Security:RequireEmailConfirmation", request.RequireEmailConfirmation, TimeSpan.FromHours(24));
-
-            _logger.LogInformation("Security settings updated: JwtExpiry={JwtExpiry}, MaxLoginAttempts={MaxLoginAttempts}", 
-                request.JwtExpiry, request.MaxLoginAttempts);
-
             return true;
         }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Failed to update security settings");
-            return false;
-        }
+        catch { return false; }
     }
 
     public async Task<bool> UpdateEmailSettingsAsync(EmailSettingsRequest request)
     {
         try
         {
-            _cache.Set("Email:SmtpHost", request.SmtpHost, TimeSpan.FromHours(24));
-            _cache.Set("Email:SmtpPort", request.SmtpPort, TimeSpan.FromHours(24));
-            _cache.Set("Email:SmtpUsername", request.SmtpUsername, TimeSpan.FromHours(24));
-            _cache.Set("Email:EnableSsl", request.EnableSsl, TimeSpan.FromHours(24));
-
-            // Don't cache password in plain text - in production, use secure storage
-            if (!string.IsNullOrEmpty(request.SmtpPassword))
+            // Update DB
+            var dbSettings = await _context.SystemSettings.OrderByDescending(s => s.Id).FirstOrDefaultAsync();
+            if (dbSettings == null)
             {
-                _cache.Set("Email:SmtpPassword", request.SmtpPassword, TimeSpan.FromHours(24));
+                dbSettings = new SystemSettings();
+                _context.SystemSettings.Add(dbSettings);
             }
 
-            _logger.LogInformation("Email settings updated: SmtpHost={SmtpHost}, SmtpPort={SmtpPort}", 
-                request.SmtpHost, request.SmtpPort);
+            dbSettings.SmtpHost = request.SmtpHost;
+            dbSettings.SmtpPort = request.SmtpPort;
+            dbSettings.SmtpUsername = request.SmtpUsername;
+            if (!string.IsNullOrEmpty(request.SmtpPassword))
+            {
+                dbSettings.SmtpPassword = _protector.Protect(request.SmtpPassword);
+            }
+            dbSettings.EnableSsl = request.EnableSsl;
+            dbSettings.UpdatedAt = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+
+            // Invalidate Cache
+            _cache.Remove("EmailSettings");
+
+            _logger.LogInformation("Email settings updated in DB: SmtpHost={SmtpHost}", request.SmtpHost);
 
             return true;
         }
@@ -147,36 +198,31 @@ public class SystemSettingsService : ISystemSettingsService
     {
         try
         {
-            var smtpHost = _cache.Get<string>("Email:SmtpHost") ?? _configuration["Email:SmtpHost"];
-            var smtpPort = _cache.Get<int?>("Email:SmtpPort") ?? _configuration.GetValue<int>("Email:SmtpPort", 587);
-            var smtpUsername = _cache.Get<string>("Email:SmtpUsername") ?? _configuration["Email:SmtpUsername"];
-            var smtpPassword = _cache.Get<string>("Email:SmtpPassword") ?? _configuration["Email:SmtpPassword"];
-            var enableSsl = _cache.Get<bool?>("Email:EnableSsl") ?? _configuration.GetValue<bool>("Email:EnableSsl", true);
+            var settings = await GetEmailSettingsAsync();
 
-            if (string.IsNullOrEmpty(smtpHost) || string.IsNullOrEmpty(smtpUsername))
+            if (string.IsNullOrEmpty(settings.SmtpHost) || string.IsNullOrEmpty(settings.SmtpUsername))
             {
                 return (false, "SMTP configuration is incomplete");
             }
 
-            using var client = new SmtpClient(smtpHost, smtpPort)
-            {
-                EnableSsl = enableSsl,
-                Credentials = new System.Net.NetworkCredential(smtpUsername, smtpPassword)
-            };
+            using var client = new SmtpClient();
 
-            var testMessage = new MailMessage
-            {
-                From = new MailAddress(smtpUsername, "Whispering Pages"),
-                Subject = "Test Email Configuration",
-                Body = "This is a test email to verify SMTP configuration.",
-                IsBodyHtml = false
-            };
+            SecureSocketOptions socketOptions = settings.EnableSsl ? SecureSocketOptions.StartTls : SecureSocketOptions.None;
+            if (settings.SmtpPort == 465) socketOptions = SecureSocketOptions.SslOnConnect;
 
-            testMessage.To.Add(smtpUsername); // Send to self
+            await client.ConnectAsync(settings.SmtpHost, settings.SmtpPort, socketOptions);
+            await client.AuthenticateAsync(settings.SmtpUsername, settings.SmtpPassword);
 
-            await client.SendMailAsync(testMessage);
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress(settings.SenderName, settings.SmtpUsername));
+            message.To.Add(MailboxAddress.Parse(settings.SmtpUsername));
+            message.Subject = "Test Email Configuration";
+            message.Body = new TextPart("plain") { Text = "This is a test email to verify SMTP configuration." };
 
-            _logger.LogInformation("Test email sent successfully to {Email}", smtpUsername);
+            await client.SendAsync(message);
+            await client.DisconnectAsync(true);
+
+            _logger.LogInformation("Test email sent successfully to {Email}", settings.SmtpUsername);
             return (true, "Test email sent successfully");
         }
         catch (Exception ex)
@@ -190,7 +236,6 @@ public class SystemSettingsService : ISystemSettingsService
     {
         try
         {
-            // Clear specific cache entries
             var cacheKeys = new[]
             {
                 "allBooks", "allCategories", "featuredBooks", "newArrivals",
@@ -199,7 +244,6 @@ public class SystemSettingsService : ISystemSettingsService
 
             if (_cache is MemoryCache memoryCache)
             {
-                // Get all cache entries (this is a simplified approach)
                 var field = typeof(MemoryCache).GetField("_coherentState", BindingFlags.NonPublic | BindingFlags.Instance);
                 if (field?.GetValue(memoryCache) is object coherentState)
                 {
@@ -223,7 +267,6 @@ public class SystemSettingsService : ISystemSettingsService
                     }
                 }
             }
-
             _logger.LogInformation("Cache cleared successfully");
         }
         catch (Exception ex)
@@ -244,7 +287,6 @@ public class SystemSettingsService : ISystemSettingsService
             var backupFileName = $"whisperingpages_backup_{timestamp}.db";
             var backupPath = Path.Combine(backupDir, backupFileName);
 
-            // For SQLite, we can simply copy the database file
             var connectionString = _configuration.GetConnectionString("DefaultConnection");
             if (connectionString?.Contains("Data Source=") == true)
             {
@@ -252,7 +294,6 @@ public class SystemSettingsService : ISystemSettingsService
                 if (File.Exists(dbPath))
                 {
                     File.Copy(dbPath, backupPath, true);
-                    
                     _logger.LogInformation("Database backup created: {BackupPath}", backupPath);
                     return (true, $"Database backup created successfully: {backupFileName}");
                 }
@@ -267,6 +308,20 @@ public class SystemSettingsService : ISystemSettingsService
         }
     }
 
+    private string TryDecrypt(string cipherText)
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(cipherText)) return string.Empty;
+            return _protector.Unprotect(cipherText);
+        }
+        catch
+        {
+            // If decryption fails (e.g., old format or key change), return original or empty
+            return cipherText;
+        }
+    }
+
     private string GetAppVersion()
     {
         try
@@ -275,17 +330,13 @@ public class SystemSettingsService : ISystemSettingsService
             var version = assembly.GetName().Version;
             return version?.ToString() ?? "1.0.0";
         }
-        catch
-        {
-            return "1.0.0";
-        }
+        catch { return "1.0.0"; }
     }
 
     private async Task<string> GetDatabaseVersionAsync()
     {
         try
         {
-            // For SQLite, we can get the version from the database
             using var connection = _context.Database.GetDbConnection();
             await connection.OpenAsync();
             using var command = connection.CreateCommand();
@@ -293,10 +344,7 @@ public class SystemSettingsService : ISystemSettingsService
             var result = await command.ExecuteScalarAsync();
             return $"SQLite {result}";
         }
-        catch
-        {
-            return "Unknown";
-        }
+        catch { return "Unknown"; }
     }
 
     private string GetServerUptime()
@@ -306,9 +354,6 @@ public class SystemSettingsService : ISystemSettingsService
             var uptime = DateTime.UtcNow - System.Diagnostics.Process.GetCurrentProcess().StartTime.ToUniversalTime();
             return $"{uptime.Days}d {uptime.Hours}h {uptime.Minutes}m";
         }
-        catch
-        {
-            return "Unknown";
-        }
+        catch { return "Unknown"; }
     }
 }

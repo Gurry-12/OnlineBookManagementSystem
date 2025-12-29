@@ -27,6 +27,7 @@ public partial class BookManagementContext : IdentityDbContext<User, IdentityRol
     public virtual DbSet<UserFavorite> UserFavorites { get; set; }  // New
     public virtual DbSet<BookReview> BookReviews { get; set; }  // Book Review System
     public virtual DbSet<BookRatingCache> BookRatingCache { get; set; }  // Book Review System
+    public virtual DbSet<SystemSettings> SystemSettings { get; set; } // New
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

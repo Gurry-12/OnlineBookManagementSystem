@@ -1,4 +1,5 @@
-using OnlineBookManagementSystem.Controllers;
+using OnlineBookManagementSystem.Models;
+using OnlineBookManagementSystem.Models.Configuration; // Added for EmailSettings
 using OnlineBookManagementSystem.Models.ViewModel;
 
 namespace OnlineBookManagementSystem.Interfaces;
@@ -6,6 +7,10 @@ namespace OnlineBookManagementSystem.Interfaces;
 public interface ISystemSettingsService
 {
     Task<SystemSettingsViewModel> GetSystemSettingsAsync();
+
+    // New method for clean EmailSettings retrieval
+    Task<EmailSettings> GetEmailSettingsAsync();
+
     Task<bool> UpdateGeneralSettingsAsync(GeneralSettingsRequest request);
     Task<bool> UpdateSecuritySettingsAsync(SecuritySettingsRequest request);
     Task<bool> UpdateEmailSettingsAsync(EmailSettingsRequest request);
