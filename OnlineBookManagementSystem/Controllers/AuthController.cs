@@ -136,10 +136,13 @@ namespace OnlineBookManagementSystem.Controllers
         public async Task<IActionResult> ConfirmEmail(string token, string email)
         {
             var confirmed = await _authService.ConfirmEmailAsync(token, email);
-            ViewBag.Success = confirmed;
+            ViewBag.IsSuccess = confirmed; // View uses IsSuccess
             ViewBag.Message = confirmed ? "Email confirmed! Please log in." : "Invalid token.";
             return View();
         }
+
+        [HttpGet]
+        public IActionResult ForgotPassword() => View();
 
         [HttpPost]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordViewModel model)
@@ -151,6 +154,13 @@ namespace OnlineBookManagementSystem.Controllers
             return Json(new { success = true, message = "If email exists, reset link sent." });
         }
 
+        [HttpGet]
+        public IActionResult ResetPassword(string token, string email)
+        {
+            var model = new ResetPasswordViewModel { Token = token, Email = email };
+            return View(model);
+        }
+
         [HttpPost]
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordViewModel model)
         {
@@ -158,7 +168,7 @@ namespace OnlineBookManagementSystem.Controllers
                 return Json(new { success = false, message = "Invalid data." });
 
             var success = await _authService.UpdatePasswordAsync(model.Token, model.NewPassword);
-            return Json(new { success, message = success ? "Password reset." : "Invalid/expired token." });
+            return Json(new { success, message = success ? "Password reset successfully. Please login." : "Invalid/expired token." });
         }
     }
 }

@@ -127,11 +127,32 @@ namespace OnlineBookManagementSystem.Controllers
             var viewModel = await _activityLogger.GetActivityLogsAsync(page, 50, search, dateFrom, dateTo);
 
             ViewBag.Search = search;
-
             ViewBag.DateFrom = dateFrom?.ToString("yyyy-MM-dd");
             ViewBag.DateTo = dateTo?.ToString("yyyy-MM-dd");
 
             return View(viewModel);
+        }
+
+        [Authorize(Policy = "SuperAdminOnly")]
+        [HttpGet]
+        public async Task<IActionResult> ExportActivityLogs(string? search = null, DateTime? dateFrom = null, DateTime? dateTo = null)
+        {
+            var logs = await _activityLogger.GetActivityLogsAsync(1, 100000, search, dateFrom, dateTo); // Get all matching
+
+            var csv = new System.Text.StringBuilder();
+            csv.AppendLine("Timestamp,Action Type,Description,User,IP Address,User Agent");
+
+            foreach (var log in logs.Logs)
+            {
+                var user = log.User?.Email ?? "System";
+                var desc = log.Description?.Replace(",", ";") ?? "";
+                csv.AppendLine($"{log.Timestamp},{log.ActionType},{desc},{user},{log.IpAddress},{log.UserAgent}");
+            }
+
+            var bytes = System.Text.Encoding.UTF8.GetBytes(csv.ToString());
+            var fileName = $"ActivityLogs_{DateTime.Now:yyyyMMddHHmmss}.csv";
+
+            return File(bytes, "text/csv", fileName);
         }
 
         [HttpPost]

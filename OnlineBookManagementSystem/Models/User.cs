@@ -16,6 +16,7 @@ public partial class User : IdentityUser<int>  // PK int for consistency
     // From prior upgrades: Email confirmation & reset
     public bool IsEmailConfirmed { get; set; }
     public string? EmailConfirmationToken { get; set; }
+    public DateTime? EmailConfirmationTokenExpiry { get; set; }
     public string? PasswordResetToken { get; set; }  // Hashed
     public DateTime? PasswordResetExpiry { get; set; }
 

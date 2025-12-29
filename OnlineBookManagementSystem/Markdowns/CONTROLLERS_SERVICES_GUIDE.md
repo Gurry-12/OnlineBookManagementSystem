@@ -13,7 +13,7 @@ This document outlines the comprehensive controller and service architecture for
 - ✅ **Dashboard** - System overview with health metrics and statistics
 - ✅ **ManageUsers** - Complete user management with role assignment
 - ✅ **SystemSettings** - Site configuration and system settings
-- ✅ **ActivityLogs** - Comprehensive audit trail with filtering
+- ✅ **ActivityLogs** - Comprehensive audit trail with filtering and CSV Export
 - ✅ **CreateUser** - API endpoint for user creation
 - ✅ **UpdateSettings** - API endpoints for various settings updates
 - ✅ **SystemMaintenance** - Cache clearing, database backup, etc.
@@ -22,7 +22,7 @@ This document outlines the comprehensive controller and service architecture for
 - Real-time system health monitoring
 - User role management with validation
 - System configuration management
-- Comprehensive activity logging
+- Comprehensive activity logging with **CSV Export**
 - Database backup and maintenance
 - Email configuration testing
 
@@ -32,9 +32,9 @@ This document outlines the comprehensive controller and service architecture for
 
 #### Key Actions:
 - ✅ **Dashboard** - Business metrics and analytics
-- ✅ **Books** - Book inventory management with pagination and filtering
-- ✅ **CreateBook/EditBook** - Book CRUD operations with image upload
-- ✅ **UserList** - Customer account management
+- ✅ **Books** - Book inventory management with pagination, filtering, and stock management
+- ✅ **CreateBook/EditBook** - Book CRUD operations with image upload and stock control
+- ✅ **UserList** - Customer account oversight
 - ✅ **OrderManagement** - Order processing and status updates
 - ✅ **CategoryManagement** - Category CRUD operations
 - ✅ **ActivityLogs** - Business operation logs (filtered)
@@ -42,11 +42,10 @@ This document outlines the comprehensive controller and service architecture for
 
 #### Features:
 - Advanced book management with image processing
+- **Stock Management**: Track quantity, low stock thresholds.
 - Order status tracking and updates
-- User account oversight (non-system users)
+- User account oversight
 - Business analytics and reporting
-- Category management
-- Inventory tracking
 
 ### 3. UserController
 **Purpose**: Customer experience and account management
@@ -54,23 +53,34 @@ This document outlines the comprehensive controller and service architecture for
 
 #### Key Actions:
 - ✅ **Dashboard** - Personalized user experience
-- ✅ **UserBookList** - Book browsing with advanced filtering
-- ✅ **BookDetails** - Detailed book information with reviews
+- ✅ **UserBookList** - Book browsing with advanced filtering (Category, Price, Sort)
+- ✅ **BookDetails** - Detailed book information with stock status
 - ✅ **Favorite** - Wishlist management
 - ✅ **OrderHistory** - Personal order tracking
 - ✅ **Profile** - Account settings and preferences
 - ✅ **SearchBooks** - Advanced search functionality
 - ✅ **BooksByCategory** - Category-based browsing
-- ✅ **AddToCart** - Shopping cart management
+- ✅ **AddToCart** - Shopping cart management (Stock validated)
 - ✅ **GetRecommendations** - Personalized book suggestions
 
 #### Features:
 - Personalized book recommendations
-- Advanced search and filtering
+- **Advanced search and filtering** (Price range, Category, Sort)
+- **Stock Availability**: "Out of Stock" badges and validation.
 - Wishlist/favorites management
 - Order history and tracking
-- Profile management
-- Shopping cart integration
+
+### 4. AuthController (Updated)
+**Purpose**: Authentication and Account Recovery
+**Authorization**: Anonymous / Authenticated
+
+#### Key Actions:
+- ✅ **Login/Logout** - JWT based auth
+- ✅ **Registration** - New user signup (pending approval)
+- ✅ **ForgotPassword** - Secure password reset request (Rate Limited: 5/hr)
+- ✅ **ResetPassword** - Token based password reset
+- ✅ **ConfirmEmail** - Account activation token verification
+- ✅ **RefreshToken** - JWT refresh flow
 
 ## Service Architecture
 
@@ -86,13 +96,6 @@ This document outlines the comprehensive controller and service architecture for
 - ✅ `ClearCacheAsync()` - System cache management
 - ✅ `BackupDatabaseAsync()` - Database backup operations
 
-#### Features:
-- Configuration validation and caching
-- Email service testing and validation
-- System health monitoring
-- Database backup automation
-- Cache management
-
 ### 2. Enhanced UsersService
 **Purpose**: User management and analytics
 
@@ -100,14 +103,8 @@ This document outlines the comprehensive controller and service architecture for
 - ✅ `GetSuperAdminDashboardDataAsync()` - System overview statistics
 - ✅ `GetManageUsersDataAsync()` - Paginated user management
 - ✅ `CreateUserAsync()` - User creation with role assignment
-- ✅ `UpdateUserRoleAsync()` - Role management
-- ✅ `ToggleUserStatusAsync()` - User activation/deactivation
-
-#### Features:
-- Comprehensive user analytics
-- Role-based user filtering
-- User status management
-- Activity tracking integration
+- ✅ `ApproveUserAsync()` - Approves user and sends **Email Confirmation Link**
+- ✅ `RejectUserAsync()` - Rejects and soft-deletes user
 
 ### 3. Enhanced ActivityLogger
 **Purpose**: Comprehensive audit logging
@@ -118,57 +115,31 @@ This document outlines the comprehensive controller and service architecture for
 - ✅ `GetRecentActivitiesAsync()` - Dashboard activity feeds
 - ✅ `ClearOldLogsAsync()` - Log cleanup and maintenance
 
-#### Features:
-- Contextual logging with IP and user agent
-- Advanced filtering and search
-- Role-based log access
-- Automated log cleanup
-- Performance optimized queries
+### 4. MailKitEmailSender (New)
+**Purpose**: Production-grade email delivery
+**Interface**: `OnlineBookManagementSystem.Interfaces.IEmailSender`
 
-### 4. Enhanced BookService
+#### Features:
+- **MailKit + MimeKit** integration (industry standard)
+- Supports **HTML emails** with plain-text fallback
+- **Async** execution for performance
+- **Configuration** via `SystemSettingsService` (Database) with fallback to `appsettings.json`
+- **Secure** (TLS/StartTLS support)
+
+### 5. Enhanced BookService
 **Purpose**: Book management and user experience
 
 #### New Methods:
-- ✅ `GetBooksForUserAsync()` - User-facing book catalog
+- ✅ `GetPaginatedBooksAsync()` - Supports filtering by Search, Category, Price Range, Stock, Sorting.
 - ✅ `GetBookDetailsForUserAsync()` - Detailed book view with user context
-- ✅ `GetPersonalizedRecommendationsAsync()` - AI-driven recommendations
-- ✅ `GetFeaturedBooksAsync()` - Curated book selections
-- ✅ `SearchBooksAsync()` - Advanced search functionality
-- ✅ `GetMonthlyStatsAsync()` - Analytics for admin dashboard
-
-#### Features:
-- Personalized user experience
-- Advanced search and filtering
-- Recommendation engine
-- Analytics and reporting
-- Image processing and optimization
-
-### 5. Enhanced OrderService
-**Purpose**: Order management and tracking
-
-#### New Methods:
-- ✅ `GetUserOrderHistoryAsync()` - Paginated order history
-- ✅ `GetOrdersForAdminAsync()` - Admin order management
-- ✅ `UpdateOrderStatusAsync()` - Order status workflow
-- ✅ `GetUserTotalSpentAsync()` - User spending analytics
-
-#### Features:
-- Order lifecycle management
-- Status tracking and notifications
-- User spending analytics
-- Admin order oversight
+- ✅ `UpdateBookAsync()` - Handles Stock Quantity and Low Stock Thresholds.
 
 ### 6. Enhanced CartService
 **Purpose**: Shopping cart management
 
 #### New Methods:
-- ✅ `GetCartItemCountAsync()` - Real-time cart count
-- ✅ `AddToCartAsync()` - Enhanced cart operations with validation
-
-#### Features:
-- Real-time cart updates
-- Stock validation
-- User-friendly error handling
+- ✅ `AddOrUpdateCartAsync()` - Validates stock availability before adding.
+- ✅ `ProcessCheckoutAsync()` - Deducts stock and sends **Low Stock Warnings** to Admin.
 
 ## API Endpoints Structure
 
@@ -182,16 +153,15 @@ POST /SuperAdmin/TestEmail
 POST /SuperAdmin/ClearCache
 POST /SuperAdmin/BackupDatabase
 POST /SuperAdmin/ClearOldLogs
+GET  /SuperAdmin/ExportActivityLogs (CSV)
 ```
 
 ### Admin API Endpoints:
 ```
-POST /Admin/CreateBook
-POST /Admin/EditBook/{id}
-POST /Admin/DeleteBook/{id}
-POST /Admin/UpdateOrderStatus
-POST /Admin/CreateCategory
-GET  /Admin/GetChartData/{chartType}
+GET  /Books/BookList (Advanced Filter)
+POST /Books/Create
+POST /Books/Edit/{id}
+POST /Books/Delete/{id}
 ```
 
 ### User API Endpoints:
@@ -200,7 +170,14 @@ POST /User/ToggleFavorite
 POST /User/AddToCart
 GET  /User/GetCartCount
 GET  /User/GetRecommendations
-POST /User/UpdateProfile
+GET  /User/UserBookList (Advanced Filter)
+```
+
+### Auth API Endpoints:
+```
+POST /Auth/ForgotPassword
+POST /Auth/ResetPassword
+GET  /Auth/ConfirmEmail
 ```
 
 ## Security Implementation
@@ -211,101 +188,32 @@ POST /User/UpdateProfile
 - **UserOrHigher**: All authenticated users
 
 ### Security Features:
-- JWT token validation
-- Role-based access control
-- Activity logging for all operations
-- Input validation and sanitization
-- SQL injection prevention
-- XSS protection
-
-## Performance Optimizations
-
-### Caching Strategy:
-- **Memory Cache**: User profiles, book catalogs, categories
-- **Cache Invalidation**: Automatic on data updates
-- **Cache Keys**: Structured for easy management
-
-### Database Optimizations:
-- **Eager Loading**: Related entities loaded efficiently
-- **Pagination**: All list operations paginated
-- **Indexing**: Optimized queries with proper indexes
-- **Soft Deletes**: Data integrity with soft deletion
-
-### Image Processing:
-- **Resize and Optimize**: Automatic image optimization
-- **Secure Upload**: File validation and secure storage
-- **CDN Ready**: Optimized for content delivery
-
-## Error Handling
-
-### Global Exception Handling:
-- **Middleware**: Custom exception handling middleware
-- **Logging**: Comprehensive error logging
-- **User-Friendly**: Appropriate error messages for each role
-- **Security**: No sensitive information exposure
-
-### Validation:
-- **Model Validation**: FluentValidation integration
-- **Business Rules**: Service-level validation
-- **Input Sanitization**: XSS and injection prevention
-
-## Monitoring and Analytics
-
-### Activity Tracking:
-- **User Actions**: All user interactions logged
-- **System Events**: System-level operations tracked
-- **Performance Metrics**: Response times and usage patterns
-- **Security Events**: Authentication and authorization events
-
-### Business Intelligence:
-- **Dashboard Analytics**: Real-time business metrics
-- **User Behavior**: Browsing and purchase patterns
-- **Inventory Analytics**: Stock levels and trends
-- **Revenue Tracking**: Sales and financial metrics
-
-## Next Steps for Implementation
-
-### Immediate Priorities:
-1. **Complete missing service methods** in BookService and OrderService
-2. **Implement email service** for notifications
-3. **Add comprehensive unit tests** for all services
-4. **Implement caching strategies** for performance
-5. **Add API rate limiting** for security
-
-### Advanced Features:
-1. **Real-time notifications** using SignalR
-2. **Advanced analytics** with custom reporting
-3. **Machine learning recommendations** 
-4. **Multi-language support**
-5. **Advanced search** with Elasticsearch
+- **Account Activation**: Users must confirm email after approval.
+- **Rate Limiting**: Password Reset protected by IP/Email rate limiting.
+- **Stock Validation**: Prevents overselling.
+- **Audit Logging**: All critical actions logged.
 
 ## File Structure
 ```
 Controllers/
-├── SuperAdminController.cs ✅ (Enhanced)
+├── SuperAdminController.cs ✅ (Enhanced + Export)
 ├── AdminController.cs ✅ (Enhanced)
-├── UserController.cs ✅ (Enhanced)
+├── UserController.cs ✅ (Enhanced + Filters)
+├── BooksController.cs ✅ (Enhanced + Stock/Filters)
+├── AuthController.cs ✅ (Updated + Reset/Confirm)
 ├── ApiBaseController.cs ✅ (New)
 └── BaseController.cs (Existing)
 
 Services/
 ├── SystemSettingsService.cs ✅ (New)
-├── UsersService.cs ✅ (Enhanced)
+├── UsersService.cs ✅ (Enhanced + Email)
 ├── ActivityLogger.cs ✅ (Enhanced)
-├── BookServices.cs (Needs enhancement)
+├── BookServices.cs ✅ (Enhanced + Stock/Filters)
 ├── OrderService.cs (Needs enhancement)
-├── CartService.cs (Needs enhancement)
+├── CartService.cs ✅ (Enhanced + Stock)
 ├── CategoryServices.cs (Needs enhancement)
+├── MailKitEmailSender.cs ✅ (New)
 └── CacheService.cs ✅ (New)
-
-Interfaces/
-├── ISystemSettingsService.cs ✅ (New)
-├── IUsersService.cs ✅ (Enhanced)
-├── IActivityLogger.cs ✅ (Enhanced)
-├── IBookService.cs ✅ (Enhanced)
-├── IOrderService.cs ✅ (Enhanced)
-├── ICartService.cs ✅ (Enhanced)
-└── ICategoryInterface.cs ✅ (Enhanced)
 ```
 
 This architecture provides a solid foundation for an enterprise-level book management system with proper separation of concerns, comprehensive security, and scalable design patterns.
