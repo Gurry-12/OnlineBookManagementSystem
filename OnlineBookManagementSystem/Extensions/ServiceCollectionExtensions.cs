@@ -121,6 +121,18 @@ namespace OnlineBookManagementSystem.Extensions
             services.AddScoped<ISystemSettingsService, SystemSettingsService>();
             services.AddScoped<ICacheService, CacheService>();
             services.AddScoped<IErrorViewModelFactory, ErrorViewModelFactory>();
+
+            // Email Configuration
+            services.Configure<Models.Configuration.EmailSettings>(configuration.GetSection("EmailSettings"));
+
+            // Register Custom IEmailSender (MailKit)
+            services.AddTransient<OnlineBookManagementSystem.Interfaces.IEmailSender, MailKitEmailSender>();
+
+            // Bridge for Identity (Optional, if using Identity UI default pages, which we are mostly not, but good for compatibility)
+            // We previously added Microsoft.AspNetCore.Identity.UI.Services.IEmailSender.
+            // We can create an adapter if needed, or just let AuthService use our new interface.
+            // For this task, we will remove the old EmailService and use our new clean interface.
+
             services.AddHostedService<LogCleanupService>();
 
             services.AddHttpContextAccessor();

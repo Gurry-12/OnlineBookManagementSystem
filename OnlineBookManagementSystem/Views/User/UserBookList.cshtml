@@ -12,17 +12,45 @@
     <h2 class="mb-4">📚 Books Management</h2>
 
     <!-- Search & Filters -->
-    <div class="row mb-4">
-        <div class="col-md-6">
-            <form method="get" asp-action="BookList">
-                <div class="input-group">
-                    <input type="text" name="search" value="@Model.SearchTerm" class="form-control" placeholder="Search by title/author..." />
-                    <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i></button>
+    <div class="card mb-4 shadow-sm border-0">
+        <div class="card-body">
+            <form method="get" asp-action="UserBookList">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+                            <input type="text" name="search" value="@ViewBag.Search" class="form-control" placeholder="Search by title, author..." />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <select name="categoryId" class="form-select" asp-items="ViewBag.Categories">
+                            <option value="">All Categories</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                         <select name="sortBy" class="form-select">
+                            <option value="">Sort By</option>
+                            <option value="priceAsc">Price: Low to High</option>
+                            <option value="priceDesc">Price: High to Low</option>
+                            <option value="rating">Top Rated</option>
+                            <option value="newest">Newest</option>
+                        </select>
+                    </div>
+                     <div class="col-md-3 d-flex gap-2">
+                        <button class="btn btn-primary flex-grow-1" type="submit">Filter</button>
+                        <a asp-action="UserBookList" class="btn btn-outline-secondary">Reset</a>
+                    </div>
+                </div>
+                <!-- Price Range (Optional Collapsible) -->
+                <div class="row g-3 mt-1">
+                    <div class="col-md-3">
+                        <input type="number" name="minPrice" value="@ViewBag.MinPrice" class="form-control" placeholder="Min Price" />
+                    </div>
+                    <div class="col-md-3">
+                        <input type="number" name="maxPrice" value="@ViewBag.MaxPrice" class="form-control" placeholder="Max Price" />
+                    </div>
                 </div>
             </form>
-        </div>
-        <div class="col-md-6 text-end">
-            <a asp-action="Create" class="btn btn-success"><i class="bi bi-plus-circle"></i> Add Book</a>
         </div>
     </div>
 
@@ -45,8 +73,19 @@
                     <h6 class="mt-2">@book.Title</h6>
                     <small class="text-muted">@book.Author</small>
                     <p class="text-primary fw-bold">₹@book.Price</p>
-                    <small class="text-success">@book.StockQuantity in stock</small>
-                    <a asp-action="Details" asp-route-id="@book.Id" class="stretched-link btn btn-sm btn-outline-primary">View Details</a>
+
+                    @if (book.StockQuantity > 0)
+                    {
+                        <small class="text-success fw-bold"><i class="bi bi-check-circle-fill"></i> @book.StockQuantity in stock</small>
+                    }
+                    else
+                    {
+                        <small class="text-danger fw-bold"><i class="bi bi-x-circle-fill"></i> Out of Stock</small>
+                    }
+
+                    <div class="mt-2">
+                        <a asp-action="BookDetails" asp-route-id="@book.Id" class="btn btn-sm btn-outline-primary w-100">View Details</a>
+                    </div>
                 </div>
             </div>
         }

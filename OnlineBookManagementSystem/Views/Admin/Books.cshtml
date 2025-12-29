@@ -12,17 +12,44 @@
     <h2 class="mb-4">📚 Books Management</h2>
 
     <!-- Search & Filters -->
-    <div class="row mb-4">
-        <div class="col-md-6">
-            <form method="get" asp-action="BookList">
-                <div class="input-group">
-                    <input type="text" name="search" value="@Model.SearchTerm" class="form-control" placeholder="Search by title/author..." />
-                    <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i></button>
+    <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+            <form method="get" asp-action="BookList" id="filterForm">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-search"></i></span>
+                            <input type="text" name="search" value="@ViewBag.Search" class="form-control" placeholder="Search title/author..." />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <select name="categoryId" class="form-select" asp-items="ViewBag.Categories">
+                            <option value="">All Categories</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <select name="inStock" class="form-select">
+                            <option value="">Availability</option>
+                            <option value="true">In Stock</option>
+                            <option value="false">Out of Stock</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <select name="sortBy" class="form-select">
+                            <option value="">Sort By</option>
+                            <option value="priceAsc">Price: Low to High</option>
+                            <option value="priceDesc">Price: High to Low</option>
+                            <option value="stock">Stock: Low to High</option>
+                            <option value="title">Title</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 d-flex gap-2">
+                        <button class="btn btn-primary w-100" type="submit">Filter</button>
+                        <a asp-action="BookList" class="btn btn-outline-secondary">Reset</a>
+                        <a asp-action="Create" class="btn btn-success w-100"><i class="bi bi-plus-circle"></i> Add</a>
+                    </div>
                 </div>
             </form>
-        </div>
-        <div class="col-md-6 text-end">
-            <a asp-action="Create" class="btn btn-success"><i class="bi bi-plus-circle"></i> Add Book</a>
         </div>
     </div>
 

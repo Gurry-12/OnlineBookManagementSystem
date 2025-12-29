@@ -4,6 +4,8 @@ using OnlineBookManagementSystem.Controllers;
 using OnlineBookManagementSystem.Interfaces;
 using OnlineBookManagementSystem.Models;
 using OnlineBookManagementSystem.Models.ViewModel;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace OnlineBookManagementSystem.Services
 {
@@ -14,19 +16,25 @@ namespace OnlineBookManagementSystem.Services
         private readonly RoleManager<IdentityRole<int>> _roleManager;
         private readonly ILogger<UsersService> _logger;
         private readonly IActivityLogger _activityLogger;
+        private readonly IEmailSender _emailSender;
+        private readonly IConfiguration _config;
 
         public UsersService(
             BookManagementContext context,
             UserManager<User> userManager,
             RoleManager<IdentityRole<int>> roleManager,
             ILogger<UsersService> logger,
-            IActivityLogger activityLogger)
+            IActivityLogger activityLogger,
+            IEmailSender emailSender,
+            IConfiguration config)
         {
             _context = context;
             _userManager = userManager;
             _roleManager = roleManager;
             _logger = logger;
             _activityLogger = activityLogger;
+            _emailSender = emailSender;
+            _config = config;
         }
 
         public int GetTotalUsers()
@@ -352,23 +360,45 @@ namespace OnlineBookManagementSystem.Services
 
             if (!await _roleManager.RoleExistsAsync(role)) return (false, "Invalid role");
 
+            // 1. Generate Custom Confirmation Token
+            var rawToken = Guid.NewGuid().ToString("N");
+
+            // 2. Hash it for storage
+            using var sha = SHA256.Create();
+            var bytes = sha.ComputeHash(Encoding.UTF8.GetBytes(rawToken));
+            var hashedToken = Convert.ToBase64String(bytes);
+
+            // 3. Update User
             user.IsPendingApproval = false;
-            user.IsEmailConfirmed = true; // Auto confirm email on approval if not already
+            user.EmailConfirmationToken = hashedToken;
+            user.EmailConfirmationTokenExpiry = DateTime.UtcNow.AddHours(24);
+            user.IsEmailConfirmed = false; // Ensure they must confirm
+            user.EmailConfirmed = false;
 
             var result = await _userManager.UpdateAsync(user);
             if (!result.Succeeded) return (false, "Failed to update user");
 
-            // Assign role
+            // 4. Assign Role
             var currentRoles = await _userManager.GetRolesAsync(user);
             await _userManager.RemoveFromRolesAsync(user, currentRoles);
             await _userManager.AddToRoleAsync(user, role);
 
-            // Send email notification (placeholder)
-            // await _emailSender.SendEmailAsync(user.Email, "Account Approved", "Your account has been approved.");
+            // 5. Send Email
+            var baseUrl = _config["AppUrl"] ?? "https://localhost:7153"; // Fallback dev url
+            var confirmationLink = $"{baseUrl}/Auth/ConfirmEmail?token={System.Net.WebUtility.UrlEncode(rawToken)}&email={System.Net.WebUtility.UrlEncode(user.Email)}";
 
-            await _activityLogger.LogAsync("ApproveUser", $"User {user.Email} approved as {role}", 0); // System action
+            var message = $@"
+                <h2>Welcome to Whispering Pages!</h2>
+                <p>Your account has been approved by the administrator.</p>
+                <p>Please confirm your email address to activate your account and login:</p>
+                <p><a href='{confirmationLink}' style='background-color: #28a745; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;'>Confirm Email</a></p>
+                <p>Link expires in 24 hours.</p>";
 
-            return (true, "User approved successfully");
+            await _emailSender.SendEmailAsync(user.Email, "Account Approved - Confirm Email", message, $"Your account is approved. Confirm email: {confirmationLink}");
+
+            await _activityLogger.LogAsync("ApproveUser", $"User {user.Email} approved as {role}. Confirmation email sent.", 0);
+
+            return (true, "User approved & confirmation email sent.");
         }
 
         public async Task<(bool Success, string Message)> RejectUserAsync(int userId)

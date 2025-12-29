@@ -53,6 +53,11 @@
                                     <input asp-for="Book.StockQuantity" type="number" class="form-control" required />
                                     <span asp-validation-for="Book.StockQuantity" class="text-danger small"></span>
                                 </div>
+                                <div class="col-md-4 mb-3">
+                                    <label asp-for="Book.LowStockThreshold" class="form-label">⚠️ Low Stock Threshold</label>
+                                    <input asp-for="Book.LowStockThreshold" type="number" class="form-control" />
+                                    <span asp-validation-for="Book.LowStockThreshold" class="text-danger small"></span>
+                                </div>
                             </div>
                             <div class="mb-3">
                                 <label asp-for="Book.CategoryId" class="form-label">🏷️ Category</label>

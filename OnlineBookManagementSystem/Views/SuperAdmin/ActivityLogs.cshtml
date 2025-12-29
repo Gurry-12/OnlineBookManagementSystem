@@ -10,9 +10,9 @@
             <i class="bi bi-journal-text me-2"></i>Activity Logs
         </h2>
         <div class="d-flex gap-2">
-            <button class="btn btn-outline-primary" onclick="exportLogs()">
+            <a href="@Url.Action("ExportActivityLogs", Context.Request.Query)" class="btn btn-outline-primary">
                 <i class="bi bi-download me-1"></i>Export
-            </button>
+            </a>
             <button class="btn btn-outline-danger" onclick="clearOldLogs()">
                 <i class="bi bi-trash me-1"></i>Clear Old Logs
             </button>
@@ -231,12 +231,7 @@
 
 @section Scripts {
     <script>
-        function exportLogs() {
-            const params = new URLSearchParams(window.location.search);
-            params.set('export', 'true');
-            window.location.href = '/SuperAdmin/ActivityLogs?' + params.toString();
-        }
-
+        // Export handled by link now
         function clearOldLogs() {
             if (confirm('Are you sure you want to clear logs older than 30 days? This action cannot be undone.')) {
                 fetch('/SuperAdmin/ClearOldLogs', {

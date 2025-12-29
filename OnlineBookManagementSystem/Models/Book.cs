@@ -24,7 +24,11 @@ public partial class Book
     [StringLength(500)]
     public string? ImageUrl { get; set; }  // Renamed from ImgUrl
 
-    public int StockQuantity { get; set; } = 0;  // Changed from string Stock
+    public int StockQuantity { get; set; } = 0;
+    public int LowStockThreshold { get; set; } = 5; // Default threshold
+
+    [NotMapped]
+    public bool IsAvailable => StockQuantity > 0;
 
     [StringLength(maximumLength: 1000)]
     public string? Description { get; set; }  // New
