@@ -83,9 +83,17 @@ namespace OnlineBookManagementSystem.Services
             try
             {
                 var book = await _context.Books.FirstOrDefaultAsync(b => b.Id == bookId && !b.IsDeleted);
-                if (book == null || book.StockQuantity < quantity)
+                if (book == null) return false;
+
+                // Check stock
+                var currentInCart = await _context.ShoppingCarts
+                    .Where(sc => sc.UserId == userId && sc.BookId == bookId && !sc.IsDeleted)
+                    .SumAsync(sc => sc.Quantity);
+
+                if (book.StockQuantity < (currentInCart + quantity))
                 {
-                    _logger.LogWarning("Stock insufficient for book {BookId}, requested {Quantity}, available {Stock}", bookId, quantity, book?.StockQuantity);
+                    _logger.LogWarning("Stock insufficient for book {BookId}. Stock: {Stock}, InCart: {InCart}, Req: {Req}",
+                        bookId, book.StockQuantity, currentInCart, quantity);
                     return false;
                 }
 
@@ -231,6 +239,8 @@ namespace OnlineBookManagementSystem.Services
                 await _context.SaveChangesAsync();  // For OrderId
 
                 // Create OrderDetails
+                var lowStockBooks = new List<string>();
+
                 foreach (var cartItem in cartItems)
                 {
                     var orderDetail = new OrderDetail
@@ -245,6 +255,12 @@ namespace OnlineBookManagementSystem.Services
 
                     // Deduct stock
                     cartItem.Book.StockQuantity -= cartItem.Quantity;
+
+                    // Check Low Stock Threshold
+                    if (cartItem.Book.StockQuantity <= cartItem.Book.LowStockThreshold)
+                    {
+                        lowStockBooks.Add($"{cartItem.Book.Title} (Remaining: {cartItem.Book.StockQuantity})");
+                    }
                 }
 
                 // Soft delete cart items
@@ -264,6 +280,22 @@ namespace OnlineBookManagementSystem.Services
                         "Order Confirmation",
                         $"Thank you! Order #{order.Id} placed for ₹{total}. Details: {request.Name} at {request.Address}."
                     );
+
+                    // Low Stock Alert to Admin (hardcoded admin email for now or fetched via settings)
+                    if (lowStockBooks.Any())
+                    {
+                        // In real app, fetch admin email from settings
+                         var settings = await _context.Users
+                            .Where(u => u.Email == "admin@whisperingpages.com") // Example
+                            .Select(u => u.Email)
+                            .FirstOrDefaultAsync() ?? "admin@whisperingpages.com";
+
+                        await _emailSender.SendEmailAsync(
+                            settings,
+                            "Low Stock Warning",
+                            $"The following books are running low on stock:<br/><ul><li>{string.Join("</li><li>", lowStockBooks)}</li></ul>"
+                        );
+                    }
                 }
 
                 _cache.Remove($"cart_{userId}");

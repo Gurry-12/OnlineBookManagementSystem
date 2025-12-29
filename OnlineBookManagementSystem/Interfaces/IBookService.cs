@@ -20,7 +20,7 @@ namespace OnlineBookManagementSystem.Interfaces
         Task<BookFormViewModel?> GetCreateBookViewModelAsync();
         Task<BookFormViewModel?> GetEditBookViewModelAsync(int id);
         AdminViewModel GetQuickStats(int userId);
-        Task<BookListViewModel> GetPaginatedBooksAsync(int page, int pageSize, string? search = null, int? categoryId = null, string? sortBy = null);
+        Task<BookListViewModel> GetPaginatedBooksAsync(int page, int pageSize, string? search = null, int? categoryId = null, string? sortBy = null, decimal? minPrice = null, decimal? maxPrice = null, bool? inStock = null);
         string GetTimeAgo(DateTime time);
         IEnumerable<CategoryBookCountViewModel> BooksByCategory();
         IEnumerable<AuthorBookCountViewModel> BooksByAuthor();

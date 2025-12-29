@@ -106,6 +106,8 @@ namespace OnlineBookManagementSystem.Services
                 existing.Price = bookData.Price;
                 existing.Description = bookData.Description;
                 existing.CategoryId = bookData.CategoryId;
+                existing.StockQuantity = bookData.StockQuantity; // Update Stock
+                existing.LowStockThreshold = bookData.LowStockThreshold; // Update Threshold
                 existing.UpdatedAt = DateTime.UtcNow;
 
                 await _context.SaveChangesAsync();
@@ -241,7 +243,7 @@ namespace OnlineBookManagementSystem.Services
             return stats;
         }
 
-        public async Task<BookListViewModel> GetPaginatedBooksAsync(int page, int pageSize, string? search = null, int? categoryId = null, string? sortBy = null)
+        public async Task<BookListViewModel> GetPaginatedBooksAsync(int page, int pageSize, string? search = null, int? categoryId = null, string? sortBy = null, decimal? minPrice = null, decimal? maxPrice = null, bool? inStock = null)
         {
             var query = _context.Books
                 .Include(b => b.Category)
@@ -257,6 +259,24 @@ namespace OnlineBookManagementSystem.Services
                 query = query.Where(b => b.CategoryId == categoryId);
             }
 
+            if (minPrice.HasValue)
+            {
+                query = query.Where(b => b.Price >= minPrice);
+            }
+
+            if (maxPrice.HasValue)
+            {
+                query = query.Where(b => b.Price <= maxPrice);
+            }
+
+            if (inStock.HasValue)
+            {
+                if (inStock.Value)
+                    query = query.Where(b => b.StockQuantity > 0);
+                else
+                    query = query.Where(b => b.StockQuantity <= 0);
+            }
+
             var totalCount = await query.CountAsync();
             var totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
 
@@ -265,6 +285,8 @@ namespace OnlineBookManagementSystem.Services
                 "priceAsc" => query.OrderBy(b => b.Price),
                 "priceDesc" => query.OrderByDescending(b => b.Price),
                 "title" => query.OrderBy(b => b.Title),
+                "stock" => query.OrderBy(b => b.StockQuantity),
+                "stockDesc" => query.OrderByDescending(b => b.StockQuantity),
                 _ => query.OrderByDescending(b => b.CreatedAt)  // Default recent
             };
 

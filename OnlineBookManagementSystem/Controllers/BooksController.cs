@@ -158,12 +158,23 @@ namespace OnlineBookManagementSystem.Controllers
             return Json(new { success });
         }
 
-        // Pagination/List (shared)
+        // Admin Book List (View)
+        [Authorize(Policy = "AdminOrHigher")]
         [HttpGet]
-        public async Task<BookListViewModel> BookList(int page = 1, string? search = null, int? categoryId = null, string? sortBy = null)
+        public async Task<IActionResult> BookList(int page = 1, string? search = null, int? categoryId = null, string? sortBy = null, decimal? minPrice = null, decimal? maxPrice = null, bool? inStock = null)
         {
-            var model = await _bookService.GetPaginatedBooksAsync(page, 8, search, categoryId, sortBy);
-            return model;
+            var model = await _bookService.GetPaginatedBooksAsync(page, 12, search, categoryId, sortBy, minPrice, maxPrice, inStock);
+
+            // Populate ViewBag for Filters UI
+            ViewBag.Categories = await _bookService.GetCategoriesAsync();
+            ViewBag.Search = search;
+            ViewBag.CategoryId = categoryId;
+            ViewBag.SortBy = sortBy;
+            ViewBag.MinPrice = minPrice;
+            ViewBag.MaxPrice = maxPrice;
+            ViewBag.InStock = inStock;
+
+            return View("Admin/Books", model);
         }
 
         // Stats/Charts (cached, AdminOrHigher)
