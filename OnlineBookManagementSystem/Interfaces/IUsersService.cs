@@ -13,5 +13,10 @@ namespace OnlineBookManagementSystem.Interfaces
         Task<(bool Success, string Message)> CreateUserAsync(CreateUserRequest request);
         Task<bool> UpdateUserRoleAsync(int userId, string newRole);
         Task<bool> ToggleUserStatusAsync(int userId, bool isActive);
+
+        // Pending Approval Workflow
+        Task<List<UserWithRoleViewModel>> GetPendingUsersAsync();
+        Task<(bool Success, string Message)> ApproveUserAsync(int userId, string role);
+        Task<(bool Success, string Message)> RejectUserAsync(int userId);
     }
 }

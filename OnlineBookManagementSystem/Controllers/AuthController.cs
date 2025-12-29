@@ -124,12 +124,12 @@ namespace OnlineBookManagementSystem.Controllers
             if (!success)
                 return Json(new { success = false, message });
 
+            // Since user is pending approval, token is null and we redirect to a pending page or login with message
             return Json(new
             {
                 success = true,
                 message,
-                confirmationToken = token,
-                redirectUrl = Url.Action("ConfirmEmail", new { token, email = data.Email })
+                redirectUrl = Url.Action("Login") // Or a "PendingApproval" page
             });
         }
 

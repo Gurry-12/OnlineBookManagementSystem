@@ -66,6 +66,48 @@ namespace OnlineBookManagementSystem.Controllers
         }
 
         [Authorize(Policy = "SuperAdminOnly")]
+        public async Task<IActionResult> PendingUsers()
+        {
+            var userId = GetUserIdFromClaims();
+            if (userId == 0) return RedirectToAction("Login", "Auth");
+
+            var pendingUsers = await _usersService.GetPendingUsersAsync();
+
+            await _activityLogger.LogAsync("PendingUsers", "Pending users page accessed", userId);
+            return View(pendingUsers);
+        }
+
+        [HttpPost]
+        [Authorize(Policy = "SuperAdminOnly")]
+        public async Task<IActionResult> ApproveUser(int userId, string role)
+        {
+            var adminId = GetUserIdFromClaims();
+            if (adminId == 0) return Json(new { success = false, message = "Unauthorized" });
+
+            var result = await _usersService.ApproveUserAsync(userId, role);
+            if (result.Success)
+            {
+                await _activityLogger.LogAsync("ApproveUser", $"Approved user {userId} as {role}", adminId);
+            }
+            return Json(new { success = result.Success, message = result.Message });
+        }
+
+        [HttpPost]
+        [Authorize(Policy = "SuperAdminOnly")]
+        public async Task<IActionResult> RejectUser(int userId)
+        {
+            var adminId = GetUserIdFromClaims();
+            if (adminId == 0) return Json(new { success = false, message = "Unauthorized" });
+
+            var result = await _usersService.RejectUserAsync(userId);
+            if (result.Success)
+            {
+                await _activityLogger.LogAsync("RejectUser", $"Rejected user {userId}", adminId);
+            }
+            return Json(new { success = result.Success, message = result.Message });
+        }
+
+        [Authorize(Policy = "SuperAdminOnly")]
         public async Task<IActionResult> SystemSettings()
         {
             var userId = GetUserIdFromClaims();

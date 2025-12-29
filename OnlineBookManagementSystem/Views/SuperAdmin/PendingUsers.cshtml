@@ -1,0 +1,192 @@
+@using OnlineBookManagementSystem.Models.ViewModel
+@model List<UserWithRoleViewModel>
+@{
+    ViewData["Title"] = "Pending User Requests";
+    ViewData["Layout"] = "_LayoutSuperAdmin";
+}
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Pending User Requests</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a asp-action="Dashboard">Dashboard</a></li>
+        <li class="breadcrumb-item active">Pending Users</li>
+    </ol>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="bi bi-person-exclamation me-1"></i>
+            Requests Awaiting Approval
+        </div>
+        <div class="card-body">
+            @if (!Model.Any())
+            {
+                <div class="alert alert-info">
+                    No pending user requests found.
+                </div>
+            }
+            else
+            {
+                <table class="table table-bordered table-striped" id="pendingUsersTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Requested Role</th>
+                            <th>Date Requested</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model)
+                        {
+                            <tr>
+                                <td>@user.Name</td>
+                                <td>@user.Email</td>
+                                <td>
+                                    @if(user.Role == "Admin")
+                                    {
+                                        <span class="badge bg-warning text-dark">Retailer (Admin)</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-primary">User</span>
+                                    }
+                                </td>
+                                <td>@user.CreatedDate.ToString("g")</td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-success btn-sm approve-btn"
+                                                data-id="@user.Id"
+                                                data-role="@user.Role"
+                                                data-name="@user.Name">
+                                            <i class="bi bi-check-circle"></i> Approve
+                                        </button>
+                                        <button type="button" class="btn btn-danger btn-sm reject-btn"
+                                                data-id="@user.Id"
+                                                data-name="@user.Name">
+                                            <i class="bi bi-x-circle"></i> Reject
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Approve Modal -->
+<div class="modal fade" id="approveModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Approve User</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to approve <strong id="approveUserName"></strong>?</p>
+                <div class="mb-3">
+                    <label class="form-label">Assign Role:</label>
+                    <select id="assignRole" class="form-select">
+                        <option value="User">User</option>
+                        <option value="Admin">Admin</option>
+                        <option value="SuperAdmin">SuperAdmin</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-success" id="confirmApprove">Approve</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Reject Modal -->
+<div class="modal fade" id="rejectModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Reject User</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to reject <strong id="rejectUserName"></strong>?</p>
+                <p class="text-danger small">This will effectively delete the request.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmReject">Reject</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            let selectedUserId = 0;
+
+            // Approve
+            $('.approve-btn').click(function() {
+                selectedUserId = $(this).data('id');
+                const name = $(this).data('name');
+                const role = $(this).data('role');
+
+                $('#approveUserName').text(name);
+                $('#assignRole').val(role);
+                $('#approveModal').modal('show');
+            });
+
+            $('#confirmApprove').click(function() {
+                const role = $('#assignRole').val();
+
+                $.post('@Url.Action("ApproveUser", "SuperAdmin")', { userId: selectedUserId, role: role })
+                    .done(function(response) {
+                        if (response.success) {
+                            toastr.success(response.message);
+                            setTimeout(() => location.reload(), 1000);
+                        } else {
+                            toastr.error(response.message);
+                        }
+                    })
+                    .fail(function() {
+                        toastr.error("An error occurred.");
+                    })
+                    .always(function() {
+                        $('#approveModal').modal('hide');
+                    });
+            });
+
+            // Reject
+            $('.reject-btn').click(function() {
+                selectedUserId = $(this).data('id');
+                const name = $(this).data('name');
+
+                $('#rejectUserName').text(name);
+                $('#rejectModal').modal('show');
+            });
+
+            $('#confirmReject').click(function() {
+                $.post('@Url.Action("RejectUser", "SuperAdmin")', { userId: selectedUserId })
+                    .done(function(response) {
+                        if (response.success) {
+                            toastr.success(response.message);
+                            setTimeout(() => location.reload(), 1000);
+                        } else {
+                            toastr.error(response.message);
+                        }
+                    })
+                    .fail(function() {
+                        toastr.error("An error occurred.");
+                    })
+                    .always(function() {
+                        $('#rejectModal').modal('hide');
+                    });
+            });
+        });
+    </script>
+}
