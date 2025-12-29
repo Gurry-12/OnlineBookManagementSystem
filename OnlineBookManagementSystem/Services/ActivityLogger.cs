@@ -86,7 +86,7 @@ namespace OnlineBookManagementSystem.Services
             return activityModel;
         }
 
-        public async Task<ActivityLogsViewModel> GetActivityLogsAsync(int page, int pageSize, string? search = null, string? action = null, string? role = null, DateTime? dateFrom = null, DateTime? dateTo = null, bool excludeSystemLogs = false)
+        public async Task<ActivityLogsViewModel> GetActivityLogsAsync(int page, int pageSize, string? search = null, DateTime? dateFrom = null, DateTime? dateTo = null, bool excludeSystemLogs = false)
         {
             var query = _context.ActivityLogs
                 .Include(log => log.User)
@@ -95,15 +95,10 @@ namespace OnlineBookManagementSystem.Services
             // Apply filters
             if (!string.IsNullOrEmpty(search))
             {
-                query = query.Where(log => 
-                    log.Description.Contains(search) || 
+                query = query.Where(log =>
+                    log.Description.Contains(search) ||
                     log.ActionType.Contains(search) ||
                     (log.User != null && (log.User.Name.Contains(search) || log.User.Email.Contains(search))));
-            }
-
-            if (!string.IsNullOrEmpty(action))
-            {
-                query = query.Where(log => log.ActionType == action);
             }
 
             if (dateFrom.HasValue)
@@ -119,14 +114,6 @@ namespace OnlineBookManagementSystem.Services
             if (excludeSystemLogs)
             {
                 query = query.Where(log => log.UserId != null);
-            }
-
-            // Filter by role if specified
-            if (!string.IsNullOrEmpty(role))
-            {
-                var usersInRole = await _userManager.GetUsersInRoleAsync(role);
-                var userIds = usersInRole.Select(u => u.Id).ToList();
-                query = query.Where(log => log.UserId != null && userIds.Contains(log.UserId.Value));
             }
 
             var totalLogs = await query.CountAsync();
@@ -161,8 +148,6 @@ namespace OnlineBookManagementSystem.Services
                 ActiveUsers = activeUsers,
                 ErrorLogs = errorLogs,
                 SearchTerm = search,
-                ActionFilter = action,
-                RoleFilter = role,
                 DateFrom = dateFrom,
                 DateTo = dateTo
             };
@@ -198,7 +183,7 @@ namespace OnlineBookManagementSystem.Services
                 {
                     _context.ActivityLogs.RemoveRange(oldLogs);
                     await _context.SaveChangesAsync();
-                    
+
                     _logger.LogInformation("Cleared {Count} old activity logs older than {Days} days", oldLogs.Count, daysOld);
                     return oldLogs.Count;
                 }

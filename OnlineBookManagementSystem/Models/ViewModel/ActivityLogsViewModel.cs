@@ -9,11 +9,9 @@ public class ActivityLogsViewModel
     public int TodayLogs { get; set; }
     public int ActiveUsers { get; set; }
     public int ErrorLogs { get; set; }
-    
+
     // Filter properties
     public string? SearchTerm { get; set; }
-    public string? ActionFilter { get; set; }
-    public string? RoleFilter { get; set; }
     public DateTime? DateFrom { get; set; }
     public DateTime? DateTo { get; set; }
 }

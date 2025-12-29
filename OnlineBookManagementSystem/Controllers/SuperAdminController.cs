@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OnlineBookManagementSystem.Interfaces;
 using OnlineBookManagementSystem.Models;
-using OnlineBookManagementSystem.Models.ViewModel;
 using System.Security.Claims;
 
 namespace OnlineBookManagementSystem.Controllers
@@ -45,7 +44,7 @@ namespace OnlineBookManagementSystem.Controllers
 
             var viewModel = await _usersService.GetSuperAdminDashboardDataAsync();
             await _activityLogger.LogAsync("Dashboard", "SuperAdmin dashboard accessed", userId);
-            
+
             return View(viewModel);
         }
 
@@ -56,11 +55,11 @@ namespace OnlineBookManagementSystem.Controllers
             if (userId == 0) return RedirectToAction("Login", "Auth");
 
             var viewModel = await _usersService.GetManageUsersDataAsync(page, 20, search, role, status);
-            
+
             ViewBag.Search = search;
             ViewBag.Role = role;
             ViewBag.Status = status;
-            
+
             await _activityLogger.LogAsync("ManageUsers", "User management page accessed", userId);
             return View(viewModel);
         }
@@ -115,24 +114,23 @@ namespace OnlineBookManagementSystem.Controllers
 
             var viewModel = await _systemSettingsService.GetSystemSettingsAsync();
             await _activityLogger.LogAsync("SystemSettings", "System settings page accessed", userId);
-            
+
             return View(viewModel);
         }
 
         [Authorize(Policy = "SuperAdminOnly")]
-        public async Task<IActionResult> ActivityLogs(int page = 1, string? search = null, string? action = null, string? role = null, DateTime? dateFrom = null, DateTime? dateTo = null)
+        public async Task<IActionResult> ActivityLogs(int page = 1, string? search = null, DateTime? dateFrom = null, DateTime? dateTo = null)
         {
             var userId = GetUserIdFromClaims();
             if (userId == 0) return RedirectToAction("Login", "Auth");
 
-            var viewModel = await _activityLogger.GetActivityLogsAsync(page, 50, search, action, role, dateFrom, dateTo);
-            
+            var viewModel = await _activityLogger.GetActivityLogsAsync(page, 50, search, dateFrom, dateTo);
+
             ViewBag.Search = search;
-            ViewBag.Action = action;
-            ViewBag.Role = role;
+
             ViewBag.DateFrom = dateFrom?.ToString("yyyy-MM-dd");
             ViewBag.DateTo = dateTo?.ToString("yyyy-MM-dd");
-            
+
             return View(viewModel);
         }
 
@@ -153,7 +151,7 @@ namespace OnlineBookManagementSystem.Controllers
                 }
                 return Json(new { success = false, message = result.Message });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return Json(new { success = false, message = "An error occurred while creating the user" });
             }
@@ -176,7 +174,7 @@ namespace OnlineBookManagementSystem.Controllers
                 }
                 return Json(new { success = false, message = "Failed to update settings" });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return Json(new { success = false, message = "An error occurred while updating settings" });
             }
@@ -199,7 +197,7 @@ namespace OnlineBookManagementSystem.Controllers
                 }
                 return Json(new { success = false, message = "Failed to update security settings" });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return Json(new { success = false, message = "An error occurred while updating security settings" });
             }
@@ -222,7 +220,7 @@ namespace OnlineBookManagementSystem.Controllers
                 }
                 return Json(new { success = false, message = "Failed to update email settings" });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return Json(new { success = false, message = "An error occurred while updating email settings" });
             }
@@ -241,7 +239,7 @@ namespace OnlineBookManagementSystem.Controllers
                 await _activityLogger.LogAsync("TestEmail", "Email configuration test performed", userId);
                 return Json(new { success = result.Success, message = result.Message });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return Json(new { success = false, message = "Failed to test email configuration" });
             }
@@ -260,7 +258,7 @@ namespace OnlineBookManagementSystem.Controllers
                 await _activityLogger.LogAsync("ClearCache", "System cache cleared", userId);
                 return Json(new { success = true, message = "Cache cleared successfully" });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return Json(new { success = false, message = "Failed to clear cache" });
             }
@@ -279,7 +277,7 @@ namespace OnlineBookManagementSystem.Controllers
                 await _activityLogger.LogAsync("BackupDatabase", "Database backup initiated", userId);
                 return Json(new { success = result.Success, message = result.Message });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return Json(new { success = false, message = "Failed to backup database" });
             }
@@ -298,7 +296,7 @@ namespace OnlineBookManagementSystem.Controllers
                 await _activityLogger.LogAsync("ClearLogs", $"Cleared {result} old activity logs", userId);
                 return Json(new { success = true, message = $"Cleared {result} old log entries" });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return Json(new { success = false, message = "Failed to clear old logs" });
             }
