@@ -74,9 +74,23 @@
     <div class="wp-content ">
         <!-- Top Bar -->
         <div class="wp-top-bar d-flex align-items-center justify-content-between px-4 py-3 bg-white shadow-sm border-bottom sticky-top">
-            <div class="d-none d-md-block">
-                <h3 class="fw-bold">Welcome to <i class="">Whispering Pages</i></h3>
-                <h5 class="wp-text-muted">Good Morning, Reader</h5>
+            <div class="d-flex align-items-center gap-3">
+                <div class="d-none d-md-block">
+                    <h3 class="fw-bold">Welcome to <i class="">Whispering Pages</i></h3>
+                    <h5 class="wp-text-muted">Good Morning, Reader</h5>
+                </div>
+                
+                <!-- SuperAdmin Return Button - Only show when SuperAdmin is viewing -->
+                @if (Context.Session.GetString("OriginalRole") == "SuperAdmin")
+                {
+                    <div class="alert superadmin-return-alert d-flex align-items-center mb-0 py-2 px-3 rounded-pill" role="alert">
+                        <i class="bi bi-info-circle me-2"></i>
+                        <small class="me-3">Viewing as User</small>
+                        <a asp-controller="SuperAdmin" asp-action="ReturnToSuperAdmin" class="btn btn-sm rounded-pill">
+                            <i class="bi bi-arrow-left me-1"></i>Return to SuperAdmin
+                        </a>
+                    </div>
+                }
             </div>
             <div class="d-flex align-items-center gap-3">
                 <span><i class="bi bi-clock me-1"></i><span class="currenttime"></span></span>
@@ -121,6 +135,7 @@
 
     <!-- Shared Scripts -->
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/role-switcher.js" asp-append-version="true"></script>
 
 </body>
 </html>

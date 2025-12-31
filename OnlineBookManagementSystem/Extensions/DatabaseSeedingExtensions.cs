@@ -51,7 +51,7 @@ public static class DatabaseSeedingExtensions
     
     private static async Task SeedRolesAsync(RoleManager<IdentityRole<int>> roleManager, ILogger logger)
     {
-        var roles = new[] { "SuperAdmin", "Admin", "User", "Guest" };
+        var roles = new[] { "SuperAdmin", "Admin", "User", "Guest", "Public" };
         
         foreach (var roleName in roles)
         {
@@ -75,12 +75,11 @@ public static class DatabaseSeedingExtensions
     
     private static async Task SeedUsersAsync(UserManager<User> userManager, IConfiguration configuration, ILogger logger)
     {
-        // Seed SuperAdmin
+        // Seed SuperAdmin with multiple roles
         var superAdminConfig = configuration.GetSection("SuperAdmin");
-        await CreateUserIfNotExistsAsync(userManager, logger, 
+        await CreateSuperAdminWithMultipleRolesAsync(userManager, logger, 
             superAdminConfig["Email"]!, 
             superAdminConfig["Password"]!, 
-            "SuperAdmin", 
             "Super Administrator");
         
         // Seed Admin
@@ -98,6 +97,74 @@ public static class DatabaseSeedingExtensions
             userConfig["Password"]!, 
             "User", 
             "Regular User");
+            
+        // Seed Public User
+        var publicConfig = configuration.GetSection("Public");
+        await CreateUserIfNotExistsAsync(userManager, logger, 
+            publicConfig["Email"] ?? "public@whisperingpages.com", 
+            publicConfig["Password"] ?? "Public123!", 
+            "Public", 
+            "Public User");
+    }
+    
+    private static async Task CreateSuperAdminWithMultipleRolesAsync(
+        UserManager<User> userManager, 
+        ILogger logger, 
+        string email, 
+        string password, 
+        string name)
+    {
+        var existingUser = await userManager.FindByEmailAsync(email);
+        if (existingUser != null)
+        {
+            logger.LogInformation("SuperAdmin user {Email} already exists", email);
+            
+            // Ensure SuperAdmin has all roles
+            var allRoles = new[] { "SuperAdmin", "Admin", "User", "Public" };
+            var currentRoles = await userManager.GetRolesAsync(existingUser);
+            
+            foreach (var role in allRoles)
+            {
+                if (!currentRoles.Contains(role))
+                {
+                    await userManager.AddToRoleAsync(existingUser, role);
+                    logger.LogInformation("Added role {Role} to existing SuperAdmin {Email}", role, email);
+                }
+            }
+            return;
+        }
+        
+        var user = new User
+        {
+            UserName = email,
+            Email = email,
+            Name = name,
+            EmailConfirmed = true,
+            IsEmailConfirmed = true,
+            IsPendingApproval = false,
+            RequestDate = DateTime.UtcNow,
+            RequestedRole = "SuperAdmin",
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
+        };
+        
+        var result = await userManager.CreateAsync(user, password);
+        if (result.Succeeded)
+        {
+            // Add all roles to SuperAdmin
+            var allRoles = new[] { "SuperAdmin", "Admin", "User", "Public" };
+            foreach (var role in allRoles)
+            {
+                await userManager.AddToRoleAsync(user, role);
+                logger.LogInformation("Added role {Role} to SuperAdmin {Email}", role, email);
+            }
+            logger.LogInformation("Created SuperAdmin user: {Email} with multiple roles", email);
+        }
+        else
+        {
+            logger.LogError("Failed to create SuperAdmin user {Email}: {Errors}", 
+                email, string.Join(", ", result.Errors.Select(e => e.Description)));
+        }
     }
     
     private static async Task CreateUserIfNotExistsAsync(

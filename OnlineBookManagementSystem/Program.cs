@@ -88,6 +88,7 @@ app.UseRateLimiter();
 app.UseMiddleware<RequestLoggingMiddleware>();
 app.UseSession();
 app.UseAuthentication();
+app.UseMiddleware<RoleSwitchingMiddleware>();
 app.UseAuthorization();
 
 app.MapControllerRoute(

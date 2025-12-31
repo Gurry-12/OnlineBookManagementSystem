@@ -106,6 +106,8 @@ namespace OnlineBookManagementSystem.Extensions
                 options.AddPolicy("SuperAdminOnly", policy => policy.RequireRole("SuperAdmin"));
                 options.AddPolicy("AdminOrHigher", policy => policy.RequireRole("SuperAdmin", "Admin"));
                 options.AddPolicy("UserOrHigher", policy => policy.RequireRole("SuperAdmin", "Admin", "User"));
+                options.AddPolicy("PublicOrHigher", policy => policy.RequireRole("SuperAdmin", "Admin", "User", "Public"));
+                options.AddPolicy("AuthenticatedUsers", policy => policy.RequireRole("SuperAdmin", "Admin", "User", "Public", "Guest"));
             });
 
             // Application Services

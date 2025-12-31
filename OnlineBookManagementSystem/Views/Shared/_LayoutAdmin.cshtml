@@ -78,8 +78,20 @@
 
     <div class="wp-content">
         <div class="wp-top-bar d-flex align-items-center justify-content-between px-4 py-3 bg-white shadow-sm border-bottom sticky-top">
-            <div>
+            <div class="d-flex align-items-center gap-3">
                 <h2 class="fw-bold">Admin Dashboard</h2>
+                
+                <!-- SuperAdmin Return Button - Only show when SuperAdmin is viewing -->
+                @if (Context.Session.GetString("OriginalRole") == "SuperAdmin")
+                {
+                    <div class="alert superadmin-return-alert d-flex align-items-center mb-0 py-2 px-3 rounded-pill" role="alert">
+                        <i class="bi bi-info-circle me-2"></i>
+                        <small class="me-3">Viewing as Admin</small>
+                        <a asp-controller="SuperAdmin" asp-action="ReturnToSuperAdmin" class="btn btn-sm rounded-pill">
+                            <i class="bi bi-arrow-left me-1"></i>Return to SuperAdmin
+                        </a>
+                    </div>
+                }
             </div>
             <div>
             <span><i class="bi bi-clock me-1"></i><span class="currenttime"></span></span>
@@ -115,6 +127,7 @@
 
     <!-- Shared Scripts -->
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/role-switcher.js" asp-append-version="true"></script>
 
 </body>
 </html>

@@ -324,6 +324,43 @@ namespace OnlineBookManagementSystem.Controllers
             }
         }
 
+        [Authorize(Policy = "SuperAdminOnly")]
+        public IActionResult SwitchToRole(string role)
+        {
+            var userId = GetUserIdFromClaims();
+            if (userId == 0) return RedirectToAction("Login", "Auth");
+
+            // Store the original role and current switched role in session
+            if (HttpContext.Session.GetString("OriginalRole") == null)
+            {
+                HttpContext.Session.SetString("OriginalRole", "SuperAdmin");
+            }
+            
+            HttpContext.Session.SetString("CurrentViewRole", role);
+
+            // Redirect to the appropriate dashboard based on role
+            return role.ToLower() switch
+            {
+                "admin" => RedirectToAction("Dashboard", "Admin"),
+                "user" => RedirectToAction("Dashboard", "User"),
+                "public" => RedirectToAction("Index", "Home"),
+                _ => RedirectToAction("Dashboard", "SuperAdmin")
+            };
+        }
+
+        [Authorize(Policy = "SuperAdminOnly")]
+        public IActionResult ReturnToSuperAdmin()
+        {
+            var userId = GetUserIdFromClaims();
+            if (userId == 0) return RedirectToAction("Login", "Auth");
+
+            // Clear the switched role session
+            HttpContext.Session.Remove("CurrentViewRole");
+            HttpContext.Session.Remove("OriginalRole");
+
+            return RedirectToAction("Dashboard", "SuperAdmin");
+        }
+
         private int GetUserIdFromClaims()
         {
             var idClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;

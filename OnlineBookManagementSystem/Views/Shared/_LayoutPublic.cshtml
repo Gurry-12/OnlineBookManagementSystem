@@ -33,6 +33,18 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="publicNavbar">
+                    <!-- SuperAdmin Return Button - Only show when SuperAdmin is viewing -->
+                    @if (Context.Session.GetString("OriginalRole") == "SuperAdmin")
+                    {
+                        <div class="alert superadmin-return-alert d-flex align-items-center mb-0 py-2 px-3 rounded-pill me-3" role="alert">
+                            <i class="bi bi-info-circle me-2"></i>
+                            <small class="me-3">Viewing as Public</small>
+                            <a asp-controller="SuperAdmin" asp-action="ReturnToSuperAdmin" class="btn btn-sm rounded-pill">
+                                <i class="bi bi-arrow-left me-1"></i>Return to SuperAdmin
+                            </a>
+                        </div>
+                    }
+                    
                     <ul class="navbar-nav me-auto">
                         <!-- Public links -->
                         <li class="nav-item"><a class="nav-link" asp-controller="Books" asp-action="PublicList"><i class="bi bi-book me-1"></i>Browse Books</a></li>
@@ -68,5 +80,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="~/js/auth/auth.js"></script>
     <script src="~/js/site.js"></script>
+    <script src="~/js/role-switcher.js" asp-append-version="true"></script>
 </body>
 </html>

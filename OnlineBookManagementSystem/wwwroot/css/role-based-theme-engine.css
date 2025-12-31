@@ -793,3 +793,91 @@ body {
     /* Prevent nested role layouts - this should never happen */
     display: none !important;
 }
+/* ===== ROLE SWITCHER STYLES ===== */
+.role-switcher-dropdown {
+    border: 2px solid var(--wp-brand-primary);
+    background: linear-gradient(45deg, var(--wp-brand-primary), var(--wp-brand-secondary));
+    color: white !important;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1000;
+}
+
+.role-switcher-dropdown:hover,
+.role-switcher-dropdown:focus,
+.role-switcher-dropdown.show {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    color: white !important;
+    background: linear-gradient(45deg, var(--wp-brand-primary), var(--wp-brand-secondary));
+}
+
+.dropdown-menu {
+    border: none !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    z-index: 1050 !important;
+    min-width: 200px !important;
+}
+
+.dropdown-item {
+    padding: 12px 20px !important;
+    transition: all 0.2s ease !important;
+    border: none !important;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+    background: var(--wp-gray-50) !important;
+    transform: translateX(5px) !important;
+    color: var(--wp-gray-800) !important;
+}
+
+.dropdown-item.active {
+    background: var(--wp-superadmin-primary) !important;
+    color: white !important;
+}
+
+.dropdown-item-text {
+    padding: 12px 20px !important;
+    color: var(--wp-gray-600) !important;
+    font-weight: 500 !important;
+}
+
+/* SuperAdmin Return Alert */
+.superadmin-return-alert {
+    background: linear-gradient(45deg, var(--wp-info), var(--wp-brand-primary));
+    border: none;
+    color: white;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+}
+
+.superadmin-return-alert .btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    backdrop-filter: blur(10px);
+}
+
+.superadmin-return-alert .btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-1px);
+}
+
+/* Ensure dropdown works on all screen sizes */
+@media (max-width: 768px) {
+    .dropdown-menu {
+        position: absolute !important;
+        transform: none !important;
+        left: 0 !important;
+        right: auto !important;
+    }
+}

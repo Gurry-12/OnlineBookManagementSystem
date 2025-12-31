@@ -46,9 +46,9 @@
                 </div>
                 <div class="card-body text-center">
                     <div class="book-cover-container mb-3">
-                        @if (!string.IsNullOrEmpty(Model.ImgUrl))
+                        @if (!string.IsNullOrEmpty(Model.ImageUrl))
                         {
-                            <img src="@Model.ImgUrl" alt="@Model.Title" class="img-fluid rounded shadow" style="max-height: 300px; width: auto;">
+                            <img src="@Model.ImageUrl" alt="@Model.Title" class="img-fluid rounded shadow" style="max-height: 300px; width: auto;">
                         }
                         else
                         {
@@ -179,14 +179,14 @@
                     
                     <div class="info-group mb-3">
                         <label class="fw-bold text-muted">Last Updated:</label>
-                        <p class="mb-0">@Model.UpdatedAt?.ToString("MMM dd, yyyy 'at' hh:mm tt")</p>
+                        <p class="mb-0">@Model.UpdatedAt.ToString("MMM dd, yyyy 'at' hh:mm tt")</p>
                     </div>
                     
                     @if (Model.IsDeleted)
                     {
                         <div class="info-group mb-3">
-                            <label class="fw-bold text-muted">Deleted:</label>
-                            <p class="mb-0 text-danger">@Model.DeletedAt?.ToString("MMM dd, yyyy 'at' hh:mm tt")</p>
+                            <label class="fw-bold text-muted">Status:</label>
+                            <p class="mb-0 text-danger">This book has been deleted</p>
                         </div>
                     }
                 </div>
@@ -249,7 +249,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body text-center">
-                <img src="@Model.ImgUrl" alt="@Model.Title" class="img-fluid">
+                <img src="@Model.ImageUrl" alt="@Model.Title" class="img-fluid">
             </div>
         </div>
     </div>
@@ -280,7 +280,7 @@
         let bookIdToDelete = 0;
 
         function viewFullImage() {
-            @if (!string.IsNullOrEmpty(Model.ImgUrl))
+            @if (!string.IsNullOrEmpty(Model.ImageUrl))
             {
                 <text>
                 $('#imageModal').modal('show');
@@ -295,10 +295,10 @@
         }
 
         function copyImageUrl() {
-            @if (!string.IsNullOrEmpty(Model.ImgUrl))
+            @if (!string.IsNullOrEmpty(Model.ImageUrl))
             {
                 <text>
-                navigator.clipboard.writeText('@Model.ImgUrl').then(function() {
+                navigator.clipboard.writeText('@Model.ImageUrl').then(function() {
                     showToast('Image URL copied to clipboard!', 'success');
                 });
                 </text>
@@ -409,7 +409,7 @@
             transform: translateY(-2px);
         }
         
-        @media print {
+        @@media print {
             .btn, .card-header, nav, .modal {
                 display: none !important;
             }
