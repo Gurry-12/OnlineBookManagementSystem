@@ -16,18 +16,28 @@ public partial class User : IdentityUser<int>  // PK int for consistency
     // From prior upgrades: Email confirmation & reset
     public bool IsEmailConfirmed { get; set; }
     public string? EmailConfirmationToken { get; set; }
+    public DateTime? EmailConfirmationTokenExpiry { get; set; }
     public string? PasswordResetToken { get; set; }  // Hashed
-    public DateTimeOffset? PasswordResetExpiry { get; set; }
+    public DateTime? PasswordResetExpiry { get; set; }
+
+    // New fields for Approval Workflow
+    public bool IsPendingApproval { get; set; } = true;
+    public DateTime? RequestDate { get; set; }
+    public string? RequestedRole { get; set; }
 
     // Timestamps
-    [Column(TypeName = "datetimeoffset")]
-    public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
-    [Column(TypeName = "datetimeoffset")]
-    public DateTimeOffset UpdatedAt { get; set; } = DateTimeOffset.UtcNow;
+    [Column(TypeName = "DateTime")]
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    [Column(TypeName = "DateTime")]
+    public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+    [Column(TypeName = "DateTime")]
+    public DateTime? LastLoginDate { get; set; }
 
     // Existing nav props
     public virtual ICollection<ActivityLog> ActivityLogs { get; set; } = new List<ActivityLog>();
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
     public virtual ICollection<ShoppingCart> ShoppingCarts { get; set; } = new List<ShoppingCart>();
     public virtual ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();  // New
+    public virtual ICollection<BookReview> BookReviews { get; set; } = new List<BookReview>();
+    public virtual ICollection<BookReview> ModeratedReviews { get; set; } = new List<BookReview>();
 }

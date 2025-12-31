@@ -21,10 +21,17 @@ public partial class Book
     [StringLength(20)]  // Standard ISBN length
     public string? ISBN { get; set; }  // Uppercase for consistency
 
+    [Column(TypeName = "datetime")]
+    public DateTime? PublicationDate { get; set; }
+
     [StringLength(500)]
     public string? ImageUrl { get; set; }  // Renamed from ImgUrl
 
-    public int StockQuantity { get; set; } = 0;  // Changed from string Stock
+    public int StockQuantity { get; set; } = 0;
+    public int LowStockThreshold { get; set; } = 5; // Default threshold
+
+    [NotMapped]
+    public bool IsAvailable => StockQuantity > 0;
 
     [StringLength(maximumLength: 1000)]
     public string? Description { get; set; }  // New
@@ -33,17 +40,20 @@ public partial class Book
 
     public string ImgUrl { get; set; }
     public bool IsFavorite { get; set; } = false;
+    public bool IsFeatured { get; set; } = false;  // New property for featured books
+    public double AverageRating { get; set; } = 0.0;  // New property for ratings
     public bool IsDeleted { get; set; } = false;
 
     // Timestamps (replace CreatedDate)
-    [Column(TypeName = "datetimeoffset")]
-    public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
-    [Column(TypeName = "datetimeoffset")]
-    public DateTimeOffset UpdatedAt { get; set; } = DateTimeOffset.UtcNow;
+    [Column(TypeName = "datetime")]
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    [Column(TypeName = "DateTime")]
+    public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
     public virtual Category? Category { get; set; }
 
 
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
     public virtual ICollection<ShoppingCart> ShoppingCarts { get; set; } = new List<ShoppingCart>();
+    public virtual ICollection<BookReview> BookReviews { get; set; } = new List<BookReview>();
 }

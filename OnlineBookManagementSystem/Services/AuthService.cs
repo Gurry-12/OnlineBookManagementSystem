@@ -1,10 +1,9 @@
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore; // Fixed: Changed from System.Data.Entity
 using Microsoft.Extensions.Caching.Memory;
+using OnlineBookManagementSystem.Interfaces; // Uses our new IEmailSender
 using Microsoft.IdentityModel.Tokens;
 using OnlineBookManagementSystem.Helper;
-using OnlineBookManagementSystem.Interfaces;
 using OnlineBookManagementSystem.Models;
 using OnlineBookManagementSystem.Models.ViewModel;
 using OnlineBookManagementSystem.Models.ViewModel.AuthViewModels;
@@ -15,11 +14,11 @@ using System.Text;
 
 namespace OnlineBookManagementSystem.Services
 {
-    public class AuthService : IAuthInterface
+    public class AuthService : IAuthService
     {
-        private const int Minutes = 60; // Increased to 60 for easier testing
+        private const int Minutes = 30; // Increased to 60 for easier testing
         private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
+
         private readonly RoleManager<IdentityRole<int>> _roleManager;
         private readonly BookManagementContext _context;
         private readonly IConfiguration _config;
@@ -27,20 +26,21 @@ namespace OnlineBookManagementSystem.Services
         private readonly IMemoryCache _cache;
         private readonly ILogger<AuthService> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public AuthService(
             UserManager<User> userManager,
-            SignInManager<User> signInManager,
+
             RoleManager<IdentityRole<int>> roleManager,
             BookManagementContext context,
             IConfiguration config,
             IDnsChecker dnsChecker,
             IMemoryCache cache,
             ILogger<AuthService> logger,
-            IEmailSender emailSender = null)
+            IEmailSender emailSender,
+            IHttpContextAccessor httpContextAccessor)
         {
             _userManager = userManager;
-            _signInManager = signInManager;
             _roleManager = roleManager;
             _context = context;
             _config = config;
@@ -48,6 +48,7 @@ namespace OnlineBookManagementSystem.Services
             _cache = cache;
             _logger = logger;
             _emailSender = emailSender;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task SeedRolesAsync()
@@ -68,14 +69,6 @@ namespace OnlineBookManagementSystem.Services
             if (string.IsNullOrWhiteSpace(data.Email) || string.IsNullOrWhiteSpace(data.Password))
                 return (false, "Invalid input.", null);
 
-            // ---------------------------------------------------------
-            // DEV FIX: Commented out DNS check so you can use test emails
-            // ---------------------------------------------------------
-            // if (!await _dnsChecker.DomainHasMxRecordAsync(data.Email))
-            // {
-            //     return (false, "Invalid email domain.", null);
-            // }
-
             var user = await _userManager.FindByEmailAsync(data.Email);
 
             // Added check for IsDeleted false explicitly
@@ -86,11 +79,15 @@ namespace OnlineBookManagementSystem.Services
                 return (false, "Invalid credentials.", null);
             }
 
-            // ---------------------------------------------------------
-            // DEV FIX: Commented out Email Confirmation check for login
-            // ---------------------------------------------------------
-            // if (!user.IsEmailConfirmed)
-            //    return (false, "Please confirm your email first.", user);
+            if (user.IsPendingApproval)
+            {
+                _logger.LogWarning("Login attempt for pending user {Email}", data.Email);
+                return (false, "Account under review. Please wait for approval.", null);
+            }
+
+            // Check Email Confirmation
+            if (!user.EmailConfirmed && !user.IsEmailConfirmed) // Check both for safety during migration
+               return (false, "Please confirm your email first. Check your inbox.", null);
 
             await _userManager.ResetAccessFailedCountAsync(user);
             _logger.LogInformation("User {Email} logged in successfully.", data.Email);
@@ -128,7 +125,7 @@ namespace OnlineBookManagementSystem.Services
             {
                 UserId = user.Id,
                 Token = hashedRefresh,
-                ExpiryDate = DateTimeOffset.UtcNow.AddDays(7),
+                ExpiryDate = DateTime.UtcNow.AddDays(7),
                 CreatedByIp = "127.0.0.1" // Placeholder
             };
 
@@ -150,43 +147,27 @@ namespace OnlineBookManagementSystem.Services
             if (await _userManager.FindByEmailAsync(data.Email) != null)
                 return (false, "Email already registered.", null);
 
-            // ---------------------------------------------------------
-            // DEV FIX: Commented out DNS check for registration
-            // ---------------------------------------------------------
-            // if (!await _dnsChecker.DomainHasMxRecordAsync(data.Email))
-            //    return (false, "Invalid email domain.", null);
-
             var user = new User
             {
                 UserName = data.Email,
                 Email = data.Email,
                 Name = data.Name,
-                // ---------------------------------------------------------
-                // DEV FIX: Auto-confirm email so you can login immediately
-                // ---------------------------------------------------------
-                IsEmailConfirmed = true
+                IsPendingApproval = true,
+                RequestDate = DateTime.UtcNow,
+                RequestedRole = data.RequestedRole,
+                IsEmailConfirmed = false, // Must be confirmed via email after approval
+                EmailConfirmed = false
             };
 
             var result = await _userManager.CreateAsync(user, data.Password);
             if (!result.Succeeded)
                 return (false, string.Join(", ", result.Errors.Select(e => e.Description)), null);
 
-            await _userManager.AddToRoleAsync(user, "User");
+            // No role assigned yet - waiting for approval
+            // await _userManager.AddToRoleAsync(user, "User");
 
-            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-
-            // Only send email if sender is configured
-            if (_emailSender != null)
-            {
-                try
-                {
-                    await _emailSender.SendEmailAsync(data.Email, "Confirm Your Email", $"Confirm: {token}");
-                }
-                catch { /* Ignore email errors in dev */ }
-            }
-
-            _logger.LogInformation("User {Email} registered.", data.Email);
-            return (true, "Registration successful.", token);
+            _logger.LogInformation("User {Email} registered (pending approval).", data.Email);
+            return (true, "Registration successful. Your account is pending approval.", null);
         }
 
         public async Task<bool> ConfirmEmailAsync(string token, string email)
@@ -194,32 +175,104 @@ namespace OnlineBookManagementSystem.Services
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null) return false;
 
-            var result = await _userManager.ConfirmEmailAsync(user, token);
+            // Custom Token Verification
+            if (user.EmailConfirmationTokenExpiry < DateTime.UtcNow) return false;
+
+            var hashedToken = HashToken(token);
+            if (user.EmailConfirmationToken != hashedToken) return false;
+
+            user.EmailConfirmed = true;
+            user.IsEmailConfirmed = true;
+            user.EmailConfirmationToken = null;
+            user.EmailConfirmationTokenExpiry = null;
+
+            var result = await _userManager.UpdateAsync(user);
             return result.Succeeded;
         }
 
         public async Task<string?> GeneratePasswordResetTokenAsync(string email)
         {
+            // Rate Limiting Logic
+            var ip = _httpContextAccessor.HttpContext?.Connection.RemoteIpAddress?.ToString() ?? "unknown";
+            var emailKey = $"ResetLimit_Email_{email}";
+            var ipKey = $"ResetLimit_IP_{ip}";
+
+            var emailCount = _cache.GetOrCreate(emailKey, entry => { entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1); return 0; });
+            var ipCount = _cache.GetOrCreate(ipKey, entry => { entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1); return 0; });
+
+            if (emailCount >= 5 || ipCount >= 5)
+            {
+                _logger.LogWarning("Rate limit exceeded for password reset. Email: {Email}, IP: {IP}", email, ip);
+                return null;
+            }
+
+            // Increment counters
+            _cache.Set(emailKey, emailCount + 1, TimeSpan.FromHours(1));
+            _cache.Set(ipKey, ipCount + 1, TimeSpan.FromHours(1));
+
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null || (bool)user.IsDeleted) return null;
 
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             user.PasswordResetToken = HashToken(token);
-            user.PasswordResetExpiry = DateTimeOffset.UtcNow.AddMinutes(15);
+            user.PasswordResetExpiry = DateTime.UtcNow.AddMinutes(30); // 30 min expiration
             await _userManager.UpdateAsync(user);
 
-            if (_emailSender != null)
-                await _emailSender.SendEmailAsync(email, "Reset Password", $"Reset link: {token}");
+            // Construct secure link (requires HttpContext for base URL, or config)
+            var request = _httpContextAccessor.HttpContext?.Request;
+            var baseUrl = request != null ? $"{request.Scheme}://{request.Host}" : _config["AppUrl"];
+            var resetLink = $"{baseUrl}/Auth/ResetPassword?token={System.Net.WebUtility.UrlEncode(token)}&email={System.Net.WebUtility.UrlEncode(email)}";
+
+            var message = $@"
+                <h2>Password Reset Request</h2>
+                <p>Hello,</p>
+                <p>We received a request to reset your password. Click the link below to proceed:</p>
+                <p><a href='{resetLink}' style='background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;'>Reset Password</a></p>
+                <p>If you did not request this, please ignore this email.</p>
+                <br>
+                <p>Best regards,<br>Whispering Pages Team</p>";
+
+            await _emailSender.SendEmailAsync(email, "Reset Your Password", message, $"Please reset your password by copying this link: {resetLink}");
 
             return token;
         }
 
+        // Example: Sending Confirmation Email (Feature #2 prep)
+        public async Task SendWelcomeEmailAsync(User user)
+        {
+            var subject = "Welcome to Whispering Pages!";
+            var message = $@"
+                <h1>Welcome, {user.Name}!</h1>
+                <p>Thank you for registering. Your account is currently under review by our administrators.</p>
+                <p>You will receive another email once your account is approved.</p>";
+
+            await _emailSender.SendEmailAsync(user.Email, subject, message);
+        }
+
+        public async Task SendUserApprovedEmailAsync(User user, string confirmationLink)
+        {
+            var message = $@"
+                <h2>Welcome to Whispering Pages!</h2>
+                <p>Your account has been approved by the administrator.</p>
+                <p>Please confirm your email address to activate your account and login:</p>
+                <p><a href='{confirmationLink}' style='background-color: #28a745; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;'>Confirm Email</a></p>
+                <p>Link expires in 24 hours.</p>";
+
+            await _emailSender.SendEmailAsync(user.Email, "Account Approved - Confirm Email", message, $"Your account is approved. Confirm email: {confirmationLink}");
+        }
+
         public async Task<bool> UpdatePasswordAsync(string token, string newPassword)
         {
-            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.PasswordResetToken != null && u.PasswordResetExpiry > DateTimeOffset.UtcNow);
+            var hashedToken = HashToken(token);
+            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.PasswordResetToken == hashedToken && u.PasswordResetExpiry > DateTime.UtcNow);
             if (user == null) return false;
 
-            if (HashToken(token) != user.PasswordResetToken) return false;
+            // We use the original token for Identity ResetPasswordAsync because Identity validates its own token signature
+            // But here we are using a custom token flow stored in User entity for the LINK verification.
+            // Wait, GeneratePasswordResetTokenAsync uses _userManager.GeneratePasswordResetTokenAsync.
+            // That token is valid for Identity.
+            // We stored the HASH of it.
+            // If we found the user by hash, we know it's the right user and token.
 
             var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
             if (result.Succeeded)
@@ -277,7 +330,7 @@ namespace OnlineBookManagementSystem.Services
             user.Name = model.NewName;
             user.Email = model.NewEmail;
             user.UserName = model.NewEmail;
-            user.UpdatedAt = DateTimeOffset.UtcNow;
+            user.UpdatedAt = DateTime.UtcNow;
 
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)
@@ -338,7 +391,7 @@ namespace OnlineBookManagementSystem.Services
             if (existingToken == null)
                 return (false, "", "", "Invalid token.");
 
-            if (existingToken.IsRevoked || existingToken.ExpiryDate < DateTimeOffset.UtcNow)
+            if (existingToken.IsRevoked || existingToken.ExpiryDate < DateTime.UtcNow)
                 return (false, "", "", "Token expired or revoked.");
 
             var user = existingToken.User;
@@ -386,6 +439,20 @@ namespace OnlineBookManagementSystem.Services
             }
 
             return userViewModels;
+        }
+
+        public async Task<bool> ChangePasswordAsync(int userId, string currentPassword, string newPassword)
+        {
+            var user = await _userManager.FindByIdAsync(userId.ToString());
+            if (user == null || (bool)user.IsDeleted) return false;
+
+            var result = await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
+            if (result.Succeeded)
+            {
+                _cache.Remove($"user_{userId}");
+                return true;
+            }
+            return false;
         }
     }
 }

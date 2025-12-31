@@ -1,0 +1,148 @@
+﻿@using OnlineBookManagementSystem.Models.ViewModel
+@model BookDetailsViewModel
+
+@{
+    ViewData["Title"] = Model.Title;
+    Layout = ViewData["Layout"]?.ToString() ?? "_LayoutUser";
+}
+
+<div class="container py-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="UserBookList">Books</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Model.Title</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <!-- Image Column -->
+        <div class="col-md-4 mb-4">
+            <div class="card border-0 shadow-sm">
+                <img src="@(Model.Book.ImageUrl ?? Url.Content("~/images/default-book.jpg"))" class="card-img-top" alt="@Model.Title">
+            </div>
+        </div>
+
+        <!-- Details Column -->
+        <div class="col-md-8">
+            <h1 class="display-5 fw-bold">@Model.Title</h1>
+            <p class="fs-4 text-muted">by @Model.Book.Author</p>
+
+            <div class="d-flex align-items-center mb-3">
+                <span class="text-warning fs-5 me-2">
+                    @for(int i=0; i < 5; i++) {
+                        if (i < Math.Round(Model.Book.AverageRating)) { <i class="bi bi-star-fill"></i> }
+                        else { <i class="bi bi-star"></i> }
+                    }
+                </span>
+                <span class="text-muted">(@Model.Book.BookReviews reviews)</span>
+            </div>
+
+            <h2 class="text-primary mb-3">₹@Model.Book.Price</h2>
+
+            <!-- Stock Status -->
+            <div class="mb-4">
+                @if (Model.Book.StockQuantity > 0)
+                {
+                    <span class="badge bg-success fs-6"><i class="bi bi-check-circle me-1"></i>In Stock (@Model.Book.StockQuantity available)</span>
+                }
+                else
+                {
+                    <span class="badge bg-danger fs-6"><i class="bi bi-x-circle me-1"></i>Out of Stock</span>
+                }
+            </div>
+
+            <p class="lead">@Model.Book.Description</p>
+
+            <div class="row mt-4">
+                <div class="col-md-6 d-grid gap-2">
+                    @if (Model.Book.StockQuantity > 0)
+                    {
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Qty</span>
+                            <input type="number" id="qty" class="form-control" value="1" min="1" max="@Model.Book.StockQuantity">
+                            <button class="btn btn-primary" onclick="AddToCart(@Model.Book.Id)">
+                                <i class="bi bi-cart-plus me-2"></i>Add to Cart
+                            </button>
+                        </div>
+                    }
+                    else
+                    {
+                        <button class="btn btn-secondary disabled" disabled>
+                            <i class="bi bi-cart-x me-2"></i>Out of Stock
+                        </button>
+                    }
+                </div>
+                <div class="col-md-6 d-grid gap-2">
+                     <button class="btn btn-outline-danger" onclick="ToggleFavorite(@Model.Book.Id)">
+                        <i class="bi @(Model.Book.IsFavorite ? "bi-heart-fill" : "bi-heart")" id="fav-icon-@Model.Book.Id"></i>
+                        <span id="fav-text-@Model.Book.Id">@(Model.Book.IsFavorite ? "Remove from Favorites" : "Add to Favorites")</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <h5>Product Details</h5>
+                <ul class="list-unstyled">
+                    <li><strong>ISBN:</strong> @Model.Book.ISBN</li>
+                    <li><strong>Category:</strong> @Model.Book.Category?.Name</li>
+                    <li><strong>Added:</strong> @Model.Book.CreatedAt.ToString("MMM dd, yyyy")</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        async function AddToCart(bookId) {
+            const qty = document.getElementById('qty').value;
+            try {
+                const response = await fetch('/User/AddToCart', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ bookId: bookId, quantity: parseInt(qty) })
+                });
+                const res = await response.json();
+                if (res.success) {
+                    toastr.success(res.message);
+                    // Update cart badge if exists
+                    if(document.getElementById('cart-count'))
+                        document.getElementById('cart-count').innerText = res.cartCount;
+                } else {
+                    toastr.error(res.message);
+                }
+            } catch (err) {
+                toastr.error('Error adding to cart');
+            }
+        }
+
+        async function ToggleFavorite(bookId) {
+             try {
+                const response = await fetch('/User/ToggleFavorite', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ bookId: bookId })
+                });
+                const res = await response.json();
+                if (res.success) {
+                    toastr.success(res.message);
+                    const icon = document.getElementById('fav-icon-' + bookId);
+                    const text = document.getElementById('fav-text-' + bookId);
+                    if (res.isFavorite) {
+                        icon.classList.remove('bi-heart');
+                        icon.classList.add('bi-heart-fill');
+                        text.innerText = "Remove from Favorites";
+                    } else {
+                        icon.classList.remove('bi-heart-fill');
+                        icon.classList.add('bi-heart');
+                        text.innerText = "Add to Favorites";
+                    }
+                } else {
+                    toastr.error(res.message);
+                }
+            } catch (err) {
+                toastr.error('Error updating favorites');
+            }
+        }
+    </script>
+}

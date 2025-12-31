@@ -19,15 +19,15 @@ namespace OnlineBookManagementSystem.Controllers
             _activityLoggerService = activityLogger;
         }
 
-        [Authorize(Policy = "AdminOrHigher")]
-        public async Task<IActionResult> AdminIndex()
-        {
-            var userId = GetUserIdFromClaims();  // Helper below
-            if (userId == 0) return RedirectToAction("Login", "Auth");
+        //[Authorize(Policy = "AdminOrHigher")]
+        //public async Task<IActionResult> AdminIndex()
+        //{
+        //    var userId = GetUserIdFromClaims();  // Helper below
+        //    if (userId == 0) return RedirectToAction("Login", "Auth");
 
-            var adminInfo = _bookService.GetQuickStats(userId);
-            return View("Admin/AdminIndex", adminInfo);
-        }
+        //    var adminInfo = _bookService.GetQuickStats(userId);
+        //    return View("Admin/AdminIndex", adminInfo);
+        //}
 
         [Authorize(Policy = "AdminOrHigher")]
         [HttpGet]
@@ -158,24 +158,35 @@ namespace OnlineBookManagementSystem.Controllers
             return Json(new { success });
         }
 
-        // Pagination/List (shared)
+        // Admin Book List (View)
+        [Authorize(Policy = "AdminOrHigher")]
         [HttpGet]
-        public async Task<IActionResult> BookList(int page = 1, string? search = null, int? categoryId = null, string? sortBy = null)
+        public async Task<IActionResult> BookList(int page = 1, string? search = null, int? categoryId = null, string? sortBy = null, decimal? minPrice = null, decimal? maxPrice = null, bool? inStock = null)
         {
-            var model = await _bookService.GetPaginatedBooksAsync(page, 8, search, categoryId, sortBy);
-            return View("Admin/BookList", model);
+            var model = await _bookService.GetPaginatedBooksAsync(page, 12, search, categoryId, sortBy, minPrice, maxPrice, inStock);
+
+            // Populate ViewBag for Filters UI
+            ViewBag.Categories = await _bookService.GetCategoriesAsync();
+            ViewBag.Search = search;
+            ViewBag.CategoryId = categoryId;
+            ViewBag.SortBy = sortBy;
+            ViewBag.MinPrice = minPrice;
+            ViewBag.MaxPrice = maxPrice;
+            ViewBag.InStock = inStock;
+
+            return View("Admin/Books", model);
         }
 
         // Stats/Charts (cached, AdminOrHigher)
-        [Authorize(Policy = "AdminOrHigher")]
-        [HttpGet]
-        public async Task<JsonResult> GetMonthlyBookUploads(DateTimeOffset? startDate, DateTimeOffset? endDate)
-        {
-            var data = _bookService.MonthlyBookUpload(startDate, endDate);
-            var labels = data.Select(m => m.Month).ToList();
-            var counts = data.Select(m => m.Count).ToList();
-            return Json(new { labels, counts });
-        }
+        //[Authorize(Policy = "AdminOrHigher")]
+        //[HttpGet]
+        //public async Task<JsonResult> GetMonthlyBookUploads(DateTime? startDate, DateTime? endDate)
+        //{
+        //    var data = _bookService.MonthlyBookUpload(startDate, endDate);
+        //    var labels = data.Select(m => m.Month).ToList();
+        //    var counts = data.Select(m => m.Count).ToList();
+        //    return Json(new { labels, counts });
+        //}
 
         [Authorize(Policy = "AdminOrHigher")]
         [HttpGet]

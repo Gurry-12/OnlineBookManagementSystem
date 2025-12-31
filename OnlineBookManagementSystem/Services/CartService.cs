@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity.UI.Services;
+﻿
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using OnlineBookManagementSystem.Interfaces;
@@ -20,7 +20,7 @@ namespace OnlineBookManagementSystem.Services
             IMemoryCache cache,
             ILogger<CartService> logger,
             IActivityLogger activityLogger,
-            IEmailSender emailSender = null)
+            IEmailSender? emailSender = null)
         {
             _context = context;
             _cache = cache;
@@ -83,9 +83,17 @@ namespace OnlineBookManagementSystem.Services
             try
             {
                 var book = await _context.Books.FirstOrDefaultAsync(b => b.Id == bookId && !b.IsDeleted);
-                if (book == null || book.StockQuantity < quantity)
+                if (book == null) return false;
+
+                // Check stock
+                var currentInCart = await _context.ShoppingCarts
+                    .Where(sc => sc.UserId == userId && sc.BookId == bookId && !sc.IsDeleted)
+                    .SumAsync(sc => sc.Quantity);
+
+                if (book.StockQuantity < (currentInCart + quantity))
                 {
-                    _logger.LogWarning("Stock insufficient for book {BookId}, requested {Quantity}, available {Stock}", bookId, quantity, book?.StockQuantity);
+                    _logger.LogWarning("Stock insufficient for book {BookId}. Stock: {Stock}, InCart: {InCart}, Req: {Req}",
+                        bookId, book.StockQuantity, currentInCart, quantity);
                     return false;
                 }
 
@@ -104,7 +112,7 @@ namespace OnlineBookManagementSystem.Services
                         BookId = bookId,
                         Quantity = quantity,
                         IsDeleted = false,
-                        AddedAt = DateTimeOffset.UtcNow
+                        AddedAt = DateTime.UtcNow
                     };
                     await _context.ShoppingCarts.AddAsync(existingCart);
                 }
@@ -219,18 +227,20 @@ namespace OnlineBookManagementSystem.Services
                     Address = request.Address,
                     PaymentMethod = request.PaymentMethod,
                     TotalAmount = total,
-                    OrderDate = DateTimeOffset.UtcNow,
+                    OrderDate = DateTime.UtcNow,
                     Status = "Pending",
                     PaymentStatus = "Unpaid",
                     IsDeleted = false,
-                    CreatedAt = DateTimeOffset.UtcNow,
-                    UpdatedAt = DateTimeOffset.UtcNow
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
                 };
 
                 _context.Orders.Add(order);
                 await _context.SaveChangesAsync();  // For OrderId
 
                 // Create OrderDetails
+                var lowStockBooks = new List<string>();
+
                 foreach (var cartItem in cartItems)
                 {
                     var orderDetail = new OrderDetail
@@ -245,6 +255,12 @@ namespace OnlineBookManagementSystem.Services
 
                     // Deduct stock
                     cartItem.Book.StockQuantity -= cartItem.Quantity;
+
+                    // Check Low Stock Threshold
+                    if (cartItem.Book.StockQuantity <= cartItem.Book.LowStockThreshold)
+                    {
+                        lowStockBooks.Add($"{cartItem.Book.Title} (Remaining: {cartItem.Book.StockQuantity})");
+                    }
                 }
 
                 // Soft delete cart items
@@ -264,6 +280,22 @@ namespace OnlineBookManagementSystem.Services
                         "Order Confirmation",
                         $"Thank you! Order #{order.Id} placed for ₹{total}. Details: {request.Name} at {request.Address}."
                     );
+
+                    // Low Stock Alert to Admin (hardcoded admin email for now or fetched via settings)
+                    if (lowStockBooks.Any())
+                    {
+                        // In real app, fetch admin email from settings
+                        var settings = await _context.Users
+                           .Where(u => u.Email == "admin@whisperingpages.com") // Example
+                           .Select(u => u.Email)
+                           .FirstOrDefaultAsync() ?? "admin@whisperingpages.com";
+
+                        await _emailSender.SendEmailAsync(
+                            settings,
+                            "Low Stock Warning",
+                            $"The following books are running low on stock:<br/><ul><li>{string.Join("</li><li>", lowStockBooks)}</li></ul>"
+                        );
+                    }
                 }
 
                 _cache.Remove($"cart_{userId}");
@@ -295,6 +327,32 @@ namespace OnlineBookManagementSystem.Services
             await _context.SaveChangesAsync();
             _logger.LogInformation("Inventory deducted for Order {OrderId}", orderId);
             return true;
+        }
+
+        // New methods for enhanced functionality
+        public async Task<int> GetCartItemCountAsync(int userId)
+        {
+            return await _context.ShoppingCarts
+                .CountAsync(sc => sc.UserId == userId && !sc.IsDeleted);
+        }
+
+        public async Task<(bool Success, string Message, int CartCount)> AddToCartAsync(int userId, int bookId, int quantity)
+        {
+            try
+            {
+                var success = await AddOrUpdateCartAsync(userId, bookId, quantity);
+                if (success)
+                {
+                    var cartCount = await GetCartItemCountAsync(userId);
+                    return (true, "Item added to cart successfully", cartCount);
+                }
+                return (false, "Failed to add item to cart", 0);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to add item to cart for user {UserId}", userId);
+                return (false, "An error occurred while adding item to cart", 0);
+            }
         }
     }
 }

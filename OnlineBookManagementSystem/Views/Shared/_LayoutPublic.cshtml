@@ -4,18 +4,23 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Whispering Pages</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Bootstrap CSS - Local First -->
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"
+          asp-fallback-href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          asp-fallback-test-class="visually-hidden" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+    
+    <!-- Unified Role-Based Theme Engine -->
+    <link href="~/css/role-based-theme-engine.css" rel="stylesheet" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link href="~/css/color.css" rel="stylesheet" />
-    <link href="~/css/authstyle.css" rel="stylesheet" />
-    <link rel="stylesheet" href="~/css/layouts.css" asp-append-version="true" />
+    
+    @RenderSection("Styles", required: false)
 </head>
 <body class="public-layout">
-    <!-- Role class for CSS -->
-
     <header>
         <nav class="navbar navbar-expand-lg bg-light px-4 py-3">
             <!-- Light for public -->
@@ -24,34 +29,57 @@
                     <img src="~/images/render_main_logo_30x301.png" alt="Logo" style="height: 30px;">
                     Whispering Pages
                 </a>
-                <ul class="navbar-nav me-auto">
-                    <!-- Public links -->
-                    <li class="nav-item"><a class="nav-link" asp-controller="Books" asp-action="PublicList"><i class="bi bi-book me-1"></i>Browse Books</a></li>
-                    <li class="nav-item"><a class="nav-link" asp-controller="Categories" asp-action="Index"><i class="bi bi-tags me-1"></i>Categories</a></li>
-                </ul>
-                <div class="ms-auto d-flex gap-2">
-                    <a class="btn btn-outline-primary" asp-controller="Auth" asp-action="Login"><i class="bi bi-box-arrow-in-right me-1"></i>Login</a>
-                    <a class="btn btn-primary" asp-controller="Auth" asp-action="Registration"><i class="bi bi-person-plus me-1"></i>Sign Up</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#publicNavbar" aria-controls="publicNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="publicNavbar">
+                    <!-- SuperAdmin Return Button - Only show when SuperAdmin is viewing -->
+                    @if (Context.Session.GetString("OriginalRole") == "SuperAdmin")
+                    {
+                        <div class="alert superadmin-return-alert d-flex align-items-center mb-0 py-2 px-3 rounded-pill me-3" role="alert">
+                            <i class="bi bi-info-circle me-2"></i>
+                            <small class="me-3">Viewing as Public</small>
+                            <a asp-controller="SuperAdmin" asp-action="ReturnToSuperAdmin" class="btn btn-sm rounded-pill">
+                                <i class="bi bi-arrow-left me-1"></i>Return to SuperAdmin
+                            </a>
+                        </div>
+                    }
+                    
+                    <ul class="navbar-nav me-auto">
+                        <!-- Public links -->
+                        <li class="nav-item"><a class="nav-link" asp-controller="Books" asp-action="PublicList"><i class="bi bi-book me-1"></i>Browse Books</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="Category" asp-action="CategoryClassify"><i class="bi bi-tags me-1"></i>Categories</a></li>
+                    </ul>
+                    <div class="ms-auto d-flex gap-2">
+                        <a class="btn btn-outline-primary" asp-controller="Auth" asp-action="Login"><i class="bi bi-box-arrow-in-right me-1"></i>Login</a>
+                        <a class="btn btn-primary" asp-controller="Auth" asp-action="Registration"><i class="bi bi-person-plus me-1"></i>Sign Up</a>
+                    </div>
                 </div>
             </div>
         </nav>
     </header>
 
     <main class="container py-4">
-        <a href="e:\ddrive\github\onlinebookmanagementsystem\onlinebookmanagementsystem\views\shared\_layoutpublic.cshtml">e:\ddrive\github\onlinebookmanagementsystem\onlinebookmanagementsystem\views\shared\_layoutpublic.cshtml</a>
         @RenderBody()
     </main>
 
-    <footer class="text-center py-4 text-muted bg-light">
+    <footer class="wp-footer text-center py-4 text-muted bg-light">
         <div class="container">
-            &copy; 2025 - Whispering Pages <i class="bi bi-book-half"></i> | <a href="/Privacy">Privacy</a>
+            &copy; @DateTime.Now.Year - Whispering Pages <i class="bi bi-book-half"></i> | <a asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+
     @await RenderSectionAsync("Scripts", required: false)
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap JS - Local First -->
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
+            asp-fallback-src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            asp-fallback-test="window.bootstrap"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="~/js/auth/auth.js"></script>
-    <script src="~/js/books/bookshome.js"></script>
     <script src="~/js/site.js"></script>
+    <script src="~/js/role-switcher.js" asp-append-version="true"></script>
 </body>
 </html>

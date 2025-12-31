@@ -3,71 +3,44 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - My Book Shelf</title>
+    <title>@ViewData["Title"] - Whispering Pages</title>
 
-    <!-- External CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Bootstrap CSS - Local First -->
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"
+          asp-fallback-href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          asp-fallback-test-class="visually-hidden" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
-
-    <!-- Site CSS -->
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link href="~/css/color.css" rel="stylesheet" />
-
-    <!-- Scripts -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <link href="~/css/authstyle.css" rel="stylesheet" />
-
-    <!-- Toastr CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
-
     
+    <!-- Unified Role-Based Theme Engine -->
+    <link href="~/css/role-based-theme-engine.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/auth.css" rel="stylesheet" asp-append-version="true" />
+
+    @RenderSection("Styles", required: false)
 </head>
-<body>
+<body class="auth-body">
+    <div class="auth-layout">
+        <main class="wp-main-content">@RenderBody()</main>
+    </div>
 
-    <header>
-        <nav class="navbar navbar-expand-lg bg-transparent px-4 py-3">
-            <div class="container-fluid">
-                <a class="navbar-brand fw-bold text-dark d-flex align-items-center gap-2" href="#">
-                    <img src="~/images/render_main_logo_30x301.png" alt="Logo">
-                    Whispering Pages
-                </a>
-                <div class="ms-auto">
-                    <a class="btn btn-outline-dark" asp-area="" asp-controller="Auth" asp-action="Login">
-                        <i class="bi bi-box-arrow-in-right me-1"></i> Login
-                    </a>
-                </div>
-            </div>
-        </nav>
-    </header>
-
-    <main class="container">
-        @RenderBody()
-    </main>
-
-    <footer class="text-center py-4 text-muted">
+    <footer class="wp-footer text-center py-4 text-muted">
         <div class="container">
-            &copy; 2025 - Whispering Pages <i class="bi bi-book-half"></i>
+            &copy; @DateTime.Now.Year - Whispering Pages <i class="bi bi-book-half"></i>
         </div>
     </footer>
 
-
-
-
-    <!-- JS Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js" crossorigin="anonymous"></script>
-    <!-- jQuery (required by Toastr) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap JS - Local First -->
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
+            asp-fallback-src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            asp-fallback-test="window.bootstrap"></script>
 
-    <!-- Toastr JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
     @await RenderSectionAsync("Scripts", required: false)
-    <script src="~/js/site.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <script src="~/js/auth/auth.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/Auth/auth.js" asp-append-version="true"></script>
+
 </body>
 </html>

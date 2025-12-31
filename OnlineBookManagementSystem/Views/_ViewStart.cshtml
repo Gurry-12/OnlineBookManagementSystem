@@ -1,3 +1,11 @@
-﻿@{
-    Layout = ViewData["Layout"]?.ToString();
+@{
+    var layout = ViewData["Layout"]?.ToString();
+    if (string.IsNullOrEmpty(layout))
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+    else
+    {
+        Layout = layout;
+    }
 }

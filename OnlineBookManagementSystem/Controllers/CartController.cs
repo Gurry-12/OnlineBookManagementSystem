@@ -15,17 +15,7 @@ namespace OnlineBookManagementSystem.Controllers
             _cartService = cartService;
         }
 
-        [Authorize(Policy = "UserOrHigher")]
-        public async Task<IActionResult> CartIndexUser()
-        {
-            var userId = GetUserIdFromClaims();  // JWT
-            if (userId == 0) return Unauthorized();
 
-            var cartData = await _cartService.GetUserCartAsync(userId);
-            var summary = await _cartService.GetCartSummaryAsync(userId);
-            var viewModel = new CartViewModel { CartItems = cartData, Summary = summary };
-            return View(viewModel);
-        }
 
         [Authorize(Policy = "UserOrHigher")]
         [HttpPost]

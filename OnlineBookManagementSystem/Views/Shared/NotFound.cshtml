@@ -1,0 +1,82 @@
+@{
+    ViewData["Title"] = "Page Not Found";
+    Layout = "~/Views/Shared/_LayoutPublic.cshtml";
+}
+
+<div class="container-fluid d-flex align-items-center justify-content-center min-vh-100">
+    <div class="row justify-content-center w-100">
+        <div class="col-md-6 col-lg-5">
+            <div class="card border-0 shadow-lg rounded-4">
+                <div class="card-body text-center p-5">
+                    <div class="mb-4">
+                        <i class="bi bi-search text-warning" style="font-size: 4rem;"></i>
+                    </div>
+                    
+                    <h1 class="display-1 fw-bold text-primary mb-3">404</h1>
+                    <h2 class="h4 fw-bold mb-3">Page Not Found</h2>
+                    
+                    <p class="text-muted mb-4">
+                        The page you're looking for doesn't exist or has been moved. 
+                        Don't worry, let's get you back on track!
+                    </p>
+                    
+                    <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center">
+                        <button onclick="history.back()" class="btn btn-outline-primary">
+                            <i class="bi bi-arrow-left me-2"></i>Go Back
+                        </button>
+                        <a asp-controller="Home" asp-action="Index" class="btn btn-primary">
+                            <i class="bi bi-house me-2"></i>Go Home
+                        </a>
+                        <a asp-controller="Books" asp-action="PublicList" class="btn btn-outline-success">
+                            <i class="bi bi-book me-2"></i>Browse Books
+                        </a>
+                    </div>
+                    
+                    <hr class="my-4">
+                    
+                    <!-- Search Box -->
+                    <div class="text-start">
+                        <label class="form-label fw-medium">Looking for something specific?</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search books, authors, categories..." id="searchInput">
+                            <button class="btn btn-outline-primary" type="button" onclick="performSearch()">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Popular Links -->
+                    <div class="mt-4">
+                        <h6 class="fw-medium mb-3">Popular Pages</h6>
+                        <div class="d-flex flex-wrap gap-2 justify-content-center">
+                            <a asp-controller="Books" asp-action="PublicList" class="btn btn-sm btn-outline-secondary">All Books</a>
+                            <a asp-controller="Category" asp-action="CategoryClassify" class="btn btn-sm btn-outline-secondary">Categories</a>
+                            <a asp-controller="Home" asp-action="About" class="btn btn-sm btn-outline-secondary">About Us</a>
+                            <a asp-controller="Home" asp-action="Support" class="btn btn-sm btn-outline-secondary">Support</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function performSearch() {
+            const searchTerm = document.getElementById('searchInput').value.trim();
+            if (searchTerm) {
+                window.location.href = '/Books?search=' + encodeURIComponent(searchTerm);
+            }
+        }
+        
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+        
+        // Auto-focus search input
+        document.getElementById('searchInput').focus();
+    </script>
+}

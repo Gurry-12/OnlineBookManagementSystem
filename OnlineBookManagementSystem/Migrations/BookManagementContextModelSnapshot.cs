@@ -206,7 +206,7 @@ namespace OnlineBookManagementSystem.Migrations
                     b.Property<DateTime>("Timestamp")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValueSql("datetimeoffset('now')");
+                        .HasDefaultValueSql("DateTime('now')");
 
                     b.Property<string>("UserAgent")
                         .HasMaxLength(500)
@@ -235,13 +235,16 @@ namespace OnlineBookManagementSystem.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
+                    b.Property<double>("AverageRating")
+                        .HasColumnType("REAL");
+
                     b.Property<int?>("CategoryId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetimeoffset")
-                        .HasDefaultValueSql("datetimeoffset('now')");
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("DateTime('now')");
 
                     b.Property<string>("Description")
                         .HasMaxLength(1000)
@@ -269,10 +272,19 @@ namespace OnlineBookManagementSystem.Migrations
                         .HasColumnType("INTEGER")
                         .HasDefaultValue(false);
 
+                    b.Property<bool>("IsFeatured")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("LowStockThreshold")
+                        .HasColumnType("INTEGER");
+
                     b.Property<decimal>("Price")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("decimal(10,2)")
                         .HasDefaultValue(0m);
+
+                    b.Property<DateTime?>("PublicationDate")
+                        .HasColumnType("datetime");
 
                     b.Property<int>("StockQuantity")
                         .ValueGeneratedOnAdd()
@@ -284,10 +296,10 @@ namespace OnlineBookManagementSystem.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTimeOffset>("UpdatedAt")
+                    b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetimeoffset")
-                        .HasDefaultValueSql("datetimeoffset('now')");
+                        .HasColumnType("DateTime")
+                        .HasDefaultValueSql("DateTime('now')");
 
                     b.HasKey("Id");
 
@@ -299,16 +311,110 @@ namespace OnlineBookManagementSystem.Migrations
                     b.ToTable("Books");
                 });
 
+            modelBuilder.Entity("OnlineBookManagementSystem.Models.BookRatingCache", b =>
+                {
+                    b.Property<int>("BookId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<double>("AverageRating")
+                        .HasColumnType("real");
+
+                    b.Property<DateTime>("LastUpdated")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("DateTime('now')");
+
+                    b.Property<int>("TotalReviews")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("BookId");
+
+                    b.ToTable("BookRatingCache");
+                });
+
+            modelBuilder.Entity("OnlineBookManagementSystem.Models.BookReview", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("DateTime('now')");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(false);
+
+                    b.Property<DateTime?>("ModeratedAt")
+                        .HasColumnType("datetime");
+
+                    b.Property<int?>("ModeratedBy")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("RejectionReason")
+                        .HasMaxLength(500)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ReviewText")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Status")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(0);
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("DateTime('now')");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ModeratedBy");
+
+                    b.HasIndex("Rating");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("BookId", "Status");
+
+                    b.HasIndex("BookId", "UserId")
+                        .IsUnique();
+
+                    b.HasIndex("Status", "CreatedAt");
+
+                    b.ToTable("BookReviews", t =>
+                        {
+                            t.HasCheckConstraint("CK_BookReview_Rating", "Rating >= 1 AND Rating <= 5");
+
+                            t.HasCheckConstraint("CK_BookReview_ReviewText_Length", "LENGTH(ReviewText) >= 10 AND LENGTH(ReviewText) <= 1000");
+                        });
+                });
+
             modelBuilder.Entity("OnlineBookManagementSystem.Models.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetimeoffset")
-                        .HasDefaultValueSql("datetimeoffset('now')");
+                        .HasColumnType("DateTime")
+                        .HasDefaultValueSql("DateTime('now')");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
@@ -324,10 +430,10 @@ namespace OnlineBookManagementSystem.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTimeOffset>("UpdatedAt")
+                    b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetimeoffset")
-                        .HasDefaultValueSql("datetimeoffset('now')");
+                        .HasColumnType("DateTime")
+                        .HasDefaultValueSql("DateTime('now')");
 
                     b.HasKey("Id");
 
@@ -347,10 +453,18 @@ namespace OnlineBookManagementSystem.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTimeOffset>("CreatedAt")
+                    b.Property<string>("City")
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Country")
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetimeoffset")
-                        .HasDefaultValueSql("datetimeoffset('now')");
+                        .HasColumnType("DateTime")
+                        .HasDefaultValueSql("DateTime('now')");
 
                     b.Property<string>("FullName")
                         .HasMaxLength(100)
@@ -361,10 +475,10 @@ namespace OnlineBookManagementSystem.Migrations
                         .HasColumnType("INTEGER")
                         .HasDefaultValue(false);
 
-                    b.Property<DateTimeOffset?>("OrderDate")
+                    b.Property<DateTime?>("OrderDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
-                        .HasDefaultValueSql("datetimeoffset('now')");
+                        .HasDefaultValueSql("DateTime('now')");
 
                     b.Property<string>("PaymentMethod")
                         .IsRequired()
@@ -378,6 +492,14 @@ namespace OnlineBookManagementSystem.Migrations
                         .HasColumnType("TEXT")
                         .HasDefaultValue("Unpaid");
 
+                    b.Property<string>("PhoneNumber")
+                        .HasMaxLength(20)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("State")
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
@@ -390,13 +512,17 @@ namespace OnlineBookManagementSystem.Migrations
                         .HasColumnType("decimal(10,2)")
                         .HasDefaultValue(0m);
 
-                    b.Property<DateTimeOffset>("UpdatedAt")
+                    b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetimeoffset")
-                        .HasDefaultValueSql("datetimeoffset('now')");
+                        .HasColumnType("DateTime")
+                        .HasDefaultValueSql("DateTime('now')");
 
                     b.Property<int?>("UserId")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("ZipCode")
+                        .HasMaxLength(20)
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -445,17 +571,17 @@ namespace OnlineBookManagementSystem.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("Created")
+                    b.Property<DateTime>("Created")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetimeoffset")
-                        .HasDefaultValueSql("datetimeoffset('now')");
+                        .HasColumnType("DateTime")
+                        .HasDefaultValueSql("DateTime('now')");
 
                     b.Property<string>("CreatedByIp")
                         .HasMaxLength(45)
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTimeOffset>("ExpiryDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime>("ExpiryDate")
+                        .HasColumnType("DateTime");
 
                     b.Property<bool>("IsRevoked")
                         .ValueGeneratedOnAdd()
@@ -490,10 +616,10 @@ namespace OnlineBookManagementSystem.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("AddedAt")
+                    b.Property<DateTime>("AddedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetimeoffset")
-                        .HasDefaultValueSql("datetimeoffset('now')");
+                        .HasColumnType("DateTime")
+                        .HasDefaultValueSql("DateTime('now')");
 
                     b.Property<int>("BookId")
                         .HasColumnType("INTEGER");
@@ -521,6 +647,57 @@ namespace OnlineBookManagementSystem.Migrations
                     b.ToTable("ShoppingCarts");
                 });
 
+            modelBuilder.Entity("OnlineBookManagementSystem.Models.SystemSettings", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ContactEmail")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("EnableSsl")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("MaintenanceMode")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("SenderEmail")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SenderName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SiteName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SmtpHost")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SmtpPassword")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("SmtpPort")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("SmtpUsername")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SystemSettings");
+                });
+
             modelBuilder.Entity("OnlineBookManagementSystem.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -534,16 +711,19 @@ namespace OnlineBookManagementSystem.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTimeOffset>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetimeoffset")
-                        .HasDefaultValueSql("datetimeoffset('now')");
+                        .HasColumnType("DateTime")
+                        .HasDefaultValueSql("DateTime('now')");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("EmailConfirmationToken")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("EmailConfirmationTokenExpiry")
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("EmailConfirmed")
@@ -556,6 +736,12 @@ namespace OnlineBookManagementSystem.Migrations
 
                     b.Property<bool>("IsEmailConfirmed")
                         .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsPendingApproval")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("LastLoginDate")
+                        .HasColumnType("DateTime");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("INTEGER");
@@ -579,7 +765,7 @@ namespace OnlineBookManagementSystem.Migrations
                     b.Property<string>("PasswordHash")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTimeOffset?>("PasswordResetExpiry")
+                    b.Property<DateTime?>("PasswordResetExpiry")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PasswordResetToken")
@@ -591,16 +777,22 @@ namespace OnlineBookManagementSystem.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("INTEGER");
 
+                    b.Property<DateTime?>("RequestDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("RequestedRole")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("UpdatedAt")
+                    b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetimeoffset")
-                        .HasDefaultValueSql("datetimeoffset('now')");
+                        .HasColumnType("DateTime")
+                        .HasDefaultValueSql("DateTime('now')");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
@@ -619,6 +811,33 @@ namespace OnlineBookManagementSystem.Migrations
                         .IsUnique();
 
                     b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("OnlineBookManagementSystem.Models.UserFavorite", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasDefaultValueSql("DateTime('now')");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.HasIndex("UserId", "BookId")
+                        .IsUnique();
+
+                    b.ToTable("UserFavorites");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -692,6 +911,43 @@ namespace OnlineBookManagementSystem.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("OnlineBookManagementSystem.Models.BookRatingCache", b =>
+                {
+                    b.HasOne("OnlineBookManagementSystem.Models.Book", "Book")
+                        .WithOne()
+                        .HasForeignKey("OnlineBookManagementSystem.Models.BookRatingCache", "BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+                });
+
+            modelBuilder.Entity("OnlineBookManagementSystem.Models.BookReview", b =>
+                {
+                    b.HasOne("OnlineBookManagementSystem.Models.Book", "Book")
+                        .WithMany("BookReviews")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("OnlineBookManagementSystem.Models.User", "Moderator")
+                        .WithMany("ModeratedReviews")
+                        .HasForeignKey("ModeratedBy")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("OnlineBookManagementSystem.Models.User", "User")
+                        .WithMany("BookReviews")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("Moderator");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("OnlineBookManagementSystem.Models.Order", b =>
                 {
                     b.HasOne("OnlineBookManagementSystem.Models.User", "User")
@@ -747,8 +1003,29 @@ namespace OnlineBookManagementSystem.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("OnlineBookManagementSystem.Models.UserFavorite", b =>
+                {
+                    b.HasOne("OnlineBookManagementSystem.Models.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OnlineBookManagementSystem.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("OnlineBookManagementSystem.Models.Book", b =>
                 {
+                    b.Navigation("BookReviews");
+
                     b.Navigation("OrderDetails");
 
                     b.Navigation("ShoppingCarts");
@@ -767,6 +1044,10 @@ namespace OnlineBookManagementSystem.Migrations
             modelBuilder.Entity("OnlineBookManagementSystem.Models.User", b =>
                 {
                     b.Navigation("ActivityLogs");
+
+                    b.Navigation("BookReviews");
+
+                    b.Navigation("ModeratedReviews");
 
                     b.Navigation("Orders");
 
