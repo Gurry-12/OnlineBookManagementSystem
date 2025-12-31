@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OnlineBookManagementSystem.Interfaces;
 using OnlineBookManagementSystem.Models;
+using OnlineBookManagementSystem.Models.ViewModel;
 using System.Security.Claims;
 
 namespace OnlineBookManagementSystem.Controllers
@@ -339,28 +340,5 @@ namespace OnlineBookManagementSystem.Controllers
         public string Role { get; set; } = string.Empty;
     }
 
-    public class GeneralSettingsRequest
-    {
-        public string SiteName { get; set; } = string.Empty;
-        public string SiteDescription { get; set; } = string.Empty;
-        public string ContactEmail { get; set; } = string.Empty;
-        public bool MaintenanceMode { get; set; }
-    }
 
-    public class SecuritySettingsRequest
-    {
-        public int JwtExpiry { get; set; }
-        public int MaxLoginAttempts { get; set; }
-        public int LockoutDuration { get; set; }
-        public bool RequireEmailConfirmation { get; set; }
-    }
-
-    public class EmailSettingsRequest
-    {
-        public string SmtpHost { get; set; } = string.Empty;
-        public int SmtpPort { get; set; }
-        public string SmtpUsername { get; set; } = string.Empty;
-        public string SmtpPassword { get; set; } = string.Empty;
-        public bool EnableSsl { get; set; }
-    }
 }

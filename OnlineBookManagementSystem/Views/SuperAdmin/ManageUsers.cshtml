@@ -15,30 +15,33 @@
     </div>
 
     <!-- Filter and Search -->
-    <div class="card border-0 shadow-sm rounded-4 mb-4">
+    <div class="card border-0 shadow-sm rounded-4 mb-4 ">
         <div class="card-body">
-            <form method="get" class="row g-3">
-                <div class="col-md-4">
-                    <label class="form-label">Search Users</label>
-                    <input type="text" name="search" class="form-control" placeholder="Name, email..." value="@ViewBag.Search">
+            <form method="get" class=" row g-3">
+                <div class="col-md-4 form-floating">
+                    <input type="text" name="search" id="search" class="form-control" placeholder="Name, email..." value="@ViewBag.Search">
+                    <label class="form-label ms-2" for="search"> Search Users</label>
+
                 </div>
-                <div class="col-md-3">
-                    <label class="form-label">Filter by Role</label>
-                    <select name="role" class="form-select">
+                <div class="col-md-3 form-floating">
+                    <select name="role" id="role" class="form-select">
                         <option value="">All Roles</option>
                         <option value="SuperAdmin" selected="@(ViewBag.Role == "SuperAdmin")">SuperAdmin</option>
                         <option value="Admin" selected="@(ViewBag.Role == "Admin")">Admin</option>
                         <option value="User" selected="@(ViewBag.Role == "User")">User</option>
                     </select>
+                    <label class="form-label ms-2" for="role"> Filter by Role</label>
+
                 </div>
-                <div class="col-md-3">
-                    <label class="form-label">Status</label>
-                    <select name="status" class="form-select">
+                <div class="col-md-3 form-floating">
+                    <select name="status" id="status" class="form-select">
                         <option value="">All Status</option>
                         <option value="active" selected="@(ViewBag.Status == "active")">Active</option>
                         <option value="inactive" selected="@(ViewBag.Status == "inactive")">Inactive</option>
                         <option value="locked" selected="@(ViewBag.Status == "locked")">Locked</option>
                     </select>
+                    <label class="form-label ms-2" for="status"> Status</label>
+
                 </div>
                 <div class="col-md-2 d-flex align-items-end">
                     <button type="submit" class="btn btn-outline-primary w-100">
@@ -50,8 +53,8 @@
     </div>
 
     <!-- Users Table -->
-    <div class="card border-0 shadow-sm rounded-4">
-        <div class="card-body p-0">
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-light-subtle">
+        <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-hover mb-0">
                     <thead class="table-light">

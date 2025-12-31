@@ -23,12 +23,11 @@
     <div class="card border-0 shadow-sm rounded-4 mb-4">
         <div class="card-body">
             <form method="get" class="row g-3">
-                <div class="col-md-3">
-                    <label class="form-label">Search</label>
+                <div class="col-md-3 form-floating">
                     <input type="text" name="search" class="form-control" placeholder="Search logs..." value="@ViewBag.Search">
-                </div>
-                <div class="col-md-2">
-                    <label class="form-label">Action Type</label>
+                    <label class="form-label ms-2">Search</label>
+                 </div>
+                <div class="col-md-2 form-floating">
                     <select name="action" class="form-select">
                         <option value="">All Actions</option>
                         <option value="Login" selected="@(ViewBag.Action == "Login")">Login</option>
@@ -37,24 +36,26 @@
                         <option value="Update" selected="@(ViewBag.Action == "Update")">Update</option>
                         <option value="Delete" selected="@(ViewBag.Action == "Delete")">Delete</option>
                         <option value="View" selected="@(ViewBag.Action == "View")">View</option>
-                    </select>
+                    </select>                    
+                    <label class="form-label ms-2">Action Type</label>
                 </div>
-                <div class="col-md-2">
-                    <label class="form-label">User Role</label>
+                <div class="col-md-2 form-floating">
                     <select name="role" class="form-select">
                         <option value="">All Roles</option>
                         <option value="SuperAdmin" selected="@(ViewBag.Role == "SuperAdmin")">SuperAdmin</option>
                         <option value="Admin" selected="@(ViewBag.Role == "Admin")">Admin</option>
                         <option value="User" selected="@(ViewBag.Role == "User")">User</option>
                     </select>
+                    <label class="form-label ms-2">User Role</label>
+
                 </div>
-                <div class="col-md-2">
-                    <label class="form-label">Date From</label>
+                <div class="col-md-2 form-floating">
                     <input type="date" name="dateFrom" class="form-control" value="@ViewBag.DateFrom">
-                </div>
-                <div class="col-md-2">
-                    <label class="form-label">Date To</label>
+                    <label class="form-label ms-2">Date From</label>
+                </div> 
+                <div class="col-md-2 form-floating">
                     <input type="date" name="dateTo" class="form-control" value="@ViewBag.DateTo">
+                    <label class="form-label ms-2">Date To</label>
                 </div>
                 <div class="col-md-1 d-flex align-items-end">
                     <button type="submit" class="btn btn-primary w-100">
@@ -107,9 +108,9 @@
 
     <!-- Logs Table -->
     <div class="card border-0 shadow-sm rounded-4">
-        <div class="card-body p-0">
+        <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-hover mb-0">
+                <table class="table table-hover table-striped mb-0">
                     <thead class="table-light">
                         <tr>
                             <th>Timestamp</th>

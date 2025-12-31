@@ -1,0 +1,431 @@
+@model OnlineBookManagementSystem.Models.Book
+
+@{
+    ViewData["Title"] = "Book Details - " + Model.Title;
+    Layout = ViewData["Layout"]?.ToString() ?? "_LayoutAdmin";
+}
+
+<div class="container-fluid py-4">
+    <!-- Header Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2 class="text-primary mb-1">
+                        <i class="fas fa-book me-2"></i>Book Details
+                    </h2>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="@Url.Action("Dashboard", "Admin")">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="@Url.Action("Books", "Admin")">Books</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">@Model.Title</li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="btn-group" role="group">
+                    <a href="@Url.Action("EditBook", "Admin", new { id = Model.Id })" class="btn btn-warning">
+                        <i class="fas fa-edit me-1"></i>Edit Book
+                    </a>
+                    <a href="@Url.Action("Books", "Admin")" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left me-1"></i>Back to Books
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="row">
+        <!-- Book Image and Basic Info -->
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-image me-2"></i>Book Cover
+                    </h5>
+                </div>
+                <div class="card-body text-center">
+                    <div class="book-cover-container mb-3">
+                        @if (!string.IsNullOrEmpty(Model.ImgUrl))
+                        {
+                            <img src="@Model.ImgUrl" alt="@Model.Title" class="img-fluid rounded shadow" style="max-height: 300px; width: auto;">
+                        }
+                        else
+                        {
+                            <div class="placeholder-image d-flex align-items-center justify-content-center bg-light rounded" style="height: 300px;">
+                                <i class="fas fa-book fa-4x text-muted"></i>
+                            </div>
+                        }
+                    </div>
+                    
+                    <!-- Quick Actions -->
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-outline-primary btn-sm" onclick="viewFullImage()">
+                            <i class="fas fa-expand me-1"></i>View Full Size
+                        </button>
+                        <button class="btn btn-outline-secondary btn-sm" onclick="copyImageUrl()">
+                            <i class="fas fa-copy me-1"></i>Copy Image URL
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Book Information -->
+        <div class="col-lg-8 col-md-6 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-info text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-info-circle me-2"></i>Book Information
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="info-group mb-3">
+                                <label class="fw-bold text-muted">Title:</label>
+                                <p class="mb-0 fs-5">@Model.Title</p>
+                            </div>
+                            
+                            <div class="info-group mb-3">
+                                <label class="fw-bold text-muted">Author:</label>
+                                <p class="mb-0">@Model.Author</p>
+                            </div>
+                            
+                            <div class="info-group mb-3">
+                                <label class="fw-bold text-muted">Category:</label>
+                                <span class="badge bg-primary fs-6">@Model.Category?.Name</span>
+                            </div>
+                            
+                            <div class="info-group mb-3">
+                                <label class="fw-bold text-muted">ISBN:</label>
+                                <p class="mb-0 font-monospace">@Model.ISBN</p>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="info-group mb-3">
+                                <label class="fw-bold text-muted">Price:</label>
+                                <p class="mb-0 fs-4 text-success fw-bold">$@Model.Price.ToString("F2")</p>
+                            </div>
+                            
+                            <div class="info-group mb-3">
+                                <label class="fw-bold text-muted">Stock Quantity:</label>
+                                <p class="mb-0">
+                                    <span class="badge @(Model.StockQuantity > 10 ? "bg-success" : Model.StockQuantity > 0 ? "bg-warning" : "bg-danger") fs-6">
+                                        @Model.StockQuantity units
+                                    </span>
+                                </p>
+                            </div>
+                            
+                            <div class="info-group mb-3">
+                                <label class="fw-bold text-muted">Publication Date:</label>
+                                <p class="mb-0">@Model.PublicationDate?.ToString("MMMM dd, yyyy")</p>
+                            </div>
+                            
+                            <div class="info-group mb-3">
+                                <label class="fw-bold text-muted">Status:</label>
+                                <span class="badge @(Model.IsDeleted ? "bg-danger" : "bg-success") fs-6">
+                                    @(Model.IsDeleted ? "Deleted" : "Active")
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Description and Additional Info -->
+    <div class="row">
+        <div class="col-lg-8 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-align-left me-2"></i>Description
+                    </h5>
+                </div>
+                <div class="card-body">
+                    @if (!string.IsNullOrEmpty(Model.Description))
+                    {
+                        <p class="mb-0 lh-lg">@Model.Description</p>
+                    }
+                    else
+                    {
+                        <p class="text-muted mb-0 fst-italic">No description available for this book.</p>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Metadata and Timestamps -->
+        <div class="col-lg-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-clock me-2"></i>Metadata
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="info-group mb-3">
+                        <label class="fw-bold text-muted">Book ID:</label>
+                        <p class="mb-0 font-monospace">#@Model.Id</p>
+                    </div>
+                    
+                    <div class="info-group mb-3">
+                        <label class="fw-bold text-muted">Created:</label>
+                        <p class="mb-0">@Model.CreatedAt.ToString("MMM dd, yyyy 'at' hh:mm tt")</p>
+                    </div>
+                    
+                    <div class="info-group mb-3">
+                        <label class="fw-bold text-muted">Last Updated:</label>
+                        <p class="mb-0">@Model.UpdatedAt?.ToString("MMM dd, yyyy 'at' hh:mm tt")</p>
+                    </div>
+                    
+                    @if (Model.IsDeleted)
+                    {
+                        <div class="info-group mb-3">
+                            <label class="fw-bold text-muted">Deleted:</label>
+                            <p class="mb-0 text-danger">@Model.DeletedAt?.ToString("MMM dd, yyyy 'at' hh:mm tt")</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-cogs me-2"></i>Actions
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex flex-wrap gap-2">
+                        <a href="@Url.Action("EditBook", "Admin", new { id = Model.Id })" class="btn btn-warning">
+                            <i class="fas fa-edit me-1"></i>Edit Book
+                        </a>
+                        
+                        @if (!Model.IsDeleted)
+                        {
+                            <button type="button" class="btn btn-danger" onclick="confirmDelete(@Model.Id, '@Model.Title')">
+                                <i class="fas fa-trash me-1"></i>Delete Book
+                            </button>
+                        }
+                        else
+                        {
+                            <button type="button" class="btn btn-success" onclick="restoreBook(@Model.Id)">
+                                <i class="fas fa-undo me-1"></i>Restore Book
+                            </button>
+                        }
+                        
+                        <button type="button" class="btn btn-info" onclick="viewBookStats(@Model.Id)">
+                            <i class="fas fa-chart-bar me-1"></i>View Statistics
+                        </button>
+                        
+                        <a href="@Url.Action("Details", "Books", new { id = Model.Id })" target="_blank" class="btn btn-outline-primary">
+                            <i class="fas fa-external-link-alt me-1"></i>View Public Page
+                        </a>
+                        
+                        <button type="button" class="btn btn-outline-secondary" onclick="printBookDetails()">
+                            <i class="fas fa-print me-1"></i>Print Details
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Image Modal -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="imageModalLabel">@Model.Title - Full Size</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <img src="@Model.ImgUrl" alt="@Model.Title" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete the book "<span id="bookTitleToDelete"></span>"?</p>
+                <p class="text-muted">This action can be undone later by restoring the book.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete Book</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        let bookIdToDelete = 0;
+
+        function viewFullImage() {
+            @if (!string.IsNullOrEmpty(Model.ImgUrl))
+            {
+                <text>
+                $('#imageModal').modal('show');
+                </text>
+            }
+            else
+            {
+                <text>
+                alert('No image available for this book.');
+                </text>
+            }
+        }
+
+        function copyImageUrl() {
+            @if (!string.IsNullOrEmpty(Model.ImgUrl))
+            {
+                <text>
+                navigator.clipboard.writeText('@Model.ImgUrl').then(function() {
+                    showToast('Image URL copied to clipboard!', 'success');
+                });
+                </text>
+            }
+            else
+            {
+                <text>
+                alert('No image URL available for this book.');
+                </text>
+            }
+        }
+
+        function confirmDelete(bookId, bookTitle) {
+            bookIdToDelete = bookId;
+            document.getElementById('bookTitleToDelete').textContent = bookTitle;
+            $('#deleteModal').modal('show');
+        }
+
+        document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
+            if (bookIdToDelete > 0) {
+                deleteBook(bookIdToDelete);
+            }
+        });
+
+        function deleteBook(bookId) {
+            fetch(`/Admin/DeleteBook/${bookId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                $('#deleteModal').modal('hide');
+                if (data.success) {
+                    showToast('Book deleted successfully!', 'success');
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1500);
+                } else {
+                    showToast(data.message || 'Failed to delete book', 'error');
+                }
+            })
+            .catch(error => {
+                $('#deleteModal').modal('hide');
+                showToast('An error occurred while deleting the book', 'error');
+                console.error('Error:', error);
+            });
+        }
+
+        function restoreBook(bookId) {
+            // This would need to be implemented in the controller
+            showToast('Restore functionality not yet implemented', 'info');
+        }
+
+        function viewBookStats(bookId) {
+            // This would show statistics about the book
+            showToast('Statistics functionality not yet implemented', 'info');
+        }
+
+        function printBookDetails() {
+            window.print();
+        }
+
+        function showToast(message, type) {
+            // Create toast notification
+            const toast = document.createElement('div');
+            toast.className = `alert alert-${type === 'error' ? 'danger' : type} alert-dismissible fade show position-fixed`;
+            toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+            toast.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            document.body.appendChild(toast);
+
+            // Auto remove after 3 seconds
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.parentNode.removeChild(toast);
+                }
+            }, 3000);
+        }
+    </script>
+}
+
+@section Styles {
+    <style>
+        .info-group label {
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .book-cover-container {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .placeholder-image {
+            border: 2px dashed #dee2e6;
+        }
+        
+        .card {
+            transition: transform 0.2s ease-in-out;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+        }
+        
+        @media print {
+            .btn, .card-header, nav, .modal {
+                display: none !important;
+            }
+            
+            .card {
+                border: 1px solid #000 !important;
+                box-shadow: none !important;
+            }
+        }
+        
+        .badge {
+            font-size: 0.8rem;
+        }
+        
+        .font-monospace {
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+}

@@ -24,5 +24,6 @@ namespace OnlineBookManagementSystem.Interfaces
         Task<List<UserViewModel>> ManageUsers();
         Task SendWelcomeEmailAsync(User user);
         Task SendUserApprovedEmailAsync(User user, string confirmationLink);
+        Task<bool> ChangePasswordAsync(int userId, string currentPassword, string newPassword);
     }
 }

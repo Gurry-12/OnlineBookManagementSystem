@@ -1,15 +1,15 @@
 /* site.css - Shared across all roles: base layout, sidebar, content, cards, etc. */
-
+/*
 body {
     background: #f5f6fb;
     font-family: 'Segoe UI', sans-serif;
     margin: 0;
     padding: 0;
 }
-
-.sidebar {
+*/
+/*.sidebar {*/
 /*    background: linear-gradient(to bottom, #ff5e62, #ff9966); */
-    color: #fff; 
+    /*color: #fff; 
     height: 100vh;
     position: fixed;
     width: 220px;
@@ -73,13 +73,13 @@ body {
 
 .auth-layout .sidebar {
     display: none;
-}
+}*/
 
-.content {
+/*.content {
     margin-left: 250px;
-    padding: 2rem;
+    padding: 2rem;*/
 /*    min-height: 100vh;*/
-    transition: margin-left 0.3s ease;
+    /*transition: margin-left 0.3s ease;
 }
 
 .sidebar.collapsed + .content {
@@ -205,28 +205,28 @@ footer {
 
 body.user-layout, body.admin-layout, body.superadmin-layout, body.public-layout {
     transition: background-color 0.3s ease;
-}
+}*/
 
 
 /* site.css - Shared Top-Bar Styles */
 
-.top-bar {
-    background-color: var(--color-primary); /* Uses role-specific primary color */
-    color: white;
+/*.top-bar {
+    background-color: var(--color-primary);*/ /* Uses role-specific primary color */
+    /*color: white;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    z-index: 1000; /* Ensure it stays above content */
-    flex-wrap: wrap; /* Responsive wrapping on small screens */
-    justify-content: flex-end; /* Right-aligned by default */
-    align-items: center;
+    z-index: 1000;*/ /* Ensure it stays above content */
+    /*flex-wrap: wrap;*/ /* Responsive wrapping on small screens */
+    /*justify-content: flex-end;*/ /* Right-aligned by default */
+    /*align-items: center;
     font-size: 0.95rem;
 }
 
     .top-bar span {
         display: inline-flex;
         align-items: center;
-        white-space: nowrap; /* Prevent icon/text wrapping */
-    }
+        white-space: nowrap;*/ /* Prevent icon/text wrapping */
+    /*}
 
     .top-bar i {
         font-size: 1.1rem;
@@ -242,13 +242,13 @@ body.user-layout, body.admin-layout, body.superadmin-layout, body.public-layout 
         .top-bar .btn-outline-light:hover {
             background-color: rgba(255, 255, 255, 0.2);
             border-color: white;
-        }
+        }*/
 
 /* Responsive Adjustments */
-@media (max-width: 768px) {
+/*@media (max-width: 768px) {
     .top-bar {
-        justify-content: center; /* Center on small screens for better usability */
-        padding: 1rem;
+        justify-content: center;*/ /* Center on small screens for better usability */
+        /*padding: 1rem;
         gap: 1rem;
     }
 
@@ -272,30 +272,5 @@ body.user-layout, body.admin-layout, body.superadmin-layout, body.public-layout 
             width: 100%;
             max-width: 200px;
         }
-}
+}*/
 
-.quote-box {
-    background: linear-gradient(to left, #d369f1, #5ccf82);
-    border-left: 5px solid #4a90e2;
-    margin: 2rem 0;
-    padding: 1.5rem 2rem;
-    font-style: italic;
-    color: #333;
-}
-
-    .quote-box p {
-        margin: 0 0 0.75rem 0;
-        font-size: 1.1rem;
-        line-height: 1.5;
-    }
-
-    .quote-box footer {
-        text-align: right;
-        font-style: normal;
-        font-size: 0.95rem;
-        color: #666;
-    }
-
-        .quote-box footer::before {
-            content: "— ";
-        }

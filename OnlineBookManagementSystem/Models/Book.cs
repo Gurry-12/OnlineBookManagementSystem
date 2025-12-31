@@ -21,6 +21,9 @@ public partial class Book
     [StringLength(20)]  // Standard ISBN length
     public string? ISBN { get; set; }  // Uppercase for consistency
 
+    [Column(TypeName = "datetime")]
+    public DateTime? PublicationDate { get; set; }
+
     [StringLength(500)]
     public string? ImageUrl { get; set; }  // Renamed from ImgUrl
 

@@ -1,4 +1,4 @@
-@using OnlineBookManagementSystem.Models.ViewModel
+﻿@using OnlineBookManagementSystem.Models.ViewModel
 @model List<UserWithRoleViewModel>
 @{
     ViewData["Title"] = "Pending User Requests";
@@ -6,14 +6,14 @@
 }
 
 <div class="container-fluid px-4">
-    <h1 class="mt-4">Pending User Requests</h1>
+    <h2 class="fw-bold text-danger">Pending User Requests</h2>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item"><a asp-action="Dashboard">Dashboard</a></li>
         <li class="breadcrumb-item active">Pending Users</li>
     </ol>
 
-    <div class="card mb-4">
-        <div class="card-header">
+    <div class="card mb-4 rounded-4">
+        <div class="card-header card-title">
             <i class="bi bi-person-exclamation me-1"></i>
             Requests Awaiting Approval
         </div>
@@ -86,14 +86,21 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <p>Are you sure you want to approve <strong id="approveUserName"></strong>?</p>
-                <div class="mb-3">
-                    <label class="form-label">Assign Role:</label>
-                    <select id="assignRole" class="form-select">
-                        <option value="User">User</option>
-                        <option value="Admin">Admin</option>
-                        <option value="SuperAdmin">SuperAdmin</option>
-                    </select>
+                <p>Approve registration request for <strong id="approveUserName"></strong>?</p>
+
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Requested role</label>
+                        <input type="text" id="requestedRoleDisplay" class="form-control-plaintext fw-bold text-primary" readonly>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="assignRole" class="form-label">Grant role</label>
+                        <select id="assignRole" class="form-select">
+                            <option value="User">Regular User</option>
+                            <option value="Admin">Retailer (Admin)</option>
+                            <option value="SuperAdmin">Super Administrator</option>
+                        </select>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -127,42 +134,76 @@
 @section Scripts {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
-        $(document).ready(function() {
-            let selectedUserId = 0;
+        $(document).ready(function () {
+            // ── Global variables ───────────────────────────────────────
+            let selectedUserId = null;
+            const antiForgeryToken = document.querySelector('input[name="__RequestVerificationToken"]')?.value;
 
-            // Approve
-            $('.approve-btn').click(function() {
+            // ── Helper: Show/hide loading state ────────────────────────
+            function setButtonLoading($button, isLoading, originalText) {
+                if (isLoading) {
+                    $button
+                        .prop('disabled', true)
+                        .html(`<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>${originalText}`);
+                } else {
+                    $button
+                        .prop('disabled', false)
+                        .html(originalText);
+                }
+            }
+
+            // ── Approve flow ───────────────────────────────────────────
+            $('.approve-btn').on('click', function () {
                 selectedUserId = $(this).data('id');
                 const name = $(this).data('name');
-                const role = $(this).data('role');
+                const requestedRole = $(this).data('role');
 
                 $('#approveUserName').text(name);
-                $('#assignRole').val(role);
+                $('#requestedRoleDisplay').text(requestedRole);
+                $('#assignRole').val(requestedRole); // Pre-select requested role
+
                 $('#approveModal').modal('show');
             });
 
-            $('#confirmApprove').click(function() {
-                const role = $('#assignRole').val();
+            $('#confirmApprove').on('click', function () {
+                if (!selectedUserId) return;
 
-                $.post('@Url.Action("ApproveUser", "SuperAdmin")', { userId: selectedUserId, role: role })
-                    .done(function(response) {
+                const $btn = $(this);
+                const originalText = $btn.html();
+                const assignedRole = $('#assignRole').val();
+
+                setButtonLoading($btn, true, 'Approving...');
+
+                $.ajax({
+                    url: '@Url.Action("ApproveUser", "SuperAdmin")',
+                    type: 'POST',
+                    data: {
+                        userId: selectedUserId,
+                        role: assignedRole,
+                        __RequestVerificationToken: antiForgeryToken
+                    },
+                    success: function (response) {
                         if (response.success) {
-                            toastr.success(response.message);
-                            setTimeout(() => location.reload(), 1000);
+                            toastr.success(response.message || 'User approved successfully');
+                            setTimeout(() => location.reload(), 1200);
                         } else {
-                            toastr.error(response.message);
+                            toastr.warning(response.message || 'Operation completed with warning');
                         }
-                    })
-                    .fail(function() {
-                        toastr.error("An error occurred.");
-                    })
-                    .always(function() {
+                    },
+                    error: function (xhr) {
+                        const msg = xhr.responseJSON?.message || 'An unexpected error occurred during approval.';
+                        toastr.error(msg);
+                    },
+                    complete: function () {
+                        setButtonLoading($btn, false, originalText);
                         $('#approveModal').modal('hide');
-                    });
+                        selectedUserId = null;
+                    }
+                });
             });
 
-            // Reject
-            $('.reject-btn').click(function() {
+            // ── Reject flow ────────────────────────────────────────────
+            $('.reject-btn').on('click', function () {
                 selectedUserId = $(this).data('id');
                 const name = $(this).data('name');
 
@@ -170,22 +211,39 @@
                 $('#rejectModal').modal('show');
             });
 
-            $('#confirmReject').click(function() {
-                $.post('@Url.Action("RejectUser", "SuperAdmin")', { userId: selectedUserId })
-                    .done(function(response) {
+            $('#confirmReject').on('click', function () {
+                if (!selectedUserId) return;
+
+                const $btn = $(this);
+                const originalText = $btn.html();
+
+                setButtonLoading($btn, true, 'Rejecting...');
+
+                $.ajax({
+                    url: '@Url.Action("RejectUser", "SuperAdmin")',
+                    type: 'POST',
+                    data: {
+                        userId: selectedUserId,
+                        __RequestVerificationToken: antiForgeryToken
+                    },
+                    success: function (response) {
                         if (response.success) {
-                            toastr.success(response.message);
-                            setTimeout(() => location.reload(), 1000);
+                            toastr.success(response.message || 'Request rejected successfully');
+                            setTimeout(() => location.reload(), 1200);
                         } else {
-                            toastr.error(response.message);
+                            toastr.warning(response.message || 'Operation completed with warning');
                         }
-                    })
-                    .fail(function() {
-                        toastr.error("An error occurred.");
-                    })
-                    .always(function() {
+                    },
+                    error: function (xhr) {
+                        const msg = xhr.responseJSON?.message || 'An unexpected error occurred during rejection.';
+                        toastr.error(msg);
+                    },
+                    complete: function () {
+                        setButtonLoading($btn, false, originalText);
                         $('#rejectModal').modal('hide');
-                    });
+                        selectedUserId = null;
+                    }
+                });
             });
         });
     </script>

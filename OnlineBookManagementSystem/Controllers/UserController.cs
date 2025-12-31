@@ -40,7 +40,7 @@ namespace OnlineBookManagementSystem.Controllers
 
             var viewModel = await GetUserDashboardDataAsync(userId);
             await _activityLogger.LogAsync("Dashboard", "User dashboard accessed", userId);
-            
+
             return View(viewModel);
         }
 
@@ -51,7 +51,7 @@ namespace OnlineBookManagementSystem.Controllers
             if (userId == 0) return RedirectToAction("Login", "Auth");
 
             var viewModel = await _bookService.GetBooksForUserAsync(page, 12, search, categoryId, sortBy, minPrice, maxPrice);
-            
+
             // Add categories for filter dropdown
             ViewBag.Categories = await _categoryService.GetCategoriesForDropdownAsync();
             ViewBag.Search = search;
@@ -59,7 +59,7 @@ namespace OnlineBookManagementSystem.Controllers
             ViewBag.SortBy = sortBy;
             ViewBag.MinPrice = minPrice;
             ViewBag.MaxPrice = maxPrice;
-            
+
             await _activityLogger.LogAsync("BrowseBooks", "User browsed book catalog", userId);
             return View(viewModel);
         }
@@ -89,7 +89,7 @@ namespace OnlineBookManagementSystem.Controllers
 
             var favoriteBooks = await _bookService.GetUserFavoriteBooksAsync(userId);
             await _activityLogger.LogAsync("ViewFavorites", "User viewed favorite books", userId);
-            
+
             return View(favoriteBooks);
         }
 
@@ -110,7 +110,7 @@ namespace OnlineBookManagementSystem.Controllers
                 }
                 return Json(new { success = false, message = result.Message });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return Json(new { success = false, message = "An error occurred while updating favorite" });
             }
@@ -123,11 +123,11 @@ namespace OnlineBookManagementSystem.Controllers
             if (userId == 0) return RedirectToAction("Login", "Auth");
 
             var viewModel = await _orderService.GetUserOrderHistoryAsync(userId, page, 10, status, dateFrom, dateTo);
-            
+
             ViewBag.Status = status;
             ViewBag.DateFrom = dateFrom?.ToString("yyyy-MM-dd");
             ViewBag.DateTo = dateTo?.ToString("yyyy-MM-dd");
-            
+
             await _activityLogger.LogAsync("ViewOrderHistory", "User viewed order history", userId);
             return View(viewModel);
         }
@@ -186,10 +186,10 @@ namespace OnlineBookManagementSystem.Controllers
                     TempData["SuccessMessage"] = "Profile updated successfully!";
                     return RedirectToAction(nameof(Profile));
                 }
-                
+
                 ModelState.AddModelError("", "Failed to update profile. Please try again.");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 ModelState.AddModelError("", "An error occurred while updating your profile.");
             }
@@ -214,7 +214,7 @@ namespace OnlineBookManagementSystem.Controllers
                 }
                 return Json(new { success = false, message = result.Message });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return Json(new { success = false, message = "An error occurred while adding to cart" });
             }
@@ -232,7 +232,7 @@ namespace OnlineBookManagementSystem.Controllers
                 var count = await _cartService.GetCartItemCountAsync(userId);
                 return Json(new { count });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return Json(new { count = 0 });
             }
@@ -251,7 +251,7 @@ namespace OnlineBookManagementSystem.Controllers
 
             var viewModel = await _bookService.SearchBooksAsync(query, page, 12);
             ViewBag.SearchQuery = query;
-            
+
             await _activityLogger.LogAsync("SearchBooks", $"Searched for '{query}'", userId);
             return View("UserBookList", viewModel);
         }
@@ -271,7 +271,7 @@ namespace OnlineBookManagementSystem.Controllers
 
             var viewModel = await _bookService.GetBooksByCategoryAsync(categoryId, page, 12);
             ViewBag.CategoryName = category.Name;
-            
+
             await _activityLogger.LogAsync("BrowseCategory", $"Browsed category '{category.Name}'", userId);
             return View("UserBookList", viewModel);
         }
@@ -288,12 +288,24 @@ namespace OnlineBookManagementSystem.Controllers
                 var recommendations = await _bookService.GetPersonalizedRecommendationsAsync(userId, 6);
                 return Json(new { success = true, books = recommendations });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return Json(new { success = false, message = "Failed to load recommendations" });
             }
         }
 
+
+        [Authorize(Policy = "UserOrHigher")]
+        public async Task<IActionResult> UserCart()
+        {
+            var userId = GetUserIdFromClaims();  // JWT
+            if (userId == 0) return Unauthorized();
+
+            var cartData = await _cartService.GetUserCartAsync(userId);
+            var summary = await _cartService.GetCartSummaryAsync(userId);
+            var viewModel = new CartViewModel { CartItems = cartData, Summary = summary };
+            return View(viewModel);
+        }
         private async Task<UserDashboardViewModel> GetUserDashboardDataAsync(int userId)
         {
             var totalBooks = await _bookService.GetTotalBooksCountAsync();

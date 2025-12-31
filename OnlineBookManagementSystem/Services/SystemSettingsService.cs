@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
-using OnlineBookManagementSystem.Controllers;
 using OnlineBookManagementSystem.Interfaces;
 using OnlineBookManagementSystem.Models;
 using OnlineBookManagementSystem.Models.Configuration;
@@ -123,13 +122,13 @@ public class SystemSettingsService : ISystemSettingsService
         return fallback;
     }
 
-    public async Task<bool> UpdateGeneralSettingsAsync(GeneralSettingsRequest request)
+    public async Task<bool> UpdateGeneralSettingsAsync(Models.ViewModel.GeneralSettingsRequest request)
     {
         try
         {
             _cache.Set("SiteName", request.SiteName, TimeSpan.FromHours(24));
             _cache.Set("SiteDescription", request.SiteDescription, TimeSpan.FromHours(24));
-            _cache.Set("ContactEmail", request.ContactEmail, TimeSpan.FromHours(24));
+            _cache.Set("AdminEmail", request.AdminEmail, TimeSpan.FromHours(24));
             _cache.Set("MaintenanceMode", request.MaintenanceMode, TimeSpan.FromHours(24));
             return true;
         }
@@ -139,24 +138,24 @@ public class SystemSettingsService : ISystemSettingsService
         }
     }
 
-    public async Task<bool> UpdateSecuritySettingsAsync(SecuritySettingsRequest request)
+    public async Task<bool> UpdateSecuritySettingsAsync(Models.ViewModel.SecuritySettingsRequest request)
     {
          try
         {
-            if (request.JwtExpiry < 5 || request.JwtExpiry > 1440) return false;
+            if (request.PasswordMinLength < 6 || request.PasswordMinLength > 50) return false;
             if (request.MaxLoginAttempts < 3 || request.MaxLoginAttempts > 10) return false;
-            if (request.LockoutDuration < 5 || request.LockoutDuration > 60) return false;
+            if (request.LockoutDurationMinutes < 5 || request.LockoutDurationMinutes > 60) return false;
 
-            _cache.Set("Jwt:ExpiryMinutes", request.JwtExpiry, TimeSpan.FromHours(24));
+            _cache.Set("Security:PasswordMinLength", request.PasswordMinLength, TimeSpan.FromHours(24));
             _cache.Set("Security:MaxLoginAttempts", request.MaxLoginAttempts, TimeSpan.FromHours(24));
-            _cache.Set("Security:LockoutDurationMinutes", request.LockoutDuration, TimeSpan.FromHours(24));
+            _cache.Set("Security:LockoutDurationMinutes", request.LockoutDurationMinutes, TimeSpan.FromHours(24));
             _cache.Set("Security:RequireEmailConfirmation", request.RequireEmailConfirmation, TimeSpan.FromHours(24));
             return true;
         }
         catch { return false; }
     }
 
-    public async Task<bool> UpdateEmailSettingsAsync(EmailSettingsRequest request)
+    public async Task<bool> UpdateEmailSettingsAsync(Models.ViewModel.EmailSettingsRequest request)
     {
         try
         {
@@ -176,6 +175,8 @@ public class SystemSettingsService : ISystemSettingsService
                 dbSettings.SmtpPassword = _protector.Protect(request.SmtpPassword);
             }
             dbSettings.EnableSsl = request.EnableSsl;
+            dbSettings.SenderEmail = request.FromEmail;
+            dbSettings.SenderName = request.FromName;
             dbSettings.UpdatedAt = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();

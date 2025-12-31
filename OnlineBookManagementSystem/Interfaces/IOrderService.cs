@@ -15,6 +15,8 @@ namespace OnlineBookManagementSystem.Interfaces
         Task<AdminOrderListViewModel> GetOrdersForAdminAsync(int page, int pageSize, string? search = null, string? status = null, DateTime? dateFrom = null, DateTime? dateTo = null);
         Task<bool> UpdateOrderStatusAsync(int orderId, string status, int userId);
         Task<bool> CancelOrderAsync(int orderId, int userId);
+        Task<List<MonthlyRevenueViewModel>> GetMonthlyRevenueAsync();
+        Task<List<OrderStatusViewModel>> GetOrderStatusDistributionAsync();
     }
 
     // Additional ViewModels for Orders

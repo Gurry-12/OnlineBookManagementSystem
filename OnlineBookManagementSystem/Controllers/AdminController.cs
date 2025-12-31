@@ -337,6 +337,23 @@ namespace OnlineBookManagementSystem.Controllers
             }
         }
 
+        [Authorize(Policy = "AdminOrHigher")]
+        public async Task<IActionResult> Details(int id)
+        {
+            var userId = GetUserIdFromClaims();
+            if (userId == 0) return RedirectToAction("Login", "Auth");
+
+            var book = await _bookService.GetBookByIdAsync(id);
+            if (book == null)
+            {
+                TempData["ErrorMessage"] = "Book not found.";
+                return RedirectToAction(nameof(Books));
+            }
+
+            await _activityLogger.LogAsync("ViewBookDetails", $"Admin viewed details for book '{book.Title}'", userId);
+            return View(book);
+        }
+
         // API endpoint for dashboard charts
         [HttpGet]
         [Authorize(Policy = "AdminOrHigher")]
@@ -353,14 +370,21 @@ namespace OnlineBookManagementSystem.Controllers
                     "category" => (object)await _bookService.GetBooksByCategoryAsync(),
                     "author" => (object)await _bookService.GetBooksByAuthorAsync(),
                     "favorites" => (object)await _bookService.GetFavoriteStatsAsync(),
+                    "revenue" => (object)await _orderService.GetMonthlyRevenueAsync(),
+                    "orderStatus" => (object)await _orderService.GetOrderStatusDistributionAsync(),
                     _ => (object?)null
                 };
 
+                if (data == null)
+                {
+                    return Json(new { success = false, message = "Invalid chart type" });
+                }
+
                 return Json(new { success = true, data });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return Json(new { success = false, message = "Failed to load chart data" });
+                return Json(new { success = false, message = "Failed to load chart data", error = ex.Message });
             }
         }
 
@@ -370,7 +394,7 @@ namespace OnlineBookManagementSystem.Controllers
             var totalOrders = await _orderService.GetTotalOrdersCountAsync();
             var totalUsers = await _userService.GetTotalUsersCountAsync();
             var totalCategories = await _categoryService.GetTotalCategoriesCountAsync();
-            var recentActivities = await _activityLogger.GetRecentActivitiesAsync(10, excludeSystemLogs: true);
+            var recentActivities = await _activityLogger.GetRecentActivitiesAsync(3, excludeSystemLogs: true);
             var monthlyStats = await _bookService.GetMonthlyStatsAsync();
 
             return new AdminDashboardViewModel

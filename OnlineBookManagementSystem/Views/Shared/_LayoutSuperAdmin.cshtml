@@ -11,70 +11,68 @@
           asp-fallback-test-class="visually-hidden" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
 
-    <!-- Shared CSS -->
-    <link href="~/css/color-layout.css" rel="stylesheet" asp-append-version="true" />
-    <link href="~/css/site.css" rel="stylesheet" asp-append-version="true" />
-
-    <!-- Role-specific CSS -->
-    <link href="~/css/superadmin.css" rel="stylesheet" asp-append-version="true" />
+    <!-- Unified Role-Based Theme Engine -->
+    <link href="~/css/role-based-theme-engine.css" rel="stylesheet" asp-append-version="true" />
 
     @RenderSection("Styles", required: false)
 </head>
 <body class="superadmin-layout">
     <!-- Sidebar -->
-    <div class="sidebar position-fixed top-0 start-0 h-100 bg-gradient-red-pink text-white p-3" style="width: 250px; overflow-y: auto; z-index: 1030;">
+    <div class="wp-sidebar">
         <div class="d-flex align-items-center mb-4">
             <img src="@Url.Content("~/images/Render_main_logo.png")" alt="Whispering Pages Logo" width="40" height="40" class="me-2 rounded-circle">
             <span class="fw-bold fs-5">Whispering Pages</span>
         </div>
-        <ul class="nav flex-column">
-            <li class="nav-item mb-2">
-                <a class="nav-link text-white active" asp-controller="SuperAdmin" asp-action="Dashboard"><i class="bi bi-house-door-fill me-2"></i>Dashboard</a>
-            </li>
-            <li class="nav-item dropdown mb-2">
-                <a class="nav-link text-white dropdown-toggle" href="#" role="button"
-                   data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="bi bi-gear-fill me-2"></i>System Management
+        <ul class="wp-sidebar-nav">
+            <li class="wp-sidebar-nav-item">
+                <a class="wp-sidebar-nav-link" asp-controller="SuperAdmin" asp-action="Dashboard">
+                    <i class="bi bi-house-door-fill"></i>
+                    <span class="wp-sidebar-nav-text">Dashboard</span>
                 </a>
-                <ul class="dropdown-menu dropdown-menu-dark">
-                    <li>
-                        <a class="dropdown-item text-white" asp-controller="SuperAdmin" asp-action="ManageUsers">
-                            <i class="bi bi-people me-2"></i>Manage Users & Roles
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item text-white" asp-controller="SuperAdmin" asp-action="PendingUsers">
-                            <i class="bi bi-person-plus me-2"></i>Pending Approvals
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item text-white" asp-controller="SuperAdmin" asp-action="ActivityLogs">
-                            <i class="bi bi-journal-text me-2"></i>Activity Logs
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item text-white" asp-controller="SuperAdmin" asp-action="SystemSettings">
-                            <i class="bi bi-sliders2 me-2"></i>Site Settings
-                        </a>
-                    </li>
-                </ul>
             </li>
-            <li class="nav-item mb-2">
-                <a class="nav-link text-white" asp-controller="Admin" asp-action="Books"><i class="bi bi-bookshelf me-2"></i>Books Management</a>
+            <li class="wp-sidebar-nav-item">
+                <a class="wp-sidebar-nav-link" asp-controller="SuperAdmin" asp-action="ManageUsers">
+                    <i class="bi bi-people"></i>
+                    <span class="wp-sidebar-nav-text">Manage Users & Roles</span>
+                </a>
             </li>
-            <!-- Additional items can be added here -->
+            <li class="wp-sidebar-nav-item">
+                <a class="wp-sidebar-nav-link" asp-controller="SuperAdmin" asp-action="PendingUsers">
+                    <i class="bi bi-person-plus"></i>
+                    <span class="wp-sidebar-nav-text">Pending Approvals</span>
+                </a>
+            </li>
+            <li class="wp-sidebar-nav-item">
+                <a class="wp-sidebar-nav-link" asp-controller="SuperAdmin" asp-action="ActivityLogs">
+                    <i class="bi bi-journal-text"></i>
+                    <span class="wp-sidebar-nav-text">Activity Logs</span>
+                </a>
+            </li>
+            <li class="wp-sidebar-nav-item">
+                <a class="wp-sidebar-nav-link" asp-controller="SuperAdmin" asp-action="SystemSettings">
+                    <i class="bi bi-sliders2"></i>
+                    <span class="wp-sidebar-nav-text">Site Settings</span>
+                </a>
+            </li>
+            <li class="wp-sidebar-nav-item">
+                <a class="wp-sidebar-nav-link" asp-controller="Admin" asp-action="Books">
+                    <i class="bi bi-bookshelf"></i>
+                    <span class="wp-sidebar-nav-text">Books Management</span>
+                </a>
+            </li>
         </ul>
     </div>
 
     <!-- Main Content Area -->
-    <div class="content ms-250">
+    <div class="wp-content ms-250">
         <!-- Top Bar -->
-        <header class="top-bar d-flex align-items-center justify-content-between px-4 py-3 bg-white shadow-sm border-bottom sticky-top">
+        <header class="wp-top-bar d-flex align-items-center justify-content-between px-4 py-3 bg-white shadow-sm border-bottom sticky-top">
             <div class="d-flex align-items-center gap-4">
-                <button class="btn btn-light rounded-pill"><i class="bi bi-briefcase-fill me-2"></i>SuperAdmin Workspace <i class="bi bi-chevron-down ms-1"></i></button>
+                <button class="wp-btn wp-btn-secondary btn btn-light rounded-pill"><i class="bi bi-briefcase-fill me-2"></i>SuperAdmin Workspace </button>
                 <ul class="nav nav-tabs border-0">
-                    <li class="nav-item"><a class="nav-link active" href="#">Overview</a></li>
+                    <li class="nav-item"><a class="nav-link active" asp-controller="SuperAdmin" asp-action="Dashboard" >Overview</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Analytics</a></li>
                 </ul>
             </div>
@@ -83,20 +81,20 @@
                     <input type="search" class="form-control rounded-pill ps-5" placeholder="Search...">
                     <i class="bi bi-search position-absolute top-50 start-3 ps-3 translate-middle-y text-muted"></i>
                 </div>
-                <button class="btn btn-primary rounded-pill"><i class="bi bi-plus-lg me-1"></i>Add New</button>
-                <a class="btn btn-outline-secondary rounded-circle p-2" asp-controller="Auth" asp-action="ProfileView"><i class="bi bi-person-fill fs-5"></i></a>
+                <button class="wp-btn wp-btn-primary btn btn-primary rounded-pill"><i class="bi bi-plus-lg me-1"></i>Add New</button>
+                <a class="wp-btn wp-btn-secondary btn btn-outline-secondary rounded-circle p-2" asp-controller="Auth" asp-action="ProfileView"><i class="bi bi-person-fill fs-5"></i></a>
                 <form asp-controller="Auth" asp-action="Logout" method="post" class="d-inline">
                     @Html.AntiForgeryToken()
-                    <button type="submit" class="btn btn-outline-danger rounded-circle p-2"><i class="bi bi-box-arrow-right fs-5"></i></button>
+                    <button type="submit" class="wp-btn wp-btn-secondary btn btn-outline-danger rounded-circle p-2"><i class="bi bi-box-arrow-right fs-5"></i></button>
                 </form>
             </div>
         </header>
 
-        <main class="container-fluid py-4">
+        <main class="wp-main-content container-fluid py-4">
             @RenderBody()
         </main>
 
-        <footer class="text-center py-4 text-muted border-top mt-auto">
+        <footer class="wp-footer text-center py-4 text-muted border-top mt-auto">
             <div class="container">
                 &copy; @DateTime.Now.Year - Whispering Pages <i class="bi bi-book-half ms-1"></i>
             </div>
@@ -112,5 +110,6 @@
 
     <!-- Shared Scripts -->
     <script src="~/js/site.js" asp-append-version="true"></script>
+
 </body>
 </html>

@@ -95,3 +95,6 @@ app.MapControllerRoute(
     pattern: "{controller=Auth}/{action=Index}/{id?}");
 
 app.Run();
+
+// Make Program class accessible for testing
+public partial class Program { }

@@ -6,10 +6,9 @@
 <hr />
 
 <!-- 📚 Quote and New Arrivals Section -->
-<div class="row">
-    <!-- Quotes Carousel -->
-    <div class="col-md-6 mt-3">
-        <div id="quoteCarousel" class="carousel slide quote-box shadow-sm rounded" data-bs-ride="carousel" aria-label="Quote Carousel" data-bs-interval="3000">
+<div class="row g-4 mb-5">
+    <div class="col-md-6 col-sm-12 ">
+        <div id="quoteCarousel" class="carousel slide wp-quote-box shadow-sm rounded" data-bs-ride="carousel" aria-label="Quote Carousel" data-bs-interval="3000">
             <div class="carousel-inner">
                 <div class="carousel-item active">
                     <p class="fs-6 fst-italic px-2">“There is more treasure in books than in all the pirate's loot on Treasure Island.”</p>
@@ -23,23 +22,37 @@
                     <p class="fs-6 fst-italic px-2">“So many books, so little time.”</p>
                     <p class="text-end fw-semibold px-2">- Frank Zappa</p>
                 </div>
+                <div class="carousel-item">
+                    <p class="fs-6 fst-italic px-2">“Books are a uniquely portable magic.”</p>
+                    <p class="text-end fw-semibold px-2">- Stephen King</p>
+                </div>
+                <div class="carousel-item">
+                    <p class="fs-6 fst-italic px-2">“I declare after all there is no enjoyment like reading!”</p>
+                    <p class="text-end fw-semibold px-2">- Jane Austen</p>
+                </div>
             </div>
-            <div class=" d-none d-md-block">
-                <small class="text-light fst-italic">— A journey through Whispering Pages</small>
+            <!-- Improved badge positioning -->
+            <div class="position-absolute bottom-0 start-50 translate-middle-x mb-4 d-none d-md-block z-2">
+                <small class="text-white-50 fs-7 fst-italic px-3 py-1 bg-dark bg-opacity-30 rounded-pill">
+                    — A journey through Whispering Pages
+                </small>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#quoteCarousel" data-bs-slide="prev">
+
+            <!-- Carousel controls -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#quoteCarousel" data-bs-slide="prev" aria-label="Previous quote">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Previous</span>
             </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#quoteCarousel" data-bs-slide="next">
+            <button class="carousel-control-next" type="button" data-bs-target="#quoteCarousel" data-bs-slide="next" aria-label="Next quote">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
             </button>
+
         </div>
     </div>
 
-    <!-- New Arrivals -->
-    <div class="col-md-4 mt-3">
+
+    <div class="col-md-6 col-sm-6">
         <span class="tag-pill">📦 New Arrivals</span>
         <div id="newArrivals" class="row g-4 mt-2">
             <div class="text-muted">Loading new books...</div>

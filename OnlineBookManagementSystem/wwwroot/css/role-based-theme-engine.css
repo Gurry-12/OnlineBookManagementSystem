@@ -1,0 +1,795 @@
+/* role-based-theme-engine.css - Unified Role-Based Theming System for Whispering Pages */
+
+/* ===== DESIGN TOKENS ===== */
+:root {
+    /* Base Brand Colors */
+    --wp-brand-primary: #6366F1;
+    --wp-brand-secondary: #EC4899;
+    /* Role-Specific Primary Colors */
+    --wp-public-primary: #6366F1;
+    --wp-user-primary: #2563EB;
+    --wp-admin-primary: #059669;
+    --wp-superadmin-primary: #DC2626;
+    --wp-auth-primary: #F59E0B;
+    /* Role-Specific Accent Colors */
+    --wp-public-accent: #E5E7EB;
+    --wp-user-accent: #DBEAFE;
+    --wp-admin-accent: #D1FAE5;
+    --wp-superadmin-accent: #FEE2E2;
+    --wp-auth-accent: #FEF3C7;
+    /* Role-Specific Background Gradients */
+    --wp-gradient-public: linear-gradient(135deg, #F0F4FF, #E0E7FF);
+    --wp-gradient-user: linear-gradient(135deg, #EFF6FF, #DBEAFE);
+    --wp-gradient-admin: linear-gradient(135deg, #ECFDF5, #D1FAE5);
+    --wp-gradient-superadmin: linear-gradient(135deg, #FEE2E2, #FECACA);
+    --wp-gradient-auth: linear-gradient(135deg, #FEF3C7, #FDE68A);
+    /* Role-Specific Sidebar Gradients */
+    --wp-sidebar-public: linear-gradient(180deg, var(--wp-public-primary), var(--wp-brand-secondary));
+    --wp-sidebar-user: linear-gradient(180deg, #1D4ED8, #3B82F6);
+    --wp-sidebar-admin: linear-gradient(180deg, #047857, #10B981);
+    --wp-sidebar-superadmin: linear-gradient(180deg, var(--wp-superadmin-primary), #e83e8c);
+    --wp-sidebar-auth: linear-gradient(180deg, var(--wp-auth-primary), var(--wp-brand-secondary));
+    /* Neutral Colors */
+    --wp-gray-50: #F9FAFB;
+    --wp-gray-100: #F3F4F6;
+    --wp-gray-200: #E5E7EB;
+    --wp-gray-300: #D1D5DB;
+    --wp-gray-400: #9CA3AF;
+    --wp-gray-500: #6B7280;
+    --wp-gray-600: #4B5563;
+    --wp-gray-700: #374151;
+    --wp-gray-800: #1F2937;
+    --wp-gray-900: #111827;
+    /* Status Colors */
+    --wp-success: #10B981;
+    --wp-warning: #F59E0B;
+    --wp-error: #EF4444;
+    --wp-info: #3B82F6;
+    /* Shadows */
+    --wp-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --wp-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    --wp-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --wp-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --wp-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    /* Border Radius */
+    --wp-radius-sm: 0.375rem;
+    --wp-radius: 0.5rem;
+    --wp-radius-md: 0.75rem;
+    --wp-radius-lg: 1rem;
+    --wp-radius-xl: 1.5rem;
+    --wp-radius-full: 9999px;
+    /* Spacing */
+    --wp-space-1: 0.25rem;
+    --wp-space-2: 0.5rem;
+    --wp-space-3: 0.75rem;
+    --wp-space-4: 1rem;
+    --wp-space-5: 1.25rem;
+    --wp-space-6: 1.5rem;
+    --wp-space-8: 2rem;
+    --wp-space-10: 2.5rem;
+    --wp-space-12: 3rem;
+    --wp-space-16: 4rem;
+    /* Typography */
+    --wp-font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    --wp-font-size-xs: 0.75rem;
+    --wp-font-size-sm: 0.875rem;
+    --wp-font-size-base: 1rem;
+    --wp-font-size-lg: 1.125rem;
+    --wp-font-size-xl: 1.25rem;
+    --wp-font-size-2xl: 1.5rem;
+    --wp-font-size-3xl: 1.875rem;
+    --wp-font-size-4xl: 2.25rem;
+    /* Line Heights */
+    --wp-leading-tight: 1.25;
+    --wp-leading-normal: 1.5;
+    --wp-leading-relaxed: 1.625;
+    /* Transitions */
+    --wp-transition-fast: 0.15s ease;
+    --wp-transition-normal: 0.3s ease;
+    --wp-transition-slow: 0.5s ease;
+    /*---  Auth  ---*/
+    --gradient-start: #ffdab9; /* Peach */
+    --gradient-end: #ffb78c; /* Soft orange */
+    --btn-primary: #ff6b35; /* Orange accent */
+    --particle-color: #b2d8b2; /* Light green particles */
+    --text-accent: #ff5722; /* Link accent */
+}
+
+/* ===== ROLE-SPECIFIC LAYOUT CLASSES ===== */
+
+/* Public Layout */
+.public-layout {
+    background: var(--wp-gradient-public);
+    --role-primary: var(--wp-public-primary);
+    --role-accent: var(--wp-public-accent);
+    --role-gradient: var(--wp-gradient-public);
+    --role-sidebar-gradient: var(--wp-sidebar-public);
+}
+
+/* User Layout */
+.user-layout {
+    background: var(--wp-gradient-user);
+    --role-primary: var(--wp-user-primary);
+    --role-accent: var(--wp-user-accent);
+    --role-gradient: var(--wp-gradient-user);
+    --role-sidebar-gradient: var(--wp-sidebar-user);
+}
+
+/* Admin Layout */
+.admin-layout {
+    background: var(--wp-gradient-admin);
+    --role-primary: var(--wp-admin-primary);
+    --role-accent: var(--wp-admin-accent);
+    --role-gradient: var(--wp-gradient-admin);
+    --role-sidebar-gradient: var(--wp-sidebar-admin);
+}
+
+/* SuperAdmin Layout */
+.superadmin-layout {
+    background: var(--wp-gradient-superadmin);
+    --role-primary: var(--wp-superadmin-primary);
+    --role-accent: var(--wp-superadmin-accent);
+    --role-gradient: var(--wp-gradient-superadmin);
+    --role-sidebar-gradient: var(--wp-sidebar-superadmin);
+}
+
+/* Auth Layout */
+.auth-layout {
+    background: var(--wp-gradient-auth);
+    --role-primary: var(--wp-auth-primary);
+    --role-accent: var(--wp-auth-accent);
+    --role-gradient: var(--wp-gradient-auth);
+    --role-sidebar-gradient: var(--wp-sidebar-auth);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 0;
+}
+
+.auth-body {
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+    position: relative;
+}
+
+.auth-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    max-width: 1100px;
+    width: 100%;
+    align-items: start;
+}
+
+.auth-container {
+    width: 100%;
+    padding: 2rem;
+}
+
+.auth-card {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 1.5rem;
+    padding: 3rem 2.5rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    min-height: 580px; /* Consistent height */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.auth-illustration {
+    text-align: center;
+}
+
+    .auth-illustration img {
+        max-width: 100%;
+        height: auto;
+        animation: floatCharacter 8s ease-in-out infinite;
+    }
+
+@keyframes floatCharacter {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+.btn-primary-custom {
+    background: var(--btn-primary);
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    font-weight: 600;
+    color: white;
+}
+
+.social-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+    .social-buttons button {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+/* Seamless password toggle */
+.input-group .form-control {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
+.input-group-text.toggle-password {
+    background: transparent;
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+    color: #666;
+    cursor: pointer;
+}
+
+    .input-group-text.toggle-password:hover {
+        color: var(--btn-primary);
+    }
+
+.auth-link {
+    color: var(--text-accent);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s ease, text-decoration 0.2s ease;
+}
+
+    .auth-link:hover,
+    .auth-link:focus {
+        text-decoration: underline;
+        text-underline-offset: 3px;
+    }
+
+    .auth-link:focus-visible {
+        outline: 2px solid var(--text-accent);
+        outline-offset: 2px;
+        border-radius: 4px;
+    }
+
+
+
+/* ===== BASE STYLES ===== */
+body {
+    font-family: var(--wp-font-family);
+    color: var(--wp-gray-800);
+    line-height: var(--wp-leading-normal);
+    margin: 0;
+    padding: 0;
+}
+
+/* ===== ROLE-AWARE COMPONENT STYLES ===== */
+
+/* Sidebar Component */
+.wp-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 250px;
+    background: var(--role-sidebar-gradient);
+    color: white;
+    padding: var(--wp-space-4);
+    transition: width var(--wp-transition-normal);
+    z-index: 1000;
+    overflow-y: auto;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.wp-sidebar.collapsed {
+    width: 60px;
+}
+
+.wp-sidebar-logo {
+    display: block;
+    padding: var(--wp-space-3);
+    margin: 0 auto var(--wp-space-6);
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: var(--wp-radius-lg);
+    box-shadow: var(--wp-shadow);
+    transition: all var(--wp-transition-normal);
+}
+
+.wp-sidebar.collapsed .wp-sidebar-logo {
+    opacity: 0;
+    transform: scale(0.8);
+}
+
+.wp-sidebar-nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.wp-sidebar-nav-item {
+    margin-bottom: var(--wp-space-2);
+}
+
+.wp-sidebar-nav-link {
+    display: flex;
+    align-items: center;
+    padding: var(--wp-space-3);
+    color: white;
+    text-decoration: none;
+    border-radius: var(--wp-radius);
+    transition: all var(--wp-transition-fast);
+    gap: var(--wp-space-3);
+    border-left: 3px solid transparent;
+}
+
+.wp-sidebar-nav-link:hover,
+.wp-sidebar-nav-link.active {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    transform: translateX(4px);
+    border-left-color: rgba(255, 255, 255, 0.5);
+}
+
+.wp-sidebar.collapsed .wp-sidebar-nav-text {
+    display: none;
+}
+
+/* Button Component */
+.wp-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--wp-space-2) var(--wp-space-4);
+    border-radius: var(--wp-radius);
+    font-weight: 500;
+    font-size: var(--wp-font-size-sm);
+    line-height: var(--wp-leading-tight);
+    text-decoration: none;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all var(--wp-transition-fast);
+    gap: var(--wp-space-2);
+}
+
+.wp-btn-primary {
+    background-color: var(--role-primary);
+    color: white;
+    border-color: var(--role-primary);
+}
+
+.wp-btn-primary:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+    box-shadow: var(--wp-shadow-md);
+    color: white;
+}
+
+.wp-btn-secondary {
+    background-color: transparent;
+    color: var(--role-primary);
+    border-color: var(--role-primary);
+}
+
+.wp-btn-secondary:hover {
+    background-color: var(--role-primary);
+    color: white;
+}
+
+/* Card Component */
+.wp-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: var(--wp-radius-lg);
+    box-shadow: var(--wp-shadow);
+    border: 1px solid var(--wp-gray-200);
+    border-left: 4px solid var(--role-accent);
+    overflow: hidden;
+    transition: all var(--wp-transition-normal);
+    backdrop-filter: blur(10px);
+}
+
+.wp-card:hover {
+    box-shadow: var(--wp-shadow-lg);
+    transform: translateY(-2px);
+}
+
+.wp-card-header {
+    padding: var(--wp-space-4) var(--wp-space-6);
+    background-color: var(--role-primary);
+    color: white;
+    border-bottom: 1px solid var(--wp-gray-200);
+}
+
+.wp-card-body {
+    padding: var(--wp-space-6);
+}
+
+.wp-card-footer {
+    padding: var(--wp-space-4) var(--wp-space-6);
+    background-color: var(--wp-gray-50);
+    border-top: 1px solid var(--wp-gray-200);
+}
+
+/* Form Component */
+.wp-form-group {
+    margin-bottom: var(--wp-space-4);
+}
+
+.wp-form-label {
+    display: block;
+    font-weight: 500;
+    color: var(--wp-gray-700);
+    margin-bottom: var(--wp-space-2);
+    font-size: var(--wp-font-size-sm);
+}
+
+.wp-form-control {
+    display: block;
+    width: 100%;
+    padding: var(--wp-space-3);
+    font-size: var(--wp-font-size-base);
+    line-height: var(--wp-leading-normal);
+    color: var(--wp-gray-800);
+    background-color: white;
+    border: 1px solid var(--wp-gray-300);
+    border-left: 3px solid var(--role-accent);
+    border-radius: var(--wp-radius);
+    transition: border-color var(--wp-transition-fast), box-shadow var(--wp-transition-fast);
+}
+
+.wp-form-control:focus {
+    outline: none;
+    border-color: var(--role-primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.wp-form-control.is-invalid {
+    border-color: var(--wp-error);
+}
+
+.wp-form-error {
+    display: block;
+    margin-top: var(--wp-space-1);
+    font-size: var(--wp-font-size-sm);
+    color: var(--wp-error);
+}
+
+/* Modal Component */
+.wp-modal-content {
+    border-radius: var(--wp-radius-lg);
+    border: none;
+    box-shadow: var(--wp-shadow-xl);
+}
+
+.wp-modal-header {
+    background-color: var(--role-primary);
+    color: white;
+    border-bottom: none;
+    border-radius: var(--wp-radius-lg) var(--wp-radius-lg) 0 0;
+}
+
+.wp-modal-body {
+    padding: var(--wp-space-6);
+}
+
+.wp-modal-footer {
+    border-top: 1px solid var(--wp-gray-200);
+    padding: var(--wp-space-4) var(--wp-space-6);
+}
+
+/* Content Area */
+.wp-content {
+    margin-left: 250px;
+    padding: var(--wp-space-6);
+    min-height: 100vh;
+    transition: margin-left var(--wp-transition-normal);
+}
+
+.wp-sidebar.collapsed + .wp-content {
+    margin-left: 60px;
+}
+
+/* Top Bar */
+.wp-top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--wp-space-4) var(--wp-space-6);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--wp-gray-200);
+    margin-bottom: var(--wp-space-6);
+    border-radius: var(--wp-radius-lg);
+    box-shadow: var(--wp-shadow-sm);
+    color: var(--role-primary);
+}
+
+/* Badge Component */
+.wp-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--wp-space-1) var(--wp-space-2);
+    font-size: var(--wp-font-size-xs);
+    font-weight: 500;
+    border-radius: var(--wp-radius-full);
+    gap: var(--wp-space-1);
+}
+
+.wp-badge-success {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: var(--wp-success);
+}
+
+.wp-badge-warning {
+    background-color: rgba(245, 158, 11, 0.1);
+    color: var(--wp-warning);
+}
+
+.wp-badge-error {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: var(--wp-error);
+}
+
+.wp-badge-info {
+    background-color: rgba(59, 130, 246, 0.1);
+    color: var(--wp-info);
+}
+
+/* Typography */
+.wp-heading-1 {
+    font-size: var(--wp-font-size-4xl);
+    font-weight: 700;
+    line-height: var(--wp-leading-tight);
+    color: var(--wp-gray-900);
+    margin-bottom: var(--wp-space-6);
+}
+
+.wp-heading-2 {
+    font-size: var(--wp-font-size-3xl);
+    font-weight: 600;
+    line-height: var(--wp-leading-tight);
+    color: var(--wp-gray-900);
+    margin-bottom: var(--wp-space-4);
+}
+
+.wp-heading-3 {
+    font-size: var(--wp-font-size-2xl);
+    font-weight: 600;
+    line-height: var(--wp-leading-tight);
+    color: var(--wp-gray-900);
+    margin-bottom: var(--wp-space-4);
+}
+
+.wp-text-muted {
+    color: var(--wp-gray-500);
+}
+
+.wp-text-gradient {
+    background: linear-gradient(135deg, var(--role-primary), var(--wp-brand-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+
+.wp-quote-box {
+    background: var(--role-sidebar-gradient); /* Light, subtle gradient compatible with Bootstrap */
+    padding: 3rem 2rem; /* Slightly more generous padding for breathing room */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* Soft, modern shadow - works well with shadow-sm */
+    font-style: italic;
+    color: var(--wp-gray-100); /* Dark gray for excellent readability on light background */
+    position: relative;
+    overflow: hidden;
+}
+
+/* ==========================================================================
+   Book Cover Image Styling
+   ========================================================================== */
+
+.wp-book-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 2 / 3; 
+    object-fit: cover; 
+    object-position: center;
+    border-radius: 0.5rem; /* Gentle modern rounding */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.08); /* Soft, layered shadow for depth */
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    background-color: #f8f9fa; /* Fallback color for loading/missing images */
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+    /* Hover / Focus state */
+    .wp-book-image:hover,
+    .wp-book-image:focus-visible {
+        transform: translateY(-6px) scale(1.03);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18), 0 2px 8px rgba(0, 0, 0, 0.10);
+        border-color: #4a90e2; /* Matches your accent color from quote box */
+        outline: none;
+    }
+
+    /* Loading / placeholder state */
+    .wp-book-image:not([src]),
+    .wp-book-image[src=""],
+    .wp-book-image.loading {
+        background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+        background-size: 200% 200%;
+        animation: loadingPulse 2.5s infinite ease-in-out;
+    }
+
+/* Small animation for loading state */
+@keyframes loadingPulse {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+    .wp-book-image {
+        border-radius: 0.375rem;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.10);
+    }
+
+        .wp-book-image:hover,
+        .wp-book-image:focus-visible {
+            transform: translateY(-4px) scale(1.02);
+        }
+}
+
+
+/* ===== GLASSMORPHISM EFFECTS FOR SUPERADMIN AND AUTH ===== */
+.superadmin-layout .wp-card,
+.auth-layout .wp-card {
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: var(--wp-shadow-xl);
+}
+
+.superadmin-layout .wp-top-bar,
+.auth-layout .wp-top-bar {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 1024px) {
+    .wp-sidebar {
+        width: 60px;
+    }
+    
+    .wp-content {
+        margin-left: 60px;
+    }
+    
+    .wp-sidebar-logo {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    
+    .wp-sidebar-nav-text {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .wp-sidebar {
+        transform: translateX(-100%);
+        width: 250px;
+    }
+    
+    .wp-sidebar.mobile-open {
+        transform: translateX(0);
+    }
+    
+    .wp-content {
+        margin-left: 0;
+        padding: var(--wp-space-4);
+    }
+    
+    .wp-top-bar {
+        padding: var(--wp-space-3) var(--wp-space-4);
+        margin-bottom: var(--wp-space-4);
+    }
+}
+
+/* ===== UTILITY CLASSES ===== */
+.wp-flex {
+    display: flex;
+}
+
+.wp-flex-col {
+    flex-direction: column;
+}
+
+.wp-items-center {
+    align-items: center;
+}
+
+.wp-justify-between {
+    justify-content: space-between;
+}
+
+.wp-gap-2 {
+    gap: var(--wp-space-2);
+}
+
+.wp-gap-4 {
+    gap: var(--wp-space-4);
+}
+
+.wp-mb-4 {
+    margin-bottom: var(--wp-space-4);
+}
+
+.wp-mb-6 {
+    margin-bottom: var(--wp-space-6);
+}
+
+.wp-p-4 {
+    padding: var(--wp-space-4);
+}
+
+.wp-p-6 {
+    padding: var(--wp-space-6);
+}
+
+.wp-rounded {
+    border-radius: var(--wp-radius);
+}
+
+.wp-rounded-lg {
+    border-radius: var(--wp-radius-lg);
+}
+
+.wp-shadow {
+    box-shadow: var(--wp-shadow);
+}
+
+.wp-shadow-lg {
+    box-shadow: var(--wp-shadow-lg);
+}
+
+/* ===== ROLE ISOLATION ENFORCEMENT ===== */
+/* Ensure role-specific classes only apply within their layout context */
+.public-layout .user-layout,
+.public-layout .admin-layout,
+.public-layout .superadmin-layout,
+.public-layout .auth-layout,
+.user-layout .public-layout,
+.user-layout .admin-layout,
+.user-layout .superadmin-layout,
+.user-layout .auth-layout,
+.admin-layout .public-layout,
+.admin-layout .user-layout,
+.admin-layout .superadmin-layout,
+.admin-layout .auth-layout,
+.superadmin-layout .public-layout,
+.superadmin-layout .user-layout,
+.superadmin-layout .admin-layout,
+.superadmin-layout .auth-layout,
+.auth-layout .public-layout,
+.auth-layout .user-layout,
+.auth-layout .admin-layout,
+.auth-layout .superadmin-layout {
+    /* Prevent nested role layouts - this should never happen */
+    display: none !important;
+}

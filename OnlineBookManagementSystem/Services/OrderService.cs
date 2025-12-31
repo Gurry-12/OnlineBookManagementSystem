@@ -253,5 +253,56 @@ namespace OnlineBookManagementSystem.Services
                 return false;
             }
         }
+
+        public async Task<List<MonthlyRevenueViewModel>> GetMonthlyRevenueAsync()
+        {
+            try
+            {
+                var monthlyRevenue = await _context.Orders
+                    .Where(o => !o.IsDeleted && o.PaymentStatus == "Paid" && o.OrderDate.HasValue)
+                    .Where(o => o.OrderDate >= DateTime.UtcNow.AddMonths(-12))
+                    .GroupBy(o => new { o.OrderDate.Value.Year, o.OrderDate.Value.Month })
+                    .Select(g => new MonthlyRevenueViewModel
+                    {
+                        Month = $"{g.Key.Year}-{g.Key.Month:D2}",
+                        Revenue = g.Sum(o => o.TotalAmount),
+                        OrderCount = g.Count()
+                    })
+                    .OrderBy(x => x.Month)
+                    .ToListAsync();
+
+                return monthlyRevenue;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to get monthly revenue data");
+                return new List<MonthlyRevenueViewModel>();
+            }
+        }
+
+        public async Task<List<OrderStatusViewModel>> GetOrderStatusDistributionAsync()
+        {
+            try
+            {
+                var statusDistribution = await _context.Orders
+                    .Where(o => !o.IsDeleted)
+                    .GroupBy(o => o.Status)
+                    .Select(g => new OrderStatusViewModel
+                    {
+                        Status = g.Key,
+                        Count = g.Count(),
+                        TotalAmount = g.Sum(o => o.TotalAmount)
+                    })
+                    .OrderByDescending(x => x.Count)
+                    .ToListAsync();
+
+                return statusDistribution;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to get order status distribution data");
+                return new List<OrderStatusViewModel>();
+            }
+        }
     }
 }
