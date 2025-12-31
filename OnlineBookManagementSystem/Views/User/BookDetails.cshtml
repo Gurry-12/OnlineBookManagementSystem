@@ -2,7 +2,7 @@
 @model BookDetailsViewModel
 
 @{
-    ViewData["Title"] = Model.Title;
+    ViewData["Title"] = Model.Book.Title;
     Layout = ViewData["Layout"]?.ToString() ?? "_LayoutUser";
 }
 
@@ -10,7 +10,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a asp-action="UserBookList">Books</a></li>
-            <li class="breadcrumb-item active" aria-current="page">@Model.Title</li>
+            <li class="breadcrumb-item active" aria-current="page">@Model.Book.Title</li>
         </ol>
     </nav>
 
@@ -18,13 +18,13 @@
         <!-- Image Column -->
         <div class="col-md-4 mb-4">
             <div class="card border-0 shadow-sm">
-                <img src="@(Model.Book.ImageUrl ?? Url.Content("~/images/default-book.jpg"))" class="card-img-top" alt="@Model.Title">
+                <img src="@(Model.Book.ImageUrl ?? Url.Content("~/images/default-book.jpg"))" class="card-img-top" alt="@Model.Book.Title">
             </div>
         </div>
 
         <!-- Details Column -->
         <div class="col-md-8">
-            <h1 class="display-5 fw-bold">@Model.Title</h1>
+            <h1 class="display-5 fw-bold">@Model.Book.Title</h1>
             <p class="fs-4 text-muted">by @Model.Book.Author</p>
 
             <div class="d-flex align-items-center mb-3">

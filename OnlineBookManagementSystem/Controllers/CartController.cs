@@ -48,7 +48,7 @@ namespace OnlineBookManagementSystem.Controllers
             if (userId == 0) return Unauthorized();
 
             var success = await _cartService.RemoveCartItemAsync(userId, bookId);
-            return Json(new { success, redirectUrl = Url.Action("CartIndexUser") });
+            return Json(new { success, redirectUrl = Url.Action("UserCart", "User") });
         }
 
         [Authorize(Policy = "AdminOrHigher")]
@@ -86,7 +86,7 @@ namespace OnlineBookManagementSystem.Controllers
                 return RedirectToAction("OrderConfirmation");
             }
 
-            ModelState.AddModelError("", "Checkout failed—cart empty or error.");
+            ModelState.AddModelError("", "Checkout failedï¿½cart empty or error.");
             var viewModel = await _cartService.CheckoutDetailsAsync(userId);
             return View(viewModel);
         }

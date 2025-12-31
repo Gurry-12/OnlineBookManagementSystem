@@ -77,7 +77,7 @@ namespace OnlineBookManagementSystem.Controllers
                 return RedirectToAction(nameof(UserBookList));
             }
 
-            await _activityLogger.LogAsync("ViewBook", $"Viewed book '{book.Title}'", userId);
+            await _activityLogger.LogAsync("ViewBook", $"Viewed book '{book.Book.Title}'", userId);
             return View(book);
         }
 

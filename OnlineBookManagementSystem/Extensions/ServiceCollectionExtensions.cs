@@ -122,6 +122,7 @@ namespace OnlineBookManagementSystem.Extensions
             services.AddScoped<ISystemSettingsService, SystemSettingsService>();
             services.AddScoped<ICacheService, CacheService>();
             services.AddScoped<IErrorViewModelFactory, ErrorViewModelFactory>();
+            services.AddScoped<IReviewService, ReviewService>();
 
             // Email Configuration
             services.Configure<Models.Configuration.EmailSettings>(configuration.GetSection("EmailSettings"));
