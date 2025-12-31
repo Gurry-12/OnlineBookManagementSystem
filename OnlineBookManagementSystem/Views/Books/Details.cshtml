@@ -1,0 +1,386 @@
+@model OnlineBookManagementSystem.Models.ViewModel.BookDetailsViewModel
+@{
+    ViewData["Title"] = Model.Book.Title;
+    Layout = User.IsInRole("Admin") || User.IsInRole("SuperAdmin") ? "_LayoutAdmin" : 
+             User.IsInRole("User") ? "_LayoutUser" : "_LayoutPublic";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <!-- Book Information -->
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            @if (!string.IsNullOrEmpty(Model.Book.ImageUrl))
+                            {
+                                <img src="@Model.Book.ImageUrl" alt="@Model.Book.Title" class="img-fluid rounded shadow-sm">
+                            }
+                            else
+                            {
+                                <div class="bg-light d-flex align-items-center justify-content-center rounded" style="height: 300px;">
+                                    <i class="fas fa-book fa-3x text-muted"></i>
+                                </div>
+                            }
+                        </div>
+                        <div class="col-md-8">
+                            <h1 class="h3 mb-3">@Model.Book.Title</h1>
+                            <p class="text-muted mb-2"><strong>Author:</strong> @Model.Book.Author</p>
+                            <p class="text-muted mb-2"><strong>ISBN:</strong> @Model.Book.ISBN</p>
+                            <p class="text-muted mb-2"><strong>Category:</strong> @Model.Book.Category?.Name</p>
+                            <p class="text-muted mb-3"><strong>Price:</strong> $@Model.Book.Price.ToString("F2")</p>
+                            
+                            <!-- Rating Display -->
+                            <div class="mb-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="star-rating me-2" data-rating="@Model.Rating.AverageRating">
+                                        @for (int i = 1; i <= 5; i++)
+                                        {
+                                            @if (i <= Math.Floor(Model.Rating.AverageRating))
+                                            {
+                                                <i class="fas fa-star text-warning"></i>
+                                            }
+                                            else if (i - 0.5 <= Model.Rating.AverageRating)
+                                            {
+                                                <i class="fas fa-star-half-alt text-warning"></i>
+                                            }
+                                            else
+                                            {
+                                                <i class="far fa-star text-warning"></i>
+                                            }
+                                        }
+                                    </div>
+                                    <span class="text-muted">
+                                        @if (Model.Rating.TotalReviews > 0)
+                                        {
+                                            @Model.Rating.AverageRating.ToString("F1") 
+                                            
+                                        }
+                                        else
+                                        {
+                                            <text>No reviews yet</text>
+                                        }
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Stock Status -->
+                            @if (Model.Book.StockQuantity > 0)
+                            {
+                                <p class="text-success mb-3"><i class="fas fa-check-circle"></i> In Stock (@Model.Book.StockQuantity available)</p>
+                            }
+                            else
+                            {
+                                <p class="text-danger mb-3"><i class="fas fa-times-circle"></i> Out of Stock</p>
+                            }
+
+                            <!-- Action Buttons -->
+                            @if (User.Identity?.IsAuthenticated == true && User.IsInRole("User"))
+                            {
+                                <div class="d-flex gap-2 mb-3">
+                                    @if (Model.Book.StockQuantity > 0)
+                                    {
+                                        <button class="btn btn-primary" onclick="addToCart(@Model.Book.Id)">
+                                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                                        </button>
+                                    }
+                                    <button class="btn btn-outline-secondary" onclick="toggleFavorite(@Model.Book.Id)">
+                                        <i class="far fa-heart"></i> Add to Favorites
+                                    </button>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    
+                    <!-- Description -->
+                    @if (!string.IsNullOrEmpty(Model.Book.Description))
+                    {
+                        <div class="mt-4">
+                            <h5>Description</h5>
+                            <p class="text-muted">@Model.Book.Description</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Reviews Section -->
+        <div class="col-lg-4">
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <h5 class="mb-0">Reviews</h5>
+                </div>
+                <div class="card-body">
+                    <!-- Review Submission Form -->
+                    @if (Model.CanReview)
+                    {
+                        <div class="mb-4">
+                            <h6>Write a Review</h6>
+                            <form asp-controller="Review" asp-action="Submit" method="post">
+                                <input type="hidden" name="BookId" value="@Model.Book.Id" />
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Rating</label>
+                                    <div class="star-input" data-rating="0">
+                                        @for (int i = 1; i <= 5; i++)
+                                        {
+                                            <i class="far fa-star" data-value="@i"></i>
+                                        }
+                                    </div>
+                                    <input type="hidden" name="Rating" id="rating-input" value="0" />
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Review</label>
+                                    <textarea name="ReviewText" class="form-control" rows="4" 
+                                              placeholder="Share your thoughts about this book..." 
+                                              minlength="10" maxlength="1000" required></textarea>
+                                    <div class="form-text">10-1000 characters</div>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary btn-sm">Submit Review</button>
+                            </form>
+                        </div>
+                    }
+                    else if (Model.Rating.HasUserReview)
+                    {
+                        <div class="mb-4">
+                            <h6>Your Review</h6>
+                            <div class="border rounded p-3">
+                                <div class="d-flex align-items-center mb-2">
+                                    <div class="star-rating me-2">
+                                        @for (int i = 1; i <= 5; i++)
+                                        {
+                                            @if (i <= Model.Rating.UserReview!.Rating)
+                                            {
+                                                <i class="fas fa-star text-warning"></i>
+                                            }
+                                            else
+                                            {
+                                                <i class="far fa-star text-warning"></i>
+                                            }
+                                        }
+                                    </div>
+                                    <small class="text-muted">@Model.Rating.UserReview.CreatedAt.ToString("MMM dd, yyyy")</small>
+                                </div>
+                                <p class="mb-2">@Model.Rating.UserReview.ReviewText</p>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-outline-primary btn-sm" onclick="editReview(@Model.Rating.UserReview.Id)">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                    <form asp-controller="Review" asp-action="Delete" method="post" class="d-inline">
+                                        <input type="hidden" name="id" value="@Model.Rating.UserReview.Id" />
+                                        <input type="hidden" name="bookId" value="@Model.Book.Id" />
+                                        <button type="submit" class="btn btn-outline-danger btn-sm" 
+                                                onclick="return confirm('Are you sure you want to delete your review?')">
+                                            <i class="fas fa-trash"></i> Delete
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else if (User.Identity?.IsAuthenticated != true)
+                    {
+                        <div class="mb-4 text-center">
+                            <p class="text-muted">Please <a asp-controller="Auth" asp-action="Login">login</a> to write a review.</p>
+                        </div>
+                    }
+
+                    <!-- Reviews List -->
+                    <div id="reviews-container">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h6>All Reviews</h6>
+                            <div class="dropdown">
+                                <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" 
+                                        data-bs-toggle="dropdown">
+                                    Sort by
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#" onclick="loadReviews('NewestFirst')">Newest First</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="loadReviews('OldestFirst')">Oldest First</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="loadReviews('HighestRating')">Highest Rating</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="loadReviews('LowestRating')">Lowest Rating</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- Rating Filter -->
+                        <div class="mb-3">
+                            <div class="btn-group btn-group-sm" role="group">
+                                <button type="button" class="btn btn-outline-secondary active" onclick="filterByRating(null)">All</button>
+                                @for (int i = 5; i >= 1; i--)
+                                {
+                                    <button type="button" class="btn btn-outline-secondary" onclick="filterByRating(@i)">
+                                        @i <i class="fas fa-star"></i>
+                                    </button>
+                                }
+                            </div>
+                        </div>
+
+                        <div id="reviews-list">
+                            <!-- Reviews will be loaded here via AJAX -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        let currentSort = 'NewestFirst';
+        let currentFilter = null;
+        let currentPage = 1;
+
+        $(document).ready(function() {
+            loadReviews();
+            initializeStarInput();
+        });
+
+        function loadReviews(sortOrder = null, ratingFilter = null, page = 1) {
+            if (sortOrder) currentSort = sortOrder;
+            if (ratingFilter !== undefined) currentFilter = ratingFilter;
+            currentPage = page;
+
+            $.get('@Url.Action("GetBookReviews", "Review")', {
+                bookId: @Model.Book.Id,
+                page: currentPage,
+                pageSize: 10,
+                sortOrder: currentSort,
+                ratingFilter: currentFilter
+            })
+            .done(function(data) {
+                $('#reviews-list').html(data);
+            })
+            .fail(function() {
+                $('#reviews-list').html('<p class="text-danger">Error loading reviews.</p>');
+            });
+        }
+
+        function filterByRating(rating) {
+            $('.btn-group .btn').removeClass('active');
+            if (rating === null) {
+                $('.btn-group .btn:first').addClass('active');
+            } else {
+                $(`.btn-group .btn:contains('${rating}')`).addClass('active');
+            }
+            loadReviews(null, rating, 1);
+        }
+
+        function initializeStarInput() {
+            $('.star-input i').on('click', function() {
+                const rating = $(this).data('value');
+                $('#rating-input').val(rating);
+                
+                $('.star-input i').removeClass('fas').addClass('far');
+                for (let i = 1; i <= rating; i++) {
+                    $(`.star-input i[data-value="${i}"]`).removeClass('far').addClass('fas');
+                }
+            });
+
+            $('.star-input i').on('mouseenter', function() {
+                const rating = $(this).data('value');
+                $('.star-input i').removeClass('fas').addClass('far');
+                for (let i = 1; i <= rating; i++) {
+                    $(`.star-input i[data-value="${i}"]`).removeClass('far').addClass('fas');
+                }
+            });
+
+            $('.star-input').on('mouseleave', function() {
+                const currentRating = $('#rating-input').val();
+                $('.star-input i').removeClass('fas').addClass('far');
+                for (let i = 1; i <= currentRating; i++) {
+                    $(`.star-input i[data-value="${i}"]`).removeClass('far').addClass('fas');
+                }
+            });
+        }
+
+        function addToCart(bookId) {
+            const userId = @(User.Identity?.IsAuthenticated == true ? User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "null" : "null");
+            
+            if (!userId || userId === "null") {
+                window.location.href = '@Url.Action("Login", "Auth")';
+                return;
+            }
+
+            $.post('@Url.Action("AddToCart", "User")', {
+                bookId: bookId,
+                quantity: 1
+            })
+            .done(function(response) {
+                if (response.success) {
+                    toastr.success(response.message);
+                    // Update cart count in navbar if exists
+                    if ($('#cart-count').length) {
+                        $('#cart-count').text(response.cartCount);
+                    }
+                    // Trigger cart updated event
+                    $(document).trigger('cartUpdated');
+                } else {
+                    toastr.error(response.message);
+                }
+            })
+            .fail(function() {
+                toastr.error('Error adding item to cart');
+            });
+        }
+
+        function toggleFavorite(bookId) {
+            const userId = @(User.Identity?.IsAuthenticated == true ? User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "null" : "null");
+            
+            if (!userId || userId === "null") {
+                window.location.href = '@Url.Action("Login", "Auth")';
+                return;
+            }
+
+            $.post('@Url.Action("ToggleFavorite", "Books")', {
+                bookId: bookId
+            })
+            .done(function(response) {
+                if (response.success) {
+                    toastr.success('Favorites updated');
+                    // Toggle heart icon
+                    const heartIcon = $(`button[onclick="toggleFavorite(${bookId})"] i`);
+                    heartIcon.toggleClass('far fas');
+                } else {
+                    toastr.error('Error updating favorites');
+                }
+            })
+            .fail(function() {
+                toastr.error('Error updating favorites');
+            });
+        }
+
+        function editReview(reviewId) {
+            // Implementation for edit review
+            console.log('Edit review:', reviewId);
+        }
+    </script>
+}
+
+<style>
+    .star-rating i, .star-input i {
+        cursor: pointer;
+        font-size: 1.1em;
+    }
+    
+    .star-input i:hover {
+        color: #ffc107 !important;
+    }
+    
+    .card {
+        border: none;
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    }
+    
+    .btn-group-sm .btn {
+        font-size: 0.75rem;
+    }
+</style>

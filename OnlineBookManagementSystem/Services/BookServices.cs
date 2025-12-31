@@ -476,8 +476,9 @@ namespace OnlineBookManagementSystem.Services
                 .Take(4)
                 .ToListAsync();
 
-            return new BookDetailsViewModel
+            var newBook = new Book
             {
+
                 Id = book.Id,
                 Title = book.Title,
                 Author = book.Author,
@@ -491,10 +492,24 @@ namespace OnlineBookManagementSystem.Services
                 AverageRating = book.AverageRating,
                 CreatedAt = book.CreatedAt,
                 UpdatedAt = book.UpdatedAt,
-                IsFavorite = isFavorite,
-                RelatedBooks = relatedBooks,
-                Reviews = new List<Models.BookReview>(), // TODO: Implement reviews
-                ReviewCount = 0
+                IsFavorite = isFavorite
+
+            };
+
+            return new BookDetailsViewModel
+            {
+                Book = newBook,
+                Rating = new BookRatingViewModel
+                {
+                    AverageRating = book.AverageRating,
+                    TotalReviews = await _context.BookReviews.CountAsync(r => r.BookId == bookId)
+                },
+                CanReview = await _context.BookReviews
+                    .AnyAsync(r => r.BookId == bookId && r.UserId == userId) == false,
+                ReviewForm = new ReviewSubmissionViewModel
+                {
+                    BookId = bookId
+                }
             };
         }
 
@@ -657,12 +672,12 @@ namespace OnlineBookManagementSystem.Services
         public async Task<List<Models.ViewModel.ChartViewModel.MonthlyBookUploadViewModel>> GetMonthlyBookUploadsAsync()
         {
             var sixMonthsAgo = DateTime.UtcNow.AddMonths(-6);
-            
+
             // First get the grouped data from database
             var monthlyData = await _context.Books
                 .Where(b => !b.IsDeleted && b.CreatedAt >= sixMonthsAgo)
                 .GroupBy(b => new { b.CreatedAt.Year, b.CreatedAt.Month })
-                .Select(g => new 
+                .Select(g => new
                 {
                     Year = g.Key.Year,
                     Month = g.Key.Month,
@@ -716,7 +731,7 @@ namespace OnlineBookManagementSystem.Services
         {
             var totalBooks = await _context.Books.CountAsync(b => !b.IsDeleted);
             var favoriteCount = await _context.UserFavorites.CountAsync();
-            
+
             return new FavoriteStatsViewModel
             {
                 FavoriteCount = favoriteCount,

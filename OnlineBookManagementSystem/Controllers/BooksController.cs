@@ -12,11 +12,13 @@ namespace OnlineBookManagementSystem.Controllers
     {
         private readonly IBookService _bookService;
         private readonly IActivityLogger _activityLoggerService;
+        private readonly IReviewService _reviewService;
 
-        public BooksController(IBookService bookService, IActivityLogger activityLogger)
+        public BooksController(IBookService bookService, IActivityLogger activityLogger, IReviewService reviewService)
         {
             _bookService = bookService;
             _activityLoggerService = activityLogger;
+            _reviewService = reviewService;
         }
 
         //[Authorize(Policy = "AdminOrHigher")]
@@ -156,6 +158,52 @@ namespace OnlineBookManagementSystem.Controllers
             var userId = GetUserIdFromClaims();
             var success = await _bookService.ToggleFavoriteAsync(bookId, userId);
             return Json(new { success });
+        }
+
+        // Book Details with Reviews
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            var book = await _bookService.GetBookByIdAsync(id);
+            if (book == null)
+            {
+                return NotFound();
+            }
+
+            var userId = GetUserIdFromClaims();
+            var bookRating = await _reviewService.GetBookRatingAsync(id);
+            
+            // Check if current user has a review for this book
+            if (userId > 0)
+            {
+                var userReview = await _reviewService.GetUserReviewForBookAsync(userId, id);
+                if (userReview != null)
+                {
+                    bookRating.HasUserReview = true;
+                    bookRating.UserReview = new ReviewDisplayViewModel
+                    {
+                        Id = userReview.Id,
+                        BookId = userReview.BookId,
+                        UserId = userReview.UserId,
+                        Rating = userReview.Rating,
+                        ReviewText = userReview.ReviewText,
+                        CreatedAt = userReview.CreatedAt,
+                        UpdatedAt = userReview.UpdatedAt,
+                        CanEdit = true,
+                        IsEdited = userReview.UpdatedAt > userReview.CreatedAt.AddMinutes(1)
+                    };
+                }
+            }
+
+            var viewModel = new BookDetailsViewModel
+            {
+                Book = book,
+                Rating = bookRating,
+                CanReview = userId > 0 && !bookRating.HasUserReview
+            };
+
+            return View(viewModel);
         }
 
         // Admin Book List (View)

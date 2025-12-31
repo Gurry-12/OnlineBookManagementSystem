@@ -1,0 +1,105 @@
+@model OnlineBookManagementSystem.Models.ViewModel.PaginatedResult<OnlineBookManagementSystem.Models.ViewModel.ReviewDisplayViewModel>
+
+@if (Model.Items.Any())
+{
+    @foreach (var review in Model.Items)
+    {
+        <div class="review-item border-bottom pb-3 mb-3">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+                <div>
+                    <strong>@review.UserName</strong>
+                    @if (review.IsEdited)
+                    {
+                        <small class="text-muted">(edited)</small>
+                    }
+                </div>
+                <small class="text-muted">@review.CreatedAt.ToString("MMM dd, yyyy")</small>
+            </div>
+            
+            <div class="star-rating mb-2">
+                @for (int i = 1; i <= 5; i++)
+                {
+                    @if (i <= review.Rating)
+                    {
+                        <i class="fas fa-star text-warning"></i>
+                    }
+                    else
+                    {
+                        <i class="far fa-star text-warning"></i>
+                    }
+                }
+            </div>
+            
+            <p class="mb-2">@review.ReviewText</p>
+            
+            @if (review.CanEdit)
+            {
+                <div class="d-flex gap-2">
+                    <button class="btn btn-outline-primary btn-sm" onclick="editReview(@review.Id)">
+                        <i class="fas fa-edit"></i> Edit
+                    </button>
+                    <form asp-controller="Review" asp-action="Delete" method="post" class="d-inline">
+                        <input type="hidden" name="id" value="@review.Id" />
+                        <input type="hidden" name="bookId" value="@review.BookId" />
+                        <button type="submit" class="btn btn-outline-danger btn-sm" 
+                                onclick="return confirm('Are you sure you want to delete your review?')">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </form>
+                </div>
+            }
+        </div>
+    }
+
+    <!-- Pagination -->
+    @if (Model.TotalPages > 1)
+    {
+        <nav aria-label="Reviews pagination">
+            <ul class="pagination pagination-sm justify-content-center">
+                @if (Model.HasPreviousPage)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="#" onclick="loadReviews(null, null, @(Model.PageNumber - 1))">Previous</a>
+                    </li>
+                }
+                
+                @for (int i = Math.Max(1, Model.PageNumber - 2); i <= Math.Min(Model.TotalPages, Model.PageNumber + 2); i++)
+                {
+                    <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                        <a class="page-link" href="#" onclick="loadReviews(null, null, @i)">@i</a>
+                    </li>
+                }
+                
+                @if (Model.HasNextPage)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="#" onclick="loadReviews(null, null, @(Model.PageNumber + 1))">Next</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    }
+}
+else
+{
+    <div class="text-center text-muted py-4">
+        <i class="fas fa-comments fa-2x mb-2"></i>
+        <p>No reviews yet. Be the first to review this book!</p>
+    </div>
+}
+
+<style>
+    .review-item:last-child {
+        border-bottom: none !important;
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+    }
+    
+    .star-rating i {
+        font-size: 0.9em;
+    }
+    
+    .pagination-sm .page-link {
+        font-size: 0.75rem;
+    }
+</style>

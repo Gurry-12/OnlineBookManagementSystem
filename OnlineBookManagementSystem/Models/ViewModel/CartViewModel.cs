@@ -1,8 +1,8 @@
 namespace OnlineBookManagementSystem.Models.ViewModel
 {
-    internal class CartViewModel
+    public class CartViewModel
     {
-        public List<ShoppingCartViewModel> CartItems { get; set; }
-        public CartSummaryViewModel Summary { get; set; }
+        public List<ShoppingCartViewModel> CartItems { get; set; } = new();
+        public CartSummaryViewModel Summary { get; set; } = new();
     }
 }

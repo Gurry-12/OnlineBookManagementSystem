@@ -1,15 +1,12 @@
+using OnlineBookManagementSystem.Models;
+
 namespace OnlineBookManagementSystem.Models.ViewModel
 {
-    public class BookDetailsViewModel : Book
+    public class BookDetailsViewModel
     {
-        public Book Book { get; set; } = new();
-        public new string Title { get; set; }
-
-        public new bool IsFavorite { get; set; }
-        public List<Book> RelatedBooks { get; set; } = new();
-        public List<Models.BookReview> Reviews { get; set; } = new();
-        public new double AverageRating { get; set; }
-        public int ReviewCount { get; set; }
-
+        public Book Book { get; set; } = null!;
+        public BookRatingViewModel Rating { get; set; } = new();
+        public bool CanReview { get; set; }
+        public ReviewSubmissionViewModel ReviewForm { get; set; } = new();
     }
 }

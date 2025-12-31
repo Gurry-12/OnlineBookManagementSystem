@@ -793,57 +793,200 @@ body {
     /* Prevent nested role layouts - this should never happen */
     display: none !important;
 }
-/* ===== ROLE SWITCHER STYLES ===== */
-.role-switcher-dropdown {
-    border: 2px solid var(--wp-brand-primary);
-    background: linear-gradient(45deg, var(--wp-brand-primary), var(--wp-brand-secondary));
-    color: white !important;
-    font-weight: 600;
-    transition: all 0.3s ease;
+/* ===== PURE CSS ROLE SWITCHER DROPDOWN ===== */
+.wp-role-switcher {
     position: relative;
-    z-index: 1000;
+    display: inline-block;
 }
 
-.role-switcher-dropdown:hover,
-.role-switcher-dropdown:focus,
-.role-switcher-dropdown.show {
+.wp-role-switcher-btn {
+    background: linear-gradient(45deg, var(--wp-brand-primary), var(--wp-brand-secondary));
+    border: 2px solid var(--wp-brand-primary);
+    color: white;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 25px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    outline: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.wp-role-switcher-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-    color: white !important;
-    background: linear-gradient(45deg, var(--wp-brand-primary), var(--wp-brand-secondary));
+    background: linear-gradient(45deg, #5B5FCF, #D946EF);
 }
 
-.dropdown-menu {
-    border: none !important;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
-    border-radius: 12px !important;
-    overflow: hidden !important;
-    z-index: 1050 !important;
-    min-width: 200px !important;
+.wp-role-switcher-btn:focus {
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
 }
 
-.dropdown-item {
-    padding: 12px 20px !important;
-    transition: all 0.2s ease !important;
-    border: none !important;
+.wp-role-switcher-btn .wp-chevron {
+    transition: transform 0.3s ease;
+    font-size: 12px;
 }
 
-.dropdown-item:hover,
-.dropdown-item:focus {
-    background: var(--wp-gray-50) !important;
-    transform: translateX(5px) !important;
-    color: var(--wp-gray-800) !important;
+.wp-role-switcher.active .wp-chevron {
+    transform: rotate(180deg);
 }
 
-.dropdown-item.active {
-    background: var(--wp-superadmin-primary) !important;
-    color: white !important;
+.wp-role-switcher-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    border: 1px solid var(--wp-gray-200);
+    min-width: 220px;
+    z-index: 1050;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    overflow: hidden;
+    margin-top: 8px;
 }
 
-.dropdown-item-text {
-    padding: 12px 20px !important;
-    color: var(--wp-gray-600) !important;
-    font-weight: 500 !important;
+.wp-role-switcher.active .wp-role-switcher-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.wp-role-switcher-header {
+    padding: 12px 16px;
+    background: var(--wp-gray-50);
+    border-bottom: 1px solid var(--wp-gray-200);
+    font-weight: 600;
+    font-size: 12px;
+    color: var(--wp-gray-600);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.wp-role-switcher-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    color: var(--wp-gray-700);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border: none;
+    background: none;
+    width: 100%;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.wp-role-switcher-item:hover {
+    background: var(--wp-gray-50);
+    color: var(--wp-gray-900);
+    transform: translateX(4px);
+    text-decoration: none;
+}
+
+.wp-role-switcher-item:focus {
+    background: var(--wp-gray-50);
+    color: var(--wp-gray-900);
+    outline: 2px solid var(--wp-brand-primary);
+    outline-offset: -2px;
+    text-decoration: none;
+}
+
+.wp-role-switcher-item i {
+    width: 20px;
+    text-align: center;
+}
+
+.wp-role-switcher-divider {
+    height: 1px;
+    background: var(--wp-gray-200);
+    margin: 8px 0;
+}
+
+.wp-role-switcher-current {
+    padding: 12px 16px;
+    color: var(--wp-gray-500);
+    font-size: 14px;
+    background: var(--wp-gray-50);
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+}
+
+.wp-role-switcher-current i {
+    width: 20px;
+    text-align: center;
+}
+
+/* Animation for menu items */
+.wp-role-switcher-item {
+    opacity: 0;
+    animation: fadeInUp 0.3s ease forwards;
+}
+
+.wp-role-switcher-item:nth-child(2) { animation-delay: 0.1s; }
+.wp-role-switcher-item:nth-child(3) { animation-delay: 0.15s; }
+.wp-role-switcher-item:nth-child(4) { animation-delay: 0.2s; }
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .wp-role-switcher-menu {
+        min-width: 200px;
+        left: auto;
+        right: 0;
+    }
+    
+    .wp-role-switcher-btn {
+        padding: 6px 12px;
+        font-size: 13px;
+    }
+}
+
+/* Focus trap for accessibility */
+.wp-role-switcher-menu:focus-within {
+    outline: 2px solid var(--wp-brand-primary);
+    outline-offset: 2px;
+}
+
+/* Loading state for role switching */
+.wp-role-switcher-item.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.wp-role-switcher-item.loading::after {
+    content: '';
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--wp-gray-300);
+    border-top: 2px solid var(--wp-brand-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-left: auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 /* SuperAdmin Return Alert */
@@ -871,13 +1014,104 @@ body {
     background: rgba(255, 255, 255, 0.3);
     transform: translateY(-1px);
 }
+/* ===== ADDITIONAL ROLE SWITCHER ENHANCEMENTS ===== */
 
-/* Ensure dropdown works on all screen sizes */
+/* Smooth transitions for all interactive elements */
+.wp-role-switcher * {
+    transition: all 0.2s ease;
+}
+
+/* Enhanced focus states for better accessibility */
+.wp-role-switcher-btn:focus-visible {
+    outline: 2px solid var(--wp-brand-primary);
+    outline-offset: 2px;
+}
+
+.wp-role-switcher-item:focus-visible {
+    outline: 2px solid var(--wp-brand-primary);
+    outline-offset: -2px;
+}
+
+/* Hover effects for menu items */
+.wp-role-switcher-item:hover i {
+    transform: scale(1.1);
+}
+
+/* Active state for button when menu is open */
+.wp-role-switcher.active .wp-role-switcher-btn {
+    background: linear-gradient(45deg, #5B5FCF, #D946EF);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}
+
+/* Menu backdrop for mobile */
 @media (max-width: 768px) {
-    .dropdown-menu {
-        position: absolute !important;
-        transform: none !important;
-        left: 0 !important;
-        right: auto !important;
+    .wp-role-switcher.active::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.1);
+        z-index: 1040;
+    }
+    
+    .wp-role-switcher-menu {
+        z-index: 1050;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .wp-role-switcher-btn {
+        border: 3px solid;
+    }
+    
+    .wp-role-switcher-menu {
+        border: 2px solid;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .wp-role-switcher-btn,
+    .wp-role-switcher-menu,
+    .wp-role-switcher-item,
+    .wp-chevron {
+        transition: none;
+        animation: none;
+    }
+    
+    .wp-role-switcher-item {
+        opacity: 1;
+    }
+}
+
+/* Dark mode support (if needed in future) */
+@media (prefers-color-scheme: dark) {
+    .wp-role-switcher-menu {
+        background: var(--wp-gray-800, #1f2937);
+        border-color: var(--wp-gray-600, #4b5563);
+    }
+    
+    .wp-role-switcher-header {
+        background: var(--wp-gray-700, #374151);
+        color: var(--wp-gray-300, #d1d5db);
+    }
+    
+    .wp-role-switcher-item {
+        color: var(--wp-gray-200, #e5e7eb);
+    }
+    
+    .wp-role-switcher-item:hover {
+        background: var(--wp-gray-700, #374151);
+        color: white;
+    }
+}
+
+/* Print styles */
+@media print {
+    .wp-role-switcher {
+        display: none;
     }
 }
