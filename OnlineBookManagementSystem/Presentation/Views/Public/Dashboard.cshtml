@@ -1,0 +1,1146 @@
+﻿@model OnlineBookManagementSystem.Presentation.ViewModels.Showcase.ShowcaseViewModel
+@{
+    ViewData["Title"] = "Online Book Management System - Clean Architecture Showcase";
+    ViewData["Description"] = "Experience a comprehensive book management system built with Clean Architecture, SOLID principles, and modern web technologies. Interactive demo, technical insights, and professional portfolio showcase.";
+    ViewData["Keywords"] = "clean architecture, book management system, ASP.NET Core, SOLID principles, software portfolio, modern web development, interactive demo, technical showcase";
+    ViewData["OgImage"] = $"{Context.Request.Scheme}://{Context.Request.Host}/images/showcase-hero.jpg";
+    ViewData["CanonicalUrl"] = $"{Context.Request.Scheme}://{Context.Request.Host}/";
+    Layout = "_LayoutPublic";
+    
+    // Structured data for the homepage
+    ViewData["StructuredData"] = @"
+    <script type=""application/ld+json"">
+    {
+        ""@context"": ""https://schema.org"",
+        ""@type"": ""SoftwareApplication"",
+        ""name"": ""Whispering Pages - Online Book Management System"",
+        ""description"": ""A comprehensive book management system showcasing Clean Architecture principles and modern web development practices."",
+        ""url"": """ + $"{Context.Request.Scheme}://{Context.Request.Host}/" + @""",
+        ""applicationCategory"": ""BusinessApplication"",
+        ""operatingSystem"": ""Web Browser"",
+        ""offers"": {
+            ""@type"": ""Offer"",
+            ""price"": ""0"",
+            ""priceCurrency"": ""USD""
+        },
+        ""creator"": {
+            ""@type"": ""Person"",
+            ""name"": ""Whispering Pages Development Team""
+        },
+        ""featureList"": [
+            ""Clean Architecture Implementation"",
+            ""SOLID Principles"",
+            ""Interactive Book Browsing"",
+            ""Modern UI/UX Design"",
+            ""Role-based Authentication"",
+            ""Real-time Analytics""
+        ]
+    }
+    </script>";
+}
+
+<!-- Hero Section with Portfolio Focus -->
+<section class="hero-section aurora-bg enhanced noise-overlay particles-bg py-5" data-parallax="0.3" role="banner" aria-labelledby="hero-heading">
+    <div class="container">  
+        <div class="row align-items-center min-vh-60">
+            <div class="col-lg-8 cascade-animation" data-fade-in>
+                <div class="hero-content">
+                    <div class="hero-badge mb-3 floating">
+                        <span class="badge bg-primary bg-opacity-20 text-success px-3 py-2 rounded-pill holographic">
+                            <i class="bi bi-code-slash me-2" aria-hidden="true"></i>Clean Architecture Portfolio
+                        </span>
+                    </div>
+                    <h1 id="hero-heading" class="display-2 fw-bold text-dark mb-4 gradient-text" data-text-reveal>
+                        @Model.ProjectOverview.HeroTitle
+                    </h1>
+                    <h2 class="display-6 text-white-75 mb-4">
+                        @Model.ProjectOverview.HeroSubtitle
+                    </h2>
+                    <p class="lead text-white-50 mb-4 fs-5">
+                        @Model.ProjectOverview.Vision
+                    </p>
+                    <div class="hero-actions d-flex flex-wrap gap-3 mb-4" role="group" aria-label="Main navigation actions">
+                        <a asp-action="InteractiveDemo" class="wp-btn wp-btn-primary magnetic-btn holographic rainbow btn-lg pulse-glow" 
+                           aria-label="Try the interactive demo with live book data">
+                            <i class="bi bi-play-circle me-2" aria-hidden="true"></i>Live Demo
+                        </a>
+                        <a asp-action="TechnicalDetails" class="wp-btn wp-btn-secondary magnetic-btn btn-lg glass-deep"
+                           aria-label="View technical architecture and implementation details">
+                            <i class="bi bi-gear me-2" aria-hidden="true"></i>Architecture
+                        </a>
+                        <a asp-controller="Auth" asp-action="Login" class="wp-btn wp-btn-success btn-lg glass-deep"
+                           aria-label="Login to access full system features">
+                            <i class="bi bi-box-arrow-in-right me-2" aria-hidden="true"></i>Login
+                        </a>
+                        <a asp-controller="Auth" asp-action="Registration" class="wp-btn wp-btn-light btn-lg glass-deep"
+                           aria-label="Create new account to get started">
+                            <i class="bi bi-person-plus me-2" aria-hidden="true"></i>Register
+                        </a>
+                    </div>
+                    <div class="hero-tech-stack floating slow" aria-labelledby="tech-stack-heading">
+                        <p id="tech-stack-heading" class="text-white-50 small mb-2">Built with:</p>
+                        <div class="d-flex flex-wrap gap-2" role="list" aria-label="Technology stack">
+                            @foreach (var tech in Model.TechnicalStack.BackendTechnologies.Take(4))
+                            {
+                                <span class="badge bg-white bg-opacity-20 text-white px-2 py-1 " role="listitem">
+                                    @tech.Name
+                                </span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 text-center" data-fade-in>
+                <div class="hero-visual position-relative floating" role="img" aria-labelledby="architecture-diagram-heading">
+                    <div class="architecture-diagram glass-deep p-4 rounded-4 card-3d">
+                        <div class="layer-stack">
+                            <h3 id="architecture-diagram-heading" class="sr-only">Clean Architecture Layers Diagram</h3>
+                            @foreach (var layer in Model.Architecture.Layers)
+                            {
+                                <div class="architecture-layer mb-2 p-2 rounded text-center text-white morph-shape" 
+                                     style="background: @layer.Color; opacity: 0.9;"
+                                     role="img" aria-label="@layer.Name layer">
+                                    <small class="fw-semibold">@layer.Name</small>
+                                </div>
+                            }
+                        </div>
+                        <p class="text-white-75 small mt-3 mb-0 iridescent">@Model.Architecture.ArchitectureType</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- System Statistics Section -->
+<section class="stats-section py-5 bg-light liquid-bg" data-parallax="0.2" aria-labelledby="stats-heading">
+    <div class="container">
+        <div class="text-center mb-5 cascade-animation">
+            <h2 id="stats-heading" class="display-6 fw-bold mb-3 gradient-text">Live System Statistics</h2>
+            <p class="lead text-muted">Real-time data from the production system</p>
+        </div>
+        <div class="row g-4 cascade-animation" role="group" aria-label="System statistics">
+            <div class="col-lg-2 col-md-4 col-6" data-fade-in>
+                <div class="stat-card glass-deep text-center p-4 spotlight-card feature-highlight hover-lift card-3d floating" 
+                     role="img" aria-labelledby="books-stat">
+                    <div class="stat-icon mb-3">
+                        <i class="bi bi-book text-primary pulse-glow" style="font-size: 2.5rem;" aria-hidden="true"></i>
+                    </div>
+                    <h3 id="books-stat" class="stat-number fw-bold neon-glow">@Model.Statistics.TotalBooks</h3>
+                    <p class="stat-label text-muted mb-0">Books</p>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-6" data-fade-in>
+                <div class="stat-card glass-deep text-center p-4 spotlight-card feature-highlight hover-lift card-3d floating slow"
+                     role="img" aria-labelledby="categories-stat">
+                    <div class="stat-icon mb-3">
+                        <i class="bi bi-tags text-success pulse-glow" style="font-size: 2.5rem;" aria-hidden="true"></i>
+                    </div>
+                    <h3 id="categories-stat" class="stat-number fw-bold neon-glow">@Model.Statistics.TotalCategories</h3>
+                    <p class="stat-label text-muted mb-0">Categories</p>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-6" data-fade-in>
+                <div class="stat-card glass-deep text-center p-4 spotlight-card feature-highlight hover-lift card-3d floating fast"
+                     role="img" aria-labelledby="users-stat">
+                    <div class="stat-icon mb-3">
+                        <i class="bi bi-people text-info pulse-glow" style="font-size: 2.5rem;" aria-hidden="true"></i>
+                    </div>
+                    <h3 id="users-stat" class="stat-number fw-bold neon-glow">@Model.Statistics.TotalUsers</h3>
+                    <p class="stat-label text-muted mb-0">Users</p>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-6" data-fade-in>
+                <div class="stat-card glass-deep text-center p-4 spotlight-card feature-highlight hover-lift card-3d floating"
+                     role="img" aria-labelledby="rating-stat">
+                    <div class="stat-icon mb-3">
+                        <i class="bi bi-star text-warning pulse-glow" style="font-size: 2.5rem;" aria-hidden="true"></i>
+                    </div>
+                    <h3 id="rating-stat" class="stat-number fw-bold neon-glow">@Model.Statistics.AverageRating.ToString("F1")</h3>
+                    <p class="stat-label text-muted mb-0">Avg Rating</p>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-6" data-fade-in>
+                <div class="stat-card glass-deep text-center p-4 spotlight-card feature-highlight hover-lift card-3d floating slow"
+                     role="img" aria-labelledby="orders-stat">
+                    <div class="stat-icon mb-3">
+                        <i class="bi bi-cart-check text-success pulse-glow" style="font-size: 2.5rem;" aria-hidden="true"></i>
+                    </div>
+                    <h3 id="orders-stat" class="stat-number fw-bold neon-glow">@Model.Statistics.CompletedOrders</h3>
+                    <p class="stat-label text-muted mb-0">Orders</p>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-6" data-fade-in>
+                <div class="stat-card glass-deep text-center p-4 spotlight-card feature-highlight hover-lift card-3d floating fast"
+                     role="img" aria-labelledby="performance-stat">
+                    <div class="stat-icon mb-3">
+                        <i class="bi bi-speedometer2 text-primary pulse-glow" style="font-size: 2.5rem;" aria-hidden="true"></i>
+                    </div>
+                    <h3 id="performance-stat" class="stat-number fw-bold neon-glow">@Model.Statistics.Performance.PerformanceScore</h3>
+                    <p class="stat-label text-muted mb-0">Performance</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Technical Stats Row -->
+        <div class="row g-4 mt-4 cascade-animation" role="group" aria-label="Technical statistics">
+            <div class="col-md-3" data-fade-in>
+                <div class="tech-stat-card glass-deep p-4 text-center spotlight-card hover-lift card-3d"
+                     role="img" aria-labelledby="loc-stat">
+                    <i class="bi bi-code-slash text-primary mb-2 pulse-glow" style="font-size: 2rem;" aria-hidden="true"></i>
+                    <h4 id="loc-stat" class="fw-bold gradient-text">@Model.Statistics.Technical.LinesOfCode.ToString("N0")</h4>
+                    <p class="text-muted small mb-0">Lines of Code</p>
+                </div>
+            </div>
+            <div class="col-md-3" data-fade-in>
+                <div class="tech-stat-card glass-deep p-4 text-center spotlight-card hover-lift card-3d"
+                     role="img" aria-labelledby="coverage-stat">
+                    <i class="bi bi-shield-check text-success mb-2 pulse-glow" style="font-size: 2rem;" aria-hidden="true"></i>
+                    <h4 id="coverage-stat" class="fw-bold gradient-text">@Model.Statistics.Technical.TestCoverage%</h4>
+                    <p class="text-muted small mb-0">Test Coverage</p>
+                </div>
+            </div>
+            <div class="col-md-3" data-fade-in>
+                <div class="tech-stat-card glass-deep p-4 text-center spotlight-card hover-lift card-3d"
+                     role="img" aria-labelledby="quality-stat">
+                    <i class="bi bi-award text-warning mb-2 pulse-glow" style="font-size: 2rem;" aria-hidden="true"></i>
+                    <h4 id="quality-stat" class="fw-bold gradient-text">@Model.Statistics.Technical.CodeQualityScore</h4>
+                    <p class="text-muted small mb-0">Code Quality</p>
+                </div>
+            </div>
+            <div class="col-md-3" data-fade-in>
+                <div class="tech-stat-card glass-deep p-4 text-center spotlight-card hover-lift card-3d"
+                     role="img" aria-labelledby="security-stat">
+                    <i class="bi bi-lock text-danger mb-2 pulse-glow" style="font-size: 2rem;" aria-hidden="true"></i>
+                    <h4 id="security-stat" class="fw-bold gradient-text">@Model.Statistics.Technical.SecurityScore</h4>
+                    <p class="text-muted small mb-0">Security Score</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Feature Highlights Section -->
+<section class="features-section py-5 parallax-container" data-parallax="0.1">
+    <div class="container">
+        <div class="text-center mb-5 cascade-animation">
+            <h2 class="display-5 fw-bold mb-3 gradient-text">Technical Highlights</h2>
+            <p class="lead text-muted">Key architectural and implementation achievements</p>
+        </div>
+
+        <div class="row g-4 cascade-animation">
+            @foreach (var feature in Model.FeatureHighlights)
+            {
+                <div class="col-lg-4 col-md-6" data-fade-in>
+                    <div class="feature-card glass-deep spotlight-card feature-highlight hover-lift h-100 p-4 card-3d floating">
+                        <div class="feature-header mb-3">
+                            <div class="feature-category mb-2">
+                                <span class="badge bg-primary bg-opacity-20 text-primary holographic continuous">@feature.Category</span>
+                            </div>
+                            <h4 class="feature-title fw-bold mb-2 gradient-text">@feature.FeatureName</h4>
+                        </div>
+                        <p class="feature-description text-muted mb-3">@feature.Description</p>
+                        @if (feature.TechnicalDetails.Any())
+                        {
+                            <div class="technical-details">
+                                <h6 class="fw-semibold mb-2 iridescent">Technical Details:</h6>
+                                <ul class="list-unstyled">
+                                    @foreach (var detail in feature.TechnicalDetails)
+                                    {
+                                        <li class="mb-1">
+                                            <i class="bi bi-check-circle text-success me-2 pulse-glow"></i>
+                                            <small>@detail</small>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="text-center mt-5">
+            <a asp-action="TechnicalDetails" class="wp-btn wp-btn-primary magnetic-btn btn-lg holographic rainbow pulse-glow">
+                <i class="bi bi-gear me-2"></i>View Technical Details
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Books Demo Section -->
+<section class="demo-books py-5 bg-light" aria-labelledby="featured-books-heading">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 id="featured-books-heading" class="display-5 fw-bold mb-3">Interactive Book Demo</h2>
+            <p class="lead text-muted">Experience the live system with real data</p>
+        </div>
+
+        <div class="row g-4" role="group" aria-label="Featured books collection">
+            @if (Model.FeaturedBooks.Books.Any())
+            {
+                @foreach (var book in Model.FeaturedBooks.Books.Take(8))
+                {
+                    <div class="col-lg-3 col-md-4 col-sm-6" data-fade-in>
+                        <article class="book-card spotlight-card hover-lift h-100" role="article" aria-labelledby="book-@book.Id-title">
+                            <div class="book-image-wrapper position-relative">
+                                <img src="@(book.ImageUrl ?? Url.Content("~/images/default-book-improved.svg"))" 
+                                     alt="Cover image of @book.Title by @book.Author" 
+                                     class="book-cover w-100" 
+                                     style="height: 300px; object-fit: cover; border-radius: 12px 12px 0 0;"
+                                     loading="lazy">
+                                
+                                <div class="demo-badge position-absolute top-0 start-0 m-2">
+                                    <span class="badge bg-info bg-opacity-90" aria-label="Demo mode indicator">
+                                        <i class="bi bi-play-circle me-1" aria-hidden="true"></i>Demo
+                                    </span>
+                                </div>
+                                
+                                @if (book.StockQuantity > 0)
+                                {
+                                    <span class="badge bg-success position-absolute top-0 end-0 m-2" aria-label="@book.StockQuantity units in stock">
+                                        <i class="bi bi-check-circle me-1" aria-hidden="true"></i>In Stock
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger position-absolute top-0 end-0 m-2" aria-label="Currently out of stock">
+                                        <i class="bi bi-x-circle me-1" aria-hidden="true"></i>Out of Stock
+                                    </span>
+                                }
+                            </div>
+                            
+                            <div class="book-details p-3 glass-deep">
+                                <h3 id="book-@book.Id-title" class="book-title mb-2 text-truncate">@book.Title</h3>
+                                <p class="book-author text-muted mb-2">
+                                    <i class="bi bi-person me-1 pulse-glow" aria-hidden="true"></i>
+                                    <span class="sr-only">Author: </span>@book.Author
+                                </p>
+                                
+                                @if (!string.IsNullOrEmpty(book.Category?.Name))
+                                {
+                                    <span class="badge bg-info mb-2 holographic" aria-label="Category: @book.Category.Name">
+                                        <i class="bi bi-tag me-1" aria-hidden="true"></i>@book.Category.Name
+                                    </span>
+                                }
+                                
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <span class="book-price fw-bold text-primary fs-5 neon-glow" aria-label="Price: ₹@book.Price.Amount.ToString("N2")">
+                                        ₹@book.Price.Amount.ToString("N2")
+                                    </span>
+                                    <a asp-action="BookDetails" asp-route-id="@book.Id" 
+                                       class="btn btn-primary magnetic-btn holographic"
+                                       aria-label="View details for @book.Title">
+                                        <i class="bi bi-eye me-1" aria-hidden="true"></i>View
+                                    </a>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="col-12">
+                    <div class="text-center py-5" role="status" aria-live="polite">
+                        <i class="bi bi-book display-1 text-muted floating" aria-hidden="true"></i>
+                        <h4 class="mt-3 gradient-text">Loading demo content...</h4>
+                        <p class="text-muted mb-4">Please wait while we prepare the interactive demo</p>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="text-center mt-5">
+            <a asp-action="InteractiveDemo" class="wp-btn wp-btn-primary magnetic-btn btn-lg"
+               aria-label="Access full interactive demo with all features">
+                <i class="bi bi-play-circle me-2" aria-hidden="true"></i>Full Interactive Demo
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Developer Story Preview Section -->
+<section class="developer-story py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6" data-fade-in>
+                <div class="story-content">
+                    <h2 class="display-5 fw-bold mb-4">Developer Story</h2>
+                    <p class="lead text-muted mb-4">@Model.DeveloperStory.Motivation</p>
+                    <p class="mb-4">@Model.DeveloperStory.ChallengesSolved</p>
+                    
+                    @if (Model.DeveloperStory.TechnicalDecisions.Any())
+                    {
+                        <div class="technical-decisions mb-4">
+                            <h5 class="fw-semibold mb-3">Key Technical Decisions:</h5>
+                            <ul class="list-unstyled">
+                                @foreach (var decision in Model.DeveloperStory.TechnicalDecisions.Take(3))
+                                {
+                                    <li class="mb-2">
+                                        <i class="bi bi-arrow-right text-primary me-2"></i>@decision
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                    
+                    <a asp-action="DeveloperStory" class="wp-btn wp-btn-primary magnetic-btn">
+                        <i class="bi bi-person-circle me-2"></i>Read Full Story
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6" data-fade-in>
+                <div class="story-visual">
+                    <div class="tech-stack-preview glass p-4 rounded-4">
+                        <h5 class="fw-bold mb-3 text-center">Technology Stack</h5>
+                        <div class="tech-categories">
+                            <div class="tech-category mb-3">
+                                <h6 class="fw-semibold text-primary mb-2">Backend</h6>
+                                <div class="d-flex flex-wrap gap-2">
+                                    @foreach (var tech in Model.TechnicalStack.BackendTechnologies.Take(3))
+                                    {
+                                        <span class="badge bg-primary bg-opacity-20 text-primary">@tech.Name</span>
+                                    }
+                                </div>
+                            </div>
+                            <div class="tech-category mb-3">
+                                <h6 class="fw-semibold text-success mb-2">Frontend</h6>
+                                <div class="d-flex flex-wrap gap-2">
+                                    @foreach (var tech in Model.TechnicalStack.FrontendTechnologies.Take(3))
+                                    {
+                                        <span class="badge bg-success bg-opacity-20 text-success">@tech.Name</span>
+                                    }
+                                </div>
+                            </div>
+                            <div class="tech-category">
+                                <h6 class="fw-semibold text-info mb-2">Testing</h6>
+                                <div class="d-flex flex-wrap gap-2">
+                                    @foreach (var tech in Model.TechnicalStack.TestingTechnologies.Take(2))
+                                    {
+                                        <span class="badge bg-info bg-opacity-20 text-info">@tech.Name</span>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact & Collaboration Section -->
+<section class="contact-section py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold mb-3">Let's Connect & Collaborate</h2>
+            <p class="lead text-muted">Interested in collaboration, have questions, or want to explore opportunities?</p>
+        </div>
+        
+        <div class="row g-4">
+            <!-- Contact Information -->
+            <div class="col-lg-6">
+                <div class="contact-info-card glass-deep p-4 h-100 spotlight-card hover-lift card-3d">
+                    <h4 class="fw-bold mb-4 gradient-text">
+                        <i class="bi bi-person-circle me-2"></i>Contact Information
+                    </h4>
+                    
+                    <div class="contact-details mb-4">
+                        <div class="contact-item mb-3">
+                            <i class="bi bi-geo-alt-fill text-primary me-2"></i>
+                            <span class="fw-semibold">Location:</span> @Model.ContactInfo.Location
+                        </div>
+                        
+                        <div class="contact-item mb-3">
+                            <i class="bi bi-briefcase-fill text-success me-2"></i>
+                            <span class="fw-semibold">Available for:</span>
+                            <div class="mt-2">
+                                @foreach (var role in Model.ContactInfo.AvailableForRoles)
+                                {
+                                    <span class="badge bg-primary bg-opacity-20 text-primary me-2 mb-1">@role</span>
+                                }
+                            </div>
+                        </div>
+                        
+                        @if (Model.ContactInfo.OpenToCollaboration)
+                        {
+                            <div class="collaboration-status mb-3">
+                                <div class="alert alert-success d-flex align-items-center">
+                                    <i class="bi bi-check-circle-fill me-2"></i>
+                                    <span>Open to collaboration and new opportunities</span>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    
+                    <!-- Contact Methods -->
+                    <div class="contact-methods mb-4">
+                        <h6 class="fw-semibold mb-3">Get in Touch:</h6>
+                        <div class="row g-2">
+                            @if (!string.IsNullOrEmpty(Model.ContactInfo.Email))
+                            {
+                                <div class="col-md-6">
+                                    <a href="mailto:@Model.ContactInfo.Email" class="contact-method-btn wp-btn wp-btn-outline-primary w-100 magnetic-btn">
+                                        <i class="bi bi-envelope-fill me-2"></i>Email
+                                    </a>
+                                </div>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.ContactInfo.LinkedIn))
+                            {
+                                <div class="col-md-6">
+                                    <a href="@Model.ContactInfo.LinkedIn" target="_blank" class="contact-method-btn wp-btn wp-btn-outline-primary w-100 magnetic-btn">
+                                        <i class="bi bi-linkedin me-2"></i>LinkedIn
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    
+                    <!-- Professional Social Media -->
+                    @if (Model.ContactInfo.SocialMediaLinks.Any())
+                    {
+                        <div class="social-media-section">
+                            <h6 class="fw-semibold mb-3">Professional Networks:</h6>
+                            <div class="social-links d-flex flex-wrap gap-2">
+                                @foreach (var social in Model.ContactInfo.SocialMediaLinks)
+                                {
+                                    <a href="@social.Url" target="_blank" class="social-link text-decoration-none" title="@social.DisplayName">
+                                        <i class="@social.IconClass"></i>
+                                        <span class="ms-1">@social.Platform</span>
+                                    </a>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+            
+            <!-- Technical Resources & Documentation -->
+            <div class="col-lg-6">
+                <div class="technical-resources-card glass-deep p-4 h-100 spotlight-card hover-lift card-3d">
+                    <h4 class="fw-bold mb-4 gradient-text">
+                        <i class="bi bi-code-slash me-2"></i>Technical Resources
+                    </h4>
+                    
+                    @if (Model.ContactInfo.TechnicalResources.Any())
+                    {
+                        <div class="resources-grid">
+                            @foreach (var resource in Model.ContactInfo.TechnicalResources)
+                            {
+                                <div class="resource-item mb-3 p-3 rounded glass hover-lift">
+                                    <div class="d-flex align-items-start">
+                                        <div class="resource-icon me-3">
+                                            <i class="@resource.IconClass text-primary" style="font-size: 1.5rem;"></i>
+                                        </div>
+                                        <div class="resource-content flex-grow-1">
+                                            <h6 class="resource-title fw-semibold mb-1">
+                                                <a href="@resource.Url" target="_blank" class="text-decoration-none">
+                                                    @resource.Title
+                                                </a>
+                                            </h6>
+                                            <p class="resource-description text-muted small mb-2">@resource.Description</p>
+                                            <span class="badge bg-info bg-opacity-20 text-info">@resource.Category</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    
+                    <div class="quick-links mt-4">
+                        <h6 class="fw-semibold mb-3">Quick Access:</h6>
+                        <div class="d-flex flex-wrap gap-2">
+                            <a href="@Model.ContactInfo.GitHub" target="_blank" class="wp-btn wp-btn-sm wp-btn-outline-secondary magnetic-btn">
+                                <i class="bi bi-github me-1"></i>Repository
+                            </a>
+                            <a asp-action="TechnicalDetails" class="wp-btn wp-btn-sm wp-btn-outline-secondary magnetic-btn">
+                                <i class="bi bi-gear me-1"></i>Architecture
+                            </a>
+                            <a asp-action="InteractiveDemo" class="wp-btn wp-btn-sm wp-btn-outline-secondary magnetic-btn">
+                                <i class="bi bi-play-circle me-1"></i>Live Demo
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Collaboration Inquiry Form -->
+        <div class="row mt-5">
+            <div class="col-lg-8 mx-auto">
+                <div class="collaboration-form-card glass-deep p-5 spotlight-card card-3d">
+                    <div class="text-center mb-4">
+                        <h4 class="fw-bold gradient-text">
+                            <i class="bi bi-chat-dots me-2"></i>Collaboration Inquiry
+                        </h4>
+                        <p class="text-muted">Have a project in mind or want to discuss opportunities? Let's talk!</p>
+                    </div>
+                    
+                    <form id="collaborationForm" class="needs-validation" novalidate>
+                        @Html.AntiForgeryToken()
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="inquiryName" class="form-label">
+                                    <i class="bi bi-person me-1"></i>Full Name *
+                                </label>
+                                <input type="text" class="form-control" id="inquiryName" name="Name" required 
+                                       placeholder="Your full name">
+                                <div class="invalid-feedback">Please provide your name.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inquiryEmail" class="form-label">
+                                    <i class="bi bi-envelope me-1"></i>Email Address *
+                                </label>
+                                <input type="email" class="form-control" id="inquiryEmail" name="Email" required 
+                                       placeholder="your.email@example.com">
+                                <div class="invalid-feedback">Please provide a valid email address.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inquiryCompany" class="form-label">
+                                    <i class="bi bi-building me-1"></i>Company/Organization
+                                </label>
+                                <input type="text" class="form-control" id="inquiryCompany" name="Company" 
+                                       placeholder="Your company or organization">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inquiryType" class="form-label">
+                                    <i class="bi bi-tag me-1"></i>Inquiry Type *
+                                </label>
+                                <select class="form-select" id="inquiryType" name="InquiryType" required>
+                                    <option value="">Select inquiry type</option>
+                                    <option value="Job Opportunity">Job Opportunity</option>
+                                    <option value="Collaboration">Project Collaboration</option>
+                                    <option value="Technical Question">Technical Question</option>
+                                    <option value="Consulting">Consulting Services</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                                <div class="invalid-feedback">Please select an inquiry type.</div>
+                            </div>
+                            <div class="col-12">
+                                <label for="inquirySubject" class="form-label">
+                                    <i class="bi bi-chat-text me-1"></i>Subject *
+                                </label>
+                                <input type="text" class="form-control" id="inquirySubject" name="Subject" required 
+                                       placeholder="Brief subject line">
+                                <div class="invalid-feedback">Please provide a subject.</div>
+                            </div>
+                            <div class="col-12">
+                                <label for="inquiryMessage" class="form-label">
+                                    <i class="bi bi-chat-dots me-1"></i>Message *
+                                </label>
+                                <textarea class="form-control" id="inquiryMessage" name="Message" rows="5" required 
+                                          placeholder="Tell me about your project, opportunity, or question. Include any relevant details like timeline, budget, or specific requirements."></textarea>
+                                <div class="invalid-feedback">Please provide a message.</div>
+                                <div class="form-text">Maximum 2000 characters</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="preferredContact" class="form-label">
+                                    <i class="bi bi-telephone me-1"></i>Preferred Contact Method
+                                </label>
+                                <select class="form-select" id="preferredContact" name="PreferredContactMethod">
+                                    <option value="Email">Email</option>
+                                    <option value="LinkedIn">LinkedIn</option>
+                                    <option value="Phone">Phone Call</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="timeline" class="form-label">
+                                    <i class="bi bi-calendar me-1"></i>Timeline
+                                </label>
+                                <select class="form-select" id="timeline" name="Timeline">
+                                    <option value="Flexible">Flexible</option>
+                                    <option value="Immediate">Immediate (ASAP)</option>
+                                    <option value="Within 1 week">Within 1 week</option>
+                                    <option value="Within 1 month">Within 1 month</option>
+                                    <option value="Within 3 months">Within 3 months</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center mt-4">
+                            <button type="submit" class="wp-btn wp-btn-primary magnetic-btn btn-lg holographic rainbow pulse-glow">
+                                <i class="bi bi-send me-2"></i>Send Inquiry
+                            </button>
+                        </div>
+                        
+                        <div id="formMessage" class="mt-3" style="display: none;"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Styles {
+    <style>
+        .hero-section {
+            min-height: 70vh;
+        }
+        
+        .min-vh-60 {
+            min-height: 60vh;
+        }
+        
+        .hero-badge .badge {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .text-white-75 {
+            color: rgba(255, 255, 255, 0.75) !important;
+        }
+        
+        .architecture-diagram {
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .architecture-layer {
+            transition: all 0.3s ease;
+        }
+        
+        .architecture-layer:hover {
+            transform: translateX(5px);
+        }
+        
+        .stat-card, .tech-stat-card {
+            border-radius: 16px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            color: #1a1a1a;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 16px;
+            border: 1px solid rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+        }
+        
+        .book-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .book-cover {
+            transition: transform 0.3s ease;
+        }
+        
+        .book-card:hover .book-cover {
+            transform: scale(1.05);
+        }
+        
+        .demo-badge {
+            z-index: 2;
+        }
+        
+        .story-visual .glass {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .tech-category .badge {
+            font-size: 0.8rem;
+        }
+        
+        .contact-card {
+            background: white;
+            border-radius: 20px;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .contact-info-card, .technical-resources-card, .collaboration-form-card {
+            background: white;
+            border-radius: 16px;
+            border: 1px solid rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .contact-info-card:hover, .technical-resources-card:hover, .collaboration-form-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items-center;
+            flex-wrap: wrap;
+        }
+        
+        .contact-method-btn {
+            transition: all 0.3s ease;
+        }
+        
+        .contact-method-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .social-link {
+            display: inline-flex;
+            align-items-center;
+            padding: 0.5rem 1rem;
+            background: rgba(0,0,0,0.05);
+            border-radius: 8px;
+            color: #6c757d;
+            transition: all 0.3s ease;
+        }
+        
+        .social-link:hover {
+            background: rgba(var(--bs-primary-rgb), 0.1);
+            color: var(--bs-primary);
+            transform: translateY(-2px);
+        }
+        
+        .resource-item {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .resource-item:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateY(-2px);
+        }
+        
+        .resource-title a {
+            color: inherit;
+            transition: color 0.3s ease;
+        }
+        
+        .resource-title a:hover {
+            color: var(--bs-primary);
+        }
+        
+        .collaboration-form-card .form-control, 
+        .collaboration-form-card .form-select {
+            border-radius: 8px;
+            border: 1px solid rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .collaboration-form-card .form-control:focus, 
+        .collaboration-form-card .form-select:focus {
+            border-color: var(--bs-primary);
+            box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.25);
+        }
+        
+        .collaboration-form-card .form-label {
+            font-weight: 600;
+            color: #495057;
+        }
+        
+        #formMessage.alert {
+            border-radius: 8px;
+        }
+        
+        .contact-link {
+            color: #6c757d;
+            transition: color 0.3s ease;
+        }
+        
+        .contact-link:hover {
+            color: var(--bs-primary);
+        }
+        
+        /* Responsive adjustments */
+        @@media (max-width: 768px) {
+            .hero-section {
+                min-height: 50vh;
+            }
+            
+            .display-2 {
+                font-size: 2.5rem;
+            }
+            
+            .display-6 {
+                font-size: 1.5rem;
+            }
+            
+            .hero-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .hero-actions .wp-btn {
+                text-align: center;
+            }
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        // Initialize modern effects and showcase interactions
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Enhanced public showcase loaded with modern effects');
+            
+            // Initialize enhanced modern effects
+            if (window.ModernEffects) {
+                window.ModernEffects.initParallaxScrolling();
+                window.ModernEffects.initAdvancedAnimations();
+                window.ModernEffects.initTextRevealAnimations();
+                window.ModernEffects.init3DCardEffects();
+            }
+            
+            // Animate statistics counters with enhanced effects
+            const statNumbers = document.querySelectorAll('.stat-number');
+            const observerOptions = {
+                threshold: 0.5,
+                rootMargin: '0px 0px -100px 0px'
+            };
+            
+            const statsObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateCounter(entry.target);
+                        // Add pulsing effect during animation
+                        entry.target.classList.add('pulse-glow');
+                        statsObserver.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+            
+            statNumbers.forEach(stat => {
+                statsObserver.observe(stat);
+            });
+            
+            function animateCounter(element) {
+                const target = parseInt(element.textContent.replace(/[^\d]/g, ''));
+                const duration = 2000;
+                const step = target / (duration / 16);
+                let current = 0;
+                
+                const timer = setInterval(() => {
+                    current += step;
+                    if (current >= target) {
+                        current = target;
+                        clearInterval(timer);
+                        // Remove pulsing effect after animation
+                        setTimeout(() => {
+                            element.classList.remove('pulse-glow');
+                        }, 1000);
+                    }
+                    
+                    const suffix = element.textContent.includes('%') ? '%' : 
+                                  element.textContent.includes('+') ? '+' : '';
+                    element.textContent = Math.floor(current) + suffix;
+                }, 16);
+            }
+            
+            // Enhanced hover effects for architecture layers
+            const architectureLayers = document.querySelectorAll('.architecture-layer');
+            architectureLayers.forEach((layer, index) => {
+                layer.addEventListener('mouseenter', () => {
+                    layer.style.transform = `translateX(${5 + index * 2}px) scale(1.05)`;
+                    layer.classList.add('pulse-glow');
+                });
+                
+                layer.addEventListener('mouseleave', () => {
+                    layer.style.transform = 'translateX(0) scale(1)';
+                    layer.classList.remove('pulse-glow');
+                });
+            });
+            
+            // Initialize enhanced spotlight effects for feature cards
+            const featureCards = document.querySelectorAll('.feature-card');
+            featureCards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.transform = 'translateY(-12px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+            
+            // Add dynamic particle effects to hero section
+            const heroSection = document.querySelector('.hero-section');
+            if (heroSection) {
+                createFloatingParticles(heroSection);
+            }
+            
+            function createFloatingParticles(container) {
+                for (let i = 0; i < 20; i++) {
+                    const particle = document.createElement('div');
+                    particle.style.cssText = `
+                        position: absolute;
+                        width: 4px;
+                        height: 4px;
+                        background: rgba(255, 255, 255, 0.3);
+                        border-radius: 50%;
+                        left: ${Math.random() * 100}%;
+                        top: ${Math.random() * 100}%;
+                        animation: float-particle ${5 + Math.random() * 10}s ease-in-out infinite;
+                        animation-delay: ${Math.random() * 5}s;
+                        pointer-events: none;
+                    `;
+                    container.appendChild(particle);
+                }
+                
+                // Add CSS for particle animation
+                if (!document.querySelector('#particle-styles')) {
+                    const style = document.createElement('style');
+                    style.id = 'particle-styles';
+                    style.textContent = `
+                        @@keyframes float-particle {
+                            0%, 100% { 
+                                transform: translateY(0px) translateX(0px);
+                                opacity: 0.3;
+                            }
+                            50% { 
+                                transform: translateY(-100px) translateX(50px);
+                                opacity: 0.8;
+                            }
+                        }
+                    `;
+                    document.head.appendChild(style);
+                }
+            }
+            
+            // Initialize collaboration form handling
+            const collaborationForm = document.getElementById('collaborationForm');
+            if (collaborationForm) {
+                collaborationForm.addEventListener('submit', handleCollaborationFormSubmit);
+            }
+            
+            async function handleCollaborationFormSubmit(event) {
+                event.preventDefault();
+                event.stopPropagation();
+                
+                const form = event.target;
+                const formMessage = document.getElementById('formMessage');
+                const submitButton = form.querySelector('button[type="submit"]');
+                const originalButtonText = submitButton.innerHTML;
+                
+                // Validate form
+                if (!form.checkValidity()) {
+                    form.classList.add('was-validated');
+                    return;
+                }
+                
+                // Show loading state
+                submitButton.disabled = true;
+                submitButton.innerHTML = '<i class="bi bi-hourglass-split me-2"></i>Sending...';
+                
+                try {
+                    // Collect form data
+                    const formData = new FormData(form);
+                    const inquiryData = {
+                        Name: formData.get('Name'),
+                        Email: formData.get('Email'),
+                        Company: formData.get('Company') || '',
+                        Subject: formData.get('Subject'),
+                        Message: formData.get('Message'),
+                        InquiryType: formData.get('InquiryType'),
+                        PreferredContactMethod: formData.get('PreferredContactMethod'),
+                        Timeline: formData.get('Timeline')
+                    };
+                    
+                    // Get anti-forgery token
+                    const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value;
+                    
+                    // Submit form
+                    const response = await fetch('/Public/SubmitCollaborationInquiry', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'RequestVerificationToken': token
+                        },
+                        body: JSON.stringify(inquiryData)
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        // Show success message
+                        formMessage.className = 'alert alert-success';
+                        formMessage.innerHTML = `
+                            <i class="bi bi-check-circle-fill me-2"></i>
+                            ${result.message}
+                        `;
+                        formMessage.style.display = 'block';
+                        
+                        // Reset form
+                        form.reset();
+                        form.classList.remove('was-validated');
+                        
+                        // Scroll to message
+                        formMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    } else {
+                        // Show error message
+                        formMessage.className = 'alert alert-danger';
+                        formMessage.innerHTML = `
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                            ${result.message}
+                        `;
+                        formMessage.style.display = 'block';
+                    }
+                } catch (error) {
+                    console.error('Error submitting collaboration inquiry:', error);
+                    formMessage.className = 'alert alert-danger';
+                    formMessage.innerHTML = `
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                        Sorry, there was an error sending your inquiry. Please try again or contact me directly via email.
+                    `;
+                    formMessage.style.display = 'block';
+                } finally {
+                    // Restore button state
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = originalButtonText;
+                }
+            }
+            
+            // Add character counter for message field
+            const messageField = document.getElementById('inquiryMessage');
+            if (messageField) {
+                const maxLength = 2000;
+                const counterElement = document.createElement('div');
+                counterElement.className = 'form-text text-end';
+                counterElement.style.fontSize = '0.8rem';
+                messageField.parentNode.appendChild(counterElement);
+                
+                function updateCounter() {
+                    const remaining = maxLength - messageField.value.length;
+                    counterElement.textContent = `${remaining} characters remaining`;
+                    counterElement.className = remaining < 100 ? 'form-text text-end text-warning' : 'form-text text-end text-muted';
+                }
+                
+                messageField.addEventListener('input', updateCounter);
+                updateCounter();
+            }
+            
+            // Add enhanced hover effects for resource items
+            const resourceItems = document.querySelectorAll('.resource-item');
+            resourceItems.forEach(item => {
+                item.addEventListener('mouseenter', () => {
+                    const icon = item.querySelector('.resource-icon i');
+                    if (icon) {
+                        icon.style.transform = 'scale(1.1)';
+                        icon.classList.add('pulse-glow');
+                    }
+                });
+                
+                item.addEventListener('mouseleave', () => {
+                    const icon = item.querySelector('.resource-icon i');
+                    if (icon) {
+                        icon.style.transform = 'scale(1)';
+                        icon.classList.remove('pulse-glow');
+                    }
+                });
+            });
+        });
+    </script>
+}

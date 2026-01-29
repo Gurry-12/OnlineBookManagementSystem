@@ -1,0 +1,501 @@
+@model OnlineBookManagementSystem.Presentation.ViewModels.Books.BookListViewModel
+@{
+    ViewData["Title"] = "Browse Books - Interactive Demo";
+    ViewData["Description"] = "Browse our comprehensive book collection with advanced search, filtering, and real-time results. Experience the interactive demo with live data.";
+    ViewData["Keywords"] = "browse books, book search, book catalog, interactive demo, book filtering, online bookstore";
+    ViewData["CanonicalUrl"] = $"{Context.Request.Scheme}://{Context.Request.Host}/Public/Browse";
+    Layout = "_LayoutPublic";
+}
+
+<!-- Portfolio Context Banner -->
+<div class="portfolio-context-banner aurora-bg noise-overlay py-3" role="banner" aria-labelledby="demo-mode-heading">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <div class="d-flex align-items-center text-white">
+                    <i class="bi bi-code-square me-3 fs-3 pulse-glow" aria-hidden="true"></i>
+                    <div>
+                        <h1 id="demo-mode-heading" class="mb-1 fw-bold h6">Interactive Demo Mode</h1>
+                        <p class="text-white-75 small mb-0">
+                            Showcasing advanced search, filtering, and pagination with Clean Architecture implementation
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 text-end">
+                <div class="demo-stats d-flex gap-3 justify-content-end" role="group" aria-label="Collection statistics">
+                    <div class="stat-item text-center">
+                        <div class="stat-value text-white fw-bold" aria-label="@Model.TotalBooks total books">@Model.TotalBooks</div>
+                        <div class="stat-label text-white-50 small">Total Books</div>
+                    </div>
+                    <div class="stat-item text-center">
+                        <div class="stat-value text-white fw-bold" aria-label="@ViewBag.Categories?.Count categories">@ViewBag.Categories?.Count</div>
+                        <div class="stat-label text-white-50 small">Categories</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <!-- Filters Sidebar -->
+        <div class="col-lg-3 mb-4">
+            <aside class="glass-deep p-4 sticky-top spotlight-card card-3d" style="top: 80px;" role="complementary" aria-labelledby="filters-heading">
+                <h2 id="filters-heading" class="mb-4 gradient-text h5">
+                    <i class="bi bi-funnel me-2 pulse-glow" aria-hidden="true"></i>Advanced Filters
+                </h2>
+
+                <!-- Technical Implementation Note -->
+                <div class="alert alert-info alert-sm mb-4" role="note">
+                    <i class="bi bi-info-circle me-2" aria-hidden="true"></i>
+                    <small>
+                        <strong>Tech Note:</strong> Real-time filtering with debounced search, 
+                        server-side pagination, and optimized database queries.
+                    </small>
+                </div>
+
+                <form asp-action="Browse" method="get" id="filterForm" role="search" aria-label="Book search and filter form">
+                    <!-- Search -->
+                    <div class="mb-4">
+                        <label for="liveSearchInput" class="form-label fw-bold iridescent">Live Search</label>
+                        <div class="input-group">
+                            <input type="text" name="search" class="form-control glass" 
+                                   placeholder="Search books..." value="@ViewBag.Search"
+                                   id="liveSearchInput" aria-describedby="search-help">
+                            <button class="btn btn-outline-secondary magnetic-btn holographic" type="submit" aria-label="Search books">
+                                <i class="bi bi-search" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <small id="search-help" class="text-muted">
+                            <i class="bi bi-lightning me-1" aria-hidden="true"></i>Real-time search with 500ms debounce
+                        </small>
+                    </div>
+
+                    <!-- Category Filter with Real-time Stats -->
+                    <div class="mb-4">
+                        <label for="categorySelect" class="form-label fw-bold iridescent">Category</label>
+                        <select name="categoryId" id="categorySelect" class="form-select glass" 
+                                onchange="updateCategoryStats(this.value); this.form.submit()"
+                                aria-describedby="category-help">
+                            <option value="">All Categories</option>
+                            @foreach (var category in ViewBag.Categories)
+                            {
+                                <option value="@category.Id" selected="@(ViewBag.CategoryId == category.Id)">
+                                    @category.Name (@category.BookCount books)
+                                </option>
+                            }
+                        </select>
+                        <div id="categoryStatsDisplay" class="mt-2" aria-live="polite">
+                            <!-- Real-time category statistics will be displayed here -->
+                        </div>
+                        <small id="category-help" class="text-muted">Filter books by category</small>
+                    </div>
+
+                    <!-- Price Range -->
+                    <fieldset class="mb-4">
+                        <legend class="form-label fw-bold iridescent">Price Range</legend>
+                        <div class="row g-2">
+                            <div class="col-6">
+                                <label for="minPrice" class="sr-only">Minimum price</label>
+                                <input type="number" name="minPrice" id="minPrice" class="form-control glass" 
+                                       placeholder="Min" value="@ViewBag.MinPrice" step="0.01" aria-label="Minimum price">
+                            </div>
+                            <div class="col-6">
+                                <label for="maxPrice" class="sr-only">Maximum price</label>
+                                <input type="number" name="maxPrice" id="maxPrice" class="form-control glass" 
+                                       placeholder="Max" value="@ViewBag.MaxPrice" step="0.01" aria-label="Maximum price">
+                            </div>
+                        </div>
+                        <small class="text-muted">
+                            <i class="bi bi-graph-up me-1" aria-hidden="true"></i>Dynamic price filtering
+                        </small>
+                    </fieldset>
+
+                    <!-- Sort By -->
+                    <div class="mb-4">
+                        <label for="sortSelect" class="form-label fw-bold iridescent">Sort By</label>
+                        <select name="sortBy" id="sortSelect" class="form-select glass" onchange="this.form.submit()">
+                            <option value="title" selected="@(ViewBag.SortBy == "title")">Title (A-Z)</option>
+                            <option value="price_asc" selected="@(ViewBag.SortBy == "price_asc")">Price (Low to High)</option>
+                            <option value="price_desc" selected="@(ViewBag.SortBy == "price_desc")">Price (High to Low)</option>
+                            <option value="createdDate" selected="@(ViewBag.SortBy == "createdDate")">Newest First</option>
+                            <option value="rating" selected="@(ViewBag.SortBy == "rating")">Highest Rated</option>
+                        </select>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary magnetic-btn holographic pulse-glow">
+                            <i class="bi bi-check-circle me-2" aria-hidden="true"></i>Apply Filters
+                        </button>
+                        <a asp-action="Browse" class="btn btn-outline-secondary magnetic-btn glass-deep">
+                            <i class="bi bi-x-circle me-2" aria-hidden="true"></i>Clear All
+                        </a>
+                    </div>
+                </form>
+
+                <!-- Technical Implementation Showcase -->
+                <div class="mt-4 p-3 glass rounded" role="note" aria-labelledby="tech-features-heading">
+                    <h3 id="tech-features-heading" class="fw-bold mb-2 h6">
+                        <i class="bi bi-gear me-2" aria-hidden="true"></i>Implementation Features
+                    </h3>
+                    <ul class="list-unstyled small text-muted mb-0">
+                        <li><i class="bi bi-check text-success me-1" aria-hidden="true"></i>Server-side pagination</li>
+                        <li><i class="bi bi-check text-success me-1" aria-hidden="true"></i>Optimized database queries</li>
+                        <li><i class="bi bi-check text-success me-1" aria-hidden="true"></i>Real-time search debouncing</li>
+                        <li><i class="bi bi-check text-success me-1" aria-hidden="true"></i>Responsive design patterns</li>
+                        <li><i class="bi bi-check text-success me-1" aria-hidden="true"></i>Clean Architecture principles</li>
+                    </ul>
+                </div>
+            </aside>
+        </div>
+
+        <!-- Books Grid -->
+        <div class="col-lg-9">
+            <!-- Header -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h2 class="mb-1">
+                        @if (!string.IsNullOrEmpty(ViewBag.Search))
+                        {
+                            <span>Search Results for "@ViewBag.Search"</span>
+                        }
+                        else if (ViewBag.CategoryId != null)
+                        {
+                            var categories = ViewBag.Categories as IEnumerable<dynamic>;
+                            var selectedCategory = categories?.FirstOrDefault(c => c.Id == ViewBag.CategoryId);
+                            <span>@selectedCategory?.Name Books</span>
+                        }
+                        else
+                        {
+                            <span>All Books</span>
+                        }
+                    </h2>
+                    <p class="text-muted mb-0" aria-live="polite">
+                        Showing @((Model.CurrentPage - 1) * 12 + 1) - @(Math.Min(Model.CurrentPage * 12, Model.TotalBooks)) 
+                        of @Model.TotalBooks books
+                    </p>
+                </div>
+            </div>
+
+            <!-- Books Grid -->
+            <div class="row g-4 cascade-animation" id="booksGrid" role="main" aria-label="Book collection">
+                @if (Model.Books.Any())
+                {
+                    @foreach (var book in Model.Books)
+                    {
+                        <div class="col-lg-4 col-md-6" data-fade-in>
+                            <article class="book-card spotlight-card feature-highlight hover-lift h-100 card-3d floating"
+                                     role="article" aria-labelledby="book-@book.Id-title">
+                                <div class="book-image-wrapper position-relative">
+                                    <img src="@(book.ImageUrl ?? Url.Content("~/images/default-book-improved.svg"))" 
+                                         alt="Cover image of @book.Title by @book.Author" 
+                                         class="book-cover w-100" 
+                                         style="height: 300px; object-fit: cover; border-radius: 12px 12px 0 0;"
+                                         loading="lazy">
+                                    
+                                    @if (book.StockQuantity > 0)
+                                    {
+                                        <span class="badge bg-success position-absolute top-0 end-0 m-2 pulse-glow"
+                                              aria-label="@book.StockQuantity units in stock">
+                                            <i class="bi bi-check-circle me-1" aria-hidden="true"></i>In Stock
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger position-absolute top-0 end-0 m-2"
+                                              aria-label="Currently out of stock">
+                                            <i class="bi bi-x-circle me-1" aria-hidden="true"></i>Out of Stock
+                                        </span>
+                                    }
+                                </div>
+                                
+                                <div class="book-details p-3 glass-deep">
+                                    <h3 id="book-@book.Id-title" class="book-title mb-2 gradient-text h5">@book.Title</h3>
+                                    <p class="book-author text-muted mb-2">
+                                        <i class="bi bi-person me-1 pulse-glow" aria-hidden="true"></i>
+                                        <span class="sr-only">Author: </span>@book.Author
+                                    </p>
+                                    
+                                    @if (!string.IsNullOrEmpty(book.Category?.Name))
+                                    {
+                                        <span class="badge bg-info mb-2 holographic" aria-label="Category: @book.Category.Name">
+                                            <i class="bi bi-tag me-1" aria-hidden="true"></i>@book.Category.Name
+                                        </span>
+                                    }
+                                    
+                                    @if (!string.IsNullOrEmpty(book.Description))
+                                    {
+                                        <p class="book-description text-muted small mb-3" 
+                                           style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;"
+                                           title="@book.Description">
+                                            @book.Description
+                                        </p>
+                                    }
+                                    
+                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                        <span class="book-price fw-bold text-primary fs-5 neon-glow" 
+                                              aria-label="Price: ₹@book.Price.Amount.ToString("N2")">
+                                            ₹@book.Price.Amount.ToString("N2")
+                                        </span>
+                                        <a asp-action="BookDetails" asp-route-id="@book.Id" 
+                                           class="btn btn-primary magnetic-btn holographic"
+                                           aria-label="View details for @book.Title">
+                                            <i class="bi bi-eye me-1" aria-hidden="true"></i>View Details
+                                        </a>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="col-12">
+                        <div class="glass-deep text-center py-5 spotlight-card" role="status" aria-live="polite">
+                            <i class="bi bi-search display-1 text-muted floating" aria-hidden="true"></i>
+                            <h3 class="mt-3 gradient-text">No books found</h3>
+                            <p class="text-muted mb-4">Try adjusting your filters or search terms</p>
+                            <a asp-action="Browse" class="btn btn-primary magnetic-btn holographic pulse-glow"
+                               aria-label="Reset all filters and show all books">
+                                <i class="bi bi-arrow-clockwise me-2" aria-hidden="true"></i>Reset Filters
+                            </a>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <!-- Pagination -->
+            @if (Model.TotalPages > 1)
+            {
+                <nav aria-label="Book pagination" class="mt-5">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
+                            <a class="page-link magnetic-btn" 
+                               asp-action="Browse" 
+                               asp-route-page="@(Model.CurrentPage - 1)"
+                               asp-route-search="@ViewBag.Search"
+                               asp-route-categoryId="@ViewBag.CategoryId"
+                               asp-route-sortBy="@ViewBag.SortBy"
+                               asp-route-minPrice="@ViewBag.MinPrice"
+                               asp-route-maxPrice="@ViewBag.MaxPrice"
+                               aria-label="Go to previous page">
+                                <i class="bi bi-chevron-left" aria-hidden="true"></i> Previous
+                            </a>
+                        </li>
+                        
+                        @for (int i = Math.Max(1, Model.CurrentPage - 2); i <= Math.Min(Model.TotalPages, Model.CurrentPage + 2); i++)
+                        {
+                            <li class="page-item @(Model.CurrentPage == i ? "active" : "")">
+                                <a class="page-link magnetic-btn" 
+                                   asp-action="Browse" 
+                                   asp-route-page="@i"
+                                   asp-route-search="@ViewBag.Search"
+                                   asp-route-categoryId="@ViewBag.CategoryId"
+                                   asp-route-sortBy="@ViewBag.SortBy"
+                                   asp-route-minPrice="@ViewBag.MinPrice"
+                                   asp-route-maxPrice="@ViewBag.MaxPrice"
+                                   aria-label="@(Model.CurrentPage == i ? $"Current page {i}" : $"Go to page {i}")"
+                                   aria-current="@(Model.CurrentPage == i ? "page" : null)">
+                                    @i
+                                </a>
+                            </li>
+                        }
+                        
+                        <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
+                            <a class="page-link magnetic-btn" 
+                               asp-action="Browse" 
+                               asp-route-page="@(Model.CurrentPage + 1)"
+                               asp-route-search="@ViewBag.Search"
+                               asp-route-categoryId="@ViewBag.CategoryId"
+                               asp-route-sortBy="@ViewBag.SortBy"
+                               asp-route-minPrice="@ViewBag.MinPrice"
+                               asp-route-maxPrice="@ViewBag.MaxPrice"
+                               aria-label="Go to next page">
+                                Next <i class="bi bi-chevron-right" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            }
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .portfolio-context-banner {
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .book-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .book-cover {
+            transition: transform 0.3s ease;
+        }
+        
+        .book-card:hover .book-cover {
+            transform: scale(1.05);
+        }
+        
+        .pagination .page-link {
+            border-radius: 8px;
+            margin: 0 4px;
+        }
+        
+        .pagination .page-item.active .page-link {
+            background-color: var(--bs-primary);
+            border-color: var(--bs-primary);
+        }
+        
+        .alert-sm {
+            padding: 0.5rem 0.75rem;
+            font-size: 0.875rem;
+        }
+        
+        .demo-stats .stat-item {
+            min-width: 60px;
+        }
+        
+        .stat-value {
+            font-size: 1.25rem;
+            line-height: 1;
+        }
+        
+        .stat-label {
+            font-size: 0.75rem;
+            line-height: 1;
+        }
+        
+        #categoryStatsDisplay {
+            min-height: 20px;
+        }
+        
+        .category-stat-badge {
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @@keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        let searchTimeout;
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Setup live search
+            const searchInput = document.getElementById('liveSearchInput');
+            if (searchInput) {
+                searchInput.addEventListener('input', function() {
+                    clearTimeout(searchTimeout);
+                    const query = this.value.trim();
+                    
+                    if (query.length >= 2) {
+                        searchTimeout = setTimeout(() => {
+                            performLiveSearch(query);
+                        }, 500); // 500ms debounce
+                    }
+                });
+            }
+            
+            // Initialize category stats if a category is selected
+            const categorySelect = document.querySelector('select[name="categoryId"]');
+            if (categorySelect && categorySelect.value) {
+                updateCategoryStats(categorySelect.value);
+            }
+        });
+        
+        function performLiveSearch(query) {
+            // Show loading indicator
+            showSearchLoading();
+            
+            // Construct URL with current filters
+            const form = document.getElementById('filterForm');
+            const formData = new FormData(form);
+            formData.set('search', query);
+            
+            const params = new URLSearchParams();
+            for (let [key, value] of formData.entries()) {
+                if (value) params.append(key, value);
+            }
+            
+            // Redirect to maintain URL state
+            window.location.href = `/Public/Browse?${params.toString()}`;
+        }
+        
+        function updateCategoryStats(categoryId) {
+            const statsDisplay = document.getElementById('categoryStatsDisplay');
+            if (!statsDisplay) return;
+            
+            if (!categoryId) {
+                statsDisplay.innerHTML = '';
+                return;
+            }
+            
+            // Show loading
+            statsDisplay.innerHTML = '<small class="text-muted"><i class="bi bi-hourglass-split me-1"></i>Loading stats...</small>';
+            
+            // Fetch category statistics
+            fetch(`/Public/GetBooksByCategory?categoryId=${categoryId}&page=1&pageSize=1`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const totalBooks = data.data.totalBooks;
+                        const avgPrice = calculateAveragePrice(data.data.books);
+                        
+                        statsDisplay.innerHTML = `
+                            <div class="category-stat-badge">
+                                <span class="badge bg-primary bg-opacity-20 text-primary me-1">
+                                    <i class="bi bi-book me-1"></i>${totalBooks} books
+                                </span>
+                                ${avgPrice > 0 ? `<span class="badge bg-success bg-opacity-20 text-success">
+                                    <i class="bi bi-currency-rupee me-1"></i>Avg ₹${avgPrice.toFixed(0)}
+                                </span>` : ''}
+                            </div>
+                        `;
+                    } else {
+                        statsDisplay.innerHTML = '<small class="text-muted">Stats unavailable</small>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching category stats:', error);
+                    statsDisplay.innerHTML = '<small class="text-muted">Stats unavailable</small>';
+                });
+        }
+        
+        function calculateAveragePrice(books) {
+            if (!books || books.length === 0) return 0;
+            const total = books.reduce((sum, book) => sum + (book.price?.amount || 0), 0);
+            return total / books.length;
+        }
+        
+        function showSearchLoading() {
+            const searchInput = document.getElementById('liveSearchInput');
+            if (searchInput) {
+                searchInput.style.background = 'linear-gradient(90deg, #f8f9fa 25%, #e9ecef 50%, #f8f9fa 75%)';
+                searchInput.style.backgroundSize = '200% 100%';
+                searchInput.style.animation = 'loading 1.5s infinite';
+            }
+        }
+        
+        // Add loading animation CSS
+        const style = document.createElement('style');
+        style.textContent = `
+            @@keyframes loading {
+                0% { background-position: 200% 0; }
+                100% { background-position: -200% 0; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+}

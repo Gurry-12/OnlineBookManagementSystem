@@ -3,7 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using OnlineBookManagementSystem.Models;
+using OnlineBookManagementSystem.Infrastructure.Data.Context;
 
 #nullable disable
 
@@ -143,9 +143,14 @@ namespace OnlineBookManagementSystem.Migrations
                     b.Property<int>("RoleId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("UserId1")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
@@ -169,7 +174,7 @@ namespace OnlineBookManagementSystem.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("OnlineBookManagementSystem.Models.ActivityLog", b =>
+            modelBuilder.Entity("OnlineBookManagementSystem.Core.Domain.Entities.ActivityLog", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -180,16 +185,23 @@ namespace OnlineBookManagementSystem.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("ActionType")
-                        .IsRequired()
+                    b.Property<Guid>("ConcurrencyToken")
+                        .IsConcurrencyToken()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("TEXT");
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasDefaultValueSql("DateTime('now')");
 
                     b.Property<string>("IpAddress")
                         .HasMaxLength(45)
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(false);
 
                     b.Property<string>("Level")
                         .IsRequired()
@@ -205,7 +217,12 @@ namespace OnlineBookManagementSystem.Migrations
 
                     b.Property<DateTime>("Timestamp")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
+                        .HasColumnType("TEXT")
+                        .HasDefaultValueSql("DateTime('now')");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
                         .HasDefaultValueSql("DateTime('now')");
 
                     b.Property<string>("UserAgent")
@@ -217,6 +234,8 @@ namespace OnlineBookManagementSystem.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Level");
+
                     b.HasIndex("Timestamp");
 
                     b.HasIndex("UserId");
@@ -224,7 +243,7 @@ namespace OnlineBookManagementSystem.Migrations
                     b.ToTable("ActivityLogs");
                 });
 
-            modelBuilder.Entity("OnlineBookManagementSystem.Models.Book", b =>
+            modelBuilder.Entity("OnlineBookManagementSystem.Core.Domain.Entities.Book", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -236,30 +255,28 @@ namespace OnlineBookManagementSystem.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<double>("AverageRating")
-                        .HasColumnType("REAL");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("REAL")
+                        .HasDefaultValue(0.0);
 
                     b.Property<int?>("CategoryId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<Guid>("ConcurrencyToken")
+                        .IsConcurrencyToken()
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
+                        .HasColumnType("TEXT")
                         .HasDefaultValueSql("DateTime('now')");
 
                     b.Property<string>("Description")
                         .HasMaxLength(1000)
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("ISBN")
-                        .HasMaxLength(20)
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("ImageUrl")
                         .HasMaxLength(500)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ImgUrl")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("IsDeleted")
@@ -267,24 +284,18 @@ namespace OnlineBookManagementSystem.Migrations
                         .HasColumnType("INTEGER")
                         .HasDefaultValue(false);
 
-                    b.Property<bool>("IsFavorite")
+                    b.Property<bool>("IsFeatured")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
                         .HasDefaultValue(false);
 
-                    b.Property<bool>("IsFeatured")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("LowStockThreshold")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<decimal>("Price")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(10,2)")
-                        .HasDefaultValue(0m);
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(5);
 
                     b.Property<DateTime?>("PublicationDate")
-                        .HasColumnType("datetime");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("StockQuantity")
                         .ValueGeneratedOnAdd()
@@ -296,22 +307,27 @@ namespace OnlineBookManagementSystem.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("TotalReviews")
+                        .HasColumnType("INTEGER");
+
                     b.Property<DateTime>("UpdatedAt")
+                        .IsConcurrencyToken()
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("DateTime")
+                        .HasColumnType("TEXT")
                         .HasDefaultValueSql("DateTime('now')");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Author");
+
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("ISBN")
-                        .IsUnique();
+                    b.HasIndex("Title");
 
                     b.ToTable("Books");
                 });
 
-            modelBuilder.Entity("OnlineBookManagementSystem.Models.BookRatingCache", b =>
+            modelBuilder.Entity("OnlineBookManagementSystem.Core.Domain.Entities.BookRatingCache", b =>
                 {
                     b.Property<int>("BookId")
                         .HasColumnType("INTEGER");
@@ -321,7 +337,7 @@ namespace OnlineBookManagementSystem.Migrations
 
                     b.Property<DateTime>("LastUpdated")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
+                        .HasColumnType("TEXT")
                         .HasDefaultValueSql("DateTime('now')");
 
                     b.Property<int>("TotalReviews")
@@ -332,7 +348,7 @@ namespace OnlineBookManagementSystem.Migrations
                     b.ToTable("BookRatingCache");
                 });
 
-            modelBuilder.Entity("OnlineBookManagementSystem.Models.BookReview", b =>
+            modelBuilder.Entity("OnlineBookManagementSystem.Core.Domain.Entities.BookReview", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -341,9 +357,16 @@ namespace OnlineBookManagementSystem.Migrations
                     b.Property<int>("BookId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("BookId1")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<Guid>("ConcurrencyToken")
+                        .IsConcurrencyToken()
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
+                        .HasColumnType("TEXT")
                         .HasDefaultValueSql("DateTime('now')");
 
                     b.Property<bool>("IsDeleted")
@@ -352,7 +375,7 @@ namespace OnlineBookManagementSystem.Migrations
                         .HasDefaultValue(false);
 
                     b.Property<DateTime?>("ModeratedAt")
-                        .HasColumnType("datetime");
+                        .HasColumnType("TEXT");
 
                     b.Property<int?>("ModeratedBy")
                         .HasColumnType("INTEGER");
@@ -376,13 +399,15 @@ namespace OnlineBookManagementSystem.Migrations
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
+                        .HasColumnType("TEXT")
                         .HasDefaultValueSql("DateTime('now')");
 
                     b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BookId1");
 
                     b.HasIndex("ModeratedBy");
 
@@ -405,15 +430,19 @@ namespace OnlineBookManagementSystem.Migrations
                         });
                 });
 
-            modelBuilder.Entity("OnlineBookManagementSystem.Models.Category", b =>
+            modelBuilder.Entity("OnlineBookManagementSystem.Core.Domain.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<Guid>("ConcurrencyToken")
+                        .IsConcurrencyToken()
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("DateTime")
+                        .HasColumnType("TEXT")
                         .HasDefaultValueSql("DateTime('now')");
 
                     b.Property<string>("Description")
@@ -432,7 +461,7 @@ namespace OnlineBookManagementSystem.Migrations
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("DateTime")
+                        .HasColumnType("TEXT")
                         .HasDefaultValueSql("DateTime('now')");
 
                     b.HasKey("Id");
@@ -443,37 +472,36 @@ namespace OnlineBookManagementSystem.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("OnlineBookManagementSystem.Models.Order", b =>
+            modelBuilder.Entity("OnlineBookManagementSystem.Core.Domain.Entities.Order", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Address")
-                        .HasMaxLength(500)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("City")
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Country")
-                        .HasMaxLength(100)
+                    b.Property<Guid>("ConcurrencyToken")
+                        .IsConcurrencyToken()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("DateTime")
+                        .HasColumnType("TEXT")
                         .HasDefaultValueSql("DateTime('now')");
 
-                    b.Property<string>("FullName")
-                        .HasMaxLength(100)
+                    b.Property<DateTime?>("DeliveredDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(200)
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
                         .HasDefaultValue(false);
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(1000)
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("OrderDate")
                         .ValueGeneratedOnAdd()
@@ -485,44 +513,26 @@ namespace OnlineBookManagementSystem.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("PaymentStatus")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(50)
-                        .HasColumnType("TEXT")
-                        .HasDefaultValue("Unpaid");
+                    b.Property<int>("PaymentStatus")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("PhoneNumber")
                         .HasMaxLength(20)
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("State")
-                        .HasMaxLength(100)
+                    b.Property<DateTime?>("ShippedDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(50)
-                        .HasColumnType("TEXT")
-                        .HasDefaultValue("Pending");
-
-                    b.Property<decimal>("TotalAmount")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(10,2)")
-                        .HasDefaultValue(0m);
+                    b.Property<int>("Status")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("DateTime")
+                        .HasColumnType("TEXT")
                         .HasDefaultValueSql("DateTime('now')");
 
                     b.Property<int?>("UserId")
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("ZipCode")
-                        .HasMaxLength(20)
-                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -531,7 +541,7 @@ namespace OnlineBookManagementSystem.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("OnlineBookManagementSystem.Models.OrderDetail", b =>
+            modelBuilder.Entity("OnlineBookManagementSystem.Core.Domain.Entities.OrderDetail", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -540,21 +550,32 @@ namespace OnlineBookManagementSystem.Migrations
                     b.Property<int>("BookId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<Guid>("ConcurrencyToken")
+                        .IsConcurrencyToken()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasDefaultValueSql("DateTime('now')");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(false);
+
                     b.Property<int>("OrderId")
                         .HasColumnType("INTEGER");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(10,2)");
 
                     b.Property<int>("Quantity")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
                         .HasDefaultValue(1);
 
-                    b.Property<decimal>("Subtotal")
+                    b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(10,2)")
-                        .HasDefaultValue(0m);
+                        .HasColumnType("TEXT")
+                        .HasDefaultValueSql("DateTime('now')");
 
                     b.HasKey("Id");
 
@@ -565,15 +586,24 @@ namespace OnlineBookManagementSystem.Migrations
                     b.ToTable("OrderDetails");
                 });
 
-            modelBuilder.Entity("OnlineBookManagementSystem.Models.RefreshToken", b =>
+            modelBuilder.Entity("OnlineBookManagementSystem.Core.Domain.Entities.RefreshToken", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<Guid>("ConcurrencyToken")
+                        .IsConcurrencyToken()
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("Created")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("DateTime")
+                        .HasColumnType("TEXT")
+                        .HasDefaultValueSql("DateTime('now')");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
                         .HasDefaultValueSql("DateTime('now')");
 
                     b.Property<string>("CreatedByIp")
@@ -581,7 +611,12 @@ namespace OnlineBookManagementSystem.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("ExpiryDate")
-                        .HasColumnType("DateTime");
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(false);
 
                     b.Property<bool>("IsRevoked")
                         .ValueGeneratedOnAdd()
@@ -597,6 +632,11 @@ namespace OnlineBookManagementSystem.Migrations
                         .HasMaxLength(450)
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasDefaultValueSql("DateTime('now')");
+
                     b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
 
@@ -610,7 +650,7 @@ namespace OnlineBookManagementSystem.Migrations
                     b.ToTable("RefreshTokens");
                 });
 
-            modelBuilder.Entity("OnlineBookManagementSystem.Models.ShoppingCart", b =>
+            modelBuilder.Entity("OnlineBookManagementSystem.Core.Domain.Entities.ShoppingCart", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -618,11 +658,20 @@ namespace OnlineBookManagementSystem.Migrations
 
                     b.Property<DateTime>("AddedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("DateTime")
+                        .HasColumnType("TEXT")
                         .HasDefaultValueSql("DateTime('now')");
 
                     b.Property<int>("BookId")
                         .HasColumnType("INTEGER");
+
+                    b.Property<Guid>("ConcurrencyToken")
+                        .IsConcurrencyToken()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasDefaultValueSql("DateTime('now')");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -633,6 +682,11 @@ namespace OnlineBookManagementSystem.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
                         .HasDefaultValue(1);
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasDefaultValueSql("DateTime('now')");
 
                     b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
@@ -647,21 +701,39 @@ namespace OnlineBookManagementSystem.Migrations
                     b.ToTable("ShoppingCarts");
                 });
 
-            modelBuilder.Entity("OnlineBookManagementSystem.Models.SystemSettings", b =>
+            modelBuilder.Entity("OnlineBookManagementSystem.Core.Domain.Entities.SystemSettings", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<Guid>("ConcurrencyToken")
+                        .IsConcurrencyToken()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("ContactEmail")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasDefaultValueSql("DateTime('now')");
+
                     b.Property<bool>("EnableSsl")
-                        .HasColumnType("INTEGER");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(true);
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(false);
 
                     b.Property<bool>("MaintenanceMode")
-                        .HasColumnType("INTEGER");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(false);
 
                     b.Property<string>("SenderEmail")
                         .IsRequired()
@@ -669,11 +741,15 @@ namespace OnlineBookManagementSystem.Migrations
 
                     b.Property<string>("SenderName")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasDefaultValue("Whispering Pages");
 
                     b.Property<string>("SiteName")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasDefaultValue("Whispering Pages");
 
                     b.Property<string>("SmtpHost")
                         .IsRequired()
@@ -684,21 +760,25 @@ namespace OnlineBookManagementSystem.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<int>("SmtpPort")
-                        .HasColumnType("INTEGER");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(587);
 
                     b.Property<string>("SmtpUsername")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("TEXT");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasDefaultValueSql("DateTime('now')");
 
                     b.HasKey("Id");
 
                     b.ToTable("SystemSettings");
                 });
 
-            modelBuilder.Entity("OnlineBookManagementSystem.Models.User", b =>
+            modelBuilder.Entity("OnlineBookManagementSystem.Core.Domain.Entities.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -707,13 +787,22 @@ namespace OnlineBookManagementSystem.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Address")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("City")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Country")
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("DateTime")
+                        .HasColumnType("TEXT")
                         .HasDefaultValueSql("DateTime('now')");
 
                     b.Property<string>("Email")
@@ -729,19 +818,21 @@ namespace OnlineBookManagementSystem.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool?>("IsDeleted")
+                    b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
                         .HasDefaultValue(false);
 
-                    b.Property<bool>("IsEmailConfirmed")
-                        .HasColumnType("INTEGER");
-
                     b.Property<bool>("IsPendingApproval")
-                        .HasColumnType("INTEGER");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(true);
+
+                    b.Property<DateTime?>("LastLoginAt")
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("LastLoginDate")
-                        .HasColumnType("DateTime");
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("INTEGER");
@@ -786,16 +877,22 @@ namespace OnlineBookManagementSystem.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("State")
+                        .HasColumnType("TEXT");
+
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("DateTime")
+                        .HasColumnType("TEXT")
                         .HasDefaultValueSql("DateTime('now')");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ZipCode")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -813,16 +910,36 @@ namespace OnlineBookManagementSystem.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("OnlineBookManagementSystem.Models.UserFavorite", b =>
+            modelBuilder.Entity("OnlineBookManagementSystem.Core.Domain.Entities.UserFavorite", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<DateTime>("AddedAt")
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("BookId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("BookId1")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<Guid>("ConcurrencyToken")
+                        .IsConcurrencyToken()
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasDefaultValueSql("DateTime('now')");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(false);
+
+                    b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
                         .HasDefaultValueSql("DateTime('now')");
@@ -830,9 +947,16 @@ namespace OnlineBookManagementSystem.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("UserId1")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
                     b.HasIndex("BookId");
+
+                    b.HasIndex("BookId1");
+
+                    b.HasIndex("UserId1");
 
                     b.HasIndex("UserId", "BookId")
                         .IsUnique();
@@ -851,7 +975,7 @@ namespace OnlineBookManagementSystem.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
-                    b.HasOne("OnlineBookManagementSystem.Models.User", null)
+                    b.HasOne("OnlineBookManagementSystem.Core.Domain.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -860,7 +984,7 @@ namespace OnlineBookManagementSystem.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
-                    b.HasOne("OnlineBookManagementSystem.Models.User", null)
+                    b.HasOne("OnlineBookManagementSystem.Core.Domain.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -875,25 +999,29 @@ namespace OnlineBookManagementSystem.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("OnlineBookManagementSystem.Models.User", null)
+                    b.HasOne("OnlineBookManagementSystem.Core.Domain.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("OnlineBookManagementSystem.Core.Domain.Entities.User", null)
+                        .WithMany("UserRoles")
+                        .HasForeignKey("UserId1");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
-                    b.HasOne("OnlineBookManagementSystem.Models.User", null)
+                    b.HasOne("OnlineBookManagementSystem.Core.Domain.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("OnlineBookManagementSystem.Models.ActivityLog", b =>
+            modelBuilder.Entity("OnlineBookManagementSystem.Core.Domain.Entities.ActivityLog", b =>
                 {
-                    b.HasOne("OnlineBookManagementSystem.Models.User", "User")
+                    b.HasOne("OnlineBookManagementSystem.Core.Domain.Entities.User", "User")
                         .WithMany("ActivityLogs")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.SetNull);
@@ -901,41 +1029,96 @@ namespace OnlineBookManagementSystem.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("OnlineBookManagementSystem.Models.Book", b =>
+            modelBuilder.Entity("OnlineBookManagementSystem.Core.Domain.Entities.Book", b =>
                 {
-                    b.HasOne("OnlineBookManagementSystem.Models.Category", "Category")
+                    b.HasOne("OnlineBookManagementSystem.Core.Domain.Entities.Category", "Category")
                         .WithMany("Books")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.OwnsOne("OnlineBookManagementSystem.Core.Domain.ValueObjects.Money", "Price", b1 =>
+                        {
+                            b1.Property<int>("BookId")
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<decimal>("Amount")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("decimal(10,2)")
+                                .HasDefaultValue(0m)
+                                .HasColumnName("Price");
+
+                            b1.Property<string>("Currency")
+                                .IsRequired()
+                                .ValueGeneratedOnAdd()
+                                .HasMaxLength(3)
+                                .HasColumnType("TEXT")
+                                .HasDefaultValue("USD")
+                                .HasColumnName("Currency");
+
+                            b1.HasKey("BookId");
+
+                            b1.ToTable("Books");
+
+                            b1.WithOwner()
+                                .HasForeignKey("BookId");
+                        });
+
+                    b.OwnsOne("OnlineBookManagementSystem.Core.Domain.ValueObjects.ISBN", "ISBN", b1 =>
+                        {
+                            b1.Property<int>("BookId")
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasMaxLength(20)
+                                .HasColumnType("TEXT")
+                                .HasColumnName("ISBN");
+
+                            b1.HasKey("BookId");
+
+                            b1.ToTable("Books");
+
+                            b1.WithOwner()
+                                .HasForeignKey("BookId");
+                        });
+
                     b.Navigation("Category");
+
+                    b.Navigation("ISBN");
+
+                    b.Navigation("Price")
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("OnlineBookManagementSystem.Models.BookRatingCache", b =>
+            modelBuilder.Entity("OnlineBookManagementSystem.Core.Domain.Entities.BookRatingCache", b =>
                 {
-                    b.HasOne("OnlineBookManagementSystem.Models.Book", "Book")
+                    b.HasOne("OnlineBookManagementSystem.Core.Domain.Entities.Book", "Book")
                         .WithOne()
-                        .HasForeignKey("OnlineBookManagementSystem.Models.BookRatingCache", "BookId")
+                        .HasForeignKey("OnlineBookManagementSystem.Core.Domain.Entities.BookRatingCache", "BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Book");
                 });
 
-            modelBuilder.Entity("OnlineBookManagementSystem.Models.BookReview", b =>
+            modelBuilder.Entity("OnlineBookManagementSystem.Core.Domain.Entities.BookReview", b =>
                 {
-                    b.HasOne("OnlineBookManagementSystem.Models.Book", "Book")
-                        .WithMany("BookReviews")
+                    b.HasOne("OnlineBookManagementSystem.Core.Domain.Entities.Book", "Book")
+                        .WithMany()
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("OnlineBookManagementSystem.Models.User", "Moderator")
+                    b.HasOne("OnlineBookManagementSystem.Core.Domain.Entities.Book", null)
+                        .WithMany("BookReviews")
+                        .HasForeignKey("BookId1");
+
+                    b.HasOne("OnlineBookManagementSystem.Core.Domain.Entities.User", "Moderator")
                         .WithMany("ModeratedReviews")
                         .HasForeignKey("ModeratedBy")
                         .OnDelete(DeleteBehavior.SetNull);
 
-                    b.HasOne("OnlineBookManagementSystem.Models.User", "User")
+                    b.HasOne("OnlineBookManagementSystem.Core.Domain.Entities.User", "User")
                         .WithMany("BookReviews")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -948,36 +1131,182 @@ namespace OnlineBookManagementSystem.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("OnlineBookManagementSystem.Models.Order", b =>
+            modelBuilder.Entity("OnlineBookManagementSystem.Core.Domain.Entities.Order", b =>
                 {
-                    b.HasOne("OnlineBookManagementSystem.Models.User", "User")
+                    b.HasOne("OnlineBookManagementSystem.Core.Domain.Entities.User", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.OwnsOne("OnlineBookManagementSystem.Core.Domain.ValueObjects.Money", "TotalAmount", b1 =>
+                        {
+                            b1.Property<int>("OrderId")
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<decimal>("Amount")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("decimal(10,2)")
+                                .HasDefaultValue(0m)
+                                .HasColumnName("TotalAmount");
+
+                            b1.Property<string>("Currency")
+                                .IsRequired()
+                                .ValueGeneratedOnAdd()
+                                .HasMaxLength(3)
+                                .HasColumnType("TEXT")
+                                .HasDefaultValue("USD")
+                                .HasColumnName("Currency");
+
+                            b1.HasKey("OrderId");
+
+                            b1.ToTable("Orders");
+
+                            b1.WithOwner()
+                                .HasForeignKey("OrderId");
+                        });
+
+                    b.OwnsOne("OnlineBookManagementSystem.Core.Domain.ValueObjects.Address", "ShippingAddress", b1 =>
+                        {
+                            b1.Property<int>("OrderId")
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<string>("City")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("TEXT")
+                                .HasColumnName("ShippingCity");
+
+                            b1.Property<string>("Country")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("TEXT")
+                                .HasColumnName("ShippingCountry");
+
+                            b1.Property<string>("FullName")
+                                .IsRequired()
+                                .HasMaxLength(200)
+                                .HasColumnType("TEXT")
+                                .HasColumnName("ShippingFullName");
+
+                            b1.Property<string>("PhoneNumber")
+                                .HasMaxLength(20)
+                                .HasColumnType("TEXT")
+                                .HasColumnName("ShippingPhoneNumber");
+
+                            b1.Property<string>("State")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("TEXT")
+                                .HasColumnName("ShippingState");
+
+                            b1.Property<string>("Street")
+                                .IsRequired()
+                                .HasMaxLength(500)
+                                .HasColumnType("TEXT")
+                                .HasColumnName("ShippingStreet");
+
+                            b1.Property<string>("ZipCode")
+                                .IsRequired()
+                                .HasMaxLength(20)
+                                .HasColumnType("TEXT")
+                                .HasColumnName("ShippingZipCode");
+
+                            b1.HasKey("OrderId");
+
+                            b1.ToTable("Orders");
+
+                            b1.WithOwner()
+                                .HasForeignKey("OrderId");
+                        });
+
+                    b.Navigation("ShippingAddress");
+
+                    b.Navigation("TotalAmount")
+                        .IsRequired();
+
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("OnlineBookManagementSystem.Models.OrderDetail", b =>
+            modelBuilder.Entity("OnlineBookManagementSystem.Core.Domain.Entities.OrderDetail", b =>
                 {
-                    b.HasOne("OnlineBookManagementSystem.Models.Book", "Book")
-                        .WithMany("OrderDetails")
+                    b.HasOne("OnlineBookManagementSystem.Core.Domain.Entities.Book", "Book")
+                        .WithMany()
                         .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("OnlineBookManagementSystem.Models.Order", "Order")
+                    b.HasOne("OnlineBookManagementSystem.Core.Domain.Entities.Order", "Order")
                         .WithMany("OrderDetails")
                         .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.OwnsOne("OnlineBookManagementSystem.Core.Domain.ValueObjects.Money", "Subtotal", b1 =>
+                        {
+                            b1.Property<int>("OrderDetailId")
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<decimal>("Amount")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("decimal(10,2)")
+                                .HasDefaultValue(0m)
+                                .HasColumnName("Subtotal");
+
+                            b1.Property<string>("Currency")
+                                .IsRequired()
+                                .ValueGeneratedOnAdd()
+                                .HasMaxLength(3)
+                                .HasColumnType("TEXT")
+                                .HasDefaultValue("USD")
+                                .HasColumnName("SubtotalCurrency");
+
+                            b1.HasKey("OrderDetailId");
+
+                            b1.ToTable("OrderDetails");
+
+                            b1.WithOwner()
+                                .HasForeignKey("OrderDetailId");
+                        });
+
+                    b.OwnsOne("OnlineBookManagementSystem.Core.Domain.ValueObjects.Money", "UnitPrice", b1 =>
+                        {
+                            b1.Property<int>("OrderDetailId")
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<decimal>("Amount")
+                                .HasColumnType("decimal(10,2)")
+                                .HasColumnName("UnitPrice");
+
+                            b1.Property<string>("Currency")
+                                .IsRequired()
+                                .ValueGeneratedOnAdd()
+                                .HasMaxLength(3)
+                                .HasColumnType("TEXT")
+                                .HasDefaultValue("USD")
+                                .HasColumnName("UnitPriceCurrency");
+
+                            b1.HasKey("OrderDetailId");
+
+                            b1.ToTable("OrderDetails");
+
+                            b1.WithOwner()
+                                .HasForeignKey("OrderDetailId");
+                        });
 
                     b.Navigation("Book");
 
                     b.Navigation("Order");
+
+                    b.Navigation("Subtotal")
+                        .IsRequired();
+
+                    b.Navigation("UnitPrice")
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("OnlineBookManagementSystem.Models.RefreshToken", b =>
+            modelBuilder.Entity("OnlineBookManagementSystem.Core.Domain.Entities.RefreshToken", b =>
                 {
-                    b.HasOne("OnlineBookManagementSystem.Models.User", "User")
+                    b.HasOne("OnlineBookManagementSystem.Core.Domain.Entities.User", "User")
                         .WithMany("RefreshTokens")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -986,33 +1315,16 @@ namespace OnlineBookManagementSystem.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("OnlineBookManagementSystem.Models.ShoppingCart", b =>
+            modelBuilder.Entity("OnlineBookManagementSystem.Core.Domain.Entities.ShoppingCart", b =>
                 {
-                    b.HasOne("OnlineBookManagementSystem.Models.Book", "Book")
-                        .WithMany("ShoppingCarts")
-                        .HasForeignKey("BookId")
-                        .IsRequired();
-
-                    b.HasOne("OnlineBookManagementSystem.Models.User", "User")
-                        .WithMany("ShoppingCarts")
-                        .HasForeignKey("UserId")
-                        .IsRequired();
-
-                    b.Navigation("Book");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("OnlineBookManagementSystem.Models.UserFavorite", b =>
-                {
-                    b.HasOne("OnlineBookManagementSystem.Models.Book", "Book")
+                    b.HasOne("OnlineBookManagementSystem.Core.Domain.Entities.Book", "Book")
                         .WithMany()
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("OnlineBookManagementSystem.Models.User", "User")
-                        .WithMany()
+                    b.HasOne("OnlineBookManagementSystem.Core.Domain.Entities.User", "User")
+                        .WithMany("ShoppingCarts")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1022,26 +1334,51 @@ namespace OnlineBookManagementSystem.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("OnlineBookManagementSystem.Models.Book", b =>
+            modelBuilder.Entity("OnlineBookManagementSystem.Core.Domain.Entities.UserFavorite", b =>
+                {
+                    b.HasOne("OnlineBookManagementSystem.Core.Domain.Entities.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OnlineBookManagementSystem.Core.Domain.Entities.Book", null)
+                        .WithMany("UserFavorites")
+                        .HasForeignKey("BookId1");
+
+                    b.HasOne("OnlineBookManagementSystem.Core.Domain.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OnlineBookManagementSystem.Core.Domain.Entities.User", null)
+                        .WithMany("UserFavorites")
+                        .HasForeignKey("UserId1");
+
+                    b.Navigation("Book");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("OnlineBookManagementSystem.Core.Domain.Entities.Book", b =>
                 {
                     b.Navigation("BookReviews");
 
-                    b.Navigation("OrderDetails");
-
-                    b.Navigation("ShoppingCarts");
+                    b.Navigation("UserFavorites");
                 });
 
-            modelBuilder.Entity("OnlineBookManagementSystem.Models.Category", b =>
+            modelBuilder.Entity("OnlineBookManagementSystem.Core.Domain.Entities.Category", b =>
                 {
                     b.Navigation("Books");
                 });
 
-            modelBuilder.Entity("OnlineBookManagementSystem.Models.Order", b =>
+            modelBuilder.Entity("OnlineBookManagementSystem.Core.Domain.Entities.Order", b =>
                 {
                     b.Navigation("OrderDetails");
                 });
 
-            modelBuilder.Entity("OnlineBookManagementSystem.Models.User", b =>
+            modelBuilder.Entity("OnlineBookManagementSystem.Core.Domain.Entities.User", b =>
                 {
                     b.Navigation("ActivityLogs");
 
@@ -1054,6 +1391,10 @@ namespace OnlineBookManagementSystem.Migrations
                     b.Navigation("RefreshTokens");
 
                     b.Navigation("ShoppingCarts");
+
+                    b.Navigation("UserFavorites");
+
+                    b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618
         }

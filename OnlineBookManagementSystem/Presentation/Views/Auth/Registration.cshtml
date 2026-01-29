@@ -1,0 +1,469 @@
+﻿@using OnlineBookManagementSystem.Presentation.ViewModels.AuthViewModels
+@model EnhancedRegisterViewModel
+@{
+    ViewData["Title"] = "Create Account - Whispering Pages";
+    ViewData["Layout"] = "_LayoutAuth";
+}
+
+<div class="auth-grid enhanced noise-overlay">
+    <div class="auth-illustration">
+        <div class="onboarding-info glass p-4 mb-4">
+            <h3 class="text-center mb-3">
+                <i class="bi bi-rocket-takeoff-fill text-primary me-2"></i>
+                Join Whispering Pages
+            </h3>
+            <p class="text-center text-muted mb-3">@Model.OnboardingInfo.WelcomeMessage</p>
+            
+            <!-- Onboarding Steps -->
+            <div class="onboarding-steps mb-3">
+                <h6 class="mb-2"><i class="bi bi-list-check me-1"></i>Getting Started</h6>
+                @foreach (var step in Model.OnboardingInfo.Steps)
+                {
+                    <div class="step-item d-flex align-items-center mb-2 @(step.IsActive ? "active" : "")">
+                        <div class="step-icon me-2">
+                            <i class="bi @step.Icon"></i>
+                        </div>
+                        <div class="step-content">
+                            <small class="fw-bold">@step.Title</small>
+                            <div class="step-description">@step.Description</div>
+                        </div>
+                    </div>
+                }
+            </div>
+            
+            <!-- System Stats -->
+            <div class="row g-2">
+                <div class="col-4">
+                    <div class="stat-card text-center p-2">
+                        <div class="stat-number">@Model.SystemStats.TotalBooks.ToString("N0")</div>
+                        <div class="stat-label">Books</div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="stat-card text-center p-2">
+                        <div class="stat-number">@Model.SystemStats.ActiveUsers</div>
+                        <div class="stat-label">Users</div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="stat-card text-center p-2">
+                        <div class="stat-number">@Model.SystemStats.AverageRating.ToString("F1")</div>
+                        <div class="stat-label">Rating</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <img src="~/images/3d-design-removebg-preview.png" alt="Whimsical Character" class="main-illustration" />
+    </div>
+
+    <div class="auth-container">
+        <div class="auth-card glass">
+            <div class="text-center mb-4">
+                <h2 class="fw-bold">Create Account</h2>
+                <p class="text-muted">Choose your access level and get started</p>
+            </div>
+
+            <form id="regForm">
+                <div class="mb-3">
+                    <label asp-for="Name" class="form-label">
+                        <i class="bi bi-person-fill me-1"></i>Full Name
+                    </label>
+                    <input asp-for="Name" type="text" class="form-control" required 
+                           placeholder="Enter your full name" />
+                    <span asp-validation-for="Name" class="text-danger small" id="NameError"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Email" class="form-label">
+                        <i class="bi bi-envelope-fill me-1"></i>Email Address
+                    </label>
+                    <input asp-for="Email" type="email" class="form-control" required 
+                           placeholder="Enter your email address" />
+                    <span asp-validation-for="Email" class="text-danger small" id="EmailError"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Password" class="form-label">
+                        <i class="bi bi-lock-fill me-1"></i>Password
+                    </label>
+                    <div class="input-group">
+                        <input asp-for="Password" type="password" class="form-control" required 
+                               placeholder="Create a secure password (min. 6 characters)" />
+                        <span class="input-group-text toggle-password magnetic-btn">
+                            <i class="bi bi-eye-slash" toggle-password-icon></i>
+                        </span>
+                    </div>
+                    <span asp-validation-for="Password" class="text-danger small" id="PasswordError"></span>
+                </div>
+
+                <!-- Enhanced Role Selection -->
+                <div class="mb-4">
+                    <label asp-for="RequestedRole" class="form-label">
+                        <i class="bi bi-briefcase-fill me-1"></i>Account Type
+                    </label>
+                    
+                    <div class="role-selection">
+                        <div class="role-option spotlight-card p-3 mb-2" data-role="User">
+                            <div class="d-flex align-items-start">
+                                <div class="role-radio me-3">
+                                    <input type="radio" name="RequestedRole" value="User" id="roleUser" checked />
+                                    <label for="roleUser" class="radio-label"></label>
+                                </div>
+                                <div class="role-info flex-grow-1">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <i class="bi @Model.RoleCapabilities.User.Icon text-@Model.RoleCapabilities.User.BadgeColor me-2"></i>
+                                        <strong>@Model.RoleCapabilities.User.Name</strong>
+                                        <span class="badge bg-@Model.RoleCapabilities.User.BadgeColor ms-2">Recommended</span>
+                                    </div>
+                                    <p class="text-muted mb-2">@Model.RoleCapabilities.User.Description</p>
+                                    <div class="capabilities">
+                                        <small class="text-muted">Key Features:</small>
+                                        <ul class="capability-list">
+                                            @foreach (var capability in Model.RoleCapabilities.User.Capabilities.Take(3))
+                                            {
+                                                <li>@capability</li>
+                                            }
+                                        </ul>
+                                    </div>
+                                    <div class="approval-info">
+                                        <small class="text-success">
+                                            <i class="bi bi-check-circle-fill me-1"></i>
+                                            @Model.RoleCapabilities.User.ApprovalProcess
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="role-option spotlight-card p-3" data-role="Admin">
+                            <div class="d-flex align-items-start">
+                                <div class="role-radio me-3">
+                                    <input type="radio" name="RequestedRole" value="Admin" id="roleAdmin" />
+                                    <label for="roleAdmin" class="radio-label"></label>
+                                </div>
+                                <div class="role-info flex-grow-1">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <i class="bi @Model.RoleCapabilities.Admin.Icon text-@Model.RoleCapabilities.Admin.BadgeColor me-2"></i>
+                                        <strong>@Model.RoleCapabilities.Admin.Name</strong>
+                                        <span class="badge bg-warning">Business</span>
+                                    </div>
+                                    <p class="text-muted mb-2">@Model.RoleCapabilities.Admin.Description</p>
+                                    <div class="capabilities">
+                                        <small class="text-muted">Additional Features:</small>
+                                        <ul class="capability-list">
+                                            @foreach (var capability in Model.RoleCapabilities.Admin.Capabilities.Skip(1).Take(3))
+                                            {
+                                                <li>@capability</li>
+                                            }
+                                        </ul>
+                                    </div>
+                                    <div class="approval-info">
+                                        <small class="text-warning">
+                                            <i class="bi bi-clock-fill me-1"></i>
+                                            @Model.RoleCapabilities.Admin.ApprovalProcess
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Options -->
+                <div class="mb-3">
+                    <div class="form-check">
+                        <input asp-for="AcceptTerms" class="form-check-input" type="checkbox" id="AcceptTerms" required />
+                        <label class="form-check-label" for="AcceptTerms">
+                            I agree to the <a href="#" class="auth-link">Terms of Service</a> and 
+                            <a href="#" class="auth-link">Privacy Policy</a>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <div class="form-check">
+                        <input asp-for="SubscribeToUpdates" class="form-check-input" type="checkbox" id="SubscribeToUpdates" />
+                        <label class="form-check-label" for="SubscribeToUpdates">
+                            Subscribe to product updates and feature announcements
+                        </label>
+                    </div>
+                </div>
+
+                <div class="d-grid mt-4 mb-3">
+                    <button type="button" class="btn btn-primary-custom magnetic-btn holographic" id="SubmitForm">
+                        <i class="bi bi-person-check-fill me-1"></i>Create Account
+                    </button>
+                    <small class="text-center text-muted mt-2">
+                        <i class="bi bi-shield-check me-1"></i>
+                        @Model.OnboardingInfo.ExpectedApprovalTime
+                    </small>
+                </div>
+            </form>
+
+            <div class="text-center mb-3">
+                <small>Or Continue With</small>
+                <div class="social-buttons mt-2">
+                    <button class="btn btn-light magnetic-btn" title="Google Sign-Up">
+                        <img src="https://www.google.com/favicon.ico" width="20" alt="Google">
+                    </button>
+                    <button class="btn btn-light magnetic-btn" title="GitHub Sign-Up">
+                        <i class="bi bi-github"></i>
+                    </button>
+                    <button class="btn btn-light magnetic-btn" title="Facebook Sign-Up">
+                        <i class="bi bi-facebook"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <span class="fs-6">Already have an account? 
+                   <a asp-action="Login" class="auth-link ms-1">Sign In</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="~/js/auth/auth.js"></script>
+
+    @if (TempData["Error"] != null)
+    {
+        <script>toastr.error('@TempData["Error"]');</script>
+    }
+
+    <script>
+        $(document).ready(function () {
+            // Password toggle functionality
+            $('.toggle-password').click(function () {
+                const input = $(this).prev('input');
+                const icon = $(this).find('[toggle-password-icon]');
+                if (input.attr('type') === 'password') {
+                    input.attr('type', 'text');
+                    icon.removeClass('bi-eye-slash').addClass('bi-eye');
+                } else {
+                    input.attr('type', 'password');
+                    icon.removeClass('bi-eye').addClass('bi-eye-slash');
+                }
+            });
+            
+            // Role selection functionality
+            $('.role-option').click(function() {
+                $('.role-option').removeClass('selected');
+                $(this).addClass('selected');
+                $(this).find('input[type="radio"]').prop('checked', true);
+                
+                // Update form data
+                const selectedRole = $(this).data('role');
+                $('#RequestedRole').val(selectedRole);
+            });
+            
+            // Custom radio button styling
+            $('input[type="radio"]').change(function() {
+                $('.role-option').removeClass('selected');
+                $(this).closest('.role-option').addClass('selected');
+            });
+            
+            // Add spotlight effect to role options
+            $('.role-option').on('mousemove', function(e) {
+                const rect = this.getBoundingClientRect();
+                const x = ((e.clientX - rect.left) / rect.width) * 100;
+                const y = ((e.clientY - rect.top) / rect.height) * 100;
+                this.style.setProperty('--mouse-x', x + '%');
+                this.style.setProperty('--mouse-y', y + '%');
+            });
+            
+            // Initialize first option as selected
+            $('.role-option[data-role="User"]').addClass('selected');
+        });
+    </script>
+}
+
+@section Styles {
+    <style>
+        .onboarding-info {
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+        
+        .step-item {
+            padding: 0.5rem;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+        
+        .step-item.active {
+            background: rgba(var(--bs-primary-rgb), 0.1);
+            border-left: 3px solid var(--bs-primary);
+        }
+        
+        .step-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            font-size: 0.875rem;
+        }
+        
+        .step-description {
+            font-size: 0.75rem;
+            color: var(--bs-secondary);
+            line-height: 1.2;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .stat-number {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: var(--bs-primary);
+        }
+        
+        .stat-label {
+            font-size: 0.7rem;
+            color: var(--bs-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .role-selection {
+            margin-top: 0.5rem;
+        }
+        
+        .role-option {
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .role-option:hover {
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .role-option.selected {
+            border-color: var(--bs-primary);
+            background: rgba(var(--bs-primary-rgb), 0.1);
+        }
+        
+        .role-radio {
+            position: relative;
+        }
+        
+        .role-radio input[type="radio"] {
+            opacity: 0;
+            position: absolute;
+        }
+        
+        .radio-label {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: block;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+        
+        .radio-label::after {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background: var(--bs-primary);
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 0.2s ease;
+        }
+        
+        input[type="radio"]:checked + .radio-label {
+            border-color: var(--bs-primary);
+        }
+        
+        input[type="radio"]:checked + .radio-label::after {
+            transform: translate(-50%, -50%) scale(1);
+        }
+        
+        .capability-list {
+            list-style: none;
+            padding-left: 0;
+            margin: 0.5rem 0;
+        }
+        
+        .capability-list li {
+            font-size: 0.8rem;
+            color: var(--bs-secondary);
+            margin-bottom: 0.25rem;
+            padding-left: 1rem;
+            position: relative;
+        }
+        
+        .capability-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--bs-success);
+            font-weight: bold;
+        }
+        
+        .approval-info {
+            margin-top: 0.75rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .main-illustration {
+            max-width: 60%;
+            height: auto;
+            margin-top: 2rem;
+        }
+        
+        .social-buttons .btn {
+            margin: 0 0.25rem;
+            width: 40px;
+            height: 40px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        @@media (max-width: 768px) {
+            .onboarding-info {
+                margin-bottom: 1rem;
+            }
+            
+            .main-illustration {
+                max-width: 80%;
+                margin-top: 1rem;
+            }
+            
+            .role-option {
+                margin-bottom: 1rem;
+            }
+            
+            .step-item {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .step-icon {
+                margin-bottom: 0.5rem;
+            }
+        }
+    </style>
+}

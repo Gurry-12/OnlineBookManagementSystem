@@ -1,0 +1,435 @@
+/* Accessibility Enhancements for Public Showcase */
+
+/* Skip Links */
+.visually-hidden-focusable {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+.visually-hidden-focusable:focus {
+    position: absolute !important;
+    width: auto !important;
+    height: auto !important;
+    padding: 0.5rem 1rem !important;
+    margin: 0 !important;
+    overflow: visible !important;
+    clip: auto !important;
+    white-space: nowrap !important;
+    background: #007bff !important;
+    color: white !important;
+    text-decoration: none !important;
+    border-radius: 0.25rem !important;
+    z-index: 10000 !important;
+}
+
+/* Screen Reader Only Content */
+.sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+/* Enhanced Focus Indicators */
+.keyboard-navigation *:focus {
+    outline: 3px solid #0066cc !important;
+    outline-offset: 2px !important;
+    box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.2) !important;
+}
+
+.keyboard-navigation .btn:focus {
+    outline: 3px solid #0066cc !important;
+    outline-offset: 2px !important;
+    box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.2) !important;
+}
+
+.keyboard-navigation .form-control:focus,
+.keyboard-navigation .form-select:focus {
+    border-color: #0066cc !important;
+    box-shadow: 0 0 0 0.2rem rgba(0, 102, 204, 0.25) !important;
+    outline: 2px solid #0066cc !important;
+    outline-offset: 1px !important;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+    .glass, .glass-deep {
+        background: rgba(255, 255, 255, 0.95) !important;
+        border: 2px solid #000 !important;
+        backdrop-filter: none !important;
+    }
+    
+    .aurora-bg, .aurora-bg.enhanced {
+        background: #000 !important;
+        background-image: none !important;
+    }
+    
+    .text-white-75, .text-white-50 {
+        color: #fff !important;
+    }
+    
+    .text-muted {
+        color: #333 !important;
+    }
+    
+    .badge {
+        border: 1px solid #000 !important;
+    }
+    
+    .btn-outline-primary, .btn-outline-secondary, .btn-outline-light {
+        border-width: 2px !important;
+    }
+    
+    .spotlight-card, .feature-highlight {
+        border: 2px solid #000 !important;
+    }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+    
+    .floating, .pulse-glow, .holographic, .continuous {
+        animation: none !important;
+        transform: none !important;
+    }
+    
+    .hover-lift:hover {
+        transform: none !important;
+    }
+    
+    .magnetic-btn:hover {
+        transform: none !important;
+    }
+    
+    .card-3d {
+        transform: none !important;
+    }
+    
+    .parallax-container {
+        transform: none !important;
+    }
+}
+
+/* Color Contrast Improvements */
+.text-muted {
+    color: #6c757d !important; /* Ensures 4.5:1 contrast ratio */
+}
+
+.text-white-50 {
+    color: rgba(255, 255, 255, 0.8) !important; /* Improved contrast */
+}
+
+.text-white-75 {
+    color: rgba(255, 255, 255, 0.9) !important; /* Improved contrast */
+}
+
+/* Touch Target Size Improvements */
+.btn, .page-link, .nav-link {
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-sm {
+    min-height: 44px;
+    min-width: 44px;
+}
+
+/* Form Accessibility Enhancements */
+.form-control:invalid {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+.form-control:valid {
+    border-color: #28a745;
+}
+
+/* Error Message Styling */
+.invalid-feedback {
+    display: block;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+    color: #dc3545;
+}
+
+.valid-feedback {
+    display: block;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+    color: #28a745;
+}
+
+/* Link Accessibility */
+a:not(.btn):not(.nav-link):not(.navbar-brand):not(.page-link) {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+a:not(.btn):not(.nav-link):not(.navbar-brand):not(.page-link):hover {
+    text-decoration: none;
+}
+
+a:not(.btn):not(.nav-link):not(.navbar-brand):not(.page-link):focus {
+    outline: 2px solid #0066cc;
+    outline-offset: 2px;
+    text-decoration: none;
+}
+
+/* Table Accessibility */
+.table th {
+    font-weight: 600;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.075);
+}
+
+/* Modal Accessibility */
+.modal:focus {
+    outline: none;
+}
+
+.modal-header .btn-close:focus {
+    outline: 2px solid #0066cc;
+    outline-offset: 2px;
+}
+
+/* Navigation Accessibility */
+.navbar-nav .nav-link:focus {
+    outline: 2px solid #0066cc;
+    outline-offset: 2px;
+}
+
+.navbar-toggler:focus {
+    outline: 2px solid #0066cc;
+    outline-offset: 2px;
+    box-shadow: none;
+}
+
+/* Pagination Accessibility */
+.pagination .page-link:focus {
+    outline: 2px solid #0066cc;
+    outline-offset: 2px;
+    z-index: 3;
+}
+
+.pagination .page-item.active .page-link {
+    font-weight: 600;
+}
+
+/* Card Accessibility */
+.card:focus-within {
+    outline: 2px solid #0066cc;
+    outline-offset: 2px;
+}
+
+/* Image Accessibility */
+/* img[alt=""] {
+    /* Images with empty alt text are decorative 
+} */
+
+img:not([alt]) {
+    /* Images without alt attribute - should be flagged */
+    outline: 2px solid red;
+}
+
+/* Loading States */
+/* [aria-live="polite"], [aria-live="assertive"] {
+     Ensure live regions are properly announced 
+} 
+*/
+
+.loading-spinner {
+    /* Removed animation: spin 1s linear infinite; to prevent infinite effects */
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #3498db;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+}
+
+
+/* Status Messages */
+.alert {
+    border-radius: 0.375rem;
+    border: 1px solid transparent;
+}
+
+.alert-info {
+    color: #0c5460;
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+}
+
+.alert-success {
+    color: #0f5132;
+    background-color: #d1e7dd;
+    border-color: #badbcc;
+}
+
+.alert-warning {
+    color: #664d03;
+    background-color: #fff3cd;
+    border-color: #ffecb5;
+}
+
+.alert-danger {
+    color: #842029;
+    background-color: #f8d7da;
+    border-color: #f5c2c7;
+}
+
+/* Responsive Text Scaling */
+@media (max-width: 768px) {
+    .display-1, .display-2, .display-3 {
+        font-size: calc(1.5rem + 1.5vw);
+    }
+    
+    .display-4, .display-5, .display-6 {
+        font-size: calc(1.25rem + 1vw);
+    }
+    
+    .lead {
+        font-size: 1.125rem;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .aurora-bg, .glass, .glass-deep {
+        background: white !important;
+        color: black !important;
+    }
+    
+    .btn, .badge {
+        border: 1px solid black !important;
+    }
+    
+    .text-white, .text-white-75, .text-white-50 {
+        color: black !important;
+    }
+    
+    .bg-primary, .bg-success, .bg-info, .bg-warning, .bg-danger {
+        background: white !important;
+        color: black !important;
+        border: 1px solid black !important;
+    }
+}
+
+/* Dark Mode Support (if implemented) */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bs-body-bg: #121212;
+        --bs-body-color: #ffffff;
+    }
+    
+    .glass, .glass-deep {
+        background: rgba(255, 255, 255, 0.1) !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    }
+    
+    .text-muted {
+        color: #adb5bd !important;
+    }
+}
+
+/* Focus Management for Dynamic Content */
+.dynamic-content:focus {
+    outline: 2px solid #0066cc;
+    outline-offset: 2px;
+}
+
+/* Ensure sufficient spacing for touch targets */
+.nav-item + .nav-item {
+    margin-left: 0.5rem;
+}
+
+.btn + .btn {
+    margin-left: 0.5rem;
+}
+
+/* Improve readability */
+p, li, td {
+    line-height: 1.6;
+}
+
+/* Ensure form labels are properly associated */
+.form-floating > label {
+    pointer-events: none;
+}
+
+/* Custom focus styles for modern effects */
+.magnetic-btn:focus {
+    outline: 3px solid #0066cc !important;
+    outline-offset: 2px !important;
+}
+
+.holographic:focus {
+    outline: 3px solid #0066cc !important;
+    outline-offset: 2px !important;
+}
+
+/* Ensure interactive elements are keyboard accessible */
+[role="button"]:not(button):not(input):not(a) {
+    cursor: pointer;
+}
+
+[role="button"]:not(button):not(input):not(a):focus {
+    outline: 2px solid #0066cc;
+    outline-offset: 2px;
+}
+
+/* Improve visibility of required fields */
+.required::after {
+    content: " *";
+    color: #dc3545;
+}
+
+/* Status indicators */
+.status-indicator {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+}
+
+.status-success {
+    background-color: #28a745;
+}
+
+.status-warning {
+    background-color: #ffc107;
+}
+
+.status-danger {
+    background-color: #dc3545;
+}
+
+.status-info {
+    background-color: #17a2b8;
+}

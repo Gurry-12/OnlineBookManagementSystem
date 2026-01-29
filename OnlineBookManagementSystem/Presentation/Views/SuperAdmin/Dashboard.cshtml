@@ -1,0 +1,370 @@
+@model OnlineBookManagementSystem.Presentation.ViewModels.SuperAdmin.SuperAdminDashboardViewModel
+@{
+    ViewData["Title"] = "Super Admin Dashboard - Whispering Pages";
+    Layout = ViewData["Layout"]?.ToString() ?? "_LayoutSuperAdmin";
+}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
+
+<div class="container-fluid px-3 px-md-5 py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0 text-danger fw-bold">
+            <i class="bi bi-crown me-2"></i>Super Admin Dashboard
+        </h2>
+        <div class="d-flex gap-2">
+            <span class="badge bg-@(Model.SystemInfo.Environment == "Production" ? "success" : "warning") fs-6">
+                @Model.SystemInfo.Environment
+            </span>
+            @if (Model.SystemInfo.MaintenanceMode)
+            {
+                <span class="badge bg-danger fs-6">
+                    <i class="bi bi-exclamation-triangle"></i> Maintenance Mode
+                </span>
+            }
+        </div>
+    </div>
+
+    <!-- System Health Alert -->
+    @if (Model.SystemInfo.MaintenanceMode)
+    {
+        <div class="alert alert-warning alert-dismissible fade show mb-4" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            <strong>Maintenance Mode Active:</strong> The system is currently in maintenance mode.
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <!-- Quick Stats Row -->
+    <div class="row g-4 mb-4">
+        <div class="col-xl-3 col-md-6">
+            <div class="card h-100 border-0 shadow-sm bg-danger bg-gradient text-white rounded-4">
+                <div class="card-body text-center p-4">
+                    <i class="bi bi-people fs-1 mb-3"></i>
+                    <h3 class="card-title">@Model.TotalUsers.ToString("N0")</h3>
+                    <p class="card-text">Total Users</p>
+                    <small class="d-block mb-2">+@Model.NewUsersToday today</small>
+                    <a asp-controller="SuperAdmin" asp-action="ManageUsers" class="btn btn-outline-light btn-sm">Manage Users</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card h-100 border-0 shadow-sm bg-primary bg-gradient text-white rounded-4">
+                <div class="card-body text-center p-4">
+                    <i class="bi bi-book fs-1 mb-3"></i>
+                    <h3 class="card-title">@Model.TotalBooks.ToString("N0")</h3>
+                    <p class="card-text">Total Books</p>
+                    <small class="d-block mb-2">+@Model.BooksAddedThisMonth this month</small>
+                    <a asp-controller="Admin" asp-action="Books" class="btn btn-outline-light btn-sm">View Books</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card h-100 border-0 shadow-sm bg-warning bg-gradient text-white rounded-4">
+                <div class="card-body text-center p-4">
+                    <i class="bi bi-receipt-cutoff fs-1 mb-3"></i>
+                    <h3 class="card-title">@Model.TotalOrders.ToString("N0")</h3>
+                    <p class="card-text">Total Orders</p>
+                    <small class="d-block mb-2">@Model.OrdersToday today</small>
+                    <a asp-controller="Order" asp-action="AdminIndex" class="btn btn-outline-light btn-sm">Manage Orders</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card h-100 border-0 shadow-sm bg-success bg-gradient text-white rounded-4">
+                <div class="card-body text-center p-4">
+                    <i class="bi bi-currency-rupee fs-1 mb-3"></i>
+                    <h3 class="card-title">₹@Model.TotalRevenue.ToString("N0")</h3>
+                    <p class="card-text">Total Revenue</p>
+                    <small class="d-block mb-2">₹@Model.RevenueToday.ToString("N0") today</small>
+                    <a asp-controller="Order" asp-action="AdminIndex" class="btn btn-outline-light btn-sm">View Orders</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- System Status & Quick Actions Row -->
+    <div class="row g-4 mb-4">
+        <!-- System Status -->
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-header bg-transparent border-0 py-3">
+                    <h5 class="mb-0 fw-semibold text-dark">
+                        <i class="bi bi-heart-pulse me-2"></i>System Status
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <div class="text-center">
+                                <div class="badge bg-success fs-6 mb-2">
+                                    <i class="bi bi-database"></i>
+                                </div>
+                                <div class="fw-semibold">Database</div>
+                                <small class="text-muted">Connected</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-center">
+                                <div class="badge bg-success fs-6 mb-2">
+                                    <i class="bi bi-lightning"></i>
+                                </div>
+                                <div class="fw-semibold">Cache</div>
+                                <small class="text-muted">Active</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-center">
+                                <div class="badge bg-info fs-6 mb-2">
+                                    <i class="bi bi-hdd"></i>
+                                </div>
+                                <div class="fw-semibold">Storage</div>
+                                <small class="text-muted">@Model.StorageUsagePercent%</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-center">
+                                <div class="badge bg-primary fs-6 mb-2">
+                                    <i class="bi bi-people"></i>
+                                </div>
+                                <div class="fw-semibold">Sessions</div>
+                                <small class="text-muted">@Model.ActiveSessions active</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3 pt-3 border-top">
+                        <small class="text-muted">
+                            <i class="bi bi-clock me-1"></i>Uptime: @Model.SystemInfo.ServerUptime
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-header bg-transparent border-0 py-3">
+                    <h5 class="mb-0 fw-semibold text-dark">
+                        <i class="bi bi-lightning-charge me-2"></i>Quick Actions
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-2">
+                        @foreach (var action in Model.QuickActions)
+                        {
+                            <div class="col-12">
+                                @if (action.Action.StartsWith("javascript:"))
+                                {
+                                    <button onclick="@action.Action.Replace("javascript:", "")" class="btn btn-outline-primary w-100 text-start">
+                                        <i class="@action.Icon me-2"></i>
+                                        <span class="fw-semibold">@action.Title</span>
+                                        <small class="text-muted d-block">@action.Description</small>
+                                    </button>
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action(action.Action, "SuperAdmin")" class="btn btn-outline-primary w-100 text-start">
+                                        <i class="@action.Icon me-2"></i>
+                                        <span class="fw-semibold">@action.Title</span>
+                                        <small class="text-muted d-block">@action.Description</small>
+                                    </a>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pending Users & Recent Activity Row -->
+    <div class="row g-4">
+        <!-- Pending Users -->
+        @if (Model.PendingUsersCount > 0)
+        {
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm rounded-4">
+                    <div class="card-header bg-transparent border-0 py-3 d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0 fw-semibold text-dark">
+                            <i class="bi bi-person-plus me-2"></i>Pending Approvals
+                        </h5>
+                        <span class="badge bg-warning">@Model.PendingUsersCount</span>
+                    </div>
+                    <div class="card-body">
+                        @foreach (var user in Model.PendingUsers)
+                        {
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div>
+                                    <div class="fw-semibold">@user.Name</div>
+                                    <small class="text-muted">@user.Email</small>
+                                </div>
+                                <div class="btn-group btn-group-sm">
+                                    <button class="btn btn-success" onclick="executeQuickAction('approveuser', {userId: @user.Id, role: 'User'})">
+                                        <i class="bi bi-check"></i>
+                                    </button>
+                                    <button class="btn btn-danger" onclick="executeQuickAction('rejectuser', {userId: @user.Id})">
+                                        <i class="bi bi-x"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        }
+                        @if (Model.PendingUsersCount > 5)
+                        {
+                            <div class="text-center">
+                                <a href="@Url.Action("PendingUsers", "SuperAdmin")" class="btn btn-sm btn-outline-primary">
+                                    View All (@Model.PendingUsersCount)
+                                </a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+
+        <!-- Recent Activity -->
+        <div class="col-md-@(Model.PendingUsersCount > 0 ? "6" : "12")">
+            <div class="card border-0 shadow-sm rounded-4">
+                <div class="card-header bg-transparent border-0 py-3 d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 fw-semibold text-dark">
+                        <i class="bi bi-clock me-2"></i>Recent Activity
+                    </h5>
+                    <a href="@Url.Action("ActivityLogs", "SuperAdmin")" class="btn btn-sm btn-outline-primary">View All</a>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Action</th>
+                                    <th>User</th>
+                                    <th>Details</th>
+                                    <th>Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var log in Model.RecentActivities.Take(10))
+                                {
+                                    <tr>
+                                        <td><span class="badge bg-primary">@log.ActionType</span></td>
+                                        <td>@(log.User?.Name ?? "System")</td>
+                                        <td>@log.Description</td>
+                                        <td><small class="text-muted">@GetTimeAgo(log.Timestamp)</small></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@await Html.PartialAsync("_Notification")
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    
+    <script>
+        // Enhanced Super Admin Dashboard JavaScript
+        
+        // Quick action functions
+        function clearCache() {
+            if (confirm('Are you sure you want to clear the system cache?')) {
+                executeQuickAction('clearcache');
+            }
+        }
+
+        function backupDatabase() {
+            if (confirm('Are you sure you want to create a database backup?')) {
+                executeQuickAction('backupdatabase');
+            }
+        }
+
+        // Unified quick action executor
+        async function executeQuickAction(action, data = {}) {
+            try {
+                const response = await fetch('/SuperAdmin/ExecuteQuickAction', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                    },
+                    body: JSON.stringify({ action: action, ...data })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    toastr.success(result.message);
+                    // Refresh specific sections or entire page
+                    if (action === 'approveuser' || action === 'rejectuser') {
+                        setTimeout(() => location.reload(), 1500);
+                    }
+                } else {
+                    toastr.error(result.message);
+                }
+            } catch (error) {
+                toastr.error('An error occurred while executing the action');
+                console.error('Error:', error);
+            }
+        }
+
+        // Auto-refresh dashboard every 5 minutes
+        setInterval(function() {
+            refreshSystemOverview();
+        }, 300000);
+
+        // Refresh system overview data
+        async function refreshSystemOverview() {
+            try {
+                const response = await fetch('/SuperAdmin/GetSystemOverview');
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Update stats without full page reload
+                    updateDashboardStats(result.data);
+                }
+            } catch (error) {
+                console.error('Error refreshing system overview:', error);
+            }
+        }
+
+        function updateDashboardStats(data) {
+            // Update stats cards if needed
+            // This could be enhanced to update specific elements
+        }
+
+        function GetTimeAgo(time) {
+            const span = new Date() - new Date(time);
+            if (span < 60000) return 'Just now';
+            if (span < 3600000) return Math.floor(span / 60000) + ' min ago';
+            if (span < 86400000) return Math.floor(span / 3600000) + ' hrs ago';
+            return Math.floor(span / 86400000) + ' days ago';
+        }
+
+        // Initialize tooltips
+        document.addEventListener('DOMContentLoaded', function() {
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        });
+    </script>
+}
+
+<!-- Anti-forgery token for AJAX requests -->
+@Html.AntiForgeryToken()
+
+@functions {
+    public string GetTimeAgo(DateTime time)
+    {
+        var span = DateTime.UtcNow - time;
+        if (span.TotalMinutes < 1) return "Just now";
+        if (span.TotalMinutes < 60) return $"{(int)span.TotalMinutes} min ago";
+        if (span.TotalHours < 24) return $"{(int)span.TotalHours} hrs ago";
+        return $"{(int)span.TotalDays} days ago";
+    }
+}

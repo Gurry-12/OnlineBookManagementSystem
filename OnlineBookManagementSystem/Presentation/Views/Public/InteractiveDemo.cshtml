@@ -1,0 +1,1220 @@
+@model OnlineBookManagementSystem.Presentation.ViewModels.Showcase.InteractiveDemoViewModel
+@{
+    ViewData["Title"] = ViewBag.Title ?? "Interactive Demo - Live System Showcase";
+    Layout = "_LayoutPublic";
+}
+
+<!-- Demo Hero Section -->
+<section class="demo-hero aurora-bg noise-overlay py-5">
+    <div class="container">
+        <div class="row align-items-center min-vh-50">
+            <div class="col-lg-8 mx-auto text-center" data-fade-in>
+                <div class="hero-content">
+                    <div class="hero-badge mb-3">
+                        <span class="badge bg-success bg-opacity-20 text-success px-4 py-2 rounded-pill fs-6">
+                            <i class="bi bi-play-circle me-2"></i>Live Interactive Demo
+                        </span>
+                    </div>
+                    <h1 class="display-3 fw-bold text-white mb-4">
+                        Experience the System Live
+                    </h1>
+                    <p class="lead text-white-75 mb-4 fs-4">
+                        Explore the full functionality with real data. Search, browse, and interact 
+                        with the book management system in read-only demo mode.
+                    </p>
+                    <div class="demo-stats d-flex justify-content-center gap-4 mb-4">
+                        <div class="stat-item text-center">
+                            <div class="stat-value text-white fw-bold fs-3">@Model.Statistics.TotalBooks</div>
+                            <div class="stat-label text-white-50 small">Books Available</div>
+                        </div>
+                        <div class="stat-item text-center">
+                            <div class="stat-value text-white fw-bold fs-3">@Model.Categories.Count</div>
+                            <div class="stat-label text-white-50 small">Categories</div>
+                        </div>
+                        <div class="stat-item text-center">
+                            <div class="stat-value text-white fw-bold fs-3">@Model.Statistics.AverageRating.ToString("F1")</div>
+                            <div class="stat-label text-white-50 small">Avg Rating</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Interactive Search Section -->
+<section class="search-demo py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold mb-3">Live Search Demo</h2>
+            <p class="lead text-muted">Search through our book collection in real-time</p>
+        </div>
+
+        <div class="row justify-content-center mb-5">
+            <div class="col-lg-8">
+                <div class="search-container glass p-4 rounded-4" data-fade-in>
+                    <div class="search-form">
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-text bg-transparent border-0">
+                                <i class="bi bi-search text-muted"></i>
+                            </span>
+                            <input type="text" id="demoSearch" class="form-control border-0 bg-transparent" 
+                                   placeholder="Search books by title, author, or category..." 
+                                   autocomplete="off">
+                            <button class="btn btn-primary" type="button" onclick="performDemoSearch()">
+                                <i class="bi bi-search me-2"></i>Search
+                            </button>
+                        </div>
+                    </div>
+                    <div class="search-suggestions mt-3">
+                        <small class="text-muted">Try searching for: "fiction", "programming", "history", or any author name</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Results -->
+        <div id="searchResults" class="search-results" style="display: none;">
+            <div class="text-center mb-4">
+                <h4 class="fw-bold">Search Results</h4>
+                <div id="searchResultsCount" class="text-muted"></div>
+            </div>
+            <div id="searchResultsGrid" class="row g-4">
+                <!-- Results will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Category Browse Demo -->
+<section class="category-demo py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold mb-3">Browse by Category</h2>
+            <p class="lead text-muted">Explore books organized by genre and topic</p>
+        </div>
+
+        <div class="row g-4">
+            @foreach (var category in Model.Categories.Take(8))
+            {
+                <div class="col-lg-3 col-md-4 col-sm-6" data-fade-in>
+                    <div class="category-demo-card glass spotlight-card hover-lift text-decoration-none d-block p-4 text-center cursor-pointer"
+                         onclick="browseCategoryDemo(@category.Id, '@category.Name')">
+                        <div class="category-icon mb-3">
+                            <i class="@category.IconClass text-primary" style="font-size: 2.5rem;"></i>
+                        </div>
+                        <h5 class="category-name fw-bold mb-2">@category.Name</h5>
+                        <p class="category-description text-muted small mb-2">@category.Description</p>
+                        <div class="category-stats">
+                            <span class="badge bg-primary bg-opacity-20 text-primary">
+                                @category.BookCount books
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- Category Results -->
+        <div id="categoryResults" class="category-results mt-5" style="display: none;">
+            <div class="text-center mb-4">
+                <h4 class="fw-bold">Category: <span id="categoryResultsTitle"></span></h4>
+                <div id="categoryResultsCount" class="text-muted"></div>
+            </div>
+            <div id="categoryResultsGrid" class="row g-4">
+                <!-- Results will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Books Demo -->
+<section class="featured-demo py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold mb-3">Featured Books</h2>
+            <p class="lead text-muted">Handpicked selections from our collection</p>
+        </div>
+
+        <div class="row g-4">
+            @if (Model.FeaturedBooks.Books.Any())
+            {
+                @foreach (var book in Model.FeaturedBooks.Books)
+                {
+                    <div class="col-lg-3 col-md-4 col-sm-6" data-fade-in>
+                        <div class="demo-book-card spotlight-card hover-lift h-100">
+                            <div class="book-image-wrapper position-relative">
+                                <img src="@(book.ImageUrl ?? Url.Content("~/images/default-book-improved.svg"))" 
+                                     alt="@book.Title" 
+                                     class="book-cover w-100" 
+                                     style="height: 300px; object-fit: cover; border-radius: 12px 12px 0 0;">
+                                
+                                <div class="demo-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
+                                     style="background: rgba(0,0,0,0.7); opacity: 0; transition: opacity 0.3s ease; border-radius: 12px 12px 0 0;">
+                                    <button class="btn btn-light btn-sm" onclick="viewBookDemo(@book.Id)">
+                                        <i class="bi bi-eye me-1"></i>View Details
+                                    </button>
+                                </div>
+                                
+                                <div class="demo-badge position-absolute top-0 start-0 m-2">
+                                    <span class="badge bg-success bg-opacity-90">
+                                        <i class="bi bi-play-circle me-1"></i>Demo
+                                    </span>
+                                </div>
+                                
+                                @if (book.StockQuantity > 0)
+                                {
+                                    <span class="badge bg-success position-absolute top-0 end-0 m-2">
+                                        <i class="bi bi-check-circle me-1"></i>In Stock
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger position-absolute top-0 end-0 m-2">
+                                        <i class="bi bi-x-circle me-1"></i>Out of Stock
+                                    </span>
+                                }
+                            </div>
+                            
+                            <div class="book-details p-3">
+                                <h5 class="book-title mb-2 text-truncate">@book.Title</h5>
+                                <p class="book-author text-muted mb-2">
+                                    <i class="bi bi-person me-1"></i>@book.Author
+                                </p>
+                                
+                                @if (!string.IsNullOrEmpty(book.Category?.Name))
+                                {
+                                    <span class="badge bg-info mb-2">
+                                        <i class="bi bi-tag me-1"></i>@book.Category.Name
+                                    </span>
+                                }
+                                
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <span class="book-price fw-bold text-primary fs-5">
+                                        ₹@book.Price.Amount.ToString("N2")
+                                    </span>
+                                    <div class="book-rating">
+                                        @if (book.AverageRating > 0)
+                                        {
+                                            <span class="text-warning">
+                                                @for (int i = 1; i <= 5; i++)
+                                                {
+                                                    <i class="bi @(i <= book.AverageRating ? "bi-star-fill" : "bi-star")"></i>
+                                                }
+                                            </span>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="col-12">
+                    <div class="text-center py-5">
+                        <i class="bi bi-book display-1 text-muted"></i>
+                        <h4 class="mt-3">Loading demo content...</h4>
+                        <p class="text-muted">Please wait while we prepare the interactive demo</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- Feature Showcases -->
+<section class="feature-showcases py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold mb-3">System Features & Capabilities</h2>
+            <p class="lead text-muted">Comprehensive feature demonstrations with technical insights</p>
+        </div>
+
+        <!-- Feature Comparison Table -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <div class="glass p-4">
+                    <h3 class="mb-4">
+                        <i class="bi bi-table me-2"></i>Feature Comparison Matrix
+                    </h3>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Feature Category</th>
+                                    <th class="text-center">Demo Mode</th>
+                                    <th class="text-center">User Role</th>
+                                    <th class="text-center">Admin Role</th>
+                                    <th class="text-center">SuperAdmin Role</th>
+                                    <th>Technical Implementation</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Book Management</strong></td>
+                                    <td class="text-center"><i class="bi bi-eye text-warning" title="View Only"></i></td>
+                                    <td class="text-center"><i class="bi bi-eye text-warning" title="View Only"></i></td>
+                                    <td class="text-center"><i class="bi bi-check-circle text-success" title="Full Access"></i></td>
+                                    <td class="text-center"><i class="bi bi-check-circle text-success" title="Full Access"></i></td>
+                                    <td><small>Repository pattern, CQRS, Domain events</small></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>User Management</strong></td>
+                                    <td class="text-center"><i class="bi bi-x-circle text-danger" title="No Access"></i></td>
+                                    <td class="text-center"><i class="bi bi-person text-info" title="Self Only"></i></td>
+                                    <td class="text-center"><i class="bi bi-check-circle text-success" title="Full Access"></i></td>
+                                    <td class="text-center"><i class="bi bi-check-circle text-success" title="Full Access"></i></td>
+                                    <td><small>Identity framework, Role-based authorization</small></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Order Processing</strong></td>
+                                    <td class="text-center"><i class="bi bi-x-circle text-danger" title="No Access"></i></td>
+                                    <td class="text-center"><i class="bi bi-check-circle text-success" title="Full Access"></i></td>
+                                    <td class="text-center"><i class="bi bi-check-circle text-success" title="Full Access"></i></td>
+                                    <td class="text-center"><i class="bi bi-check-circle text-success" title="Full Access"></i></td>
+                                    <td><small>Order aggregate, State machine, Payment integration</small></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Analytics & Reports</strong></td>
+                                    <td class="text-center"><i class="bi bi-x-circle text-danger" title="No Access"></i></td>
+                                    <td class="text-center"><i class="bi bi-x-circle text-danger" title="No Access"></i></td>
+                                    <td class="text-center"><i class="bi bi-check-circle text-success" title="Full Access"></i></td>
+                                    <td class="text-center"><i class="bi bi-check-circle text-success" title="Full Access"></i></td>
+                                    <td><small>Chart.js, Real-time data, Caching strategies</small></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>System Configuration</strong></td>
+                                    <td class="text-center"><i class="bi bi-x-circle text-danger" title="No Access"></i></td>
+                                    <td class="text-center"><i class="bi bi-x-circle text-danger" title="No Access"></i></td>
+                                    <td class="text-center"><i class="bi bi-x-circle text-danger" title="No Access"></i></td>
+                                    <td class="text-center"><i class="bi bi-check-circle text-success" title="Full Access"></i></td>
+                                    <td><small>Configuration management, System monitoring</small></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mt-3">
+                        <small class="text-muted">
+                            <i class="bi bi-info-circle me-1"></i>
+                            <strong>Legend:</strong> 
+                            <i class="bi bi-check-circle text-success me-1"></i>Full Access
+                            <i class="bi bi-eye text-warning me-1"></i>View Only
+                            <i class="bi bi-person text-info me-1"></i>Self Only
+                            <i class="bi bi-x-circle text-danger me-1"></i>No Access
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Individual Feature Cards -->
+        <div class="row g-4">
+            @foreach (var feature in Model.FeatureShowcases)
+            {
+                <div class="col-lg-4 col-md-6" data-fade-in>
+                    <div class="feature-showcase-card glass spotlight-card hover-lift h-100 p-4">
+                        <div class="feature-header mb-3">
+                            <div class="feature-category mb-2">
+                                <span class="badge bg-primary bg-opacity-20 text-primary">@feature.Category</span>
+                            </div>
+                            <h4 class="feature-title fw-bold mb-2">@feature.FeatureName</h4>
+                        </div>
+                        <p class="feature-description text-muted mb-3">@feature.Description</p>
+                        @if (feature.IsInteractive)
+                        {
+                            <div class="feature-demo mb-3">
+                                <button class="btn btn-outline-primary btn-sm" onclick="demonstrateFeature('@feature.FeatureName')">
+                                    <i class="bi bi-play-circle me-1"></i>Try Feature
+                                </button>
+                            </div>
+                        }
+                        @if (!string.IsNullOrEmpty(feature.ScreenshotUrl))
+                        {
+                            <div class="feature-screenshot">
+                                <img src="@feature.ScreenshotUrl" alt="@feature.FeatureName Screenshot" 
+                                     class="img-fluid rounded">
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+            
+            <!-- Additional Static Feature Cards -->
+            <div class="col-lg-4 col-md-6" data-fade-in>
+                <div class="feature-showcase-card glass spotlight-card hover-lift h-100 p-4">
+                    <div class="feature-header mb-3">
+                        <div class="feature-category mb-2">
+                            <span class="badge bg-success bg-opacity-20 text-success">Architecture</span>
+                        </div>
+                        <h4 class="feature-title fw-bold mb-2">Clean Architecture</h4>
+                    </div>
+                    <p class="feature-description text-muted mb-3">
+                        Implements Uncle Bob's Clean Architecture with clear separation of concerns and dependency inversion.
+                    </p>
+                    <div class="feature-demo mb-3">
+                        <button class="btn btn-outline-success btn-sm" onclick="showArchitectureDemo()">
+                            <i class="bi bi-diagram-3 me-1"></i>View Architecture
+                        </button>
+                    </div>
+                    <div class="tech-highlights">
+                        <small class="text-muted">
+                            <i class="bi bi-check text-success me-1"></i>Domain-Driven Design<br>
+                            <i class="bi bi-check text-success me-1"></i>SOLID Principles<br>
+                            <i class="bi bi-check text-success me-1"></i>Testable Architecture
+                        </small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6" data-fade-in>
+                <div class="feature-showcase-card glass spotlight-card hover-lift h-100 p-4">
+                    <div class="feature-header mb-3">
+                        <div class="feature-category mb-2">
+                            <span class="badge bg-warning bg-opacity-20 text-warning">Security</span>
+                        </div>
+                        <h4 class="feature-title fw-bold mb-2">Role-Based Security</h4>
+                    </div>
+                    <p class="feature-description text-muted mb-3">
+                        Comprehensive security with JWT authentication, role-based authorization, and data protection.
+                    </p>
+                    <div class="feature-demo mb-3">
+                        <button class="btn btn-outline-warning btn-sm" onclick="showSecurityDemo()">
+                            <i class="bi bi-shield-lock me-1"></i>Security Features
+                        </button>
+                    </div>
+                    <div class="tech-highlights">
+                        <small class="text-muted">
+                            <i class="bi bi-check text-success me-1"></i>JWT Authentication<br>
+                            <i class="bi bi-check text-success me-1"></i>Claims-based Authorization<br>
+                            <i class="bi bi-check text-success me-1"></i>Data Protection
+                        </small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6" data-fade-in>
+                <div class="feature-showcase-card glass spotlight-card hover-lift h-100 p-4">
+                    <div class="feature-header mb-3">
+                        <div class="feature-category mb-2">
+                            <span class="badge bg-info bg-opacity-20 text-info">UI/UX</span>
+                        </div>
+                        <h4 class="feature-title fw-bold mb-2">Modern UI Effects</h4>
+                    </div>
+                    <p class="feature-description text-muted mb-3">
+                        Glass morphism, aurora backgrounds, and smooth animations create an engaging user experience.
+                    </p>
+                    <div class="feature-demo mb-3">
+                        <button class="btn btn-outline-info btn-sm" onclick="showUIDemo()">
+                            <i class="bi bi-palette me-1"></i>UI Showcase
+                        </button>
+                    </div>
+                    <div class="tech-highlights">
+                        <small class="text-muted">
+                            <i class="bi bi-check text-success me-1"></i>Glass Morphism<br>
+                            <i class="bi bi-check text-success me-1"></i>CSS3 Animations<br>
+                            <i class="bi bi-check text-success me-1"></i>Responsive Design
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Workflow Demonstration -->
+<section class="workflow-demo py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold mb-3">System Workflows</h2>
+            <p class="lead text-muted">End-to-end process demonstrations</p>
+        </div>
+        
+        <!-- User Registration Workflow -->
+        <div class="workflow-section mb-5">
+            <div class="glass p-4">
+                <h3 class="mb-4">
+                    <i class="bi bi-person-plus me-2"></i>User Registration Workflow
+                </h3>
+                <div class="workflow-steps">
+                    <div class="row g-4">
+                        <div class="col-md-2">
+                            <div class="workflow-step text-center p-3 bg-light rounded">
+                                <div class="step-number bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
+                                    1
+                                </div>
+                                <h6 class="fw-bold">Registration</h6>
+                                <p class="small text-muted mb-0">User fills registration form</p>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="workflow-step text-center p-3 bg-light rounded">
+                                <div class="step-number bg-info text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
+                                    2
+                                </div>
+                                <h6 class="fw-bold">Validation</h6>
+                                <p class="small text-muted mb-0">Server-side validation and security checks</p>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="workflow-step text-center p-3 bg-light rounded">
+                                <div class="step-number bg-warning text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
+                                    3
+                                </div>
+                                <h6 class="fw-bold">Email Verification</h6>
+                                <p class="small text-muted mb-0">Confirmation email sent</p>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="workflow-step text-center p-3 bg-light rounded">
+                                <div class="step-number bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
+                                    4
+                                </div>
+                                <h6 class="fw-bold">Role Assignment</h6>
+                                <p class="small text-muted mb-0">Default User role assigned</p>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="workflow-step text-center p-3 bg-light rounded">
+                                <div class="step-number bg-dark text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
+                                    5
+                                </div>
+                                <h6 class="fw-bold">Admin Approval</h6>
+                                <p class="small text-muted mb-0">Admin reviews and approves</p>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="workflow-step text-center p-3 bg-light rounded">
+                                <div class="step-number bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
+                                    6
+                                </div>
+                                <h6 class="fw-bold">Access Granted</h6>
+                                <p class="small text-muted mb-0">User can access full system</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 p-3 bg-dark text-light rounded">
+                    <h6 class="text-warning mb-2">
+                        <i class="bi bi-code me-1"></i>Technical Implementation
+                    </h6>
+                    <small>
+                        Uses ASP.NET Core Identity with custom user entity, email service integration, 
+                        role-based authorization with claims, and admin approval workflow with notifications.
+                    </small>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Book Purchase Workflow -->
+        <div class="workflow-section mb-5">
+            <div class="glass p-4">
+                <h3 class="mb-4">
+                    <i class="bi bi-cart me-2"></i>Book Purchase Workflow
+                </h3>
+                <div class="workflow-steps">
+                    <div class="row g-4">
+                        <div class="col-md-3">
+                            <div class="workflow-step text-center p-3 bg-light rounded">
+                                <div class="step-number bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
+                                    1
+                                </div>
+                                <h6 class="fw-bold">Browse & Select</h6>
+                                <p class="small text-muted mb-0">User browses and adds books to cart</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="workflow-step text-center p-3 bg-light rounded">
+                                <div class="step-number bg-info text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
+                                    2
+                                </div>
+                                <h6 class="fw-bold">Checkout</h6>
+                                <p class="small text-muted mb-0">Review cart and enter shipping details</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="workflow-step text-center p-3 bg-light rounded">
+                                <div class="step-number bg-warning text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
+                                    3
+                                </div>
+                                <h6 class="fw-bold">Payment</h6>
+                                <p class="small text-muted mb-0">Secure payment processing</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="workflow-step text-center p-3 bg-light rounded">
+                                <div class="step-number bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
+                                    4
+                                </div>
+                                <h6 class="fw-bold">Order Fulfillment</h6>
+                                <p class="small text-muted mb-0">Order processing and delivery</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 p-3 bg-dark text-light rounded">
+                    <h6 class="text-warning mb-2">
+                        <i class="bi bi-code me-1"></i>Technical Implementation
+                    </h6>
+                    <small>
+                        Order aggregate with domain events, state machine pattern for order status, 
+                        payment gateway integration, inventory management, and email notifications.
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Demo Actions -->
+<section class="demo-actions aurora-bg noise-overlay py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center text-white">
+                <h2 class="display-4 fw-bold mb-4">Ready to Get Started?</h2>
+                <p class="lead mb-4">
+                    Experience the full system by creating your account and accessing all features.
+                </p>
+                <div class="d-flex gap-3 justify-content-center flex-wrap">
+                    <a asp-controller="Auth" asp-action="Registration" 
+                       class="wp-btn wp-btn-primary magnetic-btn holographic btn-lg">
+                        <i class="bi bi-person-plus me-2"></i>Create Account
+                    </a>
+                    <a asp-controller="Auth" asp-action="Login" 
+                       class="wp-btn wp-btn-secondary magnetic-btn btn-lg">
+                        <i class="bi bi-box-arrow-in-right me-2"></i>Login
+                    </a>
+                    <a asp-action="TechnicalDetails" 
+                       class="wp-btn wp-btn-outline-light magnetic-btn btn-lg">
+                        <i class="bi bi-gear me-2"></i>Technical Details
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Loading Overlay -->
+<div id="loadingOverlay" class="loading-overlay" style="display: none;">
+    <div class="loading-content">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-3">Loading demo content...</p>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .demo-hero {
+            min-height: 50vh;
+        }
+        
+        .min-vh-50 {
+            min-height: 50vh;
+        }
+        
+        .search-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .search-container .form-control:focus {
+            box-shadow: none;
+            border-color: transparent;
+        }
+        
+        .category-demo-card, .feature-showcase-card {
+            background: white;
+            border-radius: 16px;
+            border: 1px solid rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .category-demo-card:hover, .feature-showcase-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+        }
+        
+        .demo-book-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .demo-book-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        }
+        
+        .demo-book-card:hover .demo-overlay {
+            opacity: 1 !important;
+        }
+        
+        .book-cover {
+            transition: transform 0.3s ease;
+        }
+        
+        .demo-book-card:hover .book-cover {
+            transform: scale(1.05);
+        }
+        
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        
+        .loading-content {
+            text-align: center;
+            color: white;
+        }
+        
+        .search-results, .category-results {
+            animation: fadeInUp 0.5s ease;
+        }
+        
+        @@keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .cursor-pointer {
+            cursor: pointer;
+        }
+        
+        .workflow-step {
+            transition: all 0.3s ease;
+        }
+        
+        .workflow-step:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        }
+        
+        .step-number {
+            font-weight: bold;
+            font-size: 1.25rem;
+        }
+        
+        .table-hover tbody tr:hover {
+            background-color: rgba(0,0,0,0.02);
+        }
+        
+        .feature-showcase-card .tech-highlights {
+            border-top: 1px solid rgba(0,0,0,0.1);
+            padding-top: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .workflow-section {
+            border-left: 4px solid var(--bs-primary);
+        }
+        
+        .architecture-diagram .layer {
+            transition: all 0.3s ease;
+        }
+        
+        .architecture-diagram .layer:hover {
+            transform: translateX(10px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .security-feature, .admin-feature {
+            transition: all 0.3s ease;
+        }
+        
+        .security-feature:hover, .admin-feature:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .ui-example.glass {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Responsive adjustments */
+        @@media (max-width: 768px) {
+            .display-3 {
+                font-size: 2.5rem;
+            }
+            
+            .demo-stats {
+                flex-direction: column;
+                gap: 1rem !important;
+            }
+            
+            .demo-actions .d-flex {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .demo-actions .wp-btn {
+                text-align: center;
+            }
+            
+            .workflow-steps .row {
+                text-align: center;
+            }
+            
+            .workflow-steps .col-md-2 {
+                margin-bottom: 1rem;
+            }
+            
+            .table-responsive {
+                font-size: 0.875rem;
+            }
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        // Demo functionality
+        let searchTimeout;
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Interactive demo page loaded');
+            
+            // Setup search input
+            const searchInput = document.getElementById('demoSearch');
+            searchInput.addEventListener('input', function() {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    if (this.value.length >= 2) {
+                        performDemoSearch();
+                    } else if (this.value.length === 0) {
+                        hideSearchResults();
+                    }
+                }, 500);
+            });
+            
+            // Setup enter key for search
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    performDemoSearch();
+                }
+            });
+        });
+        
+        function performDemoSearch() {
+            const query = document.getElementById('demoSearch').value.trim();
+            if (!query) return;
+            
+            showLoading();
+            
+            fetch(`/Public/SearchBooks?query=${encodeURIComponent(query)}`)
+                .then(response => response.json())
+                .then(data => {
+                    hideLoading();
+                    if (data.success) {
+                        displaySearchResults(data.data, query);
+                    } else {
+                        showError('Search temporarily unavailable. Please try again later.');
+                    }
+                })
+                .catch(error => {
+                    hideLoading();
+                    console.error('Search error:', error);
+                    showError('Search failed. Please try again.');
+                });
+        }
+        
+        function browseCategoryDemo(categoryId, categoryName) {
+            showLoading();
+            
+            fetch(`/Public/GetBooksByCategory?categoryId=${categoryId}`)
+                .then(response => response.json())
+                .then(data => {
+                    hideLoading();
+                    if (data.success) {
+                        displayCategoryResults(data.data, categoryName);
+                    } else {
+                        showError('Category data temporarily unavailable.');
+                    }
+                })
+                .catch(error => {
+                    hideLoading();
+                    console.error('Category browse error:', error);
+                    showError('Failed to load category. Please try again.');
+                });
+        }
+        
+        function viewBookDemo(bookId) {
+            // In a real implementation, this would open a modal or navigate to book details
+            window.open(`/Public/BookDetails/${bookId}`, '_blank');
+        }
+        
+        function demonstrateFeature(featureName) {
+            // Enhanced feature demonstrations with more detail
+            const demonstrations = {
+                'Admin Dashboard': showAdminDashboardDemo,
+                'Book Management': showBookManagementDemo,
+                'User Management': showUserManagementDemo,
+                'Order Processing': showOrderProcessingDemo,
+                'Analytics': showAnalyticsDemo
+            };
+            
+            const demoFunction = demonstrations[featureName];
+            if (demoFunction) {
+                demoFunction();
+            } else {
+                showGenericFeatureDemo(featureName);
+            }
+        }
+        
+        function showArchitectureDemo() {
+            const modal = createDemoModal('Clean Architecture Implementation', `
+                <div class="architecture-demo">
+                    <h5 class="mb-3">Clean Architecture Layers</h5>
+                    <div class="architecture-diagram mb-4">
+                        <div class="layer presentation-layer p-3 mb-2 rounded" style="background: #4CAF50; color: white;">
+                            <strong>Presentation Layer</strong><br>
+                            <small>Controllers, Views, ViewModels</small>
+                        </div>
+                        <div class="layer application-layer p-3 mb-2 rounded" style="background: #2196F3; color: white;">
+                            <strong>Application Layer</strong><br>
+                            <small>Use Cases, Interfaces, DTOs</small>
+                        </div>
+                        <div class="layer domain-layer p-3 mb-2 rounded" style="background: #FF9800; color: white;">
+                            <strong>Domain Layer</strong><br>
+                            <small>Entities, Value Objects, Business Rules</small>
+                        </div>
+                        <div class="layer infrastructure-layer p-3 mb-2 rounded" style="background: #9C27B0; color: white;">
+                            <strong>Infrastructure Layer</strong><br>
+                            <small>Data Access, External Services</small>
+                        </div>
+                    </div>
+                    <h6>Key Benefits:</h6>
+                    <ul>
+                        <li>Testable architecture with dependency inversion</li>
+                        <li>Clear separation of concerns</li>
+                        <li>Framework-independent business logic</li>
+                        <li>Maintainable and scalable codebase</li>
+                    </ul>
+                </div>
+            `);
+        }
+        
+        function showSecurityDemo() {
+            const modal = createDemoModal('Security Features', `
+                <div class="security-demo">
+                    <h5 class="mb-3">Multi-Layer Security Implementation</h5>
+                    <div class="security-features">
+                        <div class="security-feature mb-3 p-3 bg-light rounded">
+                            <h6 class="text-primary"><i class="bi bi-shield-lock me-2"></i>Authentication</h6>
+                            <ul class="mb-0">
+                                <li>JWT token-based authentication</li>
+                                <li>Secure password hashing with bcrypt</li>
+                                <li>Email verification workflow</li>
+                                <li>Account lockout protection</li>
+                            </ul>
+                        </div>
+                        <div class="security-feature mb-3 p-3 bg-light rounded">
+                            <h6 class="text-success"><i class="bi bi-person-check me-2"></i>Authorization</h6>
+                            <ul class="mb-0">
+                                <li>Role-based access control (RBAC)</li>
+                                <li>Claims-based authorization</li>
+                                <li>Resource-based permissions</li>
+                                <li>Admin approval workflow</li>
+                            </ul>
+                        </div>
+                        <div class="security-feature mb-3 p-3 bg-light rounded">
+                            <h6 class="text-warning"><i class="bi bi-shield-check me-2"></i>Data Protection</h6>
+                            <ul class="mb-0">
+                                <li>XSS and CSRF protection</li>
+                                <li>SQL injection prevention</li>
+                                <li>Rate limiting and throttling</li>
+                                <li>Secure data transmission (HTTPS)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            `);
+        }
+        
+        function showUIDemo() {
+            const modal = createDemoModal('Modern UI Effects', `
+                <div class="ui-demo">
+                    <h5 class="mb-3">Advanced CSS Effects</h5>
+                    <div class="ui-examples">
+                        <div class="ui-example mb-3 p-3 glass rounded">
+                            <h6><i class="bi bi-droplet me-2"></i>Glass Morphism</h6>
+                            <p class="mb-0">Translucent backgrounds with backdrop blur effects for modern, layered interfaces.</p>
+                        </div>
+                        <div class="ui-example mb-3 p-3 aurora-bg noise-overlay rounded">
+                            <h6 class="text-white"><i class="bi bi-stars me-2"></i>Aurora Backgrounds</h6>
+                            <p class="text-white-75 mb-0">Dynamic gradient animations creating immersive visual experiences.</p>
+                        </div>
+                        <div class="ui-example mb-3 p-3 bg-light rounded spotlight-card">
+                            <h6><i class="bi bi-magic me-2"></i>Interactive Elements</h6>
+                            <p class="mb-0">Hover effects, magnetic buttons, and smooth transitions enhance user engagement.</p>
+                        </div>
+                    </div>
+                    <h6>Technical Implementation:</h6>
+                    <ul>
+                        <li>CSS3 backdrop-filter for glass effects</li>
+                        <li>CSS custom properties for dynamic theming</li>
+                        <li>Hardware-accelerated animations</li>
+                        <li>Responsive design with mobile optimization</li>
+                    </ul>
+                </div>
+            `);
+        }
+        
+        function showAdminDashboardDemo() {
+            const modal = createDemoModal('Admin Dashboard Features', `
+                <div class="admin-demo">
+                    <h5 class="mb-3">Comprehensive Admin Interface</h5>
+                    <div class="admin-features">
+                        <div class="feature-grid row g-3">
+                            <div class="col-md-6">
+                                <div class="admin-feature p-3 bg-light rounded">
+                                    <h6 class="text-primary"><i class="bi bi-graph-up me-2"></i>Analytics Dashboard</h6>
+                                    <p class="small mb-0">Real-time charts and statistics with Chart.js integration</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="admin-feature p-3 bg-light rounded">
+                                    <h6 class="text-success"><i class="bi bi-book me-2"></i>Book Management</h6>
+                                    <p class="small mb-0">CRUD operations with validation and image upload</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="admin-feature p-3 bg-light rounded">
+                                    <h6 class="text-warning"><i class="bi bi-people me-2"></i>User Management</h6>
+                                    <p class="small mb-0">User approval, role assignment, and activity monitoring</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="admin-feature p-3 bg-light rounded">
+                                    <h6 class="text-info"><i class="bi bi-cart me-2"></i>Order Management</h6>
+                                    <p class="small mb-0">Order tracking, status updates, and fulfillment</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <a href="/Auth/Login" class="btn btn-primary">
+                            <i class="bi bi-box-arrow-in-right me-2"></i>Login to Access Admin Features
+                        </a>
+                    </div>
+                </div>
+            `);
+        }
+        
+        function showGenericFeatureDemo(featureName) {
+            const modal = createDemoModal(`${featureName} Demo`, `
+                <div class="generic-demo text-center">
+                    <i class="bi bi-play-circle display-1 text-primary mb-3"></i>
+                    <h5>Interactive Demo: ${featureName}</h5>
+                    <p class="text-muted mb-4">
+                        This feature would be demonstrated with live functionality in the full system.
+                    </p>
+                    <div class="demo-actions">
+                        <a href="/Auth/Registration" class="btn btn-primary me-2">
+                            <i class="bi bi-person-plus me-1"></i>Create Account
+                        </a>
+                        <a href="/Auth/Login" class="btn btn-outline-primary">
+                            <i class="bi bi-box-arrow-in-right me-1"></i>Login
+                        </a>
+                    </div>
+                </div>
+            `);
+        }
+        
+        function createDemoModal(title, content) {
+            // Remove existing modal if present
+            const existingModal = document.getElementById('demoModal');
+            if (existingModal) {
+                existingModal.remove();
+            }
+            
+            // Create modal HTML
+            const modalHTML = `
+                <div class="modal fade" id="demoModal" tabindex="-1" aria-labelledby="demoModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="demoModalLabel">${title}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                ${content}
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Add modal to DOM
+            document.body.insertAdjacentHTML('beforeend', modalHTML);
+            
+            // Show modal
+            const modal = new bootstrap.Modal(document.getElementById('demoModal'));
+            modal.show();
+            
+            // Clean up when modal is hidden
+            document.getElementById('demoModal').addEventListener('hidden.bs.modal', function() {
+                this.remove();
+            });
+            
+            return modal;
+        }
+        
+        function displaySearchResults(books, query) {
+            const resultsSection = document.getElementById('searchResults');
+            const resultsCount = document.getElementById('searchResultsCount');
+            const resultsGrid = document.getElementById('searchResultsGrid');
+            
+            resultsCount.textContent = `Found ${books.totalBooks} results for "${query}"`;
+            resultsGrid.innerHTML = '';
+            
+            if (books.books && books.books.length > 0) {
+                books.books.forEach(book => {
+                    const bookCard = createBookCard(book);
+                    resultsGrid.appendChild(bookCard);
+                });
+            } else {
+                resultsGrid.innerHTML = `
+                    <div class="col-12">
+                        <div class="text-center py-5">
+                            <i class="bi bi-search display-1 text-muted"></i>
+                            <h4 class="mt-3">No books found</h4>
+                            <p class="text-muted">Try searching with different keywords</p>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            resultsSection.style.display = 'block';
+            resultsSection.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function displayCategoryResults(books, categoryName) {
+            const resultsSection = document.getElementById('categoryResults');
+            const resultsTitle = document.getElementById('categoryResultsTitle');
+            const resultsCount = document.getElementById('categoryResultsCount');
+            const resultsGrid = document.getElementById('categoryResultsGrid');
+            
+            resultsTitle.textContent = categoryName;
+            resultsCount.textContent = `${books.totalBooks} books in this category`;
+            resultsGrid.innerHTML = '';
+            
+            if (books.books && books.books.length > 0) {
+                books.books.forEach(book => {
+                    const bookCard = createBookCard(book);
+                    resultsGrid.appendChild(bookCard);
+                });
+            } else {
+                resultsGrid.innerHTML = `
+                    <div class="col-12">
+                        <div class="text-center py-5">
+                            <i class="bi bi-book display-1 text-muted"></i>
+                            <h4 class="mt-3">No books in this category</h4>
+                            <p class="text-muted">Check back soon for new additions</p>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            resultsSection.style.display = 'block';
+            resultsSection.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function createBookCard(book) {
+            const col = document.createElement('div');
+            col.className = 'col-lg-3 col-md-4 col-sm-6';
+            
+            const imageUrl = book.imageUrl || '/images/default-book-improved.svg';
+            const stockBadge = book.stockQuantity > 0 
+                ? '<span class="badge bg-success position-absolute top-0 end-0 m-2"><i class="bi bi-check-circle me-1"></i>In Stock</span>'
+                : '<span class="badge bg-danger position-absolute top-0 end-0 m-2"><i class="bi bi-x-circle me-1"></i>Out of Stock</span>';
+            
+            col.innerHTML = `
+                <div class="demo-book-card spotlight-card hover-lift h-100">
+                    <div class="book-image-wrapper position-relative">
+                        <img src="${imageUrl}" alt="${book.title}" class="book-cover w-100" 
+                             style="height: 300px; object-fit: cover; border-radius: 12px 12px 0 0;">
+                        <div class="demo-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
+                             style="background: rgba(0,0,0,0.7); opacity: 0; transition: opacity 0.3s ease; border-radius: 12px 12px 0 0;">
+                            <button class="btn btn-light btn-sm" onclick="viewBookDemo(${book.id})">
+                                <i class="bi bi-eye me-1"></i>View Details
+                            </button>
+                        </div>
+                        <div class="demo-badge position-absolute top-0 start-0 m-2">
+                            <span class="badge bg-success bg-opacity-90">
+                                <i class="bi bi-play-circle me-1"></i>Demo
+                            </span>
+                        </div>
+                        ${stockBadge}
+                    </div>
+                    <div class="book-details p-3">
+                        <h5 class="book-title mb-2 text-truncate">${book.title}</h5>
+                        <p class="book-author text-muted mb-2">
+                            <i class="bi bi-person me-1"></i>${book.author}
+                        </p>
+                        ${book.category ? `<span class="badge bg-info mb-2"><i class="bi bi-tag me-1"></i>${book.category.name}</span>` : ''}
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <span class="book-price fw-bold text-primary fs-5">₹${book.price.amount.toFixed(2)}</span>
+                            <div class="book-rating">
+                                ${book.averageRating > 0 ? generateStarRating(book.averageRating) : ''}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            return col;
+        }
+        
+        function generateStarRating(rating) {
+            let stars = '<span class="text-warning">';
+            for (let i = 1; i <= 5; i++) {
+                stars += `<i class="bi ${i <= rating ? 'bi-star-fill' : 'bi-star'}"></i>`;
+            }
+            stars += '</span>';
+            return stars;
+        }
+        
+        function hideSearchResults() {
+            document.getElementById('searchResults').style.display = 'none';
+        }
+        
+        function showLoading() {
+            document.getElementById('loadingOverlay').style.display = 'flex';
+        }
+        
+        function hideLoading() {
+            document.getElementById('loadingOverlay').style.display = 'none';
+        }
+        
+        function showError(message) {
+            // In a real implementation, this would show a proper toast notification
+            alert(message);
+        }
+    </script>
+}

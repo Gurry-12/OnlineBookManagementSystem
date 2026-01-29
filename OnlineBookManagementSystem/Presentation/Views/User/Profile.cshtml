@@ -1,0 +1,303 @@
+@model OnlineBookManagementSystem.Presentation.ViewModels.User.UserProfileViewModel
+@{
+    ViewData["Title"] = "My Profile";
+    Layout = "_LayoutUser";
+}
+
+<div class="container-fluid p-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="mb-0">
+                <i class="bi bi-person-circle me-2"></i>My Profile
+            </h2>
+            <p class="text-muted">Manage your account information and preferences</p>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- Profile Information -->
+        <div class="col-md-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="bi bi-person-lines-fill me-2"></i>Personal Information
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form id="profileForm">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" asp-for="Id" />
+                        
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label asp-for="Name" class="form-label">Full Name</label>
+                                <input asp-for="Name" class="form-control" required>
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="Email" class="form-label">Email Address</label>
+                                <input asp-for="Email" type="email" class="form-control" required>
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="PhoneNumber" class="form-label">Phone Number</label>
+                                <input asp-for="PhoneNumber" type="tel" class="form-control">
+                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="DateOfBirth" class="form-label">Date of Birth</label>
+                                <input asp-for="DateOfBirth" type="date" class="form-control">
+                                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                            </div>
+                        </div>
+                        
+                        <hr class="my-4">
+                        
+                        <h6 class="mb-3">Address Information</h6>
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label asp-for="Address" class="form-label">Street Address</label>
+                                <input asp-for="Address" class="form-control">
+                                <span asp-validation-for="Address" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="City" class="form-label">City</label>
+                                <input asp-for="City" class="form-control">
+                                <span asp-validation-for="City" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-3">
+                                <label asp-for="State" class="form-label">State</label>
+                                <input asp-for="State" class="form-control">
+                                <span asp-validation-for="State" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-3">
+                                <label asp-for="ZipCode" class="form-label">ZIP Code</label>
+                                <input asp-for="ZipCode" class="form-control">
+                                <span asp-validation-for="ZipCode" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="Country" class="form-label">Country</label>
+                                <input asp-for="Country" class="form-control">
+                                <span asp-validation-for="Country" class="text-danger"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-check-circle me-2"></i>Update Profile
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Account Summary -->
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">
+                        <i class="bi bi-graph-up me-2"></i>Account Summary
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="text-center mb-3">
+                        <div class="bg-primary rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                            <i class="bi bi-person-fill fs-1 text-white"></i>
+                        </div>
+                        <h5 class="mt-2">@Model?.Name</h5>
+                        <p class="text-muted">@Model?.Email</p>
+                    </div>
+                    
+                    <div class="row text-center g-3">
+                        <div class="col-6">
+                            <div class="p-2">
+                                <i class="bi bi-bag-check display-6 text-primary"></i>
+                                <h6 class="mt-1">@(Model?.TotalOrders ?? 0)</h6>
+                                <small class="text-muted">Orders</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="p-2">
+                                <i class="bi bi-heart-fill display-6 text-danger"></i>
+                                <h6 class="mt-1">@(Model?.TotalFavorites ?? 0)</h6>
+                                <small class="text-muted">Favorites</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="p-2">
+                                <i class="bi bi-currency-dollar display-6 text-success"></i>
+                                <h6 class="mt-1">$@(Model?.TotalSpent.ToString("F2") ?? "0.00")</h6>
+                                <small class="text-muted">Total Spent</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="p-2">
+                                <i class="bi bi-calendar-check display-6 text-info"></i>
+                                <h6 class="mt-1">@((DateTime.Now - (Model?.MemberSince ?? DateTime.Now)).Days)</h6>
+                                <small class="text-muted">Days</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Change Password -->
+            <div class="card border-0 shadow-sm mt-4">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0">
+                        <i class="bi bi-shield-lock me-2"></i>Security
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form id="passwordForm">
+                        @Html.AntiForgeryToken()
+                        
+                        <div class="mb-3">
+                            <label for="currentPassword" class="form-label">Current Password</label>
+                            <input type="password" class="form-control" id="currentPassword" name="currentPassword" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="newPassword" class="form-label">New Password</label>
+                            <input type="password" class="form-control" id="newPassword" name="newPassword" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirmPassword" class="form-label">Confirm New Password</label>
+                            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-warning">
+                                <i class="bi bi-key me-2"></i>Change Password
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="card border-0 shadow-sm mt-4">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">
+                        <i class="bi bi-lightning me-2"></i>Quick Actions
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a asp-action="OrderHistory" class="btn btn-outline-primary btn-sm">
+                            <i class="bi bi-clock-history me-2"></i>View Order History
+                        </a>
+                        <a asp-action="Favorite" class="btn btn-outline-danger btn-sm">
+                            <i class="bi bi-heart me-2"></i>My Favorites
+                        </a>
+                        <a asp-controller="User" asp-action="UserCart" class="btn btn-outline-success btn-sm">
+                            <i class="bi bi-cart me-2"></i>View Cart
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="successToast" class="toast" role="alert">
+        <div class="toast-header bg-success text-white">
+            <i class="bi bi-check-circle me-2"></i>
+            <strong class="me-auto">Success</strong>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+        </div>
+        <div class="toast-body"></div>
+    </div>
+    
+    <div id="errorToast" class="toast" role="alert">
+        <div class="toast-header bg-danger text-white">
+            <i class="bi bi-exclamation-triangle me-2"></i>
+            <strong class="me-auto">Error</strong>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+        </div>
+        <div class="toast-body"></div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Profile Update Form
+        document.getElementById('profileForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+            
+            try {
+                const response = await fetch('/User/UpdateProfile', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showSuccess(result.message || 'Profile updated successfully');
+                } else {
+                    showError(result.message || 'Failed to update profile');
+                }
+            } catch (error) {
+                showError('An error occurred while updating your profile');
+            }
+        });
+        
+        // Password Change Form
+        document.getElementById('passwordForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (newPassword !== confirmPassword) {
+                showError('New passwords do not match');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/User/ChangePassword', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    },
+                    body: JSON.stringify({ currentPassword, newPassword, confirmPassword })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showSuccess(result.message || 'Password changed successfully');
+                    this.reset();
+                } else {
+                    showError(result.message || 'Failed to change password');
+                }
+            } catch (error) {
+                showError('An error occurred while changing your password');
+            }
+        });
+        
+        function showSuccess(message) {
+            const toast = document.getElementById('successToast');
+            toast.querySelector('.toast-body').textContent = message;
+            new bootstrap.Toast(toast).show();
+        }
+        
+        function showError(message) {
+            const toast = document.getElementById('errorToast');
+            toast.querySelector('.toast-body').textContent = message;
+            new bootstrap.Toast(toast).show();
+        }
+    </script>
+}

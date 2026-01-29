@@ -1,0 +1,258 @@
+/* ===================================================================
+   UI CONSISTENCY FIXES - COMPREHENSIVE SOLUTION
+   Fixes for problematic effects and UI inconsistencies across all views
+   =================================================================== */
+
+/* ===== REMOVED PROBLEMATIC EFFECTS SUMMARY ===== */
+/*
+FIXED ISSUES:
+1. ✅ Charts increasing infinitely in admin views - Removed auto-refresh interval in ChartsAdmin.js
+2. ✅ Page size increasing in public views - Removed infinite animations (floating, pulse-glow, holographic-shine, shimmer)
+3. ✅ Unwanted drag lines - Removed transform: translateX() effects on hover states
+4. ✅ UI inconsistencies across views - Standardized animations, transitions, and effects
+
+ANIMATIONS REMOVED:
+- floating (3s infinite) - Caused page size issues
+- pulse-glow (2s infinite) - Caused memory accumulation
+- holographic-shine (3s infinite) - Caused performance issues
+- shimmer (3s infinite) - Caused visual bloat
+- loadingPulse (2.5s infinite) - Caused loading state issues
+- floatCharacter (8s infinite) - Caused character animation issues
+- spin animations on non-essential elements - Reduced to static states
+- skeleton-loading (1.5s infinite) - Converted to static gradient
+
+DRAG EFFECTS REMOVED:
+- .wp-sidebar-nav-link:hover transform: translateX(4px)
+- .wp-role-switcher-item:hover transform: translateX(4px)
+- Various book image hover transforms that created unwanted drag appearance
+
+PERFORMANCE IMPROVEMENTS:
+- Reduced setInterval frequency in site.js from 1s to 60s
+- Removed chart auto-refresh that caused infinite data accumulation
+- Disabled infinite CSS animations that consumed memory
+- Simplified hover effects to reduce GPU usage
+*/
+
+/* ===== CONSISTENT ANIMATION STANDARDS ===== */
+
+/* Standardized transition duration across all views */
+.wp-standard-transition {
+    transition: all 0.3s ease;
+}
+
+/* Consistent hover effects - no drag, subtle lift only */
+.wp-hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.wp-hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Consistent focus states for accessibility */
+.wp-focus-ring:focus-visible {
+    outline: 2px solid var(--wp-brand-primary, #6366F1);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* ===== LOADING STATES - STATIC ALTERNATIVES ===== */
+
+/* Static loading indicator instead of spinning */
+.wp-loading-static {
+    background: linear-gradient(90deg, #e9ecef 0%, #f8f9fa 50%, #e9ecef 100%);
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+}
+
+.wp-loading-static::after {
+    content: 'Loading...';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 12px;
+    color: #6c757d;
+}
+
+/* ===== CONSISTENT SPACING AND SIZING ===== */
+
+/* Standardized spacing across all views */
+.wp-spacing-xs { margin: 0.25rem; }
+.wp-spacing-sm { margin: 0.5rem; }
+.wp-spacing-md { margin: 1rem; }
+.wp-spacing-lg { margin: 1.5rem; }
+.wp-spacing-xl { margin: 2rem; }
+
+/* Consistent padding */
+.wp-padding-xs { padding: 0.25rem; }
+.wp-padding-sm { padding: 0.5rem; }
+.wp-padding-md { padding: 1rem; }
+.wp-padding-lg { padding: 1.5rem; }
+.wp-padding-xl { padding: 2rem; }
+
+/* ===== CONSISTENT TYPOGRAPHY ===== */
+
+/* Standardized font weights across all views */
+.wp-text-light { font-weight: 300; }
+.wp-text-normal { font-weight: 400; }
+.wp-text-medium { font-weight: 500; }
+.wp-text-semibold { font-weight: 600; }
+.wp-text-bold { font-weight: 700; }
+
+/* Consistent text sizes */
+.wp-text-xs { font-size: 0.75rem; }
+.wp-text-sm { font-size: 0.875rem; }
+.wp-text-base { font-size: 1rem; }
+.wp-text-lg { font-size: 1.125rem; }
+.wp-text-xl { font-size: 1.25rem; }
+.wp-text-2xl { font-size: 1.5rem; }
+
+/* ===== CONSISTENT BUTTON STYLES ===== */
+
+/* Standardized button heights and padding */
+.wp-btn-consistent {
+    min-height: 44px; /* Accessibility requirement */
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.wp-btn-consistent:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.wp-btn-consistent:focus {
+    outline: 2px solid var(--wp-brand-primary, #6366F1);
+    outline-offset: 2px;
+}
+
+/* ===== CONSISTENT CARD STYLES ===== */
+
+/* Standardized card appearance across all views */
+.wp-card-consistent {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.wp-card-consistent:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== CONSISTENT FORM STYLES ===== */
+
+/* Standardized form elements across all views */
+.wp-form-control-consistent {
+    min-height: 44px;
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.wp-form-control-consistent:focus {
+    border-color: var(--wp-brand-primary, #6366F1);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    outline: none;
+}
+
+/* ===== RESPONSIVE CONSISTENCY ===== */
+
+/* Ensure consistent behavior across screen sizes */
+@media (max-width: 768px) {
+    .wp-hover-lift:hover {
+        transform: none; /* Disable hover effects on touch devices */
+    }
+    
+    .wp-btn-consistent {
+        min-height: 48px; /* Larger touch targets on mobile */
+    }
+    
+    .wp-spacing-lg,
+    .wp-spacing-xl {
+        margin: 1rem; /* Reduce spacing on mobile */
+    }
+    
+    .wp-padding-lg,
+    .wp-padding-xl {
+        padding: 1rem; /* Reduce padding on mobile */
+    }
+}
+
+/* ===== ACCESSIBILITY CONSISTENCY ===== */
+
+/* Ensure consistent accessibility across all views */
+@media (prefers-reduced-motion: reduce) {
+    .wp-standard-transition,
+    .wp-hover-lift,
+    .wp-btn-consistent,
+    .wp-card-consistent,
+    .wp-form-control-consistent {
+        transition: none !important;
+    }
+    
+    .wp-hover-lift:hover,
+    .wp-btn-consistent:hover {
+        transform: none !important;
+    }
+}
+
+/* High contrast mode consistency */
+@media (prefers-contrast: high) {
+    .wp-card-consistent {
+        border: 2px solid #000;
+    }
+    
+    .wp-form-control-consistent {
+        border: 2px solid #000;
+    }
+    
+    .wp-btn-consistent {
+        border: 2px solid #000;
+    }
+}
+
+/* ===== PRINT CONSISTENCY ===== */
+
+@media print {
+    .wp-hover-lift,
+    .wp-btn-consistent,
+    .wp-card-consistent {
+        box-shadow: none !important;
+        transform: none !important;
+    }
+    
+    .wp-loading-static {
+        background: #f8f9fa !important;
+    }
+}
+
+/* ===== DARK MODE CONSISTENCY (Future-proofing) ===== */
+
+@media (prefers-color-scheme: dark) {
+    .wp-card-consistent {
+        background: #1f2937;
+        border-color: #374151;
+        color: #f9fafb;
+    }
+    
+    .wp-form-control-consistent {
+        background: #1f2937;
+        border-color: #374151;
+        color: #f9fafb;
+    }
+    
+    .wp-loading-static {
+        background: linear-gradient(90deg, #374151 0%, #4b5563 50%, #374151 100%);
+    }
+}

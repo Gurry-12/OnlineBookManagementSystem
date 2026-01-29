@@ -1,0 +1,279 @@
+﻿@{
+    ViewData["Title"] = "User Dashboard - Whispering Pages";
+    Layout = "_LayoutUser"; // Custom layout for user
+}
+
+<hr />
+
+<!-- 📚 Quote and New Arrivals Section -->
+<div class="row g-4 mb-5">
+    <div class="col-md-6 col-sm-12 ">
+        <div id="quoteCarousel" class="carousel slide wp-quote-box shadow-sm rounded" data-bs-ride="carousel" aria-label="Quote Carousel" data-bs-interval="3000">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <p class="fs-6 fst-italic px-2">“There is more treasure in books than in all the pirate's loot on Treasure Island.”</p>
+                    <p class="text-end fw-semibold px-2">- Walt Disney</p>
+                </div>
+                <div class="carousel-item">
+                    <p class="fs-6 fst-italic px-2">“A room without books is like a body without a soul.”</p>
+                    <p class="text-end fw-semibold px-2">- Marcus Tullius Cicero</p>
+                </div>
+                <div class="carousel-item">
+                    <p class="fs-6 fst-italic px-2">“So many books, so little time.”</p>
+                    <p class="text-end fw-semibold px-2">- Frank Zappa</p>
+                </div>
+                <div class="carousel-item">
+                    <p class="fs-6 fst-italic px-2">“Books are a uniquely portable magic.”</p>
+                    <p class="text-end fw-semibold px-2">- Stephen King</p>
+                </div>
+                <div class="carousel-item">
+                    <p class="fs-6 fst-italic px-2">“I declare after all there is no enjoyment like reading!”</p>
+                    <p class="text-end fw-semibold px-2">- Jane Austen</p>
+                </div>
+            </div>
+            <!-- Improved badge positioning -->
+            <div class="position-absolute bottom-0 start-50 translate-middle-x mb-4 d-none d-md-block z-2">
+                <small class="user-text-muted fs-7 fst-italic px-3 py-1 bg-dark bg-opacity-30 rounded-pill">
+                    — A journey through Whispering Pages
+                </small>
+            </div>
+
+            <!-- Carousel controls -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#quoteCarousel" data-bs-slide="prev" aria-label="Previous quote">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#quoteCarousel" data-bs-slide="next" aria-label="Next quote">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+
+        </div>
+    </div>
+
+
+    <div class="col-md-6 col-sm-6">
+        <div class="wp-card">
+            <div class="wp-card-header">
+                <h5 class="mb-0 user-text-on-primary">
+                    <i class="bi bi-box-seam me-2"></i>📦 New Arrivals
+                </h5>
+            </div>
+            <div class="wp-card-body">
+                <div id="newArrivals" class="row g-4">
+                    <div class="user-text-muted">Loading new books...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr class="mt-4 mb-3" />
+
+<!-- 🎯 Recommendations Section -->
+<div class="wp-card mb-4">
+    <div class="wp-card-header">
+        <h5 class="mb-0 user-text-on-primary">
+            <i class="bi bi-stars me-2"></i>📚 Recommended for You
+        </h5>
+    </div>
+    <div class="wp-card-body">
+        <div id="recommendedBooks" class="row g-4">
+            <div class="user-text-muted">Loading recommendations...</div>
+        </div>
+    </div>
+</div>
+
+@await Html.PartialAsync("_Notification")
+
+@section Scripts {
+    <!-- Core AJAX Infrastructure -->
+    <script src="~/js/core/apiClient.js"></script>
+    <script src="~/js/core/notifications.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadNewArrivals();
+            loadRecommendations();
+            updateCartCount();
+        });
+
+        async function loadNewArrivals() {
+            try {
+                const response = await fetch('/User/GetNewArrivals');
+                const data = await response.json();
+                
+                if (data.success && data.books) {
+                    const container = document.getElementById('newArrivals');
+                    container.innerHTML = '';
+                    
+                    data.books.forEach(book => {
+                        const bookCard = createBookCard(book);
+                        container.appendChild(bookCard);
+                    });
+                } else {
+                    document.getElementById('newArrivals').innerHTML = '<div class="text-muted">No new arrivals available</div>';
+                }
+            } catch (error) {
+                console.error('Error loading new arrivals:', error);
+                document.getElementById('newArrivals').innerHTML = '<div class="text-muted">Failed to load new arrivals</div>';
+            }
+        }
+
+        async function loadRecommendations() {
+            try {
+                const response = await fetch('/User/GetRecommendations');
+                const data = await response.json();
+                
+                if (data.success && data.books) {
+                    const container = document.getElementById('recommendedBooks');
+                    container.innerHTML = '';
+                    
+                    data.books.forEach(book => {
+                        const bookCard = createBookCard(book);
+                        container.appendChild(bookCard);
+                    });
+                } else {
+                    document.getElementById('recommendedBooks').innerHTML = '<div class="text-muted">No recommendations available</div>';
+                }
+            } catch (error) {
+                console.error('Error loading recommendations:', error);
+                document.getElementById('recommendedBooks').innerHTML = '<div class="text-muted">Failed to load recommendations</div>';
+            }
+        }
+
+        function createBookCard(book) {
+            const col = document.createElement('div');
+            col.className = 'col-lg-4 col-md-4 col-sm-6 col-12'; // Changed to col-lg-4 for 3 books per row
+            
+            col.innerHTML = `
+                <div class="wp-card shadow-sm h-100 book-card">
+                    <div class="position-relative">
+                        <button class="btn btn-link position-absolute top-0 end-0 p-2 toggle-favorite-btn" 
+                                data-book-id="${book.id}" 
+                                title="${book.isFavorite ? 'Remove from favorites' : 'Add to favorites'}"
+                                onclick="toggleFavorite(${book.id}, this)">
+                            <i class="bi ${book.isFavorite ? 'bi-heart-fill text-danger' : 'bi-heart'}"></i>
+                        </button>
+                        <img src="${book.imageUrl || '/images/default-book-improved.svg'}" 
+                             alt="${book.title}" 
+                             class="card-img-top wp-book-image" 
+                             style="height: 200px; object-fit: cover;" />
+                        ${book.stockQuantity <= 0 ? '<div class="position-absolute top-0 start-0 m-2"><span class="wp-badge wp-badge-error">Out of Stock</span></div>' : ''}
+                    </div>
+                    <div class="wp-card-body d-flex flex-column">
+                        <h6 class="card-title user-text-primary">${book.title}</h6>
+                        <p class="card-text user-text-muted small mb-2">by ${book.author}</p>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="h6 user-text-secondary mb-0">₹${book.price.toFixed(2)}</span>
+                        </div>
+                        <div class="mt-auto">
+                            <div class="d-flex gap-2">
+                                <a href="/User/BookDetails/${book.id}" class="wp-btn wp-btn-secondary btn-sm flex-fill">
+                                    <i class="bi bi-eye me-1"></i>View
+                                </a>
+                                ${book.stockQuantity > 0 ? 
+                                    `<button class="wp-btn wp-btn-primary btn-sm" onclick="addToCart(${book.id})">
+                                        <i class="bi bi-cart-plus me-1"></i>Add
+                                    </button>` : 
+                                    `<button class="btn btn-secondary btn-sm" disabled>
+                                        <i class="bi bi-x-circle me-1"></i>Out
+                                    </button>`
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            return col;
+        }
+
+        async function addToCart(bookId) {
+            try {
+                const response = await fetch('/User/AddToCart', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ bookId: bookId, quantity: 1 })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    notifications.success(result.message || 'Added to cart successfully!');
+                    // Update cart count using both methods
+                    if (typeof window.updateCartCount === 'function') {
+                        window.updateCartCount();
+                    }
+                    if (result.cartCount !== undefined) {
+                        updateCartCountDisplay(result.cartCount);
+                    }
+                } else {
+                    notifications.error(result.message || 'Failed to add to cart');
+                }
+            } catch (error) {
+                console.error('Error adding to cart:', error);
+                notifications.error('Failed to add to cart. Please try again.');
+            }
+        }
+
+        function updateCartCountDisplay(count) {
+            const cartCountElement = document.getElementById('cartItemCount');
+            if (cartCountElement) {
+                cartCountElement.textContent = count || 0;
+                cartCountElement.style.display = (count && count > 0) ? 'inline' : 'none';
+            }
+        }
+
+        async function toggleFavorite(bookId, buttonElement) {
+            try {
+                const response = await fetch('/User/ToggleFavorite', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ bookId: bookId })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    notifications.success(result.message || 'Favorite updated!');
+                    
+                    // Update button state
+                    const icon = buttonElement.querySelector('i');
+                    if (result.isFavorite) {
+                        icon.className = 'bi bi-heart-fill text-danger';
+                        buttonElement.setAttribute('title', 'Remove from favorites');
+                    } else {
+                        icon.className = 'bi bi-heart';
+                        buttonElement.setAttribute('title', 'Add to favorites');
+                    }
+                } else {
+                    notifications.error(result.message || 'Failed to update favorite');
+                }
+            } catch (error) {
+                console.error('Error toggling favorite:', error);
+                notifications.error('Failed to update favorite. Please try again.');
+            }
+        }
+
+        async function updateCartCount() {
+            try {
+                const response = await fetch('/User/GetCartCount');
+                const data = await response.json();
+                
+                const cartCountElement = document.getElementById('cartItemCount');
+                if (cartCountElement) {
+                    cartCountElement.textContent = data.count;
+                    cartCountElement.style.display = data.count > 0 ? 'inline' : 'none';
+                }
+            } catch (error) {
+                console.error('Error updating cart count:', error);
+            }
+        }
+    </script>
+}
+

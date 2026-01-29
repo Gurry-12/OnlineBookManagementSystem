@@ -1,0 +1,111 @@
+﻿@model IEnumerable<OnlineBookManagementSystem.Core.Domain.Entities.Book>
+
+@{
+    ViewData["Title"] = "My Favorites";
+    Layout = ViewData["Layout"]?.ToString() ?? "_LayoutUser";
+}
+
+<div class="container">
+    <div class="wp-card mb-4">
+        <div class="wp-card-header">
+            <h2 class="mb-0 user-text-on-primary">
+                <i class="bi bi-heart-fill me-2"></i>❤️ My Favorite Books
+            </h2>
+        </div>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="wp-card text-center py-5">
+            <div class="wp-card-body">
+                <i class="bi bi-heart fs-1 mb-2 user-text-muted"></i>
+                <h4 class="user-text-primary">No favorites yet!</h4>
+                <p class="user-text-muted">Browse books and add some to your favorites.</p>
+                <a asp-controller="User" asp-action="Dashboard" class="wp-btn wp-btn-primary">Start Browsing</a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            @foreach (var book in Model)
+            {
+                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                    <div class="wp-card h-100 book-card position-relative">
+                        <div class="wp-card-body">
+                            <img src="@(book.ImageUrl ?? Url.Content("~/images/default-book-improved.svg"))" alt="@book.Title" class="wp-book-image mb-3" />
+                            <h6 class="mt-2 user-text-primary">@book.Title</h6>
+                            <small class="user-text-muted">@book.Author</small>
+                            <p class="user-text-secondary fw-bold">₹@book.Price</p>
+                            <div class="d-flex justify-content-between align-items-center mt-2">
+                                <button onclick="ToggleFavorite(@book.Id)" class="wp-btn wp-btn-secondary btn-sm" style="z-index: 2;">
+                                    <i class="bi bi-heart-fill"></i> Remove
+                                </button>
+                                <button onclick="AddToCart(@book.Id)" class="wp-btn wp-btn-primary btn-sm" style="z-index: 2;">Add to Cart</button>
+                            </div>
+                            <a asp-controller="User" asp-action="BookDetails" asp-route-id="@book.Id" class="stretched-link"></a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+</div>
+
+@await Html.PartialAsync("_Notification")
+
+@section Scripts {
+    <!-- Core AJAX Infrastructure -->
+    <script src="~/js/core/apiClient.js"></script>
+    <script src="~/js/core/notifications.js"></script>
+    
+    <script>
+        async function ToggleFavorite(bookId) {
+            try {
+                const response = await fetch('/User/ToggleFavorite', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ bookId: bookId })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    notifications.success('Removed from favorites!');
+                    location.reload();
+                } else {
+                    notifications.error('Failed to update favorites.');
+                }
+            } catch (error) {
+                console.error('Error toggling favorite:', error);
+                notifications.error('Failed to update favorites. Please try again.');
+            }
+        }
+
+        async function AddToCart(bookId) {
+            try {
+                const response = await fetch('/User/AddToCart', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ bookId: bookId, quantity: 1 })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    notifications.success(result.message || 'Added to cart successfully!');
+                } else {
+                    notifications.error(result.message || 'Failed to add to cart');
+                }
+            } catch (error) {
+                console.error('Error adding to cart:', error);
+                notifications.error('Failed to add to cart. Please try again.');
+            }
+        }
+    </script>
+}

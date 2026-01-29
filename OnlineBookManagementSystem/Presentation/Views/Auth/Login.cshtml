@@ -1,0 +1,300 @@
+@using OnlineBookManagementSystem.Presentation.ViewModels.AuthViewModels
+@model EnhancedLoginViewModel
+@{
+    ViewData["Title"] = "Login - Whispering Pages";
+    ViewData["Layout"] = "_LayoutAuth";
+}
+
+<div class="auth-grid enhanced noise-overlay">
+    <div class="auth-illustration">
+        <div class="portfolio-context glass p-4 mb-4">
+            <h3 class="text-center mb-3">
+                <i class="bi bi-book-half text-primary me-2"></i>
+                Welcome Back to Whispering Pages
+            </h3>
+            <p class="text-center text-muted mb-3">
+                A comprehensive book management system showcasing Clean Architecture, 
+                SOLID principles, and modern web development practices.
+            </p>
+            
+            <!-- System Stats -->
+            <div class="row g-2 mb-3">
+                <div class="col-6">
+                    <div class="stat-card text-center p-2">
+                        <div class="stat-number">@Model.SystemStats.TotalBooks.ToString("N0")</div>
+                        <div class="stat-label">Books</div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="stat-card text-center p-2">
+                        <div class="stat-number">@Model.SystemStats.TotalCategories</div>
+                        <div class="stat-label">Categories</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recent Features -->
+            <div class="recent-features">
+                <h6 class="mb-2"><i class="bi bi-star-fill text-warning me-1"></i>Recent Updates</h6>
+                <ul class="list-unstyled small">
+                    @foreach (var feature in Model.RecentFeatures.Take(3))
+                    {
+                        <li class="mb-1"><i class="bi bi-check-circle-fill text-success me-1"></i>@feature</li>
+                    }
+                </ul>
+            </div>
+        </div>
+        
+        <img src="~/images/3d-design-removebg-preview.png" alt="Whimsical Character" class="main-illustration" />
+    </div>
+
+    <div class="auth-container">
+        <div class="auth-card glass">
+            <div class="text-center mb-4">
+                <h2 class="fw-bold">Sign In</h2>
+                <p class="text-muted">Access your personalized dashboard</p>
+            </div>
+
+            <form id="loginForm">
+                <div class="mb-3">
+                    <label asp-for="Email" class="form-label">
+                        <i class="bi bi-envelope-fill me-1"></i>Email Address
+                    </label>
+                    <input asp-for="Email" type="email" class="form-control" required 
+                           placeholder="Enter your email address" />
+                    <span asp-validation-for="Email" class="text-danger small" id="EmailError"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Password" class="form-label">
+                        <i class="bi bi-lock-fill me-1"></i>Password
+                    </label>
+                    <div class="input-group">
+                        <input asp-for="Password" type="password" class="form-control" required 
+                               placeholder="Enter your password" />
+                        <span class="input-group-text toggle-password magnetic-btn">
+                            <i class="bi bi-eye-slash" toggle-password-icon></i>
+                        </span>
+                    </div>
+                    <span asp-validation-for="Password" class="text-danger small" id="PasswordError"></span>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="form-check">
+                        <input asp-for="RememberMe" class="form-check-input" type="checkbox" id="RememberMe" />
+                        <label class="form-check-label" for="RememberMe">Remember me</label>
+                    </div>
+                    <a id="ForgotPasswordBtn" class="auth-link" href="#" data-bs-toggle="modal" data-bs-target="#forgotModal">
+                        Forgot Password?
+                    </a>
+                </div>
+
+                <div class="d-grid mb-3">
+                    <button type="button" class="btn btn-primary-custom magnetic-btn holographic" id="LoginData">
+                        <i class="bi bi-door-open-fill me-1"></i>Sign In to Dashboard
+                    </button>
+                </div>
+            </form>
+
+            <!-- Role Information Section -->
+            <div class="role-info-section mb-3">
+                <h6 class="text-center mb-3">
+                    <i class="bi bi-info-circle-fill me-1"></i>Account Types Available
+                </h6>
+                
+                <div class="role-cards">
+                    <div class="role-card spotlight-card p-3 mb-2">
+                        <div class="d-flex align-items-center">
+                            <i class="bi @Model.RoleCapabilities.User.Icon text-@Model.RoleCapabilities.User.BadgeColor me-2"></i>
+                            <div>
+                                <strong>@Model.RoleCapabilities.User.Name</strong>
+                                <small class="d-block text-muted">@Model.RoleCapabilities.User.Description</small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="role-card spotlight-card p-3">
+                        <div class="d-flex align-items-center">
+                            <i class="bi @Model.RoleCapabilities.Admin.Icon text-@Model.RoleCapabilities.Admin.BadgeColor me-2"></i>
+                            <div>
+                                <strong>@Model.RoleCapabilities.Admin.Name</strong>
+                                <small class="d-block text-muted">@Model.RoleCapabilities.Admin.Description</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mb-3">
+                <small>Or Continue With</small>
+                <div class="social-buttons mt-2">
+                    <button class="btn btn-light magnetic-btn" title="Google Sign-In">
+                        <img src="https://www.google.com/favicon.ico" width="20" alt="Google">
+                    </button>
+                    <button class="btn btn-light magnetic-btn" title="GitHub Sign-In">
+                        <i class="bi bi-github"></i>
+                    </button>
+                    <button class="btn btn-light magnetic-btn" title="Facebook Sign-In">
+                        <i class="bi bi-facebook"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <p>Don't have an account yet? 
+                   <a asp-action="Registration" class="auth-link">Create Account</a>
+                </p>
+                <small class="text-muted">
+                    <i class="bi bi-shield-check me-1"></i>
+                    Secure authentication with role-based access control
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Forgot Password Modal -->
+<div class="modal fade" id="forgotModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content glass">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="bi bi-key-fill me-2"></i>Reset Password
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-muted mb-3">
+                    Enter your email address and we'll send you a link to reset your password.
+                </p>
+                <input type="email" id="ForgotEmail" class="form-control" 
+                       placeholder="Enter your email address" required />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary magnetic-btn" id="SendResetLinkBtn">
+                    <i class="bi bi-send-fill me-1"></i>Send Reset Link
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/auth/auth.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Password toggle functionality
+            $('.toggle-password').click(function () {
+                const input = $(this).prev('input');
+                const icon = $(this).find('[toggle-password-icon]');
+                if (input.attr('type') === 'password') {
+                    input.attr('type', 'text');
+                    icon.removeClass('bi-eye-slash').addClass('bi-eye');
+                } else {
+                    input.attr('type', 'password');
+                    icon.removeClass('bi-eye').addClass('bi-eye-slash');
+                }
+            });
+
+            // Clear any previous error messages
+            $('.text-danger').text('').hide();
+            
+            // Add spotlight effect to role cards
+            $('.role-card').on('mousemove', function(e) {
+                const rect = this.getBoundingClientRect();
+                const x = ((e.clientX - rect.left) / rect.width) * 100;
+                const y = ((e.clientY - rect.top) / rect.height) * 100;
+                this.style.setProperty('--mouse-x', x + '%');
+                this.style.setProperty('--mouse-y', y + '%');
+            });
+        });
+    </script>
+}
+
+@section Styles {
+    <style>
+        .portfolio-context {
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--bs-primary);
+        }
+        
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--bs-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .recent-features ul li {
+            transition: all 0.2s ease;
+        }
+        
+        .recent-features ul li:hover {
+            transform: translateX(4px);
+            color: var(--bs-primary);
+        }
+        
+        .role-info-section {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1rem;
+        }
+        
+        .role-card {
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .role-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .main-illustration {
+            max-width: 60%;
+            height: auto;
+            margin-top: 2rem;
+        }
+        
+        .social-buttons .btn {
+            margin: 0 0.25rem;
+            width: 40px;
+            height: 40px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        @@media (max-width: 768px) {
+            .portfolio-context {
+                margin-bottom: 1rem;
+            }
+            
+            .main-illustration {
+                max-width: 80%;
+                margin-top: 1rem;
+            }
+            
+            .role-cards {
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+}

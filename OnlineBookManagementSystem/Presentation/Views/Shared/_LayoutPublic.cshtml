@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Whispering Pages</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="@(ViewData["Description"] ?? "Online Book Management System - A comprehensive Clean Architecture showcase featuring modern web development practices, SOLID principles, and interactive book browsing experience.")" />
+    <meta name="keywords" content="@(ViewData["Keywords"] ?? "book management, clean architecture, ASP.NET Core, portfolio, software development, SOLID principles, modern web design")" />
+    <meta name="author" content="Whispering Pages Development Team" />
+    <meta name="robots" content="index, follow" />
+    <meta name="language" content="English" />
+    <meta name="revisit-after" content="7 days" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="@(ViewData["CanonicalUrl"] ?? $"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.Path}")" />
+    <meta property="og:title" content="@ViewData["Title"] - Whispering Pages" />
+    <meta property="og:description" content="@(ViewData["Description"] ?? "Experience a comprehensive book management system showcasing Clean Architecture, modern UI/UX design, and professional software development practices.")" />
+    <meta property="og:image" content="@(ViewData["OgImage"] ?? $"{Context.Request.Scheme}://{Context.Request.Host}/images/og-showcase.jpg")" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="Whispering Pages" />
+    <meta property="og:locale" content="en_US" />
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="@(ViewData["CanonicalUrl"] ?? $"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.Path}")" />
+    <meta name="twitter:title" content="@ViewData["Title"] - Whispering Pages" />
+    <meta name="twitter:description" content="@(ViewData["Description"] ?? "Experience a comprehensive book management system showcasing Clean Architecture and modern web development.")" />
+    <meta name="twitter:image" content="@(ViewData["TwitterImage"] ?? $"{Context.Request.Scheme}://{Context.Request.Host}/images/twitter-showcase.jpg")" />
+    <meta name="twitter:creator" content="@@WhisperingPages" />
+    <meta name="twitter:site" content="@@WhisperingPages" />
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="@(ViewData["CanonicalUrl"] ?? $"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.Path}")" />
+    
+    <!-- Favicon and App Icons -->
+    <link rel="icon" type="image/x-icon" href="~/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="~/images/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="~/images/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="~/images/favicon-16x16.png" />
+    <link rel="manifest" href="~/site.webmanifest" />
+    
+    <!-- Preconnect for Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+    
+    <!-- DNS Prefetch -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="//cdn.jsdelivr.net" />
+
+    <!-- Bootstrap CSS - Local First -->
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"
+          asp-fallback-href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          asp-fallback-test-class="visually-hidden" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+
+    <!-- Unified Role-Based Theme Engine -->
+    <link href="~/css/role-based-color-system.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/role-based-theme-engine.css" rel="stylesheet" asp-append-version="true" />
+    
+    <!-- Role Color Palette Fix -->
+    <link href="~/css/role-color-palette-fix.css" rel="stylesheet" asp-append-version="true" />
+    
+    <!-- Public View Enhancements -->
+    <link href="~/css/public-view-enhancements.css" rel="stylesheet" asp-append-version="true" />
+    
+
+    
+    <!-- Essential Effects CSS -->
+    
+    <!-- Accessibility Enhancements CSS -->
+    <link href="~/css/accessibility-enhancements.css" rel="stylesheet" asp-append-version="true" />
+    
+    <!-- UI Consistency Fixes -->
+    <link href="~/css/ui-consistency-fixes.css" rel="stylesheet" asp-append-version="true" />
+
+    @RenderSection("Styles", required: false)
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@@context": "https://schema.org",
+        "@@type": "WebSite",
+        "name": "Whispering Pages",
+        "description": "Online Book Management System - Clean Architecture Showcase",
+        "url": "@($"{Context.Request.Scheme}://{Context.Request.Host}")",
+        "potentialAction": {
+            "@@type": "SearchAction",
+            "target": {
+                "@@type": "EntryPoint",
+                "urlTemplate": "@($"{Context.Request.Scheme}://{Context.Request.Host}/Public/Browse?search={{search_term_string}}")"
+            },
+            "query-input": "required name=search_term_string"
+        },
+        "publisher": {
+            "@@type": "Organization",
+            "name": "Whispering Pages",
+            "logo": {
+                "@@type": "ImageObject",
+                "url": "@($"{Context.Request.Scheme}://{Context.Request.Host}/images/logo.png")"
+            }
+        }
+    }
+    </script>
+    
+    @if (ViewData["StructuredData"] != null)
+    {
+        @Html.Raw(ViewData["StructuredData"])
+    }
+</head>
+<body class="public-layout public-theme" data-authenticated="false">
+    <!-- Skip to main content for screen readers -->
+    <a href="#main-content" class="visually-hidden-focusable btn btn-primary position-absolute" style="top: 10px; left: 10px; z-index: 9999;">
+        Skip to main content
+    </a>
+    <!-- Public Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top" role="navigation" aria-label="Main navigation">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand d-flex align-items-center" href="/" aria-label="Whispering Pages Home">
+                <img src="@Url.Content("~/images/Render_main_logo_30x301.png")" alt="Whispering Pages Logo" height="40" class="me-2">
+                <span class="fw-bold">Whispering Pages</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#publicNavbar" 
+                    aria-controls="publicNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="publicNavbar">
+                <ul class="navbar-nav ms-auto align-items-center" role="menubar">
+                    <li class="nav-item" role="none">
+                        <a class="nav-link" href="/" role="menuitem" aria-label="Go to homepage">
+                            <i class="bi bi-house-door me-1" aria-hidden="true"></i>Home
+                        </a>
+                    </li>
+                    <li class="nav-item" role="none">
+                        <a class="nav-link" asp-controller="Public" asp-action="Browse" role="menuitem" aria-label="Browse book collection">
+                            <i class="bi bi-book me-1" aria-hidden="true"></i>Browse Books
+                        </a>
+                    </li>
+                    <li class="nav-item" role="none">
+                        <a class="nav-link" asp-controller="Public" asp-action="TechnicalDetails" role="menuitem" aria-label="View technical details and architecture">
+                            <i class="bi bi-gear me-1" aria-hidden="true"></i>Technical Details
+                        </a>
+                    </li>
+                    <li class="nav-item" role="none">
+                        <a class="nav-link" asp-controller="Public" asp-action="DeveloperStory" role="menuitem" aria-label="Read developer story and project journey">
+                            <i class="bi bi-person-circle me-1" aria-hidden="true"></i>Developer Story
+                        </a>
+                    </li>
+                    <li class="nav-item ms-3" role="none">
+                        <a class="btn btn-outline-primary btn-sm" asp-controller="Auth" asp-action="Login" role="menuitem" aria-label="Login to your account">
+                            <i class="bi bi-box-arrow-in-right me-1" aria-hidden="true"></i>Login
+                        </a>
+                    </li>
+                    <li class="nav-item ms-2" role="none">
+                        <a class="btn btn-primary btn-sm" asp-controller="Auth" asp-action="Registration" role="menuitem" aria-label="Create new account">
+                            <i class="bi bi-person-plus me-1" aria-hidden="true"></i>Sign Up
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main id="main-content" class="container-fluid py-4" role="main">
+        @RenderBody()
+    </main>
+
+    <!-- Footer -->
+    <footer class="wp-footer text-center py-4 mt-5 bg-light border-top" role="contentinfo" aria-label="Site footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <h5 class="fw-bold">Whispering Pages</h5>
+                    <p class="text-muted small">Your gateway to endless stories and knowledge</p>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h6 class="fw-bold">Quick Links</h6>
+                    <nav aria-label="Footer navigation">
+                        <ul class="list-unstyled">
+                            <li><a href="/" class="text-decoration-none text-muted" aria-label="Go to homepage">Home</a></li>
+                            <li><a asp-controller="Public" asp-action="TechnicalDetails" class="text-decoration-none text-muted" aria-label="View technical details">Technical Details</a></li>
+                            <li><a asp-controller="Public" asp-action="DeveloperStory" class="text-decoration-none text-muted" aria-label="Read developer story">Developer Story</a></li>
+                            <li><a asp-controller="Public" asp-action="InteractiveDemo" class="text-decoration-none text-muted" aria-label="Try interactive demo">Interactive Demo</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h6 class="fw-bold">Connect With Us</h6>
+                    <div class="d-flex justify-content-center gap-3" role="group" aria-label="Social media links">
+                        <a href="#" class="text-muted" aria-label="Follow us on Facebook" title="Facebook">
+                            <i class="bi bi-facebook fs-4" aria-hidden="true"></i>
+                        </a>
+                        <a href="#" class="text-muted" aria-label="Follow us on Twitter" title="Twitter">
+                            <i class="bi bi-twitter fs-4" aria-hidden="true"></i>
+                        </a>
+                        <a href="#" class="text-muted" aria-label="Follow us on Instagram" title="Instagram">
+                            <i class="bi bi-instagram fs-4" aria-hidden="true"></i>
+                        </a>
+                        <a href="#" class="text-muted" aria-label="Connect on LinkedIn" title="LinkedIn">
+                            <i class="bi bi-linkedin fs-4" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-3">
+            <p class="text-muted small mb-0">
+                &copy; 2026 - Whispering Pages <i class="bi bi-book-half" aria-hidden="true"></i> | All Rights Reserved
+            </p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap Toast Container -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1100">
+        <!-- Toasts injected via JS -->
+    </div>
+
+    <!-- Bootstrap JS - Local First -->
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
+            asp-fallback-src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            asp-fallback-test="window.bootstrap"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+    <!-- Shared Scripts -->
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    
+    <!-- Essential Effects JS -->
+
+    
+    <!-- Accessibility Enhancement Script -->
+    <script>
+        // Enhanced keyboard navigation and accessibility
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add focus indicators for keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Tab') {
+                    document.body.classList.add('keyboard-navigation');
+                }
+            });
+            
+            document.addEventListener('mousedown', function() {
+                document.body.classList.remove('keyboard-navigation');
+            });
+            
+            // Announce page changes to screen readers
+            const pageTitle = document.title;
+            const announcement = document.createElement('div');
+            announcement.setAttribute('aria-live', 'polite');
+            announcement.setAttribute('aria-atomic', 'true');
+            announcement.className = 'visually-hidden';
+            announcement.textContent = `Page loaded: ${pageTitle}`;
+            document.body.appendChild(announcement);
+            
+            // Enhanced skip link functionality
+            const skipLink = document.querySelector('.visually-hidden-focusable');
+            if (skipLink) {
+                skipLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.focus();
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            }
+        });
+    </script>
+    
+    <!-- Accessibility Styles -->
+    <style>
+        /* Enhanced focus indicators for keyboard navigation */
+        .keyboard-navigation *:focus {
+            outline: 3px solid #0066cc !important;
+            outline-offset: 2px !important;
+        }
+        
+        /* Skip link styling */
+        .visually-hidden-focusable:focus {
+            position: absolute !important;
+            width: auto !important;
+            height: auto !important;
+            padding: 0.5rem 1rem !important;
+            margin: 0 !important;
+            overflow: visible !important;
+            clip: auto !important;
+            white-space: nowrap !important;
+        }
+        
+        /* High contrast mode support */
+        @@media (prefers-contrast: high) {
+            .glass, .glass-deep {
+                background: rgba(255, 255, 255, 0.95) !important;
+                border: 2px solid #000 !important;
+            }
+            
+            .aurora-bg {
+                background: #000 !important;
+            }
+            
+            .text-white-75, .text-white-50 {
+                color: #fff !important;
+            }
+        }
+        
+        /* Reduced motion support */
+        @@media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+            
+            .floating, .pulse-glow, .holographic {
+                animation: none !important;
+            }
+        }
+        
+        /* Screen reader only content */
+        .sr-only {
+            position: absolute !important;
+            width: 1px !important;
+            height: 1px !important;
+            padding: 0 !important;
+            margin: -1px !important;
+            overflow: hidden !important;
+            clip: rect(0, 0, 0, 0) !important;
+            white-space: nowrap !important;
+            border: 0 !important;
+        }
+        
+        /* Ensure sufficient color contrast */
+        .text-muted {
+            color: #6c757d !important;
+        }
+        
+        /* Focus management for modals and interactive elements */
+        .modal:focus {
+            outline: none;
+        }
+        
+        .btn:focus, .form-control:focus, .form-select:focus {
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25) !important;
+        }
+        
+        /* Ensure clickable areas are large enough */
+        .btn-sm {
+            min-height: 44px;
+            min-width: 44px;
+        }
+        
+        /* Improve link visibility */
+        a:not(.btn):not(.nav-link):not(.navbar-brand) {
+            text-decoration: underline;
+        }
+        
+        a:not(.btn):not(.nav-link):not(.navbar-brand):hover {
+            text-decoration: none;
+        }
+    </style>
+</body>
+</html>

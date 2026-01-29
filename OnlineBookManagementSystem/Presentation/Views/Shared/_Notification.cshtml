@@ -1,0 +1,87 @@
+<!-- Toast Container for Notifications -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1100">
+    <!-- Success Toast -->
+    <div id="successToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header bg-success text-white">
+            <i class="bi bi-check-circle me-2"></i>
+            <strong class="me-auto">Success</strong>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body"></div>
+    </div>
+    
+    <!-- Error Toast -->
+    <div id="errorToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header bg-danger text-white">
+            <i class="bi bi-exclamation-triangle me-2"></i>
+            <strong class="me-auto">Error</strong>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body"></div>
+    </div>
+    
+    <!-- Info Toast -->
+    <div id="infoToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header bg-info text-white">
+            <i class="bi bi-info-circle me-2"></i>
+            <strong class="me-auto">Info</strong>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body"></div>
+    </div>
+    
+    <!-- Warning Toast -->
+    <div id="warningToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header bg-warning text-dark">
+            <i class="bi bi-exclamation-triangle me-2"></i>
+            <strong class="me-auto">Warning</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body"></div>
+    </div>
+</div>
+
+<!-- TempData Messages -->
+@if (TempData["SuccessMessage"] != null)
+{
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof notifications !== 'undefined') {
+                notifications.success('@Html.Raw(TempData["SuccessMessage"])');
+            }
+        });
+    </script>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof notifications !== 'undefined') {
+                notifications.error('@Html.Raw(TempData["ErrorMessage"])');
+            }
+        });
+    </script>
+}
+
+@if (TempData["InfoMessage"] != null)
+{
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof notifications !== 'undefined') {
+                notifications.info('@Html.Raw(TempData["InfoMessage"])');
+            }
+        });
+    </script>
+}
+
+@if (TempData["WarningMessage"] != null)
+{
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof notifications !== 'undefined') {
+                notifications.warning('@Html.Raw(TempData["WarningMessage"])');
+            }
+        });
+    </script>
+}

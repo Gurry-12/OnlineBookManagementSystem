@@ -1,0 +1,238 @@
+@model List<OnlineBookManagementSystem.Presentation.ViewModels.Activity.ActivityLogViewModel>
+
+@{
+    ViewData["Title"] = "Activity Logs";
+
+    var groupedLogs = Model
+        .GroupBy(log =>
+            log.Description.Contains("book", StringComparison.OrdinalIgnoreCase) ? "Book"
+            : log.Description.Contains("user", StringComparison.OrdinalIgnoreCase) ? "User"
+            : log.ActionType is "Login" or "Logout" or "Register" ? "Authentication"
+            : "Other")
+        .OrderBy(g => g.Key);
+
+    string GetIcon(string key) => key switch
+    {
+        "User" => "bi-person-circle",
+        "Book" => "bi-journal-bookmark",
+        "Authentication" => "bi-shield-lock",
+        _ => "bi-info-circle"
+    };
+
+    string GetBadgeClass(string actionType) => actionType switch
+    {
+        "Add" => "bg-success",
+        "Update" => "bg-warning text-dark",
+        "Delete" => "bg-danger",
+        "Register" => "bg-info text-dark",
+        "Login" => "bg-primary",
+        "Logout" => "bg-dark",
+        _ => "bg-secondary"
+    };
+}
+
+<div class="container-fluid px-3 px-md-5 py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary fw-bold">
+            <i class="bi bi-clock-history me-2"></i>Activity Logs
+            @if (ViewBag.ShowingToday == true)
+            {
+                <span class="badge bg-success ms-2">Today's Activities</span>
+            }
+        </h2>
+        <div class="d-flex gap-2">
+            <button class="btn btn-outline-primary" onclick="toggleFilters()">
+                <i class="bi bi-funnel me-1"></i>Filters
+            </button>
+            <a href="@Url.Action("ActivityLogs")" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-clockwise me-1"></i>Reset
+            </a>
+        </div>
+    </div>
+
+    <!-- Filters Panel -->
+    <div class="card border-0 shadow-sm rounded-4 mb-4" id="filtersPanel" style="display: @(ViewBag.ShowingToday == false ? "block" : "none");">
+        <div class="card-body">
+            <form method="get" class="row g-3">
+                <div class="col-md-3 form-floating">
+                    <input type="text" name="search" class="form-control" placeholder="Search logs..." value="@ViewBag.Search">
+                    <label class="form-label ms-2">Search</label>
+                </div>
+                <div class="col-md-2 form-floating">
+                    <select name="action" class="form-select">
+                        <option value="">All Actions</option>
+                        <option value="Login" selected="@(ViewBag.Action == "Login")">Login</option>
+                        <option value="Logout" selected="@(ViewBag.Action == "Logout")">Logout</option>
+                        <option value="Add" selected="@(ViewBag.Action == "Add")">Add</option>
+                        <option value="Update" selected="@(ViewBag.Action == "Update")">Update</option>
+                        <option value="Delete" selected="@(ViewBag.Action == "Delete")">Delete</option>
+                        <option value="Register" selected="@(ViewBag.Action == "Register")">Register</option>
+                    </select>
+                    <label class="form-label ms-2">Action Type</label>
+                </div>
+                <div class="col-md-2 form-floating">
+                    <input type="date" name="dateFrom" class="form-control" value="@ViewBag.DateFrom">
+                    <label class="form-label ms-2">Date From</label>
+                </div>
+                <div class="col-md-2 form-floating">
+                    <input type="date" name="dateTo" class="form-control" value="@ViewBag.DateTo">
+                    <label class="form-label ms-2">Date To</label>
+                </div>
+                <div class="col-md-2 d-flex align-items-end gap-2">
+                    <button type="submit" class="btn btn-primary flex-fill">
+                        <i class="bi bi-search"></i> Filter
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary" onclick="showTodayLogs()">
+                        <i class="bi bi-calendar-day"></i> Today
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info text-center shadow-sm rounded-4">
+            <i class="bi bi-info-circle-fill me-2"></i>
+            @if (ViewBag.ShowingToday == true)
+            {
+                <span>No activity logs found for today. <a href="javascript:toggleFilters()" class="alert-link">Use filters</a> to view logs from other dates.</span>
+            }
+            else
+            {
+                <span>No activity logs found for the selected criteria.</span>
+            }
+        </div>
+    }
+    else
+    {
+        <!-- Statistics Cards -->
+        <div class="row g-3 mb-4">
+            <div class="col-md-4">
+                <div class="card border-0 bg-primary text-white">
+                    <div class="card-body text-center">
+                        <i class="bi bi-activity fs-1 mb-2"></i>
+                        <h4>@Model.Count</h4>
+                        <small>@(ViewBag.ShowingToday == true ? "Today's" : "Filtered") Activities</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card border-0 bg-success text-white">
+                    <div class="card-body text-center">
+                        <i class="bi bi-person-check fs-1 mb-2"></i>
+                        <h4>@Model.Where(l => l.ActionType == "Login").Count()</h4>
+                        <small>Login Activities</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card border-0 bg-warning text-white">
+                    <div class="card-body text-center">
+                        <i class="bi bi-journal-plus fs-1 mb-2"></i>
+                        <h4>@Model.Where(l => l.ActionType == "Add" || l.ActionType == "Update").Count()</h4>
+                        <small>Content Activities</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        foreach (var group in groupedLogs)
+        {
+            var icon = GetIcon(group.Key);
+            <div class="card mb-4 border-0 shadow rounded-4 overflow-hidden animate__animated animate__fadeIn">
+                <div class="card-header bg-gradient bg-primary text-white py-3 d-flex justify-content-between align-items-center">
+                    <div>
+                        <i class="bi @icon me-2"></i>
+                        <span class="fw-semibold text-capitalize">@group.Key Activities</span>
+                    </div>
+                    <span class="badge bg-light text-primary fw-semibold">@group.Count() logs</span>
+                </div>
+
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th style="width: 20%;">Action</th>
+                                    <th style="width: 50%;">Description</th>
+                                    <th style="width: 15%;">User</th>
+                                    <th style="width: 15%;">When</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var log in group.OrderByDescending(l => l.Timestamp))
+                                {
+                                    <tr>
+                                        <td>
+                                            <span class="badge @GetBadgeClass(log.ActionType)"
+                                                  data-bs-toggle="tooltip"
+                                                  title="Action: @log.ActionType">@log.ActionType</span>
+                                        </td>
+                                        <td>@log.Description</td>
+                                        <td>
+                                            <small class="text-muted">@(log.UserName ?? "System")</small>
+                                        </td>
+                                        <td>
+                                            <span title="@log.Timestamp.ToString("f")"
+                                                  data-bs-toggle="tooltip">
+                                                @GetTimeAgo(log.Timestamp)
+                                            </span>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+@section Styles {
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet" />
+    <!-- Toastr JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+}
+
+@section Scripts {
+    <script>
+        // Initialize Bootstrap tooltips
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.map(el => new bootstrap.Tooltip(el));
+
+        function toggleFilters() {
+            const panel = document.getElementById('filtersPanel');
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function showTodayLogs() {
+            window.location.href = '@Url.Action("ActivityLogs")';
+        }
+
+        // Auto-refresh every 60 seconds for today's view
+        @if (ViewBag.ShowingToday == true)
+        {
+            <text>
+            setInterval(function() {
+                if (!document.hidden) {
+                    location.reload();
+                }
+            }, 60000);
+            </text>
+        }
+    </script>
+}
+
+@functions {
+    public string GetTimeAgo(DateTime time)
+    {
+        var span = DateTime.Now.Subtract(time);
+        if (span.TotalMinutes < 1) return "Just now";
+        if (span.TotalMinutes < 60) return $"{(int)span.TotalMinutes} min{(span.TotalMinutes >= 2 ? "s" : "")} ago";
+        if (span.TotalHours < 24) return $"{(int)span.TotalHours} hour{(span.TotalHours >= 2 ? "s" : "")} ago";
+        return $"{(int)span.TotalDays} day{(span.TotalDays >= 2 ? "s" : "")} ago";
+    }
+}

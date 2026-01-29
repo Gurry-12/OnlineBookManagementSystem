@@ -1,0 +1,102 @@
+@using OnlineBookManagementSystem.Presentation.ViewModels.Books
+@model BookListViewModel
+
+@{
+    ViewData["Title"] = "Books Management";
+    Layout = ViewData["Layout"]?.ToString() ?? "_LayoutAdmin";
+}
+
+<div class="container-fluid py-4 books-management-page" data-page="books">
+    <!-- Page Header -->
+    <div class="wp-card mb-4">
+        <div class="wp-card-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2 class="mb-0 wp-text-gradient">
+                        <i class="bi bi-book me-2"></i>Books Management
+                    </h2>
+                    <p class="mb-0 mt-2 text-white-50">Manage your book inventory and catalog</p>
+                </div>
+                <button class="wp-btn wp-btn-secondary create-book-btn">
+                    <i class="bi bi-plus-circle me-2"></i>Add New Book
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search & Filters -->
+    <div class="wp-card mb-4">
+        <div class="wp-card-body">
+            <div class="row g-3 align-items-end">
+                <div class="col-md-3">
+                    <label class="wp-form-label">
+                        <i class="bi bi-search me-1"></i>Search Books
+                    </label>
+                    <input type="text" name="search" value="@ViewBag.Search" class="wp-form-control" 
+                           placeholder="Search by title or author..." />
+                </div>
+                
+                <div class="col-md-2">
+                    <label class="wp-form-label">
+                        <i class="bi bi-tags me-1"></i>Category
+                    </label>
+                    <select name="categoryId" class="wp-form-control" asp-items="ViewBag.Categories">
+                        <option value="">All Categories</option>
+                    </select>
+                </div>
+                
+                <div class="col-md-2">
+                    <label class="wp-form-label">
+                        <i class="bi bi-box me-1"></i>Availability
+                    </label>
+                    <select name="inStock" class="wp-form-control">
+                        <option value="">All Books</option>
+                        <option value="true">In Stock</option>
+                        <option value="false">Out of Stock</option>
+                    </select>
+                </div>
+                
+                <div class="col-md-2">
+                    <label class="wp-form-label">
+                        <i class="bi bi-sort-down me-1"></i>Sort By
+                    </label>
+                    <select name="sortBy" class="wp-form-control">
+                        <option value="">Default Order</option>
+                        <option value="priceAsc">Price: Low to High</option>
+                        <option value="priceDesc">Price: High to Low</option>
+                        <option value="stock">Stock: Low to High</option>
+                        <option value="title">Title A-Z</option>
+                    </select>
+                </div>
+                
+                <div class="col-md-3">
+                    <div class="d-flex gap-2">
+                        <button class="wp-btn wp-btn-secondary flex-fill" type="button" onclick="refresh()">
+                            <i class="bi bi-arrow-clockwise me-2"></i>Refresh
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Books Content Container -->
+    <div id="books-content">
+        @await Html.PartialAsync("_BooksGrid", Model)
+    </div>
+</div>
+
+@await Html.PartialAsync("_Notification")
+
+@section Scripts {
+    <!-- Core AJAX Infrastructure -->
+    <script src="~/js/core/apiClient.js"></script>
+    <script src="~/js/core/notifications.js"></script>
+    <script src="~/js/core/urlStateManager.js"></script>
+    
+    <!-- Book Management -->
+    <script src="~/js/admin/bookManager.js"></script>
+    
+    <!-- Test Script (remove after testing) -->
+    <script src="~/js/admin/test-ajax.js"></script>
+}

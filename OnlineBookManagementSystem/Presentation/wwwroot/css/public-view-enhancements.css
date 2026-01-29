@@ -1,0 +1,678 @@
+/* ===================================================================
+   PUBLIC VIEW COLOR ENHANCEMENTS
+   Additional color fixes specific to public-facing pages
+   =================================================================== */
+
+/* ===== PUBLIC LAYOUT SPECIFIC FIXES ===== */
+.public-layout {
+    background: linear-gradient(135deg, #FAFBFF 0%, #F0F4FF 100%);
+    color: #111827;
+    min-height: 100vh;
+}
+
+/* ===== HERO SECTIONS ===== */
+.aurora-bg {
+    background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 50%, #EC4899 100%);
+    position: relative;
+}
+
+.aurora-bg .text-white {
+    color: #e09b9b !important;
+}
+
+.aurora-bg .text-white-75 {
+    color: rgba(255, 255, 255, 0.75) !important;
+}
+
+.aurora-bg .text-white-50 {
+    color: rgba(255, 255, 255, 0.5) !important;
+}
+
+/* ===== GLASS MORPHISM CARDS ===== */
+.glass,
+.glass-deep {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #111827;
+}
+
+.glass h1, .glass h2, .glass h3,
+.glass h4, .glass h5, .glass h6,
+.glass-deep h1, .glass-deep h2, .glass-deep h3,
+.glass-deep h4, .glass-deep h5, .glass-deep h6 {
+    color: #111827;
+}
+
+.glass p, .glass-deep p {
+    color: #374151;
+}
+
+.glass .text-muted,
+.glass-deep .text-muted {
+    color: #6B7280 !important;
+}
+
+/* ===== BOOK CARDS ===== */
+.book-card {
+    background: #FFFFFF;
+    color: #111827;
+    border: 1px solid #E5E7EB;
+}
+
+.book-card .book-title {
+    color: #111827;
+}
+
+.book-card .book-author {
+    color: #6B7280;
+}
+
+.book-card .book-description {
+    color: #4B5563;
+}
+
+.book-card .book-price {
+    color: #6366F1;
+    font-weight: 700;
+}
+
+/* ===== SPOTLIGHT CARDS ===== */
+.spotlight-card {
+    background: #FFFFFF;
+    color: #111827;
+    border: 1px solid #E5E7EB;
+}
+
+.spotlight-card h1, .spotlight-card h2, .spotlight-card h3,
+.spotlight-card h4, .spotlight-card h5, .spotlight-card h6 {
+    color: #111827;
+}
+
+.spotlight-card p {
+    color: #374151;
+}
+
+/* ===== GRADIENT TEXT ===== */
+.gradient-text {
+    background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+}
+
+/* ===== IRIDESCENT TEXT - ANIMATION REMOVED ===== */
+.iridescent {
+    background: linear-gradient(90deg, #6366F1, #8B5CF6, #EC4899, #6366F1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    /* Removed animation: shimmer 3s linear infinite; to prevent page size issues */
+}
+
+/* Removed problematic shimmer keyframes */
+
+/* ===== BADGES ===== */
+.badge {
+    font-weight: 600;
+}
+
+.badge.bg-primary {
+    background-color: #6366F1 !important;
+    color: #FFFFFF !important;
+}
+
+.badge.bg-success {
+    background-color: #10B981 !important;
+    color: #FFFFFF !important;
+}
+
+.badge.bg-warning {
+    background-color: #F59E0B !important;
+    color: #111827 !important;
+}
+
+.badge.bg-danger {
+    background-color: #EF4444 !important;
+    color: #FFFFFF !important;
+}
+
+.badge.bg-info {
+    background-color: #3B82F6 !important;
+    color: #FFFFFF !important;
+}
+
+.badge.bg-secondary {
+    background-color: #6B7280 !important;
+    color: #FFFFFF !important;
+}
+
+.badge.bg-dark {
+    background-color: #1F2937 !important;
+    color: #FFFFFF !important;
+}
+
+/* Badge with opacity backgrounds */
+.badge.bg-primary.bg-opacity-20 {
+    background-color: rgba(99, 102, 241, 0.2) !important;
+    color: #4F46E5 !important;
+}
+
+.badge.bg-success.bg-opacity-20 {
+    background-color: rgba(16, 185, 129, 0.2) !important;
+    color: #059669 !important;
+}
+
+.badge.bg-info.bg-opacity-20 {
+    background-color: rgba(59, 130, 246, 0.2) !important;
+    color: #2563EB !important;
+}
+
+/* ===== BUTTONS ===== */
+.btn-primary {
+    background-color: #6366F1;
+    border-color: #6366F1;
+    color: #FFFFFF !important;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: #4F46E5;
+    border-color: #4F46E5;
+    color: #FFFFFF !important;
+}
+
+.btn-outline-primary {
+    border-color: #6366F1;
+    color: #6366F1;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary:focus {
+    background-color: #6366F1;
+    border-color: #6366F1;
+    color: #FFFFFF !important;
+}
+
+.btn-outline-secondary {
+    border-color: #6B7280;
+    color: #6B7280;
+}
+
+.btn-outline-secondary:hover,
+.btn-outline-secondary:focus {
+    background-color: #6B7280;
+    border-color: #6B7280;
+    color: #FFFFFF !important;
+}
+
+.btn-outline-light {
+    border-color: rgba(255, 255, 255, 0.5);
+    color: #FFFFFF;
+}
+
+.btn-outline-light:hover,
+.btn-outline-light:focus {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: #FFFFFF;
+    color: #FFFFFF !important;
+}
+
+/* ===== FORMS ===== */
+.form-control {
+    background-color: #FFFFFF;
+    color: #111827;
+    border-color: #D1D5DB;
+}
+
+.form-control:focus {
+    background-color: #FFFFFF;
+    color: #111827;
+    border-color: #6366F1;
+    box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.25);
+}
+
+.form-control::placeholder {
+    color: #9CA3AF;
+}
+
+.form-label {
+    color: #1F2937;
+    font-weight: 500;
+}
+
+.form-select {
+    background-color: #FFFFFF;
+    color: #111827;
+    border-color: #D1D5DB;
+}
+
+.form-select:focus {
+    background-color: #FFFFFF;
+    color: #111827;
+    border-color: #6366F1;
+}
+
+/* ===== ALERTS ===== */
+.alert {
+    border-left: 4px solid;
+}
+
+.alert-success {
+    background-color: rgba(16, 185, 129, 0.1);
+    border-color: #10B981;
+    color: #065F46;
+}
+
+.alert-warning {
+    background-color: rgba(245, 158, 11, 0.1);
+    border-color: #F59E0B;
+    color: #92400E;
+}
+
+.alert-danger {
+    background-color: rgba(239, 68, 68, 0.1);
+    border-color: #EF4444;
+    color: #991B1B;
+}
+
+.alert-info {
+    background-color: rgba(59, 130, 246, 0.1);
+    border-color: #3B82F6;
+    color: #1E40AF;
+}
+
+/* ===== PAGINATION ===== */
+.pagination .page-link {
+    background-color: #FFFFFF;
+    color: #6366F1;
+    border-color: #D1D5DB;
+}
+
+.pagination .page-link:hover {
+    background-color: #F3F4F6;
+    color: #4F46E5;
+    border-color: #6366F1;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #6366F1;
+    border-color: #6366F1;
+    color: #FFFFFF;
+}
+
+.pagination .page-item.disabled .page-link {
+    background-color: #F3F4F6;
+    color: #9CA3AF;
+    border-color: #D1D5DB;
+}
+
+/* ===== NAVBAR ===== */
+.navbar-light {
+    background-color: #FFFFFF !important;
+}
+
+.navbar-light .navbar-brand {
+    color: #111827;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: #4B5563;
+}
+
+.navbar-light .navbar-nav .nav-link:hover,
+.navbar-light .navbar-nav .nav-link:focus {
+    color: #6366F1;
+}
+
+.navbar-light .navbar-nav .nav-link.active {
+    color: #6366F1;
+    font-weight: 600;
+}
+
+/* ===== FOOTER ===== */
+.wp-footer {
+    background-color: #F9FAFB;
+    color: #4B5563;
+    border-top: 1px solid #E5E7EB;
+}
+
+.wp-footer a {
+    color: #6366F1;
+    text-decoration: none;
+}
+
+.wp-footer a:hover {
+    color: #4F46E5;
+    text-decoration: underline;
+}
+
+/* ===== SECTIONS WITH BG-LIGHT ===== */
+.bg-light {
+    background-color: #F9FAFB !important;
+    color: #111827;
+}
+
+.bg-light h1, .bg-light h2, .bg-light h3,
+.bg-light h4, .bg-light h5, .bg-light h6 {
+    color: #111827;
+}
+
+.bg-light p {
+    color: #374151;
+}
+
+.bg-light .text-muted {
+    color: #6B7280 !important;
+}
+
+/* ===== SECTIONS WITH BG-DARK ===== */
+.bg-dark {
+    background-color: #1F2937 !important;
+    color: #FFFFFF;
+}
+
+.bg-dark h1, .bg-dark h2, .bg-dark h3,
+.bg-dark h4, .bg-dark h5, .bg-dark h6 {
+    color: #FFFFFF;
+}
+
+.bg-dark p {
+    color: #E5E7EB;
+}
+
+.bg-dark .text-muted {
+    color: #9CA3AF !important;
+}
+
+.bg-dark .text-light {
+    color: #F3F4F6 !important;
+}
+
+/* ===== CODE BLOCKS ===== */
+.code-example,
+pre.bg-dark {
+    background-color: #1F2937 !important;
+    color: #F3F4F6 !important;
+}
+
+.code-example code,
+pre.bg-dark code {
+    color: #F3F4F6 !important;
+}
+
+/* ===== WORKFLOW STEPS ===== */
+.workflow-step {
+    background-color: #F9FAFB;
+    color: #111827;
+}
+
+.workflow-step h6 {
+    color: #111827;
+}
+
+.workflow-step p {
+    color: #6B7280;
+}
+
+.step-number {
+    font-weight: 700;
+}
+
+.step-number.bg-primary {
+    background-color: #6366F1 !important;
+    color: #FFFFFF !important;
+}
+
+.step-number.bg-success {
+    background-color: #10B981 !important;
+    color: #FFFFFF !important;
+}
+
+.step-number.bg-warning {
+    background-color: #F59E0B !important;
+    color: #FFFFFF !important;
+}
+
+.step-number.bg-info {
+    background-color: #3B82F6 !important;
+    color: #FFFFFF !important;
+}
+
+.step-number.bg-dark {
+    background-color: #1F2937 !important;
+    color: #FFFFFF !important;
+}
+
+/* ===== STATS DISPLAY ===== */
+.stat-value {
+    color: #111827;
+    font-weight: 700;
+}
+
+.stat-label {
+    color: #6B7280;
+}
+
+.demo-stats .stat-value {
+    color: #FFFFFF;
+}
+
+.demo-stats .stat-label {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+/* ===== TECH NOTES ===== */
+.tech-note {
+    background-color: #F9FAFB;
+    color: #111827;
+}
+
+.tech-note h6 {
+    color: #111827;
+}
+
+.tech-note ul li {
+    color: #4B5563;
+}
+
+/* ===== TABLES ===== */
+.table {
+    color: #111827;
+}
+
+.table thead {
+    background-color: #6366F1;
+    color: #FFFFFF;
+}
+
+.table thead th {
+    color: #FFFFFF;
+}
+
+.table tbody {
+    background-color: #FFFFFF;
+}
+
+.table tbody td {
+    color: #374151;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #F9FAFB;
+}
+
+.table-dark {
+    background-color: #1F2937;
+    color: #FFFFFF;
+}
+
+.table-dark thead th {
+    color: #FFFFFF;
+}
+
+.table-dark tbody td {
+    color: #E5E7EB;
+}
+
+/* ===== PORTFOLIO CONTEXT BANNER ===== */
+.portfolio-context-banner {
+    background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
+    color: #FFFFFF;
+}
+
+.portfolio-context-banner h1,
+.portfolio-context-banner h2,
+.portfolio-context-banner h3,
+.portfolio-context-banner h4,
+.portfolio-context-banner h5,
+.portfolio-context-banner h6 {
+    color: #FFFFFF;
+}
+
+.portfolio-context-banner p {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* ===== TECH IMPLEMENTATION BANNER ===== */
+.tech-implementation-banner {
+    background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
+    color: #FFFFFF;
+}
+
+.tech-implementation-banner h6 {
+    color: #FFFFFF;
+}
+
+.tech-implementation-banner small {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+/* ===== PRICE SECTION ===== */
+.price-section {
+    background-color: #F9FAFB;
+    border-left: 4px solid #6366F1;
+}
+
+.price-section h2 {
+    color: #6366F1;
+}
+
+.price-section small {
+    color: #6B7280;
+}
+
+/* ===== DESCRIPTION SECTION ===== */
+.description-section h4 {
+    color: #111827;
+}
+
+.description-section p {
+    color: #374151;
+}
+
+/* ===== DETAILS TABLE ===== */
+.details-table td {
+    color: #374151;
+}
+
+.details-table .fw-bold {
+    color: #1F2937;
+}
+
+/* ===== FEATURE HIGHLIGHT ===== */
+.feature-highlight {
+    background: #FFFFFF;
+    color: #111827;
+}
+
+.feature-highlight h1, .feature-highlight h2, .feature-highlight h3,
+.feature-highlight h4, .feature-highlight h5, .feature-highlight h6 {
+    color: #111827;
+}
+
+/* ===== HOVER EFFECTS ===== */
+.hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* ===== NEON GLOW ===== */
+.neon-glow {
+    text-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+}
+
+/* ===== PULSE GLOW - ANIMATION REMOVED ===== */
+.pulse-glow {
+    /* Removed animation: pulse-glow 2s ease-in-out infinite; to prevent page size issues */
+    opacity: 1;
+}
+
+/* Removed problematic pulse-glow keyframes */
+
+/* ===== HOLOGRAPHIC EFFECT - ANIMATION REMOVED ===== */
+.holographic {
+    position: relative;
+    overflow: hidden;
+}
+
+.holographic::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        transparent 30%,
+        rgba(255, 255, 255, 0.1) 50%,
+        transparent 70%
+    );
+    /* Removed animation: holographic-shine 3s infinite; to prevent page size issues */
+}
+
+/* Removed problematic holographic-shine keyframes */
+
+/* ===== RESPONSIVE ADJUSTMENTS ===== */
+@media (max-width: 768px) {
+    .aurora-bg {
+        padding: 2rem 1rem;
+    }
+    
+    .glass,
+    .glass-deep {
+        padding: 1rem;
+    }
+    
+    .book-card {
+        margin-bottom: 1rem;
+    }
+}
+
+/* ===== ACCESSIBILITY ===== */
+@media (prefers-reduced-motion: reduce) {
+    /* All problematic animations already removed */
+    
+    .hover-lift:hover {
+        transform: none;
+    }
+}
+
+/* ===== PRINT STYLES ===== */
+@media print {
+    .aurora-bg,
+    .glass,
+    .glass-deep {
+        background: white !important;
+        color: black !important;
+    }
+    
+    .gradient-text,
+    .iridescent {
+        -webkit-text-fill-color: black;
+        color: black !important;
+    }
+}

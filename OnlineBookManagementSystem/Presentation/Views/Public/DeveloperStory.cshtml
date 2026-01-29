@@ -1,0 +1,630 @@
+@model OnlineBookManagementSystem.Presentation.ViewModels.Showcase.DeveloperStoryPageViewModel
+@{
+    ViewData["Title"] = ViewBag.Title ?? "Developer Story - Project Journey & Vision";
+    Layout = "_LayoutPublic";
+}
+
+<!-- Story Hero Section -->
+<section class="story-hero aurora-bg enhanced noise-overlay particles-bg py-5" data-parallax="0.4">
+    <div class="container">
+        <div class="row align-items-center min-vh-50">
+            <div class="col-lg-8 mx-auto text-center cascade-animation" data-fade-in>
+                <div class="hero-content">
+                    <div class="hero-badge mb-3 floating">
+                        <span class="badge bg-info bg-opacity-20 text-info px-4 py-2 rounded-pill fs-6 holographic continuous">
+                            <i class="bi bi-person-circle me-2"></i>Developer Journey
+                        </span>
+                    </div>
+                    <h1 class="display-3 fw-bold text-white mb-4 gradient-text" data-text-reveal>
+                        The Story Behind the Code
+                    </h1>
+                    <p class="lead text-white-75 mb-4 fs-4 floating slow">
+                        Discover the motivation, challenges, and technical decisions that shaped 
+                        this comprehensive book management system.
+                    </p>
+                    <div class="hero-actions d-flex flex-wrap justify-content-center gap-3">
+                        <a asp-action="TechnicalDetails" class="wp-btn wp-btn-primary magnetic-btn holographic rainbow btn-lg pulse-glow">
+                            <i class="bi bi-gear me-2"></i>Technical Details
+                        </a>
+                        <a asp-action="InteractiveDemo" class="wp-btn wp-btn-secondary magnetic-btn btn-lg glass-deep">
+                            <i class="bi bi-play-circle me-2"></i>Live Demo
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Project Vision Section -->
+<section class="project-vision py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6" data-fade-in>
+                <div class="vision-content">
+                    <h2 class="display-5 fw-bold mb-4">Project Vision</h2>
+                    <p class="lead text-muted mb-4">@Model.ProjectOverview.Vision</p>
+                    <p class="mb-4">@Model.ProjectOverview.ValueProposition</p>
+                    
+                    <div class="project-status mb-4">
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-check-circle-fill text-success me-2"></i>
+                            <span class="fw-semibold">Status: @Model.ProjectOverview.ProjectStatus</span>
+                        </div>
+                    </div>
+                    
+                    @if (Model.ProjectOverview.KeyFeatures.Any())
+                    {
+                        <div class="key-features">
+                            <h5 class="fw-semibold mb-3">Key Features Implemented:</h5>
+                            <ul class="list-unstyled">
+                                @foreach (var feature in Model.ProjectOverview.KeyFeatures)
+                                {
+                                    <li class="mb-2">
+                                        <i class="bi bi-arrow-right text-primary me-2"></i>@feature
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="col-lg-6" data-fade-in>
+                <div class="vision-visual">
+                    <div class="project-stats glass p-4 rounded-4">
+                        <h5 class="fw-bold mb-4 text-center">Project Overview</h5>
+                        <div class="stats-grid">
+                            <div class="stat-item text-center mb-3">
+                                <div class="stat-icon mb-2">
+                                    <i class="bi bi-calendar-event text-primary" style="font-size: 2rem;"></i>
+                                </div>
+                                <div class="stat-value fw-bold">2024-2026</div>
+                                <div class="stat-label text-muted small">Development Period</div>
+                            </div>
+                            <div class="stat-item text-center mb-3">
+                                <div class="stat-icon mb-2">
+                                    <i class="bi bi-layers text-success" style="font-size: 2rem;"></i>
+                                </div>
+                                <div class="stat-value fw-bold">Clean Architecture</div>
+                                <div class="stat-label text-muted small">Design Pattern</div>
+                            </div>
+                            <div class="stat-item text-center mb-3">
+                                <div class="stat-icon mb-2">
+                                    <i class="bi bi-code-slash text-info" style="font-size: 2rem;"></i>
+                                </div>
+                                <div class="stat-value fw-bold">ASP.NET Core</div>
+                                <div class="stat-label text-muted small">Primary Framework</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Developer Motivation Section -->
+<section class="developer-motivation py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold mb-3">The Motivation</h2>
+            <p class="lead text-muted">What drove the creation of this project</p>
+        </div>
+        
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="motivation-card glass p-5 rounded-4" data-fade-in>
+                    <div class="motivation-content">
+                        <blockquote class="blockquote text-center mb-4">
+                            <p class="fs-4 fst-italic">"@Model.DeveloperStory.Motivation"</p>
+                        </blockquote>
+                        
+                        <div class="challenges-section mt-5">
+                            <h4 class="fw-bold mb-3 text-center">Challenges Solved</h4>
+                            <p class="text-muted text-center">@Model.DeveloperStory.ChallengesSolved</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Technical Decisions Section -->
+<section class="technical-decisions py-5 parallax-container" data-parallax="0.2">
+    <div class="container">
+        <div class="text-center mb-5 cascade-animation">
+            <h2 class="display-5 fw-bold mb-3 gradient-text">Technical Decisions</h2>
+            <p class="lead text-muted">Key architectural and implementation choices</p>
+        </div>
+
+        <div class="row g-4 cascade-animation">
+            @if (Model.DeveloperStory.TechnicalDecisions.Any())
+            {
+                @for (int i = 0; i < Model.DeveloperStory.TechnicalDecisions.Count; i++)
+                {
+                    var decision = Model.DeveloperStory.TechnicalDecisions[i];
+                    <div class="col-lg-6" data-fade-in>
+                        <div class="decision-card glass-deep spotlight-card feature-highlight hover-lift h-100 p-4 card-3d floating">
+                            <div class="decision-header d-flex align-items-center mb-3">
+                                <div class="decision-number me-3">
+                                    <div class="number-circle bg-primary text-white d-flex align-items-center justify-content-center fw-bold pulse-glow" 
+                                         style="width: 40px; height: 40px; border-radius: 50%;">
+                                        @(i + 1)
+                                    </div>
+                                </div>
+                                <h5 class="decision-title fw-bold mb-0 gradient-text">Technical Decision @(i + 1)</h5>
+                            </div>
+                            <p class="decision-description text-muted">@decision</p>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</section>
+
+<!-- Lessons Learned Section -->
+<section class="lessons-learned py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold mb-3">Lessons Learned</h2>
+            <p class="lead text-muted">Insights gained throughout the development journey</p>
+        </div>
+
+        <div class="row g-4">
+            @if (Model.DeveloperStory.LessonsLearned.Any())
+            {
+                @foreach (var lesson in Model.DeveloperStory.LessonsLearned)
+                {
+                    <div class="col-lg-6" data-fade-in>
+                        <div class="lesson-card glass spotlight-card hover-lift h-100 p-4">
+                            <div class="lesson-icon mb-3">
+                                <i class="bi bi-lightbulb text-warning" style="font-size: 2.5rem;"></i>
+                            </div>
+                            <p class="lesson-text mb-0">@lesson</p>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</section>
+
+<!-- Technical Achievements Section -->
+<section class="technical-achievements py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold mb-3">Technical Achievements</h2>
+            <p class="lead text-muted">Notable implementations and innovations</p>
+        </div>
+
+        <div class="row g-4">
+            @foreach (var achievement in Model.TechnicalAchievements)
+            {
+                <div class="col-lg-4 col-md-6" data-fade-in>
+                    <div class="achievement-card glass spotlight-card hover-lift h-100 p-4">
+                        <div class="achievement-header mb-3">
+                            <div class="achievement-category mb-2">
+                                <span class="badge bg-success bg-opacity-20 text-success">@achievement.Category</span>
+                            </div>
+                            <h4 class="achievement-title fw-bold mb-2">@achievement.FeatureName</h4>
+                        </div>
+                        <p class="achievement-description text-muted mb-3">@achievement.Description</p>
+                        @if (achievement.TechnicalDetails.Any())
+                        {
+                            <div class="technical-details">
+                                <h6 class="fw-semibold mb-2">Technical Details:</h6>
+                                <ul class="list-unstyled">
+                                    @foreach (var detail in achievement.TechnicalDetails.Take(3))
+                                    {
+                                        <li class="mb-1">
+                                            <i class="bi bi-check-circle text-success me-2"></i>
+                                            <small>@detail</small>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- Future Vision Section -->
+<section class="future-vision py-5 bg-light">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6" data-fade-in>
+                <div class="future-content">
+                    <h2 class="display-5 fw-bold mb-4">Future Vision</h2>
+                    <p class="lead text-muted mb-4">@Model.DeveloperStory.FutureVision</p>
+                    
+                    <div class="future-plans">
+                        <h5 class="fw-semibold mb-3">Planned Enhancements:</h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-2">
+                                <i class="bi bi-arrow-right text-primary me-2"></i>Microservices Architecture Migration
+                            </li>
+                            <li class="mb-2">
+                                <i class="bi bi-arrow-right text-primary me-2"></i>Advanced Analytics Dashboard
+                            </li>
+                            <li class="mb-2">
+                                <i class="bi bi-arrow-right text-primary me-2"></i>Machine Learning Recommendations
+                            </li>
+                            <li class="mb-2">
+                                <i class="bi bi-arrow-right text-primary me-2"></i>Mobile Application Development
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6" data-fade-in>
+                <div class="future-visual">
+                    <div class="roadmap-card glass p-4 rounded-4">
+                        <h5 class="fw-bold mb-4 text-center">Development Roadmap</h5>
+                        <div class="roadmap-timeline">
+                            <div class="timeline-item mb-3">
+                                <div class="timeline-marker bg-success"></div>
+                                <div class="timeline-content">
+                                    <h6 class="fw-semibold">Phase 1: Foundation</h6>
+                                    <small class="text-muted">Clean Architecture Implementation</small>
+                                </div>
+                            </div>
+                            <div class="timeline-item mb-3">
+                                <div class="timeline-marker bg-success"></div>
+                                <div class="timeline-content">
+                                    <h6 class="fw-semibold">Phase 2: Features</h6>
+                                    <small class="text-muted">Core Functionality & UI</small>
+                                </div>
+                            </div>
+                            <div class="timeline-item mb-3">
+                                <div class="timeline-marker bg-primary"></div>
+                                <div class="timeline-content">
+                                    <h6 class="fw-semibold">Phase 3: Enhancement</h6>
+                                    <small class="text-muted">Advanced Features & Analytics</small>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-marker bg-secondary"></div>
+                                <div class="timeline-content">
+                                    <h6 class="fw-semibold">Phase 4: Scale</h6>
+                                    <small class="text-muted">Microservices & Mobile</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact & Collaboration Section -->
+<section class="contact-collaboration py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold mb-3">Let's Connect</h2>
+            <p class="lead text-muted">Interested in collaboration or have questions about the project?</p>
+        </div>
+        
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="contact-card glass p-5 text-center" data-fade-in>
+                    <div class="contact-info mb-4">
+                        <h4 class="fw-bold mb-3">@Model.ContactInfo.Location</h4>
+                        <p class="text-muted mb-4">Available for opportunities in:</p>
+                        <div class="d-flex flex-wrap justify-content-center gap-2 mb-4">
+                            @foreach (var role in Model.ContactInfo.AvailableForRoles)
+                            {
+                                <span class="badge bg-primary bg-opacity-20 text-primary px-3 py-2">@role</span>
+                            }
+                        </div>
+                    </div>
+                    
+                    <div class="contact-methods mb-4">
+                        <div class="row g-3">
+                            @if (!string.IsNullOrEmpty(Model.ContactInfo.Email))
+                            {
+                                <div class="col-md-4">
+                                    <a href="mailto:@Model.ContactInfo.Email" class="contact-method text-decoration-none">
+                                        <div class="method-card glass p-3 rounded">
+                                            <i class="bi bi-envelope-fill text-primary mb-2" style="font-size: 2rem;"></i>
+                                            <h6 class="fw-semibold">Email</h6>
+                                            <small class="text-muted">Get in touch</small>
+                                        </div>
+                                    </a>
+                                </div>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.ContactInfo.LinkedIn))
+                            {
+                                <div class="col-md-4">
+                                    <a href="@Model.ContactInfo.LinkedIn" target="_blank" class="contact-method text-decoration-none">
+                                        <div class="method-card glass p-3 rounded">
+                                            <i class="bi bi-linkedin text-primary mb-2" style="font-size: 2rem;"></i>
+                                            <h6 class="fw-semibold">LinkedIn</h6>
+                                            <small class="text-muted">Professional network</small>
+                                        </div>
+                                    </a>
+                                </div>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.ContactInfo.GitHub))
+                            {
+                                <div class="col-md-4">
+                                    <a href="@Model.ContactInfo.GitHub" target="_blank" class="contact-method text-decoration-none">
+                                        <div class="method-card glass p-3 rounded">
+                                            <i class="bi bi-github text-primary mb-2" style="font-size: 2rem;"></i>
+                                            <h6 class="fw-semibold">GitHub</h6>
+                                            <small class="text-muted">Code repository</small>
+                                        </div>
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    
+                    <!-- Technical Resources -->
+                    @if (Model.ContactInfo.TechnicalResources.Any())
+                    {
+                        <div class="technical-resources mb-4">
+                            <h6 class="fw-semibold mb-3">Technical Resources:</h6>
+                            <div class="resources-list">
+                                @foreach (var resource in Model.ContactInfo.TechnicalResources.Take(4))
+                                {
+                                    <div class="resource-link-item mb-2">
+                                        <a href="@resource.Url" target="_blank" class="text-decoration-none d-flex align-items-center">
+                                            <i class="@resource.IconClass text-primary me-2"></i>
+                                            <span class="fw-semibold">@resource.Title</span>
+                                            <span class="badge bg-info bg-opacity-20 text-info ms-auto">@resource.Category</span>
+                                        </a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                    
+                    <!-- Professional Social Media -->
+                    @if (Model.ContactInfo.SocialMediaLinks.Any())
+                    {
+                        <div class="social-media mb-4">
+                            <h6 class="fw-semibold mb-3">Professional Networks:</h6>
+                            <div class="social-links-grid">
+                                @foreach (var social in Model.ContactInfo.SocialMediaLinks)
+                                {
+                                    <a href="@social.Url" target="_blank" class="social-link-item text-decoration-none">
+                                        <i class="@social.IconClass me-2"></i>@social.Platform
+                                    </a>
+                                }
+                            </div>
+                        </div>
+                    }
+                    
+                    <div class="collaboration-status">
+                        @if (Model.ContactInfo.OpenToCollaboration)
+                        {
+                            <div class="alert alert-success d-inline-flex align-items-center">
+                                <i class="bi bi-check-circle-fill me-2"></i>
+                                Open to collaboration and new opportunities
+                            </div>
+                        }
+                    </div>
+                    
+                    <div class="cta-actions mt-4">
+                        <a asp-action="TechnicalDetails" class="wp-btn wp-btn-primary magnetic-btn me-3">
+                            <i class="bi bi-gear me-2"></i>Technical Details
+                        </a>
+                        <a asp-action="InteractiveDemo" class="wp-btn wp-btn-outline-primary magnetic-btn">
+                            <i class="bi bi-play-circle me-2"></i>Live Demo
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Styles {
+    <style>
+        .story-hero {
+            min-height: 50vh;
+        }
+        
+        .min-vh-50 {
+            min-height: 50vh;
+        }
+        
+        .project-stats, .motivation-card, .roadmap-card, .contact-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .decision-card, .lesson-card, .achievement-card {
+            background: white;
+            border-radius: 16px;
+            border: 1px solid rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .decision-card:hover, .lesson-card:hover, .achievement-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+        }
+        
+        .number-circle {
+            transition: transform 0.3s ease;
+        }
+        
+        .decision-card:hover .number-circle {
+            transform: scale(1.1);
+        }
+        
+        .lesson-card .lesson-icon {
+            transition: transform 0.3s ease;
+        }
+        
+        .lesson-card:hover .lesson-icon {
+            transform: scale(1.1);
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-left: 2rem;
+        }
+        
+        .timeline-marker {
+            position: absolute;
+            left: 0;
+            top: 0.25rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .timeline-item:not(:last-child)::before {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 1rem;
+            width: 2px;
+            height: calc(100% + 0.5rem);
+            background: #dee2e6;
+        }
+        
+        .contact-method {
+            color: inherit;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-method:hover {
+            color: inherit;
+            transform: translateY(-4px);
+        }
+        
+        .method-card {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .contact-method:hover .method-card {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .resource-link-item a {
+            color: inherit;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .resource-link-item a:hover {
+            background: rgba(var(--bs-primary-rgb), 0.1);
+            color: var(--bs-primary);
+        }
+        
+        .social-links-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .social-link-item {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background: rgba(0,0,0,0.05);
+            border-radius: 8px;
+            color: #6c757d;
+            transition: all 0.3s ease;
+        }
+        
+        .social-link-item:hover {
+            background: rgba(var(--bs-primary-rgb), 0.1);
+            color: var(--bs-primary);
+            transform: translateY(-2px);
+        }
+        
+        /* Responsive adjustments */
+        @@media (max-width: 768px) {
+            .display-3 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .hero-actions .wp-btn {
+                text-align: center;
+            }
+            
+            .stats-grid {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .timeline-item {
+                padding-left: 1.5rem;
+            }
+            
+            .contact-methods .row {
+                flex-direction: column;
+            }
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Developer story page loaded');
+            
+            // Add scroll animations for timeline
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            const observerOptions = {
+                threshold: 0.3,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const timelineObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateX(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            timelineItems.forEach((item, index) => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateX(-20px)';
+                item.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+                timelineObserver.observe(item);
+            });
+            
+            // Add hover effects to achievement cards
+            const achievementCards = document.querySelectorAll('.achievement-card');
+            achievementCards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    const badge = card.querySelector('.badge');
+                    if (badge) {
+                        badge.style.transform = 'scale(1.05)';
+                    }
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    const badge = card.querySelector('.badge');
+                    if (badge) {
+                        badge.style.transform = 'scale(1)';
+                    }
+                });
+            });
+        });
+    </script>
+}

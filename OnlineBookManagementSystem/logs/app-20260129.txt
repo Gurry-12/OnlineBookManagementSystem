@@ -1,0 +1,773 @@
+2026-01-29 10:04:30.935 +05:30 [WRN] Entity 'User' has a global query filter defined and is the required end of a relationship with the entity 'RefreshToken'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-01-29 10:04:32.203 +05:30 [WRN] The foreign key property 'IdentityUserRole<int>.UserId1' was created in shadow state because a conflicting property with the simple name 'UserId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-01-29 10:04:32.302 +05:30 [WRN] The foreign key property 'BookReview.BookId1' was created in shadow state because a conflicting property with the simple name 'BookId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-01-29 10:04:32.311 +05:30 [WRN] The foreign key property 'UserFavorite.BookId1' was created in shadow state because a conflicting property with the simple name 'BookId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-01-29 10:04:32.357 +05:30 [WRN] The foreign key property 'UserFavorite.UserId1' was created in shadow state because a conflicting property with the simple name 'UserId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-01-29 10:04:33.134 +05:30 [INF] Starting database seeding process...
+2026-01-29 10:04:33.226 +05:30 [INF] User profile is available. Using 'C:\Users\singh\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-01-29 10:04:35.344 +05:30 [INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+2026-01-29 10:04:35.866 +05:30 [INF] Executed DbCommand (106ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*) FROM "sqlite_master" WHERE "name" = '__EFMigrationsLock' AND "type" = 'table';
+2026-01-29 10:04:35.966 +05:30 [INF] Executed DbCommand (22ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT OR IGNORE INTO "__EFMigrationsLock"("Id", "Timestamp") VALUES(1, '2026-01-29 04:34:35.9274643+00:00');
+SELECT changes();
+2026-01-29 10:04:36.410 +05:30 [INF] Executed DbCommand (39ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE IF NOT EXISTS "__EFMigrationsHistory" (
+    "MigrationId" TEXT NOT NULL CONSTRAINT "PK___EFMigrationsHistory" PRIMARY KEY,
+    "ProductVersion" TEXT NOT NULL
+);
+2026-01-29 10:04:36.706 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*) FROM "sqlite_master" WHERE "name" = '__EFMigrationsHistory' AND "type" = 'table';
+2026-01-29 10:04:36.835 +05:30 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "MigrationId", "ProductVersion"
+FROM "__EFMigrationsHistory"
+ORDER BY "MigrationId";
+2026-01-29 10:04:36.986 +05:30 [INF] No migrations were applied. The database is already up to date.
+2026-01-29 10:04:37.319 +05:30 [INF] Executed DbCommand (153ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DELETE FROM "__EFMigrationsLock";
+2026-01-29 10:04:40.191 +05:30 [INF] Executed DbCommand (21ms) [Parameters=[@__normalizedName_0='?' (Size = 10)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."ConcurrencyStamp", "a"."Name", "a"."NormalizedName"
+FROM "AspNetRoles" AS "a"
+WHERE "a"."NormalizedName" = @__normalizedName_0
+LIMIT 1
+2026-01-29 10:04:40.438 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@__normalizedName_0='?' (Size = 5)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."ConcurrencyStamp", "a"."Name", "a"."NormalizedName"
+FROM "AspNetRoles" AS "a"
+WHERE "a"."NormalizedName" = @__normalizedName_0
+LIMIT 1
+2026-01-29 10:04:40.456 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@__normalizedName_0='?' (Size = 4)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."ConcurrencyStamp", "a"."Name", "a"."NormalizedName"
+FROM "AspNetRoles" AS "a"
+WHERE "a"."NormalizedName" = @__normalizedName_0
+LIMIT 1
+2026-01-29 10:04:40.481 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@__normalizedName_0='?' (Size = 5)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."ConcurrencyStamp", "a"."Name", "a"."NormalizedName"
+FROM "AspNetRoles" AS "a"
+WHERE "a"."NormalizedName" = @__normalizedName_0
+LIMIT 1
+2026-01-29 10:04:40.491 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@__normalizedName_0='?' (Size = 6)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."ConcurrencyStamp", "a"."Name", "a"."NormalizedName"
+FROM "AspNetRoles" AS "a"
+WHERE "a"."NormalizedName" = @__normalizedName_0
+LIMIT 1
+2026-01-29 10:04:40.722 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@__normalizedEmail_0='?' (Size = 20)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."AccessFailedCount", "a"."Address", "a"."City", "a"."ConcurrencyStamp", "a"."Country", "a"."CreatedAt", "a"."Email", "a"."EmailConfirmationToken", "a"."EmailConfirmationTokenExpiry", "a"."EmailConfirmed", "a"."IsDeleted", "a"."IsPendingApproval", "a"."LastLoginAt", "a"."LastLoginDate", "a"."LockoutEnabled", "a"."LockoutEnd", "a"."Name", "a"."NormalizedEmail", "a"."NormalizedUserName", "a"."PasswordHash", "a"."PasswordResetExpiry", "a"."PasswordResetToken", "a"."PhoneNumber", "a"."PhoneNumberConfirmed", "a"."RequestDate", "a"."RequestedRole", "a"."SecurityStamp", "a"."State", "a"."TwoFactorEnabled", "a"."UpdatedAt", "a"."UserName", "a"."ZipCode"
+FROM "AspNetUsers" AS "a"
+WHERE NOT ("a"."IsDeleted") AND "a"."NormalizedEmail" = @__normalizedEmail_0
+LIMIT 2
+2026-01-29 10:04:41.153 +05:30 [INF] SuperAdmin user superadmin@gmail.com already exists
+2026-01-29 10:04:41.679 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a0"."Name"
+FROM "AspNetUserRoles" AS "a"
+INNER JOIN "AspNetRoles" AS "a0" ON "a"."RoleId" = "a0"."Id"
+WHERE "a"."UserId" = @__userId_0
+2026-01-29 10:04:41.688 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@__normalizedEmail_0='?' (Size = 15)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."AccessFailedCount", "a"."Address", "a"."City", "a"."ConcurrencyStamp", "a"."Country", "a"."CreatedAt", "a"."Email", "a"."EmailConfirmationToken", "a"."EmailConfirmationTokenExpiry", "a"."EmailConfirmed", "a"."IsDeleted", "a"."IsPendingApproval", "a"."LastLoginAt", "a"."LastLoginDate", "a"."LockoutEnabled", "a"."LockoutEnd", "a"."Name", "a"."NormalizedEmail", "a"."NormalizedUserName", "a"."PasswordHash", "a"."PasswordResetExpiry", "a"."PasswordResetToken", "a"."PhoneNumber", "a"."PhoneNumberConfirmed", "a"."RequestDate", "a"."RequestedRole", "a"."SecurityStamp", "a"."State", "a"."TwoFactorEnabled", "a"."UpdatedAt", "a"."UserName", "a"."ZipCode"
+FROM "AspNetUsers" AS "a"
+WHERE NOT ("a"."IsDeleted") AND "a"."NormalizedEmail" = @__normalizedEmail_0
+LIMIT 2
+2026-01-29 10:04:41.695 +05:30 [INF] User admin@gmail.com already exists
+2026-01-29 10:04:41.699 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@__normalizedEmail_0='?' (Size = 14)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."AccessFailedCount", "a"."Address", "a"."City", "a"."ConcurrencyStamp", "a"."Country", "a"."CreatedAt", "a"."Email", "a"."EmailConfirmationToken", "a"."EmailConfirmationTokenExpiry", "a"."EmailConfirmed", "a"."IsDeleted", "a"."IsPendingApproval", "a"."LastLoginAt", "a"."LastLoginDate", "a"."LockoutEnabled", "a"."LockoutEnd", "a"."Name", "a"."NormalizedEmail", "a"."NormalizedUserName", "a"."PasswordHash", "a"."PasswordResetExpiry", "a"."PasswordResetToken", "a"."PhoneNumber", "a"."PhoneNumberConfirmed", "a"."RequestDate", "a"."RequestedRole", "a"."SecurityStamp", "a"."State", "a"."TwoFactorEnabled", "a"."UpdatedAt", "a"."UserName", "a"."ZipCode"
+FROM "AspNetUsers" AS "a"
+WHERE NOT ("a"."IsDeleted") AND "a"."NormalizedEmail" = @__normalizedEmail_0
+LIMIT 2
+2026-01-29 10:04:41.708 +05:30 [INF] User user@gmail.com already exists
+2026-01-29 10:04:41.711 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@__normalizedEmail_0='?' (Size = 26)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."AccessFailedCount", "a"."Address", "a"."City", "a"."ConcurrencyStamp", "a"."Country", "a"."CreatedAt", "a"."Email", "a"."EmailConfirmationToken", "a"."EmailConfirmationTokenExpiry", "a"."EmailConfirmed", "a"."IsDeleted", "a"."IsPendingApproval", "a"."LastLoginAt", "a"."LastLoginDate", "a"."LockoutEnabled", "a"."LockoutEnd", "a"."Name", "a"."NormalizedEmail", "a"."NormalizedUserName", "a"."PasswordHash", "a"."PasswordResetExpiry", "a"."PasswordResetToken", "a"."PhoneNumber", "a"."PhoneNumberConfirmed", "a"."RequestDate", "a"."RequestedRole", "a"."SecurityStamp", "a"."State", "a"."TwoFactorEnabled", "a"."UpdatedAt", "a"."UserName", "a"."ZipCode"
+FROM "AspNetUsers" AS "a"
+WHERE NOT ("a"."IsDeleted") AND "a"."NormalizedEmail" = @__normalizedEmail_0
+LIMIT 2
+2026-01-29 10:04:41.726 +05:30 [INF] User public@whisperingpages.com already exists
+2026-01-29 10:04:41.832 +05:30 [INF] Executed DbCommand (83ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Categories" AS "c"
+    WHERE NOT ("c"."IsDeleted"))
+2026-01-29 10:04:41.839 +05:30 [INF] Categories already exist, skipping seeding
+2026-01-29 10:04:41.975 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Books" AS "b"
+    WHERE NOT ("b"."IsDeleted"))
+2026-01-29 10:04:41.980 +05:30 [INF] Books already exist, skipping sample book seeding
+2026-01-29 10:04:41.991 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "SystemSettings" AS "s"
+    WHERE NOT ("s"."IsDeleted"))
+2026-01-29 10:04:41.996 +05:30 [INF] System settings already exist, skipping seeding
+2026-01-29 10:04:42.007 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Orders" AS "o"
+    WHERE NOT ("o"."IsDeleted"))
+2026-01-29 10:04:42.018 +05:30 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2026-01-29 10:04:42.038 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."AccessFailedCount", "a"."Address", "a"."City", "a"."ConcurrencyStamp", "a"."Country", "a"."CreatedAt", "a"."Email", "a"."EmailConfirmationToken", "a"."EmailConfirmationTokenExpiry", "a"."EmailConfirmed", "a"."IsDeleted", "a"."IsPendingApproval", "a"."LastLoginAt", "a"."LastLoginDate", "a"."LockoutEnabled", "a"."LockoutEnd", "a"."Name", "a"."NormalizedEmail", "a"."NormalizedUserName", "a"."PasswordHash", "a"."PasswordResetExpiry", "a"."PasswordResetToken", "a"."PhoneNumber", "a"."PhoneNumberConfirmed", "a"."RequestDate", "a"."RequestedRole", "a"."SecurityStamp", "a"."State", "a"."TwoFactorEnabled", "a"."UpdatedAt", "a"."UserName", "a"."ZipCode"
+FROM "AspNetUsers" AS "a"
+WHERE NOT ("a"."IsDeleted")
+LIMIT @__p_0
+2026-01-29 10:04:42.052 +05:30 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2026-01-29 10:04:42.174 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT "b"."Id", "b"."Author", "b"."AverageRating", "b"."CategoryId", "b"."ConcurrencyToken", "b"."CreatedAt", "b"."Description", "b"."ImageUrl", "b"."IsDeleted", "b"."IsFeatured", "b"."LowStockThreshold", "b"."PublicationDate", "b"."StockQuantity", "b"."Title", "b"."TotalReviews", "b"."UpdatedAt", "b"."ISBN", "b"."Price", "b"."Currency"
+FROM "Books" AS "b"
+WHERE NOT ("b"."IsDeleted")
+LIMIT @__p_0
+2026-01-29 10:04:42.614 +05:30 [ERR] An error occurred while seeding the database
+System.ArgumentException: Order ID must be positive (Parameter 'orderId')
+   at OnlineBookManagementSystem.Core.Domain.Entities.OrderDetail..ctor(Int32 orderId, Int32 bookId, Int32 quantity, Money unitPrice) in E:\Ddrive\github\OnlineBookManagementSystem\OnlineBookManagementSystem\Core\Domain\Entities\OrderDetail.cs:line 66
+   at OnlineBookManagementSystem.Shared.Extensions.DatabaseSeedingExtensions.SeedSampleOrdersAsync(BookManagementContext context, UserManager`1 userManager, ILogger logger) in E:\Ddrive\github\OnlineBookManagementSystem\OnlineBookManagementSystem\Shared\Extensions\DatabaseSeedingExtensions.cs:line 643
+   at OnlineBookManagementSystem.Shared.Extensions.DatabaseSeedingExtensions.SeedDatabaseAsync(WebApplication app) in E:\Ddrive\github\OnlineBookManagementSystem\OnlineBookManagementSystem\Shared\Extensions\DatabaseSeedingExtensions.cs:line 45
+2026-01-29 10:05:37.627 +05:30 [WRN] Entity 'User' has a global query filter defined and is the required end of a relationship with the entity 'RefreshToken'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-01-29 10:05:37.905 +05:30 [WRN] The foreign key property 'IdentityUserRole<int>.UserId1' was created in shadow state because a conflicting property with the simple name 'UserId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-01-29 10:05:37.912 +05:30 [WRN] The foreign key property 'BookReview.BookId1' was created in shadow state because a conflicting property with the simple name 'BookId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-01-29 10:05:37.919 +05:30 [WRN] The foreign key property 'UserFavorite.BookId1' was created in shadow state because a conflicting property with the simple name 'BookId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-01-29 10:05:37.923 +05:30 [WRN] The foreign key property 'UserFavorite.UserId1' was created in shadow state because a conflicting property with the simple name 'UserId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-01-29 10:06:55.608 +05:30 [WRN] Entity 'User' has a global query filter defined and is the required end of a relationship with the entity 'RefreshToken'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-01-29 10:06:55.910 +05:30 [WRN] The foreign key property 'IdentityUserRole<int>.UserId1' was created in shadow state because a conflicting property with the simple name 'UserId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-01-29 10:06:55.918 +05:30 [WRN] The foreign key property 'BookReview.BookId1' was created in shadow state because a conflicting property with the simple name 'BookId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-01-29 10:06:55.921 +05:30 [WRN] The foreign key property 'UserFavorite.BookId1' was created in shadow state because a conflicting property with the simple name 'BookId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-01-29 10:06:55.926 +05:30 [WRN] The foreign key property 'UserFavorite.UserId1' was created in shadow state because a conflicting property with the simple name 'UserId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-01-29 10:06:56.970 +05:30 [INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+2026-01-29 10:06:57.091 +05:30 [INF] Executed DbCommand (74ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*) FROM "sqlite_master" WHERE "name" = '__EFMigrationsLock' AND "type" = 'table';
+2026-01-29 10:06:57.110 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT OR IGNORE INTO "__EFMigrationsLock"("Id", "Timestamp") VALUES(1, '2026-01-29 04:36:57.106237+00:00');
+SELECT changes();
+2026-01-29 10:06:57.246 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE IF NOT EXISTS "__EFMigrationsHistory" (
+    "MigrationId" TEXT NOT NULL CONSTRAINT "PK___EFMigrationsHistory" PRIMARY KEY,
+    "ProductVersion" TEXT NOT NULL
+);
+2026-01-29 10:06:57.267 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*) FROM "sqlite_master" WHERE "name" = '__EFMigrationsHistory' AND "type" = 'table';
+2026-01-29 10:06:57.277 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "MigrationId", "ProductVersion"
+FROM "__EFMigrationsHistory"
+ORDER BY "MigrationId";
+2026-01-29 10:06:57.303 +05:30 [INF] Applying migration '20260129043544_FixOrderDetailMoneyColumns'.
+2026-01-29 10:06:57.369 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20260129043544_FixOrderDetailMoneyColumns', '9.0.3');
+2026-01-29 10:06:57.379 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DELETE FROM "__EFMigrationsLock";
+2026-01-29 10:07:26.281 +05:30 [WRN] Entity 'User' has a global query filter defined and is the required end of a relationship with the entity 'RefreshToken'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-01-29 10:07:26.521 +05:30 [WRN] The foreign key property 'IdentityUserRole<int>.UserId1' was created in shadow state because a conflicting property with the simple name 'UserId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-01-29 10:07:26.526 +05:30 [WRN] The foreign key property 'BookReview.BookId1' was created in shadow state because a conflicting property with the simple name 'BookId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-01-29 10:07:26.532 +05:30 [WRN] The foreign key property 'UserFavorite.BookId1' was created in shadow state because a conflicting property with the simple name 'BookId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-01-29 10:07:26.536 +05:30 [WRN] The foreign key property 'UserFavorite.UserId1' was created in shadow state because a conflicting property with the simple name 'UserId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-01-29 10:07:26.938 +05:30 [INF] Starting database seeding process...
+2026-01-29 10:07:27.023 +05:30 [INF] User profile is available. Using 'C:\Users\singh\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-01-29 10:07:28.299 +05:30 [INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+2026-01-29 10:07:28.394 +05:30 [INF] Executed DbCommand (28ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*) FROM "sqlite_master" WHERE "name" = '__EFMigrationsLock' AND "type" = 'table';
+2026-01-29 10:07:28.605 +05:30 [INF] Executed DbCommand (26ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT OR IGNORE INTO "__EFMigrationsLock"("Id", "Timestamp") VALUES(1, '2026-01-29 04:37:28.5773447+00:00');
+SELECT changes();
+2026-01-29 10:07:28.980 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE IF NOT EXISTS "__EFMigrationsHistory" (
+    "MigrationId" TEXT NOT NULL CONSTRAINT "PK___EFMigrationsHistory" PRIMARY KEY,
+    "ProductVersion" TEXT NOT NULL
+);
+2026-01-29 10:07:29.161 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*) FROM "sqlite_master" WHERE "name" = '__EFMigrationsHistory' AND "type" = 'table';
+2026-01-29 10:07:29.319 +05:30 [INF] Executed DbCommand (56ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "MigrationId", "ProductVersion"
+FROM "__EFMigrationsHistory"
+ORDER BY "MigrationId";
+2026-01-29 10:07:29.783 +05:30 [INF] No migrations were applied. The database is already up to date.
+2026-01-29 10:07:30.045 +05:30 [INF] Executed DbCommand (18ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DELETE FROM "__EFMigrationsLock";
+2026-01-29 10:07:32.510 +05:30 [INF] Executed DbCommand (11ms) [Parameters=[@__normalizedName_0='?' (Size = 10)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."ConcurrencyStamp", "a"."Name", "a"."NormalizedName"
+FROM "AspNetRoles" AS "a"
+WHERE "a"."NormalizedName" = @__normalizedName_0
+LIMIT 1
+2026-01-29 10:07:32.726 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@__normalizedName_0='?' (Size = 5)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."ConcurrencyStamp", "a"."Name", "a"."NormalizedName"
+FROM "AspNetRoles" AS "a"
+WHERE "a"."NormalizedName" = @__normalizedName_0
+LIMIT 1
+2026-01-29 10:07:32.754 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@__normalizedName_0='?' (Size = 4)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."ConcurrencyStamp", "a"."Name", "a"."NormalizedName"
+FROM "AspNetRoles" AS "a"
+WHERE "a"."NormalizedName" = @__normalizedName_0
+LIMIT 1
+2026-01-29 10:07:32.793 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@__normalizedName_0='?' (Size = 5)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."ConcurrencyStamp", "a"."Name", "a"."NormalizedName"
+FROM "AspNetRoles" AS "a"
+WHERE "a"."NormalizedName" = @__normalizedName_0
+LIMIT 1
+2026-01-29 10:07:32.845 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedName_0='?' (Size = 6)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."ConcurrencyStamp", "a"."Name", "a"."NormalizedName"
+FROM "AspNetRoles" AS "a"
+WHERE "a"."NormalizedName" = @__normalizedName_0
+LIMIT 1
+2026-01-29 10:07:33.018 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedEmail_0='?' (Size = 20)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."AccessFailedCount", "a"."Address", "a"."City", "a"."ConcurrencyStamp", "a"."Country", "a"."CreatedAt", "a"."Email", "a"."EmailConfirmationToken", "a"."EmailConfirmationTokenExpiry", "a"."EmailConfirmed", "a"."IsDeleted", "a"."IsPendingApproval", "a"."LastLoginAt", "a"."LastLoginDate", "a"."LockoutEnabled", "a"."LockoutEnd", "a"."Name", "a"."NormalizedEmail", "a"."NormalizedUserName", "a"."PasswordHash", "a"."PasswordResetExpiry", "a"."PasswordResetToken", "a"."PhoneNumber", "a"."PhoneNumberConfirmed", "a"."RequestDate", "a"."RequestedRole", "a"."SecurityStamp", "a"."State", "a"."TwoFactorEnabled", "a"."UpdatedAt", "a"."UserName", "a"."ZipCode"
+FROM "AspNetUsers" AS "a"
+WHERE NOT ("a"."IsDeleted") AND "a"."NormalizedEmail" = @__normalizedEmail_0
+LIMIT 2
+2026-01-29 10:07:33.856 +05:30 [INF] SuperAdmin user superadmin@gmail.com already exists
+2026-01-29 10:07:34.058 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a0"."Name"
+FROM "AspNetUserRoles" AS "a"
+INNER JOIN "AspNetRoles" AS "a0" ON "a"."RoleId" = "a0"."Id"
+WHERE "a"."UserId" = @__userId_0
+2026-01-29 10:07:34.075 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@__normalizedEmail_0='?' (Size = 15)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."AccessFailedCount", "a"."Address", "a"."City", "a"."ConcurrencyStamp", "a"."Country", "a"."CreatedAt", "a"."Email", "a"."EmailConfirmationToken", "a"."EmailConfirmationTokenExpiry", "a"."EmailConfirmed", "a"."IsDeleted", "a"."IsPendingApproval", "a"."LastLoginAt", "a"."LastLoginDate", "a"."LockoutEnabled", "a"."LockoutEnd", "a"."Name", "a"."NormalizedEmail", "a"."NormalizedUserName", "a"."PasswordHash", "a"."PasswordResetExpiry", "a"."PasswordResetToken", "a"."PhoneNumber", "a"."PhoneNumberConfirmed", "a"."RequestDate", "a"."RequestedRole", "a"."SecurityStamp", "a"."State", "a"."TwoFactorEnabled", "a"."UpdatedAt", "a"."UserName", "a"."ZipCode"
+FROM "AspNetUsers" AS "a"
+WHERE NOT ("a"."IsDeleted") AND "a"."NormalizedEmail" = @__normalizedEmail_0
+LIMIT 2
+2026-01-29 10:07:34.091 +05:30 [INF] User admin@gmail.com already exists
+2026-01-29 10:07:34.103 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedEmail_0='?' (Size = 14)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."AccessFailedCount", "a"."Address", "a"."City", "a"."ConcurrencyStamp", "a"."Country", "a"."CreatedAt", "a"."Email", "a"."EmailConfirmationToken", "a"."EmailConfirmationTokenExpiry", "a"."EmailConfirmed", "a"."IsDeleted", "a"."IsPendingApproval", "a"."LastLoginAt", "a"."LastLoginDate", "a"."LockoutEnabled", "a"."LockoutEnd", "a"."Name", "a"."NormalizedEmail", "a"."NormalizedUserName", "a"."PasswordHash", "a"."PasswordResetExpiry", "a"."PasswordResetToken", "a"."PhoneNumber", "a"."PhoneNumberConfirmed", "a"."RequestDate", "a"."RequestedRole", "a"."SecurityStamp", "a"."State", "a"."TwoFactorEnabled", "a"."UpdatedAt", "a"."UserName", "a"."ZipCode"
+FROM "AspNetUsers" AS "a"
+WHERE NOT ("a"."IsDeleted") AND "a"."NormalizedEmail" = @__normalizedEmail_0
+LIMIT 2
+2026-01-29 10:07:34.116 +05:30 [INF] User user@gmail.com already exists
+2026-01-29 10:07:34.124 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedEmail_0='?' (Size = 26)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."AccessFailedCount", "a"."Address", "a"."City", "a"."ConcurrencyStamp", "a"."Country", "a"."CreatedAt", "a"."Email", "a"."EmailConfirmationToken", "a"."EmailConfirmationTokenExpiry", "a"."EmailConfirmed", "a"."IsDeleted", "a"."IsPendingApproval", "a"."LastLoginAt", "a"."LastLoginDate", "a"."LockoutEnabled", "a"."LockoutEnd", "a"."Name", "a"."NormalizedEmail", "a"."NormalizedUserName", "a"."PasswordHash", "a"."PasswordResetExpiry", "a"."PasswordResetToken", "a"."PhoneNumber", "a"."PhoneNumberConfirmed", "a"."RequestDate", "a"."RequestedRole", "a"."SecurityStamp", "a"."State", "a"."TwoFactorEnabled", "a"."UpdatedAt", "a"."UserName", "a"."ZipCode"
+FROM "AspNetUsers" AS "a"
+WHERE NOT ("a"."IsDeleted") AND "a"."NormalizedEmail" = @__normalizedEmail_0
+LIMIT 2
+2026-01-29 10:07:34.159 +05:30 [INF] User public@whisperingpages.com already exists
+2026-01-29 10:07:34.244 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Categories" AS "c"
+    WHERE NOT ("c"."IsDeleted"))
+2026-01-29 10:07:34.317 +05:30 [INF] Categories already exist, skipping seeding
+2026-01-29 10:07:34.376 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Books" AS "b"
+    WHERE NOT ("b"."IsDeleted"))
+2026-01-29 10:07:34.416 +05:30 [INF] Books already exist, skipping sample book seeding
+2026-01-29 10:07:34.542 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "SystemSettings" AS "s"
+    WHERE NOT ("s"."IsDeleted"))
+2026-01-29 10:07:34.612 +05:30 [INF] System settings already exist, skipping seeding
+2026-01-29 10:07:34.678 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Orders" AS "o"
+    WHERE NOT ("o"."IsDeleted"))
+2026-01-29 10:07:34.724 +05:30 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2026-01-29 10:07:34.776 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."AccessFailedCount", "a"."Address", "a"."City", "a"."ConcurrencyStamp", "a"."Country", "a"."CreatedAt", "a"."Email", "a"."EmailConfirmationToken", "a"."EmailConfirmationTokenExpiry", "a"."EmailConfirmed", "a"."IsDeleted", "a"."IsPendingApproval", "a"."LastLoginAt", "a"."LastLoginDate", "a"."LockoutEnabled", "a"."LockoutEnd", "a"."Name", "a"."NormalizedEmail", "a"."NormalizedUserName", "a"."PasswordHash", "a"."PasswordResetExpiry", "a"."PasswordResetToken", "a"."PhoneNumber", "a"."PhoneNumberConfirmed", "a"."RequestDate", "a"."RequestedRole", "a"."SecurityStamp", "a"."State", "a"."TwoFactorEnabled", "a"."UpdatedAt", "a"."UserName", "a"."ZipCode"
+FROM "AspNetUsers" AS "a"
+WHERE NOT ("a"."IsDeleted")
+LIMIT @__p_0
+2026-01-29 10:07:34.838 +05:30 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2026-01-29 10:07:34.977 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT "b"."Id", "b"."Author", "b"."AverageRating", "b"."CategoryId", "b"."ConcurrencyToken", "b"."CreatedAt", "b"."Description", "b"."ImageUrl", "b"."IsDeleted", "b"."IsFeatured", "b"."LowStockThreshold", "b"."PublicationDate", "b"."StockQuantity", "b"."Title", "b"."TotalReviews", "b"."UpdatedAt", "b"."ISBN", "b"."Price", "b"."Currency"
+FROM "Books" AS "b"
+WHERE NOT ("b"."IsDeleted")
+LIMIT @__p_0
+2026-01-29 10:07:35.322 +05:30 [ERR] An error occurred while seeding the database
+System.ArgumentException: Order ID must be positive (Parameter 'orderId')
+   at OnlineBookManagementSystem.Core.Domain.Entities.OrderDetail..ctor(Int32 orderId, Int32 bookId, Int32 quantity, Money unitPrice) in E:\Ddrive\github\OnlineBookManagementSystem\OnlineBookManagementSystem\Core\Domain\Entities\OrderDetail.cs:line 66
+   at OnlineBookManagementSystem.Shared.Extensions.DatabaseSeedingExtensions.SeedSampleOrdersAsync(BookManagementContext context, UserManager`1 userManager, ILogger logger) in E:\Ddrive\github\OnlineBookManagementSystem\OnlineBookManagementSystem\Shared\Extensions\DatabaseSeedingExtensions.cs:line 643
+   at OnlineBookManagementSystem.Shared.Extensions.DatabaseSeedingExtensions.SeedDatabaseAsync(WebApplication app) in E:\Ddrive\github\OnlineBookManagementSystem\OnlineBookManagementSystem\Shared\Extensions\DatabaseSeedingExtensions.cs:line 45
+2026-01-29 10:08:45.427 +05:30 [WRN] Entity 'User' has a global query filter defined and is the required end of a relationship with the entity 'RefreshToken'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-01-29 10:08:45.746 +05:30 [WRN] The foreign key property 'IdentityUserRole<int>.UserId1' was created in shadow state because a conflicting property with the simple name 'UserId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-01-29 10:08:45.753 +05:30 [WRN] The foreign key property 'BookReview.BookId1' was created in shadow state because a conflicting property with the simple name 'BookId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-01-29 10:08:45.757 +05:30 [WRN] The foreign key property 'UserFavorite.BookId1' was created in shadow state because a conflicting property with the simple name 'BookId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-01-29 10:08:45.761 +05:30 [WRN] The foreign key property 'UserFavorite.UserId1' was created in shadow state because a conflicting property with the simple name 'UserId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-01-29 10:08:46.206 +05:30 [INF] Starting database seeding process...
+2026-01-29 10:08:46.258 +05:30 [INF] User profile is available. Using 'C:\Users\singh\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-01-29 10:08:47.079 +05:30 [INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+2026-01-29 10:08:47.157 +05:30 [INF] Executed DbCommand (15ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*) FROM "sqlite_master" WHERE "name" = '__EFMigrationsLock' AND "type" = 'table';
+2026-01-29 10:08:47.187 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT OR IGNORE INTO "__EFMigrationsLock"("Id", "Timestamp") VALUES(1, '2026-01-29 04:38:47.1794581+00:00');
+SELECT changes();
+2026-01-29 10:08:47.370 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE IF NOT EXISTS "__EFMigrationsHistory" (
+    "MigrationId" TEXT NOT NULL CONSTRAINT "PK___EFMigrationsHistory" PRIMARY KEY,
+    "ProductVersion" TEXT NOT NULL
+);
+2026-01-29 10:08:47.411 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*) FROM "sqlite_master" WHERE "name" = '__EFMigrationsHistory' AND "type" = 'table';
+2026-01-29 10:08:47.425 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "MigrationId", "ProductVersion"
+FROM "__EFMigrationsHistory"
+ORDER BY "MigrationId";
+2026-01-29 10:08:47.457 +05:30 [INF] No migrations were applied. The database is already up to date.
+2026-01-29 10:08:47.464 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DELETE FROM "__EFMigrationsLock";
+2026-01-29 10:08:48.897 +05:30 [INF] Executed DbCommand (23ms) [Parameters=[@__normalizedName_0='?' (Size = 10)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."ConcurrencyStamp", "a"."Name", "a"."NormalizedName"
+FROM "AspNetRoles" AS "a"
+WHERE "a"."NormalizedName" = @__normalizedName_0
+LIMIT 1
+2026-01-29 10:08:49.213 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@__normalizedName_0='?' (Size = 5)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."ConcurrencyStamp", "a"."Name", "a"."NormalizedName"
+FROM "AspNetRoles" AS "a"
+WHERE "a"."NormalizedName" = @__normalizedName_0
+LIMIT 1
+2026-01-29 10:08:49.260 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedName_0='?' (Size = 4)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."ConcurrencyStamp", "a"."Name", "a"."NormalizedName"
+FROM "AspNetRoles" AS "a"
+WHERE "a"."NormalizedName" = @__normalizedName_0
+LIMIT 1
+2026-01-29 10:08:49.292 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@__normalizedName_0='?' (Size = 5)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."ConcurrencyStamp", "a"."Name", "a"."NormalizedName"
+FROM "AspNetRoles" AS "a"
+WHERE "a"."NormalizedName" = @__normalizedName_0
+LIMIT 1
+2026-01-29 10:08:49.374 +05:30 [INF] Executed DbCommand (7ms) [Parameters=[@__normalizedName_0='?' (Size = 6)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."ConcurrencyStamp", "a"."Name", "a"."NormalizedName"
+FROM "AspNetRoles" AS "a"
+WHERE "a"."NormalizedName" = @__normalizedName_0
+LIMIT 1
+2026-01-29 10:08:51.550 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@__normalizedEmail_0='?' (Size = 20)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."AccessFailedCount", "a"."Address", "a"."City", "a"."ConcurrencyStamp", "a"."Country", "a"."CreatedAt", "a"."Email", "a"."EmailConfirmationToken", "a"."EmailConfirmationTokenExpiry", "a"."EmailConfirmed", "a"."IsDeleted", "a"."IsPendingApproval", "a"."LastLoginAt", "a"."LastLoginDate", "a"."LockoutEnabled", "a"."LockoutEnd", "a"."Name", "a"."NormalizedEmail", "a"."NormalizedUserName", "a"."PasswordHash", "a"."PasswordResetExpiry", "a"."PasswordResetToken", "a"."PhoneNumber", "a"."PhoneNumberConfirmed", "a"."RequestDate", "a"."RequestedRole", "a"."SecurityStamp", "a"."State", "a"."TwoFactorEnabled", "a"."UpdatedAt", "a"."UserName", "a"."ZipCode"
+FROM "AspNetUsers" AS "a"
+WHERE NOT ("a"."IsDeleted") AND "a"."NormalizedEmail" = @__normalizedEmail_0
+LIMIT 2
+2026-01-29 10:08:54.908 +05:30 [INF] SuperAdmin user superadmin@gmail.com already exists
+2026-01-29 10:08:55.508 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a0"."Name"
+FROM "AspNetUserRoles" AS "a"
+INNER JOIN "AspNetRoles" AS "a0" ON "a"."RoleId" = "a0"."Id"
+WHERE "a"."UserId" = @__userId_0
+2026-01-29 10:08:55.532 +05:30 [INF] Executed DbCommand (5ms) [Parameters=[@__normalizedEmail_0='?' (Size = 15)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."AccessFailedCount", "a"."Address", "a"."City", "a"."ConcurrencyStamp", "a"."Country", "a"."CreatedAt", "a"."Email", "a"."EmailConfirmationToken", "a"."EmailConfirmationTokenExpiry", "a"."EmailConfirmed", "a"."IsDeleted", "a"."IsPendingApproval", "a"."LastLoginAt", "a"."LastLoginDate", "a"."LockoutEnabled", "a"."LockoutEnd", "a"."Name", "a"."NormalizedEmail", "a"."NormalizedUserName", "a"."PasswordHash", "a"."PasswordResetExpiry", "a"."PasswordResetToken", "a"."PhoneNumber", "a"."PhoneNumberConfirmed", "a"."RequestDate", "a"."RequestedRole", "a"."SecurityStamp", "a"."State", "a"."TwoFactorEnabled", "a"."UpdatedAt", "a"."UserName", "a"."ZipCode"
+FROM "AspNetUsers" AS "a"
+WHERE NOT ("a"."IsDeleted") AND "a"."NormalizedEmail" = @__normalizedEmail_0
+LIMIT 2
+2026-01-29 10:08:55.542 +05:30 [INF] User admin@gmail.com already exists
+2026-01-29 10:08:55.568 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@__normalizedEmail_0='?' (Size = 14)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."AccessFailedCount", "a"."Address", "a"."City", "a"."ConcurrencyStamp", "a"."Country", "a"."CreatedAt", "a"."Email", "a"."EmailConfirmationToken", "a"."EmailConfirmationTokenExpiry", "a"."EmailConfirmed", "a"."IsDeleted", "a"."IsPendingApproval", "a"."LastLoginAt", "a"."LastLoginDate", "a"."LockoutEnabled", "a"."LockoutEnd", "a"."Name", "a"."NormalizedEmail", "a"."NormalizedUserName", "a"."PasswordHash", "a"."PasswordResetExpiry", "a"."PasswordResetToken", "a"."PhoneNumber", "a"."PhoneNumberConfirmed", "a"."RequestDate", "a"."RequestedRole", "a"."SecurityStamp", "a"."State", "a"."TwoFactorEnabled", "a"."UpdatedAt", "a"."UserName", "a"."ZipCode"
+FROM "AspNetUsers" AS "a"
+WHERE NOT ("a"."IsDeleted") AND "a"."NormalizedEmail" = @__normalizedEmail_0
+LIMIT 2
+2026-01-29 10:08:55.584 +05:30 [INF] User user@gmail.com already exists
+2026-01-29 10:08:55.628 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedEmail_0='?' (Size = 26)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."AccessFailedCount", "a"."Address", "a"."City", "a"."ConcurrencyStamp", "a"."Country", "a"."CreatedAt", "a"."Email", "a"."EmailConfirmationToken", "a"."EmailConfirmationTokenExpiry", "a"."EmailConfirmed", "a"."IsDeleted", "a"."IsPendingApproval", "a"."LastLoginAt", "a"."LastLoginDate", "a"."LockoutEnabled", "a"."LockoutEnd", "a"."Name", "a"."NormalizedEmail", "a"."NormalizedUserName", "a"."PasswordHash", "a"."PasswordResetExpiry", "a"."PasswordResetToken", "a"."PhoneNumber", "a"."PhoneNumberConfirmed", "a"."RequestDate", "a"."RequestedRole", "a"."SecurityStamp", "a"."State", "a"."TwoFactorEnabled", "a"."UpdatedAt", "a"."UserName", "a"."ZipCode"
+FROM "AspNetUsers" AS "a"
+WHERE NOT ("a"."IsDeleted") AND "a"."NormalizedEmail" = @__normalizedEmail_0
+LIMIT 2
+2026-01-29 10:08:55.637 +05:30 [INF] User public@whisperingpages.com already exists
+2026-01-29 10:08:55.739 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Categories" AS "c"
+    WHERE NOT ("c"."IsDeleted"))
+2026-01-29 10:08:55.786 +05:30 [INF] Categories already exist, skipping seeding
+2026-01-29 10:08:55.923 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Books" AS "b"
+    WHERE NOT ("b"."IsDeleted"))
+2026-01-29 10:08:55.936 +05:30 [INF] Books already exist, skipping sample book seeding
+2026-01-29 10:08:55.961 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "SystemSettings" AS "s"
+    WHERE NOT ("s"."IsDeleted"))
+2026-01-29 10:08:55.978 +05:30 [INF] System settings already exist, skipping seeding
+2026-01-29 10:08:56.076 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Orders" AS "o"
+    WHERE NOT ("o"."IsDeleted"))
+2026-01-29 10:08:56.368 +05:30 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2026-01-29 10:08:56.440 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."AccessFailedCount", "a"."Address", "a"."City", "a"."ConcurrencyStamp", "a"."Country", "a"."CreatedAt", "a"."Email", "a"."EmailConfirmationToken", "a"."EmailConfirmationTokenExpiry", "a"."EmailConfirmed", "a"."IsDeleted", "a"."IsPendingApproval", "a"."LastLoginAt", "a"."LastLoginDate", "a"."LockoutEnabled", "a"."LockoutEnd", "a"."Name", "a"."NormalizedEmail", "a"."NormalizedUserName", "a"."PasswordHash", "a"."PasswordResetExpiry", "a"."PasswordResetToken", "a"."PhoneNumber", "a"."PhoneNumberConfirmed", "a"."RequestDate", "a"."RequestedRole", "a"."SecurityStamp", "a"."State", "a"."TwoFactorEnabled", "a"."UpdatedAt", "a"."UserName", "a"."ZipCode"
+FROM "AspNetUsers" AS "a"
+WHERE NOT ("a"."IsDeleted")
+LIMIT @__p_0
+2026-01-29 10:08:56.525 +05:30 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2026-01-29 10:08:56.887 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT "b"."Id", "b"."Author", "b"."AverageRating", "b"."CategoryId", "b"."ConcurrencyToken", "b"."CreatedAt", "b"."Description", "b"."ImageUrl", "b"."IsDeleted", "b"."IsFeatured", "b"."LowStockThreshold", "b"."PublicationDate", "b"."StockQuantity", "b"."Title", "b"."TotalReviews", "b"."UpdatedAt", "b"."ISBN", "b"."Price", "b"."Currency"
+FROM "Books" AS "b"
+WHERE NOT ("b"."IsDeleted")
+LIMIT @__p_0
+2026-01-29 10:08:59.094 +05:30 [WRN] The same entity is being tracked as different entity types 'OrderDetail.UnitPrice#Money' and 'Book.Price#Money' with defining navigations. If a property value changes, it will result in two store changes, which might not be the desired outcome.
+2026-01-29 10:08:59.108 +05:30 [WRN] The same entity is being tracked as different entity types 'OrderDetail.UnitPrice#Money' and 'Book.Price#Money' with defining navigations. If a property value changes, it will result in two store changes, which might not be the desired outcome.
+2026-01-29 10:08:59.171 +05:30 [WRN] The same entity is being tracked as different entity types 'OrderDetail.UnitPrice#Money' and 'Book.Price#Money' with defining navigations. If a property value changes, it will result in two store changes, which might not be the desired outcome.
+2026-01-29 10:08:59.174 +05:30 [WRN] The same entity is being tracked as different entity types 'OrderDetail.UnitPrice#Money' and 'Book.Price#Money' with defining navigations. If a property value changes, it will result in two store changes, which might not be the desired outcome.
+2026-01-29 10:08:59.186 +05:30 [WRN] The same entity is being tracked as different entity types 'OrderDetail.UnitPrice#Money' and 'Book.Price#Money' with defining navigations. If a property value changes, it will result in two store changes, which might not be the desired outcome.
+2026-01-29 10:08:59.190 +05:30 [WRN] The same entity is being tracked as different entity types 'OrderDetail.UnitPrice#Money' and 'Book.Price#Money' with defining navigations. If a property value changes, it will result in two store changes, which might not be the desired outcome.
+2026-01-29 10:09:02.102 +05:30 [INF] Executed DbCommand (10ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime), @p2='?' (DbType = DateTime), @p3='?', @p4='?', @p5='?' (DbType = DateTime), @p6='?' (Size = 6), @p7='?' (DbType = Int32), @p8='?', @p9='?' (DbType = DateTime), @p10='?' (DbType = Int32), @p11='?' (DbType = DateTime), @p12='?' (DbType = Int32), @p13='?' (DbType = Decimal), @p14='?' (Size = 3), @p15='?' (Size = 11), @p16='?' (Size = 3), @p17='?' (Size = 11), @p18='?', @p19='?' (Size = 12), @p20='?' (Size = 11), @p21='?' (Size = 5)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Orders" ("ConcurrencyToken", "CreatedAt", "DeliveredDate", "Email", "Notes", "OrderDate", "PaymentMethod", "PaymentStatus", "PhoneNumber", "ShippedDate", "Status", "UpdatedAt", "UserId", "TotalAmount", "Currency", "ShippingCity", "ShippingCountry", "ShippingFullName", "ShippingPhoneNumber", "ShippingState", "ShippingStreet", "ShippingZipCode")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15, @p16, @p17, @p18, @p19, @p20, @p21)
+RETURNING "Id", "IsDeleted";
+2026-01-29 10:09:02.190 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime), @p2='?' (DbType = DateTime), @p3='?', @p4='?', @p5='?' (DbType = DateTime), @p6='?' (Size = 6), @p7='?' (DbType = Int32), @p8='?', @p9='?' (DbType = DateTime), @p10='?' (DbType = Int32), @p11='?' (DbType = DateTime), @p12='?' (DbType = Int32), @p13='?' (DbType = Decimal), @p14='?' (Size = 3), @p15='?' (Size = 11), @p16='?' (Size = 3), @p17='?' (Size = 11), @p18='?', @p19='?' (Size = 12), @p20='?' (Size = 11), @p21='?' (Size = 5)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Orders" ("ConcurrencyToken", "CreatedAt", "DeliveredDate", "Email", "Notes", "OrderDate", "PaymentMethod", "PaymentStatus", "PhoneNumber", "ShippedDate", "Status", "UpdatedAt", "UserId", "TotalAmount", "Currency", "ShippingCity", "ShippingCountry", "ShippingFullName", "ShippingPhoneNumber", "ShippingState", "ShippingStreet", "ShippingZipCode")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15, @p16, @p17, @p18, @p19, @p20, @p21)
+RETURNING "Id", "IsDeleted";
+2026-01-29 10:09:02.206 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime), @p2='?' (DbType = DateTime), @p3='?', @p4='?', @p5='?' (DbType = DateTime), @p6='?' (Size = 6), @p7='?' (DbType = Int32), @p8='?', @p9='?' (DbType = DateTime), @p10='?' (DbType = Int32), @p11='?' (DbType = DateTime), @p12='?' (DbType = Int32), @p13='?' (DbType = Decimal), @p14='?' (Size = 3), @p15='?' (Size = 11), @p16='?' (Size = 3), @p17='?' (Size = 11), @p18='?', @p19='?' (Size = 12), @p20='?' (Size = 11), @p21='?' (Size = 5)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Orders" ("ConcurrencyToken", "CreatedAt", "DeliveredDate", "Email", "Notes", "OrderDate", "PaymentMethod", "PaymentStatus", "PhoneNumber", "ShippedDate", "Status", "UpdatedAt", "UserId", "TotalAmount", "Currency", "ShippingCity", "ShippingCountry", "ShippingFullName", "ShippingPhoneNumber", "ShippingState", "ShippingStreet", "ShippingZipCode")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15, @p16, @p17, @p18, @p19, @p20, @p21)
+RETURNING "Id", "IsDeleted";
+2026-01-29 10:09:02.225 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@p22='?' (DbType = Int32), @p23='?' (DbType = Guid), @p24='?' (DbType = DateTime), @p25='?' (DbType = Int32), @p26='?' (DbType = Int32), @p27='?' (DbType = DateTime), @p28='?' (DbType = Decimal), @p29='?' (Size = 3), @p30='?' (DbType = Decimal), @p31='?' (Size = 3)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "OrderDetails" ("BookId", "ConcurrencyToken", "CreatedAt", "OrderId", "Quantity", "UpdatedAt", "Subtotal", "SubtotalCurrency", "UnitPrice", "UnitPriceCurrency")
+VALUES (@p22, @p23, @p24, @p25, @p26, @p27, @p28, @p29, @p30, @p31)
+RETURNING "Id", "IsDeleted";
+2026-01-29 10:09:02.264 +05:30 [ERR] Failed executing DbCommand (23ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Guid), @p2='?' (DbType = DateTime), @p3='?' (DbType = Int32), @p4='?' (DbType = Int32), @p5='?' (DbType = DateTime), @p6='?' (DbType = Decimal), @p7='?' (Size = 3)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "OrderDetails" ("BookId", "ConcurrencyToken", "CreatedAt", "OrderId", "Quantity", "UpdatedAt", "Subtotal", "SubtotalCurrency")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7)
+RETURNING "Id", "IsDeleted";
+2026-01-29 10:09:02.378 +05:30 [ERR] An exception occurred in the database while saving changes for context type 'OnlineBookManagementSystem.Infrastructure.Data.Context.BookManagementContext'.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 19: 'NOT NULL constraint failed: OrderDetails.UnitPrice'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 19: 'NOT NULL constraint failed: OrderDetails.UnitPrice'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+2026-01-29 10:09:02.427 +05:30 [ERR] An error occurred while seeding the database
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 19: 'NOT NULL constraint failed: OrderDetails.UnitPrice'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at OnlineBookManagementSystem.Shared.Extensions.DatabaseSeedingExtensions.SeedSampleOrdersAsync(BookManagementContext context, UserManager`1 userManager, ILogger logger) in E:\Ddrive\github\OnlineBookManagementSystem\OnlineBookManagementSystem\Shared\Extensions\DatabaseSeedingExtensions.cs:line 660
+   at OnlineBookManagementSystem.Shared.Extensions.DatabaseSeedingExtensions.SeedDatabaseAsync(WebApplication app) in E:\Ddrive\github\OnlineBookManagementSystem\OnlineBookManagementSystem\Shared\Extensions\DatabaseSeedingExtensions.cs:line 45
+2026-01-29 10:10:23.495 +05:30 [WRN] Entity 'User' has a global query filter defined and is the required end of a relationship with the entity 'RefreshToken'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-01-29 10:10:23.893 +05:30 [WRN] The foreign key property 'IdentityUserRole<int>.UserId1' was created in shadow state because a conflicting property with the simple name 'UserId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-01-29 10:10:23.901 +05:30 [WRN] The foreign key property 'BookReview.BookId1' was created in shadow state because a conflicting property with the simple name 'BookId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-01-29 10:10:23.906 +05:30 [WRN] The foreign key property 'UserFavorite.BookId1' was created in shadow state because a conflicting property with the simple name 'BookId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-01-29 10:10:23.911 +05:30 [WRN] The foreign key property 'UserFavorite.UserId1' was created in shadow state because a conflicting property with the simple name 'UserId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-01-29 10:10:24.669 +05:30 [INF] Starting database seeding process...
+2026-01-29 10:10:24.738 +05:30 [INF] User profile is available. Using 'C:\Users\singh\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-01-29 10:10:25.468 +05:30 [INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+2026-01-29 10:10:25.535 +05:30 [INF] Executed DbCommand (10ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*) FROM "sqlite_master" WHERE "name" = '__EFMigrationsLock' AND "type" = 'table';
+2026-01-29 10:10:25.561 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT OR IGNORE INTO "__EFMigrationsLock"("Id", "Timestamp") VALUES(1, '2026-01-29 04:40:25.5585084+00:00');
+SELECT changes();
+2026-01-29 10:10:25.721 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE IF NOT EXISTS "__EFMigrationsHistory" (
+    "MigrationId" TEXT NOT NULL CONSTRAINT "PK___EFMigrationsHistory" PRIMARY KEY,
+    "ProductVersion" TEXT NOT NULL
+);
+2026-01-29 10:10:25.781 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*) FROM "sqlite_master" WHERE "name" = '__EFMigrationsHistory' AND "type" = 'table';
+2026-01-29 10:10:25.797 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "MigrationId", "ProductVersion"
+FROM "__EFMigrationsHistory"
+ORDER BY "MigrationId";
+2026-01-29 10:10:25.825 +05:30 [INF] No migrations were applied. The database is already up to date.
+2026-01-29 10:10:25.834 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DELETE FROM "__EFMigrationsLock";
+2026-01-29 10:10:26.678 +05:30 [INF] Executed DbCommand (8ms) [Parameters=[@__normalizedName_0='?' (Size = 10)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."ConcurrencyStamp", "a"."Name", "a"."NormalizedName"
+FROM "AspNetRoles" AS "a"
+WHERE "a"."NormalizedName" = @__normalizedName_0
+LIMIT 1
+2026-01-29 10:10:26.772 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@__normalizedName_0='?' (Size = 5)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."ConcurrencyStamp", "a"."Name", "a"."NormalizedName"
+FROM "AspNetRoles" AS "a"
+WHERE "a"."NormalizedName" = @__normalizedName_0
+LIMIT 1
+2026-01-29 10:10:26.778 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@__normalizedName_0='?' (Size = 4)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."ConcurrencyStamp", "a"."Name", "a"."NormalizedName"
+FROM "AspNetRoles" AS "a"
+WHERE "a"."NormalizedName" = @__normalizedName_0
+LIMIT 1
+2026-01-29 10:10:26.785 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@__normalizedName_0='?' (Size = 5)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."ConcurrencyStamp", "a"."Name", "a"."NormalizedName"
+FROM "AspNetRoles" AS "a"
+WHERE "a"."NormalizedName" = @__normalizedName_0
+LIMIT 1
+2026-01-29 10:10:26.791 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@__normalizedName_0='?' (Size = 6)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."ConcurrencyStamp", "a"."Name", "a"."NormalizedName"
+FROM "AspNetRoles" AS "a"
+WHERE "a"."NormalizedName" = @__normalizedName_0
+LIMIT 1
+2026-01-29 10:10:26.845 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@__normalizedEmail_0='?' (Size = 20)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."AccessFailedCount", "a"."Address", "a"."City", "a"."ConcurrencyStamp", "a"."Country", "a"."CreatedAt", "a"."Email", "a"."EmailConfirmationToken", "a"."EmailConfirmationTokenExpiry", "a"."EmailConfirmed", "a"."IsDeleted", "a"."IsPendingApproval", "a"."LastLoginAt", "a"."LastLoginDate", "a"."LockoutEnabled", "a"."LockoutEnd", "a"."Name", "a"."NormalizedEmail", "a"."NormalizedUserName", "a"."PasswordHash", "a"."PasswordResetExpiry", "a"."PasswordResetToken", "a"."PhoneNumber", "a"."PhoneNumberConfirmed", "a"."RequestDate", "a"."RequestedRole", "a"."SecurityStamp", "a"."State", "a"."TwoFactorEnabled", "a"."UpdatedAt", "a"."UserName", "a"."ZipCode"
+FROM "AspNetUsers" AS "a"
+WHERE NOT ("a"."IsDeleted") AND "a"."NormalizedEmail" = @__normalizedEmail_0
+LIMIT 2
+2026-01-29 10:10:27.078 +05:30 [INF] SuperAdmin user superadmin@gmail.com already exists
+2026-01-29 10:10:27.175 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a0"."Name"
+FROM "AspNetUserRoles" AS "a"
+INNER JOIN "AspNetRoles" AS "a0" ON "a"."RoleId" = "a0"."Id"
+WHERE "a"."UserId" = @__userId_0
+2026-01-29 10:10:27.186 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@__normalizedEmail_0='?' (Size = 15)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."AccessFailedCount", "a"."Address", "a"."City", "a"."ConcurrencyStamp", "a"."Country", "a"."CreatedAt", "a"."Email", "a"."EmailConfirmationToken", "a"."EmailConfirmationTokenExpiry", "a"."EmailConfirmed", "a"."IsDeleted", "a"."IsPendingApproval", "a"."LastLoginAt", "a"."LastLoginDate", "a"."LockoutEnabled", "a"."LockoutEnd", "a"."Name", "a"."NormalizedEmail", "a"."NormalizedUserName", "a"."PasswordHash", "a"."PasswordResetExpiry", "a"."PasswordResetToken", "a"."PhoneNumber", "a"."PhoneNumberConfirmed", "a"."RequestDate", "a"."RequestedRole", "a"."SecurityStamp", "a"."State", "a"."TwoFactorEnabled", "a"."UpdatedAt", "a"."UserName", "a"."ZipCode"
+FROM "AspNetUsers" AS "a"
+WHERE NOT ("a"."IsDeleted") AND "a"."NormalizedEmail" = @__normalizedEmail_0
+LIMIT 2
+2026-01-29 10:10:27.193 +05:30 [INF] User admin@gmail.com already exists
+2026-01-29 10:10:27.198 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@__normalizedEmail_0='?' (Size = 14)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."AccessFailedCount", "a"."Address", "a"."City", "a"."ConcurrencyStamp", "a"."Country", "a"."CreatedAt", "a"."Email", "a"."EmailConfirmationToken", "a"."EmailConfirmationTokenExpiry", "a"."EmailConfirmed", "a"."IsDeleted", "a"."IsPendingApproval", "a"."LastLoginAt", "a"."LastLoginDate", "a"."LockoutEnabled", "a"."LockoutEnd", "a"."Name", "a"."NormalizedEmail", "a"."NormalizedUserName", "a"."PasswordHash", "a"."PasswordResetExpiry", "a"."PasswordResetToken", "a"."PhoneNumber", "a"."PhoneNumberConfirmed", "a"."RequestDate", "a"."RequestedRole", "a"."SecurityStamp", "a"."State", "a"."TwoFactorEnabled", "a"."UpdatedAt", "a"."UserName", "a"."ZipCode"
+FROM "AspNetUsers" AS "a"
+WHERE NOT ("a"."IsDeleted") AND "a"."NormalizedEmail" = @__normalizedEmail_0
+LIMIT 2
+2026-01-29 10:10:27.204 +05:30 [INF] User user@gmail.com already exists
+2026-01-29 10:10:27.210 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedEmail_0='?' (Size = 26)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."AccessFailedCount", "a"."Address", "a"."City", "a"."ConcurrencyStamp", "a"."Country", "a"."CreatedAt", "a"."Email", "a"."EmailConfirmationToken", "a"."EmailConfirmationTokenExpiry", "a"."EmailConfirmed", "a"."IsDeleted", "a"."IsPendingApproval", "a"."LastLoginAt", "a"."LastLoginDate", "a"."LockoutEnabled", "a"."LockoutEnd", "a"."Name", "a"."NormalizedEmail", "a"."NormalizedUserName", "a"."PasswordHash", "a"."PasswordResetExpiry", "a"."PasswordResetToken", "a"."PhoneNumber", "a"."PhoneNumberConfirmed", "a"."RequestDate", "a"."RequestedRole", "a"."SecurityStamp", "a"."State", "a"."TwoFactorEnabled", "a"."UpdatedAt", "a"."UserName", "a"."ZipCode"
+FROM "AspNetUsers" AS "a"
+WHERE NOT ("a"."IsDeleted") AND "a"."NormalizedEmail" = @__normalizedEmail_0
+LIMIT 2
+2026-01-29 10:10:27.218 +05:30 [INF] User public@whisperingpages.com already exists
+2026-01-29 10:10:27.248 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Categories" AS "c"
+    WHERE NOT ("c"."IsDeleted"))
+2026-01-29 10:10:27.255 +05:30 [INF] Categories already exist, skipping seeding
+2026-01-29 10:10:27.275 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Books" AS "b"
+    WHERE NOT ("b"."IsDeleted"))
+2026-01-29 10:10:27.282 +05:30 [INF] Books already exist, skipping sample book seeding
+2026-01-29 10:10:27.293 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "SystemSettings" AS "s"
+    WHERE NOT ("s"."IsDeleted"))
+2026-01-29 10:10:27.299 +05:30 [INF] System settings already exist, skipping seeding
+2026-01-29 10:10:27.315 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Orders" AS "o"
+    WHERE NOT ("o"."IsDeleted"))
+2026-01-29 10:10:27.325 +05:30 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2026-01-29 10:10:27.370 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."AccessFailedCount", "a"."Address", "a"."City", "a"."ConcurrencyStamp", "a"."Country", "a"."CreatedAt", "a"."Email", "a"."EmailConfirmationToken", "a"."EmailConfirmationTokenExpiry", "a"."EmailConfirmed", "a"."IsDeleted", "a"."IsPendingApproval", "a"."LastLoginAt", "a"."LastLoginDate", "a"."LockoutEnabled", "a"."LockoutEnd", "a"."Name", "a"."NormalizedEmail", "a"."NormalizedUserName", "a"."PasswordHash", "a"."PasswordResetExpiry", "a"."PasswordResetToken", "a"."PhoneNumber", "a"."PhoneNumberConfirmed", "a"."RequestDate", "a"."RequestedRole", "a"."SecurityStamp", "a"."State", "a"."TwoFactorEnabled", "a"."UpdatedAt", "a"."UserName", "a"."ZipCode"
+FROM "AspNetUsers" AS "a"
+WHERE NOT ("a"."IsDeleted")
+LIMIT @__p_0
+2026-01-29 10:10:27.392 +05:30 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2026-01-29 10:10:27.503 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT "b"."Id", "b"."Author", "b"."AverageRating", "b"."CategoryId", "b"."ConcurrencyToken", "b"."CreatedAt", "b"."Description", "b"."ImageUrl", "b"."IsDeleted", "b"."IsFeatured", "b"."LowStockThreshold", "b"."PublicationDate", "b"."StockQuantity", "b"."Title", "b"."TotalReviews", "b"."UpdatedAt", "b"."ISBN", "b"."Price", "b"."Currency"
+FROM "Books" AS "b"
+WHERE NOT ("b"."IsDeleted")
+LIMIT @__p_0
+2026-01-29 10:10:28.554 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime), @p2='?' (DbType = DateTime), @p3='?', @p4='?', @p5='?' (DbType = DateTime), @p6='?' (Size = 6), @p7='?' (DbType = Int32), @p8='?', @p9='?' (DbType = DateTime), @p10='?' (DbType = Int32), @p11='?' (DbType = DateTime), @p12='?' (DbType = Int32), @p13='?' (DbType = Decimal), @p14='?' (Size = 3), @p15='?' (Size = 11), @p16='?' (Size = 3), @p17='?' (Size = 11), @p18='?', @p19='?' (Size = 12), @p20='?' (Size = 11), @p21='?' (Size = 5)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Orders" ("ConcurrencyToken", "CreatedAt", "DeliveredDate", "Email", "Notes", "OrderDate", "PaymentMethod", "PaymentStatus", "PhoneNumber", "ShippedDate", "Status", "UpdatedAt", "UserId", "TotalAmount", "Currency", "ShippingCity", "ShippingCountry", "ShippingFullName", "ShippingPhoneNumber", "ShippingState", "ShippingStreet", "ShippingZipCode")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15, @p16, @p17, @p18, @p19, @p20, @p21)
+RETURNING "Id", "IsDeleted";
+2026-01-29 10:10:28.603 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime), @p2='?' (DbType = DateTime), @p3='?', @p4='?', @p5='?' (DbType = DateTime), @p6='?' (Size = 6), @p7='?' (DbType = Int32), @p8='?', @p9='?' (DbType = DateTime), @p10='?' (DbType = Int32), @p11='?' (DbType = DateTime), @p12='?' (DbType = Int32), @p13='?' (DbType = Decimal), @p14='?' (Size = 3), @p15='?' (Size = 11), @p16='?' (Size = 3), @p17='?' (Size = 11), @p18='?', @p19='?' (Size = 12), @p20='?' (Size = 11), @p21='?' (Size = 5)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Orders" ("ConcurrencyToken", "CreatedAt", "DeliveredDate", "Email", "Notes", "OrderDate", "PaymentMethod", "PaymentStatus", "PhoneNumber", "ShippedDate", "Status", "UpdatedAt", "UserId", "TotalAmount", "Currency", "ShippingCity", "ShippingCountry", "ShippingFullName", "ShippingPhoneNumber", "ShippingState", "ShippingStreet", "ShippingZipCode")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15, @p16, @p17, @p18, @p19, @p20, @p21)
+RETURNING "Id", "IsDeleted";
+2026-01-29 10:10:28.610 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime), @p2='?' (DbType = DateTime), @p3='?', @p4='?', @p5='?' (DbType = DateTime), @p6='?' (Size = 6), @p7='?' (DbType = Int32), @p8='?', @p9='?' (DbType = DateTime), @p10='?' (DbType = Int32), @p11='?' (DbType = DateTime), @p12='?' (DbType = Int32), @p13='?' (DbType = Decimal), @p14='?' (Size = 3), @p15='?' (Size = 11), @p16='?' (Size = 3), @p17='?' (Size = 11), @p18='?', @p19='?' (Size = 12), @p20='?' (Size = 11), @p21='?' (Size = 5)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Orders" ("ConcurrencyToken", "CreatedAt", "DeliveredDate", "Email", "Notes", "OrderDate", "PaymentMethod", "PaymentStatus", "PhoneNumber", "ShippedDate", "Status", "UpdatedAt", "UserId", "TotalAmount", "Currency", "ShippingCity", "ShippingCountry", "ShippingFullName", "ShippingPhoneNumber", "ShippingState", "ShippingStreet", "ShippingZipCode")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15, @p16, @p17, @p18, @p19, @p20, @p21)
+RETURNING "Id", "IsDeleted";
+2026-01-29 10:10:28.627 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p22='?' (DbType = Int32), @p23='?' (DbType = Guid), @p24='?' (DbType = DateTime), @p25='?' (DbType = Int32), @p26='?' (DbType = Int32), @p27='?' (DbType = DateTime), @p28='?' (DbType = Decimal), @p29='?' (Size = 3), @p30='?' (DbType = Decimal), @p31='?' (Size = 3)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "OrderDetails" ("BookId", "ConcurrencyToken", "CreatedAt", "OrderId", "Quantity", "UpdatedAt", "Subtotal", "SubtotalCurrency", "UnitPrice", "UnitPriceCurrency")
+VALUES (@p22, @p23, @p24, @p25, @p26, @p27, @p28, @p29, @p30, @p31)
+RETURNING "Id", "IsDeleted";
+2026-01-29 10:10:28.641 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Guid), @p2='?' (DbType = DateTime), @p3='?' (DbType = Int32), @p4='?' (DbType = Int32), @p5='?' (DbType = DateTime), @p6='?' (DbType = Decimal), @p7='?' (Size = 3), @p8='?' (DbType = Decimal), @p9='?' (Size = 3)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "OrderDetails" ("BookId", "ConcurrencyToken", "CreatedAt", "OrderId", "Quantity", "UpdatedAt", "Subtotal", "SubtotalCurrency", "UnitPrice", "UnitPriceCurrency")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9)
+RETURNING "Id", "IsDeleted";
+2026-01-29 10:10:28.650 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Guid), @p2='?' (DbType = DateTime), @p3='?' (DbType = Int32), @p4='?' (DbType = Int32), @p5='?' (DbType = DateTime), @p6='?' (DbType = Decimal), @p7='?' (Size = 3), @p8='?' (DbType = Decimal), @p9='?' (Size = 3)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "OrderDetails" ("BookId", "ConcurrencyToken", "CreatedAt", "OrderId", "Quantity", "UpdatedAt", "Subtotal", "SubtotalCurrency", "UnitPrice", "UnitPriceCurrency")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9)
+RETURNING "Id", "IsDeleted";
+2026-01-29 10:10:28.660 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Guid), @p2='?' (DbType = DateTime), @p3='?' (DbType = Int32), @p4='?' (DbType = Int32), @p5='?' (DbType = DateTime), @p6='?' (DbType = Decimal), @p7='?' (Size = 3), @p8='?' (DbType = Decimal), @p9='?' (Size = 3)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "OrderDetails" ("BookId", "ConcurrencyToken", "CreatedAt", "OrderId", "Quantity", "UpdatedAt", "Subtotal", "SubtotalCurrency", "UnitPrice", "UnitPriceCurrency")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9)
+RETURNING "Id", "IsDeleted";
+2026-01-29 10:10:28.672 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Guid), @p2='?' (DbType = DateTime), @p3='?' (DbType = Int32), @p4='?' (DbType = Int32), @p5='?' (DbType = DateTime), @p6='?' (DbType = Decimal), @p7='?' (Size = 3), @p8='?' (DbType = Decimal), @p9='?' (Size = 3)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "OrderDetails" ("BookId", "ConcurrencyToken", "CreatedAt", "OrderId", "Quantity", "UpdatedAt", "Subtotal", "SubtotalCurrency", "UnitPrice", "UnitPriceCurrency")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9)
+RETURNING "Id", "IsDeleted";
+2026-01-29 10:10:28.679 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Guid), @p2='?' (DbType = DateTime), @p3='?' (DbType = Int32), @p4='?' (DbType = Int32), @p5='?' (DbType = DateTime), @p6='?' (DbType = Decimal), @p7='?' (Size = 3), @p8='?' (DbType = Decimal), @p9='?' (Size = 3)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "OrderDetails" ("BookId", "ConcurrencyToken", "CreatedAt", "OrderId", "Quantity", "UpdatedAt", "Subtotal", "SubtotalCurrency", "UnitPrice", "UnitPriceCurrency")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9)
+RETURNING "Id", "IsDeleted";
+2026-01-29 10:10:28.688 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Guid), @p2='?' (DbType = DateTime), @p3='?' (DbType = Int32), @p4='?' (DbType = Int32), @p5='?' (DbType = DateTime), @p6='?' (DbType = Decimal), @p7='?' (Size = 3), @p8='?' (DbType = Decimal), @p9='?' (Size = 3)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "OrderDetails" ("BookId", "ConcurrencyToken", "CreatedAt", "OrderId", "Quantity", "UpdatedAt", "Subtotal", "SubtotalCurrency", "UnitPrice", "UnitPriceCurrency")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9)
+RETURNING "Id", "IsDeleted";
+2026-01-29 10:10:28.726 +05:30 [INF] Seeded 3 sample orders with order details
+2026-01-29 10:10:28.742 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "BookReviews" AS "b"
+    WHERE NOT ("b"."IsDeleted"))
+2026-01-29 10:10:28.752 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."AccessFailedCount", "a"."Address", "a"."City", "a"."ConcurrencyStamp", "a"."Country", "a"."CreatedAt", "a"."Email", "a"."EmailConfirmationToken", "a"."EmailConfirmationTokenExpiry", "a"."EmailConfirmed", "a"."IsDeleted", "a"."IsPendingApproval", "a"."LastLoginAt", "a"."LastLoginDate", "a"."LockoutEnabled", "a"."LockoutEnd", "a"."Name", "a"."NormalizedEmail", "a"."NormalizedUserName", "a"."PasswordHash", "a"."PasswordResetExpiry", "a"."PasswordResetToken", "a"."PhoneNumber", "a"."PhoneNumberConfirmed", "a"."RequestDate", "a"."RequestedRole", "a"."SecurityStamp", "a"."State", "a"."TwoFactorEnabled", "a"."UpdatedAt", "a"."UserName", "a"."ZipCode"
+FROM "AspNetUsers" AS "a"
+WHERE NOT ("a"."IsDeleted")
+LIMIT @__p_0
+2026-01-29 10:10:28.759 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT "b"."Id", "b"."Author", "b"."AverageRating", "b"."CategoryId", "b"."ConcurrencyToken", "b"."CreatedAt", "b"."Description", "b"."ImageUrl", "b"."IsDeleted", "b"."IsFeatured", "b"."LowStockThreshold", "b"."PublicationDate", "b"."StockQuantity", "b"."Title", "b"."TotalReviews", "b"."UpdatedAt", "b"."ISBN", "b"."Price", "b"."Currency"
+FROM "Books" AS "b"
+WHERE NOT ("b"."IsDeleted")
+LIMIT @__p_0
+2026-01-29 10:10:28.874 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = Guid), @p3='?' (DbType = DateTime), @p4='?' (DbType = DateTime), @p5='?' (DbType = Int32), @p6='?' (DbType = Int32), @p7='?', @p8='?' (Size = 71), @p9='?' (DbType = Int32), @p10='?' (DbType = DateTime), @p11='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "BookReviews" ("BookId", "BookId1", "ConcurrencyToken", "CreatedAt", "ModeratedAt", "ModeratedBy", "Rating", "RejectionReason", "ReviewText", "Status", "UpdatedAt", "UserId")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11)
+RETURNING "Id", "IsDeleted";
+2026-01-29 10:10:28.889 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = Guid), @p3='?' (DbType = DateTime), @p4='?' (DbType = DateTime), @p5='?' (DbType = Int32), @p6='?' (DbType = Int32), @p7='?', @p8='?' (Size = 71), @p9='?' (DbType = Int32), @p10='?' (DbType = DateTime), @p11='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "BookReviews" ("BookId", "BookId1", "ConcurrencyToken", "CreatedAt", "ModeratedAt", "ModeratedBy", "Rating", "RejectionReason", "ReviewText", "Status", "UpdatedAt", "UserId")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11)
+RETURNING "Id", "IsDeleted";
+2026-01-29 10:10:28.896 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = Guid), @p3='?' (DbType = DateTime), @p4='?' (DbType = DateTime), @p5='?' (DbType = Int32), @p6='?' (DbType = Int32), @p7='?', @p8='?' (Size = 62), @p9='?' (DbType = Int32), @p10='?' (DbType = DateTime), @p11='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "BookReviews" ("BookId", "BookId1", "ConcurrencyToken", "CreatedAt", "ModeratedAt", "ModeratedBy", "Rating", "RejectionReason", "ReviewText", "Status", "UpdatedAt", "UserId")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11)
+RETURNING "Id", "IsDeleted";
+2026-01-29 10:10:28.903 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = Guid), @p3='?' (DbType = DateTime), @p4='?' (DbType = DateTime), @p5='?' (DbType = Int32), @p6='?' (DbType = Int32), @p7='?', @p8='?' (Size = 71), @p9='?' (DbType = Int32), @p10='?' (DbType = DateTime), @p11='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "BookReviews" ("BookId", "BookId1", "ConcurrencyToken", "CreatedAt", "ModeratedAt", "ModeratedBy", "Rating", "RejectionReason", "ReviewText", "Status", "UpdatedAt", "UserId")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11)
+RETURNING "Id", "IsDeleted";
+2026-01-29 10:10:28.910 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = Guid), @p3='?' (DbType = DateTime), @p4='?' (DbType = DateTime), @p5='?' (DbType = Int32), @p6='?' (DbType = Int32), @p7='?', @p8='?' (Size = 47), @p9='?' (DbType = Int32), @p10='?' (DbType = DateTime), @p11='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "BookReviews" ("BookId", "BookId1", "ConcurrencyToken", "CreatedAt", "ModeratedAt", "ModeratedBy", "Rating", "RejectionReason", "ReviewText", "Status", "UpdatedAt", "UserId")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11)
+RETURNING "Id", "IsDeleted";
+2026-01-29 10:10:28.918 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = Guid), @p3='?' (DbType = DateTime), @p4='?' (DbType = DateTime), @p5='?' (DbType = Int32), @p6='?' (DbType = Int32), @p7='?', @p8='?' (Size = 48), @p9='?' (DbType = Int32), @p10='?' (DbType = DateTime), @p11='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "BookReviews" ("BookId", "BookId1", "ConcurrencyToken", "CreatedAt", "ModeratedAt", "ModeratedBy", "Rating", "RejectionReason", "ReviewText", "Status", "UpdatedAt", "UserId")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11)
+RETURNING "Id", "IsDeleted";
+2026-01-29 10:10:28.926 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = Guid), @p3='?' (DbType = DateTime), @p4='?' (DbType = DateTime), @p5='?' (DbType = Int32), @p6='?' (DbType = Int32), @p7='?', @p8='?' (Size = 71), @p9='?' (DbType = Int32), @p10='?' (DbType = DateTime), @p11='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "BookReviews" ("BookId", "BookId1", "ConcurrencyToken", "CreatedAt", "ModeratedAt", "ModeratedBy", "Rating", "RejectionReason", "ReviewText", "Status", "UpdatedAt", "UserId")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11)
+RETURNING "Id", "IsDeleted";
+2026-01-29 10:10:28.936 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = Guid), @p3='?' (DbType = DateTime), @p4='?' (DbType = DateTime), @p5='?' (DbType = Int32), @p6='?' (DbType = Int32), @p7='?', @p8='?' (Size = 60), @p9='?' (DbType = Int32), @p10='?' (DbType = DateTime), @p11='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "BookReviews" ("BookId", "BookId1", "ConcurrencyToken", "CreatedAt", "ModeratedAt", "ModeratedBy", "Rating", "RejectionReason", "ReviewText", "Status", "UpdatedAt", "UserId")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11)
+RETURNING "Id", "IsDeleted";
+2026-01-29 10:10:28.949 +05:30 [INF] Seeded 8 sample book reviews
+2026-01-29 10:10:28.985 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "UserFavorites" AS "u"
+    INNER JOIN (
+        SELECT "b"."Id", "b"."IsDeleted"
+        FROM "Books" AS "b"
+        WHERE NOT ("b"."IsDeleted")
+    ) AS "b0" ON "u"."BookId" = "b0"."Id"
+    WHERE NOT ("b0"."IsDeleted") AND NOT ("u"."IsDeleted"))
+2026-01-29 10:10:28.991 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."AccessFailedCount", "a"."Address", "a"."City", "a"."ConcurrencyStamp", "a"."Country", "a"."CreatedAt", "a"."Email", "a"."EmailConfirmationToken", "a"."EmailConfirmationTokenExpiry", "a"."EmailConfirmed", "a"."IsDeleted", "a"."IsPendingApproval", "a"."LastLoginAt", "a"."LastLoginDate", "a"."LockoutEnabled", "a"."LockoutEnd", "a"."Name", "a"."NormalizedEmail", "a"."NormalizedUserName", "a"."PasswordHash", "a"."PasswordResetExpiry", "a"."PasswordResetToken", "a"."PhoneNumber", "a"."PhoneNumberConfirmed", "a"."RequestDate", "a"."RequestedRole", "a"."SecurityStamp", "a"."State", "a"."TwoFactorEnabled", "a"."UpdatedAt", "a"."UserName", "a"."ZipCode"
+FROM "AspNetUsers" AS "a"
+WHERE NOT ("a"."IsDeleted")
+LIMIT @__p_0
+2026-01-29 10:10:28.998 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT "b"."Id", "b"."Author", "b"."AverageRating", "b"."CategoryId", "b"."ConcurrencyToken", "b"."CreatedAt", "b"."Description", "b"."ImageUrl", "b"."IsDeleted", "b"."IsFeatured", "b"."LowStockThreshold", "b"."PublicationDate", "b"."StockQuantity", "b"."Title", "b"."TotalReviews", "b"."UpdatedAt", "b"."ISBN", "b"."Price", "b"."Currency"
+FROM "Books" AS "b"
+WHERE NOT ("b"."IsDeleted")
+LIMIT @__p_0
+2026-01-29 10:10:29.072 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (DbType = Guid), @p4='?' (DbType = DateTime), @p5='?' (DbType = DateTime), @p6='?' (DbType = Int32), @p7='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "UserFavorites" ("AddedAt", "BookId", "BookId1", "ConcurrencyToken", "CreatedAt", "UpdatedAt", "UserId", "UserId1")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7)
+RETURNING "Id", "IsDeleted";
+2026-01-29 10:10:29.085 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (DbType = Guid), @p4='?' (DbType = DateTime), @p5='?' (DbType = DateTime), @p6='?' (DbType = Int32), @p7='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "UserFavorites" ("AddedAt", "BookId", "BookId1", "ConcurrencyToken", "CreatedAt", "UpdatedAt", "UserId", "UserId1")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7)
+RETURNING "Id", "IsDeleted";
+2026-01-29 10:10:29.091 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (DbType = Guid), @p4='?' (DbType = DateTime), @p5='?' (DbType = DateTime), @p6='?' (DbType = Int32), @p7='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "UserFavorites" ("AddedAt", "BookId", "BookId1", "ConcurrencyToken", "CreatedAt", "UpdatedAt", "UserId", "UserId1")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7)
+RETURNING "Id", "IsDeleted";
+2026-01-29 10:10:29.100 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (DbType = Guid), @p4='?' (DbType = DateTime), @p5='?' (DbType = DateTime), @p6='?' (DbType = Int32), @p7='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "UserFavorites" ("AddedAt", "BookId", "BookId1", "ConcurrencyToken", "CreatedAt", "UpdatedAt", "UserId", "UserId1")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7)
+RETURNING "Id", "IsDeleted";
+2026-01-29 10:10:29.106 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (DbType = Guid), @p4='?' (DbType = DateTime), @p5='?' (DbType = DateTime), @p6='?' (DbType = Int32), @p7='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "UserFavorites" ("AddedAt", "BookId", "BookId1", "ConcurrencyToken", "CreatedAt", "UpdatedAt", "UserId", "UserId1")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7)
+RETURNING "Id", "IsDeleted";
+2026-01-29 10:10:29.113 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (DbType = Guid), @p4='?' (DbType = DateTime), @p5='?' (DbType = DateTime), @p6='?' (DbType = Int32), @p7='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "UserFavorites" ("AddedAt", "BookId", "BookId1", "ConcurrencyToken", "CreatedAt", "UpdatedAt", "UserId", "UserId1")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7)
+RETURNING "Id", "IsDeleted";
+2026-01-29 10:10:29.121 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (DbType = Guid), @p4='?' (DbType = DateTime), @p5='?' (DbType = DateTime), @p6='?' (DbType = Int32), @p7='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "UserFavorites" ("AddedAt", "BookId", "BookId1", "ConcurrencyToken", "CreatedAt", "UpdatedAt", "UserId", "UserId1")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7)
+RETURNING "Id", "IsDeleted";
+2026-01-29 10:10:29.127 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (DbType = Guid), @p4='?' (DbType = DateTime), @p5='?' (DbType = DateTime), @p6='?' (DbType = Int32), @p7='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "UserFavorites" ("AddedAt", "BookId", "BookId1", "ConcurrencyToken", "CreatedAt", "UpdatedAt", "UserId", "UserId1")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7)
+RETURNING "Id", "IsDeleted";
+2026-01-29 10:10:29.134 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (DbType = Guid), @p4='?' (DbType = DateTime), @p5='?' (DbType = DateTime), @p6='?' (DbType = Int32), @p7='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "UserFavorites" ("AddedAt", "BookId", "BookId1", "ConcurrencyToken", "CreatedAt", "UpdatedAt", "UserId", "UserId1")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7)
+RETURNING "Id", "IsDeleted";
+2026-01-29 10:10:29.140 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (DbType = Guid), @p4='?' (DbType = DateTime), @p5='?' (DbType = DateTime), @p6='?' (DbType = Int32), @p7='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "UserFavorites" ("AddedAt", "BookId", "BookId1", "ConcurrencyToken", "CreatedAt", "UpdatedAt", "UserId", "UserId1")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7)
+RETURNING "Id", "IsDeleted";
+2026-01-29 10:10:29.148 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (DbType = Guid), @p4='?' (DbType = DateTime), @p5='?' (DbType = DateTime), @p6='?' (DbType = Int32), @p7='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "UserFavorites" ("AddedAt", "BookId", "BookId1", "ConcurrencyToken", "CreatedAt", "UpdatedAt", "UserId", "UserId1")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7)
+RETURNING "Id", "IsDeleted";
+2026-01-29 10:10:29.155 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (DbType = Guid), @p4='?' (DbType = DateTime), @p5='?' (DbType = DateTime), @p6='?' (DbType = Int32), @p7='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "UserFavorites" ("AddedAt", "BookId", "BookId1", "ConcurrencyToken", "CreatedAt", "UpdatedAt", "UserId", "UserId1")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7)
+RETURNING "Id", "IsDeleted";
+2026-01-29 10:10:29.161 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (DbType = Guid), @p4='?' (DbType = DateTime), @p5='?' (DbType = DateTime), @p6='?' (DbType = Int32), @p7='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "UserFavorites" ("AddedAt", "BookId", "BookId1", "ConcurrencyToken", "CreatedAt", "UpdatedAt", "UserId", "UserId1")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7)
+RETURNING "Id", "IsDeleted";
+2026-01-29 10:10:29.171 +05:30 [INF] Seeded 13 sample user favorites
+2026-01-29 10:10:29.186 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "ActivityLogs" AS "a"
+    WHERE NOT ("a"."IsDeleted"))
+2026-01-29 10:10:29.192 +05:30 [INF] Activity logs already exist, skipping sample activity log seeding
+2026-01-29 10:10:29.194 +05:30 [INF] Database seeding completed successfully
+2026-01-29 10:10:29.599 +05:30 [INF] Activity Log Cleanup Service started
+2026-01-29 10:10:29.774 +05:30 [INF] Now listening on: http://localhost:5076
+2026-01-29 10:10:29.776 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-01-29 10:10:29.778 +05:30 [INF] Hosting environment: Development
+2026-01-29 10:10:29.783 +05:30 [INF] Content root path: E:\Ddrive\github\OnlineBookManagementSystem\OnlineBookManagementSystem
+2026-01-29 10:11:29.929 +05:30 [INF] Executed DbCommand (13ms) [Parameters=[@__cutoffDate_0='?' (DbType = DateTime)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."Action", "a"."ConcurrencyToken", "a"."CreatedAt", "a"."IpAddress", "a"."IsDeleted", "a"."Level", "a"."Message", "a"."Timestamp", "a"."UpdatedAt", "a"."UserAgent", "a"."UserId"
+FROM "ActivityLogs" AS "a"
+WHERE NOT ("a"."IsDeleted") AND "a"."Timestamp" < @__cutoffDate_0

@@ -8,10 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="wwwroot\js\Order\**" />
-    <Content Remove="wwwroot\js\Order\**" />
-    <EmbeddedResource Remove="wwwroot\js\Order\**" />
-    <None Remove="wwwroot\js\Order\**" />
+    <Compile Remove="wwwroot\**" />
+    <Content Remove="wwwroot\**" />
+    <EmbeddedResource Remove="wwwroot\**" />
+    <None Remove="wwwroot\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -62,9 +62,6 @@
 
   <ItemGroup>
     <Folder Include="db\" />
-    <Folder Include="Migrations\" />
-    <Folder Include="wwwroot\images\books-section\" />
-    <Folder Include="wwwroot\lib\NewFolder\" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,86 @@
+{
+    "name": "Whispering Pages - Online Book Management System",
+    "short_name": "Whispering Pages",
+    "description": "A comprehensive book management system showcasing Clean Architecture and modern web development practices",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#0d6efd",
+    "orientation": "portrait-primary",
+    "scope": "/",
+    "lang": "en-US",
+    "categories": ["books", "education", "productivity", "business"],
+    "icons": [
+        {
+            "src": "/images/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable any"
+        },
+        {
+            "src": "/images/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable any"
+        },
+        {
+            "src": "/images/apple-touch-icon.png",
+            "sizes": "180x180",
+            "type": "image/png"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "/images/screenshot-desktop.png",
+            "sizes": "1280x720",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "Desktop view of the book management system"
+        },
+        {
+            "src": "/images/screenshot-mobile.png",
+            "sizes": "390x844",
+            "type": "image/png",
+            "form_factor": "narrow",
+            "label": "Mobile view of the book browsing interface"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "Browse Books",
+            "short_name": "Browse",
+            "description": "Browse the book collection",
+            "url": "/Public/Browse",
+            "icons": [
+                {
+                    "src": "/images/shortcut-browse.png",
+                    "sizes": "96x96"
+                }
+            ]
+        },
+        {
+            "name": "Interactive Demo",
+            "short_name": "Demo",
+            "description": "Try the interactive demo",
+            "url": "/Public/InteractiveDemo",
+            "icons": [
+                {
+                    "src": "/images/shortcut-demo.png",
+                    "sizes": "96x96"
+                }
+            ]
+        },
+        {
+            "name": "Technical Details",
+            "short_name": "Tech",
+            "description": "View technical architecture",
+            "url": "/Public/TechnicalDetails",
+            "icons": [
+                {
+                    "src": "/images/shortcut-tech.png",
+                    "sizes": "96x96"
+                }
+            ]
+        }
+    ]
+}

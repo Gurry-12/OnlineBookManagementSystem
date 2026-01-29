@@ -1,0 +1,194 @@
+﻿@using OnlineBookManagementSystem.Presentation.ViewModels.Cart
+@model CartViewModel
+
+@{
+    ViewData["Title"] = "My Cart";
+    Layout = ViewData["Layout"]?.ToString() ?? "_LayoutUser";
+}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
+<link href="~/css/cartstylesheet.css" rel="stylesheet" />
+
+<div class="container py-5">
+    <div class="wp-card mb-5">
+        <div class="wp-card-header text-center">
+            <h2 class="mb-0 user-text-on-primary">
+                <i class="bi bi-cart4 me-3"></i>My Cart
+            </h2>
+        </div>
+    </div>
+
+        @if (Model?.CartItems == null || !Model.CartItems.Any())
+        {
+            <div class="wp-card text-center py-5">
+                <div class="wp-card-body">
+                    <i class="bi bi-cart-x display-1 user-text-muted mb-4"></i>
+                    <h3 class="user-text-primary">Your cart is empty</h3>
+                    <p class="user-text-muted mb-4">Looks like you haven't added anything yet.</p>
+                    <a asp-controller="Books" asp-action="UserIndex" class="wp-btn wp-btn-primary btn-lg">
+                        Continue Shopping
+                    </a>
+                </div>
+            </div>
+            return;
+        }
+
+        <div class="row g-5">
+            <!-- Cart Items -->
+            <div class="col-lg-8">
+                <div class="wp-card">
+                    <div class="wp-card-body">
+                        @foreach (var item in Model.CartItems)
+                        {
+                            <div class="cart-item border-bottom pb-4 mb-4" data-book-id="@item.BookId">
+                                <div class="row align-items-center">
+                                    <div class="col-3 col-md-2 text-center">
+                                        <img src="@(item.BookImage ?? Url.Content("~/images/default-book-improved.svg"))"
+                                             alt="@item.BookTitle"
+                                             class="img-fluid rounded wp-shadow"
+                                             style="height: 120px; object-fit: cover;" />
+                                    </div>
+                                    <div class="col-9 col-md-10">
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <div>
+                                                <h5 class="mb-1 user-text-primary">@item.BookTitle</h5>
+                                                <p class="mb-1 user-text-muted">by @item.BookAuthor</p>
+                                                @if (!string.IsNullOrEmpty(item.CategoryName))
+                                                {
+                                                    <span class="wp-badge wp-badge-info">@item.CategoryName</span>
+                                                }
+                                            </div>
+                                            <button class="btn btn-link text-danger p-0" onclick="RemoveFromCart(@item.BookId)">
+                                                <i class="bi bi-trash3 fs-5"></i>
+                                            </button>
+                                        </div>
+
+                                        <div class="mt-3 d-flex align-items-center gap-3">
+                                            <div class="input-group input-group-sm" style="width: 130px;">
+                                                <button class="wp-btn wp-btn-secondary" onclick="UpdateQuantity(@item.BookId, -1)">−</button>
+                                                <input type="text" class="wp-form-control text-center" value="@item.Quantity" readonly id="qty-@item.BookId" />
+                                                <button class="wp-btn wp-btn-secondary" onclick="UpdateQuantity(@item.BookId, 1)">+</button>
+                                            </div>
+                                            <span class="fw-bold user-text-secondary">₹@item.BookPrice.ToString("F2")</span>
+                                            <span class="ms-auto fw-bold user-text-primary">= ₹<span class="item-total">@(item.Subtotal.ToString("F2"))</span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="col-lg-4">
+                <div class="wp-card sticky-top" style="top: 100px;">
+                    <div class="wp-card-header">
+                        <h5 class="mb-0 user-text-on-primary"><i class="bi bi-receipt me-2"></i>Order Summary</h5>
+                    </div>
+                    <div class="wp-card-body">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="user-text-primary">Subtotal (@Model.Summary.ItemCount items)</span>
+                            <span class="user-text-primary">₹<span id="subtotal">@Model.Summary.Subtotal.ToString("F2")</span></span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="user-text-primary">Tax (10%)</span>
+                            <span class="user-text-primary">₹<span id="tax">@Model.Summary.Tax.ToString("F2")</span></span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3 fw-bold">
+                            <span class="wp-badge wp-badge-success">Shipping</span>
+                            <span id="shipping" class="wp-badge wp-badge-success">
+                                @(Model.Summary.Shipping == 0 ? "FREE" : $"₹{Model.Summary.Shipping}")
+                            </span>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h4 class="mb-0 user-text-primary">Total</h4>
+                            <h4 class="user-text-secondary mb-0">₹<span id="grand-total">@Model.Summary.GrandTotal.ToString("F2")</span></h4>
+                        </div>
+
+                        @if (Model.Summary.GrandTotal > 1000)
+                        {
+                            <div class="wp-badge wp-badge-success small py-2 text-center w-100 mb-3">
+                                <i class="bi bi-truck me-2"></i>Congrats! You get <strong>Free Shipping</strong>
+                            </div>
+                        }
+
+                        <a asp-controller="Cart" asp-action="Checkout" class="wp-btn wp-btn-primary btn-lg w-100 rounded-pill wp-shadow">
+                            <i class="bi bi-lock me-2"></i>Proceed to Checkout
+                        </a>
+                        <a asp-controller="Books" asp-action="UserIndex" class="wp-btn wp-btn-secondary w-100 mt-2">
+                            <i class="bi bi-arrow-left me-2"></i>Continue Shopping
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@await Html.PartialAsync("_Notification")
+
+@section Scripts {
+    <!-- Core AJAX Infrastructure -->
+    <script src="~/js/core/apiClient.js"></script>
+    <script src="~/js/core/notifications.js"></script>
+    
+    <script>
+        async function UpdateQuantity(bookId, change) {
+            const input = document.querySelector(`#qty-${bookId}`);
+            let qty = parseInt(input.value) || 1;
+            qty = Math.max(1, qty + change);
+            input.value = qty;
+
+            try {
+                const response = await fetch('/Cart/UpdateQuantity', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ bookId, quantity: qty })
+                });
+                const res = await response.json();
+                
+                if (res.success) {
+                    location.reload(); // Refresh totals
+                } else {
+                    notifications.error('Stock limit reached!');
+                    location.reload();
+                }
+            } catch (error) {
+                notifications.error('Error updating quantity');
+                location.reload();
+            }
+        }
+
+        async function RemoveFromCart(bookId) {
+            if (confirm('Remove this item from cart?')) {
+                try {
+                    const response = await fetch('/Cart/RemoveItem', {
+                        method: 'DELETE',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ bookId })
+                    });
+                    const res = await response.json();
+                    
+                    if (res.success) {
+                        const cartItem = document.querySelector(`[data-book-id="${bookId}"]`);
+                        if (cartItem) {
+                            cartItem.style.transition = 'opacity 0.3s';
+                            cartItem.style.opacity = '0';
+                            setTimeout(() => {
+                                cartItem.remove();
+                                location.reload();
+                            }, 300);
+                        }
+                        notifications.success('Item removed');
+                    } else {
+                        notifications.error('Failed to remove item');
+                    }
+                } catch (error) {
+                    notifications.error('Error removing item');
+                }
+            }
+        }
+    </script>
+}

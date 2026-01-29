@@ -1,0 +1,392 @@
+@{
+    ViewData["Title"] = "Admin Dashboard";
+    Layout = ViewData["Layout"]?.ToString() ?? "_LayoutAdmin";
+}
+@model OnlineBookManagementSystem.Presentation.ViewModels.Admin.AdminDashboardViewModel;
+
+<div class="container-fluid py-4">
+    <!-- Stats Section -->
+    <div class="row g-3 mb-4">
+        <div class="col-xl-3 col-md-6">
+            <div class="card stats-card books-card">
+                <div class="card-body text-center p-3">
+                    <div class="stats-icon">
+                        <i class="bi bi-book"></i>
+                    </div>
+                    <h3 class="stats-number">@Model.TotalBooks</h3>
+                    <p class="stats-label">Total Books</p>
+                    <a asp-action="Books" class="btn btn-primary btn-sm">
+                        <i class="bi bi-arrow-right me-1"></i>Manage Books
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-xl-3 col-md-6">
+            <div class="card stats-card categories-card">
+                <div class="card-body text-center p-3">
+                    <div class="stats-icon">
+                        <i class="bi bi-tags"></i>
+                    </div>
+                    <h3 class="stats-number">@Model.TotalCategories</h3>
+                    <p class="stats-label">Categories</p>
+                    <a asp-action="CategoryManagement" class="btn btn-primary btn-sm">
+                        <i class="bi bi-arrow-right me-1"></i>Manage Categories
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-xl-3 col-md-6">
+            <div class="card stats-card users-card">
+                <div class="card-body text-center p-3">
+                    <div class="stats-icon">
+                        <i class="bi bi-people"></i>
+                    </div>
+                    <h3 class="stats-number">@Model.TotalUsers</h3>
+                    <p class="stats-label">Total Users</p>
+                    <a asp-action="UserList" class="btn btn-primary btn-sm">
+                        <i class="bi bi-arrow-right me-1"></i>Manage Users
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-xl-3 col-md-6">
+            <div class="card stats-card orders-card">
+                <div class="card-body text-center p-3">
+                    <div class="stats-icon">
+                        <i class="bi bi-cart-check"></i>
+                    </div>
+                    <h3 class="stats-number">@Model.TotalOrders</h3>
+                    <p class="stats-label">Total Orders</p>
+                    <a asp-controller="Order" asp-action="AdminIndex" class="btn btn-primary btn-sm">
+                        <i class="bi bi-arrow-right me-1"></i>View Orders
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="row g-4 mb-4">
+        <!-- Monthly Book Uploads Chart -->
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0">
+                        <i class="bi bi-graph-up me-2"></i>Monthly Book Uploads
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="monthlyChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Books by Category Chart -->
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0">
+                        <i class="bi bi-tags me-2"></i>Books by Category
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="categoryChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Row -->
+    <div class="row g-4">
+        <!-- Recent Activities -->
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0">
+                        <i class="bi bi-clock-history me-2"></i>Recent Activities
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="activity-list">
+                        @if (Model.RecentActivity != null && Model.RecentActivity.Any())
+                        {
+                            @foreach (var log in Model.RecentActivity.Take(8))
+                            {
+                                var iconClass = log.ActionType switch
+                                {
+                                    "Add" => "bi bi-plus-circle text-success",
+                                    "Update" => "bi bi-pencil-square text-warning",
+                                    "Delete" => "bi bi-trash text-danger",
+                                    "Register" => "bi bi-person-plus text-info",
+                                    "Login" => "bi bi-box-arrow-in-right text-primary",
+                                    _ => "bi bi-info-circle text-secondary"
+                                };
+
+                                <div class="activity-item">
+                                    <div class="activity-icon">
+                                        <i class="@iconClass"></i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <p class="activity-description">@log.Description</p>
+                                        <small class="activity-time">
+                                            @((DateTime.UtcNow - log.Timestamp).TotalMinutes < 1 ? "Just now" : 
+                                            (DateTime.UtcNow - log.Timestamp).TotalMinutes < 60 ? $"{(int)(DateTime.UtcNow - log.Timestamp).TotalMinutes} min ago" :
+                                            (DateTime.UtcNow - log.Timestamp).TotalHours < 24 ? $"{(int)(DateTime.UtcNow - log.Timestamp).TotalHours} hrs ago" :
+                                            $"{(int)(DateTime.UtcNow - log.Timestamp).TotalDays} days ago")
+                                        </small>
+                                    </div>
+                                    <div class="activity-badge">
+                                        <span class="badge bg-info">@log.ActionType</span>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="text-center py-4">
+                                <i class="bi bi-clock-history display-4 text-muted"></i>
+                                <p class="text-muted mt-2">No recent activity found.</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions & Revenue Chart -->
+        <div class="col-lg-6">
+            <div class="row g-4">
+                <!-- Quick Actions -->
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="mb-0">
+                                <i class="bi bi-lightning me-2"></i>Quick Actions
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-6">
+                                    <a asp-action="CreateBook" class="btn btn-outline-primary w-100 quick-action-btn">
+                                        <i class="bi bi-plus-circle d-block mb-2"></i>
+                                        <span>Add Book</span>
+                                    </a>
+                                </div>
+                                <div class="col-6">
+                                    <a asp-action="UserList" class="btn btn-outline-primary w-100 quick-action-btn">
+                                        <i class="bi bi-person-lines-fill d-block mb-2"></i>
+                                        <span>Manage Users</span>
+                                    </a>
+                                </div>
+                                <div class="col-6">
+                                    <a asp-controller="Order" asp-action="AdminIndex" class="btn btn-outline-primary w-100 quick-action-btn">
+                                        <i class="bi bi-cart-check d-block mb-2"></i>
+                                        <span>View Orders</span>
+                                    </a>
+                                </div>
+                                <div class="col-6">
+                                    <a asp-action="ActivityLogs" class="btn btn-outline-primary w-100 quick-action-btn">
+                                        <i class="bi bi-clock-history d-block mb-2"></i>
+                                        <span>Activity Logs</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Revenue Chart -->
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="mb-0">
+                                <i class="bi bi-currency-dollar me-2"></i>Revenue Trends
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="revenueChart" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@await Html.PartialAsync("_Notification")
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="~/js/books/ChartsAdmin.js"></script>
+   
+}
+
+@section Styles {
+    <style>
+        /* ===== CONSISTENT STATS CARDS ===== */
+        .stats-card {
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stats-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .books-card {
+            border-left-color: #10b981;
+        }
+        
+        .categories-card {
+            border-left-color: #3b82f6;
+        }
+        
+        .users-card {
+            border-left-color: #f59e0b;
+        }
+        
+        .orders-card {
+            border-left-color: #ef4444;
+        }
+        
+        /* ===== CONSISTENT TYPOGRAPHY ===== */
+        .stats-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #6366f1;
+        }
+        
+        .stats-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stats-label {
+            color: #6b7280;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+        
+        /* ===== CONSISTENT QUICK ACTIONS ===== */
+        .quick-action-btn {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+            height: 100px;
+            text-align: center;
+            padding: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .quick-action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-decoration: none;
+        }
+        
+        .quick-action-btn i {
+            font-size: 1.5rem;
+        }
+        
+        .quick-action-btn span {
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        
+        /* ===== CONSISTENT CHARTS ===== */
+        .chart-container {
+            position: relative;
+            height: 250px;
+        }
+        
+        .chart-title {
+            color: #374151;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        /* ===== CONSISTENT ACTIVITY LIST ===== */
+        .activity-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .activity-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        
+        .activity-item:hover {
+            background-color: #f9fafb;
+            border-radius: 4px;
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+        }
+        
+        .activity-icon {
+            flex-shrink: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f3f4f6;
+            border-radius: 50%;
+        }
+        
+        .activity-content {
+            flex: 1;
+        }
+        
+        .activity-description {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #1f2937;
+        }
+        
+        .activity-time {
+            color: #6b7280;
+            font-size: 0.8rem;
+        }
+        
+        .activity-badge {
+            flex-shrink: 0;
+        }
+        
+        /* ===== CARD IMPROVEMENTS ===== */
+        .card {
+            border: none;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        
+        .card-header {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+            font-weight: 600;
+        }
+        
+       
+    </style>
+}

@@ -1,0 +1,311 @@
+@model OnlineBookManagementSystem.Presentation.ViewModels.SuperAdmin.SystemSettingsViewModel
+@{
+    ViewData["Title"] = "System Settings";
+    Layout = "~/Views/Shared/_LayoutSuperAdmin.cshtml";
+}
+
+<div class="container-fluid px-3 px-md-5 py-4">
+    <h2 class="text-danger fw-bold mb-4">
+        <i class="bi bi-gear me-2"></i>System Settings
+    </h2>
+
+    <div class="row g-4">
+        <!-- General Settings -->
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm rounded-4">
+                <div class="card-header bg-transparent border-0 py-3">
+                    <h5 class=" fw-semibold">
+                        <i class="bi bi-sliders me-2"></i>General Settings
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form id="generalSettingsForm">
+                        <div class="mb-3">
+                            <label class="form-label">Site Name</label>
+                            <input type="text" class="form-control" name="siteName" value="@Model?.SiteName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Site Description</label>
+                            <textarea class="form-control" name="siteDescription" rows="3">@Model?.SiteDescription</textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Contact Email</label>
+                            <input type="email" class="form-control" name="contactEmail" value="@Model?.ContactEmail">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Maintenance Mode</label>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" name="maintenanceMode" @(Model?.MaintenanceMode == true ? "checked" : "")>
+                                <label class="form-check-label">Enable maintenance mode</label>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-lg me-1"></i>Save Changes
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Security Settings -->
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm rounded-4">
+                <div class="card-header bg-transparent border-0 py-3">
+                    <h5 class=" fw-semibold">
+                        <i class="bi bi-shield-check me-2"></i>Security Settings
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form id="securitySettingsForm">
+                        <div class="mb-3">
+                            <label class="form-label">JWT Token Expiry (minutes)</label>
+                            <input type="number" class="form-control" name="jwtExpiry" value="@Model?.JwtExpiryMinutes" min="5" max="1440">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Max Login Attempts</label>
+                            <input type="number" class="form-control" name="maxLoginAttempts" value="@Model?.MaxLoginAttempts" min="3" max="10">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Lockout Duration (minutes)</label>
+                            <input type="number" class="form-control" name="lockoutDuration" value="@Model?.LockoutDurationMinutes" min="5" max="60">
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" name="requireEmailConfirmation" @(Model?.RequireEmailConfirmation == true ? "checked" : "")>
+                                <label class="form-check-label">Require email confirmation</label>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-warning">
+                            <i class="bi bi-shield-check me-1"></i>Update Security
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Email Settings -->
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm rounded-4">
+                <div class="card-header bg-transparent border-0 py-3">
+                    <h5 class=" fw-semibold">
+                        <i class="bi bi-envelope me-2"></i>Email Settings
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form id="emailSettingsForm">
+                        <div class="mb-3">
+                            <label class="form-label">SMTP Host</label>
+                            <input type="text" class="form-control" name="smtpHost" value="@Model?.SmtpHost">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">SMTP Port</label>
+                            <input type="number" class="form-control" name="smtpPort" value="@Model?.SmtpPort">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">SMTP Username</label>
+                            <input type="text" class="form-control" name="smtpUsername" value="@Model?.SmtpUsername">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">SMTP Password</label>
+                            <input type="password" class="form-control" name="smtpPassword" placeholder="��������">
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" name="enableSsl" @(Model?.EnableSsl == true ? "checked" : "")>
+                                <label class="form-check-label">Enable SSL</label>
+                            </div>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-envelope-check me-1"></i>Save Email Settings
+                            </button>
+                            <button type="button" class="btn btn-outline-info" onclick="testEmail()">
+                                <i class="bi bi-send me-1"></i>Test Email
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- System Information -->
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm rounded-4">
+                <div class="card-header bg-transparent border-0 py-3">
+                    <h5 class="fw-semibold">
+                        <i class="bi bi-info-circle me-2"></i>System Information
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <div class="d-flex justify-content-between">
+                                <span class="text-muted">Application Version:</span>
+                                <span class="fw-medium">@Model?.AppVersion</span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="d-flex justify-content-between">
+                                <span class="text-muted">Database Version:</span>
+                                <span class="fw-medium">@Model?.DatabaseVersion</span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="d-flex justify-content-between">
+                                <span class="text-muted">Server Time:</span>
+                                <span class="fw-medium">@DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss UTC")</span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="d-flex justify-content-between">
+                                <span class="text-muted">Uptime:</span>
+                                <span class="fw-medium">@Model?.ServerUptime</span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="d-flex justify-content-between">
+                                <span class="text-muted">Environment:</span>
+                                <span class="badge bg-@(Model?.Environment == "Production" ? "success" : "warning")">
+                                    @Model?.Environment
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <hr class="my-3">
+                    
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-outline-primary btn-sm" onclick="clearCache()">
+                            <i class="bi bi-arrow-clockwise me-1"></i>Clear Cache
+                        </button>
+                        <button class="btn btn-outline-warning btn-sm" onclick="backupDatabase()">
+                            <i class="bi bi-download me-1"></i>Backup DB
+                        </button>
+                        <button class="btn btn-outline-danger btn-sm" onclick="restartApplication()">
+                            <i class="bi bi-arrow-repeat me-1"></i>Restart App
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // General Settings Form
+        document.getElementById('generalSettingsForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            
+            fetch('/SuperAdmin/UpdateGeneralSettings', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showToast('Settings updated successfully', 'success');
+                } else {
+                    showToast('Failed to update settings', 'error');
+                }
+            })
+            .catch(error => {
+                showToast('An error occurred', 'error');
+            });
+        });
+
+        // Security Settings Form
+        document.getElementById('securitySettingsForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            
+            fetch('/SuperAdmin/UpdateSecuritySettings', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showToast('Security settings updated successfully', 'success');
+                } else {
+                    showToast('Failed to update security settings', 'error');
+                }
+            });
+        });
+
+        // Email Settings Form
+        document.getElementById('emailSettingsForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            
+            fetch('/SuperAdmin/UpdateEmailSettings', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showToast('Email settings updated successfully', 'success');
+                } else {
+                    showToast('Failed to update email settings', 'error');
+                }
+            });
+        });
+
+        function testEmail() {
+            fetch('/SuperAdmin/TestEmail', {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showToast('Test email sent successfully', 'success');
+                } else {
+                    showToast('Failed to send test email: ' + data.message, 'error');
+                }
+            });
+        }
+
+        function clearCache() {
+            if (confirm('Are you sure you want to clear the cache?')) {
+                fetch('/SuperAdmin/ClearCache', {
+                    method: 'POST'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    showToast(data.message, data.success ? 'success' : 'error');
+                });
+            }
+        }
+
+        function backupDatabase() {
+            if (confirm('Are you sure you want to backup the database?')) {
+                fetch('/SuperAdmin/BackupDatabase', {
+                    method: 'POST'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    showToast(data.message, data.success ? 'success' : 'error');
+                });
+            }
+        }
+
+        function restartApplication() {
+            if (confirm('Are you sure you want to restart the application? This will disconnect all users.')) {
+                fetch('/SuperAdmin/RestartApplication', {
+                    method: 'POST'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    showToast(data.message, data.success ? 'success' : 'error');
+                });
+            }
+        }
+
+        function showToast(message, type) {
+            // Implementation depends on your toast library
+            console.log(type + ': ' + message);
+        }
+    </script>
+}

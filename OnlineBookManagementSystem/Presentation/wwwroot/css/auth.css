@@ -1,0 +1,368 @@
+/* Authentication Layout Styles - Unique styles not covered by role-based-theme-engine.css */
+
+.auth-illustration {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: var(--wp-gradient-auth, linear-gradient(135deg, #FAFBFF, #F0F4FF));
+    padding: var(--wp-space-8, 2rem);
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.auth-illustration::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 30% 20%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 70% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.auth-illustration img {
+    max-width: 80%;
+    height: auto;
+    z-index: 1;
+}
+
+/* Enhanced Form Elements with Better Contrast - Unique auth-specific styles */
+.auth-form .form-control {
+    border-radius: var(--wp-radius, 8px);
+    border: 1px solid var(--wp-gray-300, #D1D5DB);
+    padding: var(--wp-space-3, 0.75rem) var(--wp-space-4, 1rem);
+    background: rgba(255, 255, 255, 0.95);
+    color: var(--wp-text-primary, #111827);
+    transition: all 0.3s ease;
+}
+
+.auth-form .form-control:focus {
+    border-color: var(--wp-brand-primary, #6366F1);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    background: rgba(255, 255, 255, 1);
+}
+
+.auth-form .form-control::placeholder {
+    color: var(--wp-text-muted, #6B7280);
+}
+
+.auth-form .btn-primary-custom {
+    background: var(--wp-brand-primary, #6366F1);
+    border: none;
+    border-radius: var(--wp-radius, 8px);
+    padding: var(--wp-space-3, 0.75rem) var(--wp-space-8, 2rem);
+    font-weight: 600;
+    transition: all var(--wp-transition-fast, 0.2s);
+    position: relative;
+    overflow: hidden;
+    color: var(--wp-text-on-primary, #FFFFFF);
+}
+
+.auth-form .btn-primary-custom:hover {
+    background: var(--wp-brand-primary-dark, #4F46E5);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+    color: var(--wp-text-on-primary, #FFFFFF);
+}
+
+.auth-form .btn-primary-custom:active {
+    transform: translateY(0);
+}
+
+/* Unique Auth-specific Components - Not covered by role-based-theme-engine.css */
+
+/* Input Group Enhancements */
+.input-group-text {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.7);
+    transition: all 0.3s ease;
+}
+
+.input-group-text:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+/* Social Buttons */
+.social-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.social-buttons .btn {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.7);
+    transition: all 0.3s ease;
+}
+
+.social-buttons .btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+/* Portfolio Context Styles */
+.portfolio-context {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-2px);
+}
+
+.stat-number {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #3b82f6;
+    line-height: 1;
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 0.25rem;
+}
+
+/* Role Selection Styles */
+.role-selection {
+    margin: 1rem 0;
+}
+
+.role-option {
+    background: rgba(255, 255, 255, 0.03);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.role-option:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateY(-2px);
+}
+
+.role-option.selected {
+    border-color: #3b82f6;
+    background: rgba(59, 130, 246, 0.1);
+}
+
+.role-option::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+        600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+        rgba(255, 255, 255, 0.05) 0%,
+        transparent 40%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.role-option:hover::before {
+    opacity: 1;
+}
+
+/* Badge Styles */
+.badge {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+}
+
+/* Onboarding Steps */
+.onboarding-steps {
+    margin: 1rem 0;
+}
+
+.step-item {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.step-item.active {
+    background: rgba(59, 130, 246, 0.1);
+    border-left: 3px solid #3b82f6;
+}
+
+.step-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 0.75rem;
+    font-size: 0.9rem;
+    color: #3b82f6;
+}
+
+.step-content {
+    flex: 1;
+}
+
+.step-content small {
+    color: #fff;
+    font-weight: 500;
+}
+
+.step-description {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 0.25rem;
+    line-height: 1.3;
+}
+
+/* Capability Lists */
+.capability-list {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0;
+}
+
+.capability-list li {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 0.25rem;
+    padding-left: 1rem;
+    position: relative;
+}
+
+.capability-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: #10b981;
+    font-weight: bold;
+}
+
+/* Approval Info */
+.approval-info {
+    margin-top: 0.75rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.approval-info small {
+    display: flex;
+    align-items: center;
+    font-size: 0.8rem;
+}
+
+/* Modal Enhancements */
+.modal-content.glass {
+    background: rgba(26, 26, 26, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.modal-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-close {
+    filter: invert(1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .auth-grid {
+        grid-template-columns: 1fr;
+        gap: var(--wp-space-4, 1rem);
+        padding: var(--wp-space-2, 0.5rem);
+    }
+    
+    .auth-illustration {
+        order: 2;
+        min-height: 200px;
+        padding: var(--wp-space-4, 1rem);
+        margin-top: 2rem;
+    }
+    
+    .auth-container {
+        order: 1;
+        padding: var(--wp-space-2, 0.5rem);
+    }
+    
+    .auth-card {
+        padding: var(--wp-space-4, 1rem);
+    }
+    
+    .portfolio-context,
+    .onboarding-info {
+        margin-bottom: 1rem;
+    }
+    
+    .step-item {
+        flex-direction: column;
+        text-align: center;
+        padding: 1rem;
+    }
+    
+    .step-icon {
+        margin-right: 0;
+        margin-bottom: 0.5rem;
+    }
+    
+    .role-option {
+        padding: 0.75rem;
+    }
+    
+    .stat-number {
+        font-size: 1.25rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .auth-card {
+        padding: var(--wp-space-3, 0.75rem);
+    }
+    
+    .social-buttons .btn {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .role-option {
+        padding: 0.5rem;
+    }
+}

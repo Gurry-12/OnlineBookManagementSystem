@@ -1,0 +1,28 @@
+User-agent: *
+Allow: /
+Allow: /Public/
+Allow: /Public/Browse
+Allow: /Public/BookDetails/
+Allow: /Public/TechnicalDetails
+Allow: /Public/DeveloperStory
+Allow: /Public/InteractiveDemo
+Allow: /Auth/Login
+Allow: /Auth/Registration
+
+# Disallow admin and user areas from search engines
+Disallow: /Admin/
+Disallow: /User/
+Disallow: /SuperAdmin/
+Disallow: /api/
+
+# Allow CSS, JS, and image files
+Allow: /css/
+Allow: /js/
+Allow: /images/
+Allow: /lib/
+
+# Sitemap location
+Sitemap: https://whispering-pages.com/sitemap.xml
+
+# Crawl delay (optional)
+Crawl-delay: 1

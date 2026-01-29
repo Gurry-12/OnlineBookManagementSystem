@@ -1,0 +1,235 @@
+@{
+    ViewData["Title"] = "System Health";
+    Layout = "_LayoutSuperAdmin";
+}
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>
+                    <i class="fas fa-heartbeat text-success me-2"></i>
+                    System Health Monitor
+                </h2>
+                <button id="refreshBtn" class="btn btn-outline-primary">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- System Status Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card bg-success text-white">
+                <div class="card-body text-center">
+                    <i class="fas fa-server fa-2x mb-2"></i>
+                    <h4 id="systemStatus">Loading...</h4>
+                    <p class="mb-0">System Status</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-info text-white">
+                <div class="card-body text-center">
+                    <i class="fas fa-database fa-2x mb-2"></i>
+                    <h4 id="dbStatus">Loading...</h4>
+                    <p class="mb-0">Database</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning text-white">
+                <div class="card-body text-center">
+                    <i class="fas fa-memory fa-2x mb-2"></i>
+                    <h4 id="memoryUsage">Loading...</h4>
+                    <p class="mb-0">Memory (MB)</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body text-center">
+                    <i class="fas fa-users fa-2x mb-2"></i>
+                    <h4 id="activeUsers">Loading...</h4>
+                    <p class="mb-0">Active Users (24h)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detailed Information -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Database Information</h5>
+                </div>
+                <div class="card-body">
+                    <div id="databaseInfo">
+                        <div class="text-center">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">System Information</h5>
+                </div>
+                <div class="card-body">
+                    <div id="systemInfo">
+                        <div class="text-center">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Uptime Information -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">System Uptime</h5>
+                </div>
+                <div class="card-body">
+                    <div id="uptimeInfo">
+                        <div class="text-center">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            loadSystemHealth();
+            
+            // Auto-refresh every 30 seconds
+            setInterval(loadSystemHealth, 30000);
+            
+            $('#refreshBtn').click(function() {
+                loadSystemHealth();
+            });
+        });
+
+        function loadSystemHealth() {
+            $.get('/api/Health/status')
+                .done(function(data) {
+                    updateHealthDisplay(data);
+                })
+                .fail(function(xhr) {
+                    console.error('Failed to load system health:', xhr);
+                    showError('Failed to load system health information');
+                });
+        }
+
+        function updateHealthDisplay(data) {
+            // Update status cards
+            $('#systemStatus').text(data.status);
+            $('#dbStatus').text(data.database.status);
+            $('#memoryUsage').text(data.memory.workingSetMB);
+            $('#activeUsers').text(data.activeUsers);
+
+            // Update database info
+            const dbHtml = `
+                <div class="row">
+                    <div class="col-6"><strong>Connection:</strong></div>
+                    <div class="col-6">${data.database.connected ? 'Connected' : 'Disconnected'}</div>
+                </div>
+                <div class="row">
+                    <div class="col-6"><strong>Users:</strong></div>
+                    <div class="col-6">${data.database.userCount}</div>
+                </div>
+                <div class="row">
+                    <div class="col-6"><strong>Books:</strong></div>
+                    <div class="col-6">${data.database.bookCount}</div>
+                </div>
+            `;
+            $('#databaseInfo').html(dbHtml);
+
+            // Update system info
+            const sysHtml = `
+                <div class="row">
+                    <div class="col-6"><strong>Machine:</strong></div>
+                    <div class="col-6">${data.systemLoad.machineName}</div>
+                </div>
+                <div class="row">
+                    <div class="col-6"><strong>OS:</strong></div>
+                    <div class="col-6">${data.systemLoad.osVersion}</div>
+                </div>
+                <div class="row">
+                    <div class="col-6"><strong>Processors:</strong></div>
+                    <div class="col-6">${data.systemLoad.processorCount}</div>
+                </div>
+                <div class="row">
+                    <div class="col-6"><strong>Architecture:</strong></div>
+                    <div class="col-6">${data.systemLoad.is64BitOS ? '64-bit' : '32-bit'}</div>
+                </div>
+            `;
+            $('#systemInfo').html(sysHtml);
+
+            // Update uptime info
+            const uptimeHtml = `
+                <div class="row">
+                    <div class="col-md-3 text-center">
+                        <h3 class="text-primary">${data.uptime.days}</h3>
+                        <p class="mb-0">Days</p>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <h3 class="text-primary">${data.uptime.hours}</h3>
+                        <p class="mb-0">Hours</p>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <h3 class="text-primary">${data.uptime.minutes}</h3>
+                        <p class="mb-0">Minutes</p>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <h3 class="text-success">${data.uptime.totalMinutes}</h3>
+                        <p class="mb-0">Total Minutes</p>
+                    </div>
+                </div>
+            `;
+            $('#uptimeInfo').html(uptimeHtml);
+        }
+
+        function showError(message) {
+            $('#systemStatus').text('Error');
+            $('#dbStatus').text('Error');
+            $('#memoryUsage').text('N/A');
+            $('#activeUsers').text('N/A');
+            
+            $('#databaseInfo').html(`<div class="alert alert-danger">${message}</div>`);
+            $('#systemInfo').html(`<div class="alert alert-danger">${message}</div>`);
+            $('#uptimeInfo').html(`<div class="alert alert-danger">${message}</div>`);
+        }
+    </script>
+}
+
+<style>
+    .card {
+        border: none;
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    }
+    
+    .spinner-border {
+        width: 2rem;
+        height: 2rem;
+    }
+</style>

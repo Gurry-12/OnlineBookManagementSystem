@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using OnlineBookManagementSystem.Extensions;
-using OnlineBookManagementSystem.Middleware;
-using OnlineBookManagementSystem.Models;
+using OnlineBookManagementSystem.Infrastructure.Data.Context;
+using OnlineBookManagementSystem.Presentation.Middleware;
+using OnlineBookManagementSystem.Shared.Extensions;
 using Serilog;
 using System.IdentityModel.Tokens.Jwt;
 
@@ -46,6 +46,9 @@ else
     app.UseHsts();
 }
 
+// Add global exception handling middleware
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
 // Health Checks
 if (builder.Configuration.GetValue<bool>("Features:EnableHealthChecks"))
 {
@@ -78,7 +81,21 @@ if (builder.Configuration.GetValue<bool>("Features:EnableDatabaseSeeding"))
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
+
+app.Use(async (context, next) =>
+{
+    context.Response.Headers["X-Content-Type-Options"] = "nosniff";
+    context.Response.Headers["X-Frame-Options"] = "DENY";
+    context.Response.Headers["Referrer-Policy"] = "strict-origin-when-cross-origin";
+    await next();
+});
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(), "Presentation", "wwwroot")),
+    RequestPath = ""
+});
 
 app.UseRouting();
 
@@ -93,7 +110,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Auth}/{action=Index}/{id?}");
+    pattern: "{controller=Public}/{action=Index}/{id?}");
 
 app.Run();
 

@@ -1,0 +1,257 @@
+@model OnlineBookManagementSystem.Presentation.ViewModels.Reviews.PaginatedResult<OnlineBookManagementSystem.Presentation.ViewModels.Reviews.ReviewModerationViewModel>
+@{
+    ViewData["Title"] = "Pending Reviews";
+    Layout = "_LayoutAdmin";
+}
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">
+                        <i class="fas fa-clock text-warning me-2"></i>
+                        Pending Reviews (@Model.TotalCount)
+                    </h5>
+                    <div>
+                        <a asp-action="Analytics" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-chart-bar"></i> Analytics
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    @if (Model.Items.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Book</th>
+                                        <th>Reviewer</th>
+                                        <th>Rating</th>
+                                        <th>Review</th>
+                                        <th>Submitted</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var review in Model.Items)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <strong>@review.BookTitle</strong>
+                                                <br>
+                                                <small class="text-muted">ID: @review.BookId</small>
+                                            </td>
+                                            <td>
+                                                @review.UserName
+                                                <br>
+                                                <small class="text-muted">ID: @review.UserId</small>
+                                            </td>
+                                            <td>
+                                                <div class="star-rating">
+                                                    @for (int i = 1; i <= 5; i++)
+                                                    {
+                                                        @if (i <= review.Rating)
+                                                        {
+                                                            <i class="fas fa-star text-warning"></i>
+                                                        }
+                                                        else
+                                                        {
+                                                            <i class="far fa-star text-warning"></i>
+                                                        }
+                                                    }
+                                                </div>
+                                                <small class="text-muted">@review.Rating/5</small>
+                                            </td>
+                                            <td>
+                                                <div class="review-text" style="max-width: 300px;">
+                                                    @if (review.ReviewText.Length > 100)
+                                                    {
+                                                        <span class="review-preview">@review.ReviewText.Substring(0, 100)...</span>
+                                                        <span class="review-full d-none">@review.ReviewText</span>
+                                                        <br>
+                                                        <button class="btn btn-link btn-sm p-0 toggle-review" type="button">
+                                                            Show More
+                                                        </button>
+                                                    }
+                                                    else
+                                                    {
+                                                        @review.ReviewText
+                                                    }
+                                                </div>
+                                            </td>
+                                            <td>
+                                                @review.CreatedAt.ToString("MMM dd, yyyy")
+                                                <br>
+                                                <small class="text-muted">@review.CreatedAt.ToString("HH:mm")</small>
+                                            </td>
+                                            <td>
+                                                <div class="btn-group-vertical btn-group-sm" role="group">
+                                                    <form asp-action="Approve" asp-route-id="@review.Id" method="post" class="d-inline">
+                                                        <button type="submit" class="btn btn-success btn-sm" 
+                                                                onclick="return confirm('Approve this review?')">
+                                                            <i class="fas fa-check"></i> Approve
+                                                        </button>
+                                                    </form>
+                                                    
+                                                    <button type="button" class="btn btn-danger btn-sm" 
+                                                            data-bs-toggle="modal" data-bs-target="#rejectModal@(review.Id)">
+                                                        <i class="fas fa-times"></i> Reject
+                                                    </button>
+                                                    
+                                                    <button type="button" class="btn btn-warning btn-sm" 
+                                                            data-bs-toggle="modal" data-bs-target="#flagModal@(review.Id)">
+                                                        <i class="fas fa-flag"></i> Flag
+                                                    </button>
+                                                </div>
+
+                                                <!-- Reject Modal -->
+                                                <div class="modal fade" id="rejectModal@(review.Id)" tabindex="-1">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">Reject Review</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                            </div>
+                                                            <form asp-action="Reject" asp-route-id="@review.Id" method="post">
+                                                                <div class="modal-body">
+                                                                    <p>Are you sure you want to reject this review?</p>
+                                                                    <div class="mb-3">
+                                                                        <label class="form-label">Reason for rejection:</label>
+                                                                        <textarea name="reason" class="form-control" rows="3" 
+                                                                                  placeholder="Please provide a reason for rejection..." required></textarea>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                                    <button type="submit" class="btn btn-danger">Reject Review</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Flag Modal -->
+                                                <div class="modal fade" id="flagModal@(review.Id)" tabindex="-1">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">Flag Review</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                            </div>
+                                                            <form asp-action="Flag" asp-route-id="@review.Id" method="post">
+                                                                <div class="modal-body">
+                                                                    <p>Flag this review for further investigation?</p>
+                                                                    <div class="mb-3">
+                                                                        <label class="form-label">Reason for flagging:</label>
+                                                                        <textarea name="reason" class="form-control" rows="3" 
+                                                                                  placeholder="Please provide a reason for flagging..." required></textarea>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                                    <button type="submit" class="btn btn-warning">Flag Review</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Pagination -->
+                        @if (Model.TotalPages > 1)
+                        {
+                            <nav aria-label="Reviews pagination" class="mt-4">
+                                <ul class="pagination justify-content-center">
+                                    @if (Model.HasPreviousPage)
+                                    {
+                                        <li class="page-item">
+                                            <a class="page-link" asp-action="Pending" asp-route-page="@(Model.PageNumber - 1)">Previous</a>
+                                        </li>
+                                    }
+                                    
+                                    @for (int i = Math.Max(1, Model.PageNumber - 2); i <= Math.Min(Model.TotalPages, Model.PageNumber + 2); i++)
+                                    {
+                                        <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                                            <a class="page-link" asp-action="Pending" asp-route-page="@i">@i</a>
+                                        </li>
+                                    }
+                                    
+                                    @if (Model.HasNextPage)
+                                    {
+                                        <li class="page-item">
+                                            <a class="page-link" asp-action="Pending" asp-route-page="@(Model.PageNumber + 1)">Next</a>
+                                        </li>
+                                    }
+                                </ul>
+                            </nav>
+                        }
+                    }
+                    else
+                    {
+                        <div class="text-center py-5">
+                            <i class="fas fa-check-circle fa-3x text-success mb-3"></i>
+                            <h5>No Pending Reviews</h5>
+                            <p class="text-muted">All reviews have been moderated.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            $('.toggle-review').on('click', function() {
+                const $button = $(this);
+                const $preview = $button.siblings('.review-preview');
+                const $full = $button.siblings('.review-full');
+                
+                if ($preview.hasClass('d-none')) {
+                    $preview.removeClass('d-none');
+                    $full.addClass('d-none');
+                    $button.text('Show More');
+                } else {
+                    $preview.addClass('d-none');
+                    $full.removeClass('d-none');
+                    $button.text('Show Less');
+                }
+            });
+        });
+    </script>
+}
+
+<style>
+    .star-rating i {
+        font-size: 0.9em;
+    }
+    
+    .btn-group-vertical .btn {
+        margin-bottom: 2px;
+    }
+    
+    .btn-group-vertical .btn:last-child {
+        margin-bottom: 0;
+    }
+    
+    .review-text {
+        word-wrap: break-word;
+    }
+    
+    .toggle-review {
+        font-size: 0.8em;
+        text-decoration: none;
+    }
+    
+    .toggle-review:hover {
+        text-decoration: underline;
+    }
+</style>

@@ -1,0 +1,11 @@
+@{
+    var layout = ViewData["Layout"]?.ToString();
+    if (string.IsNullOrEmpty(layout))
+    {
+        Layout = "~/Presentation/Views/Shared/_LayoutAuth.cshtml";
+    }
+    else
+    {
+        Layout = layout;
+    }
+}
