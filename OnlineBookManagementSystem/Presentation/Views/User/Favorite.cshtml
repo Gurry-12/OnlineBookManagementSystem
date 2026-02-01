@@ -1,5 +1,4 @@
-﻿@model IEnumerable<OnlineBookManagementSystem.Core.Domain.Entities.Book>
-
+﻿
 @{
     ViewData["Title"] = "My Favorites";
     Layout = ViewData["Layout"]?.ToString() ?? "_LayoutUser";
@@ -14,7 +13,7 @@
         </div>
     </div>
 
-    @if (!Model.Any())
+    @if (!Model.HasFavorites)
     {
         <div class="wp-card text-center py-5">
             <div class="wp-card-body">
@@ -28,7 +27,7 @@
     else
     {
         <div class="row g-4">
-            @foreach (var book in Model)
+            @foreach (var book in Model.FavoriteBooks)
             {
                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                     <div class="wp-card h-100 book-card position-relative">

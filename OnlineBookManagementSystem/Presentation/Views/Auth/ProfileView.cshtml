@@ -6,15 +6,15 @@
     var userRoles = Model.Roles;
     if (userRoles.Contains("SuperAdmin"))
     {
-        Layout = "_LayoutSuperAdmin";
+        Layout = "/Presentation/Views/Shared/_LayoutSuperAdmin.cshtml";
     }
     else if (userRoles.Contains("Admin"))
     {
-        Layout = "_LayoutAdmin";
+        Layout = "/Presentation/Views/Shared/_LayoutAdmin.cshtml";
     }
     else
     {
-        Layout = "_LayoutUser";
+        Layout = "/Presentation/Views/Shared/_LayoutUser.cshtml";
     }
 }
 

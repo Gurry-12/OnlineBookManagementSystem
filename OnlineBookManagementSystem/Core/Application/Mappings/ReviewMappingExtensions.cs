@@ -132,5 +132,32 @@ namespace OnlineBookManagementSystem.Core.Application.Mappings
         {
             return reviews?.Count(r => r.Status == ReviewStatus.Approved) ?? 0;
         }
+
+        /// <summary>
+        /// Maps book rating data to BookRatingViewModel
+        /// </summary>
+        public static BookRatingViewModel ToRatingViewModel(this (double AverageRating, int TotalReviews) rating)
+        {
+            return new BookRatingViewModel
+            {
+                AverageRating = rating.AverageRating,
+                TotalReviews = rating.TotalReviews
+            };
+        }
+
+        /// <summary>
+        /// Maps book rating data to BookRatingViewModel (alternative signature)
+        /// </summary>
+        public static BookRatingViewModel ToRatingViewModel(this BookReview review)
+        {
+            if (review == null) 
+                return new BookRatingViewModel { AverageRating = 0, TotalReviews = 0 };
+
+            return new BookRatingViewModel
+            {
+                AverageRating = review.Rating,
+                TotalReviews = 1 // Single review
+            };
+        }
     }
 }

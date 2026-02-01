@@ -230,8 +230,8 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
                 return NotFound();
             }
 
-            ViewBag.Title = $"{bookDetails.Book.Title} - Book Details";
-            ViewBag.MetaDescription = $"View details for {bookDetails.Book.Title} by {bookDetails.Book.Author} in our interactive book management demo.";
+            ViewBag.Title = $"{bookDetails.Title} - Book Details";
+            ViewBag.MetaDescription = $"View details for {bookDetails.Title} by {bookDetails.Author} in our interactive book management demo.";
 
             return View(bookDetails);
         }

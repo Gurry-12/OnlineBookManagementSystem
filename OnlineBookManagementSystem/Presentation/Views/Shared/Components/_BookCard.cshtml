@@ -1,0 +1,96 @@
+@using OnlineBookManagementSystem.Core.Application.DTOs
+@model BookDto
+
+@* 
+    Atomic Component: Book Card
+    Purpose: Single reusable book card component
+    Usage: Can be used in grids, lists, search results, etc.
+*@
+
+<div class="book-card" data-book-id="@Model.Id">
+    <div class="book-card__header">
+        <!-- Actions Dropdown -->
+        <div class="book-card__actions">
+            <button class="book-card__action-btn" 
+                    data-bs-toggle="dropdown" 
+                    aria-expanded="false"
+                    aria-label="Book actions">
+                <i class="bi bi-three-dots-vertical"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li>
+                    <a class="dropdown-item" href="#" data-action="view" data-book-id="@Model.Id">
+                        <i class="bi bi-eye me-2"></i>View Details
+                    </a>
+                </li>
+                <li>
+                    <button class="dropdown-item" data-action="edit" data-book-id="@Model.Id">
+                        <i class="bi bi-pencil me-2"></i>Edit Book
+                    </button>
+                </li>
+                <li><hr class="dropdown-divider"></li>
+                <li>
+                    <button class="dropdown-item dropdown-item--danger" data-action="delete" data-book-id="@Model.Id">
+                        <i class="bi bi-trash me-2"></i>Delete Book
+                    </button>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Stock Badge -->
+        @if (Model.StockQuantity <= 0)
+        {
+            <div class="book-card__badge book-card__badge--out-of-stock">
+                <i class="bi bi-x-circle me-1"></i>Out of Stock
+            </div>
+        }
+        else if (Model.StockQuantity <= 5)
+        {
+            <div class="book-card__badge book-card__badge--low-stock">
+                <i class="bi bi-exclamation-triangle me-1"></i>Low Stock
+            </div>
+        }
+        
+        <!-- Book Image -->
+        <div class="book-card__image-container">
+            <img src="@(Model.ImageUrl ?? Url.Content("~/images/default-book-improved.svg"))" 
+                 alt="@Model.Title" 
+                 class="book-card__image" 
+                 loading="lazy" />
+        </div>
+    </div>
+    
+    <div class="book-card__body">
+        <h6 class="book-card__title">@Model.Title</h6>
+        <p class="book-card__author">
+            <i class="bi bi-person me-1"></i>@Model.Author
+        </p>
+        
+        <div class="book-card__details">
+            <div class="book-card__price-stock">
+                <span class="book-card__price">₹@Model.Price.Amount.ToString("N2")</span>
+                <span class="book-card__stock">
+                    <i class="bi bi-box me-1"></i>@Model.StockQuantity
+                </span>
+            </div>
+            
+            @if (!string.IsNullOrEmpty(Model.Category?.Name))
+            {
+                <div class="book-card__category">
+                    <span class="badge badge--category">
+                        <i class="bi bi-tag me-1"></i>@Model.Category.Name
+                    </span>
+                </div>
+            }
+        </div>
+        
+        <div class="book-card__footer">
+            <button class="btn btn--primary btn--sm" data-action="view" data-book-id="@Model.Id">
+                <i class="bi bi-eye me-1"></i>View
+            </button>
+            <button class="btn btn--secondary btn--sm" data-action="edit" data-book-id="@Model.Id">
+                <i class="bi bi-pencil"></i>
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "stripe": {
+      "url": "https://mcp.stripe.com",
+      "disabled": false,
+      "autoApprove": []
+    }
+  }
+}

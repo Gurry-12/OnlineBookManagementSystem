@@ -9,6 +9,7 @@ using OnlineBookManagementSystem.Presentation.ViewModels.Books;
 using OnlineBookManagementSystem.Presentation.ViewModels.Showcase;
 using OnlineBookManagementSystem.Presentation.ViewModels.Reviews;
 using OnlineBookManagementSystem.Core.Domain.Entities;
+using OnlineBookManagementSystem.Core.Application.Mappings;
 
 namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Showcase
 {
@@ -230,19 +231,15 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Showcase
                             return null;
                         }
 
-                        var bookDetails = new BookDetailsViewModel
+                        var bookDetails = book.ToDetailsViewModel(false, null);
+                        bookDetails.IsPublicView = true;
+                        bookDetails.Rating = new BookRatingViewModel
                         {
-                            Book = book,
-                            CanReview = false, // Read-only for public demo
-                            IsPublicView = true,
-                            Rating = new BookRatingViewModel
-                            {
-                                BookId = book.Id,
-                                BookTitle = book.Title,
-                                AverageRating = book.AverageRating,
-                                TotalReviews = book.BookReviews?.Count(r => !r.IsDeleted) ?? 0,
-                                HasUserReview = false // Public view, no user context
-                            }
+                            BookId = book.Id,
+                            BookTitle = book.Title,
+                            AverageRating = book.AverageRating,
+                            TotalReviews = book.BookReviews?.Count(r => !r.IsDeleted) ?? 0,
+                            HasUserReview = false // Public view, no user context
                         };
 
                         return bookDetails;

@@ -8,6 +8,7 @@ using OnlineBookManagementSystem.Core.Application.Interfaces.Analytics;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Books;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Reviews;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure.Logging;
+using OnlineBookManagementSystem.Core.Application.Mappings;
 
 namespace OnlineBookManagementSystem.Presentation.Controllers
 {
@@ -212,12 +213,8 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
                 }
             }
 
-            var viewModel = new BookDetailsViewModel
-            {
-                Book = book,
-                Rating = bookRating,
-                CanReview = userId > 0 && !bookRating.HasUserReview
-            };
+            var viewModel = book.ToDetailsViewModel(userId > 0 && !bookRating.HasUserReview, userId);
+            viewModel.Rating = bookRating;
 
             return View(viewModel);
         }

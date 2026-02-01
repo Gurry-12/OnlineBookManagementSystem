@@ -1,4 +1,4 @@
-@model OnlineBookManagementSystem.Core.Domain.Entities.Book
+@model OnlineBookManagementSystem.Presentation.ViewModels.Books.BookDetailsViewModel
 
 @{
     ViewData["Title"] = "Book Details - " + Model.Title;
@@ -94,25 +94,25 @@
                             
                             <div class="info-group mb-3">
                                 <label class="fw-bold text-muted">Category:</label>
-                                <span class="badge bg-primary fs-6">@Model.Category?.Name</span>
+                                <span class="badge bg-primary fs-6">@Model.CategoryName</span>
                             </div>
                             
                             <div class="info-group mb-3">
                                 <label class="fw-bold text-muted">ISBN:</label>
-                                <p class="mb-0 font-monospace">@(Model.ISBN?.Value ?? "Not Available")</p>
+                                <p class="mb-0 font-monospace">@(Model.ISBN ?? "Not Available")</p>
                             </div>
                         </div>
                         
                         <div class="col-md-6">
                             <div class="info-group mb-3">
                                 <label class="fw-bold text-muted">Price:</label>
-                                <p class="mb-0 fs-4 text-success fw-bold">$@Model.Price.Amount.ToString("F2")</p>
+                                <p class="mb-0 fs-4 text-success fw-bold">@Model.FormattedPrice</p>
                             </div>
                             
                             <div class="info-group mb-3">
                                 <label class="fw-bold text-muted">Stock Quantity:</label>
                                 <p class="mb-0">
-                                    <span class="badge @(Model.StockQuantity > 10 ? "bg-success" : Model.StockQuantity > 0 ? "bg-warning" : "bg-danger") fs-6">
+                                    <span class="@Model.StockBadgeClass fs-6">
                                         @Model.StockQuantity units
                                     </span>
                                 </p>
@@ -120,13 +120,13 @@
                             
                             <div class="info-group mb-3">
                                 <label class="fw-bold text-muted">Publication Date:</label>
-                                <p class="mb-0">@Model.PublicationDate?.ToString("MMMM dd, yyyy")</p>
+                                <p class="mb-0">@Model.FormattedPublicationDate</p>
                             </div>
                             
                             <div class="info-group mb-3">
                                 <label class="fw-bold text-muted">Status:</label>
-                                <span class="badge @(Model.IsDeleted ? "bg-danger" : "bg-success") fs-6">
-                                    @(Model.IsDeleted ? "Deleted" : "Active")
+                                <span class="@Model.DeletedBadgeClass fs-6">
+                                    @Model.DeletedStatus
                                 </span>
                             </div>
                         </div>
@@ -174,15 +174,15 @@
                     
                     <div class="info-group mb-3">
                         <label class="fw-bold text-muted">Created:</label>
-                        <p class="mb-0">@Model.CreatedAt.ToString("MMM dd, yyyy 'at' hh:mm tt")</p>
+                        <p class="mb-0">@Model.FormattedCreatedAt</p>
                     </div>
                     
                     <div class="info-group mb-3">
                         <label class="fw-bold text-muted">Last Updated:</label>
-                        <p class="mb-0">@Model.UpdatedAt.ToString("MMM dd, yyyy 'at' hh:mm tt")</p>
+                        <p class="mb-0">@Model.FormattedUpdatedAt</p>
                     </div>
                     
-                    @if (Model.IsDeleted)
+                    @if (Model?.IsDeleted == true)
                     {
                         <div class="info-group mb-3">
                             <label class="fw-bold text-muted">Status:</label>
@@ -209,7 +209,7 @@
                             <i class="fas fa-edit me-1"></i>Edit Book
                         </a>
                         
-                        @if (!Model.IsDeleted)
+                        @if (Model?.IsDeleted != true)
                         {
                             <button type="button" class="btn btn-danger" onclick="confirmDelete(@Model.Id, '@Model.Title')">
                                 <i class="fas fa-trash me-1"></i>Delete Book
@@ -298,7 +298,7 @@
             @if (!string.IsNullOrEmpty(Model.ImageUrl))
             {
                 <text>
-                navigator.clipboard.writeText('@Model.ImageUrl').then(function() {
+                    navigator.clipboard.writeText('@Model.ImageUrl').then(function() {
                     showToast('Image URL copied to clipboard!', 'success');
                 });
                 </text>

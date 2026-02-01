@@ -82,7 +82,7 @@ namespace OnlineBookManagementSystem.Presentation.Controllers.User
                     return RedirectToAction(nameof(UserBookList));
                 }
 
-                await _activityLogger.LogAsync("ViewBook", $"Viewed book '{book.Book.Title}'", userId);
+                await _activityLogger.LogAsync("ViewBook", $"Viewed book '{book.Title}'", userId);
                 return View(book);
             }
             catch (Exception ex)
@@ -108,7 +108,7 @@ namespace OnlineBookManagementSystem.Presentation.Controllers.User
                     return RedirectToAction(nameof(UserBookList));
                 }
 
-                await _activityLogger.LogAsync("ViewBook", $"Viewed book '{book.Book.Title}'", userId);
+                await _activityLogger.LogAsync("ViewBook", $"Viewed book '{book.Title}'", userId);
                 return View("BookDetails", book); // Use the BookDetails view
             }
             catch (Exception ex)

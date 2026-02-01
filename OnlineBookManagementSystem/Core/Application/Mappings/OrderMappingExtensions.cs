@@ -1,9 +1,9 @@
 using OnlineBookManagementSystem.Core.Domain.Entities;
-using OnlineBookManagementSystem.Core.Domain.ValueObjects;
 using OnlineBookManagementSystem.Core.Domain.Enums;
+using OnlineBookManagementSystem.Core.Domain.ValueObjects;
 using OnlineBookManagementSystem.Presentation.ViewModels.Admin;
-using OnlineBookManagementSystem.Presentation.ViewModels.User;
 using OnlineBookManagementSystem.Presentation.ViewModels.Cart;
+using OnlineBookManagementSystem.Presentation.ViewModels.User;
 
 namespace OnlineBookManagementSystem.Core.Application.Mappings
 {
@@ -174,27 +174,20 @@ namespace OnlineBookManagementSystem.Core.Application.Mappings
             {
                 Id = order.Id,
                 OrderDate = order.OrderDate ?? DateTime.MinValue,
-                Status = order.Status.ToString(),
+                Status = order.Status,
                 TotalAmount = order.TotalAmount.Amount,
                 ItemCount = order.OrderDetails?.Count ?? 0,
                 PaymentMethod = order.PaymentMethod ?? "Unknown",
                 ShippingAddress = order.ShippingAddress?.ToString() ?? "No address",
-                OrderDetails = order.OrderDetails?.Select(od => new OrderDetailViewModel
+                OrderDetails = order.OrderDetails?.Select(od => new OrderItemViewModel
                 {
-                    Id = od.Id,
                     BookId = od.BookId,
-                    Book = od.Book != null ? new BookViewModel
-                    {
-                        Id = od.Book.Id,
-                        Title = od.Book.Title,
-                        Author = od.Book.Author,
-                        ImageUrl = od.Book.ImageUrl,
-                        Price = od.Book.Price.Amount
-                    } : null,
+                    BookTitle = od.Book?.Title ?? "Unknown Book",
+                    BookImageUrl = od.Book?.ImageUrl,
                     Quantity = od.Quantity,
                     UnitPrice = od.UnitPrice.Amount,
                     Subtotal = od.Subtotal.Amount
-                }).ToList() ?? new List<OrderDetailViewModel>()
+                }).ToList() ?? new List<OrderItemViewModel>()
             };
         }
 

@@ -1,0 +1,123 @@
+/* ============================================
+   MISSING CSS CLASSES - PART 3: CARDS & COMPONENTS
+   ============================================ */
+
+/* Spotlight Card */
+.spotlight-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.spotlight-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+
+.spotlight-card:hover::before {
+    opacity: 1;
+}
+
+/* Feature Highlight */
+.feature-highlight {
+    border-left: 4px solid var(--primary);
+    transition: all 0.3s ease;
+}
+
+.feature-highlight:hover {
+    border-left-width: 8px;
+}
+
+/* Hover Lift */
+.hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Architecture & Technical Cards */
+.architecture-layer-card,
+.principle-card,
+.tech-category-card,
+.highlight-card,
+.metric-card {
+    background: white;
+    border-radius: 16px;
+    border: 1px solid rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.architecture-layer-card:hover,
+.principle-card:hover,
+.tech-category-card:hover,
+.highlight-card:hover,
+.metric-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+}
+
+.layer-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+}
+
+.architecture-layer-card:hover .layer-circle {
+    transform: scale(1.1);
+}
+
+.layer-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Principle & Tech Cards */
+.principle-header,
+.highlight-header {
+    display: flex;
+    align-items: center;
+}
+
+.principle-icon,
+.metric-icon {
+    font-size: 2rem;
+}
+
+.icon-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Tech List */
+.tech-list {
+    list-style: none;
+    padding: 0;
+}
+
+.tech-item {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.tech-item:last-child {
+    border-bottom: none;
+}

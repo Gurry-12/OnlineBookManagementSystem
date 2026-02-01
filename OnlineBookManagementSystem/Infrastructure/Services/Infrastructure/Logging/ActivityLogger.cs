@@ -139,14 +139,14 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Logg
             {
                 query = query.Where(log =>
                     log.Description.Contains(search) ||
-                    log.ActionType.Contains(search) ||
+                    log.Action.Contains(search) ||
                     (log.User != null && (log.User.Name.Contains(search) || log.User.Email.Contains(search))));
             }
 
             // Apply action type filter
             if (!string.IsNullOrEmpty(actionType))
             {
-                query = query.Where(log => log.ActionType == actionType);
+                query = query.Where(log => log.Action == actionType);
             }
 
             var activityModel = await query
@@ -201,7 +201,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Logg
             {
                 query = query.Where(log =>
                     log.Description.Contains(search) ||
-                    log.ActionType.Contains(search) ||
+                    log.Action.Contains(search) ||
                     (log.User != null && (log.User.Name.Contains(search) || log.User.Email.Contains(search))));
             }
 
@@ -230,7 +230,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Logg
                 .CountAsync();
 
             var errorLogs = await _context.ActivityLogs
-                .CountAsync(log => log.ActionType.ToLower().Contains("error") || log.ActionType.ToLower().Contains("exception"));
+                .CountAsync(log => log.Action.ToLower().Contains("error") || log.Action.ToLower().Contains("exception"));
 
             return new ActivityLogsViewModel
             {

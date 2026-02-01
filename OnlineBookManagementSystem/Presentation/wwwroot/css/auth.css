@@ -1,4 +1,4 @@
-/* Authentication Layout Styles - Unique styles not covered by role-based-theme-engine.css */
+﻿/* Authentication Layout Styles - Unique styles not covered by role-based-theme-engine.css */
 
 .auth-illustration {
     display: flex;
@@ -364,5 +364,86 @@
     
     .role-option {
         padding: 0.5rem;
+    }
+}
+
+.portfolio-context {
+    border-radius: 12px;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stat-number {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--bs-primary);
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    color: var(--bs-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.recent-features ul li {
+    transition: all 0.2s ease;
+}
+
+    .recent-features ul li:hover {
+        transform: translateX(4px);
+        color: var(--bs-primary);
+    }
+
+.role-info-section {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 1rem;
+}
+
+.role-card {
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+    .role-card:hover {
+        transform: translateY(-2px);
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+
+.main-illustration {
+    max-width: 60%;
+    height: auto;
+    margin-top: 2rem;
+}
+
+.social-buttons .btn {
+    margin: 0 0.25rem;
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@@media (max-width: 768px) {
+    .portfolio-context {
+        margin-bottom: 1rem;
+    }
+
+    .main-illustration {
+        max-width: 80%;
+        margin-top: 1rem;
+    }
+
+    .role-cards {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
     }
 }

@@ -1,53 +1,11 @@
 @model OnlineBookManagementSystem.Presentation.ViewModels.Books.BookDetailsViewModel
 @{
-    ViewData["Title"] = Model.Book.Title;
-    Layout = User.IsInRole("Admin") || User.IsInRole("SuperAdmin") ? "_LayoutAdmin" : 
-             User.IsInRole("User") ? "_LayoutUser" : "_LayoutPublic";
+    ViewData["Title"] = Model.Title;
+    Layout = "_UniversalLayout";
 }
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
-
-<div class="container-fluid py-4">
-    <div class="row">
-        <!-- Book Information -->
-        <div class="col-lg-8">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-4">
-                            @if (!string.IsNullOrEmpty(Model.Book.ImageUrl))
-                            {
-                                <img src="@Model.Book.ImageUrl" alt="@Model.Book.Title" class="img-fluid rounded shadow-sm">
-                            }
-                            else
-                            {
-                                <div class="bg-light d-flex align-items-center justify-content-center rounded" style="height: 300px;">
-                                    <i class="fas fa-book fa-3x text-muted"></i>
-                                </div>
-                            }
-                        </div>
-                        <div class="col-md-8">
-                            <h1 class="h3 mb-3">@Model.Book.Title</h1>
-                            <p class="text-muted mb-2"><strong>Author:</strong> @Model.Book.Author</p>
-                            <p class="text-muted mb-2"><strong>ISBN:</strong> @(Model.Book.ISBN?.Value ?? "Not Available")</p>
-                            <p class="text-muted mb-2"><strong>Category:</strong> @Model.Book.Category?.Name</p>
-                            <p class="text-muted mb-3"><strong>Price:</strong> $@Model.Book.Price.Amount.ToString("F2")</p>
-                            
-                            <!-- Rating Display -->
-                            <div class="mb-3">
-                                <div class="d-flex align-items-center">
-                                    <div class="star-rating me-2" data-rating="@Model.Rating.AverageRating">
-                                        @for (int i = 1; i <= 5; i++)
-                                        {
-                                            @if (i <= Math.Floor(Model.Rating.AverageRating))
-                                            {
-                                                <i class="fas fa-star text-warning"></i>
-                                            }
-                                            else if (i - 0.5 <= Model.Rating.AverageRating)
-                                            {
-                                                <i class="fas fa-star-half-alt text-warning"></i>
-                                            }
-                                            else
+@* Use the universal book details template *@
+@await Html.PartialAsync("_UniversalBookDetails", Model)
                                             {
                                                 <i class="far fa-star text-warning"></i>
                                             }
@@ -68,9 +26,9 @@
                             </div>
 
                             <!-- Stock Status -->
-                            @if (Model.Book.StockQuantity > 0)
+                            @if (Model.StockQuantity > 0)
                             {
-                                <p class="text-success mb-3"><i class="fas fa-check-circle"></i> In Stock (@Model.Book.StockQuantity available)</p>
+                                <p class="text-success mb-3"><i class="fas fa-check-circle"></i> In Stock (@Model.StockQuantity available)</p>
                             }
                             else
                             {
@@ -81,13 +39,13 @@
                             @if (User.Identity?.IsAuthenticated == true && User.IsInRole("User"))
                             {
                                 <div class="d-flex gap-2 mb-3">
-                                    @if (Model.Book.StockQuantity > 0)
+                                    @if (Model.StockQuantity > 0)
                                     {
-                                        <button class="btn btn-primary" onclick="addToCart(@Model.Book.Id)">
+                                        <button class="btn btn-primary" onclick="addToCart(@Model.Id)">
                                             <i class="fas fa-shopping-cart"></i> Add to Cart
                                         </button>
                                     }
-                                    <button class="btn btn-outline-secondary" onclick="toggleFavorite(@Model.Book.Id)">
+                                    <button class="btn btn-outline-secondary" onclick="toggleFavorite(@Model.Id)">
                                         <i class="far fa-heart"></i> Add to Favorites
                                     </button>
                                 </div>
@@ -96,11 +54,11 @@
                     </div>
                     
                     <!-- Description -->
-                    @if (!string.IsNullOrEmpty(Model.Book.Description))
+                    @if (!string.IsNullOrEmpty(Model.Description))
                     {
                         <div class="mt-4">
                             <h5>Description</h5>
-                            <p class="text-muted">@Model.Book.Description</p>
+                            <p class="text-muted">@Model.Description</p>
                         </div>
                     }
                 </div>
@@ -115,12 +73,12 @@
                 </div>
                 <div class="card-body">
                     <!-- Review Submission Form -->
-                    @if (Model.CanReview)
+                    @if (Model.CanReview == true)
                     {
                         <div class="mb-4">
                             <h6>Write a Review</h6>
                             <form asp-controller="Review" asp-action="Submit" method="post">
-                                <input type="hidden" name="BookId" value="@Model.Book.Id" />
+                                <input type="hidden" name="BookId" value="@Model.Id" />
                                 
                                 <div class="mb-3">
                                     <label class="form-label">Rating</label>
@@ -173,7 +131,7 @@
                                     </button>
                                     <form asp-controller="Review" asp-action="Delete" method="post" class="d-inline">
                                         <input type="hidden" name="id" value="@Model.Rating.UserReview.Id" />
-                                        <input type="hidden" name="bookId" value="@Model.Book.Id" />
+                                        <input type="hidden" name="bookId" value="@Model.Id" />
                                         <button type="submit" class="btn btn-outline-danger btn-sm" 
                                                 onclick="return confirm('Are you sure you want to delete your review?')">
                                             <i class="fas fa-trash"></i> Delete
@@ -250,7 +208,7 @@
             currentPage = page;
 
             $.get('@Url.Action("GetBookReviews", "Review")', {
-                bookId: @Model.Book.Id,
+                bookId: @Model.Id,
                 page: currentPage,
                 pageSize: 10,
                 sortOrder: currentSort,

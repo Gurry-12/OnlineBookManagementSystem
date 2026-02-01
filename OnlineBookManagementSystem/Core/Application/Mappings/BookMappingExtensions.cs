@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using OnlineBookManagementSystem.Core.Application.DTOs;
 using OnlineBookManagementSystem.Core.Domain.Entities;
+using OnlineBookManagementSystem.Core.Domain.ValueObjects;
 using OnlineBookManagementSystem.Presentation.ViewModels.Books;
 using OnlineBookManagementSystem.Presentation.ViewModels.ChartViewModel;
 using OnlineBookManagementSystem.Presentation.ViewModels.Reviews;
@@ -105,7 +106,20 @@ namespace OnlineBookManagementSystem.Core.Application.Mappings
 
             return new BookDetailsViewModel
             {
-                Book = book,
+                Id = book.Id,
+                Title = book.Title,
+                Author = book.Author,
+                Description = book.Description,
+                ImageUrl = book.ImageUrl,
+                Price = book.Price.Amount,
+                StockQuantity = book.StockQuantity,
+                ISBN = book.ISBN?.Value,
+                CategoryName = book.Category?.Name,
+                PublicationDate = book.PublicationDate,
+                CreatedAt = book.CreatedAt,
+                UpdatedAt = book.UpdatedAt,
+                IsDeleted = book.IsDeleted,
+                IsFavorite = false, // This should be set by the calling service based on userId
                 Rating = new BookRatingViewModel
                 {
                     AverageRating = book.AverageRating,
@@ -184,6 +198,85 @@ namespace OnlineBookManagementSystem.Core.Application.Mappings
                 AuthorName = group.Key,
                 Count = group.Count()
             };
+        }
+
+        /// <summary>
+        /// Maps Book entity to BookDetailsViewModel for the unified service
+        /// </summary>
+        public static BookDetailsViewModel ToDetailsViewModel(this Book book)
+        {
+            if (book == null) return null;
+
+            return new BookDetailsViewModel
+            {
+                Id = book.Id,
+                Title = book.Title,
+                Author = book.Author,
+                Description = book.Description,
+                ImageUrl = book.ImageUrl,
+                Price = book.Price?.Amount ?? 0,
+                StockQuantity = book.StockQuantity,
+                ISBN = book.ISBN,
+                CategoryName = book.Category?.Name,
+                PublicationDate = book.PublicationDate,
+                CreatedAt = book.CreatedAt,
+                UpdatedAt = book.UpdatedAt,
+                IsDeleted = book.IsDeleted,
+                Rating = new BookRatingViewModel
+                {
+                    AverageRating = book.AverageRating,
+                    TotalReviews = book.TotalReviews
+                }
+            };
+        }
+
+        /// <summary>
+        /// Maps Book entity to BookListViewModel for the unified service
+        /// </summary>
+        public static BookDto ToListViewModel(this Book book)
+        {
+            return book.ToDto();
+        }
+
+        /// <summary>
+        /// Maps CreateBookDto to Book entity
+        /// </summary>
+        public static Book ToEntity(this CreateBookDto dto)
+        {
+            if (dto == null) return null;
+
+            return new Book
+            {
+                Title = dto.Title,
+                Author = dto.Author,
+                Description = dto.Description,
+                ImageUrl = dto.ImageUrl,
+                Price = new Money(dto.Price),
+                StockQuantity = dto.StockQuantity,
+                ISBN = dto.ISBN,
+                CategoryId = dto.CategoryId,
+                PublicationDate = dto.PublicationDate,
+                LowStockThreshold = dto.LowStockThreshold
+            };
+        }
+
+        /// <summary>
+        /// Updates Book entity from CreateBookDto
+        /// </summary>
+        public static void UpdateEntity(this CreateBookDto dto, Book book)
+        {
+            if (dto == null || book == null) return;
+
+            book.Title = dto.Title;
+            book.Author = dto.Author;
+            book.Description = dto.Description;
+            book.ImageUrl = dto.ImageUrl;
+            book.Price = new Money(dto.Price);
+            book.StockQuantity = dto.StockQuantity;
+            book.ISBN = dto.ISBN;
+            book.CategoryId = dto.CategoryId;
+            book.PublicationDate = dto.PublicationDate;
+            book.LowStockThreshold = dto.LowStockThreshold;
         }
     }
 }

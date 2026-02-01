@@ -51,11 +51,11 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Users
 
             var totalRevenue = await _context.Orders
                 .Where(o => !o.IsDeleted && o.Status == OrderStatus.Completed)
-                .SumAsync(o => o.TotalAmount);
+                .SumAsync(o => o.TotalAmount.Amount);
 
             var revenueToday = await _context.Orders
                 .Where(o => !o.IsDeleted && o.Status == OrderStatus.Completed && o.OrderDate.HasValue && o.OrderDate.Value.Date == DateTime.UtcNow.Date)
-                .SumAsync(o => o.TotalAmount);
+                .SumAsync(o => o.TotalAmount.Amount);
 
             // Get today's activities only for dashboard
             var today = DateTime.Today;

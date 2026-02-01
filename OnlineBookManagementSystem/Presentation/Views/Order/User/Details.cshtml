@@ -21,10 +21,10 @@
             <div class="row g-4">
                 <div class="col-md-6">
                     <h5>Delivery Address</h5>
-                    <p><strong>@Model.FullName</strong><br>@Model.Address</p>
+                    <p><strong>@Model.FullName</strong><br>@Model.ShippingAddress</p>
                 </div>
                 <div class="col-md-6 text-md-end">
-                    <p><strong>Order Date:</strong> @Model.OrderDate?.ToString("MMMM dd, yyyy")</p>
+                    <p><strong>Order Date:</strong> @Model.OrderDate</p>
                     <p><strong>Payment:</strong> @Model.PaymentMethod</p>
                 </div>
             </div>

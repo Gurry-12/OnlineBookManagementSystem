@@ -5,7 +5,7 @@ using OnlineBookManagementSystem.Core.Application.Interfaces.Helpers;
 
 namespace OnlineBookManagementSystem.Presentation.Controllers
 {
-    public class ErrorController : Controller
+    public class ErrorController : BaseController
     {
         private readonly IErrorViewModelFactory _errorFactory;
         private readonly ILogger<ErrorController> _logger;

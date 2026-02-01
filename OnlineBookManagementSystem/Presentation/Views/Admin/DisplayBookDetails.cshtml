@@ -1,9 +1,9 @@
-@model OnlineBookManagementSystem.Core.Domain.Entities.Book
+﻿@model OnlineBookManagementSystem.Presentation.ViewModels.Books.BookDetailsViewModel
 
 @{
     ViewData["Title"] = $"Book Details: {Model.Title}";
-    Layout = ViewData["Layout"]?.ToString() ?? "_LayoutUser";  // Default User; dynamic via BaseController
-    int stockValue = Model.StockQuantity;  // Use updated DB field
+    Layout = ViewData["Layout"]?.ToString() ?? "_LayoutUser";
+    int stockValue = Model.StockQuantity;
     var currentRole = ViewContext.HttpContext.User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value ?? "Guest";
     var isAdminOrHigher = currentRole == "Admin" || currentRole == "SuperAdmin";
     var isUserOrHigher = currentRole == "User" || isAdminOrHigher;
@@ -34,8 +34,8 @@
                 <p class="book-author text-muted mb-3">by <strong>@Model.Author</strong></p>
 
                 <ul class="list-unstyled">
-                    <li class="mb-2"><i class="bi bi-upc-scan me-2 text-primary"></i><strong>ISBN:</strong> @(Model.ISBN?.Value ?? "Not Available")</li>
-                    <li class="mb-2"><i class="bi bi-currency-rupee me-2 text-success"></i><strong>Price:</strong> <span class="price-tag fs-5 fw-bold">₹@Model.Price.Amount.ToString("0.00")</span></li>
+                    <li class="mb-2"><i class="bi bi-upc-scan me-2 text-primary"></i><strong>ISBN:</strong> @(Model.ISBN ?? "Not Available")</li>
+                    <li class="mb-2"><i class="bi bi-currency-rupee me-2 text-success"></i><strong>Price:</strong> <span class="price-tag fs-5 fw-bold">@Model.FormattedPrice</span></li>
                     <li class="mb-2">
                         <i class="bi bi-box-seam me-2 @(stockValue > 0 ? "text-success" : "text-danger")"></i><strong>Stock:</strong>
                         @if (stockValue > 0)
@@ -47,9 +47,9 @@
                             <span class="badge bg-danger">Out of stock</span>
                         }
                     </li>
-                    @if (Model.Category != null)
+                    @if (!string.IsNullOrEmpty(Model.CategoryName))
                     {
-                        <li class="mb-2"><i class="bi bi-tags me-2 text-info"></i><strong>Category:</strong> @Model.Category.Name</li>
+                        <li class="mb-2"><i class="bi bi-tags me-2 text-info"></i><strong>Category:</strong> @Model.CategoryName</li>
                     }
                 </ul>
 
@@ -61,8 +61,8 @@
                             <i class="bi bi-cart-plus me-2"></i>Add to Cart
                         </button>
                         <button onclick="ToggleFavorite(@Model.Id)" class="btn btn-outline-danger btn-lg rounded-pill">
-                            <i class="bi bi-heart @(Model.IsFavorite ? "bi-heart-fill text-danger" : "") me-2"></i>
-                            @(Model.IsFavorite ? "Remove from Favorites" : "Add to Favorites")
+                            <i class="bi bi-heart @(Model?.IsFavorite == true ? "bi-heart-fill text-danger" : "") me-2"></i>
+                            @(Model?.IsFavorite == true ? "Remove from Favorites" : "Add to Favorites")
                         </button>
                     }
                     @if (!isUserOrHigher)
@@ -104,9 +104,9 @@
 
                         <div class="tab-content p-3 border border-top-0 bg-light rounded-bottom" id="infoTabContent">
                             <div class="tab-pane fade show active" id="overview" role="tabpanel">
-                                <p class="mb-2"><strong>Published:</strong> @Model.CreatedAt.ToString("MMM dd, yyyy")</p>
-                                <p class="mb-2"><strong>Updated:</strong> @Model.UpdatedAt.ToString("MMM dd, yyyy")</p>
-                                <p class="mb-0"><strong>Status:</strong> @(Model.IsDeleted ? "Inactive" : "Active")</p>
+                                <p class="mb-2"><strong>Published:</strong> @Model.FormattedCreatedAt</p>
+                                <p class="mb-2"><strong>Updated:</strong> @Model.FormattedUpdatedAt</p>
+                                <p class="mb-0"><strong>Status:</strong> @Model.DeletedStatus</p>
                             </div>
                             <div class="tab-pane fade" id="details" role="tabpanel">
                                 @if (!string.IsNullOrEmpty(Model.Description))

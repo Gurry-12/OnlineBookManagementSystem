@@ -68,7 +68,7 @@
             <div class="card border-0 bg-warning text-white">
                 <div class="card-body text-center">
                     <i class="bi bi-clock-history fs-1 mb-2"></i>
-                    <h4>@(Model?.Orders?.Count(o => o.Status == "Pending") ?? 0)</h4>
+                    <h4>@(Model?.Orders?.Count(o => o.Status == OrderStatus.Pending) ?? 0)</h4>
                     <small>Pending</small>
                 </div>
             </div>
@@ -78,7 +78,7 @@
                 <div class="card-body text-center">
                     <i class="bi bi-truck fs-1 mb-2"></i>
                     <h4>
-                        @(Model?.Orders?.Count(o => o.Status == "Shipped") ?? 0)</h4>
+                        @(Model?.Orders?.Count(o => o.Status == OrderStatus.Shipped) ?? 0)</h4>
                     <small>In Transit</small>
                 </div>
             </div>
@@ -87,7 +87,8 @@
             <div class="card border-0 bg-success text-white">
                 <div class="card-body text-center">
                     <i class="bi bi-check-circle fs-1 mb-2"></i>
-                    <h4>@(Model?.Orders?.Count(o => o.Status == "Delivered") ?? 0)</h4>
+                    <h4>
+                        @(Model?.Orders?.Count(o => o.Status == OrderStatus.Delivered) ?? 0)</h4>
                     <small>Delivered</small>
                 </div>
             </div>
@@ -115,10 +116,10 @@
                                                 <div class="me-3">
                                                     @if (order.OrderDetails != null && order.OrderDetails.Any())
                                                     {
-                                                        var firstBook = order.OrderDetails.First().Book;
-                                                        if (firstBook != null && !string.IsNullOrEmpty(firstBook.ImageUrl))
+                                                        var firstItem = order.OrderDetails.First();
+                                                        if (!string.IsNullOrEmpty(firstItem.BookImageUrl))
                                                         {
-                                                            <img src="@firstBook.ImageUrl" alt="@firstBook.Title" class="rounded" style="width: 50px; height: 60px; object-fit: cover;">
+                                                            <img src="@firstItem.BookImageUrl" alt="@firstItem.BookTitle" class="rounded" style="width: 50px; height: 60px; object-fit: cover;">
                                                         }
                                                         else
                                                         {
@@ -141,11 +142,11 @@
                                                         {
                                                             if (order.OrderDetails.Count == 1)
                                                             {
-                                                                @(order.OrderDetails.First().Book?.Title ?? "Unknown")
+                                                                @(order.OrderDetails.First().BookTitle ?? "Unknown")
                                                             }
                                                             else
                                                             {
-                                                                @($"{order.OrderDetails.First().Book?.Title ?? "Unknown"} and {order.OrderDetails.Count - 1} more")
+                                                                @($"{order.OrderDetails.First().BookTitle ?? "Unknown"} and {order.OrderDetails.Count - 1} more")
                                                             }
                                                         }
                                                         else
@@ -169,7 +170,7 @@
                                             <a asp-action="OrderDetails" asp-route-id="@order.Id" class="btn btn-outline-primary btn-sm">
                                                 <i class="bi bi-eye me-1"></i>View Details
                                             </a>
-                                            @if (order.Status == "Pending")
+                                            @if (order.Status == OrderStatus.Pending)
                                             {
                                                 <button class="btn btn-outline-danger btn-sm ms-2" onclick="cancelOrder(@order.Id)">
                                                     <i class="bi bi-x-circle me-1"></i>Cancel

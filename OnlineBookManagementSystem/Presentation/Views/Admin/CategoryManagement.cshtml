@@ -1,4 +1,4 @@
-@model IEnumerable<OnlineBookManagementSystem.Core.Domain.Entities.Category>
+@model OnlineBookManagementSystem.Presentation.ViewModels.Admin.CategoryManagementViewModel
 @{
     ViewData["Title"] = "Category Management";
     Layout = "_LayoutAdmin";
@@ -20,9 +20,9 @@
 
     <!-- Categories Grid -->
     <div class="row g-4">
-        @if (Model != null && Model.Any())
+        @if (Model.HasCategories)
         {
-            @foreach (var category in Model)
+            @foreach (var category in Model.Categories)
             {
                 <div class="col-md-6 col-lg-4">
                     <div class="card h-100 shadow-sm border-0 category-card">
@@ -51,10 +51,10 @@
                             
                             <div class="d-flex justify-content-between align-items-center mt-3">
                                 <small class="text-muted">
-                                    <i class="bi bi-book me-1"></i>@category.Books.Count books
+                                    <i class="bi bi-book me-1"></i>@category.BookCountText
                                 </small>
                                 <small class="text-muted">
-                                    Created: @category.CreatedAt.ToString("MMM dd, yyyy")
+                                    Created: @category.FormattedCreatedDate
                                 </small>
                             </div>
                         </div>

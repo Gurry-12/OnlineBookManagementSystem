@@ -217,6 +217,9 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Orders
             {
                 var monthlyRevenue = new List<MonthlyRevenueViewModel>();
 
+                // Ensure months is within valid range (1-12)
+                months = Math.Min(Math.Max(months, 1), 12);
+
                 for (int month = 1; month <= months; month++)
                 {
                     var revenue = await _orderRepository.GetMonthlyRevenueAsync(year, month);
@@ -231,7 +234,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Orders
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error getting monthly revenue for {Year}", year);
+                _logger.LogError(ex, "Error getting monthly revenue for {Months} months in {Year}", months, year);
                 throw;
             }
         }

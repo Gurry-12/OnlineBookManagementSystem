@@ -1,6 +1,6 @@
-@model OnlineBookManagementSystem.Core.Domain.Entities.Order
+@model OnlineBookManagementSystem.Presentation.ViewModels.User.OrderDetailViewModel
 @{
-    ViewData["Title"] = $"Order #{Model?.Id} Details";
+    ViewData["Title"] = $"Order {Model.OrderNumber} Details";
     Layout = "_LayoutUser";
 }
 
@@ -10,9 +10,9 @@
             <div class="d-flex justify-content-between align-items-center">
                 <div>
                     <h2 class="mb-0">
-                        <i class="bi bi-receipt me-2"></i>Order #@Model?.Id
+                        <i class="bi bi-receipt me-2"></i>Order @Model.OrderNumber
                     </h2>
-                    <p class="text-muted">Placed on @(Model?.OrderDate?.ToString("MMMM dd, yyyy 'at' hh:mm tt") ?? "N/A")</p>
+                    <p class="text-muted">Placed on @Model.FormattedOrderDate</p>
                 </div>
                 <div>
                     <a asp-action="OrderHistory" class="btn btn-outline-secondary">
@@ -36,19 +36,19 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="d-flex justify-content-between align-items-center mb-3">
-                                <span class="badge @GetStatusBadgeClass(Model?.Status.ToString()) fs-5">
-                                    @Model?.Status.ToString()
+                                <span class="@Model.StatusBadgeClass fs-5">
+                                    @Model.StatusText
                                 </span>
-                                <small class="text-muted">
-                                    Last updated: @Model?.UpdatedAt.ToString("MMM dd, yyyy 'at' hh:mm tt")
-                                </small>
+                                <span class="@Model.PaymentStatusBadgeClass ms-2">
+                                    @Model.PaymentStatusText
+                                </span>
                             </div>
                             
                             <!-- Status Timeline -->
                             <div class="progress mb-3" style="height: 8px;">
-                                <div class="progress-bar @GetProgressBarClass(Model?.Status.ToString())" 
+                                <div class="progress-bar bg-primary" 
                                      role="progressbar" 
-                                     style="width: @GetProgressPercentage(Model?.Status.ToString())%">
+                                     style="width: @(Model.Status == OnlineBookManagementSystem.Core.Domain.Enums.OrderStatus.Pending ? 25 : Model.Status == OnlineBookManagementSystem.Core.Domain.Enums.OrderStatus.Processing ? 50 : Model.Status == OnlineBookManagementSystem.Core.Domain.Enums.OrderStatus.Shipped ? 75 : Model.Status == OnlineBookManagementSystem.Core.Domain.Enums.OrderStatus.Completed ? 100 : 0)%">
                                 </div>
                             </div>
                             
@@ -56,7 +56,7 @@
                                 <small class="text-muted">Pending</small>
                                 <small class="text-muted">Processing</small>
                                 <small class="text-muted">Shipped</small>
-                                <small class="text-muted">Delivered</small>
+                                <small class="text-muted">Completed</small>
                             </div>
                         </div>
                     </div>
@@ -69,20 +69,20 @@
             <div class="card border-0 shadow-sm">
                 <div class="card-header bg-light">
                     <h5 class="mb-0">
-                        <i class="bi bi-bag me-2"></i>Order Items (@Model?.OrderDetails.Count)
+                        <i class="bi bi-bag me-2"></i>Order Items (@Model.TotalItems)
                     </h5>
                 </div>
                 <div class="card-body p-0">
-                    @if (Model?.OrderDetails != null && Model.OrderDetails.Any())
+                    @if (Model.Items != null && Model.Items.Any())
                     {
-                        @foreach (var item in Model.OrderDetails)
+                        @foreach (var item in Model.Items)
                         {
                             <div class="border-bottom p-3">
                                 <div class="row align-items-center">
                                     <div class="col-md-2">
-                                        @if (!string.IsNullOrEmpty(item.Book?.ImageUrl))
+                                        @if (!string.IsNullOrEmpty(item.BookImageUrl))
                                         {
-                                            <img src="@item.Book.ImageUrl" alt="@item.Book.Title" class="img-fluid rounded" style="max-height: 80px;">
+                                            <img src="@item.BookImageUrl" alt="@item.BookTitle" class="img-fluid rounded" style="max-height: 80px;">
                                         }
                                         else
                                         {
@@ -92,19 +92,18 @@
                                         }
                                     </div>
                                     <div class="col-md-6">
-                                        <h6 class="mb-1">@item.Book?.Title</h6>
-                                        <p class="text-muted mb-1">by @item.Book?.Author</p>
-                                        <small class="text-muted">ISBN: @(item.Book?.ISBN?.Value ?? "N/A")</small>
+                                        <h6 class="mb-1">@item.BookTitle</h6>
                                     </div>
                                     <div class="col-md-2 text-center">
                                         <span class="badge bg-light text-dark">Qty: @item.Quantity</span>
                                     </div>
                                     <div class="col-md-2 text-end">
                                         <div>
-                                            <strong>$@item.Price.Amount.ToString("F2")</strong>
+                                            <strong>@item.FormattedUnitPrice</strong>
                                             @if (item.Quantity > 1)
                                             {
                                                 <br><small class="text-muted">each</small>
+                                                <br><strong>@item.FormattedSubtotal</strong>
                                             }
                                         </div>
                                     </div>
@@ -127,20 +126,20 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between mb-2">
                         <span>Subtotal:</span>
-                        <span>$@(Model?.OrderDetails.Sum(od => od.Quantity * od.Price).ToString("F2"))</span>
+                        <span>@Model.FormattedSubtotal</span>
                     </div>
                     <div class="d-flex justify-content-between mb-2">
                         <span>Shipping:</span>
-                        <span>Free</span>
+                        <span>@Model.FormattedShipping</span>
                     </div>
                     <div class="d-flex justify-content-between mb-2">
                         <span>Tax:</span>
-                        <span>$0.00</span>
+                        <span>@Model.FormattedTax</span>
                     </div>
                     <hr>
                     <div class="d-flex justify-content-between">
                         <strong>Total:</strong>
-                        <strong>$@Model?.TotalAmount.Amount.ToString("F2")</strong>
+                        <strong>@Model.FormattedTotal</strong>
                     </div>
                 </div>
             </div>
@@ -153,16 +152,15 @@
                     </h5>
                 </div>
                 <div class="card-body">
-                    <h6>@Model?.FullName</h6>
-                    <p class="mb-1">@Model?.Address</p>
-                    <p class="mb-1">@Model?.City, @Model?.State @Model?.ZipCode</p>
-                    <p class="mb-0">@Model?.Country</p>
+                    <h6>@Model.FullName</h6>
+                    <p class="mb-1">@Model.ShippingAddress</p>
+                    <p class="mb-1">@Model.City @Model.PinCode</p>
                     
-                    @if (!string.IsNullOrEmpty(Model?.PhoneNumber))
+                    @if (!string.IsNullOrEmpty(Model.PhoneNumber))
                     {
                         <hr>
                         <p class="mb-0">
-                            <i class="bi bi-telephone me-2"></i>@(Model?.PhoneNumber)
+                            <i class="bi bi-telephone me-2"></i>@Model.PhoneNumber
                         </p>
                     }
                 </div>
@@ -176,14 +174,14 @@
                     </h5>
                 </div>
                 <div class="card-body">
-                    @if (Model?.Status == OrderStatus.Pending)
+                    @if (Model.CanCancel)
                     {
-                        <button class="btn btn-outline-danger w-100 mb-2" onclick="cancelOrder(@Model.Id)">
+                        <button class="btn btn-outline-danger w-100 mb-2" onclick="cancelOrder(@Model.OrderId)">
                             <i class="bi bi-x-circle me-2"></i>Cancel Order
                         </button>
                     }
                     
-                    @if (Model?.Status == OrderStatus.Delivered)
+                    @if (Model.IsCompleted)
                     {
                         <button class="btn btn-outline-primary w-100 mb-2">
                             <i class="bi bi-arrow-repeat me-2"></i>Reorder Items
@@ -262,42 +260,4 @@
             new bootstrap.Toast(toast).show();
         }
     </script>
-}
-
-@functions {
-    string GetStatusBadgeClass(string status)
-    {
-        return status switch
-        {
-            "Pending" => "bg-warning text-dark",
-            "Processing" => "bg-info text-white",
-            "Shipped" => "bg-primary text-white",
-            "Delivered" => "bg-success text-white",
-            "Cancelled" => "bg-danger text-white",
-            _ => "bg-secondary text-white"
-        };
-    }
-    
-    string GetProgressBarClass(string status)
-    {
-        return status switch
-        {
-            "Cancelled" => "bg-danger",
-            "Delivered" => "bg-success",
-            _ => "bg-primary"
-        };
-    }
-    
-    int GetProgressPercentage(string status)
-    {
-        return status switch
-        {
-            "Pending" => 25,
-            "Processing" => 50,
-            "Shipped" => 75,
-            "Delivered" => 100,
-            "Cancelled" => 0,
-            _ => 0
-        };
-    }
 }

@@ -1,6 +1,6 @@
 @model OnlineBookManagementSystem.Presentation.ViewModels.Books.BookDetailsViewModel
 @{
-    ViewData["Title"] = Model.Book.Title + " - Interactive Demo";
+    ViewData["Title"] = Model.Title + " - Interactive Demo";
     Layout = "_LayoutPublic";
 }
 
@@ -33,16 +33,16 @@
         <!-- Book Image -->
         <div class="col-lg-5">
             <div class="spotlight-card glass p-4 sticky-top" style="top: 80px;">
-                <img src="@(Model.Book.ImageUrl ?? Url.Content("~/images/default-book-improved.svg"))" 
-                     alt="@Model.Book.Title" 
+                <img src="@(Model.ImageUrl ?? Url.Content("~/images/default-book-improved.svg"))" 
+                     alt="@Model.Title" 
                      class="img-fluid rounded shadow-lg w-100"
                      style="max-height: 600px; object-fit: contain;">
                 
-                @if (Model.Book.StockQuantity > 0)
+                @if (Model.StockQuantity > 0)
                 {
                     <div class="alert alert-success mt-3 mb-0">
                         <i class="bi bi-check-circle me-2"></i>
-                        <strong>In Stock</strong> - @Model.Book.StockQuantity units available
+                        <strong>In Stock</strong> - @Model.StockQuantity units available
                     </div>
                 }
                 else
@@ -59,23 +59,23 @@
         <div class="col-lg-7">
             <div class="glass p-4 mb-4">
                 <!-- Title and Author -->
-                <h1 class="display-5 fw-bold mb-3">@Model.Book.Title</h1>
+                <h1 class="display-5 fw-bold mb-3">@Model.Title</h1>
                 <p class="lead text-muted mb-4">
-                    <i class="bi bi-person-fill me-2"></i>by <strong>@Model.Book.Author</strong>
+                    <i class="bi bi-person-fill me-2"></i>by <strong>@Model.Author</strong>
                 </p>
 
                 <!-- Category and ISBN -->
                 <div class="mb-4">
-                    @if (!string.IsNullOrEmpty(Model.Book.Category?.Name))
+                    @if (!string.IsNullOrEmpty(Model.CategoryName))
                     {
                         <span class="badge bg-primary me-2 fs-6">
-                            <i class="bi bi-tag me-1"></i>@Model.Book.Category.Name
+                            <i class="bi bi-tag me-1"></i>@Model.CategoryName
                         </span>
                     }
-                    @if (!string.IsNullOrEmpty(Model.Book.ISBN?.Value))
+                    @if (!string.IsNullOrEmpty(Model.ISBN))
                     {
                         <span class="badge bg-secondary fs-6">
-                            <i class="bi bi-upc me-1"></i>ISBN: @Model.Book.ISBN.Value
+                            <i class="bi bi-upc me-1"></i>ISBN: @Model.ISBN
                         </span>
                     }
                 </div>
@@ -86,10 +86,10 @@
                         <div>
                             <small class="text-muted d-block">Price</small>
                             <h2 class="text-primary fw-bold mb-0">
-                                ₹@Model.Book.Price.Amount.ToString("N2")
+                                @Model.FormattedPrice
                             </h2>
                         </div>
-                        @if (Model.Book.StockQuantity > 0)
+                        @if (Model.StockQuantity > 0)
                         {
                             <div class="text-end">
                                 <a asp-controller="Auth" asp-action="Login" 
@@ -105,13 +105,13 @@
                 </div>
 
                 <!-- Description -->
-                @if (!string.IsNullOrEmpty(Model.Book.Description))
+                @if (!string.IsNullOrEmpty(Model.Description))
                 {
                     <div class="description-section mb-4">
                         <h4 class="mb-3">
                             <i class="bi bi-book me-2"></i>About This Book
                         </h4>
-                        <p class="lead">@Model.Book.Description</p>
+                        <p class="lead">@Model.Description</p>
                     </div>
                 }
 
@@ -124,33 +124,33 @@
                         <tbody>
                             <tr>
                                 <td class="fw-bold" style="width: 30%;">Author:</td>
-                                <td>@Model.Book.Author</td>
+                                <td>@Model.Author</td>
                             </tr>
-                            @if (!string.IsNullOrEmpty(Model.Book.ISBN?.Value))
+                            @if (!string.IsNullOrEmpty(Model.ISBN))
                             {
                                 <tr>
                                     <td class="fw-bold">ISBN:</td>
-                                    <td>@Model.Book.ISBN.Value</td>
+                                    <td>@Model.ISBN</td>
                                 </tr>
                             }
-                            @if (!string.IsNullOrEmpty(Model.Book.Category?.Name))
+                            @if (!string.IsNullOrEmpty(Model.CategoryName))
                             {
                                 <tr>
                                     <td class="fw-bold">Category:</td>
-                                    <td>@Model.Book.Category.Name</td>
+                                    <td>@Model.CategoryName</td>
                                 </tr>
                             }
                             <tr>
                                 <td class="fw-bold">Price:</td>
-                                <td class="text-primary fw-bold">₹@Model.Book.Price.Amount.ToString("N2")</td>
+                                <td class="text-primary fw-bold">@Model.FormattedPrice</td>
                             </tr>
                             <tr>
                                 <td class="fw-bold">Availability:</td>
                                 <td>
-                                    @if (Model.Book.StockQuantity > 0)
+                                    @if (Model.StockQuantity > 0)
                                     {
                                         <span class="badge bg-success">
-                                            <i class="bi bi-check-circle me-1"></i>In Stock (@Model.Book.StockQuantity units)
+                                            <i class="bi bi-check-circle me-1"></i>In Stock (@Model.StockQuantity units)
                                         </span>
                                     }
                                     else

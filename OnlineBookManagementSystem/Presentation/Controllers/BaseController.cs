@@ -20,17 +20,17 @@ public class BaseController : Controller
             var primaryRole = GetPrimaryRole();
             return primaryRole switch
             {
-                "SuperAdmin" => "~/Presentation/Views/Shared/_LayoutSuperAdmin.cshtml",
-                "Admin" => "~/Presentation/Views/Shared/_LayoutAdmin.cshtml",
-                "User" => "~/Presentation/Views/Shared/_LayoutUser.cshtml",
-                "Guest" => "~/Presentation/Views/Shared/_LayoutPublic.cshtml",
-                _ => "~/Presentation/Views/Shared/_LayoutAuth.cshtml"
+                "SuperAdmin" => "_LayoutSuperAdmin",
+                "Admin" => "_LayoutAdmin",
+                "User" => "_LayoutUser",
+                "Guest" => "_LayoutPublic",
+                _ => "_LayoutAuth"
             };
         }
         catch (Exception ex)
         {
             Logger.LogError(ex, "Error determining user layout");
-            return "~/Presentation/Views/Shared/_LayoutAuth.cshtml";
+            return "_LayoutAuth";
         }
     }
 

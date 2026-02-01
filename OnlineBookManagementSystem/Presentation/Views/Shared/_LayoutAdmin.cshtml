@@ -30,7 +30,8 @@
     <!-- UI Consistency Fixes -->
     <link href="~/css/ui-consistency-fixes.css" rel="stylesheet" asp-append-version="true" />
     
-
+    <!-- Component-Based Architecture CSS -->
+    <link href="~/css/components.css" rel="stylesheet" asp-append-version="true" />
 
     @RenderSection("Styles", required: false)
 </head>
@@ -105,7 +106,7 @@
             <div class="d-flex align-items-center gap-3">
                 <h2 class="fw-bold">Admin Dashboard</h2>
                 
-                <!-- SuperAdmin Return Button - Only show when SuperAdmin is viewing -->
+                @* <!-- SuperAdmin Return Button - Only show when SuperAdmin is viewing -->
                 @if (Context.Session.GetString("OriginalRole") == "SuperAdmin")
                 {
                     <div class="alert superadmin-return-alert d-flex align-items-center mb-0 py-2 px-3 rounded-pill" role="alert">
@@ -115,7 +116,7 @@
                             <i class="bi bi-arrow-left me-1"></i>Return to SuperAdmin
                         </a>
                     </div>
-                }
+                } *@
             </div>
             <div>
             <span><i class="bi bi-clock me-1"></i><span class="currenttime"></span></span>
@@ -152,6 +153,9 @@
     
     <!-- Toastr JS for notifications -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+    <!-- Global AJAX Wrapper (Load before page-specific scripts) -->
+    <script src="~/js/core/ajaxWrapper.js" asp-append-version="true"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 

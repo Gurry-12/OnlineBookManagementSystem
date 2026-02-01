@@ -108,7 +108,9 @@
                     container.innerHTML = '';
                     
                     data.books.forEach(book => {
-                        const bookCard = createBookCard(book);
+                        const col = document.createElement('div');
+                        col.className = 'col-lg-6 col-md-6 col-sm-6 col-12';
+                        const bookCard = createBookCard(col,book);
                         container.appendChild(bookCard);
                     });
                 } else {
@@ -130,7 +132,9 @@
                     container.innerHTML = '';
                     
                     data.books.forEach(book => {
-                        const bookCard = createBookCard(book);
+                        const col = document.createElement('div');
+                        col.className = 'col-lg-3 col-md-4 col-sm-6 col-12';
+                        const bookCard = createBookCard(col,book);
                         container.appendChild(bookCard);
                     });
                 } else {
@@ -142,9 +146,8 @@
             }
         }
 
-        function createBookCard(book) {
-            const col = document.createElement('div');
-            col.className = 'col-lg-4 col-md-4 col-sm-6 col-12'; // Changed to col-lg-4 for 3 books per row
+        function createBookCard(col,book) {
+             // Changed to col-lg-4 for 3 books per row
             
             col.innerHTML = `
                 <div class="wp-card shadow-sm h-100 book-card">
@@ -165,7 +168,7 @@
                         <h6 class="card-title user-text-primary">${book.title}</h6>
                         <p class="card-text user-text-muted small mb-2">by ${book.author}</p>
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            <span class="h6 user-text-secondary mb-0">₹${book.price.toFixed(2)}</span>
+                            <span class="h6 user-text-secondary mb-0">₹${book.price}</span>
                         </div>
                         <div class="mt-auto">
                             <div class="d-flex gap-2">
