@@ -93,6 +93,21 @@
     --color-info-light: #bae6fd;     /* Pale Sky */
 
     /* ========================================
+       THEME CORE VARIABLES (Global Contracts)
+       Required for role-based theming
+       ======================================== */
+    --bg-color: var(--color-gray-50);       /* Page background */
+    --text-color: var(--color-gray-900);    /* Primary text */
+    --primary-color: var(--color-primary);  /* Primary brand color */
+    --accent-color: var(--color-accent);    /* Accent color */
+
+    /* Structural Variables for Layout */
+    --bg-sidebar: var(--color-white);
+    --bg-surface: var(--color-white);       /* Cards, panels */
+    --bg-header: var(--color-white);
+    --border-color: var(--color-gray-200);
+
+    /* ========================================
        ROLE-BASED COLOR THEMES
        Elegant pastel themes with perfect contrast for readability
        Role-based theming variables (Layout-scoped)

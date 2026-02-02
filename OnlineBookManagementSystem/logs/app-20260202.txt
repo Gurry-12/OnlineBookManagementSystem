@@ -13812,3 +13812,361 @@ SELECT EXISTS (
 SELECT "a"."Id", "a"."Action", "a"."ConcurrencyToken", "a"."CreatedAt", "a"."IpAddress", "a"."IsDeleted", "a"."Level", "a"."Message", "a"."Timestamp", "a"."UpdatedAt", "a"."UserAgent", "a"."UserId"
 FROM "ActivityLogs" AS "a"
 WHERE NOT ("a"."IsDeleted") AND "a"."Timestamp" < @__cutoffDate_0
+2026-02-02 04:34:06.701 +00:00 [WRN] Entity 'User' has a global query filter defined and is the required end of a relationship with the entity 'RefreshToken'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-02-02 04:34:06.899 +00:00 [WRN] The foreign key property 'IdentityUserRole<int>.UserId1' was created in shadow state because a conflicting property with the simple name 'UserId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-02-02 04:34:06.900 +00:00 [WRN] The foreign key property 'BookReview.BookId1' was created in shadow state because a conflicting property with the simple name 'BookId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-02-02 04:34:06.901 +00:00 [WRN] The foreign key property 'UserFavorite.BookId1' was created in shadow state because a conflicting property with the simple name 'BookId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-02-02 04:34:06.901 +00:00 [WRN] The foreign key property 'UserFavorite.UserId1' was created in shadow state because a conflicting property with the simple name 'UserId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-02-02 04:34:07.144 +00:00 [INF] Starting database seeding process...
+2026-02-02 04:34:07.164 +00:00 [INF] User profile is available. Using '/home/jules/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-02-02 04:34:08.021 +00:00 [WRN] Entity 'User' has a global query filter defined and is the required end of a relationship with the entity 'RefreshToken'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-02-02 04:34:08.074 +00:00 [WRN] The foreign key property 'IdentityUserRole<int>.UserId1' was created in shadow state because a conflicting property with the simple name 'UserId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-02-02 04:34:08.075 +00:00 [WRN] The foreign key property 'BookReview.BookId1' was created in shadow state because a conflicting property with the simple name 'BookId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-02-02 04:34:08.075 +00:00 [WRN] The foreign key property 'UserFavorite.BookId1' was created in shadow state because a conflicting property with the simple name 'BookId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-02-02 04:34:08.075 +00:00 [WRN] The foreign key property 'UserFavorite.UserId1' was created in shadow state because a conflicting property with the simple name 'UserId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-02-02 04:34:08.249 +00:00 [ERR] An error occurred while seeding the database
+System.InvalidOperationException: An error was generated for warning 'Microsoft.EntityFrameworkCore.Migrations.PendingModelChangesWarning': The model for context 'BookManagementContext' changes each time it is built. This is usually caused by dynamic values used in a 'HasData' call (e.g. `new DateTime()`, `Guid.NewGuid()`). Add a new migration and examine its contents to locate the cause, and replace the dynamic call with a static, hardcoded value. See https://aka.ms/efcore-docs-pending-changes. This exception can be suppressed or logged by passing event ID 'RelationalEventId.PendingModelChangesWarning' to the 'ConfigureWarnings' method in 'DbContext.OnConfiguring' or 'AddDbContext'.
+   at Microsoft.EntityFrameworkCore.Diagnostics.EventDefinition`1.Log[TLoggerCategory](IDiagnosticsLogger`1 logger, TParam arg)
+   at Microsoft.EntityFrameworkCore.Diagnostics.RelationalLoggerExtensions.NonDeterministicModel(IDiagnosticsLogger`1 diagnostics, Type contextType)
+   at Microsoft.EntityFrameworkCore.Migrations.Internal.Migrator.ValidateMigrations(Boolean useTransaction, String targetMigration)
+   at Microsoft.EntityFrameworkCore.Migrations.Internal.Migrator.MigrateAsync(String targetMigration, CancellationToken cancellationToken)
+   at OnlineBookManagementSystem.Shared.Extensions.DatabaseSeedingExtensions.SeedDatabaseAsync(WebApplication app) in /app/OnlineBookManagementSystem/Shared/Extensions/DatabaseSeedingExtensions.cs:line 29
+2026-02-02 04:34:28.072 +00:00 [WRN] Entity 'User' has a global query filter defined and is the required end of a relationship with the entity 'RefreshToken'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-02-02 04:34:28.237 +00:00 [WRN] The foreign key property 'IdentityUserRole<int>.UserId1' was created in shadow state because a conflicting property with the simple name 'UserId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-02-02 04:34:28.238 +00:00 [WRN] The foreign key property 'BookReview.BookId1' was created in shadow state because a conflicting property with the simple name 'BookId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-02-02 04:34:28.238 +00:00 [WRN] The foreign key property 'UserFavorite.BookId1' was created in shadow state because a conflicting property with the simple name 'BookId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-02-02 04:34:28.238 +00:00 [WRN] The foreign key property 'UserFavorite.UserId1' was created in shadow state because a conflicting property with the simple name 'UserId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-02-02 04:34:28.641 +00:00 [INF] User profile is available. Using '/home/jules/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-02-02 04:34:28.665 +00:00 [INF] Creating key {daebe8e3-24b0-42e3-a1d4-2cd65c42edb9} with creation date 2026-02-02 04:34:28Z, activation date 2026-02-02 04:34:28Z, and expiration date 2026-05-03 04:34:28Z.
+2026-02-02 04:34:28.696 +00:00 [WRN] No XML encryptor configured. Key {daebe8e3-24b0-42e3-a1d4-2cd65c42edb9} may be persisted to storage in unencrypted form.
+2026-02-02 04:34:28.705 +00:00 [INF] Writing data to file '/home/jules/.aspnet/DataProtection-Keys/key-daebe8e3-24b0-42e3-a1d4-2cd65c42edb9.xml'.
+2026-02-02 04:34:28.730 +00:00 [INF] Activity Log Cleanup Service started
+2026-02-02 04:34:28.820 +00:00 [INF] Now listening on: http://localhost:5000
+2026-02-02 04:34:28.821 +00:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-02-02 04:34:28.821 +00:00 [INF] Hosting environment: Development
+2026-02-02 04:34:28.821 +00:00 [INF] Content root path: /app/OnlineBookManagementSystem
+2026-02-02 04:35:16.840 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/ - null null
+2026-02-02 04:35:16.880 +00:00 [WRN] Failed to determine the https port for redirect.
+2026-02-02 04:35:17.014 +00:00 [INF] Executing endpoint 'OnlineBookManagementSystem.Presentation.Controllers.PublicController.Index (OnlineBookManagementSystem)'
+2026-02-02 04:35:17.028 +00:00 [INF] Route matched with {action = "Index", controller = "Public"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller OnlineBookManagementSystem.Presentation.Controllers.PublicController (OnlineBookManagementSystem).
+2026-02-02 04:35:17.058 +00:00 [INF] Executing ViewResult, running view Index.
+2026-02-02 04:35:17.162 +00:00 [INF] Executed ViewResult - view Index executed in 105.6101ms.
+2026-02-02 04:35:17.179 +00:00 [INF] Executed action OnlineBookManagementSystem.Presentation.Controllers.PublicController.Index (OnlineBookManagementSystem) in 149.9166ms
+2026-02-02 04:35:17.180 +00:00 [INF] Executed endpoint 'OnlineBookManagementSystem.Presentation.Controllers.PublicController.Index (OnlineBookManagementSystem)'
+2026-02-02 04:35:17.183 +00:00 [INF] HTTP GET / responded 200 in 209.1924ms for user Anonymous with Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/143.0.7499.4 Safari/537.36
+2026-02-02 04:35:17.188 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/ - 200 null text/html; charset=utf-8 350.8599ms
+2026-02-02 04:35:17.286 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/Render_Website_Name.png - null null
+2026-02-02 04:35:17.310 +00:00 [INF] Sending file. Request path: '/images/Render_Website_Name.png'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/images/Render_Website_Name.png'
+2026-02-02 04:35:17.313 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/Render_Website_Name.png - 200 50278 image/png 26.4468ms
+2026-02-02 04:35:20.258 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Auth/Login - null null
+2026-02-02 04:35:20.309 +00:00 [INF] Executing endpoint 'OnlineBookManagementSystem.Presentation.Controllers.AuthController.Login (OnlineBookManagementSystem)'
+2026-02-02 04:35:20.329 +00:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login() on controller OnlineBookManagementSystem.Presentation.Controllers.AuthController (OnlineBookManagementSystem).
+2026-02-02 04:35:20.347 +00:00 [INF] Executing ViewResult, running view Login.
+2026-02-02 04:35:20.472 +00:00 [INF] Executed ViewResult - view Login executed in 126.901ms.
+2026-02-02 04:35:20.473 +00:00 [INF] Executed action OnlineBookManagementSystem.Presentation.Controllers.AuthController.Login (OnlineBookManagementSystem) in 143.5954ms
+2026-02-02 04:35:20.473 +00:00 [INF] Executed endpoint 'OnlineBookManagementSystem.Presentation.Controllers.AuthController.Login (OnlineBookManagementSystem)'
+2026-02-02 04:35:20.473 +00:00 [INF] HTTP GET /Auth/Login responded 200 in 175.1303ms for user Anonymous with Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/143.0.7499.4 Safari/537.36
+2026-02-02 04:35:20.474 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Auth/Login - 200 null text/html; charset=utf-8 216.7759ms
+2026-02-02 04:35:20.480 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/lib/bootstrap/dist/css/bootstrap.min.css - null null
+2026-02-02 04:35:20.491 +00:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/css/bootstrap.min.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css'
+2026-02-02 04:35:20.491 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/lib/bootstrap/dist/css/bootstrap.min.css - 200 162720 text/css 11.2746ms
+2026-02-02 04:35:20.568 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/main.css - null null
+2026-02-02 04:35:20.569 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/3d-design-removebg-preview.png - null null
+2026-02-02 04:35:20.569 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/Render_main_logo_30x301.png - null null
+2026-02-02 04:35:20.569 +00:00 [INF] Sending file. Request path: '/css/main.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/main.css'
+2026-02-02 04:35:20.570 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/main.css - 200 2696 text/css 1.1615ms
+2026-02-02 04:35:20.570 +00:00 [INF] Sending file. Request path: '/images/Render_main_logo_30x301.png'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/images/Render_main_logo_30x301.png'
+2026-02-02 04:35:20.570 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/Render_main_logo_30x301.png - 200 848 image/png 0.6638ms
+2026-02-02 04:35:20.573 +00:00 [INF] Sending file. Request path: '/images/3d-design-removebg-preview.png'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/images/3d-design-removebg-preview.png'
+2026-02-02 04:35:20.573 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/3d-design-removebg-preview.png - 200 182220 image/png 4.5188ms
+2026-02-02 04:35:20.596 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/core/reset.css - null null
+2026-02-02 04:35:20.596 +00:00 [INF] Sending file. Request path: '/css/core/reset.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/core/reset.css'
+2026-02-02 04:35:20.596 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/core/reset.css - 200 2070 text/css 0.8504ms
+2026-02-02 04:35:20.599 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/core/variables.css - null null
+2026-02-02 04:35:20.600 +00:00 [INF] Sending file. Request path: '/css/core/variables.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/core/variables.css'
+2026-02-02 04:35:20.600 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/core/variables.css - 200 10396 text/css 1.7642ms
+2026-02-02 04:35:20.629 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/core/theme-tokens.css - null null
+2026-02-02 04:35:20.630 +00:00 [INF] Sending file. Request path: '/css/core/theme-tokens.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/core/theme-tokens.css'
+2026-02-02 04:35:20.630 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/core/theme-tokens.css - 200 1756 text/css 1.6374ms
+2026-02-02 04:35:20.681 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/themes/theme-user.css - null null
+2026-02-02 04:35:20.681 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/core/typography.css - null null
+2026-02-02 04:35:20.686 +00:00 [INF] Sending file. Request path: '/css/core/typography.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/core/typography.css'
+2026-02-02 04:35:20.686 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/core/typography.css - 200 3340 text/css 4.9535ms
+2026-02-02 04:35:20.681 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/themes/theme-public.css - null null
+2026-02-02 04:35:20.687 +00:00 [INF] Sending file. Request path: '/css/themes/theme-user.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/themes/theme-user.css'
+2026-02-02 04:35:20.687 +00:00 [INF] Sending file. Request path: '/css/themes/theme-public.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/themes/theme-public.css'
+2026-02-02 04:35:20.687 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/themes/theme-user.css - 200 1578 text/css 6.2566ms
+2026-02-02 04:35:20.689 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/themes/theme-public.css - 200 1634 text/css 6.4421ms
+2026-02-02 04:35:20.692 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/themes/theme-admin.css - null null
+2026-02-02 04:35:20.693 +00:00 [INF] Sending file. Request path: '/css/themes/theme-admin.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/themes/theme-admin.css'
+2026-02-02 04:35:20.693 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/themes/theme-superadmin.css - null null
+2026-02-02 04:35:20.693 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/themes/theme-admin.css - 200 1599 text/css 0.6927ms
+2026-02-02 04:35:20.694 +00:00 [INF] Sending file. Request path: '/css/themes/theme-superadmin.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/themes/theme-superadmin.css'
+2026-02-02 04:35:20.694 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/themes/theme-superadmin.css - 200 1864 text/css 0.789ms
+2026-02-02 04:35:20.694 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/components/layout-components.css - null null
+2026-02-02 04:35:20.695 +00:00 [INF] Sending file. Request path: '/css/components/layout-components.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/components/layout-components.css'
+2026-02-02 04:35:20.695 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/components/layout-components.css - 200 12089 text/css 1.4606ms
+2026-02-02 04:35:20.700 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/components/ui-states.css - null null
+2026-02-02 04:35:20.700 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/components/book-card.css - null null
+2026-02-02 04:35:20.700 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/components/button.css - null null
+2026-02-02 04:35:20.701 +00:00 [INF] Sending file. Request path: '/css/components/button.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/components/button.css'
+2026-02-02 04:35:20.701 +00:00 [INF] Sending file. Request path: '/css/components/book-card.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/components/book-card.css'
+2026-02-02 04:35:20.701 +00:00 [INF] Sending file. Request path: '/css/components/ui-states.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/components/ui-states.css'
+2026-02-02 04:35:20.701 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/components/book-card.css - 200 9486 text/css 0.9181ms
+2026-02-02 04:35:20.701 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/components/button.css - 200 5028 text/css 0.8171ms
+2026-02-02 04:35:20.701 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/components/ui-states.css - 200 5139 text/css 1.1228ms
+2026-02-02 04:35:20.702 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/components/table.css - null null
+2026-02-02 04:35:20.702 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/components/book-grid.css - null null
+2026-02-02 04:35:20.702 +00:00 [INF] Sending file. Request path: '/css/components/table.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/components/table.css'
+2026-02-02 04:35:20.702 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/components/table.css - 200 5766 text/css 0.4465ms
+2026-02-02 04:35:20.702 +00:00 [INF] Sending file. Request path: '/css/components/book-grid.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/components/book-grid.css'
+2026-02-02 04:35:20.702 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/components/book-grid.css - 200 1302 text/css 0.825ms
+2026-02-02 04:35:20.703 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/components/form.css - null null
+2026-02-02 04:35:20.703 +00:00 [INF] Sending file. Request path: '/css/components/form.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/components/form.css'
+2026-02-02 04:35:20.703 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/components/form.css - 200 6368 text/css 0.5715ms
+2026-02-02 04:35:20.720 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/components/action-bar-component.css - null null
+2026-02-02 04:35:20.721 +00:00 [INF] Sending file. Request path: '/css/components/action-bar-component.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/components/action-bar-component.css'
+2026-02-02 04:35:20.721 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/components/action-bar-component.css - 200 11891 text/css 0.8031ms
+2026-02-02 04:35:20.721 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/components/auth-component.css - null null
+2026-02-02 04:35:20.721 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/components/dashboard-component.css - null null
+2026-02-02 04:35:20.722 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/components/stats-card.css - null null
+2026-02-02 04:35:20.722 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/components/cart-component.css - null null
+2026-02-02 04:35:20.723 +00:00 [INF] Sending file. Request path: '/css/components/dashboard-component.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/components/dashboard-component.css'
+2026-02-02 04:35:20.723 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/components/dashboard-component.css - 200 19649 text/css 1.8495ms
+2026-02-02 04:35:20.724 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/components/order-component.css - null null
+2026-02-02 04:35:20.724 +00:00 [INF] Sending file. Request path: '/css/components/stats-card.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/components/stats-card.css'
+2026-02-02 04:35:20.724 +00:00 [INF] Sending file. Request path: '/css/components/auth-component.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/components/auth-component.css'
+2026-02-02 04:35:20.725 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/components/auth-component.css - 200 12615 text/css 3.7044ms
+2026-02-02 04:35:20.726 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/components/review-component.css - null null
+2026-02-02 04:35:20.727 +00:00 [INF] Sending file. Request path: '/css/components/review-component.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/components/review-component.css'
+2026-02-02 04:35:20.727 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/components/stats-card.css - 200 6437 text/css 4.9796ms
+2026-02-02 04:35:20.724 +00:00 [INF] Sending file. Request path: '/css/components/order-component.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/components/order-component.css'
+2026-02-02 04:35:20.727 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/components/order-component.css - 200 15200 text/css 3.6608ms
+2026-02-02 04:35:20.728 +00:00 [INF] Sending file. Request path: '/css/components/cart-component.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/components/cart-component.css'
+2026-02-02 04:35:20.727 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/components/review-component.css - 200 14056 text/css 0.7346ms
+2026-02-02 04:35:20.728 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/components/cart-component.css - 200 13792 text/css 6.3515ms
+2026-02-02 04:35:20.743 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/components/analytics-component.css - null null
+2026-02-02 04:35:20.743 +00:00 [INF] Sending file. Request path: '/css/components/analytics-component.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/components/analytics-component.css'
+2026-02-02 04:35:20.744 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/components/analytics-component.css - 200 11936 text/css 0.7529ms
+2026-02-02 04:35:20.746 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/components/logs-component.css - null null
+2026-02-02 04:35:20.746 +00:00 [INF] Sending file. Request path: '/css/components/logs-component.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/components/logs-component.css'
+2026-02-02 04:35:20.746 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/components/empty-state.css - null null
+2026-02-02 04:35:20.746 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/components/error-alert.css - null null
+2026-02-02 04:35:20.747 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/components/logs-component.css - 200 13866 text/css 0.7282ms
+2026-02-02 04:35:20.747 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/views/books.css - null null
+2026-02-02 04:35:20.747 +00:00 [INF] Sending file. Request path: '/css/components/error-alert.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/components/error-alert.css'
+2026-02-02 04:35:20.748 +00:00 [INF] Sending file. Request path: '/css/views/books.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/views/books.css'
+2026-02-02 04:35:20.747 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/components/pagination.css - null null
+2026-02-02 04:35:20.747 +00:00 [INF] Sending file. Request path: '/css/components/empty-state.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/components/empty-state.css'
+2026-02-02 04:35:20.748 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/views/books.css - 200 1593 text/css 0.5109ms
+2026-02-02 04:35:20.748 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/components/empty-state.css - 200 1621 text/css 1.5928ms
+2026-02-02 04:35:20.748 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/components/loading-state.css - null null
+2026-02-02 04:35:20.748 +00:00 [INF] Sending file. Request path: '/css/components/pagination.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/components/pagination.css'
+2026-02-02 04:35:20.748 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/components/pagination.css - 200 2914 text/css 1.6794ms
+2026-02-02 04:35:20.748 +00:00 [INF] Sending file. Request path: '/css/components/loading-state.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/components/loading-state.css'
+2026-02-02 04:35:20.748 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/components/error-alert.css - 200 2462 text/css 1.257ms
+2026-02-02 04:35:20.748 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/components/loading-state.css - 200 1636 text/css 0.4326ms
+2026-02-02 04:35:20.757 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/views/orders.css - null null
+2026-02-02 04:35:20.757 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/views/logs.css - null null
+2026-02-02 04:35:20.757 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/views/cart.css - null null
+2026-02-02 04:35:20.757 +00:00 [INF] Sending file. Request path: '/css/views/orders.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/views/orders.css'
+2026-02-02 04:35:20.757 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/views/analytics.css - null null
+2026-02-02 04:35:20.758 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/views/orders.css - 200 1900 text/css 1.6063ms
+2026-02-02 04:35:20.758 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/views/auth.css - null null
+2026-02-02 04:35:20.758 +00:00 [INF] Sending file. Request path: '/css/views/cart.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/views/cart.css'
+2026-02-02 04:35:20.759 +00:00 [INF] Sending file. Request path: '/css/views/auth.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/views/auth.css'
+2026-02-02 04:35:20.759 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/views/auth.css - 200 1922 text/css 0.4266ms
+2026-02-02 04:35:20.759 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/views/cart.css - 200 1878 text/css 1.6481ms
+2026-02-02 04:35:20.759 +00:00 [INF] Sending file. Request path: '/css/views/logs.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/views/logs.css'
+2026-02-02 04:35:20.759 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/utilities.css - null null
+2026-02-02 04:35:20.758 +00:00 [INF] Sending file. Request path: '/css/views/analytics.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/views/analytics.css'
+2026-02-02 04:35:20.759 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/views/logs.css - 200 1809 text/css 2.483ms
+2026-02-02 04:35:20.759 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/views/analytics.css - 200 3287 text/css 1.9835ms
+2026-02-02 04:35:20.759 +00:00 [INF] Sending file. Request path: '/css/utilities.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/utilities.css'
+2026-02-02 04:35:20.759 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/utilities.css - 200 22296 text/css 0.4651ms
+2026-02-02 04:35:20.769 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/toast-notifications.css - null null
+2026-02-02 04:35:20.769 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/print.css - null null
+2026-02-02 04:35:20.769 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/lib/bootstrap/dist/js/bootstrap.bundle.min.js - null null
+2026-02-02 04:35:20.769 +00:00 [INF] Sending file. Request path: '/css/toast-notifications.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/toast-notifications.css'
+2026-02-02 04:35:20.769 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/toast-notifications.css - 200 5831 text/css 0.7187ms
+2026-02-02 04:35:20.770 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/lib/jquery-validation/dist/jquery.validate.min.js - null null
+2026-02-02 04:35:20.770 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js - null null
+2026-02-02 04:35:20.770 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/js/auth/auth.js - null null
+2026-02-02 04:35:20.770 +00:00 [INF] Sending file. Request path: '/lib/jquery-validation/dist/jquery.validate.min.js'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/lib/jquery-validation/dist/jquery.validate.min.js'
+2026-02-02 04:35:20.770 +00:00 [INF] Sending file. Request path: '/css/print.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/print.css'
+2026-02-02 04:35:20.771 +00:00 [INF] Sending file. Request path: '/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js'
+2026-02-02 04:35:20.771 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/lib/jquery-validation/dist/jquery.validate.min.js - 200 24601 text/javascript 0.916ms
+2026-02-02 04:35:20.771 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/print.css - 200 8101 text/css 2.0167ms
+2026-02-02 04:35:20.771 +00:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/js/bootstrap.bundle.min.js'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js'
+2026-02-02 04:35:20.771 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js - 200 5824 text/javascript 1.0615ms
+2026-02-02 04:35:20.772 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/lib/bootstrap/dist/js/bootstrap.bundle.min.js - 200 78468 text/javascript 2.6411ms
+2026-02-02 04:35:20.783 +00:00 [INF] HTTP GET /js/auth/auth.js responded 404 in 8.4798ms for user Anonymous with Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/143.0.7499.4 Safari/537.36
+2026-02-02 04:35:20.781 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/js/site.js - null null
+2026-02-02 04:35:20.784 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/js/auth/auth.js - 404 0 null 14.257ms
+2026-02-02 04:35:20.785 +00:00 [INF] Sending file. Request path: '/js/site.js'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/js/site.js'
+2026-02-02 04:35:20.786 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/js/site.js - 200 1503 text/javascript 4.5126ms
+2026-02-02 04:35:20.786 +00:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/js/auth/auth.js, Response status code: 404
+2026-02-02 04:35:29.350 +00:00 [INF] Executed DbCommand (10ms) [Parameters=[@__cutoffDate_0='?' (DbType = DateTime)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."Action", "a"."ConcurrencyToken", "a"."CreatedAt", "a"."IpAddress", "a"."IsDeleted", "a"."Level", "a"."Message", "a"."Timestamp", "a"."UpdatedAt", "a"."UserAgent", "a"."UserId"
+FROM "ActivityLogs" AS "a"
+WHERE NOT ("a"."IsDeleted") AND "a"."Timestamp" < @__cutoffDate_0
+2026-02-02 04:36:24.206 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/ - null null
+2026-02-02 04:36:24.207 +00:00 [INF] Executing endpoint 'OnlineBookManagementSystem.Presentation.Controllers.PublicController.Index (OnlineBookManagementSystem)'
+2026-02-02 04:36:24.207 +00:00 [INF] Route matched with {action = "Index", controller = "Public"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller OnlineBookManagementSystem.Presentation.Controllers.PublicController (OnlineBookManagementSystem).
+2026-02-02 04:36:24.210 +00:00 [INF] Executing ViewResult, running view Index.
+2026-02-02 04:36:24.212 +00:00 [INF] Executed ViewResult - view Index executed in 1.6523ms.
+2026-02-02 04:36:24.212 +00:00 [INF] Executed action OnlineBookManagementSystem.Presentation.Controllers.PublicController.Index (OnlineBookManagementSystem) in 4.3193ms
+2026-02-02 04:36:24.212 +00:00 [INF] Executed endpoint 'OnlineBookManagementSystem.Presentation.Controllers.PublicController.Index (OnlineBookManagementSystem)'
+2026-02-02 04:36:24.212 +00:00 [INF] HTTP GET / responded 200 in 5.649ms for user Anonymous with Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/143.0.7499.4 Safari/537.36
+2026-02-02 04:36:24.212 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/ - 200 null text/html; charset=utf-8 6.5194ms
+2026-02-02 04:36:24.220 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/Render_Website_Name.png - null null
+2026-02-02 04:36:24.222 +00:00 [INF] Sending file. Request path: '/images/Render_Website_Name.png'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/images/Render_Website_Name.png'
+2026-02-02 04:36:24.223 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/Render_Website_Name.png - 200 50278 image/png 2.4291ms
+2026-02-02 04:36:26.426 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Auth/Login - null null
+2026-02-02 04:36:26.429 +00:00 [INF] Executing endpoint 'OnlineBookManagementSystem.Presentation.Controllers.AuthController.Login (OnlineBookManagementSystem)'
+2026-02-02 04:36:26.429 +00:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login() on controller OnlineBookManagementSystem.Presentation.Controllers.AuthController (OnlineBookManagementSystem).
+2026-02-02 04:36:26.436 +00:00 [INF] Executing ViewResult, running view Login.
+2026-02-02 04:36:26.440 +00:00 [INF] Executed ViewResult - view Login executed in 4.9798ms.
+2026-02-02 04:36:26.441 +00:00 [INF] Executed action OnlineBookManagementSystem.Presentation.Controllers.AuthController.Login (OnlineBookManagementSystem) in 11.1326ms
+2026-02-02 04:36:26.441 +00:00 [INF] Executed endpoint 'OnlineBookManagementSystem.Presentation.Controllers.AuthController.Login (OnlineBookManagementSystem)'
+2026-02-02 04:36:26.441 +00:00 [INF] HTTP GET /Auth/Login responded 200 in 12.2205ms for user Anonymous with Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/143.0.7499.4 Safari/537.36
+2026-02-02 04:36:26.441 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Auth/Login - 200 null text/html; charset=utf-8 15.4005ms
+2026-02-02 04:36:26.455 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/lib/bootstrap/dist/css/bootstrap.min.css - null null
+2026-02-02 04:36:26.456 +00:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/css/bootstrap.min.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css'
+2026-02-02 04:36:26.456 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/lib/bootstrap/dist/css/bootstrap.min.css - 200 162720 text/css 1.4242ms
+2026-02-02 04:36:26.459 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/Render_main_logo_30x301.png - null null
+2026-02-02 04:36:26.460 +00:00 [INF] Sending file. Request path: '/images/Render_main_logo_30x301.png'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/images/Render_main_logo_30x301.png'
+2026-02-02 04:36:26.460 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/Render_main_logo_30x301.png - 200 848 image/png 0.5899ms
+2026-02-02 04:36:26.460 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/3d-design-removebg-preview.png - null null
+2026-02-02 04:36:26.460 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/main.css - null null
+2026-02-02 04:36:26.460 +00:00 [INF] Sending file. Request path: '/css/main.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/main.css'
+2026-02-02 04:36:26.460 +00:00 [INF] Sending file. Request path: '/images/3d-design-removebg-preview.png'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/images/3d-design-removebg-preview.png'
+2026-02-02 04:36:26.461 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/3d-design-removebg-preview.png - 200 182220 image/png 0.5721ms
+2026-02-02 04:36:26.460 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/main.css - 200 2696 text/css 1.472ms
+2026-02-02 04:36:26.470 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/lib/bootstrap/dist/js/bootstrap.bundle.min.js - null null
+2026-02-02 04:36:26.471 +00:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/js/bootstrap.bundle.min.js'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js'
+2026-02-02 04:36:26.471 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/lib/bootstrap/dist/js/bootstrap.bundle.min.js - 200 78468 text/javascript 0.8204ms
+2026-02-02 04:36:26.472 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/core/variables.css - null null
+2026-02-02 04:36:26.472 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/core/reset.css - null null
+2026-02-02 04:36:26.472 +00:00 [INF] Sending file. Request path: '/css/core/variables.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/core/variables.css'
+2026-02-02 04:36:26.472 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/core/variables.css - 200 10396 text/css 0.4264ms
+2026-02-02 04:36:26.473 +00:00 [INF] Sending file. Request path: '/css/core/reset.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/core/reset.css'
+2026-02-02 04:36:26.473 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/core/reset.css - 200 2070 text/css 0.4069ms
+2026-02-02 04:36:26.475 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/core/theme-tokens.css - null null
+2026-02-02 04:36:26.475 +00:00 [INF] Sending file. Request path: '/css/core/theme-tokens.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/core/theme-tokens.css'
+2026-02-02 04:36:26.476 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/core/theme-tokens.css - 200 1756 text/css 0.5128ms
+2026-02-02 04:36:26.487 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/themes/theme-public.css - null null
+2026-02-02 04:36:26.487 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/core/typography.css - null null
+2026-02-02 04:36:26.487 +00:00 [INF] Sending file. Request path: '/css/themes/theme-public.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/themes/theme-public.css'
+2026-02-02 04:36:26.487 +00:00 [INF] Sending file. Request path: '/css/core/typography.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/core/typography.css'
+2026-02-02 04:36:26.487 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/themes/theme-public.css - 200 1634 text/css 0.5604ms
+2026-02-02 04:36:26.487 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/core/typography.css - 200 3340 text/css 0.5407ms
+2026-02-02 04:36:26.488 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/themes/theme-user.css - null null
+2026-02-02 04:36:26.488 +00:00 [INF] Sending file. Request path: '/css/themes/theme-user.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/themes/theme-user.css'
+2026-02-02 04:36:26.488 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/themes/theme-user.css - 200 1578 text/css 0.2862ms
+2026-02-02 04:36:26.492 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/themes/theme-admin.css - null null
+2026-02-02 04:36:26.493 +00:00 [INF] Sending file. Request path: '/css/themes/theme-admin.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/themes/theme-admin.css'
+2026-02-02 04:36:26.493 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/themes/theme-admin.css - 200 1599 text/css 1.3484ms
+2026-02-02 04:36:26.494 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/themes/theme-superadmin.css - null null
+2026-02-02 04:36:26.494 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/components/layout-components.css - null null
+2026-02-02 04:36:26.494 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/components/button.css - null null
+2026-02-02 04:36:26.495 +00:00 [INF] Sending file. Request path: '/css/components/button.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/components/button.css'
+2026-02-02 04:36:26.495 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/components/button.css - 200 5028 text/css 0.5646ms
+2026-02-02 04:36:26.495 +00:00 [INF] Sending file. Request path: '/css/components/layout-components.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/components/layout-components.css'
+2026-02-02 04:36:26.495 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/components/form.css - null null
+2026-02-02 04:36:26.496 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/components/layout-components.css - 200 12089 text/css 1.8857ms
+2026-02-02 04:36:26.496 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/components/ui-states.css - null null
+2026-02-02 04:36:26.496 +00:00 [INF] Sending file. Request path: '/css/components/form.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/components/form.css'
+2026-02-02 04:36:26.496 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/components/form.css - 200 6368 text/css 1.1712ms
+2026-02-02 04:36:26.496 +00:00 [INF] Sending file. Request path: '/css/components/ui-states.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/components/ui-states.css'
+2026-02-02 04:36:26.495 +00:00 [INF] Sending file. Request path: '/css/themes/theme-superadmin.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/themes/theme-superadmin.css'
+2026-02-02 04:36:26.497 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/themes/theme-superadmin.css - 200 1864 text/css 2.7028ms
+2026-02-02 04:36:26.496 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/components/ui-states.css - 200 5139 text/css 0.2931ms
+2026-02-02 04:36:26.496 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/components/table.css - null null
+2026-02-02 04:36:26.498 +00:00 [INF] Sending file. Request path: '/css/components/table.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/components/table.css'
+2026-02-02 04:36:26.498 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/components/table.css - 200 5766 text/css 1.9574ms
+2026-02-02 04:36:26.501 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/components/book-card.css - null null
+2026-02-02 04:36:26.501 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/components/book-grid.css - null null
+2026-02-02 04:36:26.502 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/components/auth-component.css - null null
+2026-02-02 04:36:26.503 +00:00 [INF] Sending file. Request path: '/css/components/book-card.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/components/book-card.css'
+2026-02-02 04:36:26.503 +00:00 [INF] Sending file. Request path: '/css/components/book-grid.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/components/book-grid.css'
+2026-02-02 04:36:26.503 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/components/book-card.css - 200 9486 text/css 1.3407ms
+2026-02-02 04:36:26.503 +00:00 [INF] Sending file. Request path: '/css/components/auth-component.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/components/auth-component.css'
+2026-02-02 04:36:26.503 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/components/book-grid.css - 200 1302 text/css 1.3137ms
+2026-02-02 04:36:26.503 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/components/action-bar-component.css - null null
+2026-02-02 04:36:26.503 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/components/dashboard-component.css - null null
+2026-02-02 04:36:26.503 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/components/auth-component.css - 200 12615 text/css 0.4564ms
+2026-02-02 04:36:26.503 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/components/stats-card.css - null null
+2026-02-02 04:36:26.503 +00:00 [INF] Sending file. Request path: '/css/components/stats-card.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/components/stats-card.css'
+2026-02-02 04:36:26.504 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/components/stats-card.css - 200 6437 text/css 0.3858ms
+2026-02-02 04:36:26.503 +00:00 [INF] Sending file. Request path: '/css/components/action-bar-component.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/components/action-bar-component.css'
+2026-02-02 04:36:26.506 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/components/action-bar-component.css - 200 11891 text/css 2.6528ms
+2026-02-02 04:36:26.503 +00:00 [INF] Sending file. Request path: '/css/components/dashboard-component.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/components/dashboard-component.css'
+2026-02-02 04:36:26.506 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/components/dashboard-component.css - 200 19649 text/css 2.7945ms
+2026-02-02 04:36:26.510 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/components/cart-component.css - null null
+2026-02-02 04:36:26.510 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/components/order-component.css - null null
+2026-02-02 04:36:26.511 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/components/review-component.css - null null
+2026-02-02 04:36:26.511 +00:00 [INF] Sending file. Request path: '/css/components/cart-component.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/components/cart-component.css'
+2026-02-02 04:36:26.511 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/components/cart-component.css - 200 13792 text/css 0.8376ms
+2026-02-02 04:36:26.511 +00:00 [INF] Sending file. Request path: '/css/components/review-component.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/components/review-component.css'
+2026-02-02 04:36:26.511 +00:00 [INF] Sending file. Request path: '/css/components/order-component.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/components/order-component.css'
+2026-02-02 04:36:26.511 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/components/review-component.css - 200 14056 text/css 0.6234ms
+2026-02-02 04:36:26.511 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/components/order-component.css - 200 15200 text/css 1.1307ms
+2026-02-02 04:36:26.511 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/components/logs-component.css - null null
+2026-02-02 04:36:26.511 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/components/empty-state.css - null null
+2026-02-02 04:36:26.512 +00:00 [INF] Sending file. Request path: '/css/components/logs-component.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/components/logs-component.css'
+2026-02-02 04:36:26.512 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/components/logs-component.css - 200 13866 text/css 0.3478ms
+2026-02-02 04:36:26.512 +00:00 [INF] Sending file. Request path: '/css/components/empty-state.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/components/empty-state.css'
+2026-02-02 04:36:26.512 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/components/empty-state.css - 200 1621 text/css 0.5968ms
+2026-02-02 04:36:26.511 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/components/analytics-component.css - null null
+2026-02-02 04:36:26.513 +00:00 [INF] Sending file. Request path: '/css/components/analytics-component.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/components/analytics-component.css'
+2026-02-02 04:36:26.513 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/components/analytics-component.css - 200 11936 text/css 1.8749ms
+2026-02-02 04:36:26.516 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/components/loading-state.css - null null
+2026-02-02 04:36:26.516 +00:00 [INF] Sending file. Request path: '/css/components/loading-state.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/components/loading-state.css'
+2026-02-02 04:36:26.517 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/components/loading-state.css - 200 1636 text/css 0.414ms
+2026-02-02 04:36:26.517 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/components/error-alert.css - null null
+2026-02-02 04:36:26.517 +00:00 [INF] Sending file. Request path: '/css/components/error-alert.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/components/error-alert.css'
+2026-02-02 04:36:26.517 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/components/error-alert.css - 200 2462 text/css 0.4683ms
+2026-02-02 04:36:26.518 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/components/pagination.css - null null
+2026-02-02 04:36:26.518 +00:00 [INF] Sending file. Request path: '/css/components/pagination.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/components/pagination.css'
+2026-02-02 04:36:26.518 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/components/pagination.css - 200 2914 text/css 0.3446ms
+2026-02-02 04:36:26.522 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/views/books.css - null null
+2026-02-02 04:36:26.523 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/views/orders.css - null null
+2026-02-02 04:36:26.523 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/views/cart.css - null null
+2026-02-02 04:36:26.523 +00:00 [INF] Sending file. Request path: '/css/views/cart.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/views/cart.css'
+2026-02-02 04:36:26.523 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/views/cart.css - 200 1878 text/css 0.4835ms
+2026-02-02 04:36:26.524 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/views/analytics.css - null null
+2026-02-02 04:36:26.524 +00:00 [INF] Sending file. Request path: '/css/views/books.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/views/books.css'
+2026-02-02 04:36:26.524 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/views/books.css - 200 1593 text/css 1.4964ms
+2026-02-02 04:36:26.524 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/views/logs.css - null null
+2026-02-02 04:36:26.524 +00:00 [INF] Sending file. Request path: '/css/views/analytics.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/views/analytics.css'
+2026-02-02 04:36:26.524 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/views/analytics.css - 200 3287 text/css 0.3599ms
+2026-02-02 04:36:26.524 +00:00 [INF] Sending file. Request path: '/css/views/logs.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/views/logs.css'
+2026-02-02 04:36:26.524 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/views/auth.css - null null
+2026-02-02 04:36:26.524 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/views/logs.css - 200 1809 text/css 0.3023ms
+2026-02-02 04:36:26.524 +00:00 [INF] Sending file. Request path: '/css/views/auth.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/views/auth.css'
+2026-02-02 04:36:26.524 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/views/auth.css - 200 1922 text/css 0.3173ms
+2026-02-02 04:36:26.525 +00:00 [INF] Sending file. Request path: '/css/views/orders.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/views/orders.css'
+2026-02-02 04:36:26.525 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/views/orders.css - 200 1900 text/css 1.9222ms
+2026-02-02 04:36:26.528 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/utilities.css - null null
+2026-02-02 04:36:26.528 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/toast-notifications.css - null null
+2026-02-02 04:36:26.528 +00:00 [INF] Sending file. Request path: '/css/utilities.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/utilities.css'
+2026-02-02 04:36:26.528 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/utilities.css - 200 22296 text/css 0.5387ms
+2026-02-02 04:36:26.529 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/print.css - null null
+2026-02-02 04:36:26.528 +00:00 [INF] Sending file. Request path: '/css/toast-notifications.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/toast-notifications.css'
+2026-02-02 04:36:26.529 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js - null null
+2026-02-02 04:36:26.529 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/lib/jquery-validation/dist/jquery.validate.min.js - null null
+2026-02-02 04:36:26.529 +00:00 [INF] Sending file. Request path: '/css/print.css'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/css/print.css'
+2026-02-02 04:36:26.529 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/print.css - 200 8101 text/css 0.5069ms
+2026-02-02 04:36:26.529 +00:00 [INF] Sending file. Request path: '/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js'
+2026-02-02 04:36:26.529 +00:00 [INF] Sending file. Request path: '/lib/jquery-validation/dist/jquery.validate.min.js'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/lib/jquery-validation/dist/jquery.validate.min.js'
+2026-02-02 04:36:26.529 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js - 200 5824 text/javascript 0.6641ms
+2026-02-02 04:36:26.529 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/lib/jquery-validation/dist/jquery.validate.min.js - 200 24601 text/javascript 0.7977ms
+2026-02-02 04:36:26.530 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/toast-notifications.css - 200 5831 text/css 1.4422ms
+2026-02-02 04:36:26.533 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/js/auth/auth.js - null null
+2026-02-02 04:36:26.534 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/js/site.js - null null
+2026-02-02 04:36:26.534 +00:00 [INF] HTTP GET /js/auth/auth.js responded 404 in 0.4327ms for user Anonymous with Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/143.0.7499.4 Safari/537.36
+2026-02-02 04:36:26.534 +00:00 [INF] Sending file. Request path: '/js/site.js'. Physical path: '/app/OnlineBookManagementSystem/Presentation/wwwroot/js/site.js'
+2026-02-02 04:36:26.534 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/js/site.js - 200 1503 text/javascript 0.3827ms
+2026-02-02 04:36:26.534 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/js/auth/auth.js - 404 0 null 0.9201ms
+2026-02-02 04:36:26.534 +00:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/js/auth/auth.js, Response status code: 404

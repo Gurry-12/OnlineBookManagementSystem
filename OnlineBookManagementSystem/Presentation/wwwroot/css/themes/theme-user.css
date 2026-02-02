@@ -1,13 +1,30 @@
 /* User Theme - Calm, Productive */
 .theme-user {
+  /* ========================================
+     CORE THEME MAPPING (REQUIRED)
+     ======================================== */
+  --bg-color: var(--user-bg-primary);
+  --text-color: var(--user-text);
+  --primary-color: #3b82f6;
+  --accent-color: #8b5cf6;
+
+  /* Structural Variables */
+  --bg-sidebar: #ffffff;
+  --bg-surface: #ffffff;
+  --bg-header: #ffffff;
+  --border-color: var(--user-border);
+
+  /* ========================================
+     LEGACY / DETAILED MAPPING
+     ======================================== */
   /* Background Colors - Calm and focused */
-  --color-bg: #fefefe;
+  --color-bg: var(--user-bg-primary);
   --color-surface: #f1f5f9;
   --color-surface-elevated: #ffffff;
   
   /* Text Colors - Clear and readable */
-  --color-text: #1e293b;
-  --color-text-muted: #475569;
+  --color-text: var(--user-text);
+  --color-text-muted: var(--user-text-muted);
   --color-text-subtle: #64748b;
   
   /* Brand Colors - Productive blues and purples */
@@ -27,7 +44,7 @@
   --color-info-bg: #f0f9ff;
   
   /* Border Colors - Defined but not harsh */
-  --color-border: #cbd5e1;
+  --color-border: var(--user-border);
   --color-border-subtle: #e2e8f0;
   --color-border-focus: #3b82f6;
   

@@ -1,5 +1,22 @@
 /* Public Theme - Neutral, Light, Welcoming */
 .theme-public {
+    /* ========================================
+       CORE THEME MAPPING (REQUIRED)
+       ======================================== */
+    --bg-color: var(--public-bg-primary);
+    --text-color: var(--public-text);
+    --primary-color: #0ea5e9;
+    --accent-color: #10b981;
+
+    /* Structural Variables */
+    --bg-sidebar: #ffffff;
+    --bg-surface: #ffffff;
+    --bg-header: #ffffff;
+    --border-color: var(--public-border);
+
+    /* ========================================
+       LEGACY / DETAILED MAPPING
+       ======================================== */
     /* Background Colors - Light and welcoming */
     --color-bg: var(--public-bg-primary);
     --color-surface: #f8fafc;
@@ -23,7 +40,7 @@
     --color-info: #0284c7;
     --color-info-bg: #f0f9ff;
     /* Border Colors - Subtle */
-    --color-border: #e2e8f0;
+    --color-border: var(--public-border);
     --color-border-subtle: #f1f5f9;
     --color-border-focus: #0ea5e9;
     /* Interactive States - Light and airy */
