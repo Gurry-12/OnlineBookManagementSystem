@@ -5,9 +5,9 @@ namespace OnlineBookManagementSystem.Core.Domain.Entities
         private string _token = string.Empty;
 
         public int UserId { get; set; }
-        
-        public string Token 
-        { 
+
+        public string Token
+        {
             get => _token;
             set
             {

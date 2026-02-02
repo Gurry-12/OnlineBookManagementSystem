@@ -96,7 +96,7 @@ namespace OnlineBookManagementSystem.Core.Domain.ValueObjects
         {
             if (string.IsNullOrWhiteSpace(value))
                 return new Address(string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty);
-            
+
             // Simple parsing - in production you'd want more sophisticated parsing
             var parts = value.Split(',').Select(p => p.Trim()).ToArray();
             return new Address(

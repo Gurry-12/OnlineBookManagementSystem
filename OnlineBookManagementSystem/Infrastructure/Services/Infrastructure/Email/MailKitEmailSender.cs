@@ -1,9 +1,9 @@
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using MimeKit;
-using System.Text.RegularExpressions;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure.Email;
+using System.Text.RegularExpressions;
 
 namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Email
 {

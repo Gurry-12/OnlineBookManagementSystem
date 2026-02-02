@@ -11,8 +11,8 @@ namespace OnlineBookManagementSystem.Core.Domain.Entities
         private int _stockQuantity;
         private int _lowStockThreshold = 5;
 
-        public string Title 
-        { 
+        public string Title
+        {
             get => _title;
             set
             {
@@ -24,8 +24,8 @@ namespace OnlineBookManagementSystem.Core.Domain.Entities
             }
         }
 
-        public string Author 
-        { 
+        public string Author
+        {
             get => _author;
             set
             {
@@ -37,8 +37,8 @@ namespace OnlineBookManagementSystem.Core.Domain.Entities
             }
         }
 
-        public Money Price 
-        { 
+        public Money Price
+        {
             get => _price;
             set => _price = value ?? throw new ArgumentNullException(nameof(value));
         }
@@ -46,9 +46,9 @@ namespace OnlineBookManagementSystem.Core.Domain.Entities
         public ISBN? ISBN { get; set; }
         public DateTime? PublicationDate { get; set; }
         public string? ImageUrl { get; set; }
-        
-        public int StockQuantity 
-        { 
+
+        public int StockQuantity
+        {
             get => _stockQuantity;
             set
             {
@@ -58,8 +58,8 @@ namespace OnlineBookManagementSystem.Core.Domain.Entities
             }
         }
 
-        public int LowStockThreshold 
-        { 
+        public int LowStockThreshold
+        {
             get => _lowStockThreshold;
             set
             {
@@ -92,7 +92,7 @@ namespace OnlineBookManagementSystem.Core.Domain.Entities
         public bool IsInStock => StockQuantity > 0;
 
         // Public parameterless constructor for EF Core and serialization
-        public Book() 
+        public Book()
         {
             _price = new Money(0);
             _title = string.Empty;
@@ -115,8 +115,8 @@ namespace OnlineBookManagementSystem.Core.Domain.Entities
             Title = title;
             Author = author;
             Price = price;
-            Description = description?.Length > 1000 
-                ? throw new ArgumentException("Description cannot exceed 1000 characters") 
+            Description = description?.Length > 1000
+                ? throw new ArgumentException("Description cannot exceed 1000 characters")
                 : description?.Trim();
             UpdateTimestamp();
         }
@@ -131,7 +131,7 @@ namespace OnlineBookManagementSystem.Core.Domain.Entities
         {
             if (publicationDate > DateTime.UtcNow)
                 throw new ArgumentException("Publication date cannot be in the future", nameof(publicationDate));
-            
+
             PublicationDate = publicationDate;
             UpdateTimestamp();
         }
@@ -140,7 +140,7 @@ namespace OnlineBookManagementSystem.Core.Domain.Entities
         {
             if (!string.IsNullOrWhiteSpace(imageUrl) && imageUrl.Length > 500)
                 throw new ArgumentException("Image URL cannot exceed 500 characters", nameof(imageUrl));
-            
+
             ImageUrl = imageUrl?.Trim();
             UpdateTimestamp();
         }
@@ -155,7 +155,7 @@ namespace OnlineBookManagementSystem.Core.Domain.Entities
         {
             if (quantity <= 0)
                 throw new ArgumentException("Quantity to add must be positive", nameof(quantity));
-            
+
             StockQuantity += quantity;
             UpdateTimestamp();
         }
@@ -164,10 +164,10 @@ namespace OnlineBookManagementSystem.Core.Domain.Entities
         {
             if (quantity <= 0)
                 throw new ArgumentException("Quantity to reduce must be positive", nameof(quantity));
-            
+
             if (quantity > StockQuantity)
                 throw new InsufficientStockException(Title, quantity, StockQuantity);
-            
+
             StockQuantity -= quantity;
             UpdateTimestamp();
         }
@@ -176,7 +176,7 @@ namespace OnlineBookManagementSystem.Core.Domain.Entities
         {
             if (quantity <= 0)
                 throw new ArgumentException("Quantity to restore must be positive", nameof(quantity));
-            
+
             StockQuantity += quantity;
             UpdateTimestamp();
         }
@@ -203,7 +203,7 @@ namespace OnlineBookManagementSystem.Core.Domain.Entities
         {
             if (averageRating < 0 || averageRating > 5)
                 throw new ArgumentException("Rating must be between 0 and 5", nameof(averageRating));
-            
+
             AverageRating = Math.Round(averageRating, 2);
             UpdateTimestamp();
         }

@@ -1,11 +1,4 @@
 @{
-    var layout = ViewData["Layout"]?.ToString();
-    if (string.IsNullOrEmpty(layout))
-    {
-        Layout = "~/Presentation/Views/Shared/_LayoutAuth.cshtml";
-    }
-    else
-    {
-        Layout = layout;
-    }
+    // Simplified: Use only public layout for now
+    Layout = "~/Presentation/Views/Shared/_LayoutPublic.cshtml";
 }

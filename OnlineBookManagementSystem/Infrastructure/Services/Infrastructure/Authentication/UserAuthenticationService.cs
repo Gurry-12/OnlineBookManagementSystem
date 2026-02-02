@@ -1,15 +1,15 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure.Authentication;
+using OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure.Email;
+using OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure.Logging;
 using OnlineBookManagementSystem.Core.Domain.Entities;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure.Authentication;
-using OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure.Email;
-using OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure.Logging;
 
 
 namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Authentication

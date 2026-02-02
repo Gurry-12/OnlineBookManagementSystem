@@ -61,25 +61,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
 
-    <!-- Unified Role-Based Theme Engine -->
-    <link href="~/css/role-based-color-system.css" rel="stylesheet" asp-append-version="true" />
-    <link href="~/css/role-based-theme-engine.css" rel="stylesheet" asp-append-version="true" />
-    
-    <!-- Role Color Palette Fix -->
-    <link href="~/css/role-color-palette-fix.css" rel="stylesheet" asp-append-version="true" />
-    
-    <!-- Public View Enhancements -->
-    <link href="~/css/public-view-enhancements.css" rel="stylesheet" asp-append-version="true" />
-    
+    <link href="~/css/main.css" rel="stylesheet" asp-append-version="true" />
 
-    
-    <!-- Essential Effects CSS -->
-    
-    <!-- Accessibility Enhancements CSS -->
-    <link href="~/css/accessibility-enhancements.css" rel="stylesheet" asp-append-version="true" />
-    
-    <!-- UI Consistency Fixes -->
-    <link href="~/css/ui-consistency-fixes.css" rel="stylesheet" asp-append-version="true" />
 
     @RenderSection("Styles", required: false)
     
@@ -115,7 +98,7 @@
         @Html.Raw(ViewData["StructuredData"])
     }
 </head>
-<body class="public-layout public-theme" data-authenticated="false">
+<body class="@(ViewData["ThemeClass"] ?? "theme-public")" data-authenticated="false">
     <!-- Skip to main content for screen readers -->
     <a href="#main-content" class="visually-hidden-focusable btn btn-primary position-absolute" style="top: 10px; left: 10px; z-index: 9999;">
         Skip to main content

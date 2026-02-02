@@ -1,24 +1,19 @@
 using OnlineBookManagementSystem.Core.Application.Interfaces.Analytics;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Books;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Categories;
-using OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Orders;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Reviews;
+using OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Showcase;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Users;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Helpers;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure.Authentication;
-using OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure.Email;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure.Logging;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure.Payment;
-using OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Showcase;
-using OnlineBookManagementSystem.Infrastructure.Services.Domain.Analytics;
-using OnlineBookManagementSystem.Infrastructure.Services.Domain.Showcase;
 using OnlineBookManagementSystem.Infrastructure.Services.Domain.Books;
-using OnlineBookManagementSystem.Infrastructure.Services.Domain.Cart;
 using OnlineBookManagementSystem.Infrastructure.Services.Domain.Categories;
 using OnlineBookManagementSystem.Infrastructure.Services.Domain.Charts;
-using OnlineBookManagementSystem.Infrastructure.Services.Domain.Orders;
 using OnlineBookManagementSystem.Infrastructure.Services.Domain.Reviews;
+using OnlineBookManagementSystem.Infrastructure.Services.Domain.Showcase;
 using OnlineBookManagementSystem.Infrastructure.Services.Domain.Users;
 using OnlineBookManagementSystem.Infrastructure.Services.Helpers;
 using OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Authentication;
@@ -92,10 +87,10 @@ namespace OnlineBookManagementSystem.Shared.Extensions
             // Performance Optimization Services
             // Singleton: Multi-level cache service should be shared across the application
             services.AddSingleton<IMultiLevelCacheService, MultiLevelCacheService>();
-            
+
             // Singleton: Graceful degradation service should be shared for circuit breaker state
             services.AddSingleton<IGracefulDegradationService, GracefulDegradationService>();
-            
+
             // Scoped: Asset optimization service may need per-request context
             services.AddScoped<IAssetOptimizationService, AssetOptimizationService>();
 

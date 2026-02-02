@@ -12,9 +12,9 @@ public class NamespaceValidationTest
     {
         var validator = new NamespaceValidationTest();
         var result = validator.ValidateNamespaceResolution();
-        
+
         Console.WriteLine($"Namespace Resolution Test: {(result ? "PASSED" : "FAILED")}");
-        
+
         if (!result)
         {
             Environment.Exit(1);
@@ -54,7 +54,7 @@ public class NamespaceValidationTest
             {
                 var content = File.ReadAllText(file);
                 var fileName = Path.GetFileName(file);
-                
+
                 // Check for old namespace references
                 if (HasOldNamespaceReferences(content))
                 {
@@ -85,13 +85,13 @@ public class NamespaceValidationTest
     private static string? GetProjectRoot()
     {
         var currentDir = Directory.GetCurrentDirectory();
-        
+
         // Look for the project root by finding the .csproj file
         while (currentDir != null && !Directory.GetFiles(currentDir, "*.csproj").Any())
         {
             currentDir = Directory.GetParent(currentDir)?.FullName;
         }
-        
+
         return currentDir;
     }
 
@@ -110,7 +110,7 @@ public class NamespaceValidationTest
             if (Regex.IsMatch(content, pattern))
             {
                 // Allow Controllers namespace only for inheritance
-                if (pattern.Contains("Controllers") && 
+                if (pattern.Contains("Controllers") &&
                     Regex.IsMatch(content, @":\s*BaseController"))
                 {
                     continue;
@@ -130,30 +130,30 @@ public class NamespaceValidationTest
             ["BookListViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.Books",
             ["BookDetailsViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.Books",
             ["CategoryClassifyViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.Books",
-            
+
             ["LoginViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.AuthViewModels",
             ["RegisterViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.AuthViewModels",
             ["ForgotPasswordViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.AuthViewModels",
             ["ResetPasswordViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.AuthViewModels",
-            
+
             ["CartViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.Cart",
             ["CheckOutViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.Cart",
-            
+
             ["AdminDashboardViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.Admin",
             ["AdminOrderListViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.Admin",
-            
+
             ["UserDashboardViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.User",
             ["UserProfileViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.User",
             ["ProfileViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.User",
-            
+
             ["SuperAdminDashboardViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.SuperAdmin",
             ["ManageUsersViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.SuperAdmin",
             ["SystemSettingsViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.SuperAdmin",
             ["UserWithRoleViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.SuperAdmin",
-            
+
             ["ActivityLogViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.Activity",
             ["ActivityLogsViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.Activity",
-            
+
             ["ReviewAnalyticsViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.Reviews",
             ["PaginatedResult"] = "OnlineBookManagementSystem.Presentation.ViewModels.Reviews"
         };

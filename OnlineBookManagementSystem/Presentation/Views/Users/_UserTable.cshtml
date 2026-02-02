@@ -1,0 +1,143 @@
+@model (List<OnlineBookManagementSystem.Presentation.ViewModels.Users.UserManagementItem> Users, OnlineBookManagementSystem.Presentation.ViewModels.Users.UserManagementCapabilities Capabilities)
+
+@{
+    var (users, capabilities) = Model;
+}
+
+@if (users.Any())
+{
+    <div class="table-responsive">
+        <table class="table table-hover mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>User</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                    <th>Created</th>
+                    <th>Last Login</th>
+                    @if (capabilities.CanEdit || capabilities.CanDelete || capabilities.CanChangeRoles || capabilities.CanLockUnlock)
+                    {
+                        <th width="200">Actions</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in users)
+                {
+                    <tr class="@(user.IsDeleted ? "table-secondary" : "")">
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <div class="avatar-sm bg-light rounded-circle d-flex align-items-center justify-content-center me-3">
+                                    <i class="bi bi-person text-muted"></i>
+                                </div>
+                                <div>
+                                    <div class="fw-semibold">@user.Name</div>
+                                    <div class="text-muted small">
+                                        @user.UserName
+                                        @if (capabilities.CanViewSensitiveData)
+                                        {
+                                            <br><span class="text-primary">@user.Email</span>
+                                        }
+                                    </div>
+                                    @if (!user.EmailConfirmed)
+                                    {
+                                        <span class="badge bg-warning text-dark small">Email Not Confirmed</span>
+                                    }
+                                    @if (!string.IsNullOrEmpty(user.RequestedRole))
+                                    {
+                                        <br><span class="badge bg-info small">Requested: @user.RequestedRole</span>
+                                    }
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="badge @user.RoleBadgeClass">@user.Role</span>
+                        </td>
+                        <td>
+                            <span class="badge @user.StatusBadgeClass">@user.Status</span>
+                            @if (user.LockoutEnd > DateTimeOffset.UtcNow)
+                            {
+                                <br><small class="text-muted">Until @user.LockoutEnd?.ToString("MMM dd, yyyy")</small>
+                            }
+                        </td>
+                        <td>
+                            <span class="text-nowrap">@user.CreatedDate.ToString("MMM dd, yyyy")</span>
+                            <br><small class="text-muted">@user.CreatedDate.ToString("HH:mm")</small>
+                        </td>
+                        <td>
+                            @if (user.LastLoginDate.HasValue)
+                            {
+                                <span class="text-nowrap">@user.LastLoginDate.Value.ToString("MMM dd, yyyy")</span>
+                                <br><small class="text-muted">@user.LastLoginDate.Value.ToString("HH:mm")</small>
+                            }
+                            else
+                            {
+                                <span class="text-muted">Never</span>
+                            }
+                        </td>
+                        @if (capabilities.CanEdit || capabilities.CanDelete || capabilities.CanChangeRoles || capabilities.CanLockUnlock)
+                        {
+                            <td>
+                                <div class="btn-group btn-group-sm">
+                                    @if (capabilities.CanViewSensitiveData)
+                                    {
+                                        <button type="button" class="btn btn-outline-primary" onclick="editUser(@user.Id)" title="Edit User">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+                                    }
+                                    
+                                    @if (capabilities.CanChangeRoles && !user.IsDeleted)
+                                    {
+                                        <button type="button" class="btn btn-outline-warning" onclick="changeRole(@user.Id, '@user.Role')" title="Change Role">
+                                            <i class="bi bi-person-gear"></i>
+                                        </button>
+                                    }
+                                    
+                                    @if (capabilities.CanLockUnlock && !user.IsDeleted)
+                                    {
+                                        @if (user.LockoutEnd > DateTimeOffset.UtcNow)
+                                        {
+                                            <button type="button" class="btn btn-outline-success" onclick="unlockUser(@user.Id)" title="Unlock User">
+                                                <i class="bi bi-unlock"></i>
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-outline-danger" onclick="lockUser(@user.Id)" title="Lock User">
+                                                <i class="bi bi-lock"></i>
+                                            </button>
+                                        }
+                                    }
+                                    
+                                    @if (capabilities.CanDelete)
+                                    {
+                                        @if (user.IsDeleted)
+                                        {
+                                            <button type="button" class="btn btn-outline-success" onclick="restoreUser(@user.Id)" title="Restore User">
+                                                <i class="bi bi-arrow-clockwise"></i>
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-outline-danger" onclick="deleteUser(@user.Id)" title="Delete User">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        }
+                                    }
+                                </div>
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="text-center py-5">
+        <i class="bi bi-people display-1 text-muted"></i>
+        <h5 class="mt-3 text-muted">No Users Found</h5>
+        <p class="text-muted">No users match the current filters.</p>
+    </div>
+}

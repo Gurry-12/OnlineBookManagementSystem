@@ -1,8 +1,6 @@
-using Microsoft.AspNetCore.Mvc.Rendering;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Books;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Categories;
 using OnlineBookManagementSystem.Core.Application.Mappings;
-using OnlineBookManagementSystem.Presentation.Mappers;
 using OnlineBookManagementSystem.Presentation.Models;
 using OnlineBookManagementSystem.Presentation.ViewModels.Books;
 
@@ -68,7 +66,7 @@ namespace OnlineBookManagementSystem.Presentation.Handlers
             try
             {
                 var success = await _bookCommandService.AddBookAsync(model.Book!, imageFile);
-                
+
                 return success
                     ? CommandResult.Success("Book created successfully!")
                     : CommandResult.Failure("Failed to create book. Please try again.");
@@ -99,7 +97,7 @@ namespace OnlineBookManagementSystem.Presentation.Handlers
             try
             {
                 var success = await _bookCommandService.UpdateBookAsync(model.Book!, imageFile);
-                
+
                 return success
                     ? CommandResult.Success("Book updated successfully!")
                     : CommandResult.Failure("Failed to update book. Please try again.");
@@ -119,7 +117,7 @@ namespace OnlineBookManagementSystem.Presentation.Handlers
             try
             {
                 var success = await _bookCommandService.SoftDeleteBookAsync(bookId, userId);
-                
+
                 return success
                     ? CommandResult.Success("Book deleted successfully!")
                     : CommandResult.Failure("Book not found or already deleted.");

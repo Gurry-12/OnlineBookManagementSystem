@@ -1,0 +1,534 @@
+@model OnlineBookManagementSystem.Presentation.ViewModels.Orders.OrderDetailsViewModel
+@{
+    ViewData["Title"] = $"Order {Model.OrderNumber}";
+    // Layout will be determined by role-based logic in _ViewStart.cshtml
+}
+
+<div class="view-order-details">
+<div class="container py-4">
+    <!-- Breadcrumb Navigation -->
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="@Model.Capabilities.BackLinkUrl">@Model.Capabilities.BackLinkText</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">Order @Model.OrderNumber</li>
+        </ol>
+    </nav>
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2 class="mb-0">
+                        <i class="bi bi-receipt me-2"></i>Order @Model.OrderNumber
+                    </h2>
+                    <p class="text-muted">Placed on @Model.FormattedOrderDate</p>
+                </div>
+                <div class="d-flex gap-2">
+                    @if (Model.Capabilities.CanCancel && (Model.Status == OnlineBookManagementSystem.Core.Domain.Enums.OrderStatus.Pending || Model.Status == OnlineBookManagementSystem.Core.Domain.Enums.OrderStatus.Processing))
+                    {
+                        <button class="btn btn-outline-danger" onclick="cancelOrder(@Model.OrderId)">
+                            <i class="bi bi-x-circle me-1"></i>Cancel Order
+                        </button>
+                    }
+                    @if (Model.Capabilities.CanReorder && Model.Status == OnlineBookManagementSystem.Core.Domain.Enums.OrderStatus.Completed)
+                    {
+                        <button class="btn btn-outline-primary" onclick="reorderItems(@Model.OrderId)">
+                            <i class="bi bi-arrow-repeat me-1"></i>Reorder Items
+                        </button>
+                    }
+                    <button class="btn btn-outline-secondary" onclick="window.print()">
+                        <i class="bi bi-printer me-1"></i>Print Order
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- Order Status Timeline -->
+        <div class="col-12">
+            <div class="order-card">
+                <div class="order-card__header">
+                    <h5 class="order-card__title">
+                        <i class="bi bi-truck me-2"></i>Order Status
+                    </h5>
+                </div>
+                <div class="order-card__body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="order-status order-status--@Model.Status.ToString().ToLower()">
+                                    @Model.StatusText
+                                </span>
+                                <span class="order-status order-status--@Model.PaymentStatus.ToString().ToLower() ms-2">
+                                    @Model.PaymentStatusText
+                                </span>
+                            </div>
+                            
+                            <!-- Status Timeline -->
+                            <div class="order-timeline">
+                                <div class="order-timeline__progress">
+                                    <div class="order-timeline__progress-bar" 
+                                         role="progressbar" 
+                                         style="width: @Model.StatusProgressPercentage%">
+                                    </div>
+                                </div>
+                                
+                                <div class="order-timeline__labels">
+                                    <span class="order-timeline__label">Pending</span>
+                                    <span class="order-timeline__label">Processing</span>
+                                    <span class="order-timeline__label">Shipped</span>
+                                    <span class="order-timeline__label">Completed</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Admin Status Change Actions -->
+                        @if (Model.Capabilities.CanChangeStatus)
+                        {
+                            <div class="col-md-4">
+                                <h6>Change Status</h6>
+                                <div class="d-grid gap-2">
+                                    @if (Model.Capabilities.CanMarkAsProcessing && Model.Status == OnlineBookManagementSystem.Core.Domain.Enums.OrderStatus.Pending)
+                                    {
+                                        <button class="btn btn-sm btn-outline-info" onclick="changeOrderStatus(@Model.OrderId, 'Processing')">
+                                            Mark as Processing
+                                        </button>
+                                    }
+                                    @if (Model.Capabilities.CanMarkAsShipped && Model.Status == OnlineBookManagementSystem.Core.Domain.Enums.OrderStatus.Processing)
+                                    {
+                                        <button class="btn btn-sm btn-outline-primary" onclick="changeOrderStatus(@Model.OrderId, 'Shipped')">
+                                            Mark as Shipped
+                                        </button>
+                                    }
+                                    @if (Model.Capabilities.CanMarkAsCompleted && Model.Status == OnlineBookManagementSystem.Core.Domain.Enums.OrderStatus.Shipped)
+                                    {
+                                        <button class="btn btn-sm btn-outline-success" onclick="changeOrderStatus(@Model.OrderId, 'Completed')">
+                                            Mark as Completed
+                                        </button>
+                                    }
+                                    @if (Model.Capabilities.CanMarkAsCancelled && Model.Status != OnlineBookManagementSystem.Core.Domain.Enums.OrderStatus.Cancelled && Model.Status != OnlineBookManagementSystem.Core.Domain.Enums.OrderStatus.Completed)
+                                    {
+                                        <button class="btn btn-sm btn-outline-danger" onclick="changeOrderStatus(@Model.OrderId, 'Cancelled')">
+                                            Mark as Cancelled
+                                        </button>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Items -->
+        <div class="col-lg-8">
+            <div class="order-card">
+                <div class="order-card__header">
+                    <h5 class="order-card__title">
+                        <i class="bi bi-bag me-2"></i>Order Items (@Model.TotalItems)
+                    </h5>
+                </div>
+                <div class="order-card__body p-0">
+                    @if (Model.Items != null && Model.Items.Any())
+                    {
+                        @foreach (var item in Model.Items)
+                        {
+                            <div class="order-item">
+                                <div class="order-item__image-container">
+                                    @if (!string.IsNullOrEmpty(item.BookImageUrl))
+                                    {
+                                        <img src="@item.BookImageUrl" alt="@item.BookTitle" class="order-item__image">
+                                    }
+                                    else
+                                    {
+                                        <div class="order-item__image-placeholder">
+                                            <i class="bi bi-book fs-2 text-muted"></i>
+                                        </div>
+                                    }
+                                </div>
+                                <div class="order-item__details">
+                                    <h6 class="order-item__title">@item.BookTitle</h6>
+                                    <p class="order-item__meta">Book ID: @item.BookId</p>
+                                </div>
+                                <div class="order-item__quantity">
+                                    Qty: @item.Quantity
+                                </div>
+                                <div class="order-item__pricing">
+                                    <div class="order-item__price">@item.FormattedUnitPrice</div>
+                                    @if (item.Quantity > 1)
+                                    {
+                                        <div class="order-item__price-each">each</div>
+                                        <div class="order-item__subtotal">@item.FormattedSubtotal</div>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="p-4 text-center text-muted">
+                            <i class="bi bi-inbox display-4 mb-3"></i>
+                            <p>No items found in this order.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Summary & Information -->
+        <div class="col-lg-4">
+            <!-- Order Summary -->
+            <div class="order-summary order-summary--sticky">
+                <div class="order-summary__header">
+                    <h5 class="order-summary__title">
+                        <i class="bi bi-calculator me-2"></i>Order Summary
+                    </h5>
+                </div>
+                <div class="order-summary__body">
+                    <div class="order-summary__row">
+                        <span class="order-summary__label">Subtotal:</span>
+                        <span class="order-summary__value">@Model.FormattedSubtotal</span>
+                    </div>
+                    <div class="order-summary__row">
+                        <span class="order-summary__label">Shipping:</span>
+                        <span class="order-summary__value">@Model.FormattedShipping</span>
+                    </div>
+                    <div class="order-summary__row">
+                        <span class="order-summary__label">Tax:</span>
+                        <span class="order-summary__value">@Model.FormattedTax</span>
+                    </div>
+                    <div class="order-summary__divider"></div>
+                    <div class="order-summary__total">
+                        <div class="order-summary__row">
+                            <span class="order-summary__label">Total:</span>
+                            <span class="order-summary__value">@Model.FormattedTotal</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shipping Information -->
+            <div class="card border-0 shadow-sm mt-4">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">
+                        <i class="bi bi-geo-alt me-2"></i>Shipping Information
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <h6>@Model.FullName</h6>
+                    <p class="mb-1">@Model.ShippingAddress</p>
+                    <p class="mb-1">@Model.City @Model.PinCode</p>
+                    
+                    @if (!string.IsNullOrEmpty(Model.PhoneNumber))
+                    {
+                        <hr>
+                        <p class="mb-0">
+                            <i class="bi bi-telephone me-2"></i>@Model.PhoneNumber
+                        </p>
+                    }
+                </div>
+            </div>
+
+            <!-- Payment Information (Admin/SuperAdmin only) -->
+            @if (Model.Capabilities.CanViewPaymentDetails)
+            {
+                <div class="card border-0 shadow-sm mt-4">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">
+                            <i class="bi bi-credit-card me-2"></i>Payment Information
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Method:</span>
+                            <span>@Model.PaymentMethod</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Status:</span>
+                            <span class="@Model.PaymentStatusBadgeClass">@Model.PaymentStatusText</span>
+                        </div>
+                        @if (!string.IsNullOrEmpty(Model.PaymentTransactionId))
+                        {
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Transaction ID:</span>
+                                <small class="text-muted">@Model.PaymentTransactionId</small>
+                            </div>
+                        }
+                        
+                        @if (Model.Capabilities.CanRefund && Model.PaymentStatus == OnlineBookManagementSystem.Core.Domain.Enums.PaymentStatus.Paid)
+                        {
+                            <hr>
+                            <button class="btn btn-outline-warning w-100" onclick="processRefund(@Model.OrderId)">
+                                <i class="bi bi-arrow-counterclockwise me-2"></i>Process Refund
+                            </button>
+                        }
+                    </div>
+                </div>
+            }
+
+            <!-- Customer Information (Admin/SuperAdmin only) -->
+            @if (Model.Capabilities.CanViewCustomerInfo)
+            {
+                <div class="card border-0 shadow-sm mt-4">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">
+                            <i class="bi bi-person me-2"></i>Customer Information
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Customer ID:</span>
+                            <span>@Model.CustomerId</span>
+                        </div>
+                        @if (!string.IsNullOrEmpty(Model.CustomerEmail))
+                        {
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Email:</span>
+                                <span>@Model.CustomerEmail</span>
+                            </div>
+                        }
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Name:</span>
+                            <span>@Model.FullName</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Phone:</span>
+                            <span>@Model.PhoneNumber</span>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <!-- Technical Details (Admin/SuperAdmin only) -->
+            @if (Model.Capabilities.CanViewTechnicalDetails)
+            {
+                <div class="card border-0 shadow-sm mt-4">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">
+                            <i class="bi bi-gear me-2"></i>Technical Details
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Created:</span>
+                            <span>@Model.FormattedCreatedAt</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Updated:</span>
+                            <span>@Model.FormattedUpdatedAt</span>
+                        </div>
+                        
+                        @if (Model.Capabilities.CanAddNotes)
+                        {
+                            <hr>
+                            <div class="mb-3">
+                                <label class="form-label">Admin Notes:</label>
+                                <textarea id="adminNotes" class="form-control" rows="3" placeholder="Add internal notes...">@Model.AdminNotes</textarea>
+                            </div>
+                            <button class="btn btn-outline-primary btn-sm w-100" onclick="saveAdminNotes(@Model.OrderId)">
+                                <i class="bi bi-save me-1"></i>Save Notes
+                            </button>
+                        }
+                        else if (!string.IsNullOrEmpty(Model.AdminNotes))
+                        {
+                            <hr>
+                            <div>
+                                <label class="form-label">Admin Notes:</label>
+                                <p class="text-muted">@Model.AdminNotes</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+</div>
+
+@section Scripts {
+    <script>
+        function cancelOrder(orderId) {
+            if (!confirm('Are you sure you want to cancel this order?')) {
+                return;
+            }
+            
+            fetch('/Orders/Cancel', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
+                },
+                body: JSON.stringify({ orderId: orderId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showNotification('Order cancelled successfully!', 'success');
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1500);
+                } else {
+                    showNotification(data.message || 'Failed to cancel order', 'error');
+                }
+            })
+            .catch(error => {
+                showNotification('Error cancelling order', 'error');
+                console.error('Error:', error);
+            });
+        }
+
+        function changeOrderStatus(orderId, newStatus) {
+            if (!confirm(`Are you sure you want to change the order status to ${newStatus}?`)) {
+                return;
+            }
+            
+            fetch('/Orders/ChangeStatus', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
+                },
+                body: JSON.stringify({ orderId: orderId, status: newStatus })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showNotification('Order status updated successfully!', 'success');
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1500);
+                } else {
+                    showNotification(data.message || 'Failed to update order status', 'error');
+                }
+            })
+            .catch(error => {
+                showNotification('Error updating order status', 'error');
+                console.error('Error:', error);
+            });
+        }
+
+        function processRefund(orderId) {
+            if (!confirm('Are you sure you want to process a refund for this order?')) {
+                return;
+            }
+            
+            fetch('/Orders/ProcessRefund', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
+                },
+                body: JSON.stringify({ orderId: orderId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showNotification('Refund processed successfully!', 'success');
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1500);
+                } else {
+                    showNotification(data.message || 'Failed to process refund', 'error');
+                }
+            })
+            .catch(error => {
+                showNotification('Error processing refund', 'error');
+                console.error('Error:', error);
+            });
+        }
+
+        function reorderItems(orderId) {
+            fetch('/Orders/Reorder', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
+                },
+                body: JSON.stringify({ orderId: orderId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showNotification('Items added to cart!', 'success');
+                    // Optionally redirect to cart
+                    setTimeout(() => {
+                        window.location.href = '/Cart';
+                    }, 1500);
+                } else {
+                    showNotification(data.message || 'Failed to reorder items', 'error');
+                }
+            })
+            .catch(error => {
+                showNotification('Error reordering items', 'error');
+                console.error('Error:', error);
+            });
+        }
+
+        function saveAdminNotes(orderId) {
+            const notes = document.getElementById('adminNotes').value;
+            
+            fetch('/Orders/SaveAdminNotes', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
+                },
+                body: JSON.stringify({ orderId: orderId, notes: notes })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showNotification('Notes saved successfully!', 'success');
+                } else {
+                    showNotification(data.message || 'Failed to save notes', 'error');
+                }
+            })
+            .catch(error => {
+                showNotification('Error saving notes', 'error');
+                console.error('Error:', error);
+            });
+        }
+
+        function showNotification(message, type) {
+            // Create toast notification
+            const toast = document.createElement('div');
+            toast.className = `alert alert-${type === 'error' ? 'danger' : type} alert-dismissible fade show position-fixed`;
+            toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+            toast.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            document.body.appendChild(toast);
+
+            // Auto remove after 3 seconds
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.parentNode.removeChild(toast);
+                }
+            }, 3000);
+        }
+    </script>
+}
+
+<style>
+    .progress {
+        background-color: #e9ecef;
+    }
+    
+    .card {
+        border: none;
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    }
+    
+    .card-header {
+        border-bottom: 1px solid rgba(0,0,0,0.125);
+    }
+    
+    .badge {
+        font-size: 0.875rem;
+        padding: 0.5rem 0.75rem;
+    }
+</style>

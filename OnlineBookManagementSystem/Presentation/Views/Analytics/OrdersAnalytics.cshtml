@@ -1,0 +1,221 @@
+@model OnlineBookManagementSystem.Presentation.ViewModels.Analytics.AnalyticsViewModel<OnlineBookManagementSystem.Presentation.ViewModels.Analytics.OrdersAnalyticsData>
+
+@{
+    ViewData["Title"] = "Orders Analytics";
+}
+
+<div class="view-analytics-orders">
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold">
+            <i class="bi bi-graph-up me-2"></i>Orders Analytics
+        </h2>
+        
+        @if (Model.Capabilities.CanExport)
+        {
+            <div class="btn-group">
+                <button type="button" class="btn btn-outline-primary" onclick="exportAnalytics('csv')">
+                    <i class="bi bi-file-earmark-spreadsheet me-2"></i>Export CSV
+                </button>
+                <button type="button" class="btn btn-outline-primary" onclick="exportAnalytics('pdf')">
+                    <i class="bi bi-file-earmark-pdf me-2"></i>Export PDF
+                </button>
+            </div>
+        }
+    </div>
+
+    @if (Model.Capabilities.CanView)
+    {
+        <!-- Filters -->
+        @await Html.PartialAsync("_AnalyticsFilters", Model.Filters)
+
+        <!-- Summary Cards -->
+        <div class="row g-4 mb-4">
+            <div class="col-lg-3 col-md-6">
+                <div class="card bg-primary text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h6 class="card-title">Total Orders</h6>
+                                <h3 class="mb-0">@Model.Data.TotalOrders.ToString("N0")</h3>
+                            </div>
+                            <div class="align-self-center">
+                                <i class="bi bi-cart-check fs-2"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6">
+                <div class="card bg-success text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h6 class="card-title">Total Revenue</h6>
+                                <h3 class="mb-0">@Model.Data.TotalRevenue.ToString("C")</h3>
+                            </div>
+                            <div class="align-self-center">
+                                <i class="bi bi-currency-dollar fs-2"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6">
+                <div class="card bg-info text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h6 class="card-title">Average Order Value</h6>
+                                <h3 class="mb-0">@Model.Data.AverageOrderValue.ToString("C")</h3>
+                            </div>
+                            <div class="align-self-center">
+                                <i class="bi bi-graph-up fs-2"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6">
+                <div class="card bg-warning text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h6 class="card-title">Pending Orders</h6>
+                                <h3 class="mb-0">@Model.Data.PendingOrders.ToString("N0")</h3>
+                            </div>
+                            <div class="align-self-center">
+                                <i class="bi bi-clock fs-2"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Growth Metrics (Sensitive) -->
+        @if (Model.Capabilities.CanViewSensitiveMetrics)
+        {
+            <div class="row g-4 mb-4">
+                <div class="col-md-6">
+                    <div class="card border-success">
+                        <div class="card-body text-center">
+                            <h6 class="card-title text-success">Revenue Growth Rate</h6>
+                            <h4 class="text-success">@Model.Data.RevenueGrowthRate.ToString("P1")</h4>
+                            <small class="text-muted">vs Previous Period</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card border-info">
+                        <div class="card-body text-center">
+                            <h6 class="card-title text-info">Order Growth Rate</h6>
+                            <h4 class="text-info">@Model.Data.OrderGrowthRate.ToString("P1")</h4>
+                            <small class="text-muted">vs Previous Period</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <!-- Charts Row -->
+        <div class="row g-4 mb-4">
+            <!-- Monthly Revenue Chart -->
+            <div class="col-lg-8">
+                @{
+                    ViewData["ChartId"] = "revenueChart";
+                    ViewData["ChartTitle"] = "Monthly Revenue Trend";
+                    ViewData["ChartType"] = "line";
+                    ViewData["ChartHeight"] = "350";
+                    
+                    var revenueChartData = new {
+                        labels = Model.Data.MonthlyRevenue.Select(r => r.Month).ToArray(),
+                        datasets = new[] {
+                            new {
+                                label = "Revenue",
+                                data = Model.Data.MonthlyRevenue.Select(r => r.Revenue).ToArray(),
+                                borderColor = "rgb(75, 192, 192)",
+                                backgroundColor = "rgba(75, 192, 192, 0.2)",
+                                tension = 0.1
+                            }
+                        }
+                    };
+                }
+                @await Html.PartialAsync("_AnalyticsChart", revenueChartData)
+            </div>
+            
+            <!-- Order Status Distribution -->
+            <div class="col-lg-4">
+                @{
+                    ViewData["ChartId"] = "statusChart";
+                    ViewData["ChartTitle"] = "Order Status Distribution";
+                    ViewData["ChartType"] = "doughnut";
+                    ViewData["ChartHeight"] = "350";
+                    
+                    var statusChartData = new {
+                        labels = Model.Data.OrderStatusDistribution.Select(s => s.Status).ToArray(),
+                        datasets = new[] {
+                            new {
+                                data = Model.Data.OrderStatusDistribution.Select(s => s.Count).ToArray(),
+                                backgroundColor = new[] {
+                                    "#28a745", "#ffc107", "#dc3545", "#6c757d", "#17a2b8"
+                                }
+                            }
+                        }
+                    };
+                }
+                @await Html.PartialAsync("_AnalyticsChart", statusChartData)
+            </div>
+        </div>
+
+        <!-- Daily Trends Chart -->
+        <div class="row g-4">
+            <div class="col-12">
+                @{
+                    ViewData["ChartId"] = "dailyTrendsChart";
+                    ViewData["ChartTitle"] = "Daily Order Trends";
+                    ViewData["ChartType"] = "bar";
+                    ViewData["ChartHeight"] = "300";
+                    
+                    var dailyTrendsData = new {
+                        labels = Model.Data.DailyOrderTrends.Select(d => d.Date.ToString("MMM dd")).ToArray(),
+                        datasets = new[] {
+                            new {
+                                label = "Orders",
+                                data = Model.Data.DailyOrderTrends.Select(d => d.OrderCount).ToArray(),
+                                backgroundColor = "rgba(54, 162, 235, 0.5)",
+                                borderColor = "rgba(54, 162, 235, 1)",
+                                borderWidth = 1
+                            }
+                        }
+                    };
+                }
+                @await Html.PartialAsync("_AnalyticsChart", dailyTrendsData)
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning">
+            <i class="bi bi-exclamation-triangle me-2"></i>
+            You don't have permission to view analytics data.
+        </div>
+    }
+</div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        function exportAnalytics(format) {
+            const url = '@Url.Action("ExportOrdersAnalytics", "Analytics")';
+            const params = new URLSearchParams(window.location.search);
+            params.append('format', format);
+            
+            window.open(`${url}?${params.toString()}`, '_blank');
+        }
+    </script>
+}

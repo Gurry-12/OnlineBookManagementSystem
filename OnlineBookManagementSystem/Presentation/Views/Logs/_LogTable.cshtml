@@ -1,0 +1,120 @@
+@model (List<OnlineBookManagementSystem.Core.Domain.Entities.ActivityLog> Logs, OnlineBookManagementSystem.Presentation.ViewModels.Logs.LogCapabilities Capabilities)
+
+@{
+    string GetActionBadgeClass(string actionType) => actionType?.ToLower() switch
+    {
+        "login" => "log-table__action-badge--login",
+        "logout" => "log-table__action-badge--logout", 
+        "create" or "add" => "log-table__action-badge--create",
+        "update" or "edit" => "log-table__action-badge--update",
+        "delete" or "remove" => "log-table__action-badge--delete",
+        "view" or "read" => "log-table__action-badge--view",
+        "error" => "log-table__action-badge--error",
+        _ => "log-table__action-badge--logout"
+    };
+
+    string GetTimeAgo(DateTime timestamp)
+    {
+        var span = DateTime.Now.Subtract(timestamp);
+        if (span.TotalMinutes < 1) return "Just now";
+        if (span.TotalMinutes < 60) return $"{(int)span.TotalMinutes}m ago";
+        if (span.TotalHours < 24) return $"{(int)span.TotalHours}h ago";
+        if (span.TotalDays < 7) return $"{(int)span.TotalDays}d ago";
+        return timestamp.ToString("MMM dd");
+    }
+}
+
+<div class="log-table">
+    <div class="log-table__wrapper">
+        <table class="log-table__table">
+            <thead class="log-table__header">
+                <tr>
+                    <th class="log-table__header-cell" style="width: 15%;">Timestamp</th>
+                    <th class="log-table__header-cell" style="width: 10%;">Action</th>
+                    <th class="log-table__header-cell" style="width: 40%;">Description</th>
+                    <th class="log-table__header-cell" style="width: 15%;">User</th>
+                    @if (Model.Capabilities.CanViewSensitiveData)
+                    {
+                        <th class="log-table__header-cell" style="width: 10%;">IP Address</th>
+                        <th class="log-table__header-cell" style="width: 10%;">Details</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Logs?.Any() == true)
+                {
+                    @foreach (var log in Model.Logs)
+                    {
+                        <tr class="log-table__row">
+                            <td class="log-table__cell">
+                                <div class="log-table__timestamp">
+                                    <div class="log-table__date">@log.Timestamp.ToString("MMM dd, yyyy")</div>
+                                    <div class="log-table__time">@log.Timestamp.ToString("HH:mm:ss")</div>
+                                    <div class="log-table__time-ago">@GetTimeAgo(log.Timestamp)</div>
+                                </div>
+                            </td>
+                            <td class="log-table__cell">
+                                <span class="log-table__action-badge @GetActionBadgeClass(log.ActionType)" 
+                                      title="@log.ActionType">
+                                    @log.ActionType
+                                </span>
+                            </td>
+                            <td class="log-table__cell">
+                                <div class="log-table__description">@log.Description</div>
+                            </td>
+                            <td class="log-table__cell">
+                                @if (log.User != null)
+                                {
+                                    <div class="log-table__user">
+                                        <div class="log-table__user-name">@log.User.Name</div>
+                                        @if (Model.Capabilities.CanViewSensitiveData)
+                                        {
+                                            <div class="log-table__user-email">@log.User.Email</div>
+                                        }
+                                    </div>
+                                }
+                                else
+                                {
+                                    <span class="log-table__user-system">System</span>
+                                }
+                            </td>
+                            @if (Model.Capabilities.CanViewSensitiveData)
+                            {
+                                <td class="log-table__cell">
+                                    @if (!string.IsNullOrEmpty(log.IpAddress))
+                                    {
+                                        <span class="log-table__ip-address">@log.IpAddress</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">-</span>
+                                    }
+                                </td>
+                                <td class="log-table__cell">
+                                    <div class="log-table__actions">
+                                        <a href="@Url.Action("LogDetails", "Logs", new { id = log.Id })" 
+                                           class="log-table__action-button" 
+                                           title="View Details">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            }
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="@(Model.Capabilities.CanViewSensitiveData ? "6" : "4")" class="log-table__cell">
+                            <div class="log-table__empty">
+                                <i class="log-table__empty-icon bi bi-journal-x"></i>
+                                <p class="log-table__empty-message">No activity logs found for the selected criteria.</p>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

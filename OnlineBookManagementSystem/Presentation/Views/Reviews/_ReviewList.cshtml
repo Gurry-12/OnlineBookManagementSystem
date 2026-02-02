@@ -1,0 +1,547 @@
+@model OnlineBookManagementSystem.Presentation.ViewModels.Reviews.UnifiedReviewListViewModel
+
+@if (Model.Reviews.Any())
+{
+    @if (Model.Capabilities.ViewMode == "moderation")
+    {
+        <!-- Admin Moderation Table View -->
+        <div class="review-moderation-table">
+            <table class="review-moderation-table__table">
+                <thead class="review-moderation-table__header">
+                    <tr>
+                        @if (Model.Capabilities.CanModerate)
+                        {
+                            <th class="review-moderation-table__header-cell" width="40">
+                                <input type="checkbox" id="selectAll" class="form-check-input">
+                            </th>
+                        }
+                        <th class="review-moderation-table__header-cell">Book</th>
+                        <th class="review-moderation-table__header-cell">Reviewer</th>
+                        <th class="review-moderation-table__header-cell">Rating</th>
+                        <th class="review-moderation-table__header-cell">Review</th>
+                        <th class="review-moderation-table__header-cell">Submitted</th>
+                        @if (Model.Capabilities.CanViewModerationQueue)
+                        {
+                            <th class="review-moderation-table__header-cell">Status</th>
+                        }
+                        <th class="review-moderation-table__header-cell">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var review in Model.Reviews)
+                    {
+                        <tr class="review-moderation-table__row">
+                            @if (Model.Capabilities.CanModerate)
+                            {
+                                <td class="review-moderation-table__cell">
+                                    <input type="checkbox" class="form-check-input review-checkbox" value="@review.Id">
+                                </td>
+                            }
+                            <td class="review-moderation-table__cell">
+                                <div class="review-moderation-table__book-title">@review.BookTitle</div>
+                                @if (review.Capabilities.CanViewUserDetails)
+                                {
+                                    <div class="review-moderation-table__book-id">ID: @review.BookId</div>
+                                }
+                            </td>
+                            <td class="review-moderation-table__cell">
+                                <div class="review-moderation-table__user-name">@review.UserName</div>
+                                @if (review.Capabilities.CanViewUserDetails)
+                                {
+                                    <div class="review-moderation-table__user-id">ID: @review.UserId</div>
+                                }
+                            </td>
+                            <td class="review-moderation-table__cell">
+                                <div class="star-rating">
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        @if (i <= review.Rating)
+                                        {
+                                            <i class="star-rating__star star-rating__star--filled bi bi-star-fill"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="star-rating__star star-rating__star--empty bi bi-star"></i>
+                                        }
+                                    }
+                                </div>
+                                <div class="star-rating__value">@review.Rating/5</div>
+                            </td>
+                            <td class="review-moderation-table__cell">
+                                <div class="review-item__text review-item__text--truncated">
+                                    @if (review.ReviewText.Length > 100)
+                                    {
+                                        <span class="review-item__text-preview">@review.ReviewText.Substring(0, 100)...</span>
+                                        <span class="review-item__text-full d-none">@review.ReviewText</span>
+                                        <button class="review-item__text-toggle toggle-review" type="button">
+                                            Show More
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        @review.ReviewText
+                                    }
+                                </div>
+                            </td>
+                            <td class="review-moderation-table__cell">
+                                <div class="review-moderation-table__timestamp">@review.FormattedCreatedAt</div>
+                                <div class="review-moderation-table__time">@review.CreatedAt.ToString("HH:mm")</div>
+                            </td>
+                            @if (Model.Capabilities.CanViewModerationQueue)
+                            {
+                                <td class="review-moderation-table__cell">
+                                    <span class="review-status-badge @(review.IsPending ? "review-status-badge--pending" : review.IsApproved ? "review-status-badge--approved" : review.IsRejected ? "review-status-badge--rejected" : review.IsFlagged ? "review-status-badge--flagged" : "review-status-badge--pending")">
+                                        @review.Status
+                                    </span>
+                                    @if (review.Capabilities.CanViewModerationDetails && !string.IsNullOrEmpty(review.ModerationReason))
+                                    {
+                                        <div class="text-muted small" title="@review.ModerationReason">@review.ModerationReason.Substring(0, Math.Min(20, review.ModerationReason.Length))...</div>
+                                    }
+                                </td>
+                            }
+                            <td class="review-moderation-table__cell">
+                                <div class="review-moderation-actions">
+                                    @if (review.Capabilities.CanApprove && review.IsPending)
+                                    {
+                                        <button type="button" class="review-moderation-actions__button review-moderation-actions__button--approve" onclick="approveReview(@review.Id)">
+                                            <i class="bi bi-check"></i> Approve
+                                        </button>
+                                    }
+                                    
+                                    @if (review.Capabilities.CanReject && !review.IsRejected)
+                                    {
+                                        <button type="button" class="review-moderation-actions__button review-moderation-actions__button--reject" 
+                                                data-bs-toggle="modal" data-bs-target="#rejectModal@(review.Id)">
+                                            <i class="bi bi-x"></i> Reject
+                                        </button>
+                                    }
+                                    
+                                    @if (review.Capabilities.CanFlag && !review.IsFlagged)
+                                    {
+                                        <button type="button" class="review-moderation-actions__button review-moderation-actions__button--flag" 
+                                                data-bs-toggle="modal" data-bs-target="#flagModal@(review.Id)">
+                                            <i class="bi bi-flag"></i> Flag
+                                        </button>
+                                    }
+                                </div>
+
+                                <!-- Moderation Modals -->
+                                @if (review.Capabilities.CanReject)
+                                {
+                                    <!-- Reject Modal -->
+                                    <div class="modal fade" id="rejectModal@(review.Id)" tabindex="-1">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Reject Review</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Are you sure you want to reject this review?</p>
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Reason for rejection:</label>
+                                                        <textarea id="rejectReason@(review.Id)" class="form-control" rows="3" 
+                                                                  placeholder="Please provide a reason for rejection..." required></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                    <button type="button" class="btn btn-danger" onclick="rejectReview(@review.Id)">Reject Review</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+                                @if (review.Capabilities.CanFlag)
+                                {
+                                    <!-- Flag Modal -->
+                                    <div class="modal fade" id="flagModal@(review.Id)" tabindex="-1">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Flag Review</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Flag this review for further investigation?</p>
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Reason for flagging:</label>
+                                                        <textarea id="flagReason@(review.Id)" class="form-control" rows="3" 
+                                                                  placeholder="Please provide a reason for flagging..." required></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                    <button type="button" class="btn btn-warning" onclick="flagReview(@review.Id)">Flag Review</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Bulk Actions -->
+        @if (Model.Capabilities.CanBulkApprove || Model.Capabilities.CanBulkReject)
+        {
+            <div class="review-bulk-actions">
+                @if (Model.Capabilities.CanBulkApprove)
+                {
+                    <button type="button" class="review-bulk-actions__button review-bulk-actions__button--approve" onclick="bulkApprove()" disabled id="bulkApproveBtn">
+                        <i class="bi bi-check-all"></i> Bulk Approve
+                    </button>
+                }
+                @if (Model.Capabilities.CanBulkReject)
+                {
+                    <button type="button" class="review-bulk-actions__button review-bulk-actions__button--reject" onclick="bulkReject()" disabled id="bulkRejectBtn">
+                        <i class="bi bi-x-circle"></i> Bulk Reject
+                    </button>
+                }
+            </div>
+        }
+    }
+    else
+    {
+        <!-- Public Review Display -->
+        @foreach (var review in Model.Reviews)
+        {
+            <div class="review-item">
+                <div class="review-item__header">
+                    <div class="review-item__user-info">
+                        <div class="review-item__username">@review.UserName</div>
+                        @if (review.IsEdited)
+                        {
+                            <div class="review-item__user-meta">(edited)</div>
+                        }
+                    </div>
+                    <div class="review-item__timestamp">@review.FormattedCreatedAt</div>
+                </div>
+                
+                <div class="review-item__rating">
+                    <div class="star-rating">
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            @if (i <= review.Rating)
+                            {
+                                <i class="star-rating__star star-rating__star--filled bi bi-star-fill"></i>
+                            }
+                            else
+                            {
+                                <i class="star-rating__star star-rating__star--empty bi bi-star"></i>
+                            }
+                        }
+                    </div>
+                </div>
+                
+                <div class="review-item__text">@review.ReviewText</div>
+                
+                @if (review.Capabilities.CanEditOwn || review.Capabilities.CanDeleteOwn)
+                {
+                    <div class="review-item__actions">
+                        @if (review.Capabilities.CanEditOwn)
+                        {
+                            <button class="review-item__action-button review-item__action-button--primary" onclick="editReview(@review.Id)">
+                                <i class="bi bi-pencil"></i> Edit
+                            </button>
+                        }
+                        @if (review.Capabilities.CanDeleteOwn)
+                        {
+                            <button class="review-item__action-button review-item__action-button--danger" onclick="deleteReview(@review.Id, @review.BookId)">
+                                <i class="bi bi-trash"></i> Delete
+                            </button>
+                        }
+                    </div>
+                }
+            </div>
+        }
+    }
+
+    <!-- Pagination -->
+    @if (Model.TotalPages > 1)
+    {
+        <nav aria-label="Reviews pagination" class="mt-4">
+            <ul class="pagination pagination-sm justify-content-center">
+                @if (Model.HasPreviousPage)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="#" onclick="loadReviews(null, null, @(Model.CurrentPage - 1))">Previous</a>
+                    </li>
+                }
+                
+                @for (int i = Math.Max(1, Model.CurrentPage - 2); i <= Math.Min(Model.TotalPages, Model.CurrentPage + 2); i++)
+                {
+                    <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                        <a class="page-link" href="#" onclick="loadReviews(null, null, @i)">@i</a>
+                    </li>
+                }
+                
+                @if (Model.HasNextPage)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="#" onclick="loadReviews(null, null, @(Model.CurrentPage + 1))">Next</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    }
+}
+else
+{
+    <div class="text-center text-muted py-4">
+        <i class="bi bi-chat-quote display-4 mb-3"></i>
+        @if (Model.Capabilities.ViewMode == "moderation")
+        {
+            <h5>No Reviews Found</h5>
+            <p>All reviews have been processed or no reviews match the current filter.</p>
+        }
+        else
+        {
+            <h5>No Reviews Yet</h5>
+            <p>Be the first to review this book!</p>
+        }
+    </div>
+}
+
+<script>
+    @if (Model.Capabilities.ViewMode == "moderation")
+    {
+        <text>
+        // Moderation JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            // Toggle review text
+            document.querySelectorAll('.toggle-review').forEach(button => {
+                button.addEventListener('click', function() {
+                    const preview = this.parentNode.querySelector('.review-preview');
+                    const full = this.parentNode.querySelector('.review-full');
+                    
+                    if (preview.classList.contains('d-none')) {
+                        preview.classList.remove('d-none');
+                        full.classList.add('d-none');
+                        this.textContent = 'Show More';
+                    } else {
+                        preview.classList.add('d-none');
+                        full.classList.remove('d-none');
+                        this.textContent = 'Show Less';
+                    }
+                });
+            });
+
+            // Select all functionality
+            const selectAllCheckbox = document.getElementById('selectAll');
+            const reviewCheckboxes = document.querySelectorAll('.review-checkbox');
+            const bulkApproveBtn = document.getElementById('bulkApproveBtn');
+            const bulkRejectBtn = document.getElementById('bulkRejectBtn');
+
+            if (selectAllCheckbox) {
+                selectAllCheckbox.addEventListener('change', function() {
+                    reviewCheckboxes.forEach(checkbox => {
+                        checkbox.checked = this.checked;
+                    });
+                    updateBulkButtons();
+                });
+            }
+
+            reviewCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', updateBulkButtons);
+            });
+
+            function updateBulkButtons() {
+                const checkedBoxes = document.querySelectorAll('.review-checkbox:checked');
+                const hasSelection = checkedBoxes.length > 0;
+                
+                if (bulkApproveBtn) bulkApproveBtn.disabled = !hasSelection;
+                if (bulkRejectBtn) bulkRejectBtn.disabled = !hasSelection;
+            }
+        });
+
+        function approveReview(reviewId) {
+            if (confirm('Approve this review?')) {
+                moderateReview(reviewId, 'approve');
+            }
+        }
+
+        function rejectReview(reviewId) {
+            const reason = document.getElementById(`rejectReason${reviewId}`).value.trim();
+            if (!reason) {
+                alert('Please provide a reason for rejection.');
+                return;
+            }
+            moderateReview(reviewId, 'reject', reason);
+        }
+
+        function flagReview(reviewId) {
+            const reason = document.getElementById(`flagReason${reviewId}`).value.trim();
+            if (!reason) {
+                alert('Please provide a reason for flagging.');
+                return;
+            }
+            moderateReview(reviewId, 'flag', reason);
+        }
+
+        function moderateReview(reviewId, action, reason = null) {
+            fetch('/Reviews/Moderate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
+                },
+                body: JSON.stringify({ reviewId, action, reason })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showNotification(`Review ${action}d successfully!`, 'success');
+                    setTimeout(() => location.reload(), 1500);
+                } else {
+                    showNotification(data.message || `Failed to ${action} review`, 'error');
+                }
+            })
+            .catch(error => {
+                showNotification(`Error ${action}ing review`, 'error');
+                console.error('Error:', error);
+            });
+        }
+
+        function bulkApprove() {
+            const selectedIds = Array.from(document.querySelectorAll('.review-checkbox:checked')).map(cb => cb.value);
+            if (selectedIds.length === 0) return;
+            
+            if (confirm(`Approve ${selectedIds.length} selected reviews?`)) {
+                bulkModerate(selectedIds, 'approve');
+            }
+        }
+
+        function bulkReject() {
+            const selectedIds = Array.from(document.querySelectorAll('.review-checkbox:checked')).map(cb => cb.value);
+            if (selectedIds.length === 0) return;
+            
+            const reason = prompt('Please provide a reason for bulk rejection:');
+            if (!reason) return;
+            
+            bulkModerate(selectedIds, 'reject', reason);
+        }
+
+        function bulkModerate(reviewIds, action, reason = null) {
+            fetch('/Reviews/BulkModerate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
+                },
+                body: JSON.stringify({ reviewIds, action, reason })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showNotification(`${reviewIds.length} reviews ${action}d successfully!`, 'success');
+                    setTimeout(() => location.reload(), 1500);
+                } else {
+                    showNotification(data.message || `Failed to ${action} reviews`, 'error');
+                }
+            })
+            .catch(error => {
+                showNotification(`Error ${action}ing reviews`, 'error');
+                console.error('Error:', error);
+            });
+        }
+        </text>
+    }
+    else
+    {
+        <text>
+        // Public review JavaScript
+        function editReview(reviewId) {
+            // Implementation for edit review
+            console.log('Edit review:', reviewId);
+            // This would typically open a modal or redirect to edit form
+        }
+
+        function deleteReview(reviewId, bookId) {
+            if (confirm('Are you sure you want to delete your review?')) {
+                fetch('/Reviews/Delete', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
+                    },
+                    body: JSON.stringify({ id: reviewId, bookId: bookId })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showNotification('Review deleted successfully!', 'success');
+                        setTimeout(() => location.reload(), 1500);
+                    } else {
+                        showNotification(data.message || 'Failed to delete review', 'error');
+                    }
+                })
+                .catch(error => {
+                    showNotification('Error deleting review', 'error');
+                    console.error('Error:', error);
+                });
+            }
+        }
+        </text>
+    }
+
+    function showNotification(message, type) {
+        // Create toast notification
+        const toast = document.createElement('div');
+        toast.className = `alert alert-${type === 'error' ? 'danger' : type} alert-dismissible fade show position-fixed`;
+        toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+        toast.innerHTML = `
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+        document.body.appendChild(toast);
+
+        // Auto remove after 3 seconds
+        setTimeout(() => {
+            if (toast.parentNode) {
+                toast.parentNode.removeChild(toast);
+            }
+        }, 3000);
+    }
+</script>
+
+<style>
+    .review-item:last-child {
+        border-bottom: none !important;
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+    }
+    
+    .star-rating i {
+        font-size: 0.9em;
+    }
+    
+    .pagination-sm .page-link {
+        font-size: 0.75rem;
+    }
+    
+    .btn-group-vertical .btn {
+        margin-bottom: 2px;
+    }
+    
+    .btn-group-vertical .btn:last-child {
+        margin-bottom: 0;
+    }
+    
+    .review-text {
+        word-wrap: break-word;
+    }
+    
+    .toggle-review {
+        font-size: 0.8em;
+        text-decoration: none;
+    }
+    
+    .toggle-review:hover {
+        text-decoration: underline;
+    }
+</style>

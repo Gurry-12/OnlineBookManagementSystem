@@ -1,6 +1,6 @@
-using OnlineBookManagementSystem.Core.Domain.Enums;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure.Logging;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure.Payment;
+using OnlineBookManagementSystem.Core.Domain.Enums;
 
 namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Payment
 {

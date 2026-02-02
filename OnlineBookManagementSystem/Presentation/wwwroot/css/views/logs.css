@@ -1,0 +1,90 @@
+/**
+ * VIEW: Logs
+ * Purpose: Layout and composition for log views
+ * Uses: component classes only - NO direct styling
+ */
+
+/* ========================================
+   VIEW: view-logs-list
+   ======================================== */
+
+.view-logs-list {
+    min-height: 100vh;
+    padding: var(--space-4);
+}
+
+.view-logs-list .logs__container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.view-logs-list .logs__header {
+    margin-bottom: var(--space-6);
+}
+
+.view-logs-list .logs__filters {
+    margin-bottom: var(--space-6);
+}
+
+.view-logs-list .logs__table {
+    margin-bottom: var(--space-6);
+}
+
+.view-logs-list .logs__pagination {
+    margin-top: var(--space-6);
+}
+
+/* ========================================
+   VIEW: view-logs-details
+   ======================================== */
+
+.view-logs-details {
+    min-height: 100vh;
+    padding: var(--space-4);
+}
+
+.view-logs-details .log-details__container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.view-logs-details .log-details__header {
+    margin-bottom: var(--space-6);
+}
+
+.view-logs-details .log-details__content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--space-6);
+}
+
+.view-logs-details .log-details__main {
+    margin-bottom: var(--space-6);
+}
+
+.view-logs-details .log-details__sidebar {
+    position: sticky;
+    top: var(--space-4);
+    height: fit-content;
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 768px) {
+    .view-logs-list,
+    .view-logs-details {
+        padding: var(--space-3);
+    }
+    
+    .view-logs-details .log-details__content {
+        grid-template-columns: 1fr;
+        gap: var(--space-4);
+    }
+    
+    .view-logs-details .log-details__sidebar {
+        position: static;
+        order: -1;
+    }
+}

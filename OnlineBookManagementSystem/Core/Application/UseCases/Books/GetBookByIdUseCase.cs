@@ -21,7 +21,7 @@ namespace OnlineBookManagementSystem.Core.Application.UseCases.Books
         public async Task<BookDto> ExecuteAsync(int bookId, CancellationToken cancellationToken = default)
         {
             var book = await _unitOfWork.Books.FirstOrDefaultAsync(
-                b => b.Id == bookId && !b.IsDeleted, 
+                b => b.Id == bookId && !b.IsDeleted,
                 cancellationToken);
 
             if (book == null)

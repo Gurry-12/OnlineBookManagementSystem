@@ -26,11 +26,12 @@ namespace OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Orders
         // Analytics and reporting
         Task<List<MonthlyRevenueViewModel>> GetMonthlyRevenueAsync();
         Task<List<OrderStatusViewModel>> GetOrderStatusDistributionAsync();
-        
+
         // Additional methods for SuperAdmin and Admin functionality
         Task<decimal> GetTotalRevenueAsync();
         Task<List<MonthlyRevenueViewModel>> GetMonthlyRevenueAsync(int months, int year);
         Task<List<Order>> GetRecentOrdersAsync(int count = 10);
         Task<Order?> GetOrderDetailsAsync(int orderId);
+        Task<int> GetPendingOrdersCountAsync();
     }
 }

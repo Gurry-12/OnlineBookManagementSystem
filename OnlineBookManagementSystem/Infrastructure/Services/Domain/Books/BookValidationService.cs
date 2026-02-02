@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using OnlineBookManagementSystem.Core.Domain.Entities;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Books;
-using OnlineBookManagementSystem.Core.Application.Interfaces.Helpers;
+using OnlineBookManagementSystem.Core.Domain.Entities;
 
 namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Books
 {

@@ -6,8 +6,8 @@ namespace OnlineBookManagementSystem.Core.Domain.Entities
     {
         private string _name = string.Empty;
 
-        public string Name 
-        { 
+        public string Name
+        {
             get => _name;
             set
             {

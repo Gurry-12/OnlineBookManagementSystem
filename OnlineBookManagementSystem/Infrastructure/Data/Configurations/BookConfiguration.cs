@@ -9,7 +9,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Data.Configurations
         public void Configure(EntityTypeBuilder<Book> builder)
         {
             builder.HasKey(e => e.Id);
-            
+
             // Value object configuration
             builder.OwnsOne(b => b.Price, price =>
             {
@@ -17,7 +17,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Data.Configurations
                     .HasColumnName("Price")
                     .HasColumnType("decimal(10,2)")
                     .HasDefaultValue(0);
-                    
+
                 price.Property(p => p.Currency)
                     .HasColumnName("Currency")
                     .HasMaxLength(3)
@@ -35,35 +35,35 @@ namespace OnlineBookManagementSystem.Infrastructure.Data.Configurations
             builder.Property(e => e.Title)
                 .HasMaxLength(200)
                 .IsRequired();
-                
+
             builder.Property(e => e.Author)
                 .HasMaxLength(100)
                 .IsRequired();
-                
+
             builder.Property(e => e.ImageUrl)
                 .HasMaxLength(500);
-                
+
             builder.Property(e => e.Description)
                 .HasMaxLength(1000);
-                
+
             builder.Property(e => e.StockQuantity)
                 .HasDefaultValue(0);
-                
+
             builder.Property(e => e.LowStockThreshold)
                 .HasDefaultValue(5);
-                
+
             builder.Property(e => e.IsFeatured)
                 .HasDefaultValue(false);
-                
+
             builder.Property(e => e.AverageRating)
                 .HasDefaultValue(0.0);
-                
+
             builder.Property(e => e.IsDeleted)
                 .HasDefaultValue(false);
-                
+
             builder.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("DateTime('now')");
-                
+
             builder.Property(e => e.UpdatedAt)
                 .HasDefaultValueSql("DateTime('now')")
                 .IsConcurrencyToken();
@@ -79,7 +79,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Data.Configurations
             // builder.HasIndex("ISBN")
             //     .IsUnique()
             //     .HasFilter("ISBN IS NOT NULL");
-                
+
             builder.HasIndex(e => e.Title);
             builder.HasIndex(e => e.Author);
             builder.HasIndex(e => e.CategoryId);

@@ -13,7 +13,7 @@ namespace OnlineBookManagementSystem.Presentation.ViewModels.AuthViewModels
         public string Password { get; set; } = string.Empty;
 
         public bool RememberMe { get; set; } = false;
-        
+
         // Portfolio context properties
         public bool ShowPortfolioContext { get; set; } = true;
         public string ReturnUrl { get; set; } = string.Empty;

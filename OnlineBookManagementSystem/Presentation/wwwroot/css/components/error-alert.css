@@ -96,19 +96,9 @@
    VARIANTS
    ======================================== */
 
-.error-alert--warning {
-    background: var(--color-warning-alpha);
-    border-color: var(--color-warning);
-}
-
 .error-alert--warning .error-alert__icon,
 .error-alert--warning .error-alert__title {
     color: var(--color-warning-dark);
-}
-
-.error-alert--info {
-    background: var(--color-info-alpha);
-    border-color: var(--color-info);
 }
 
 .error-alert--info .error-alert__icon,

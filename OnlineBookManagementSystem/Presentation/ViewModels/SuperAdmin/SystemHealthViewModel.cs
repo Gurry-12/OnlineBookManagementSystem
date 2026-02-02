@@ -7,7 +7,7 @@ namespace OnlineBookManagementSystem.Presentation.ViewModels.SuperAdmin
         public StorageHealthViewModel StorageStatus { get; set; } = new();
         public PerformanceMetricsViewModel Performance { get; set; } = new();
         public List<SystemAlertViewModel> Alerts { get; set; } = new();
-        
+
         // Overall health status
         public HealthStatus OverallStatus { get; set; }
         public string OverallStatusText => OverallStatus.ToString();
@@ -18,21 +18,21 @@ namespace OnlineBookManagementSystem.Presentation.ViewModels.SuperAdmin
             HealthStatus.Critical => "danger",
             _ => "secondary"
         };
-        
+
         public DateTime LastChecked { get; set; } = DateTime.UtcNow;
         public TimeSpan Uptime { get; set; }
         public string UptimeText => FormatUptime(Uptime);
-        
+
         // Additional properties for controller compatibility
         public string EmailServiceStatus { get; set; } = "Unknown";
-        public TimeSpan SystemUptime 
-        { 
-            get => Uptime; 
-            set => Uptime = value; 
+        public TimeSpan SystemUptime
+        {
+            get => Uptime;
+            set => Uptime = value;
         }
         public double MemoryUsage => Performance?.MemoryUsage ?? 0;
         public int ActiveUsers { get; set; }
-        
+
         private string FormatUptime(TimeSpan uptime)
         {
             if (uptime.TotalDays >= 1)
@@ -42,7 +42,7 @@ namespace OnlineBookManagementSystem.Presentation.ViewModels.SuperAdmin
             return $"{uptime.Minutes}m {uptime.Seconds}s";
         }
     }
-    
+
     public class DatabaseHealthViewModel
     {
         public HealthStatus Status { get; set; }
@@ -55,7 +55,7 @@ namespace OnlineBookManagementSystem.Presentation.ViewModels.SuperAdmin
         public string DatabaseSizeFormatted => FormatBytes(DatabaseSize);
         public DateTime LastBackup { get; set; }
         public List<string> Issues { get; set; } = new();
-        
+
         private string FormatBytes(long bytes)
         {
             string[] suffixes = { "B", "KB", "MB", "GB", "TB" };
@@ -69,7 +69,7 @@ namespace OnlineBookManagementSystem.Presentation.ViewModels.SuperAdmin
             return $"{number:n1} {suffixes[counter]}";
         }
     }
-    
+
     public class CacheHealthViewModel
     {
         public HealthStatus Status { get; set; }
@@ -82,7 +82,7 @@ namespace OnlineBookManagementSystem.Presentation.ViewModels.SuperAdmin
         public double HitRate { get; set; }
         public List<string> Issues { get; set; } = new();
     }
-    
+
     public class StorageHealthViewModel
     {
         public HealthStatus Status { get; set; }
@@ -94,7 +94,7 @@ namespace OnlineBookManagementSystem.Presentation.ViewModels.SuperAdmin
         public string UsedSpaceFormatted => FormatBytes(UsedSpace);
         public string FreeSpaceFormatted => FormatBytes(FreeSpace);
         public List<string> Issues { get; set; } = new();
-        
+
         private string FormatBytes(long bytes)
         {
             string[] suffixes = { "B", "KB", "MB", "GB", "TB" };
@@ -108,7 +108,7 @@ namespace OnlineBookManagementSystem.Presentation.ViewModels.SuperAdmin
             return $"{number:n1} {suffixes[counter]}";
         }
     }
-    
+
     public class PerformanceMetricsViewModel
     {
         public double CpuUsage { get; set; }
@@ -119,7 +119,7 @@ namespace OnlineBookManagementSystem.Presentation.ViewModels.SuperAdmin
         public int ActiveSessions { get; set; }
         public List<string> Issues { get; set; } = new();
     }
-    
+
     public class SystemAlertViewModel
     {
         public int Id { get; set; }
@@ -130,7 +130,7 @@ namespace OnlineBookManagementSystem.Presentation.ViewModels.SuperAdmin
         public DateTime CreatedAt { get; set; }
         public bool IsResolved { get; set; }
         public DateTime? ResolvedAt { get; set; }
-        
+
         public string SeverityClass => Severity switch
         {
             AlertSeverity.Info => "info",
@@ -139,7 +139,7 @@ namespace OnlineBookManagementSystem.Presentation.ViewModels.SuperAdmin
             AlertSeverity.Critical => "danger",
             _ => "secondary"
         };
-        
+
         public string TimeAgo
         {
             get
@@ -155,7 +155,7 @@ namespace OnlineBookManagementSystem.Presentation.ViewModels.SuperAdmin
             }
         }
     }
-    
+
     public enum HealthStatus
     {
         Healthy,
@@ -163,7 +163,7 @@ namespace OnlineBookManagementSystem.Presentation.ViewModels.SuperAdmin
         Critical,
         Unknown
     }
-    
+
     public enum AlertSeverity
     {
         Info,

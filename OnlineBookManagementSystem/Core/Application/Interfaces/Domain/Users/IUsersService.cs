@@ -18,11 +18,13 @@ namespace OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Users
         Task<List<UserWithRoleViewModel>> GetPendingUsersAsync();
         Task<(bool Success, string Message)> ApproveUserAsync(int userId, string role);
         Task<(bool Success, string Message)> RejectUserAsync(int userId);
-        
+
         // Additional methods for admin user management
         Task<bool> UpdateUserRoleAsync(int userId, string newRole, bool isActive);
         Task<bool> SoftDeleteUserAsync(int userId);
         Task<UserDetailsViewModel?> GetUserDetailsAsync(int userId);
         Task<UserStatisticsViewModel> GetUserStatisticsAsync(int userId);
+        Task<int> GetNewUsersCountAsync(int days);
+        Task<int> GetActiveUsersCountAsync(int days);
     }
 }

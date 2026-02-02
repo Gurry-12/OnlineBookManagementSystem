@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure.Logging;
+using System.Security.Claims;
 
 namespace OnlineBookManagementSystem.Presentation.Controllers
 {
@@ -59,14 +59,14 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
                 // 1. Save to database for tracking
                 // 2. Send email to admin
                 // 3. Send confirmation email to user
-                
+
                 // For now, we'll log it and show success
                 var logMessage = $"Contact Form - Name: {name}, Email: {email}, Message: {message.Substring(0, Math.Min(100, message.Length))}...";
-                
+
                 TempData["SuccessMessage"] = "Thank you! Your message has been received. We will contact you shortly.";
                 return RedirectToAction(nameof(Support));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 TempData["ErrorMessage"] = "Sorry, there was an error sending your message. Please try again.";
                 return View();

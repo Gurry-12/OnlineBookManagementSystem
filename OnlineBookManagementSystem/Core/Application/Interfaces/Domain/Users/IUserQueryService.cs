@@ -17,9 +17,12 @@ namespace OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Users
         Task<SuperAdminDashboardViewModel> GetSuperAdminDashboardDataAsync();
         Task<ManageUsersViewModel> GetManageUsersDataAsync(int page, int pageSize, string? search = null, string? role = null, string? status = null);
         Task<AdminUsersViewModel> GetUsersForAdminAsync(int page, int pageSize, string? search = null, string? role = null);
-        
+
         // Additional methods for SuperAdmin functionality
         Task<int> GetActiveUsersCountAsync();
         Task<List<UserWithRoleViewModel>> GetPendingUsersAsync();
+
+        // User profile
+        Task<object?> GetUserProfileAsync(int userId);
     }
 }

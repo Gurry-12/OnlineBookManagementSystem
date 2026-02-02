@@ -1,0 +1,591 @@
+@model OnlineBookManagementSystem.Presentation.ViewModels.Orders.OrderListViewModel
+@{
+    ViewData["Title"] = Model.Capabilities.PageTitle;
+    // Layout will be determined by role-based logic in _ViewStart.cshtml
+}
+
+<div class="view-order-list">
+
+<div class="order-list">
+    <div class="order-list__container">
+        <!-- Page Header -->
+        <div class="order-list__header">
+            <div class="order-list__header-content">
+                <div class="order-list__title-section">
+                    <h2 class="order-list__title">
+                        <i class="bi bi-box-seam me-2"></i>@Model.Capabilities.PageTitle
+                    </h2>
+                    <p class="order-list__subtitle">
+                        @if (Model.TotalOrders > 0)
+                        {
+                            <text>Showing @Model.Orders.Count of @Model.TotalOrders orders</text>
+                        }
+                        else
+                        {
+                            <text>No orders found</text>
+                        }
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Statistics (Admin/SuperAdmin only) -->
+        @if (Model.Capabilities.CanViewStatistics && (Model.PendingOrders.HasValue || Model.ProcessingOrders.HasValue || Model.CompletedOrders.HasValue))
+        {
+            <div class="order-list__stats">
+                <div class="stats-card stats-card--primary">
+                    <div class="stats-card__icon">
+                        <i class="bi bi-bag-check"></i>
+                    </div>
+                    <div class="stats-card__content">
+                        <div class="stats-card__value">@(Model.TotalOrders)</div>
+                        <div class="stats-card__label">Total Orders</div>
+                    </div>
+                </div>
+                <div class="stats-card stats-card--warning">
+                    <div class="stats-card__icon">
+                        <i class="bi bi-clock-history"></i>
+                    </div>
+                    <div class="stats-card__content">
+                        <div class="stats-card__value">@(Model.PendingOrders ?? 0)</div>
+                        <div class="stats-card__label">Pending</div>
+                    </div>
+                </div>
+                <div class="stats-card stats-card--info">
+                    <div class="stats-card__icon">
+                        <i class="bi bi-truck"></i>
+                    </div>
+                    <div class="stats-card__content">
+                        <div class="stats-card__value">@(Model.ProcessingOrders ?? 0)</div>
+                        <div class="stats-card__label">Processing</div>
+                    </div>
+                </div>
+                <div class="stats-card stats-card--success">
+                    <div class="stats-card__icon">
+                        <i class="bi bi-check-circle"></i>
+                    </div>
+                    <div class="stats-card__content">
+                        <div class="stats-card__value">@(Model.CompletedOrders ?? 0)</div>
+                        <div class="stats-card__label">Completed</div>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <!-- Search & Filters -->
+        @if (Model.Capabilities.CanSearch || Model.Capabilities.CanFilter || Model.Capabilities.CanSort)
+        {
+            <div class="action-bar">
+                <div class="action-bar__body">
+                    <form method="get" asp-action="List" id="filter-form">
+                        <div class="action-bar__filters">
+                            @if (Model.Capabilities.CanSearch)
+                            {
+                                <div class="filter-group">
+                                    <label class="filter-group__label">
+                                        <i class="bi bi-search me-1"></i>Search Orders
+                                    </label>
+                                    <div class="search-bar">
+                                        <i class="bi bi-search search-bar__icon"></i>
+                                        <input type="text" name="search" value="@Model.SearchTerm" 
+                                               class="search-bar__input" placeholder="Search by order number or customer..." />
+                                        @if (!string.IsNullOrEmpty(Model.SearchTerm))
+                                        {
+                                            <button type="button" class="search-bar__clear" onclick="clearSearch()">
+                                                <i class="bi bi-x"></i>
+                                            </button>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                            
+                            @if (Model.Capabilities.CanFilter)
+                            {
+                                <div class="filter-group">
+                                    <label class="filter-group__label">
+                                        <i class="bi bi-funnel me-1"></i>Status
+                                    </label>
+                                    <select name="status" class="filter-group__select">
+                                        <option value="">All Statuses</option>
+                                        <option value="Pending" selected="@(Model.StatusFilter == "Pending")">Pending</option>
+                                        <option value="Processing" selected="@(Model.StatusFilter == "Processing")">Processing</option>
+                                        <option value="Shipped" selected="@(Model.StatusFilter == "Shipped")">Shipped</option>
+                                        <option value="Completed" selected="@(Model.StatusFilter == "Completed")">Completed</option>
+                                        <option value="Cancelled" selected="@(Model.StatusFilter == "Cancelled")">Cancelled</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="filter-group">
+                                    <label class="filter-group__label">
+                                        <i class="bi bi-calendar me-1"></i>From Date
+                                    </label>
+                                    <input type="date" name="dateFrom" value="@Model.DateFrom?.ToString("yyyy-MM-dd")" class="filter-group__input">
+                                </div>
+                                
+                                <div class="filter-group">
+                                    <label class="filter-group__label">
+                                        <i class="bi bi-calendar me-1"></i>To Date
+                                    </label>
+                                    <input type="date" name="dateTo" value="@Model.DateTo?.ToString("yyyy-MM-dd")" class="filter-group__input">
+                                </div>
+                            }
+                        </div>
+                        
+                        <div class="action-bar__actions">
+                            <button type="submit" class="action-bar__button action-bar__button--primary">
+                                <i class="bi bi-funnel me-1"></i>Filter
+                            </button>
+                            <button type="button" class="action-bar__button action-bar__button--secondary" onclick="clearFilters()">
+                                <i class="bi bi-x-circle me-1"></i>Clear
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        }
+
+        <!-- Orders List -->
+        @if (Model.Orders.Any())
+        {
+            <div class="order-table">
+                <div class="order-table__header">
+                    <h5 class="order-table__title">
+                        <i class="bi bi-list-check me-2"></i>Orders
+                    </h5>
+                </div>
+                <div class="order-table__container">
+                    <table class="order-table__table">
+                        <thead class="order-table__thead">
+                            <tr>
+                                <th>Order #</th>
+                                @if (Model.Capabilities.CanViewCustomerInfo)
+                                {
+                                    <th>Customer</th>
+                                }
+                                <th>Items</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                                @if (Model.Capabilities.CanViewPaymentSummary)
+                                {
+                                    <th>Payment</th>
+                                }
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="order-table__tbody">
+                            @foreach (var order in Model.Orders)
+                            {
+                                <tr class="order-table__row">
+                                    <td class="order-table__cell">
+                                        <div class="order-table__order-number">#@order.Id</div>
+                                        <small class="order-table__order-date">@order.OrderDate</small>
+                                    </td>
+                                    @if (Model.Capabilities.CanViewCustomerInfo)
+                                    {
+                                        <td class="order-table__cell">
+                                            <div class="order-table__customer-name">@order.FullName</div>
+                                            @if (order.User != null)
+                                            {
+                                                <small class="order-table__customer-email">@order.User.Email</small>
+                                            }
+                                        </td>
+                                    }
+                                    <td class="order-table__cell">
+                                        <div class="order-table__item-count">@order.OrderDetails.Sum(od => od.Quantity) items</div>
+                                        @if (order.OrderDetails.Any())
+                                        {
+                                            <small class="order-table__item-preview">@order.OrderDetails.First().Book?.Title</small>
+                                            @if (order.OrderDetails.Count > 1)
+                                            {
+                                                <small class="order-table__item-more"> +@(order.OrderDetails.Count - 1) more</small>
+                                            }
+                                        }
+                                    </td>
+                                    <td class="order-table__cell">
+                                        <div class="order-table__total">@order.TotalAmount</div>
+                                    </td>
+                                    <td class="order-table__cell">
+                                        <span class="order-status-badge order-status-badge--@order.Status.ToString().ToLower()">@order.Status</span>
+                                    </td>
+                                    @if (Model.Capabilities.CanViewPaymentSummary)
+                                    {
+                                        <td class="order-table__cell">
+                                            <div class="order-table__payment-method">@order.PaymentMethod</div>
+                                            <span class="payment-status-badge payment-status-badge--@order.PaymentStatus.ToString().ToLower()">
+                                                @order.PaymentStatus
+                                            </span>
+                                        </td>
+                                    }
+                                    <td class="order-table__cell">
+                                        <div class="order-table__date">@order.OrderDate</div>
+                                        <small class="order-table__time">@order.OrderDate</small>
+                                    </td>
+                                    <td class="order-table__cell">
+                                        <div class="order-table__actions">
+                                            <a asp-controller="@Model.Capabilities.DetailsControllerName" 
+                                               asp-action="@Model.Capabilities.DetailsActionName" 
+                                               asp-route-id="@order.Id" 
+                                               class="action-bar__button action-bar__button--secondary action-bar__button--icon-only">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
+                                            
+                                            @if (Model.Capabilities.CanCancel && order.Status == OnlineBookManagementSystem.Core.Domain.Enums.OrderStatus.Pending)
+                                            {
+                                                <button class="action-bar__button action-bar__button--danger action-bar__button--icon-only" onclick="cancelOrder(@order.Id)">
+                                                    <i class="bi bi-x-circle"></i>
+                                                </button>
+                                            }
+                                            
+                                            @if (Model.Capabilities.CanChangeStatus)
+                                            {
+                                                <div class="dropdown">
+                                                    <button class="action-bar__button action-bar__button--secondary action-bar__button--icon-only dropdown-toggle" 
+                                                            type="button" data-bs-toggle="dropdown">
+                                                        <i class="bi bi-gear"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        @if (order.Status == OnlineBookManagementSystem.Core.Domain.Enums.OrderStatus.Pending)
+                                                        {
+                                                            <li>
+                                                                <a class="dropdown-item" href="#" onclick="changeOrderStatus(@order.Id, 'Processing')">
+                                                                    <i class="bi bi-arrow-right me-2"></i>Mark as Processing
+                                                                </a>
+                                                            </li>
+                                                        }
+                                                        @if (order.Status == OnlineBookManagementSystem.Core.Domain.Enums.OrderStatus.Processing)
+                                                        {
+                                                            <li>
+                                                                <a class="dropdown-item" href="#" onclick="changeOrderStatus(@order.Id, 'Shipped')">
+                                                                    <i class="bi bi-truck me-2"></i>Mark as Shipped
+                                                                </a>
+                                                            </li>
+                                                        }
+                                                        @if (order.Status == OnlineBookManagementSystem.Core.Domain.Enums.OrderStatus.Shipped)
+                                                        {
+                                                            <li>
+                                                                <a class="dropdown-item" href="#" onclick="changeOrderStatus(@order.Id, 'Completed')">
+                                                                    <i class="bi bi-check-circle me-2"></i>Mark as Completed
+                                                                </a>
+                                                            </li>
+                                                        }
+                                                        @if (order.Status != OnlineBookManagementSystem.Core.Domain.Enums.OrderStatus.Cancelled && order.Status != OnlineBookManagementSystem.Core.Domain.Enums.OrderStatus.Completed)
+                                                        {
+                                                            <li><hr class="dropdown-divider"></li>
+                                                            <li>
+                                                                <a class="dropdown-item text-danger" href="#" onclick="changeOrderStatus(@order.Id, 'Cancelled')">
+                                                                    <i class="bi bi-x-circle me-2"></i>Cancel Order
+                                                                </a>
+                                                            </li>
+                                                        }
+                                                    </ul>
+                                                </div>
+                                            }
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+        else
+        {
+            <!-- No Orders Found -->
+            <div class="empty-state">
+                <div class="empty-state__icon">
+                    <i class="bi bi-inbox"></i>
+                </div>
+                <h4 class="empty-state__title">No orders found</h4>
+                <p class="empty-state__description">
+                    @if (!string.IsNullOrEmpty(Model.SearchTerm) || !string.IsNullOrEmpty(Model.StatusFilter))
+                    {
+                        <text>Try adjusting your search criteria or </text>
+                        <a href="@Url.Action("List")" class="empty-state__link">view all orders</a>
+                    }
+                    else if (Model.Capabilities.CanViewAllOrders)
+                    {
+                        <text>No orders have been placed yet.</text>
+                    }
+                    else
+                    {
+                        <text>You haven't placed any orders yet. </text>
+                        <a href="/Books" class="empty-state__link">Start shopping</a>
+                    }
+                </p>
+            </div>
+        }
+
+        <!-- Pagination -->
+        @if (Model.Capabilities.CanPaginate && Model.TotalPages > 1)
+        {
+            <nav aria-label="Order pagination" class="order-list__pagination">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
+                        <a class="page-link" asp-action="List" asp-route-page="@(Model.CurrentPage - 1)" 
+                           asp-route-search="@Model.SearchTerm" asp-route-status="@Model.StatusFilter" 
+                           asp-route-dateFrom="@Model.DateFrom?.ToString("yyyy-MM-dd")" 
+                           asp-route-dateTo="@Model.DateTo?.ToString("yyyy-MM-dd")">
+                            <i class="bi bi-chevron-left"></i> Previous
+                        </a>
+                    </li>
+                    
+                    @{
+                        int startPage = Math.Max(1, Model.CurrentPage - 2);
+                        int endPage = Math.Min(Model.TotalPages, Model.CurrentPage + 2);
+                    }
+                    
+                    @if (startPage > 1)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" asp-action="List" asp-route-page="1" 
+                               asp-route-search="@Model.SearchTerm" asp-route-status="@Model.StatusFilter" 
+                               asp-route-dateFrom="@Model.DateFrom?.ToString("yyyy-MM-dd")" 
+                               asp-route-dateTo="@Model.DateTo?.ToString("yyyy-MM-dd")">1</a>
+                        </li>
+                        @if (startPage > 2)
+                        {
+                            <li class="page-item disabled">
+                                <span class="page-link">...</span>
+                            </li>
+                        }
+                    }
+                    
+                    @for (int i = startPage; i <= endPage; i++)
+                    {
+                        <li class="page-item @(Model.CurrentPage == i ? "active" : "")">
+                            <a class="page-link" asp-action="List" asp-route-page="@i" 
+                               asp-route-search="@Model.SearchTerm" asp-route-status="@Model.StatusFilter" 
+                               asp-route-dateFrom="@Model.DateFrom?.ToString("yyyy-MM-dd")" 
+                               asp-route-dateTo="@Model.DateTo?.ToString("yyyy-MM-dd")">@i</a>
+                        </li>
+                    }
+                    
+                    @if (endPage < Model.TotalPages)
+                    {
+                        @if (endPage < Model.TotalPages - 1)
+                        {
+                            <li class="page-item disabled">
+                                <span class="page-link">...</span>
+                            </li>
+                        }
+                        <li class="page-item">
+                            <a class="page-link" asp-action="List" asp-route-page="@Model.TotalPages" 
+                               asp-route-search="@Model.SearchTerm" asp-route-status="@Model.StatusFilter" 
+                               asp-route-dateFrom="@Model.DateFrom?.ToString("yyyy-MM-dd")" 
+                               asp-route-dateTo="@Model.DateTo?.ToString("yyyy-MM-dd")">@Model.TotalPages</a>
+                        </li>
+                    }
+                    
+                    <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
+                        <a class="page-link" asp-action="List" asp-route-page="@(Model.CurrentPage + 1)" 
+                           asp-route-search="@Model.SearchTerm" asp-route-status="@Model.StatusFilter" 
+                           asp-route-dateFrom="@Model.DateFrom?.ToString("yyyy-MM-dd")" 
+                           asp-route-dateTo="@Model.DateTo?.ToString("yyyy-MM-dd")">
+                            Next <i class="bi bi-chevron-right"></i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        }
+    </div>
+</div>
+</div>
+
+@section Scripts {
+    <script>
+        function clearSearch() {
+            document.querySelector('input[name="search"]').value = '';
+            document.getElementById('filter-form').submit();
+        }
+
+        function clearFilters() {
+            document.getElementById('filter-form').reset();
+            window.location.href = '@Url.Action("List")';
+        }
+
+        function cancelOrder(orderId) {
+            if (!confirm('Are you sure you want to cancel this order?')) {
+                return;
+            }
+            
+            fetch('/Orders/Cancel', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
+                },
+                body: JSON.stringify({ orderId: orderId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showNotification('Order cancelled successfully!', 'success');
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1500);
+                } else {
+                    showNotification(data.message || 'Failed to cancel order', 'error');
+                }
+            })
+            .catch(error => {
+                showNotification('Error cancelling order', 'error');
+                console.error('Error:', error);
+            });
+        }
+
+        function changeOrderStatus(orderId, newStatus) {
+            if (!confirm(`Are you sure you want to change the order status to ${newStatus}?`)) {
+                return;
+            }
+            
+            fetch('/Orders/ChangeStatus', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
+                },
+                body: JSON.stringify({ orderId: orderId, status: newStatus })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showNotification('Order status updated successfully!', 'success');
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1500);
+                } else {
+                    showNotification(data.message || 'Failed to update order status', 'error');
+                }
+            })
+            .catch(error => {
+                showNotification('Error updating order status', 'error');
+                console.error('Error:', error);
+            });
+        }
+
+        function showNotification(message, type) {
+            // Create toast notification
+            const toast = document.createElement('div');
+            toast.className = `alert alert-${type === 'error' ? 'danger' : type} alert-dismissible fade show position-fixed`;
+            toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+            toast.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            document.body.appendChild(toast);
+
+            // Auto remove after 3 seconds
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.parentNode.removeChild(toast);
+                }
+            }, 3000);
+        }
+
+
+        function clearFilters() {
+            document.getElementById('filter-form').reset();
+            window.location.href = '@Url.Action("List")';
+        }
+
+        function cancelOrder(orderId) {
+            if (!confirm('Are you sure you want to cancel this order?')) {
+                return;
+            }
+            
+            fetch('/Orders/Cancel', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
+                },
+                body: JSON.stringify({ orderId: orderId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showNotification('Order cancelled successfully!', 'success');
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1500);
+                } else {
+                    showNotification(data.message || 'Failed to cancel order', 'error');
+                }
+            })
+            .catch(error => {
+                showNotification('Error cancelling order', 'error');
+                console.error('Error:', error);
+            });
+        }
+
+        function changeOrderStatus(orderId, newStatus) {
+            if (!confirm(`Are you sure you want to change the order status to ${newStatus}?`)) {
+                return;
+            }
+            
+            fetch('/Orders/ChangeStatus', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
+                },
+                body: JSON.stringify({ orderId: orderId, status: newStatus })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showNotification('Order status updated successfully!', 'success');
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1500);
+                } else {
+                    showNotification(data.message || 'Failed to update order status', 'error');
+                }
+            })
+            .catch(error => {
+                showNotification('Error updating order status', 'error');
+                console.error('Error:', error);
+            });
+        }
+
+        function showNotification(message, type) {
+            // Create toast notification
+            const toast = document.createElement('div');
+            toast.className = `alert alert-${type === 'error' ? 'danger' : type} alert-dismissible fade show position-fixed`;
+            toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+            toast.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            document.body.appendChild(toast);
+
+            // Auto remove after 3 seconds
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.parentNode.removeChild(toast);
+                }
+            }, 3000);
+        }
+    </script>
+}
+
+<style>
+    .table-hover tbody tr:hover {
+        background-color: rgba(0,0,0,0.02);
+    }
+    
+    .badge {
+        font-size: 0.75rem;
+    }
+    
+    .dropdown-toggle::after {
+        display: none;
+    }
+    
+    .card {
+        border: none;
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    }
+</style>

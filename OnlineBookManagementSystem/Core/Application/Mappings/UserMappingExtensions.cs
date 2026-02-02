@@ -1,7 +1,7 @@
 using OnlineBookManagementSystem.Core.Domain.Entities;
-using OnlineBookManagementSystem.Presentation.ViewModels.User;
 using OnlineBookManagementSystem.Presentation.ViewModels.Admin;
 using OnlineBookManagementSystem.Presentation.ViewModels.SuperAdmin;
+using OnlineBookManagementSystem.Presentation.ViewModels.User;
 
 namespace OnlineBookManagementSystem.Core.Application.Mappings
 {
@@ -59,7 +59,7 @@ namespace OnlineBookManagementSystem.Core.Application.Mappings
         /// <summary>
         /// Maps collection of Users to AdminUsersViewModel
         /// </summary>
-        public static AdminUsersViewModel ToAdminUsersViewModel(this IEnumerable<User> users, 
+        public static AdminUsersViewModel ToAdminUsersViewModel(this IEnumerable<User> users,
             int currentPage, int totalPages, int totalUsers,
             string searchTerm = null, string roleFilter = null, string statusFilter = null)
         {

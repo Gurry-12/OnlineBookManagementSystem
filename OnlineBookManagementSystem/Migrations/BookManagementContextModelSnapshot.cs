@@ -707,6 +707,10 @@ namespace OnlineBookManagementSystem.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("AdminEmail")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<Guid>("ConcurrencyToken")
                         .IsConcurrencyToken()
                         .HasColumnType("TEXT");
@@ -730,10 +734,22 @@ namespace OnlineBookManagementSystem.Migrations
                         .HasColumnType("INTEGER")
                         .HasDefaultValue(false);
 
+                    b.Property<int>("LockoutDurationMinutes")
+                        .HasColumnType("INTEGER");
+
                     b.Property<bool>("MaintenanceMode")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
                         .HasDefaultValue(false);
+
+                    b.Property<int>("MaxLoginAttempts")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("PasswordMinLength")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("RequireEmailConfirmation")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("SenderEmail")
                         .IsRequired()
@@ -744,6 +760,10 @@ namespace OnlineBookManagementSystem.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
                         .HasDefaultValue("Whispering Pages");
+
+                    b.Property<string>("SiteDescription")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("SiteName")
                         .IsRequired()

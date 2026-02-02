@@ -199,7 +199,7 @@ namespace OnlineBookManagementSystem.Presentation.ViewModels.Showcase
         public string Location { get; set; } = string.Empty;
         public List<string> AvailableForRoles { get; set; } = new();
         public bool OpenToCollaboration { get; set; }
-        
+
         // Technical documentation and repository links
         public string TechnicalDocumentationUrl { get; set; } = string.Empty;
         public string ArchitectureDocumentationUrl { get; set; } = string.Empty;

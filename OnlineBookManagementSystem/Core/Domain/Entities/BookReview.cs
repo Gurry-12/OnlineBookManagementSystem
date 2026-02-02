@@ -9,9 +9,9 @@ namespace OnlineBookManagementSystem.Core.Domain.Entities
 
         public int BookId { get; set; }
         public int UserId { get; set; }
-        
-        public int Rating 
-        { 
+
+        public int Rating
+        {
             get => _rating;
             set
             {
@@ -21,8 +21,8 @@ namespace OnlineBookManagementSystem.Core.Domain.Entities
             }
         }
 
-        public string ReviewText 
-        { 
+        public string ReviewText
+        {
             get => _reviewText;
             set
             {

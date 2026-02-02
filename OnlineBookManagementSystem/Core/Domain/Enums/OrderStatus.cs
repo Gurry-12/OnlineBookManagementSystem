@@ -53,7 +53,7 @@ namespace OnlineBookManagementSystem.Core.Domain.Enums
         {
             if (Enum.TryParse<OrderStatus>(value, true, out var result))
                 return result;
-            
+
             throw new ArgumentException($"Invalid OrderStatus value: {value}");
         }
 
@@ -61,10 +61,10 @@ namespace OnlineBookManagementSystem.Core.Domain.Enums
         {
             if (string.IsNullOrWhiteSpace(value))
                 return null;
-            
+
             if (Enum.TryParse<OrderStatus>(value, true, out var result))
                 return result;
-            
+
             return null;
         }
     }

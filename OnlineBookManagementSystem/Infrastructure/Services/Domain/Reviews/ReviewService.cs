@@ -1,11 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+using OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Reviews;
+using OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure.Logging;
 using OnlineBookManagementSystem.Core.Domain.Entities;
 using OnlineBookManagementSystem.Core.Domain.Enums;
 using OnlineBookManagementSystem.Infrastructure.Data.Context;
 using OnlineBookManagementSystem.Presentation.ViewModels.Reviews;
-using OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Reviews;
-using OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure.Logging;
 
 namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Reviews
 {
@@ -256,7 +256,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Reviews
             if (approvedReviews.Any())
             {
                 ratingViewModel.AverageRating = approvedReviews.Average(r => r.Rating);
-                
+
                 // Set individual rating counts
                 var ratingGroups = approvedReviews.GroupBy(r => r.Rating).ToDictionary(g => g.Key, g => g.Count());
                 ratingViewModel.FiveStarCount = ratingGroups.GetValueOrDefault(5, 0);

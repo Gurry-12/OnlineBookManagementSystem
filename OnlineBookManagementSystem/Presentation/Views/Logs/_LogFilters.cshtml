@@ -1,0 +1,82 @@
+@model OnlineBookManagementSystem.Presentation.ViewModels.Logs.LogFilters
+
+<div class="log-filters">
+    <div class="log-filters__header">
+        <h5 class="log-filters__title">
+            <i class="bi bi-funnel me-2"></i>Log Filters
+        </h5>
+    </div>
+    <div class="log-filters__body">
+        <form method="get" class="log-filters__form">
+            <div class="log-filters__group">
+                <label for="searchTerm" class="log-filters__label">Search</label>
+                <input type="text" class="log-filters__input" id="searchTerm" name="searchTerm" 
+                       value="@Model.SearchTerm" placeholder="Search logs..." />
+            </div>
+            
+            <div class="log-filters__group">
+                <label for="actionType" class="log-filters__label">Action Type</label>
+                <select class="log-filters__select" id="actionType" name="actionType">
+                    <option value="">All Actions</option>
+                    <option value="Login" selected="@(Model.ActionType == "Login")">Login</option>
+                    <option value="Logout" selected="@(Model.ActionType == "Logout")">Logout</option>
+                    <option value="Create" selected="@(Model.ActionType == "Create")">Create</option>
+                    <option value="Update" selected="@(Model.ActionType == "Update")">Update</option>
+                    <option value="Delete" selected="@(Model.ActionType == "Delete")">Delete</option>
+                    <option value="View" selected="@(Model.ActionType == "View")">View</option>
+                </select>
+            </div>
+            
+            <div class="log-filters__group">
+                <label for="userName" class="log-filters__label">User</label>
+                <input type="text" class="log-filters__input" id="userName" name="userName" 
+                       value="@Model.UserName" placeholder="Username..." />
+            </div>
+            
+            <div class="log-filters__group">
+                <label for="dateFrom" class="log-filters__label">Date From</label>
+                <input type="date" class="log-filters__input" id="dateFrom" name="dateFrom" 
+                       value="@Model.DateFrom?.ToString("yyyy-MM-dd")" />
+            </div>
+            
+            <div class="log-filters__group">
+                <label for="dateTo" class="log-filters__label">Date To</label>
+                <input type="date" class="log-filters__input" id="dateTo" name="dateTo" 
+                       value="@Model.DateTo?.ToString("yyyy-MM-dd")" />
+            </div>
+            
+            <div class="log-filters__group">
+                <button type="submit" class="log-filters__button log-filters__button--primary log-filters__button--icon-only">
+                    <i class="bi bi-search"></i>
+                </button>
+            </div>
+            
+            <div class="log-filters__actions">
+                <a href="@Context.Request.Path" class="log-filters__button">
+                    <i class="bi bi-arrow-clockwise me-2"></i>Reset Filters
+                </a>
+                <button type="button" class="log-filters__button log-filters__button--info" onclick="setTodayFilter()">
+                    <i class="bi bi-calendar-day me-2"></i>Today Only
+                </button>
+                <button type="button" class="log-filters__button log-filters__button--info" onclick="setWeekFilter()">
+                    <i class="bi bi-calendar-week me-2"></i>This Week
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+function setTodayFilter() {
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('dateFrom').value = today;
+    document.getElementById('dateTo').value = today;
+}
+
+function setWeekFilter() {
+    const today = new Date();
+    const weekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
+    document.getElementById('dateFrom').value = weekAgo.toISOString().split('T')[0];
+    document.getElementById('dateTo').value = today.toISOString().split('T')[0];
+}
+</script>

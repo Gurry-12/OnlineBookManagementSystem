@@ -41,7 +41,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Helpers
 
                     // Handle the concurrency conflict
                     await HandleConcurrencyConflict(ex);
-                    
+
                     // Wait a bit before retrying
                     await Task.Delay(100 * attempt);
                 }
@@ -67,22 +67,22 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Helpers
                 {
                     // Get the current values from the database
                     var databaseValues = await entry.GetDatabaseValuesAsync();
-                    
+
                     if (databaseValues == null)
                     {
                         // Entity was deleted by another user
-                        _logger.LogWarning("Entity {EntityType} with ID {EntityId} was deleted by another user", 
+                        _logger.LogWarning("Entity {EntityType} with ID {EntityId} was deleted by another user",
                             entity.GetType().Name, entity.Id);
                         throw new InvalidOperationException("The record has been deleted by another user.");
                     }
 
                     // Reload the entity with current database values
                     entry.OriginalValues.SetValues(databaseValues);
-                    
+
                     // Update timestamp to reflect the reload
                     entity.UpdateTimestamp();
-                    
-                    _logger.LogInformation("Resolved concurrency conflict for {EntityType} with ID {EntityId}", 
+
+                    _logger.LogInformation("Resolved concurrency conflict for {EntityType} with ID {EntityId}",
                         entity.GetType().Name, entity.Id);
                 }
                 else

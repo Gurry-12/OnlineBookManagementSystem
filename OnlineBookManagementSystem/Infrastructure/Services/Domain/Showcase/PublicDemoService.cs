@@ -1,15 +1,14 @@
-using Microsoft.Extensions.Logging;
-using OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Showcase;
-using OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Books;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Analytics;
+using OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Books;
+using OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Showcase;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Repositories.Analytics;
+using OnlineBookManagementSystem.Core.Application.Mappings;
+using OnlineBookManagementSystem.Core.Domain.Entities;
 using OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Caching;
 using OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Performance;
 using OnlineBookManagementSystem.Presentation.ViewModels.Books;
-using OnlineBookManagementSystem.Presentation.ViewModels.Showcase;
 using OnlineBookManagementSystem.Presentation.ViewModels.Reviews;
-using OnlineBookManagementSystem.Core.Domain.Entities;
-using OnlineBookManagementSystem.Core.Application.Mappings;
+using OnlineBookManagementSystem.Presentation.ViewModels.Showcase;
 
 namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Showcase
 {
@@ -59,30 +58,30 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Showcase
         public async Task<BookListViewModel> GetFeaturedBooksAsync(int count = 8)
         {
             var cacheKey = $"{FEATURED_BOOKS_CACHE_KEY}_{count}";
-            
+
             return await _gracefulDegradation.ExecuteWithFallbackAsync(
                 primaryOperation: async () => await _cache.GetOrSetAsync(cacheKey, async () =>
                 {
                     // Try to get most favorited books first, then fall back to newest books
                     var featuredBooks = await GetMostFavoritedBooksAsync(count);
-                    
+
                     if (featuredBooks.Books.Count < count)
                     {
                         // Fill remaining slots with newest books
                         var newestBooks = await _bookQueryService.GetPaginatedBooksAsync(
-                            page: 1, 
-                            pageSize: count - featuredBooks.Books.Count, 
-                            search: null, 
-                            categoryId: null, 
+                            page: 1,
+                            pageSize: count - featuredBooks.Books.Count,
+                            search: null,
+                            categoryId: null,
                             sortBy: "createdDate",
                             minPrice: null,
                             maxPrice: null,
                             inStock: true);
-                        
+
                         // Combine and deduplicate
                         var allBooks = featuredBooks.Books.ToList();
                         var existingIds = allBooks.Select(b => b.Id).ToHashSet();
-                        
+
                         foreach (var book in newestBooks.Books)
                         {
                             if (!existingIds.Contains(book.Id) && allBooks.Count < count)
@@ -90,7 +89,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Showcase
                                 allBooks.Add(book);
                             }
                         }
-                        
+
                         featuredBooks = new BookListViewModel
                         {
                             Books = allBooks,
@@ -141,7 +140,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Showcase
                     {
                         var categoryName = category.Text;
                         var bookCount = categoryDistribution.ContainsKey(categoryName) ? categoryDistribution[categoryName] : 0;
-                        
+
                         categoriesWithCounts.Add(new CategoryWithCountViewModel
                         {
                             Id = int.Parse(category.Value),
@@ -189,7 +188,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Showcase
 
                 // Add caching for search results
                 var cacheKey = $"search:{sanitizedQuery}_{safePage}_{safePageSize}";
-                
+
                 return await _cache.GetOrSetAsync(cacheKey, async () =>
                 {
                     var books = await _bookQueryService.GetPaginatedBooksAsync(
@@ -221,7 +220,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Showcase
 
                     // Add caching for book details
                     var cacheKey = $"books:details_{bookId}";
-                    
+
                     return await _cache.GetOrSetAsync(cacheKey, async () =>
                     {
                         var book = await _bookQueryService.GetBookByIdAsync(bookId);
@@ -320,9 +319,9 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Showcase
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Failed to get books for category: {CategoryId}", categoryId);
-                return new BookListViewModel 
-                { 
-                    Books = new List<Book>(), 
+                return new BookListViewModel
+                {
+                    Books = new List<Book>(),
                     TotalBooks = 0,
                     CurrentPage = Math.Max(1, page),
                     TotalPages = 0
@@ -365,10 +364,10 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Showcase
         public async Task<List<OnlineBookManagementSystem.Core.Domain.Entities.TechnicalHighlight>> GetTechnicalHighlightsAsync(string? category = null)
         {
             await Task.CompletedTask; // Placeholder for future database implementation
-            
+
             // For now, return static content - in future this would come from database
             var highlights = GetStaticTechnicalHighlights();
-            
+
             if (!string.IsNullOrEmpty(category))
             {
                 highlights = highlights.Where(h => h.Category.Equals(category, StringComparison.OrdinalIgnoreCase)).ToList();
@@ -380,10 +379,10 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Showcase
         public async Task<List<OnlineBookManagementSystem.Core.Domain.Entities.FeatureShowcase>> GetFeatureShowcasesAsync(string? category = null)
         {
             await Task.CompletedTask; // Placeholder for future database implementation
-            
+
             // For now, return static content - in future this would come from database
             var showcases = GetStaticFeatureShowcases();
-            
+
             if (!string.IsNullOrEmpty(category))
             {
                 showcases = showcases.Where(s => s.Category.Equals(category, StringComparison.OrdinalIgnoreCase)).ToList();
@@ -399,7 +398,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Showcase
                 // In a real implementation, these would come from actual monitoring systems
                 // For now, we'll provide realistic simulated values
                 await Task.CompletedTask;
-                
+
                 return new PerformanceStatsViewModel
                 {
                     PageLoadTime = GetRandomPerformanceValue(0.8, 1.5), // 0.8-1.5 seconds
@@ -443,7 +442,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Showcase
                 {
                     return 0;
                 }
-                
+
                 var books = await _bookQueryService.GetPaginatedBooksAsync(1, 1, null, categoryId, "title");
                 return books.TotalBooks;
             }
@@ -528,7 +527,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Showcase
             try
             {
                 var orderStatusDistribution = await _analyticsRepository.GetOrderStatusDistributionAsync();
-                return orderStatusDistribution.Where(kvp => 
+                return orderStatusDistribution.Where(kvp =>
                     kvp.Key.Equals("Completed", StringComparison.OrdinalIgnoreCase) ||
                     kvp.Key.Equals("Delivered", StringComparison.OrdinalIgnoreCase))
                     .Sum(kvp => kvp.Value);
@@ -827,4 +826,4 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Showcase
 
         #endregion
     }
-} 
+}

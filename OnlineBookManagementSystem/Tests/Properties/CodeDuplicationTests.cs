@@ -1,6 +1,5 @@
 using FsCheck;
 using FsCheck.Xunit;
-using System.Reflection;
 using System.Text.RegularExpressions;
 using Xunit;
 
@@ -47,7 +46,7 @@ public class CodeDuplicationTests
                     if (!File.Exists(file)) continue;
 
                     var content = File.ReadAllText(file);
-                    
+
                     // Check that validation logic is not scattered in controllers/services
                     if (HasScatteredValidationLogic(content, file))
                     {
@@ -131,7 +130,7 @@ public class CodeDuplicationTests
                     if (!File.Exists(file)) continue;
 
                     var content = File.ReadAllText(file);
-                    
+
                     // Detect mapping strategies used
                     var strategies = DetectMappingStrategies(content);
                     foreach (var strategy in strategies)
@@ -169,7 +168,7 @@ public class CodeDuplicationTests
                     if (!File.Exists(file)) continue;
 
                     var content = File.ReadAllText(file);
-                    
+
                     if (HasScatteredManualMapping(content))
                     {
                         return false;
@@ -189,13 +188,13 @@ public class CodeDuplicationTests
     private static string? GetProjectRoot()
     {
         var currentDir = Directory.GetCurrentDirectory();
-        
+
         // Look for the project root by finding the .csproj file
         while (currentDir != null && !Directory.GetFiles(currentDir, "*.csproj").Any())
         {
             currentDir = Directory.GetParent(currentDir)?.FullName;
         }
-        
+
         return currentDir;
     }
 

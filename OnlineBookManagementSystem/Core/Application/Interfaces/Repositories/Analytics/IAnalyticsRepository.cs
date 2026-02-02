@@ -17,7 +17,7 @@ namespace OnlineBookManagementSystem.Core.Application.Interfaces.Repositories.An
         Task<List<Book>> GetTopRatedBooksAsync(int count);
         Task<List<Book>> GetMostFavoritedBooksAsync(int count);
         Task<List<User>> GetMostActiveUsersAsync(int count);
-        
+
         // Additional methods for SuperAdmin analytics
         Task<Dictionary<DateTime, (int NewUsers, int TotalUsers, int ActiveUsers)>> GetUserGrowthDataAsync();
         Task<Dictionary<DateTime, (decimal Revenue, int OrderCount, decimal AverageOrderValue)>> GetRevenueGrowthDataAsync();

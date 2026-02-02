@@ -1,0 +1,76 @@
+/**
+ * VIEW: Books
+ * Purpose: Layout and composition for book-related views
+ * Uses: component classes only - NO direct styling
+ */
+
+/* ========================================
+   VIEW: view-books-list
+   ======================================== */
+
+.view-books-list {
+    min-height: 100vh;
+    padding: var(--space-4);
+}
+
+.view-books-list .book-list__container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.view-books-list .book-list__header {
+    margin-bottom: var(--space-6);
+}
+
+.view-books-list .book-list__grid {
+    margin-bottom: var(--space-8);
+}
+
+.view-books-list .book-list__pagination {
+    margin-top: var(--space-6);
+}
+
+/* ========================================
+   VIEW: view-book-details
+   ======================================== */
+
+.view-book-details {
+    min-height: 100vh;
+    padding: var(--space-4);
+}
+
+.view-book-details .book-details__container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.view-book-details .book-details__header {
+    margin-bottom: var(--space-6);
+}
+
+.view-book-details .book-details__content {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: var(--space-8);
+    margin-bottom: var(--space-8);
+}
+
+.view-book-details .book-details__reviews {
+    margin-top: var(--space-8);
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 768px) {
+    .view-books-list,
+    .view-book-details {
+        padding: var(--space-3);
+    }
+    
+    .view-book-details .book-details__content {
+        grid-template-columns: 1fr;
+        gap: var(--space-4);
+    }
+}

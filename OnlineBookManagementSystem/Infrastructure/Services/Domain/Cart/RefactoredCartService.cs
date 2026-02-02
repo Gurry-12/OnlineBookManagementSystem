@@ -5,7 +5,6 @@ using OnlineBookManagementSystem.Core.Application.Interfaces.Repositories;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Repositories.Cart;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Repositories.Orders;
 using OnlineBookManagementSystem.Core.Domain.Entities;
-using OnlineBookManagementSystem.Core.Domain.ValueObjects;
 using OnlineBookManagementSystem.Presentation.ViewModels.Admin;
 using OnlineBookManagementSystem.Presentation.ViewModels.Cart;
 
@@ -20,6 +19,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Cart
         private readonly ICartRepository _cartRepository;
         private readonly IBookRepository _bookRepository;
         private readonly IOrderRepository _orderRepository;
+        private readonly IOrderCommandService _orderCommandService;
         private readonly IMemoryCache _cache;
         private readonly ILogger<RefactoredCartService> _logger;
         private readonly IActivityLogger _activityLogger;
@@ -28,6 +28,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Cart
             ICartRepository cartRepository,
             IBookRepository bookRepository,
             IOrderRepository orderRepository,
+            IOrderCommandService orderCommandService,
             IMemoryCache cache,
             ILogger<RefactoredCartService> logger,
             IActivityLogger activityLogger)
@@ -35,6 +36,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Cart
             _cartRepository = cartRepository;
             _bookRepository = bookRepository;
             _orderRepository = orderRepository;
+            _orderCommandService = orderCommandService;
             _cache = cache;
             _logger = logger;
             _activityLogger = activityLogger;
@@ -46,7 +48,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Cart
             if (!_cache.TryGetValue(cacheKey, out List<ShoppingCartViewModel>? cartItems))
             {
                 var cartEntities = await _cartRepository.GetCartItemsWithBooksAsync(userId);
-                
+
                 cartItems = cartEntities.Select(sc => new ShoppingCartViewModel
                 {
                     Id = sc.Id,
@@ -101,7 +103,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Cart
 
                 if (book.StockQuantity < quantity)
                 {
-                    _logger.LogWarning("Insufficient stock for book {BookId}. Available: {Stock}, Requested: {Quantity}", 
+                    _logger.LogWarning("Insufficient stock for book {BookId}. Available: {Stock}, Requested: {Quantity}",
                         bookId, book.StockQuantity, quantity);
                     return false;
                 }
@@ -114,7 +116,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Cart
                     var newQuantity = existingItem.Quantity + quantity;
                     if (newQuantity > book.StockQuantity)
                     {
-                        _logger.LogWarning("Cannot add more items. Total would exceed stock. Book: {BookId}, Stock: {Stock}, Requested Total: {Total}", 
+                        _logger.LogWarning("Cannot add more items. Total would exceed stock. Book: {BookId}, Stock: {Stock}, Requested Total: {Total}",
                             bookId, book.StockQuantity, newQuantity);
                         return false;
                     }
@@ -174,7 +176,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Cart
                 var book = await _bookRepository.GetByIdAsync(cartItem.BookId);
                 if (book == null || quantity > book.StockQuantity)
                 {
-                    _logger.LogWarning("Cannot update cart item. Insufficient stock. Available: {Stock}, Requested: {Quantity}", 
+                    _logger.LogWarning("Cannot update cart item. Insufficient stock. Available: {Stock}, Requested: {Quantity}",
                         book?.StockQuantity ?? 0, quantity);
                     return false;
                 }
@@ -232,14 +234,37 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Cart
         {
             try
             {
-                // This would need to be implemented in the repository
-                // For now, return empty list
-                return new List<AdminCartViewModel>();
+                var allCartItems = await _cartRepository.GetAllCartsAsync();
+
+                var adminCarts = allCartItems
+                    .GroupBy(sc => sc.UserId)
+                    .Select(group => new AdminCartViewModel
+                    {
+                        UserId = group.Key,
+                        UserName = group.First().User?.Name ?? "Unknown User",
+                        UserEmail = group.First().User?.Email ?? "Unknown Email",
+                        ItemCount = group.Sum(sc => sc.Quantity),
+                        TotalValue = group.Sum(sc => sc.Quantity * sc.Book.Price.Amount),
+                        LastUpdated = group.Max(sc => sc.UpdatedAt),
+                        Items = group.Select(sc => new CartItemViewModel
+                        {
+                            BookId = sc.BookId,
+                            BookTitle = sc.Book.Title,
+                            Author = sc.Book.Author,
+                            Quantity = sc.Quantity,
+                            Price = sc.Book.Price.Amount,
+                            Subtotal = sc.Quantity * sc.Book.Price.Amount
+                        }).ToList()
+                    })
+                    .OrderByDescending(ac => ac.LastUpdated)
+                    .ToList();
+
+                return adminCarts;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error getting all carts");
-                throw;
+                _logger.LogError(ex, "Error getting all carts for admin {AdminUserId}", adminUserId);
+                return new List<AdminCartViewModel>();
             }
         }
 
@@ -263,26 +288,80 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Cart
             }
         }
 
-        public async Task<bool> ProcessCheckoutAsync(int userId, CheckOutRequestViewModel request)
+        public async Task<(bool Success, int OrderId, string Message)> ProcessCheckoutAsync(int userId, CheckOutRequestViewModel request)
         {
             try
             {
-                // This would create an order and clear the cart
-                // Implementation would depend on order creation logic
-                await _cartRepository.ClearUserCartAsync(userId);
-                _cache.Remove($"cart_{userId}");
+                // Get cart items first
+                var cartItems = await _cartRepository.GetCartItemsWithBooksAsync(userId);
+                if (!cartItems.Any())
+                {
+                    return (false, 0, "Cart is empty");
+                }
 
-                await _activityLogger.LogAsync(
-                    "Checkout Processed",
-                    "Order created from cart",
-                    userId);
+                // Validate stock availability for all items
+                foreach (var cartItem in cartItems)
+                {
+                    var book = await _bookRepository.GetByIdAsync(cartItem.BookId);
+                    if (book == null || book.IsDeleted)
+                    {
+                        return (false, 0, $"Book '{cartItem.Book?.Title}' is no longer available");
+                    }
 
-                return true;
+                    if (book.StockQuantity < cartItem.Quantity)
+                    {
+                        return (false, 0, $"Insufficient stock for '{book.Title}'. Available: {book.StockQuantity}, Requested: {cartItem.Quantity}");
+                    }
+                }
+
+                // Create order request from cart items
+                var createOrderRequest = new CreateOrderRequest
+                {
+                    UserId = userId,
+                    FullName = request.FullName,
+                    Email = request.Email,
+                    Phone = request.Phone,
+                    Address = request.Address,
+                    City = request.City,
+                    State = request.State,
+                    ZipCode = request.ZipCode,
+                    PaymentMethod = request.PaymentMethod,
+                    Notes = request.Notes,
+                    Items = cartItems.Select(ci => new OrderItemRequest
+                    {
+                        BookId = ci.BookId,
+                        Quantity = ci.Quantity,
+                        Price = ci.Book.Price.Amount
+                    }).ToList()
+                };
+
+                // Create the order using the order command service
+                var orderResult = await _orderCommandService.CreateOrderAsync(createOrderRequest);
+
+                if (orderResult.Success)
+                {
+                    // Clear the cart only after successful order creation
+                    await _cartRepository.ClearUserCartAsync(userId);
+                    _cache.Remove($"cart_{userId}");
+
+                    await _activityLogger.LogAsync(
+                        "Checkout Processed",
+                        $"Order #{orderResult.OrderId} created from cart",
+                        userId);
+
+                    _logger.LogInformation("Checkout processed successfully for user {UserId}, Order ID: {OrderId}", userId, orderResult.OrderId);
+                    return (true, orderResult.OrderId, "Order created successfully");
+                }
+                else
+                {
+                    _logger.LogWarning("Failed to create order during checkout for user {UserId}: {Message}", userId, orderResult.Message);
+                    return (false, 0, orderResult.Message);
+                }
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error processing checkout for user {UserId}", userId);
-                throw;
+                return (false, 0, "An error occurred while processing your order");
             }
         }
 

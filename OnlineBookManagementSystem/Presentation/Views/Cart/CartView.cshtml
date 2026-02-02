@@ -1,0 +1,324 @@
+@model OnlineBookManagementSystem.Presentation.ViewModels.Cart.UnifiedCartViewModel
+@{
+    ViewData["Title"] = Model.Capabilities.PageTitle;
+    // Layout will be determined by role-based logic in _ViewStart.cshtml
+}
+
+<div class="view-cart">
+<div class="container py-4">
+    <!-- Page Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2 class="mb-1">
+                        <i class="bi bi-cart4 me-2"></i>@Model.Capabilities.PageTitle
+                    </h2>
+                    @if (Model.Capabilities.CanViewUserInfo && !string.IsNullOrEmpty(Model.UserName))
+                    {
+                        <p class="text-muted mb-0">Cart for: @Model.UserName</p>
+                    }
+                    else if (Model.HasItems)
+                    {
+                        <p class="text-muted mb-0">@Model.TotalItems items in your cart</p>
+                    }
+                </div>
+                @if (Model.Capabilities.CanClearCart && Model.HasItems)
+                {
+                    <button class="btn btn-outline-danger" onclick="clearCart()">
+                        <i class="bi bi-trash me-2"></i>Clear Cart
+                    </button>
+                }
+            </div>
+        </div>
+    </div>
+
+    @if (!Model.HasItems)
+    {
+        <!-- Empty Cart -->
+        <div class="text-center py-5">
+            <i class="bi bi-cart-x display-1 text-muted mb-4"></i>
+            <h4 class="text-muted">
+                @if (Model.Capabilities.IsReadOnly)
+                {
+                    <text>This cart is empty</text>
+                }
+                else
+                {
+                    <text>Your cart is empty</text>
+                }
+            </h4>
+            <p class="text-muted mb-4">
+                @if (Model.Capabilities.IsReadOnly)
+                {
+                    <text>The user hasn't added any items yet.</text>
+                }
+                else
+                {
+                    <text>Looks like you haven't added anything yet.</text>
+                }
+            </p>
+            @if (!Model.Capabilities.IsReadOnly)
+            {
+                <a href="@Model.Capabilities.BackLinkUrl" class="btn btn-primary btn-lg">
+                    <i class="bi bi-arrow-left me-2"></i>@Model.Capabilities.BackLinkText
+                </a>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            <!-- Cart Items -->
+            <div class="col-lg-8">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body">
+                        @foreach (var item in Model.CartItems)
+                        {
+                            <div class="cart-item" data-book-id="@item.BookId">
+                                <div class="cart-item__image-container">
+                                    <img src="@(item.BookImage ?? Url.Content("~/images/default-book-improved.svg"))"
+                                         alt="@item.BookTitle"
+                                         class="cart-item__image" />
+                                </div>
+                                <div class="cart-item__details">
+                                    <div class="cart-item__header">
+                                        <div class="cart-item__info">
+                                            <h6 class="cart-item__title">@item.BookTitle</h6>
+                                            <p class="cart-item__author">by @item.BookAuthor</p>
+                                            @if (!string.IsNullOrEmpty(item.CategoryName))
+                                            {
+                                                <span class="cart-item__category">@item.CategoryName</span>
+                                            }
+                                        </div>
+                                        @if (Model.Capabilities.CanRemoveItems)
+                                        {
+                                            <button class="cart-item__remove" onclick="removeFromCart(@item.BookId)" title="Remove item">
+                                                <i class="bi bi-trash3"></i>
+                                            </button>
+                                        }
+                                    </div>
+
+                                    <div class="cart-item__controls">
+                                        @if (Model.Capabilities.CanUpdateQuantity)
+                                        {
+                                            <div class="cart-item__quantity-selector">
+                                                <button class="cart-item__quantity-button" onclick="updateQuantity(@item.BookId, -1)" type="button">
+                                                    <i class="bi bi-dash"></i>
+                                                </button>
+                                                <input type="text" class="cart-item__quantity-input" value="@item.Quantity" readonly id="qty-@item.BookId" />
+                                                <button class="cart-item__quantity-button" onclick="updateQuantity(@item.BookId, 1)" type="button">
+                                                    <i class="bi bi-plus"></i>
+                                                </button>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary">Qty: @item.Quantity</span>
+                                        }
+                                        
+                                        <span class="cart-item__price">@item.FormattedBookPrice</span>
+                                        <span class="cart-item__subtotal">@item.FormattedSubtotal</span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="col-lg-4">
+                <div class="cart-summary cart-summary--sticky">
+                    <div class="cart-summary__header">
+                        <h6 class="cart-summary__title">
+                            <i class="bi bi-receipt me-2"></i>Order Summary
+                        </h6>
+                    </div>
+                    <div class="cart-summary__body">
+                        <div class="cart-summary__row">
+                            <span class="cart-summary__label">Subtotal (@Model.Summary.ItemCount items)</span>
+                            <span class="cart-summary__value">@Model.Summary.FormattedSubtotal</span>
+                        </div>
+                        <div class="cart-summary__row">
+                            <span class="cart-summary__label">Tax (@(Model.Summary.TaxRate * 100)%)</span>
+                            <span class="cart-summary__value">@Model.Summary.FormattedTax</span>
+                        </div>
+                        <div class="cart-summary__row">
+                            <span class="cart-summary__label cart-summary__shipping">Shipping</span>
+                            <span class="cart-summary__value cart-summary__shipping">
+                                @(Model.Summary.Shipping == 0 ? "FREE" : Model.Summary.FormattedShipping)
+                            </span>
+                        </div>
+                        <div class="cart-summary__total">
+                            <div class="cart-summary__row">
+                                <span class="cart-summary__label">Total</span>
+                                <span class="cart-summary__value">@Model.Summary.FormattedGrandTotal</span>
+                            </div>
+                        </div>
+
+                        @if (Model.Summary.GrandTotal > 1000)
+                        {
+                            <div class="cart-summary__free-shipping">
+                                <i class="bi bi-truck me-2"></i>
+                                <strong>Congrats!</strong> You get Free Shipping
+                            </div>
+                        }
+
+                        <div class="cart-summary__actions">
+                            @if (Model.Capabilities.CanCheckout)
+                            {
+                                <a asp-controller="Cart" asp-action="Checkout" class="cart-summary__checkout-button">
+                                    <i class="bi bi-lock me-2"></i>@Model.Capabilities.CheckoutButtonText
+                                </a>
+                            }
+                            
+                            @if (!Model.Capabilities.IsReadOnly)
+                            {
+                                <a href="@Model.Capabilities.BackLinkUrl" class="cart-summary__continue-button">
+                                    <i class="bi bi-arrow-left me-2"></i>@Model.Capabilities.BackLinkText
+                                </a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+</div>
+
+@section Scripts {
+    @if (Model.Capabilities.CanModifyCart)
+    {
+        <script>
+            async function updateQuantity(bookId, change) {
+                const input = document.querySelector(`#qty-${bookId}`);
+                let qty = parseInt(input.value) || 1;
+                qty = Math.max(1, qty + change);
+                input.value = qty;
+
+                try {
+                    const response = await fetch('/Cart/UpdateQuantity', {
+                        method: 'POST',
+                        headers: { 
+                            'Content-Type': 'application/json',
+                            'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
+                        },
+                        body: JSON.stringify({ bookId, quantity: qty })
+                    });
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        showNotification('Quantity updated!', 'success');
+                        setTimeout(() => location.reload(), 1000);
+                    } else {
+                        showNotification(result.message || 'Stock limit reached!', 'error');
+                        location.reload();
+                    }
+                } catch (error) {
+                    showNotification('Error updating quantity', 'error');
+                    console.error('Error:', error);
+                    location.reload();
+                }
+            }
+
+            async function removeFromCart(bookId) {
+                if (confirm('Remove this item from cart?')) {
+                    try {
+                        const response = await fetch('/Cart/RemoveItem', {
+                            method: 'DELETE',
+                            headers: { 
+                                'Content-Type': 'application/json',
+                                'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
+                            },
+                            body: JSON.stringify({ bookId })
+                        });
+                        const result = await response.json();
+                        
+                        if (result.success) {
+                            const cartItem = document.querySelector(`[data-book-id="${bookId}"]`);
+                            if (cartItem) {
+                                cartItem.style.transition = 'opacity 0.3s';
+                                cartItem.style.opacity = '0';
+                                setTimeout(() => {
+                                    cartItem.remove();
+                                    location.reload();
+                                }, 300);
+                            }
+                            showNotification('Item removed from cart', 'success');
+                        } else {
+                            showNotification(result.message || 'Failed to remove item', 'error');
+                        }
+                    } catch (error) {
+                        showNotification('Error removing item', 'error');
+                        console.error('Error:', error);
+                    }
+                }
+            }
+
+            async function clearCart() {
+                if (confirm('Are you sure you want to clear your entire cart?')) {
+                    try {
+                        const response = await fetch('/Cart/Clear', {
+                            method: 'POST',
+                            headers: { 
+                                'Content-Type': 'application/json',
+                                'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
+                            }
+                        });
+                        const result = await response.json();
+                        
+                        if (result.success) {
+                            showNotification('Cart cleared successfully', 'success');
+                            setTimeout(() => location.reload(), 1000);
+                        } else {
+                            showNotification(result.message || 'Failed to clear cart', 'error');
+                        }
+                    } catch (error) {
+                        showNotification('Error clearing cart', 'error');
+                        console.error('Error:', error);
+                    }
+                }
+            }
+
+            function showNotification(message, type) {
+                const toast = document.createElement('div');
+                toast.className = `alert alert-${type === 'error' ? 'danger' : type} alert-dismissible fade show position-fixed`;
+                toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+                toast.innerHTML = `
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                `;
+                document.body.appendChild(toast);
+
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        toast.parentNode.removeChild(toast);
+                    }
+                }, 3000);
+            }
+        </script>
+    }
+}
+
+<style>
+    .cart-item:last-child {
+        border-bottom: none !important;
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+    }
+    
+    .card {
+        border: none;
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    }
+    
+    .input-group .btn {
+        border-color: #dee2e6;
+    }
+    
+    .sticky-top {
+        z-index: 1020;
+    }
+</style>

@@ -1,0 +1,93 @@
+@model OnlineBookManagementSystem.Presentation.ViewModels.Reviews.UnifiedReviewListViewModel
+@{
+    ViewData["Title"] = "Review Moderation";
+    // Layout will be determined by role-based logic in _ViewStart.cshtml
+}
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h2 class="mb-1">
+                        <i class="bi bi-shield-check me-2"></i>Review Moderation
+                    </h2>
+                    <p class="text-muted mb-0">
+                        @if (Model.TotalReviews > 0)
+                        {
+                            <text>@Model.TotalReviews reviews found</text>
+                        }
+                        else
+                        {
+                            <text>No reviews found</text>
+                        }
+                    </p>
+                </div>
+                @if (Model.Capabilities.CanViewModerationQueue)
+                {
+                    <div class="btn-group" role="group">
+                        <a href="?status=pending" class="btn btn-outline-warning @(ViewBag.StatusFilter == "pending" ? "active" : "")">
+                            <i class="bi bi-clock me-1"></i>Pending
+                        </a>
+                        <a href="?status=approved" class="btn btn-outline-success @(ViewBag.StatusFilter == "approved" ? "active" : "")">
+                            <i class="bi bi-check-circle me-1"></i>Approved
+                        </a>
+                        <a href="?status=rejected" class="btn btn-outline-danger @(ViewBag.StatusFilter == "rejected" ? "active" : "")">
+                            <i class="bi bi-x-circle me-1"></i>Rejected
+                        </a>
+                        <a href="?status=flagged" class="btn btn-outline-info @(ViewBag.StatusFilter == "flagged" ? "active" : "")">
+                            <i class="bi bi-flag me-1"></i>Flagged
+                        </a>
+                        <a href="?" class="btn btn-outline-secondary @(string.IsNullOrEmpty(ViewBag.StatusFilter) ? "active" : "")">
+                            <i class="bi bi-list me-1"></i>All
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-0">
+                    @{
+                        // Set moderation view mode for the unified partial
+                        Model.Capabilities.ViewMode = "moderation";
+                    }
+                    @await Html.PartialAsync("~/Presentation/Views/Reviews/_ReviewList.cshtml", Model)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Additional moderation-specific JavaScript can go here
+        document.addEventListener('DOMContentLoaded', function() {
+            // Auto-refresh every 30 seconds for pending reviews
+            if (window.location.search.includes('status=pending') || !window.location.search.includes('status=')) {
+                setInterval(function() {
+                    // Only refresh if no modals are open
+                    if (!document.querySelector('.modal.show')) {
+                        location.reload();
+                    }
+                }, 30000);
+            }
+        });
+    </script>
+}
+
+<style>
+    .btn-group .btn.active {
+        background-color: var(--bs-primary);
+        border-color: var(--bs-primary);
+        color: white;
+    }
+    
+    .card {
+        border: none;
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    }
+</style>

@@ -1,5 +1,3 @@
-using Serilog;
-
 namespace OnlineBookManagementSystem.Presentation.Middleware;
 
 public class RequestLoggingMiddleware
@@ -16,7 +14,7 @@ public class RequestLoggingMiddleware
     public async Task InvokeAsync(HttpContext context)
     {
         var startTime = DateTime.UtcNow;
-        
+
         try
         {
             await _next(context);

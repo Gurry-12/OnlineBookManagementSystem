@@ -28,7 +28,7 @@ namespace OnlineBookManagementSystem.Core.Domain.Enums
                 PaymentStatus.Completed => "Completed",
                 PaymentStatus.Captured => "Captured",
                 PaymentStatus.Voided => "Voided",
-                
+
                 _ => status.ToString()
             };
         }
@@ -47,7 +47,7 @@ namespace OnlineBookManagementSystem.Core.Domain.Enums
         {
             if (Enum.TryParse<PaymentStatus>(value, true, out var result))
                 return result;
-            
+
             throw new ArgumentException($"Invalid PaymentStatus value: {value}");
         }
 
@@ -55,10 +55,10 @@ namespace OnlineBookManagementSystem.Core.Domain.Enums
         {
             if (string.IsNullOrWhiteSpace(value))
                 return null;
-            
+
             if (Enum.TryParse<PaymentStatus>(value, true, out var result))
                 return result;
-            
+
             return null;
         }
     }

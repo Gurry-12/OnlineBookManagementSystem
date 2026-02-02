@@ -199,11 +199,11 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Auth
                 };
 
                 _context.RefreshTokens.Add(tokenEntity);
-                
+
                 // Handle concurrency conflicts with retry logic
                 var maxRetries = 3;
                 var retryCount = 0;
-                
+
                 while (retryCount < maxRetries)
                 {
                     try
@@ -215,19 +215,19 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Auth
                     {
                         retryCount++;
                         _logger.LogWarning("Concurrency conflict occurred while saving refresh token. Retry {RetryCount}/{MaxRetries}", retryCount, maxRetries);
-                        
+
                         if (retryCount >= maxRetries)
                         {
                             _logger.LogError(ex, "Failed to save refresh token after {MaxRetries} retries due to concurrency conflicts", maxRetries);
                             throw;
                         }
-                        
+
                         // Refresh the entity from database and retry
                         foreach (var entry in ex.Entries)
                         {
                             await entry.ReloadAsync();
                         }
-                        
+
                         // Wait a bit before retrying
                         await Task.Delay(100 * retryCount);
                     }
@@ -521,7 +521,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Auth
             // Handle concurrency conflicts with retry logic
             var maxRetries = 3;
             var retryCount = 0;
-            
+
             while (retryCount < maxRetries)
             {
                 try
@@ -533,13 +533,13 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Auth
                 {
                     retryCount++;
                     _logger.LogWarning("Concurrency conflict occurred while updating refresh token. Retry {RetryCount}/{MaxRetries}", retryCount, maxRetries);
-                    
+
                     if (retryCount >= maxRetries)
                     {
                         _logger.LogError(ex, "Failed to update refresh token after {MaxRetries} retries due to concurrency conflicts", maxRetries);
                         throw;
                     }
-                    
+
                     // Refresh the entity from database and retry
                     foreach (var entry in ex.Entries)
                     {
@@ -551,7 +551,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Auth
                             refreshToken.ReplacedByToken = HashToken(newRefreshToken);
                         }
                     }
-                    
+
                     // Wait a bit before retrying
                     await Task.Delay(100 * retryCount);
                 }

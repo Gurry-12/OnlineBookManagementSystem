@@ -10,8 +10,8 @@ namespace OnlineBookManagementSystem.Core.Domain.Entities
         private string _siteName = "Whispering Pages";
         private string _contactEmail = string.Empty;
 
-        public string SmtpHost 
-        { 
+        public string SmtpHost
+        {
             get => _smtpHost;
             set
             {
@@ -23,8 +23,8 @@ namespace OnlineBookManagementSystem.Core.Domain.Entities
 
         public int SmtpPort { get; set; } = 587;
 
-        public string SmtpUsername 
-        { 
+        public string SmtpUsername
+        {
             get => _smtpUsername;
             set
             {
@@ -34,8 +34,8 @@ namespace OnlineBookManagementSystem.Core.Domain.Entities
             }
         }
 
-        public string SmtpPassword 
-        { 
+        public string SmtpPassword
+        {
             get => _smtpPassword;
             set
             {
@@ -47,8 +47,8 @@ namespace OnlineBookManagementSystem.Core.Domain.Entities
 
         public bool EnableSsl { get; set; } = true;
 
-        public string SenderName 
-        { 
+        public string SenderName
+        {
             get => _senderName;
             set
             {
@@ -58,8 +58,8 @@ namespace OnlineBookManagementSystem.Core.Domain.Entities
             }
         }
 
-        public string SenderEmail 
-        { 
+        public string SenderEmail
+        {
             get => _senderEmail;
             set
             {
@@ -69,8 +69,8 @@ namespace OnlineBookManagementSystem.Core.Domain.Entities
             }
         }
 
-        public string SiteName 
-        { 
+        public string SiteName
+        {
             get => _siteName;
             set
             {
@@ -80,8 +80,8 @@ namespace OnlineBookManagementSystem.Core.Domain.Entities
             }
         }
 
-        public string ContactEmail 
-        { 
+        public string ContactEmail
+        {
             get => _contactEmail;
             set
             {
@@ -93,10 +93,20 @@ namespace OnlineBookManagementSystem.Core.Domain.Entities
 
         public bool MaintenanceMode { get; set; } = false;
 
+        // Security Settings
+        public int PasswordMinLength { get; set; } = 6;
+        public int MaxLoginAttempts { get; set; } = 5;
+        public int LockoutDurationMinutes { get; set; } = 15;
+        public bool RequireEmailConfirmation { get; set; } = true;
+
+        // Additional Settings
+        public string SiteDescription { get; set; } = string.Empty;
+        public string AdminEmail { get; set; } = string.Empty;
+
         // Private constructor for EF Core
         public SystemSettings() { }
 
-        public SystemSettings(string smtpHost, int smtpPort, string smtpUsername, string smtpPassword, 
+        public SystemSettings(string smtpHost, int smtpPort, string smtpUsername, string smtpPassword,
                             string senderName, string senderEmail, string siteName, string contactEmail)
         {
             SmtpHost = smtpHost;

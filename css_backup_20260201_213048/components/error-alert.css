@@ -1,0 +1,117 @@
+/**
+ * Component: Error Alert
+ * Purpose: Scoped styles for error displays
+ * BEM Methodology: .error-alert__element--modifier
+ */
+
+/* ========================================
+   BLOCK: error-alert
+   ======================================== */
+
+.error-alert {
+    background: var(--color-danger-alpha);
+    border: var(--border-width) solid var(--color-danger);
+    border-left-width: 4px;
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    animation: slideInDown var(--transition-base);
+}
+
+.error-alert__content {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+}
+
+.error-alert__icon {
+    flex-shrink: 0;
+    color: var(--color-danger);
+    font-size: var(--font-size-xl);
+}
+
+.error-alert__body {
+    flex: 1;
+}
+
+.error-alert__title {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-danger-dark);
+    margin: 0 0 var(--spacing-xs) 0;
+}
+
+.error-alert__message {
+    font-size: var(--font-size-sm);
+    color: var(--color-gray-700);
+    margin: 0;
+    line-height: var(--line-height-relaxed);
+}
+
+.error-alert__close {
+    flex-shrink: 0;
+    background: none;
+    border: none;
+    color: var(--color-danger);
+    font-size: var(--font-size-lg);
+    cursor: pointer;
+    padding: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--border-radius-sm);
+    transition: background-color var(--transition-fast);
+}
+
+.error-alert__close:hover {
+    background: var(--color-danger-alpha);
+}
+
+.error-alert__actions {
+    margin-top: var(--spacing-md);
+    padding-top: var(--spacing-md);
+    border-top: var(--border-width) solid var(--color-danger);
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+/* ========================================
+   ANIMATIONS
+   ======================================== */
+
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ========================================
+   VARIANTS
+   ======================================== */
+
+.error-alert--warning {
+    background: var(--color-warning-alpha);
+    border-color: var(--color-warning);
+}
+
+.error-alert--warning .error-alert__icon,
+.error-alert--warning .error-alert__title {
+    color: var(--color-warning-dark);
+}
+
+.error-alert--info {
+    background: var(--color-info-alpha);
+    border-color: var(--color-info);
+}
+
+.error-alert--info .error-alert__icon,
+.error-alert--info .error-alert__title {
+    color: var(--color-info-dark);
+}

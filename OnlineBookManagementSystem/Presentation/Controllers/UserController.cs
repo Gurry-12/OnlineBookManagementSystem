@@ -1,14 +1,14 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OnlineBookManagementSystem.Presentation.ViewModels.Cart;
-using OnlineBookManagementSystem.Presentation.ViewModels.User;
-using System.Security.Claims;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Books;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Categories;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Orders;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Users;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure.Authentication;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure.Logging;
+using OnlineBookManagementSystem.Presentation.ViewModels.Books;
+using OnlineBookManagementSystem.Presentation.ViewModels.Cart;
+using OnlineBookManagementSystem.Presentation.ViewModels.User;
 
 namespace OnlineBookManagementSystem.Presentation.Controllers
 {
@@ -68,7 +68,37 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
             var userId = GetUserIdFromClaims();
             if (userId == 0) return RedirectToAction("Login", "Auth");
 
-            var viewModel = await _bookQueryService.GetBooksForUserAsync(page, 12, search, categoryId, sortBy, minPrice, maxPrice, userId);
+            var books = await _bookQueryService.GetBooksForUserAsync(page, 12, search, categoryId, sortBy, minPrice, maxPrice, userId);
+
+            // Create unified BookListViewModel with user capabilities
+            var model = new BookListViewModel
+            {
+                Books = books.Books,
+                CurrentPage = books.CurrentPage,
+                TotalPages = books.TotalPages,
+                TotalBooks = books.TotalBooks,
+                SearchTerm = search,
+                CategoryId = categoryId,
+                SortBy = sortBy,
+                Capabilities = new BookListCapabilities
+                {
+                    CanCreate = false,
+                    CanEdit = false,
+                    CanDelete = false,
+                    CanSearch = true,
+                    CanFilter = true,
+                    CanSort = true,
+                    CanPaginate = true,
+                    CanViewTechnicalInfo = false,
+                    CanViewBookDetails = true,
+                    CanAddToCart = true,
+                    CanFavorite = true,
+                    PageTitle = "Browse Books",
+                    DetailsControllerName = "Books",
+                    DetailsActionName = "Details",
+                    IsAuthenticated = true
+                }
+            };
 
             // Add categories for filter dropdown
             ViewBag.Categories = await _categoryService.GetCategoriesForDropdownAsync();
@@ -81,13 +111,13 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
             await _activityLogger.LogAsync("BrowseBooks", "User browsed book catalog", userId);
 
             // Return partial view for AJAX requests
-            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest" || 
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest" ||
                 Request.Headers.Accept.ToString().Contains("application/json"))
             {
-                return PartialView("_UserBooksGrid", viewModel);
+                return PartialView("~/Presentation/Views/Books/BookList.cshtml", model);
             }
 
-            return View(viewModel);
+            return View("~/Presentation/Views/Books/BookList.cshtml", model);
         }
 
         [Authorize(Policy = "UserOrHigher")]
@@ -104,7 +134,8 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
             }
 
             await _activityLogger.LogAsync("ViewBook", $"Viewed book '{book.Title}'", userId);
-            return View(book);
+            // Use canonical Books/Details view
+            return View("~/Presentation/Views/Books/Details.cshtml", book);
         }
 
         // Alias for BookDetails to handle /User/Details/{id} URLs
@@ -122,7 +153,8 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
             }
 
             await _activityLogger.LogAsync("ViewBook", $"Viewed book '{book.Title}'", userId);
-            return View("BookDetails", book); // Use the BookDetails view
+            // Use canonical Books/Details view
+            return View("~/Presentation/Views/Books/Details.cshtml", book);
         }
 
         [Authorize(Policy = "UserOrHigher")]
@@ -173,7 +205,8 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
             ViewBag.DateTo = dateTo?.ToString("yyyy-MM-dd");
 
             await _activityLogger.LogAsync("ViewOrderHistory", "User viewed order history", userId);
-            return View(viewModel);
+            // Use canonical Orders/List view
+            return View("~/Presentation/Views/Orders/List.cshtml", viewModel);
         }
 
         [Authorize(Policy = "UserOrHigher")]
@@ -190,7 +223,8 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
             }
 
             await _activityLogger.LogAsync("ViewOrderDetails", $"Viewed order details for order {id}", userId);
-            return View(order);
+            // Use canonical Orders/Details view
+            return View("~/Presentation/Views/Orders/Details.cshtml", order);
         }
 
         [Authorize(Policy = "UserOrHigher")]
@@ -199,7 +233,7 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
             var userId = GetUserIdFromClaims();
             if (userId == 0) return RedirectToAction("Login", "Auth");
 
-            var profile = await _bookQueryService.GetUserProfileAsync(userId);
+            var profile = await _authService.GetUserProfileAsync(userId);
             if (profile == null)
             {
                 TempData["ErrorMessage"] = "Profile not found.";
@@ -218,13 +252,13 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
 
             if (!ModelState.IsValid)
             {
-                return View("Profile", model);
+                return View("~/Presentation/Views/User/Profile.cshtml", model);
             }
 
             try
             {
-                // TODO: Move this to UserCommandService - user profile updates shouldn't be in BookCommandService
-                var success = await _bookCommandService.UpdateUserProfileAsync(userId, model);
+                // Use proper UserCommandService instead of BookCommandService
+                var success = await _userCommandService.UpdateUserProfileAsync(userId, model);
                 if (success)
                 {
                     await _activityLogger.LogAsync("UpdateProfile", "User updated profile information", userId);
@@ -239,7 +273,7 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
                 ModelState.AddModelError("", "An error occurred while updating your profile.");
             }
 
-            return View("Profile", model);
+            return View("~/Presentation/Views/User/Profile.cshtml", model);
         }
 
         [HttpPost]
@@ -294,11 +328,40 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
                 return RedirectToAction(nameof(UserBookList));
             }
 
-            var viewModel = await _bookQueryService.SearchBooksAsync(query, page, 12, userId);
+            var books = await _bookQueryService.SearchBooksAsync(query, page, 12, userId);
+
+            // Create unified BookListViewModel with user capabilities
+            var model = new BookListViewModel
+            {
+                Books = books.Books,
+                CurrentPage = books.CurrentPage,
+                TotalPages = books.TotalPages,
+                TotalBooks = books.TotalBooks,
+                SearchTerm = query,
+                Capabilities = new BookListCapabilities
+                {
+                    CanCreate = false,
+                    CanEdit = false,
+                    CanDelete = false,
+                    CanSearch = true,
+                    CanFilter = true,
+                    CanSort = true,
+                    CanPaginate = true,
+                    CanViewTechnicalInfo = false,
+                    CanViewBookDetails = true,
+                    CanAddToCart = true,
+                    CanFavorite = true,
+                    PageTitle = $"Search Results for '{query}'",
+                    DetailsControllerName = "Books",
+                    DetailsActionName = "Details",
+                    IsAuthenticated = true
+                }
+            };
+
             ViewBag.SearchQuery = query;
 
             await _activityLogger.LogAsync("SearchBooks", $"Searched for '{query}'", userId);
-            return View("UserBookList", viewModel);
+            return View("~/Presentation/Views/Books/BookList.cshtml", model);
         }
 
         [Authorize(Policy = "UserOrHigher")]
@@ -314,11 +377,40 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
                 return RedirectToAction(nameof(UserBookList));
             }
 
-            var viewModel = await _bookQueryService.GetBooksByCategoryAsync(categoryId, page, 12, userId);
+            var books = await _bookQueryService.GetBooksByCategoryAsync(categoryId, page, 12, userId);
+
+            // Create unified BookListViewModel with user capabilities
+            var model = new BookListViewModel
+            {
+                Books = books.Books,
+                CurrentPage = books.CurrentPage,
+                TotalPages = books.TotalPages,
+                TotalBooks = books.TotalBooks,
+                CategoryId = categoryId,
+                Capabilities = new BookListCapabilities
+                {
+                    CanCreate = false,
+                    CanEdit = false,
+                    CanDelete = false,
+                    CanSearch = true,
+                    CanFilter = true,
+                    CanSort = true,
+                    CanPaginate = true,
+                    CanViewTechnicalInfo = false,
+                    CanViewBookDetails = true,
+                    CanAddToCart = true,
+                    CanFavorite = true,
+                    PageTitle = $"{category.Name} Books",
+                    DetailsControllerName = "Books",
+                    DetailsActionName = "Details",
+                    IsAuthenticated = true
+                }
+            };
+
             ViewBag.CategoryName = category.Name;
 
             await _activityLogger.LogAsync("BrowseCategory", $"Browsed category '{category.Name}'", userId);
-            return View("UserBookList", viewModel);
+            return View("~/Presentation/Views/Books/BookList.cshtml", model);
         }
 
         [HttpGet]
@@ -361,13 +453,49 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
         [Authorize(Policy = "UserOrHigher")]
         public async Task<IActionResult> UserCart()
         {
-            var userId = GetUserIdFromClaims();  // JWT
+            var userId = GetUserIdFromClaims();
             if (userId == 0) return Unauthorized();
 
-            var cartData = await _cartService.GetUserCartAsync(userId);
+            var cartItems = await _cartService.GetUserCartAsync(userId);
             var summary = await _cartService.GetCartSummaryAsync(userId);
-            var viewModel = new CartViewModel { CartItems = cartData, Summary = summary };
-            return View(viewModel);
+
+            // Create unified CartViewModel with user capabilities
+            var model = new UnifiedCartViewModel
+            {
+                CartItems = cartItems.Select(item => new CartItemViewModel
+                {
+                    BookId = item.BookId,
+                    BookTitle = item.BookTitle,
+                    BookAuthor = item.BookAuthor,
+                    BookPrice = item.BookPrice,
+                    Quantity = item.Quantity,
+                    Subtotal = item.Subtotal,
+                    BookImage = item.BookImage,
+                    CategoryName = item.CategoryName,
+                    IsAvailable = item.IsAvailable
+                }).ToList(),
+                Summary = summary,
+                UserId = userId,
+                LastUpdated = DateTime.Now,
+                Capabilities = new CartCapabilities
+                {
+                    CanViewCart = true,
+                    CanViewCartDetails = true,
+                    CanModifyCart = true,
+                    CanUpdateQuantity = true,
+                    CanRemoveItems = true,
+                    CanCheckout = true,
+                    CanClearCart = true,
+                    IsReadOnly = false,
+                    IsAuthenticated = true,
+                    PageTitle = "My Cart",
+                    BackLinkText = "Continue Shopping",
+                    BackLinkUrl = "/Books/BookList",
+                    CheckoutButtonText = "Proceed to Checkout"
+                }
+            };
+
+            return View("~/Presentation/Views/Cart/CartView.cshtml", model);
         }
         private async Task<UserDashboardViewModel> GetUserDashboardDataAsync(int userId)
         {
@@ -459,11 +587,6 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
     {
         public int BookId { get; set; }
         public int Quantity { get; set; } = 1;
-    }
-
-    public class CancelOrderRequest
-    {
-        public int OrderId { get; set; }
     }
 
     public class ChangePasswordRequest

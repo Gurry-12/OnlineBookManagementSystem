@@ -6,9 +6,9 @@ namespace OnlineBookManagementSystem.Core.Domain.Entities
         private string _message = string.Empty;
 
         public int? UserId { get; set; }
-        
-        public string Action 
-        { 
+
+        public string Action
+        {
             get => _action;
             set
             {
@@ -20,8 +20,8 @@ namespace OnlineBookManagementSystem.Core.Domain.Entities
             }
         }
 
-        public string Message 
-        { 
+        public string Message
+        {
             get => _message;
             set
             {
@@ -65,7 +65,7 @@ namespace OnlineBookManagementSystem.Core.Domain.Entities
                 throw new ArgumentException("Level cannot be null or empty", nameof(level));
             if (level.Length > 20)
                 throw new ArgumentException("Level cannot exceed 20 characters", nameof(level));
-            
+
             Level = level.Trim();
             UpdateTimestamp();
         }

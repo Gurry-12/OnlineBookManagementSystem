@@ -1,12 +1,12 @@
 using Microsoft.AspNetCore.Identity;
+using OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Users;
+using OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure.Email;
+using OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure.Logging;
 using OnlineBookManagementSystem.Core.Domain.Entities;
 using OnlineBookManagementSystem.Presentation.ViewModels.SuperAdmin;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
-using OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Users;
-using OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure.Email;
-using OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure.Logging;
 
 namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Users
 {
@@ -158,6 +158,90 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Users
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Failed to soft delete user: {UserId}", userId);
+                return false;
+            }
+        }
+
+        public async Task<bool> UpdateUserProfileAsync(int userId, object profileModel)
+        {
+            try
+            {
+                var user = await _userManager.FindByIdAsync(userId.ToString());
+                if (user == null || (bool)user.IsDeleted)
+                    return false;
+
+                // Use reflection to update user properties from the profile model
+                var profileType = profileModel.GetType();
+                var userType = typeof(User);
+
+                // Map common properties
+                var nameProperty = profileType.GetProperty("Name");
+                if (nameProperty != null)
+                {
+                    var nameValue = nameProperty.GetValue(profileModel)?.ToString();
+                    if (!string.IsNullOrEmpty(nameValue))
+                    {
+                        user.Name = nameValue;
+                    }
+                }
+
+                var emailProperty = profileType.GetProperty("Email");
+                if (emailProperty != null)
+                {
+                    var emailValue = emailProperty.GetValue(profileModel)?.ToString();
+                    if (!string.IsNullOrEmpty(emailValue) && emailValue != user.Email)
+                    {
+                        user.Email = emailValue;
+                        user.UserName = emailValue;
+                        user.EmailConfirmed = false; // Require re-confirmation for email changes
+                    }
+                }
+
+                // Map address properties if they exist
+                var addressProperty = profileType.GetProperty("Address");
+                if (addressProperty != null)
+                {
+                    user.Address = addressProperty.GetValue(profileModel)?.ToString();
+                }
+
+                var cityProperty = profileType.GetProperty("City");
+                if (cityProperty != null)
+                {
+                    user.City = cityProperty.GetValue(profileModel)?.ToString();
+                }
+
+                var stateProperty = profileType.GetProperty("State");
+                if (stateProperty != null)
+                {
+                    user.State = stateProperty.GetValue(profileModel)?.ToString();
+                }
+
+                var countryProperty = profileType.GetProperty("Country");
+                if (countryProperty != null)
+                {
+                    user.Country = countryProperty.GetValue(profileModel)?.ToString();
+                }
+
+                var zipCodeProperty = profileType.GetProperty("ZipCode");
+                if (zipCodeProperty != null)
+                {
+                    user.ZipCode = zipCodeProperty.GetValue(profileModel)?.ToString();
+                }
+
+                user.UpdatedAt = DateTime.UtcNow;
+
+                var result = await _userManager.UpdateAsync(user);
+                if (result.Succeeded)
+                {
+                    await _activityLogger.LogAsync("UpdateProfile", "User updated profile information", userId);
+                    _logger.LogInformation("User profile updated: {UserId}", userId);
+                }
+
+                return result.Succeeded;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to update user profile: {UserId}", userId);
                 return false;
             }
         }

@@ -1,9 +1,7 @@
 using Microsoft.EntityFrameworkCore.Storage;
-using OnlineBookManagementSystem.Infrastructure.Data.Repositories;
-using OnlineBookManagementSystem.Infrastructure.Data.Context;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Repositories;
-using OnlineBookManagementSystem.Core.Application.Interfaces.Repositories.Books;
-using OnlineBookManagementSystem.Core.Application.Interfaces.Repositories.Categories;
+using OnlineBookManagementSystem.Infrastructure.Data.Context;
+using OnlineBookManagementSystem.Infrastructure.Data.Repositories;
 
 namespace OnlineBookManagementSystem.Infrastructure.Data
 {
@@ -11,7 +9,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Data
     {
         private readonly BookManagementContext _context;
         private IDbContextTransaction? _transaction;
-        
+
         // Legacy repositories
         private IBookRepository? _books;
         private ICategoryRepository? _categories;
@@ -39,7 +37,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Data
                     // Reload the entity from database to get current values
                     await entry.ReloadAsync(cancellationToken);
                 }
-                
+
                 // Try to save again after resolving conflicts
                 try
                 {

@@ -19,7 +19,7 @@ namespace OnlineBookManagementSystem.Presentation.ViewModels.Admin
         public int BookCount { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
-        
+
         // UI-specific computed properties
         public string FormattedCreatedDate => CreatedAt.ToString("MMM dd, yyyy");
         public string FormattedUpdatedDate => UpdatedAt?.ToString("MMM dd, yyyy") ?? "Never";

@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using MimeKit;
+using OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure;
 using OnlineBookManagementSystem.Core.Domain.Entities;
 using OnlineBookManagementSystem.Infrastructure.Data.Context;
 using OnlineBookManagementSystem.Infrastructure.Data.Context.Configuration;
@@ -12,7 +13,6 @@ using OnlineBookManagementSystem.Presentation.ViewModels.SuperAdmin;
 using System.Collections;
 using System.Diagnostics;
 using System.Reflection;
-using OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure;
 
 namespace OnlineBookManagementSystem.Infrastructure.Services.System;
 
@@ -129,14 +129,34 @@ public class SystemSettingsService : ISystemSettingsService
     {
         try
         {
+            // Update database
+            var dbSettings = await _context.SystemSettings.OrderByDescending(s => s.Id).FirstOrDefaultAsync();
+            if (dbSettings == null)
+            {
+                dbSettings = new SystemSettings();
+                _context.SystemSettings.Add(dbSettings);
+            }
+
+            dbSettings.SiteName = request.SiteName;
+            dbSettings.SiteDescription = request.SiteDescription;
+            dbSettings.AdminEmail = request.AdminEmail;
+            dbSettings.MaintenanceMode = request.MaintenanceMode;
+            dbSettings.UpdatedAt = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+
+            // Update cache
             _cache.Set("SiteName", request.SiteName, TimeSpan.FromHours(24));
             _cache.Set("SiteDescription", request.SiteDescription, TimeSpan.FromHours(24));
             _cache.Set("AdminEmail", request.AdminEmail, TimeSpan.FromHours(24));
             _cache.Set("MaintenanceMode", request.MaintenanceMode, TimeSpan.FromHours(24));
+
+            _logger.LogInformation("General settings updated in database and cache");
             return true;
         }
-        catch
+        catch (Exception ex)
         {
+            _logger.LogError(ex, "Failed to update general settings");
             return false;
         }
     }
@@ -149,13 +169,36 @@ public class SystemSettingsService : ISystemSettingsService
             if (request.MaxLoginAttempts < 3 || request.MaxLoginAttempts > 10) return false;
             if (request.LockoutDurationMinutes < 5 || request.LockoutDurationMinutes > 60) return false;
 
+            // Update database
+            var dbSettings = await _context.SystemSettings.OrderByDescending(s => s.Id).FirstOrDefaultAsync();
+            if (dbSettings == null)
+            {
+                dbSettings = new SystemSettings();
+                _context.SystemSettings.Add(dbSettings);
+            }
+
+            dbSettings.PasswordMinLength = request.PasswordMinLength;
+            dbSettings.MaxLoginAttempts = request.MaxLoginAttempts;
+            dbSettings.LockoutDurationMinutes = request.LockoutDurationMinutes;
+            dbSettings.RequireEmailConfirmation = request.RequireEmailConfirmation;
+            dbSettings.UpdatedAt = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+
+            // Update cache
             _cache.Set("Security:PasswordMinLength", request.PasswordMinLength, TimeSpan.FromHours(24));
             _cache.Set("Security:MaxLoginAttempts", request.MaxLoginAttempts, TimeSpan.FromHours(24));
             _cache.Set("Security:LockoutDurationMinutes", request.LockoutDurationMinutes, TimeSpan.FromHours(24));
             _cache.Set("Security:RequireEmailConfirmation", request.RequireEmailConfirmation, TimeSpan.FromHours(24));
+
+            _logger.LogInformation("Security settings updated in database and cache");
             return true;
         }
-        catch { return false; }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to update security settings");
+            return false;
+        }
     }
 
     public async Task<bool> UpdateEmailSettingsAsync(EmailSettingsRequest request)

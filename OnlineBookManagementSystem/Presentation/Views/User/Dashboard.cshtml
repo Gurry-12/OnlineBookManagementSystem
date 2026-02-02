@@ -1,58 +1,316 @@
-﻿@{
+﻿@model OnlineBookManagementSystem.Presentation.ViewModels.User.UserDashboardViewModel
+@{
     ViewData["Title"] = "User Dashboard - Whispering Pages";
     Layout = "_LayoutUser"; // Custom layout for user
 }
 
-<hr />
-
-<!-- 📚 Quote and New Arrivals Section -->
-<div class="row g-4 mb-5">
-    <div class="col-md-6 col-sm-12 ">
-        <div id="quoteCarousel" class="carousel slide wp-quote-box shadow-sm rounded" data-bs-ride="carousel" aria-label="Quote Carousel" data-bs-interval="3000">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <p class="fs-6 fst-italic px-2">“There is more treasure in books than in all the pirate's loot on Treasure Island.”</p>
-                    <p class="text-end fw-semibold px-2">- Walt Disney</p>
-                </div>
-                <div class="carousel-item">
-                    <p class="fs-6 fst-italic px-2">“A room without books is like a body without a soul.”</p>
-                    <p class="text-end fw-semibold px-2">- Marcus Tullius Cicero</p>
-                </div>
-                <div class="carousel-item">
-                    <p class="fs-6 fst-italic px-2">“So many books, so little time.”</p>
-                    <p class="text-end fw-semibold px-2">- Frank Zappa</p>
-                </div>
-                <div class="carousel-item">
-                    <p class="fs-6 fst-italic px-2">“Books are a uniquely portable magic.”</p>
-                    <p class="text-end fw-semibold px-2">- Stephen King</p>
-                </div>
-                <div class="carousel-item">
-                    <p class="fs-6 fst-italic px-2">“I declare after all there is no enjoyment like reading!”</p>
-                    <p class="text-end fw-semibold px-2">- Jane Austen</p>
-                </div>
-            </div>
-            <!-- Improved badge positioning -->
-            <div class="position-absolute bottom-0 start-50 translate-middle-x mb-4 d-none d-md-block z-2">
-                <small class="user-text-muted fs-7 fst-italic px-3 py-1 bg-dark bg-opacity-30 rounded-pill">
-                    — A journey through Whispering Pages
-                </small>
-            </div>
-
-            <!-- Carousel controls -->
-            <button class="carousel-control-prev" type="button" data-bs-target="#quoteCarousel" data-bs-slide="prev" aria-label="Previous quote">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#quoteCarousel" data-bs-slide="next" aria-label="Next quote">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-
+<div class="view-user-dashboard">
+<div class="dashboard-grid dashboard-grid--user">
+    <!-- Welcome Section with Enhanced Stats -->
+    <div class="welcome-banner">
+        <h2 class="welcome-title">
+            <i class="bi bi-book-half text-white me-2"></i>
+            Welcome to Your Literary Journey
+        </h2>
+        <p class="welcome-subtitle">Discover, explore, and immerse yourself in the world of books</p>
+        <div class="user-stats-mini">
+            <span class="stat-item">
+                <i class="bi bi-heart-fill text-danger me-1"></i>
+                @Model.FavoritesCount Favorites
+            </span>
+            <span class="stat-item">
+                <i class="bi bi-cart-fill text-success me-1"></i>
+                @Model.CartItemsCount In Cart
+            </span>
         </div>
     </div>
 
+    <!-- Enhanced Quote Carousel and Stats Section -->
+    <div class="row g-4 mb-5">
+        <div class="col-lg-8 col-md-7">
+            <div class="enhanced-quote-carousel">
+                <div id="inspirationalQuotes" class="carousel slide" data-bs-ride="carousel" data-bs-interval="6000">
+                    <div class="carousel-indicators quote-indicators">
+                        <button type="button" data-bs-target="#inspirationalQuotes" data-bs-slide-to="0" class="active"></button>
+                        <button type="button" data-bs-target="#inspirationalQuotes" data-bs-slide-to="1"></button>
+                        <button type="button" data-bs-target="#inspirationalQuotes" data-bs-slide-to="2"></button>
+                        <button type="button" data-bs-target="#inspirationalQuotes" data-bs-slide-to="3"></button>
+                        <button type="button" data-bs-target="#inspirationalQuotes" data-bs-slide-to="4"></button>
+                        <button type="button" data-bs-target="#inspirationalQuotes" data-bs-slide-to="5"></button>
+                        <button type="button" data-bs-target="#inspirationalQuotes" data-bs-slide-to="6"></button>
+                        <button type="button" data-bs-target="#inspirationalQuotes" data-bs-slide-to="7"></button>
+                        <button type="button" data-bs-target="#inspirationalQuotes" data-bs-slide-to="8"></button>
+                        <button type="button" data-bs-target="#inspirationalQuotes" data-bs-slide-to="9"></button>
+                    </div>
+                    <div class="carousel-inner">
+                        <!-- Quote 1 -->
+                        <div class="carousel-item active">
+                            <div class="quote-slide">
+                                <div class="quote-content">
+                                    <div class="quote-icon">
+                                        <i class="bi bi-quote"></i>
+                                    </div>
+                                    <blockquote class="quote-text">
+                                        "There is more treasure in books than in all the pirate's loot on Treasure Island."
+                                    </blockquote>
+                                    <cite class="quote-author">— Walt Disney</cite>
+                                    <div class="quote-category">Imagination & Wonder</div>
+                                </div>
+                                <div class="quote-visual">
+                                    <i class="bi bi-gem text-warning"></i>
+                                </div>
+                            </div>
+                        </div>
 
-    <div class="col-md-6 col-sm-6">
+                    <!-- Quote 2 -->
+                    <div class="carousel-item">
+                        <div class="quote-slide">
+                            <div class="quote-content">
+                                <div class="quote-icon">
+                                    <i class="bi bi-quote"></i>
+                                </div>
+                                <blockquote class="quote-text">
+                                    "A room without books is like a body without a soul."
+                                </blockquote>
+                                <cite class="quote-author">— Marcus Tullius Cicero</cite>
+                                <div class="quote-category">Life & Wisdom</div>
+                            </div>
+                            <div class="quote-visual">
+                                <i class="bi bi-house-heart text-danger"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quote 3 -->
+                    <div class="carousel-item">
+                        <div class="quote-slide">
+                            <div class="quote-content">
+                                <div class="quote-icon">
+                                    <i class="bi bi-quote"></i>
+                                </div>
+                                <blockquote class="quote-text">
+                                    "Books are a uniquely portable magic."
+                                </blockquote>
+                                <cite class="quote-author">— Stephen King</cite>
+                                <div class="quote-category">Magic & Mystery</div>
+                            </div>
+                            <div class="quote-visual">
+                                <i class="bi bi-magic text-purple"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quote 4 -->
+                    <div class="carousel-item">
+                        <div class="quote-slide">
+                            <div class="quote-content">
+                                <div class="quote-icon">
+                                    <i class="bi bi-quote"></i>
+                                </div>
+                                <blockquote class="quote-text">
+                                    "I declare after all there is no enjoyment like reading!"
+                                </blockquote>
+                                <cite class="quote-author">— Jane Austen</cite>
+                                <div class="quote-category">Joy & Pleasure</div>
+                            </div>
+                            <div class="quote-visual">
+                                <i class="bi bi-emoji-smile text-success"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quote 5 -->
+                    <div class="carousel-item">
+                        <div class="quote-slide">
+                            <div class="quote-content">
+                                <div class="quote-icon">
+                                    <i class="bi bi-quote"></i>
+                                </div>
+                                <blockquote class="quote-text">
+                                    "The more that you read, the more things you will know. The more that you learn, the more places you'll go."
+                                </blockquote>
+                                <cite class="quote-author">— Dr. Seuss</cite>
+                                <div class="quote-category">Learning & Growth</div>
+                            </div>
+                            <div class="quote-visual">
+                                <i class="bi bi-airplane text-info"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quote 6 -->
+                    <div class="carousel-item">
+                        <div class="quote-slide">
+                            <div class="quote-content">
+                                <div class="quote-icon">
+                                    <i class="bi bi-quote"></i>
+                                </div>
+                                <blockquote class="quote-text">
+                                    "Reading is to the mind what exercise is to the body."
+                                </blockquote>
+                                <cite class="quote-author">— Joseph Addison</cite>
+                                <div class="quote-category">Mind & Body</div>
+                            </div>
+                            <div class="quote-visual">
+                                <i class="bi bi-lightning text-warning"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quote 7 -->
+                    <div class="carousel-item">
+                        <div class="quote-slide">
+                            <div class="quote-content">
+                                <div class="quote-icon">
+                                    <i class="bi bi-quote"></i>
+                                </div>
+                                <blockquote class="quote-text">
+                                    "Books fall open, you fall in, delighted where you've never been."
+                                </blockquote>
+                                <cite class="quote-author">— David T.W. McCord</cite>
+                                <div class="quote-category">Adventure & Discovery</div>
+                            </div>
+                            <div class="quote-visual">
+                                <i class="bi bi-door-open text-primary"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quote 8 -->
+                    <div class="carousel-item">
+                        <div class="quote-slide">
+                            <div class="quote-content">
+                                <div class="quote-icon">
+                                    <i class="bi bi-quote"></i>
+                                </div>
+                                <blockquote class="quote-text">
+                                    "A book is a dream that you hold in your hand."
+                                </blockquote>
+                                <cite class="quote-author">— Neil Gaiman</cite>
+                                <div class="quote-category">Dreams & Imagination</div>
+                            </div>
+                            <div class="quote-visual">
+                                <i class="bi bi-cloud-moon text-info"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quote 9 -->
+                    <div class="carousel-item">
+                        <div class="quote-slide">
+                            <div class="quote-content">
+                                <div class="quote-icon">
+                                    <i class="bi bi-quote"></i>
+                                </div>
+                                <blockquote class="quote-text">
+                                    "Reading gives us someplace to go when we have to stay where we are."
+                                </blockquote>
+                                <cite class="quote-author">— Mason Cooley</cite>
+                                <div class="quote-category">Escape & Freedom</div>
+                            </div>
+                            <div class="quote-visual">
+                                <i class="bi bi-compass text-success"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quote 10 -->
+                    <div class="carousel-item">
+                        <div class="quote-slide">
+                            <div class="quote-content">
+                                <div class="quote-icon">
+                                    <i class="bi bi-quote"></i>
+                                </div>
+                                <blockquote class="quote-text">
+                                    "Today a reader, tomorrow a leader."
+                                </blockquote>
+                                <cite class="quote-author">— Margaret Fuller</cite>
+                                <div class="quote-category">Leadership & Future</div>
+                            </div>
+                            <div class="quote-visual">
+                                <i class="bi bi-trophy text-warning"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Enhanced Controls -->
+                <button class="carousel-control-prev quote-control" type="button" data-bs-target="#inspirationalQuotes" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next quote-control" type="button" data-bs-target="#inspirationalQuotes" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Enhanced Stats Panel -->
+    <div class="col-lg-4 col-md-5">
+        <div class="user-stats-panel">
+            <div class="stats-header">
+                <h5 class="mb-0">
+                    <i class="bi bi-graph-up me-2"></i>Your Reading Journey
+                </h5>
+            </div>
+            <div class="stats-body">
+                <div class="stat-card">
+                    <div class="stat-icon books">
+                        <i class="bi bi-collection"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-number">@Model.TotalBooks.ToString("N0")</div>
+                        <div class="stat-label">Books Available</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon favorites">
+                        <i class="bi bi-heart-fill"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-number">@Model.FavoritesCount</div>
+                        <div class="stat-label">Your Favorites</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon orders">
+                        <i class="bi bi-bag-check"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-number">@Model.OrdersCount</div>
+                        <div class="stat-label">Books Ordered</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon spending">
+                        <i class="bi bi-currency-dollar"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-number">@Model.TotalSpent.ToString("C")</div>
+                        <div class="stat-label">Total Invested</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stats-footer">
+                <a asp-action="UserBookList" class="btn btn-primary btn-sm w-100">
+                    <i class="bi bi-search me-2"></i>Explore More Books
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr class="mt-4 mb-3" />
+
+<!-- New Arrivals Section -->
+<div class="row mb-4">
+    <div class="col-12">
         <div class="wp-card">
             <div class="wp-card-header">
                 <h5 class="mb-0 user-text-on-primary">
@@ -68,8 +326,6 @@
     </div>
 </div>
 
-<hr class="mt-4 mb-3" />
-
 <!-- 🎯 Recommendations Section -->
 <div class="wp-card mb-4">
     <div class="wp-card-header">
@@ -82,6 +338,7 @@
             <div class="user-text-muted">Loading recommendations...</div>
         </div>
     </div>
+</div>
 </div>
 
 @await Html.PartialAsync("_Notification")
@@ -279,4 +536,3 @@
         }
     </script>
 }
-

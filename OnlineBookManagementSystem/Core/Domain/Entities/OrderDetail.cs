@@ -33,8 +33,8 @@ namespace OnlineBookManagementSystem.Core.Domain.Entities
             }
         }
 
-        public Money Subtotal 
-        { 
+        public Money Subtotal
+        {
             get => _subtotal;
             set => _subtotal = value ?? new Money(0);
         }

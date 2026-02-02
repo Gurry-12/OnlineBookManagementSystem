@@ -9,7 +9,7 @@ namespace OnlineBookManagementSystem.Core.Domain.ValueObjects
         {
             if (amount < 0)
                 throw new ArgumentException("Amount cannot be negative", nameof(amount));
-            
+
             if (string.IsNullOrWhiteSpace(currency))
                 throw new ArgumentException("Currency cannot be null or empty", nameof(currency));
 
@@ -21,7 +21,7 @@ namespace OnlineBookManagementSystem.Core.Domain.ValueObjects
         {
             if (Currency != other.Currency)
                 throw new InvalidOperationException("Cannot add money with different currencies");
-            
+
             return new Money(Amount + other.Amount, Currency);
         }
 
@@ -29,7 +29,7 @@ namespace OnlineBookManagementSystem.Core.Domain.ValueObjects
         {
             if (Currency != other.Currency)
                 throw new InvalidOperationException("Cannot subtract money with different currencies");
-            
+
             return new Money(Amount - other.Amount, Currency);
         }
 

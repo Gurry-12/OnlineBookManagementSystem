@@ -1,4 +1,4 @@
-using System.Net;
+﻿using System.Net;
 using System.Text.Json;
 
 namespace OnlineBookManagementSystem.Presentation.Middleware;
@@ -43,14 +43,14 @@ public class ExceptionHandlingMiddleware
 
         // Check if request expects JSON (API calls)
         var acceptHeader = context.Request.Headers["Accept"].ToString();
-        var isApiRequest = context.Request.Path.StartsWithSegments("/api") || 
+        var isApiRequest = context.Request.Path.StartsWithSegments("/api") ||
                           acceptHeader.Contains("application/json");
 
         if (isApiRequest)
         {
             // Return JSON for API requests
             context.Response.ContentType = "application/json";
-            
+
             var response = new
             {
                 error = new
@@ -73,10 +73,10 @@ public class ExceptionHandlingMiddleware
         {
             // Return HTML error page for browser requests
             context.Response.ContentType = "text/html";
-            
+
             var errorMessage = _environment.IsDevelopment() ? exception.Message : "An error occurred while processing your request.";
             var errorDetails = _environment.IsDevelopment() ? exception.StackTrace : "";
-            
+
             var htmlResponse = $@"
 <!DOCTYPE html>
 <html>

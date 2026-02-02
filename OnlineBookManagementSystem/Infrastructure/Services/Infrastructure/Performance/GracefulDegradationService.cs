@@ -1,9 +1,4 @@
-using Microsoft.Extensions.Logging;
-using OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure;
-using System;
 using System.Collections.Concurrent;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Performance
 {
@@ -34,7 +29,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Perf
             {
                 _logger.LogWarning(ex, "Primary operation failed, executing fallback: {OperationName}", operationName);
                 RecordServiceFailure(operationName);
-                
+
                 try
                 {
                     var fallbackResult = await fallbackOperation();
@@ -65,24 +60,24 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Perf
                     }
 
                     var result = await operation();
-                    
+
                     if (attempt > 0)
                     {
                         _logger.LogInformation("Operation succeeded on retry attempt {Attempt}: {OperationName}", attempt, operationName);
                     }
-                    
+
                     return result;
                 }
                 catch (Exception ex)
                 {
                     lastException = ex;
-                    
+
                     if (attempt == maxRetries)
                     {
                         _logger.LogError(ex, "Operation failed after {MaxRetries} retries: {OperationName}", maxRetries, operationName);
                         break;
                     }
-                    
+
                     _logger.LogWarning(ex, "Operation failed on attempt {Attempt}, will retry: {OperationName}", attempt + 1, operationName);
                 }
             }
@@ -93,7 +88,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Perf
         public async Task<T> ExecuteWithTimeoutAsync<T>(Func<Task<T>> operation, TimeSpan timeout, string operationName = "")
         {
             using var cts = new CancellationTokenSource(timeout);
-            
+
             try
             {
                 var result = await operation();
@@ -109,13 +104,13 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Perf
         public async Task<bool> IsServiceHealthyAsync(string serviceName)
         {
             await Task.CompletedTask; // For async consistency
-            
+
             if (!_serviceHealth.TryGetValue(serviceName, out var healthInfo))
                 return true; // Assume healthy if no data
 
             var circuitBreaker = _circuitBreakers.GetOrAdd(serviceName, _ => new CircuitBreakerState());
-            
-            return circuitBreaker.State != CircuitState.Open && 
+
+            return circuitBreaker.State != CircuitState.Open &&
                    healthInfo.SuccessRate > 0.7 && // 70% success rate threshold
                    healthInfo.LastSuccessTime > DateTime.UtcNow.AddMinutes(-5); // Recent success
         }
@@ -123,7 +118,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Perf
         private void RecordServiceFailure(string serviceName)
         {
             var healthInfo = _serviceHealth.GetOrAdd(serviceName, _ => new ServiceHealthInfo());
-            
+
             lock (healthInfo)
             {
                 healthInfo.TotalRequests++;
@@ -132,14 +127,14 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Perf
                 healthInfo.SuccessRate = (double)(healthInfo.TotalRequests - healthInfo.FailureCount) / healthInfo.TotalRequests;
             }
 
-            _logger.LogDebug("Recorded failure for service {ServiceName}. Success rate: {SuccessRate:P}", 
+            _logger.LogDebug("Recorded failure for service {ServiceName}. Success rate: {SuccessRate:P}",
                 serviceName, healthInfo.SuccessRate);
         }
 
         private void RecordServiceSuccess(string serviceName)
         {
             var healthInfo = _serviceHealth.GetOrAdd(serviceName, _ => new ServiceHealthInfo());
-            
+
             lock (healthInfo)
             {
                 healthInfo.TotalRequests++;
@@ -147,7 +142,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Perf
                 healthInfo.SuccessRate = (double)(healthInfo.TotalRequests - healthInfo.FailureCount) / healthInfo.TotalRequests;
             }
 
-            _logger.LogDebug("Recorded success for service {ServiceName}. Success rate: {SuccessRate:P}", 
+            _logger.LogDebug("Recorded success for service {ServiceName}. Success rate: {SuccessRate:P}",
                 serviceName, healthInfo.SuccessRate);
         }
     }

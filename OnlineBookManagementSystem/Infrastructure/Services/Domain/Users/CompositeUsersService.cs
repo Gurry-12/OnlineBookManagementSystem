@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Users;
-using OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure.Email;
-using OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure.Logging;
 using OnlineBookManagementSystem.Core.Domain.Entities;
 using OnlineBookManagementSystem.Presentation.ViewModels.Admin;
 using OnlineBookManagementSystem.Presentation.ViewModels.SuperAdmin;
@@ -155,6 +154,40 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Users
             {
                 _logger.LogError(ex, "Error getting user statistics for user {UserId}", userId);
                 return new UserStatisticsViewModel { UserId = userId };
+            }
+        }
+
+        public async Task<int> GetNewUsersCountAsync(int days)
+        {
+            try
+            {
+                var cutoffDate = DateTime.UtcNow.AddDays(-days);
+                var users = await _userManager.Users
+                    .Where(u => u.CreatedAt >= cutoffDate && u.IsDeleted == false)
+                    .CountAsync();
+                return users;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting new users count for last {Days} days", days);
+                return 0;
+            }
+        }
+
+        public async Task<int> GetActiveUsersCountAsync(int days)
+        {
+            try
+            {
+                var cutoffDate = DateTime.UtcNow.AddDays(-days);
+                var users = await _userManager.Users
+                    .Where(u => u.LastLoginDate >= cutoffDate && u.IsDeleted == false)
+                    .CountAsync();
+                return users;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting active users count for last {Days} days", days);
+                return 0;
             }
         }
     }

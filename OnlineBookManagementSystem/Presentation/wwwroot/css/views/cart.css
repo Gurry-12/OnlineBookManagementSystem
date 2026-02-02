@@ -1,0 +1,98 @@
+/**
+ * VIEW: Cart
+ * Purpose: Layout and composition for cart-related views
+ * Uses: component classes only - NO direct styling
+ */
+
+/* ========================================
+   VIEW: view-cart
+   ======================================== */
+
+.view-cart {
+    min-height: 100vh;
+    padding: var(--space-4);
+}
+
+.view-cart .cart__container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.view-cart .cart__header {
+    margin-bottom: var(--space-6);
+}
+
+.view-cart .cart__content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--space-6);
+}
+
+.view-cart .cart__items {
+    margin-bottom: var(--space-4);
+}
+
+.view-cart .cart__summary {
+    position: sticky;
+    top: var(--space-4);
+    height: fit-content;
+}
+
+/* ========================================
+   VIEW: view-checkout
+   ======================================== */
+
+.view-checkout {
+    min-height: 100vh;
+    padding: var(--space-4);
+}
+
+.view-checkout .checkout__container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.view-checkout .checkout__header {
+    margin-bottom: var(--space-6);
+    text-align: center;
+}
+
+.view-checkout .checkout__content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-8);
+}
+
+.view-checkout .checkout__form {
+    order: 1;
+}
+
+.view-checkout .checkout__summary {
+    order: 2;
+    position: sticky;
+    top: var(--space-4);
+    height: fit-content;
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 768px) {
+    .view-cart,
+    .view-checkout {
+        padding: var(--space-3);
+    }
+    
+    .view-cart .cart__content,
+    .view-checkout .checkout__content {
+        grid-template-columns: 1fr;
+        gap: var(--space-4);
+    }
+    
+    .view-cart .cart__summary,
+    .view-checkout .checkout__summary {
+        position: static;
+        order: -1;
+    }
+}

@@ -1,0 +1,521 @@
+@model OnlineBookManagementSystem.Presentation.ViewModels.Categories.CategoryViewModel
+@{
+    ViewData["Title"] = Model.Capabilities.PageTitle;
+    // Layout will be determined by role-based logic in _ViewStart.cshtml
+}
+
+<div class="view-categories-list">
+<div class="container py-4">
+    <!-- Page Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2 class="mb-1">
+                        <i class="bi bi-tags me-2"></i>@Model.Capabilities.PageTitle
+                    </h2>
+                    <p class="text-muted mb-0">
+                        @if (Model.HasCategories)
+                        {
+                            <text>@Model.TotalCategories categories available</text>
+                        }
+                        else
+                        {
+                            <text>No categories found</text>
+                        }
+                    </p>
+                </div>
+                @if (Model.Capabilities.CanCreate)
+                {
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createCategoryModal">
+                        <i class="bi bi-plus-circle me-2"></i>Add New Category
+                    </button>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Categories Display -->
+    @if (Model.HasCategories)
+    {
+        @if (Model.Capabilities.ViewMode == "manage")
+        {
+            <!-- Admin Management Grid -->
+            <div class="row g-4">
+                @foreach (var category in Model.Categories)
+                {
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card h-100 shadow-sm border-0 category-card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <h5 class="card-title text-primary">@category.Name</h5>
+                                    @if (Model.Capabilities.CanEdit || Model.Capabilities.CanDelete)
+                                    {
+                                        <div class="dropdown">
+                                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                                <i class="bi bi-three-dots"></i>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                @if (Model.Capabilities.CanEdit)
+                                                {
+                                                    <li><a class="dropdown-item" href="#" onclick="editCategory(@category.Id, '@category.Name', '@category.Description')">
+                                                        <i class="bi bi-pencil me-2"></i>Edit
+                                                    </a></li>
+                                                }
+                                                @if (Model.Capabilities.CanDelete && category.CanDelete)
+                                                {
+                                                    <li><a class="dropdown-item text-danger" href="#" onclick="deleteCategory(@category.Id, '@category.Name')">
+                                                        <i class="bi bi-trash me-2"></i>Delete
+                                                    </a></li>
+                                                }
+                                            </ul>
+                                        </div>
+                                    }
+                                </div>
+                                
+                                @if (!string.IsNullOrEmpty(category.Description))
+                                {
+                                    <p class="card-text text-muted">@category.Description</p>
+                                }
+                                
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <small class="text-muted">
+                                        <i class="bi bi-book me-1"></i>@category.BookCountText
+                                    </small>
+                                    @if (Model.Capabilities.CanViewTechnicalDetails)
+                                    {
+                                        <small class="text-muted">
+                                            Created: @category.FormattedCreatedDate
+                                        </small>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <!-- Public Browse Display -->
+            @foreach (var category in Model.Categories)
+            {
+                <div class="mb-5">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h3 class="text-primary">
+                            <i class="bi bi-tag me-2"></i>@category.Name
+                        </h3>
+                        <span class="badge bg-primary rounded-pill">@category.BookCountText</span>
+                    </div>
+
+                    @if (category.Books != null && category.Books.Any())
+                    {
+                        <div class="row g-4">
+                            @foreach (var book in category.Books.Take(6))
+                            {
+                                <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                    <div class="card h-100 shadow-sm border-0 book-card">
+                                        <div class="position-relative">
+                                            @if (!string.IsNullOrEmpty(book.ImageUrl))
+                                            {
+                                                <img src="@book.ImageUrl" alt="@book.Title" class="card-img-top book-cover">
+                                            }
+                                            else
+                                            {
+                                                <div class="card-img-top book-cover bg-light d-flex align-items-center justify-content-center">
+                                                    <i class="bi bi-book fs-2 text-muted"></i>
+                                                </div>
+                                            }
+                                            
+                                            @if (!book.IsInStock)
+                                            {
+                                                <div class="position-absolute top-0 end-0 m-2">
+                                                    <span class="badge bg-danger">Out of Stock</span>
+                                                </div>
+                                            }
+                                        </div>
+                                        
+                                        <div class="card-body p-3">
+                                            <h6 class="card-title text-truncate" title="@book.Title">@book.Title</h6>
+                                            <p class="card-text text-muted small mb-2">by @book.Author</p>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <span class="fw-bold text-primary">@book.FormattedPrice</span>
+                                                @if (book.IsInStock)
+                                                {
+                                                    <small class="text-success">In Stock</small>
+                                                }
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="card-footer bg-transparent border-0 p-3 pt-0">
+                                            <div class="d-grid gap-2">
+                                                @if (Model.Capabilities.CanViewBookDetails)
+                                                {
+                                                    <a asp-controller="Books" asp-action="Details" asp-route-id="@book.Id" 
+                                                       class="btn btn-outline-primary btn-sm">
+                                                        <i class="bi bi-eye me-1"></i>View Details
+                                                    </a>
+                                                }
+                                                
+                                                @if (Model.Capabilities.CanAddToCart && book.IsInStock)
+                                                {
+                                                    <button onclick="addToCart(@book.Id)" class="btn btn-primary btn-sm">
+                                                        <i class="bi bi-cart-plus me-1"></i>Add to Cart
+                                                    </button>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        
+                        @if (category.Books.Count > 6)
+                        {
+                            <div class="text-center mt-3">
+                                <a asp-controller="Books" asp-action="BookList" asp-route-categoryId="@category.Id" 
+                                   class="btn btn-outline-primary">
+                                    <i class="bi bi-plus me-1"></i>View All @category.Name Books (@category.BookCount)
+                                </a>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="text-center py-4">
+                            <i class="bi bi-book-open display-4 text-muted mb-3"></i>
+                            <p class="text-muted">No books available in this category yet.</p>
+                        </div>
+                    }
+                </div>
+            }
+        }
+    }
+    else
+    {
+        <!-- No Categories Found -->
+        <div class="text-center py-5">
+            <i class="bi bi-tags display-1 text-muted mb-3"></i>
+            <h4 class="text-muted">No Categories Available</h4>
+            <p class="text-muted">
+                @if (Model.Capabilities.CanCreate)
+                {
+                    <text>Start by creating your first category.</text>
+                }
+                else
+                {
+                    <text>Categories will appear here once books are added to the system.</text>
+                }
+            </p>
+            @if (Model.Capabilities.CanCreate)
+            {
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createCategoryModal">
+                    <i class="bi bi-plus-circle me-2"></i>Create Category
+                </button>
+            }
+            else
+            {
+                <a asp-controller="Books" asp-action="BookList" class="btn btn-primary">
+                    <i class="bi bi-book me-2"></i>Browse All Books
+                </a>
+            }
+        </div>
+    }
+</div>
+
+<!-- Create Category Modal (Admin only) -->
+@if (Model.Capabilities.CanCreate)
+{
+    <div class="modal fade" id="createCategoryModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create New Category</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="createCategoryForm">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="categoryName" class="form-label">Category Name *</label>
+                            <input type="text" class="form-control" id="categoryName" required maxlength="100">
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="categoryDescription" class="form-label">Description</label>
+                            <textarea class="form-control" id="categoryDescription" rows="3" maxlength="500"></textarea>
+                            <div class="form-text">Optional description for the category</div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-plus-circle me-2"></i>Create Category
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Category Modal -->
+    <div class="modal fade" id="editCategoryModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Category</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="editCategoryForm">
+                    <input type="hidden" id="editCategoryId">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="editCategoryName" class="form-label">Category Name *</label>
+                            <input type="text" class="form-control" id="editCategoryName" required maxlength="100">
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editCategoryDescription" class="form-label">Description</label>
+                            <textarea class="form-control" id="editCategoryDescription" rows="3" maxlength="500"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-circle me-2"></i>Update Category
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        @if (Model.Capabilities.CanCreate)
+        {
+            <text>
+            // Create Category
+            document.getElementById('createCategoryForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('categoryName').value.trim();
+                const description = document.getElementById('categoryDescription').value.trim();
+                
+                if (!name) {
+                    showNotification('Category name is required', 'error');
+                    return;
+                }
+                
+                try {
+                    const response = await fetch('/Categories/Create', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
+                        },
+                        body: JSON.stringify({ name, description })
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        showNotification(result.message, 'success');
+                        bootstrap.Modal.getInstance(document.getElementById('createCategoryModal')).hide();
+                        setTimeout(() => location.reload(), 1500);
+                    } else {
+                        showNotification(result.message, 'error');
+                    }
+                } catch (error) {
+                    showNotification('An error occurred while creating the category', 'error');
+                }
+            });
+            </text>
+        }
+        
+        @if (Model.Capabilities.CanEdit)
+        {
+            <text>
+            // Edit Category Functions
+            function editCategory(id, name, description) {
+                document.getElementById('editCategoryId').value = id;
+                document.getElementById('editCategoryName').value = name;
+                document.getElementById('editCategoryDescription').value = description || '';
+                
+                new bootstrap.Modal(document.getElementById('editCategoryModal')).show();
+            }
+            
+            // Edit Category Form Handler
+            document.getElementById('editCategoryForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const id = document.getElementById('editCategoryId').value;
+                const name = document.getElementById('editCategoryName').value.trim();
+                const description = document.getElementById('editCategoryDescription').value.trim();
+                
+                if (!name) {
+                    showNotification('Category name is required', 'error');
+                    return;
+                }
+                
+                try {
+                    const response = await fetch('/Categories/Update', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
+                        },
+                        body: JSON.stringify({ id: parseInt(id), name, description })
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        showNotification(result.message, 'success');
+                        bootstrap.Modal.getInstance(document.getElementById('editCategoryModal')).hide();
+                        setTimeout(() => location.reload(), 1500);
+                    } else {
+                        showNotification(result.message, 'error');
+                    }
+                } catch (error) {
+                    showNotification('An error occurred while updating the category', 'error');
+                }
+            });
+            </text>
+        }
+        
+        @if (Model.Capabilities.CanDelete)
+        {
+            <text>
+            function deleteCategory(id, name) {
+                if (confirm(`Are you sure you want to delete the category "${name}"?`)) {
+                    deleteCategoryConfirmed(id);
+                }
+            }
+            
+            async function deleteCategoryConfirmed(id) {
+                try {
+                    const response = await fetch('/Categories/Delete', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
+                        },
+                        body: JSON.stringify({ id: parseInt(id) })
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        showNotification(result.message, 'success');
+                        setTimeout(() => location.reload(), 1500);
+                    } else {
+                        showNotification(result.message, 'error');
+                    }
+                } catch (error) {
+                    showNotification('An error occurred while deleting the category', 'error');
+                }
+            }
+            </text>
+        }
+        
+        @if (Model.Capabilities.CanAddToCart)
+        {
+            <text>
+            function addToCart(bookId) {
+                fetch('/Cart/Add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
+                    },
+                    body: JSON.stringify({ bookId: bookId, quantity: 1 })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showNotification('Book added to cart!', 'success');
+                        updateCartCount(data.cartCount);
+                    } else {
+                        showNotification(data.message || 'Failed to add book to cart', 'error');
+                    }
+                })
+                .catch(error => {
+                    showNotification('Error adding book to cart', 'error');
+                    console.error('Error:', error);
+                });
+            }
+            
+            function updateCartCount(count) {
+                const cartBadge = document.querySelector('#cart-count');
+                if (cartBadge) {
+                    cartBadge.textContent = count;
+                    cartBadge.style.display = count > 0 ? 'inline' : 'none';
+                }
+            }
+            </text>
+        }
+        
+        function showNotification(message, type) {
+            // Create toast notification
+            const toast = document.createElement('div');
+            toast.className = `alert alert-${type === 'error' ? 'danger' : type} alert-dismissible fade show position-fixed`;
+            toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+            toast.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            document.body.appendChild(toast);
+
+            // Auto remove after 3 seconds
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.parentNode.removeChild(toast);
+                }
+            }, 3000);
+        }
+    </script>
+}
+
+<style>
+    .category-card {
+        transition: transform 0.2s ease-in-out;
+    }
+
+    .category-card:hover {
+        transform: translateY(-2px);
+    }
+
+    .book-card {
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
+    
+    .book-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+    
+    .book-cover {
+        height: 200px;
+        object-fit: cover;
+    }
+    
+    .card-title {
+        font-size: 0.9rem;
+        line-height: 1.2;
+    }
+    
+    .card-text {
+        font-size: 0.8rem;
+    }
+    
+    .btn-sm {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.5rem;
+    }
+
+    .modal-header {
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #dee2e6;
+    }
+</style>

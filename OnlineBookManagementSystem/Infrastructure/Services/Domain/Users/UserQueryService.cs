@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Users;
 using OnlineBookManagementSystem.Core.Domain.Entities;
 using OnlineBookManagementSystem.Core.Domain.Enums;
 using OnlineBookManagementSystem.Infrastructure.Data.Context;
 using OnlineBookManagementSystem.Presentation.ViewModels.Admin;
 using OnlineBookManagementSystem.Presentation.ViewModels.SuperAdmin;
-using OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Users;
 
 namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Users
 {
@@ -272,14 +272,47 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Users
                 // Consider users active if they've logged in within the last 30 days
                 var thirtyDaysAgo = DateTime.UtcNow.AddDays(-30);
                 return await _context.Users
-                    .CountAsync(u => (bool)!u.IsDeleted && 
-                                    u.LastLoginDate.HasValue && 
+                    .CountAsync(u => (bool)!u.IsDeleted &&
+                                    u.LastLoginDate.HasValue &&
                                     u.LastLoginDate.Value >= thirtyDaysAgo);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting active users count");
                 return 0;
+            }
+        }
+
+        public async Task<object?> GetUserProfileAsync(int userId)
+        {
+            try
+            {
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId && (bool)!u.IsDeleted);
+                if (user == null) return null;
+
+                var favoritesCount = await _context.UserFavorites.CountAsync(uf => uf.UserId == userId);
+                var ordersCount = await _context.Orders.CountAsync(o => o.UserId == userId && !o.IsDeleted);
+                var totalSpent = await _context.Orders
+                    .Where(o => o.UserId == userId && !o.IsDeleted && o.PaymentStatus == Core.Domain.Enums.PaymentStatus.Paid)
+                    .SumAsync(o => o.TotalAmount.Amount);
+
+                // Return anonymous object to avoid circular dependencies
+                return new
+                {
+                    Id = user.Id,
+                    Name = user.Name,
+                    Email = user.Email,
+                    MemberSince = user.CreatedAt,
+                    LastLoginDate = user.LastLoginDate,
+                    TotalFavorites = favoritesCount,
+                    TotalOrders = ordersCount,
+                    TotalSpent = totalSpent
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting user profile for user {UserId}", userId);
+                return null;
             }
         }
     }

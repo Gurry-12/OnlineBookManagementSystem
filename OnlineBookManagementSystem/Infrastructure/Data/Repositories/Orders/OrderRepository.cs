@@ -44,6 +44,13 @@ namespace OnlineBookManagementSystem.Infrastructure.Data.Repositories.Orders
                 .ToListAsync();
         }
 
+        public async Task<int> GetOrdersCountByStatusAsync(OrderStatus status)
+        {
+            return await _context.Orders
+                .Where(o => o.Status == status && !o.IsDeleted)
+                .CountAsync();
+        }
+
         public async Task<decimal> GetTotalRevenueAsync()
         {
             return await _context.Orders
@@ -54,10 +61,10 @@ namespace OnlineBookManagementSystem.Infrastructure.Data.Repositories.Orders
         public async Task<decimal> GetMonthlyRevenueAsync(int year, int month)
         {
             return await _context.Orders
-                .Where(o => !o.IsDeleted && 
+                .Where(o => !o.IsDeleted &&
                            o.PaymentStatus == PaymentStatus.Paid &&
                            o.OrderDate.HasValue &&
-                           o.OrderDate.Value.Year == year && 
+                           o.OrderDate.Value.Year == year &&
                            o.OrderDate.Value.Month == month)
                 .SumAsync(o => o.TotalAmount.Amount);
         }
@@ -113,8 +120,8 @@ namespace OnlineBookManagementSystem.Infrastructure.Data.Repositories.Orders
         public async Task<List<Order>> GetOrdersForDateRangeAsync(DateTime startDate, DateTime endDate)
         {
             return await _context.Orders
-                .Where(o => !o.IsDeleted && 
-                           o.OrderDate >= startDate && 
+                .Where(o => !o.IsDeleted &&
+                           o.OrderDate >= startDate &&
                            o.OrderDate <= endDate)
                 .Include(o => o.User)
                 .Include(o => o.OrderDetails)
@@ -125,7 +132,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Data.Repositories.Orders
 
         public async Task<Order> UpdateAsync(Order entity)
         {
-            return await base.UpdateAsync(entity); 
+            return await base.UpdateAsync(entity);
         }
     }
 }

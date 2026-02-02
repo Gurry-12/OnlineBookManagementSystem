@@ -1,0 +1,105 @@
+@model OnlineBookManagementSystem.Presentation.ViewModels.Users.UserManagementFilters
+
+<div class="card mb-4">
+    <div class="card-header">
+        <h6 class="card-title mb-0">
+            <i class="bi bi-funnel me-2"></i>Filters
+            <button type="button" class="btn btn-sm btn-outline-secondary float-end" onclick="clearFilters()">
+                <i class="bi bi-x-circle me-1"></i>Clear All
+            </button>
+        </h6>
+    </div>
+    <div class="card-body">
+        <form id="userFiltersForm" method="get">
+            <div class="row g-3">
+                <!-- Search Term -->
+                <div class="col-md-4">
+                    <label class="form-label">Search</label>
+                    <input type="text" name="searchTerm" class="form-control" 
+                           value="@Model.SearchTerm" 
+                           placeholder="Name, username, or email...">
+                </div>
+                
+                <!-- Role Filter -->
+                <div class="col-md-2">
+                    <label class="form-label">Role</label>
+                    <select name="roleFilter" class="form-select">
+                        <option value="">All Roles</option>
+                        <option value="User" selected="@(Model.RoleFilter == "User")">User</option>
+                        <option value="Admin" selected="@(Model.RoleFilter == "Admin")">Admin</option>
+                        <option value="SuperAdmin" selected="@(Model.RoleFilter == "SuperAdmin")">SuperAdmin</option>
+                    </select>
+                </div>
+                
+                <!-- Status Filter -->
+                <div class="col-md-2">
+                    <label class="form-label">Status</label>
+                    <select name="statusFilter" class="form-select">
+                        <option value="">All Status</option>
+                        <option value="Active" selected="@(Model.StatusFilter == "Active")">Active</option>
+                        <option value="Pending" selected="@(Model.StatusFilter == "Pending")">Pending</option>
+                        <option value="Locked" selected="@(Model.StatusFilter == "Locked")">Locked</option>
+                        <option value="Deleted" selected="@(Model.StatusFilter == "Deleted")">Deleted</option>
+                    </select>
+                </div>
+                
+                <!-- Created Date Range -->
+                <div class="col-md-2">
+                    <label class="form-label">Created From</label>
+                    <input type="date" name="createdFrom" class="form-control" 
+                           value="@(Model.CreatedFrom?.ToString("yyyy-MM-dd"))">
+                </div>
+                
+                <div class="col-md-2">
+                    <label class="form-label">Created To</label>
+                    <input type="date" name="createdTo" class="form-control" 
+                           value="@(Model.CreatedTo?.ToString("yyyy-MM-dd"))">
+                </div>
+            </div>
+            
+            <div class="row g-3 mt-2">
+                <!-- Last Login Date Range -->
+                <div class="col-md-2">
+                    <label class="form-label">Last Login From</label>
+                    <input type="date" name="lastLoginFrom" class="form-control" 
+                           value="@(Model.LastLoginFrom?.ToString("yyyy-MM-dd"))">
+                </div>
+                
+                <div class="col-md-2">
+                    <label class="form-label">Last Login To</label>
+                    <input type="date" name="lastLoginTo" class="form-control" 
+                           value="@(Model.LastLoginTo?.ToString("yyyy-MM-dd"))">
+                </div>
+                
+                <!-- Filter Actions -->
+                <div class="col-md-8 d-flex align-items-end">
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-search me-2"></i>Apply Filters
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" onclick="clearFilters()">
+                            <i class="bi bi-x-circle me-2"></i>Clear
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function clearFilters() {
+        // Clear all form inputs
+        document.getElementById('userFiltersForm').reset();
+        
+        // Navigate to the same page without query parameters
+        window.location.href = window.location.pathname;
+    }
+    
+    // Auto-submit form when filters change (optional)
+    document.getElementById('userFiltersForm').addEventListener('change', function(e) {
+        if (e.target.type === 'select-one') {
+            this.submit();
+        }
+    });
+</script>

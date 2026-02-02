@@ -14,7 +14,7 @@ namespace OnlineBookManagementSystem.Presentation.Mappers
             Dictionary<int, DateTime>? favoriteDates = null)
         {
             var bookList = books.ToList();
-            
+
             return new FavoritesBooksViewModel
             {
                 FavoriteBooks = bookList.Select(book => MapToFavoriteBookItem(book, favoriteDates)).ToList(),
@@ -23,7 +23,7 @@ namespace OnlineBookManagementSystem.Presentation.Mappers
         }
 
         private static FavoriteBookItemViewModel MapToFavoriteBookItem(
-            Book book, 
+            Book book,
             Dictionary<int, DateTime>? favoriteDates)
         {
             return new FavoriteBookItemViewModel

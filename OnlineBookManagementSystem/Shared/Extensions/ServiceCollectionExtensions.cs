@@ -31,6 +31,9 @@ namespace OnlineBookManagementSystem.Shared.Extensions
             // Health Checks
             services.AddHealthCheckConfiguration(configuration);
 
+            // Unified Services (Layout Service, etc.)
+            services.AddUnifiedServices();
+
             return services;
         }
     }

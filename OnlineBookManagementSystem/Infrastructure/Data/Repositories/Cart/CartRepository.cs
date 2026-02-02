@@ -70,6 +70,17 @@ namespace OnlineBookManagementSystem.Infrastructure.Data.Repositories.Cart
                 .ToListAsync();
         }
 
+        public async Task<List<ShoppingCart>> GetAllCartsAsync()
+        {
+            return await _context.ShoppingCarts
+                .Where(sc => !sc.IsDeleted)
+                .Include(sc => sc.Book)
+                    .ThenInclude(b => b.Category)
+                .Include(sc => sc.User)
+                .OrderByDescending(sc => sc.UpdatedAt)
+                .ToListAsync();
+        }
+
         public async Task<ShoppingCart> UpdateAsync(ShoppingCart entity)
         {
             return await base.UpdateAsync(entity);

@@ -18,7 +18,7 @@ namespace OnlineBookManagementSystem.Presentation.ViewModels.AuthViewModels
 
         [Required(ErrorMessage = "Please select an account type")]
         public string RequestedRole { get; set; } = "User"; // "User" or "Admin"
-        
+
         // Enhanced registration properties
         public bool AcceptTerms { get; set; } = false;
         public bool SubscribeToUpdates { get; set; } = false;

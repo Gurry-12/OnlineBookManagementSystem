@@ -1,13 +1,12 @@
 @{
     var isAuthenticated = User.Identity?.IsAuthenticated == true;
-    var isUser = User.IsInRole("User");
 }
 
-@if (isAuthenticated && isUser)
+@if (isAuthenticated)
 {
     <div class="nav-item dropdown">
         <a class="nav-link position-relative" href="#" id="cartDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="fas fa-shopping-cart"></i>
+            <i class="bi bi-cart"></i>
             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cart-count">
                 0
             </span>
@@ -17,39 +16,43 @@
             <li><hr class="dropdown-divider"></li>
             <li>
                 <a class="dropdown-item" asp-controller="User" asp-action="UserCart">
-                    <i class="fas fa-shopping-cart me-2"></i>View Cart
+                    <i class="bi bi-cart me-2"></i>View Cart
                 </a>
             </li>
             <li>
                 <a class="dropdown-item" asp-controller="Cart" asp-action="Checkout">
-                    <i class="fas fa-credit-card me-2"></i>Checkout
+                    <i class="bi bi-credit-card me-2"></i>Checkout
                 </a>
             </li>
         </ul>
     </div>
 
     <script>
-        $(document).ready(function() {
+        document.addEventListener('DOMContentLoaded', function() {
             updateCartCount();
         });
 
         function updateCartCount() {
-            $.get('@Url.Action("GetCartCount", "User")')
-                .done(function(response) {
-                    $('#cart-count').text(response.count);
-                    if (response.count > 0) {
-                        $('#cart-count').show();
-                    } else {
-                        $('#cart-count').hide();
+            fetch('@Url.Action("GetCartCount", "User")')
+                .then(response => response.json())
+                .then(data => {
+                    const cartBadge = document.getElementById('cart-count');
+                    if (cartBadge) {
+                        cartBadge.textContent = data.count || 0;
+                        cartBadge.style.display = (data.count > 0) ? 'inline' : 'none';
                     }
                 })
-                .fail(function() {
-                    $('#cart-count').hide();
+                .catch(error => {
+                    console.error('Error updating cart count:', error);
+                    const cartBadge = document.getElementById('cart-count');
+                    if (cartBadge) {
+                        cartBadge.style.display = 'none';
+                    }
                 });
         }
 
         // Update cart count after adding items
-        $(document).on('cartUpdated', function() {
+        document.addEventListener('cartUpdated', function() {
             updateCartCount();
         });
     </script>
@@ -57,8 +60,8 @@
 else
 {
     <div class="nav-item">
-        <a class="nav-link" asp-controller="Auth" asp-action="Login">
-            <i class="fas fa-shopping-cart"></i>
+        <a class="nav-link" asp-controller="Auth" asp-action="Login" title="Login to access cart">
+            <i class="bi bi-cart"></i>
         </a>
     </div>
 }

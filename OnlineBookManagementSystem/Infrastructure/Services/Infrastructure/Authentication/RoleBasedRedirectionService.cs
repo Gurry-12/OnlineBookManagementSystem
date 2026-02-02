@@ -1,7 +1,6 @@
-using System.Security.Claims;
-using Microsoft.Extensions.Logging;
-using OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure.Authentication;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Users;
+using OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure.Authentication;
+using System.Security.Claims;
 
 namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Authentication
 {
@@ -54,7 +53,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Auth
                 // For now, we'll use a simplified approach since GetUserByIdAsync doesn't exist
                 // In a real implementation, this would query the user's role from the database
                 _logger.LogInformation("Getting redirect URL for user {UserId}", userId);
-                
+
                 // Default to User role redirect for now
                 // This should be enhanced to actually query the user's role
                 return await GetDefaultRedirectForRoleAsync("User");
@@ -99,7 +98,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Auth
             }
 
             var userRoles = user.FindAll(ClaimTypes.Role).Select(c => c.Value).ToList();
-            
+
             var highestRole = userRoles
                 .Where(role => _rolePriority.ContainsKey(role))
                 .OrderByDescending(role => _rolePriority[role])
@@ -155,13 +154,13 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Auth
             if (user?.Identity?.IsAuthenticated == true)
             {
                 var userRole = GetHighestPriorityRole(user);
-                
+
                 // Users can only access User areas
                 if (userRole == "User" && (url.StartsWith("/Admin/") || url.StartsWith("/SuperAdmin/")))
                 {
                     return false;
                 }
-                
+
                 // Admins can access User and Admin areas but not SuperAdmin
                 if (userRole == "Admin" && url.StartsWith("/SuperAdmin/"))
                 {

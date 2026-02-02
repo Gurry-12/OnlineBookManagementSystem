@@ -1,4 +1,3 @@
-using OnlineBookManagementSystem.Infrastructure.Data.Context;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure.Logging;
 
 namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Logging
@@ -50,7 +49,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Logg
                 if (deletedCount > 0)
                 {
                     _logger.LogInformation("Successfully deleted {Count} activity logs older than 1 day", deletedCount);
-                    
+
                     // Log this cleanup action (but don't create an infinite loop by logging the cleanup of cleanup logs)
                     await activityLogger.LogAsync("AutoCleanup", $"Automatically deleted {deletedCount} old activity logs", null);
                 }

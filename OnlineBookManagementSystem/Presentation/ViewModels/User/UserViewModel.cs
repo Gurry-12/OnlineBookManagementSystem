@@ -10,7 +10,7 @@ public class UserViewModel
     public List<string> Roles { get; internal set; } = new();
     public DateTime CreatedAt { get; set; }
     public DateTime? LastLoginDate { get; set; }
-    
+
     // Additional properties
     public string? PhoneNumber { get; set; }
     public DateTime? LastLoginAt { get; set; }

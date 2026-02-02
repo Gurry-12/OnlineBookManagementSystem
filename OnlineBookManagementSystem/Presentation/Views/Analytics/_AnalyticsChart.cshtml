@@ -1,0 +1,58 @@
+@model dynamic
+
+@{
+    var chartId = ViewData["ChartId"]?.ToString() ?? "analyticsChart";
+    var chartTitle = ViewData["ChartTitle"]?.ToString() ?? "Analytics Chart";
+    var chartType = ViewData["ChartType"]?.ToString() ?? "line";
+    var chartHeight = ViewData["ChartHeight"]?.ToString() ?? "300";
+}
+
+<div class="analytics-chart">
+    <div class="analytics-chart__header">
+        <h5 class="analytics-chart__title">
+            <i class="bi bi-graph-up me-2"></i>@chartTitle
+        </h5>
+    </div>
+    <div class="analytics-chart__body">
+        <div class="analytics-chart__container" style="height: @(chartHeight)px;">
+            <canvas id="@chartId" class="analytics-chart__canvas"></canvas>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const ctx = document.getElementById('@chartId').getContext('2d');
+    const chartData = @Html.Raw(Json.Serialize(Model));
+    
+    new Chart(ctx, {
+        type: '@chartType',
+        data: chartData,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        color: 'rgba(0,0,0,0.1)'
+                    }
+                },
+                x: {
+                    grid: {
+                        color: 'rgba(0,0,0,0.1)'
+                    }
+                }
+            }
+        }
+    });
+});
+</script>

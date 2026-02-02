@@ -1,6 +1,5 @@
-using Microsoft.Extensions.DependencyInjection;
-using OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Books;
-using OnlineBookManagementSystem.Infrastructure.Services.Domain.Books;
+using OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure;
+using OnlineBookManagementSystem.Infrastructure.Services.Infrastructure;
 
 namespace OnlineBookManagementSystem.Shared.Extensions;
 
@@ -15,20 +14,18 @@ public static class UnifiedServicesExtensions
     /// </summary>
     public static IServiceCollection AddUnifiedServices(this IServiceCollection services)
     {
-        // Register the unified book service that replaces:
-        // - IBookQueryService
-        // - IBookCommandService  
-        // - IPublicBookService
-        // - IAdminBookService
-        services.AddScoped<IUnifiedBookService, UnifiedBookService>();
-        
+        // Layout service removed - using simplified approach
+
+        // Note: Removed IUnifiedBookService registration as we're keeping standard MVC controllers
+        // The existing AdminController, UserController, and BooksController provide the needed functionality
+
         // You can add more unified services here as you refactor other areas
         // services.AddScoped<IUnifiedOrderService, UnifiedOrderService>();
         // services.AddScoped<IUnifiedUserService, UnifiedUserService>();
-        
+
         return services;
     }
-    
+
     /// <summary>
     /// Remove old redundant services during migration
     /// Call this method to clean up old service registrations
@@ -37,11 +34,11 @@ public static class UnifiedServicesExtensions
     {
         // Remove old service registrations to prevent conflicts
         // This is optional and can be done gradually during migration
-        
+
         // Example:
         // services.Remove(services.FirstOrDefault(s => s.ServiceType == typeof(IBookQueryService)));
         // services.Remove(services.FirstOrDefault(s => s.ServiceType == typeof(IBookCommandService)));
-        
+
         return services;
     }
 }

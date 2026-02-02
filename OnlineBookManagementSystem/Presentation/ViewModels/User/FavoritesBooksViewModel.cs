@@ -1,6 +1,4 @@
-using OnlineBookManagementSystem.Core.Application.DTOs;
-
-namespace OnlineBookManagementSystem.Presentation.ViewModels.User
+﻿namespace OnlineBookManagementSystem.Presentation.ViewModels.User
 {
     /// <summary>
     /// ViewModel for user's favorite books page
@@ -23,13 +21,13 @@ namespace OnlineBookManagementSystem.Presentation.ViewModels.User
         public string? CategoryName { get; set; }
         public int StockQuantity { get; set; }
         public DateTime AddedToFavoritesDate { get; set; }
-        
+
         // UI-specific computed properties
         public bool IsAvailable => StockQuantity > 0;
         public bool IsLowStock => StockQuantity > 0 && StockQuantity <= 5;
-        public string StockBadgeClass => StockQuantity <= 0 ? "badge-danger" : 
+        public string StockBadgeClass => StockQuantity <= 0 ? "badge-danger" :
                                          StockQuantity <= 5 ? "badge-warning" : "badge-success";
-        public string StockBadgeText => StockQuantity <= 0 ? "Out of Stock" : 
+        public string StockBadgeText => StockQuantity <= 0 ? "Out of Stock" :
                                         StockQuantity <= 5 ? "Low Stock" : "In Stock";
         public string FormattedPrice => $"₹{Price:N2}";
         public string FormattedDate => AddedToFavoritesDate.ToString("MMM dd, yyyy");

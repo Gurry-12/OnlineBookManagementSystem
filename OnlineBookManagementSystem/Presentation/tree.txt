@@ -1,0 +1,414 @@
+Folder PATH listing for volume New Volume
+Volume serial number is 0000026A EC31:FE66
+E:.
+|   tree.txt
+|   _ViewImports.cshtml
+|   
++---Controllers
+|   |   AdminController.cs
+|   |   AuthController.cs
+|   |   BaseController.cs
+|   |   BooksController.cs
+|   |   CartController.cs
+|   |   CategoryController.cs
+|   |   ErrorController.cs
+|   |   HomeController.cs
+|   |   OrderController.cs
+|   |   PublicController.cs
+|   |   ReviewController.cs
+|   |   SuperAdminController.cs
+|   |   UserController.cs
+|   |   
+|   +---Admin
+|   |       ReviewModerationController.cs
+|   |       
+|   \---User
++---Handlers
+|       BookRequestHandler.cs
+|       
++---Helpers
+|       AjaxResponseHelper.cs
+|       
++---Mappers
+|       CategoryViewModelMapper.cs
+|       FavoritesViewModelMapper.cs
+|       OrderViewModelMapper.cs
+|       
++---Middleware
+|       ExceptionHandlingMiddleware.cs
+|       RequestLoggingMiddleware.cs
+|       RoleSwitchingMiddleware.cs
+|       
++---Models
+|       BookFilterOptions.cs
+|       CommandResult.cs
+|       
++---ViewModels
+|   +---Activity
+|   |       ActivityLogsViewModel.cs
+|   |       ActivityLogViewModel.cs
+|   |       
+|   +---Admin
+|   |       AdminCartViewModel.cs
+|   |       AdminDashboardViewModel.cs
+|   |       AdminMonthlyStatsViewModel.cs
+|   |       AdminOrderItemViewModel.cs
+|   |       AdminOrderListViewModel.cs
+|   |       AdminUsersViewModel.cs
+|   |       AdminViewModel.cs
+|   |       CategoryManagementViewModel.cs
+|   |       MonthlyRevenueViewModel.cs
+|   |       OrderStatusViewModel.cs
+|   |       UserDetailsViewModel.cs
+|   |       UserStatisticsViewModel.cs
+|   |       
+|   +---AuthViewModels
+|   |       AssignRoleViewModel.cs
+|   |       ForgotPasswordViewModel.cs
+|   |       LoginViewModel.cs
+|   |       RefreshTokenViewModel.cs
+|   |       RegisterViewModel.cs
+|   |       ResetPasswordViewModel.cs
+|   |       
+|   +---Books
+|   |       BookDetailsViewModel.cs
+|   |       BookFormViewModel.cs
+|   |       BookListViewModel.cs
+|   |       CategoryClassifyViewModel.cs
+|   |       
+|   +---Cart
+|   |       CartItemRequestViewModel.cs
+|   |       CartItemViewModel.cs
+|   |       CartSummaryViewModel.cs
+|   |       CartViewModel.cs
+|   |       CheckOutRequestViewModel.cs
+|   |       CheckOutViewModel.cs
+|   |       ShoppingCartViewModel.cs
+|   |       
+|   +---ChartViewModel
+|   |       AuthorBookCountViewModel.cs
+|   |       CategoryBookCountViewModel.cs
+|   |       FavoriteStatsViewModel.cs
+|   |       MonthlyBookUploadViewModel.cs
+|   |       
+|   +---Reviews
+|   |       BookRatingViewModel.cs
+|   |       ReviewDisplayViewModel.cs
+|   |       ReviewSubmissionViewModel.cs
+|   |       ReviewViewModels.cs
+|   |       
+|   +---Shared
+|   |       CategoryViewModel.cs
+|   |       CategoryWithCount.cs
+|   |       ConfirmationViewModel.cs
+|   |       
+|   +---Showcase
+|   |       DeveloperStoryPageViewModel.cs
+|   |       InteractiveDemoViewModel.cs
+|   |       ShowcaseViewModel.cs
+|   |       TechnicalDetailsViewModel.cs
+|   |       
+|   +---SuperAdmin
+|   |       ManageUsersViewModel.cs
+|   |       SuperAdminAnalyticsViewModel.cs
+|   |       SuperAdminDashboardViewModel.cs
+|   |       SystemHealthViewModel.cs
+|   |       SystemSettingsRequests.cs
+|   |       SystemSettingsViewModel.cs
+|   |       
+|   \---User
+|           FavoritesBooksViewModel.cs
+|           OrderDetailViewModel.cs
+|           OrderHistoryItemViewModel.cs
+|           OrderHistoryViewModel.cs
+|           ProfileViewModel.cs
+|           UserDashboardViewModel.cs
+|           UserProfileViewModel.cs
+|           UserViewModel.cs
+|           
++---Views
+|   |   _ViewImports.cshtml
+|   |   _ViewStart.cshtml
+|   |   
+|   +---Admin
+|   |   |   ActivityLogs.cshtml
+|   |   |   Books.cshtml
+|   |   |   CategoryManagement.cshtml
+|   |   |   CreateBook.cshtml
+|   |   |   Dashboard.cshtml
+|   |   |   Details.cshtml
+|   |   |   DisplayBookDetails.cshtml
+|   |   |   EditBook.cshtml
+|   |   |   OrderManagement.cshtml
+|   |   |   UserList.cshtml
+|   |   |   _BookForm.cshtml
+|   |   |   _BooksGrid.cshtml
+|   |   |   
+|   |   \---Reviews
+|   |           Analytics.cshtml
+|   |           Pending.cshtml
+|   |           
+|   +---Auth
+|   |       ConfirmEmail.cshtml
+|   |       ForgotPassword.cshtml
+|   |       Login.cshtml
+|   |       ProfileView.cshtml
+|   |       Registration.cshtml
+|   |       ResetPassword.cshtml
+|   |       
+|   +---Books
+|   |       Details.cshtml
+|   |       
+|   +---Cart
+|   |       CheckOut.cshtml
+|   |       OrderConfirmation.cshtml
+|   |       
+|   +---ConsolidatedSuperAdmin
+|   +---Home
+|   |       About.cshtml
+|   |       Support.cshtml
+|   |       Terms.cshtml
+|   |       
+|   +---Order
+|   |   +---Admin
+|   |   |       AdminDetails.cshtml
+|   |   |       AdminIndex.cshtml
+|   |   |       
+|   |   \---User
+|   |           Details.cshtml
+|   |           Index.cshtml
+|   |           
+|   +---Public
+|   |       BookDetails.cshtml
+|   |       Browse.cshtml
+|   |       Dashboard.cshtml
+|   |       DeveloperStory.cshtml
+|   |       Index.cshtml
+|   |       InteractiveDemo.cshtml
+|   |       PublicBookList.cshtml
+|   |       TechnicalDetails.cshtml
+|   |       
+|   +---Review
+|   |       _ReviewList.cshtml
+|   |       
+|   +---ReviewModeration
+|   |       Analytics.cshtml
+|   |       Pending.cshtml
+|   |       
+|   +---Shared
+|   |   |   BookDetails.cshtml
+|   |   |   Error.cshtml
+|   |   |   NotFound.cshtml
+|   |   |   SessionExpired.cshtml
+|   |   |   Unauthorized.cshtml
+|   |   |   _CartWidget.cshtml
+|   |   |   _LayoutAdmin.cshtml
+|   |   |   _LayoutAuth.cshtml
+|   |   |   _LayoutPublic.cshtml
+|   |   |   _LayoutSuperAdmin.cshtml
+|   |   |   _LayoutUser.cshtml
+|   |   |   _Notification.cshtml
+|   |   |   _UniversalBookDetails.cshtml
+|   |   |   _UniversalLayout.cshtml
+|   |   |   _ValidationScriptsPartial.cshtml
+|   |   |   
+|   |   \---Components
+|   |           _BookCard.cshtml
+|   |           _BookGrid.cshtml
+|   |           _EmptyState.cshtml
+|   |           _ErrorAlert.cshtml
+|   |           _LoadingState.cshtml
+|   |           _Pagination.cshtml
+|   |           
+|   +---SuperAdmin
+|   |       ActivityLogs.cshtml
+|   |       Dashboard.cshtml
+|   |       ManageUsers.cshtml
+|   |       PendingUsers.cshtml
+|   |       SystemHealth.cshtml
+|   |       SystemSettings.cshtml
+|   |       
+|   \---User
+|           BookDetails.cshtml
+|           CategoryClassify.cshtml
+|           Dashboard.cshtml
+|           Favorite.cshtml
+|           OrderDetails.cshtml
+|           OrderHistory.cshtml
+|           Profile.cshtml
+|           UserBookList.cshtml
+|           UserCart.cshtml
+|           _UserBooksGrid.cshtml
+|           
+\---wwwroot
+    |   favicon.ico
+    |   robots.txt
+    |   site.webmanifest
+    |   sitemap.xml
+    |   
+    +---css
+    |   |   accessibility-enhancements.css
+    |   |   auth.css
+    |   |   booksindex.css
+    |   |   cartstylesheet.css
+    |   |   components.css
+    |   |   public-view-enhancements.css
+    |   |   role-based-color-system.css
+    |   |   role-based-theme-engine.css
+    |   |   role-color-palette-fix.css
+    |   |   toast-notifications.css
+    |   |   ui-consistency-fixes.css
+    |   |   unified-theme.css
+    |   |   
+    |   +---components
+    |   |       book-card.css
+    |   |       empty-state.css
+    |   |       error-alert.css
+    |   |       loading-state.css
+    |   |       pagination.css
+    |   |       
+    |   +---core
+    |   |       variables.css
+    |   |       
+    |   \---extra-css
+    |           missing-styles-part1.css
+    |           missing-styles-part10.css
+    |           missing-styles-part2.css
+    |           missing-styles-part3.css
+    |           missing-styles-part4.css
+    |           missing-styles-part5.css
+    |           missing-styles-part6.css
+    |           missing-styles-part7.css
+    |           missing-styles-part8.css
+    |           missing-styles-part9.css
+    |           unified-styles.css
+    |           
+    +---images
+    |   |   3d-design-removebg-preview.png
+    |   |   3d-design.png
+    |   |   combine-image.png
+    |   |   default-book-improved.svg
+    |   |   default-book.png
+    |   |   demo-book-fiction.svg
+    |   |   demo-book-placeholder.svg
+    |   |   demo-book-science.svg
+    |   |   demo-book-technology.svg
+    |   |   fad096d3-35e5-4aaf-908f-39291c9dbfb8.png
+    |   |   image.png
+    |   |   img_avatar.png
+    |   |   Maain_Logo.png
+    |   |   Render_main_logo.png
+    |   |   Render_main_logo_30x301.png
+    |   |   Render_Website_Name.png
+    |   |   Website Name.png
+    |   |   
+    |   \---books
+    |           company.jpg
+    |           great-gatsby.jpg
+    |           hobbit.jpg
+    |           money.jpg
+    |           
+    +---js
+    |   |   cart-utils.js
+    |   |   role-switcher.js
+    |   |   site.js
+    |   |   unified-http-client.js
+    |   |   unified-interactions.js
+    |   |   
+    |   +---admin
+    |   |       bookManager.js
+    |   |       test-ajax.js
+    |   |       
+    |   +---Auth
+    |   |       auth.js
+    |   |       
+    |   +---Books
+    |   |       ChartsAdmin.js
+    |   |       
+    |   +---Category
+    |   +---core
+    |   |       ajaxWrapper.js
+    |   |       apiClient.js
+    |   |       notifications.js
+    |   |       urlStateManager.js
+    |   |       
+    |   \---user
+    |           cartManager.js
+    |           userBookManager.js
+    |           
+    \---lib
+        +---bootstrap
+        |   |   LICENSE
+        |   |   
+        |   \---dist
+        |       +---css
+        |       |       bootstrap-grid.css
+        |       |       bootstrap-grid.css.map
+        |       |       bootstrap-grid.min.css
+        |       |       bootstrap-grid.min.css.map
+        |       |       bootstrap-grid.rtl.css
+        |       |       bootstrap-grid.rtl.css.map
+        |       |       bootstrap-grid.rtl.min.css
+        |       |       bootstrap-grid.rtl.min.css.map
+        |       |       bootstrap-reboot.css
+        |       |       bootstrap-reboot.css.map
+        |       |       bootstrap-reboot.min.css
+        |       |       bootstrap-reboot.min.css.map
+        |       |       bootstrap-reboot.rtl.css
+        |       |       bootstrap-reboot.rtl.css.map
+        |       |       bootstrap-reboot.rtl.min.css
+        |       |       bootstrap-reboot.rtl.min.css.map
+        |       |       bootstrap-utilities.css
+        |       |       bootstrap-utilities.css.map
+        |       |       bootstrap-utilities.min.css
+        |       |       bootstrap-utilities.min.css.map
+        |       |       bootstrap-utilities.rtl.css
+        |       |       bootstrap-utilities.rtl.css.map
+        |       |       bootstrap-utilities.rtl.min.css
+        |       |       bootstrap-utilities.rtl.min.css.map
+        |       |       bootstrap.css
+        |       |       bootstrap.css.map
+        |       |       bootstrap.min.css
+        |       |       bootstrap.min.css.map
+        |       |       bootstrap.rtl.css
+        |       |       bootstrap.rtl.css.map
+        |       |       bootstrap.rtl.min.css
+        |       |       bootstrap.rtl.min.css.map
+        |       |       StyleSheet.css
+        |       |       
+        |       \---js
+        |               bootstrap.bundle.js
+        |               bootstrap.bundle.js.map
+        |               bootstrap.bundle.min.js
+        |               bootstrap.bundle.min.js.map
+        |               bootstrap.esm.js
+        |               bootstrap.esm.js.map
+        |               bootstrap.esm.min.js
+        |               bootstrap.esm.min.js.map
+        |               bootstrap.js
+        |               bootstrap.js.map
+        |               bootstrap.min.js
+        |               bootstrap.min.js.map
+        |               
+        +---jquery
+        |   |   LICENSE.txt
+        |   |   
+        |   \---dist
+        |           jquery.js
+        |           jquery.min.js
+        |           jquery.min.map
+        |           
+        +---jquery-validation
+        |   |   LICENSE.md
+        |   |   
+        |   \---dist
+        |           additional-methods.js
+        |           additional-methods.min.js
+        |           jquery.validate.js
+        |           jquery.validate.min.js
+        |           
+        \---jquery-validation-unobtrusive
+                jquery.validate.unobtrusive.js
+                jquery.validate.unobtrusive.min.js
+                LICENSE.txt
+                

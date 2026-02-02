@@ -1,12 +1,10 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace OnlineBookManagementSystem.Core.Domain.Entities
 {
     public abstract class BaseEntity
     {
         public int Id { get; set; }
         public DateTime CreatedAt { get; set; }
-        
+
         /// <summary>
         /// Concurrency token for optimistic concurrency control.
         /// SQLite-compatible alternative to RowVersion using GUID.

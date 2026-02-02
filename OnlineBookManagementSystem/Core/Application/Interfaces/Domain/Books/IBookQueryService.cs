@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using OnlineBookManagementSystem.Core.Domain.Entities;
 using OnlineBookManagementSystem.Presentation.ViewModels.Books;
-using OnlineBookManagementSystem.Presentation.ViewModels.User;
 
 namespace OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Books
 {
@@ -35,17 +34,15 @@ namespace OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Books
         Task<BookFormViewModel?> GetEditBookViewModelAsync(int id);
         Task<List<SelectListItem>> GetCategoriesAsync();
 
-        // User profile related
-        Task<UserProfileViewModel?> GetUserProfileAsync(int userId);
-
         // Favorites (for backward compatibility)
         Task<List<Book>> GetFavoriteBooksAsync(int userId);
 
         // Utility methods
         string GetTimeAgo(DateTime time);
         Task<List<object>> GetAllUsersAsync();
-        
+
         // Additional methods for book browsing controller
         Task<List<Book>> GetBookSuggestionsAsync(string query, int count = 10);
+        Task<int> GetBooksAddedInLastDaysAsync(int days);
     }
 }

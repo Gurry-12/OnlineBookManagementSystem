@@ -6,7 +6,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
 
-<div class="container-fluid px-3 px-md-5 py-4">
+<div class="dashboard-grid dashboard-grid--superadmin">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="mb-0 text-danger fw-bold">
             <i class="bi bi-crown me-2"></i>Super Admin Dashboard
@@ -37,46 +37,54 @@
     <!-- Quick Stats Row -->
     <div class="row g-4 mb-4">
         <div class="col-xl-3 col-md-6">
-            <div class="card h-100 border-0 shadow-sm bg-danger bg-gradient text-white rounded-4">
-                <div class="card-body text-center p-4">
-                    <i class="bi bi-people fs-1 mb-3"></i>
-                    <h3 class="card-title">@Model.TotalUsers.ToString("N0")</h3>
-                    <p class="card-text">Total Users</p>
-                    <small class="d-block mb-2">+@Model.NewUsersToday today</small>
-                    <a asp-controller="SuperAdmin" asp-action="ManageUsers" class="btn btn-outline-light btn-sm">Manage Users</a>
+            <div class="stats-card stats-card--danger">
+                <div class="stats-card__body">
+                    <div class="stats-card__icon">
+                        <i class="bi bi-people"></i>
+                    </div>
+                    <h3 class="stats-card__number">@Model.TotalUsers.ToString("N0")</h3>
+                    <p class="stats-card__label">Total Users</p>
+                    <small class="stats-card__meta">+@Model.NewUsersToday today</small>
+                    <a asp-controller="SuperAdmin" asp-action="ManageUsers" class="stats-card__action">Manage Users</a>
                 </div>
             </div>
         </div>
         <div class="col-xl-3 col-md-6">
-            <div class="card h-100 border-0 shadow-sm bg-primary bg-gradient text-white rounded-4">
-                <div class="card-body text-center p-4">
-                    <i class="bi bi-book fs-1 mb-3"></i>
-                    <h3 class="card-title">@Model.TotalBooks.ToString("N0")</h3>
-                    <p class="card-text">Total Books</p>
-                    <small class="d-block mb-2">+@Model.BooksAddedThisMonth this month</small>
-                    <a asp-controller="Admin" asp-action="Books" class="btn btn-outline-light btn-sm">View Books</a>
+            <div class="stats-card stats-card--primary">
+                <div class="stats-card__body">
+                    <div class="stats-card__icon">
+                        <i class="bi bi-book"></i>
+                    </div>
+                    <h3 class="stats-card__number">@Model.TotalBooks.ToString("N0")</h3>
+                    <p class="stats-card__label">Total Books</p>
+                    <small class="stats-card__meta">+@Model.BooksAddedThisMonth this month</small>
+                    <a asp-controller="Admin" asp-action="Books" class="stats-card__action">View Books</a>
                 </div>
             </div>
         </div>
         <div class="col-xl-3 col-md-6">
-            <div class="card h-100 border-0 shadow-sm bg-warning bg-gradient text-white rounded-4">
-                <div class="card-body text-center p-4">
-                    <i class="bi bi-receipt-cutoff fs-1 mb-3"></i>
-                    <h3 class="card-title">@Model.TotalOrders.ToString("N0")</h3>
-                    <p class="card-text">Total Orders</p>
-                    <small class="d-block mb-2">@Model.OrdersToday today</small>
-                    <a asp-controller="Order" asp-action="AdminIndex" class="btn btn-outline-light btn-sm">Manage Orders</a>
+            <div class="stats-card stats-card--warning">
+                <div class="stats-card__body">
+                    <div class="stats-card__icon">
+                        <i class="bi bi-receipt-cutoff"></i>
+                    </div>
+                    <h3 class="stats-card__number">@Model.TotalOrders.ToString("N0")</h3>
+                    <p class="stats-card__label">Total Orders</p>
+                    <small class="stats-card__meta">@Model.OrdersToday today</small>
+                    <a asp-controller="Orders" asp-action="List" class="stats-card__action">Manage Orders</a>
                 </div>
             </div>
         </div>
         <div class="col-xl-3 col-md-6">
-            <div class="card h-100 border-0 shadow-sm bg-success bg-gradient text-white rounded-4">
-                <div class="card-body text-center p-4">
-                    <i class="bi bi-currency-rupee fs-1 mb-3"></i>
-                    <h3 class="card-title">₹@Model.TotalRevenue.ToString("N0")</h3>
-                    <p class="card-text">Total Revenue</p>
-                    <small class="d-block mb-2">₹@Model.RevenueToday.ToString("N0") today</small>
-                    <a asp-controller="Order" asp-action="AdminIndex" class="btn btn-outline-light btn-sm">View Orders</a>
+            <div class="stats-card stats-card--success">
+                <div class="stats-card__body">
+                    <div class="stats-card__icon">
+                        <i class="bi bi-currency-rupee"></i>
+                    </div>
+                    <h3 class="stats-card__number">₹@Model.TotalRevenue.ToString("N0")</h3>
+                    <p class="stats-card__label">Total Revenue</p>
+                    <small class="stats-card__meta">₹@Model.RevenueToday.ToString("N0") today</small>
+                    <a asp-controller="Orders" asp-action="List" class="stats-card__action">View Orders</a>
                 </div>
             </div>
         </div>
@@ -93,42 +101,34 @@
                     </h5>
                 </div>
                 <div class="card-body">
-                    <div class="row g-3">
-                        <div class="col-6">
-                            <div class="text-center">
-                                <div class="badge bg-success fs-6 mb-2">
-                                    <i class="bi bi-database"></i>
-                                </div>
-                                <div class="fw-semibold">Database</div>
-                                <small class="text-muted">Connected</small>
+                    <div class="system-status-grid">
+                        <div class="status-item">
+                            <div class="status-badge success">
+                                <i class="bi bi-database"></i>
                             </div>
+                            <div class="status-title">Database</div>
+                            <small class="status-subtitle">Connected</small>
                         </div>
-                        <div class="col-6">
-                            <div class="text-center">
-                                <div class="badge bg-success fs-6 mb-2">
-                                    <i class="bi bi-lightning"></i>
-                                </div>
-                                <div class="fw-semibold">Cache</div>
-                                <small class="text-muted">Active</small>
+                        <div class="status-item">
+                            <div class="status-badge success">
+                                <i class="bi bi-lightning"></i>
                             </div>
+                            <div class="status-title">Cache</div>
+                            <small class="status-subtitle">Active</small>
                         </div>
-                        <div class="col-6">
-                            <div class="text-center">
-                                <div class="badge bg-info fs-6 mb-2">
-                                    <i class="bi bi-hdd"></i>
-                                </div>
-                                <div class="fw-semibold">Storage</div>
-                                <small class="text-muted">@Model.StorageUsagePercent%</small>
+                        <div class="status-item">
+                            <div class="status-badge info">
+                                <i class="bi bi-hdd"></i>
                             </div>
+                            <div class="status-title">Storage</div>
+                            <small class="status-subtitle">@Model.StorageUsagePercent%</small>
                         </div>
-                        <div class="col-6">
-                            <div class="text-center">
-                                <div class="badge bg-primary fs-6 mb-2">
-                                    <i class="bi bi-people"></i>
-                                </div>
-                                <div class="fw-semibold">Sessions</div>
-                                <small class="text-muted">@Model.ActiveSessions active</small>
+                        <div class="status-item">
+                            <div class="status-badge info">
+                                <i class="bi bi-people"></i>
                             </div>
+                            <div class="status-title">Sessions</div>
+                            <small class="status-subtitle">@Model.ActiveSessions active</small>
                         </div>
                     </div>
                     <div class="mt-3 pt-3 border-top">
@@ -193,16 +193,16 @@
                     <div class="card-body">
                         @foreach (var user in Model.PendingUsers)
                         {
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <div>
-                                    <div class="fw-semibold">@user.Name</div>
-                                    <small class="text-muted">@user.Email</small>
+                            <div class="pending-user-item">
+                                <div class="pending-user-info">
+                                    <div class="pending-user-name">@user.Name</div>
+                                    <small class="pending-user-email">@user.Email</small>
                                 </div>
-                                <div class="btn-group btn-group-sm">
-                                    <button class="btn btn-success" onclick="executeQuickAction('approveuser', {userId: @user.Id, role: 'User'})">
+                                <div class="pending-user-actions">
+                                    <button class="btn btn-success btn-sm" onclick="executeQuickAction('approveuser', {userId: @user.Id, role: 'User'})">
                                         <i class="bi bi-check"></i>
                                     </button>
-                                    <button class="btn btn-danger" onclick="executeQuickAction('rejectuser', {userId: @user.Id})">
+                                    <button class="btn btn-danger btn-sm" onclick="executeQuickAction('rejectuser', {userId: @user.Id})">
                                         <i class="bi bi-x"></i>
                                     </button>
                                 </div>

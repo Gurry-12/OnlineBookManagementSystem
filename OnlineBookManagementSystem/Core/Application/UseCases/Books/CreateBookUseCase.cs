@@ -26,9 +26,9 @@ namespace OnlineBookManagementSystem.Core.Application.UseCases.Books
             if (createBookDto.CategoryId.HasValue)
             {
                 var categoryExists = await _unitOfWork.Categories.ExistsAsync(
-                    c => c.Id == createBookDto.CategoryId.Value && !c.IsDeleted, 
+                    c => c.Id == createBookDto.CategoryId.Value && !c.IsDeleted,
                     cancellationToken);
-                
+
                 if (!categoryExists)
                     throw new CategoryNotFoundException(createBookDto.CategoryId.Value);
             }

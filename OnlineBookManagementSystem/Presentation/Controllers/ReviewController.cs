@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OnlineBookManagementSystem.Presentation.ViewModels.Reviews;
-using System.Security.Claims;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Reviews;
+using OnlineBookManagementSystem.Presentation.ViewModels.Reviews;
 
 namespace OnlineBookManagementSystem.Presentation.Controllers
 {
@@ -28,15 +27,15 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
                 return RedirectToAction("Details", "Books", new { id = model.BookId });
             }
 
-            var userId = GetCurrentUserId();
-            if (userId == null)
+            var userId = GetUserIdFromClaims();
+            if (userId == 0)
             {
                 TempData["ErrorMessage"] = "You must be logged in to submit a review.";
                 return RedirectToAction("Login", "Auth");
             }
 
-            var result = await _reviewService.SubmitReviewAsync(userId.Value, model.BookId, model.Rating, model.ReviewText);
-            
+            var result = await _reviewService.SubmitReviewAsync(userId, model.BookId, model.Rating, model.ReviewText);
+
             if (result.Success)
             {
                 TempData["SuccessMessage"] = result.Message;
@@ -59,15 +58,15 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
                 return RedirectToAction("Details", "Books", new { id = model.BookId });
             }
 
-            var userId = GetCurrentUserId();
-            if (userId == null)
+            var userId = GetUserIdFromClaims();
+            if (userId == 0)
             {
                 TempData["ErrorMessage"] = "You must be logged in to update a review.";
                 return RedirectToAction("Login", "Auth");
             }
 
-            var result = await _reviewService.UpdateReviewAsync(id, userId.Value, model.Rating, model.ReviewText);
-            
+            var result = await _reviewService.UpdateReviewAsync(id, userId, model.Rating, model.ReviewText);
+
             if (result.Success)
             {
                 TempData["SuccessMessage"] = result.Message;
@@ -84,15 +83,15 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id, int bookId)
         {
-            var userId = GetCurrentUserId();
-            if (userId == null)
+            var userId = GetUserIdFromClaims();
+            if (userId == 0)
             {
                 TempData["ErrorMessage"] = "You must be logged in to delete a review.";
                 return RedirectToAction("Login", "Auth");
             }
 
-            var success = await _reviewService.DeleteReviewAsync(id, userId.Value);
-            
+            var success = await _reviewService.DeleteReviewAsync(id, userId);
+
             if (success)
             {
                 TempData["SuccessMessage"] = "Review deleted successfully.";
@@ -105,24 +104,83 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
             return RedirectToAction("Details", "Books", new { id = bookId });
         }
 
+        // AJAX endpoint for delete
+        [HttpPost("Delete")]
+        public async Task<IActionResult> DeleteAjax([FromBody] DeleteReviewRequest request)
+        {
+            var userId = GetUserIdFromClaims();
+            if (userId == 0)
+            {
+                return Json(new { success = false, message = "You must be logged in to delete a review" });
+            }
+
+            try
+            {
+                var success = await _reviewService.DeleteReviewAsync(request.Id, userId);
+
+                if (success)
+                {
+                    return Json(new { success = true, message = "Review deleted successfully" });
+                }
+                else
+                {
+                    return Json(new { success = false, message = "Unable to delete review. You can only delete your own reviews" });
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting review {ReviewId}", request.Id);
+                return Json(new { success = false, message = "An error occurred while deleting the review" });
+            }
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetBookReviews(int bookId, int page = 1, int pageSize = 10, ReviewSortOrder sortOrder = ReviewSortOrder.NewestFirst, int? ratingFilter = null)
         {
             try
             {
                 var reviews = await _reviewService.GetBookReviewsAsync(bookId, page, pageSize, sortOrder, ratingFilter);
-                
-                // Set CanEdit flag for current user's reviews
-                var userId = GetCurrentUserId();
-                if (userId.HasValue)
-                {
-                    foreach (var review in reviews.Items)
-                    {
-                        review.CanEdit = review.UserId == userId.Value;
-                    }
-                }
 
-                return PartialView("_ReviewList", reviews);
+                // Convert to unified view model
+                var userId = GetUserIdFromClaims();
+                var unifiedModel = new UnifiedReviewListViewModel
+                {
+                    Reviews = reviews.Items.Select(r => new UnifiedReviewViewModel
+                    {
+                        Id = r.Id,
+                        BookId = r.BookId,
+                        UserId = r.UserId,
+                        UserName = r.UserName,
+                        Rating = r.Rating,
+                        ReviewText = r.ReviewText,
+                        CreatedAt = r.CreatedAt,
+                        UpdatedAt = r.UpdatedAt,
+                        IsEdited = r.IsEdited,
+                        Status = "Approved", // Public reviews are approved
+                        Capabilities = new ReviewCapabilities
+                        {
+                            CanEditOwn = userId != 0 && r.UserId == userId,
+                            CanDeleteOwn = userId != 0 && r.UserId == userId,
+                            IsOwnReview = userId != 0 && r.UserId == userId,
+                            IsAuthenticated = userId != 0,
+                            ViewMode = "public"
+                        }
+                    }).ToList(),
+                    TotalReviews = reviews.TotalCount,
+                    CurrentPage = reviews.PageNumber,
+                    TotalPages = reviews.TotalPages,
+                    BookId = bookId,
+                    Capabilities = new ReviewListCapabilities
+                    {
+                        CanCreate = userId != 0,
+                        CanFilterByRating = true,
+                        CanSortReviews = true,
+                        ViewMode = "public",
+                        IsAuthenticated = userId != 0
+                    }
+                };
+
+                return PartialView("~/Presentation/Views/Reviews/_ReviewList.cshtml", unifiedModel);
             }
             catch (Exception ex)
             {
@@ -137,12 +195,12 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
             try
             {
                 var rating = await _reviewService.GetBookRatingAsync(bookId);
-                
+
                 // Check if current user has a review for this book
-                var userId = GetCurrentUserId();
-                if (userId.HasValue)
+                var userId = GetUserIdFromClaims();
+                if (userId != 0)
                 {
-                    var userReview = await _reviewService.GetUserReviewForBookAsync(userId.Value, bookId);
+                    var userReview = await _reviewService.GetUserReviewForBookAsync(userId, bookId);
                     if (userReview != null)
                     {
                         rating.HasUserReview = true;
@@ -173,15 +231,15 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
         [HttpGet]
         public async Task<IActionResult> GetUserReview(int bookId)
         {
-            var userId = GetCurrentUserId();
-            if (userId == null)
+            var userId = GetUserIdFromClaims();
+            if (userId == 0)
             {
                 return Unauthorized();
             }
 
             try
             {
-                var review = await _reviewService.GetUserReviewForBookAsync(userId.Value, bookId);
+                var review = await _reviewService.GetUserReviewForBookAsync(userId, bookId);
                 if (review == null)
                 {
                     return NotFound();
@@ -209,10 +267,12 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
             }
         }
 
-        private int? GetCurrentUserId()
-        {
-            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            return int.TryParse(userIdClaim, out var userId) ? userId : null;
-        }
+    }
+
+    // Request model for AJAX delete
+    public class DeleteReviewRequest
+    {
+        public int Id { get; set; }
+        public int BookId { get; set; }
     }
 }

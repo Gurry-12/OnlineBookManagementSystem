@@ -1,5 +1,4 @@
 using OnlineBookManagementSystem.Presentation.ViewModels.Books;
-using OnlineBookManagementSystem.Core.Domain.Entities;
 
 namespace OnlineBookManagementSystem.Presentation.ViewModels.Showcase
 {

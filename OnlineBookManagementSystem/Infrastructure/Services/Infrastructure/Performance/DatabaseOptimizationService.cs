@@ -52,7 +52,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Perf
                 await connection.OpenAsync();
 
                 await using var command = connection.CreateCommand();
-                
+
                 // Optimize SQLite settings for performance
                 var optimizations = new[]
                 {
@@ -84,7 +84,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Perf
             try
             {
                 using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(timeoutSeconds));
-                
+
                 var originalTimeout = _context.Database.GetCommandTimeout();
                 _context.Database.SetCommandTimeout(timeoutSeconds);
 
@@ -165,11 +165,11 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Perf
                         {
                             await using var connection = _context.Database.GetDbConnection();
                             await connection.OpenAsync();
-                            
+
                             await using var command = connection.CreateCommand();
                             command.CommandText = "SELECT 1;";
                             await command.ExecuteScalarAsync();
-                            
+
                             _logger.LogDebug("Connection pool warmup connection {Index} completed", i);
                         }
                         catch (Exception ex)
@@ -300,10 +300,10 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Perf
 
                 await using var command = connection.CreateCommand();
                 command.CommandText = checkQuery;
-                
+
                 await using var reader = await command.ExecuteReaderAsync();
                 var tables = new List<string>();
-                
+
                 while (await reader.ReadAsync())
                 {
                     tables.Add(reader.GetString(0)); // Use index instead of column name
@@ -328,13 +328,13 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Perf
             try
             {
                 var indexQuery = $"PRAGMA index_list('{tableName}');";
-                
+
                 await using var command = connection.CreateCommand();
                 command.CommandText = indexQuery;
-                
+
                 await using var reader = await command.ExecuteReaderAsync();
                 var indexCount = 0;
-                
+
                 while (await reader.ReadAsync())
                 {
                     indexCount++;

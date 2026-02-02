@@ -10,12 +10,12 @@ public interface IBookFavoriteService
     Task<bool> IsFavoriteAsync(int userId, int bookId);
     Task<int> GetFavoriteCountAsync(int bookId);
     Task<List<BookDto>> GetTopFavoritedBooksAsync(int count = 10);
-    
+
     // Additional methods for backward compatibility with existing controllers
     Task<List<Book>> GetUserFavoriteBooksAsync(int userId);
     Task<(bool Success, string Message, bool IsFavorite)> ToggleUserFavoriteAsync(int bookId, int userId);
     Task<int> GetUserFavoritesCountAsync(int userId);
-    
+
     // Additional methods for user favorites controller
     Task<bool> AddToFavoritesAsync(int userId, int bookId);
     Task<bool> RemoveFromFavoritesAsync(int userId, int bookId);

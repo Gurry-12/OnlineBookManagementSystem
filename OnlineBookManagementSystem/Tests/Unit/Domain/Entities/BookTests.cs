@@ -260,7 +260,7 @@ namespace OnlineBookManagementSystem.Tests.Unit.Domain.Entities
             // Arrange
             var book = new Book();
             var originalTimestamp = book.UpdatedAt;
-            
+
             // Wait a small amount to ensure timestamp difference
             Thread.Sleep(1);
 
@@ -277,7 +277,7 @@ namespace OnlineBookManagementSystem.Tests.Unit.Domain.Entities
             // Arrange
             var book = new Book();
             var originalTimestamp = book.UpdatedAt;
-            
+
             // Wait a small amount to ensure timestamp difference
             Thread.Sleep(1);
 

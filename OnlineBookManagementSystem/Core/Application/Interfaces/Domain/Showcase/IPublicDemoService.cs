@@ -1,5 +1,3 @@
-using OnlineBookManagementSystem.Core.Application.DTOs;
-using OnlineBookManagementSystem.Core.Domain.Entities;
 using OnlineBookManagementSystem.Presentation.ViewModels.Books;
 using OnlineBookManagementSystem.Presentation.ViewModels.Showcase;
 

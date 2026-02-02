@@ -1,14 +1,14 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OnlineBookManagementSystem.Core.Domain.Entities;
-using OnlineBookManagementSystem.Presentation.ViewModels.Books;
-using OnlineBookManagementSystem.Presentation.ViewModels.Reviews;
-using System.Security.Claims;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Analytics;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Books;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Reviews;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure.Logging;
 using OnlineBookManagementSystem.Core.Application.Mappings;
+using OnlineBookManagementSystem.Core.Domain.Entities;
+using OnlineBookManagementSystem.Presentation.ViewModels.Books;
+using OnlineBookManagementSystem.Presentation.ViewModels.Reviews;
+using System.Security.Claims;
 
 namespace OnlineBookManagementSystem.Presentation.Controllers
 {
@@ -59,7 +59,7 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
         [Authorize(Policy = "UserOrHigher")]
         public IActionResult UserIndex()
         {
-            return View("User/UserIndex");
+            return View("~/Presentation/Views/User/UserIndex.cshtml");
         }
 
         [Authorize(Policy = "UserOrHigher")]
@@ -77,7 +77,7 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
         public async Task<IActionResult> PublicList(string? search = null, int? categoryId = null)
         {
             var books = await _bookQueryService.GetPaginatedBooksAsync(1, 20, search, categoryId, "title");
-            return View("Public/BookList", books);
+            return View("~/Presentation/Views/Books/BookList.cshtml", books);
         }
 
         // CRUD Actions (AdminOrHigher)
@@ -86,7 +86,7 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
         public async Task<IActionResult> Create()
         {
             var vm = await _bookQueryService.GetCreateBookViewModelAsync();
-            return View("Admin/CreateBook", vm);
+            return View("~/Presentation/Views/Admin/CreateBook.cshtml", vm);
         }
 
         [Authorize(Policy = "AdminOrHigher")]
@@ -97,7 +97,7 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
             if (!ModelState.IsValid)
             {
                 model.Categories = await _bookQueryService.GetCategoriesAsync();  // Repopulate
-                return View("Admin/CreateBook", model);
+                return View("~/Presentation/Views/Admin/CreateBook.cshtml", model);
             }
 
             var book = new Book
@@ -121,7 +121,7 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
 
             ModelState.AddModelError("", "Failed to create book.");
             model.Categories = await _bookQueryService.GetCategoriesAsync();
-            return View("Admin/CreateBook", model);
+            return View("~/Presentation/Views/Admin/CreateBook.cshtml", model);
         }
 
         [Authorize(Policy = "AdminOrHigher")]
@@ -130,7 +130,7 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
         {
             var vm = await _bookQueryService.GetEditBookViewModelAsync(id);
             if (vm == null) return NotFound();
-            return View("Admin/EditBook", vm);
+            return View("~/Presentation/Views/Admin/EditBook.cshtml", vm);
         }
 
         [Authorize(Policy = "AdminOrHigher")]
@@ -143,7 +143,7 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
             if (!ModelState.IsValid)
             {
                 model.Categories = await _bookQueryService.GetCategoriesAsync();
-                return View("Admin/EditBook", model);
+                return View("~/Presentation/Views/Admin/EditBook.cshtml", model);
             }
 
             var success = await _bookCommandService.UpdateBookAsync(model.Book, model.ImageFile);
@@ -155,7 +155,7 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
 
             ModelState.AddModelError("", "Failed to update.");
             model.Categories = await _bookQueryService.GetCategoriesAsync();
-            return View("Admin/EditBook", model);
+            return View("~/Presentation/Views/Admin/EditBook.cshtml", model);
         }
 
         [Authorize(Policy = "AdminOrHigher")]
@@ -216,6 +216,43 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
             var viewModel = book.ToDetailsViewModel(userId > 0 && !bookRating.HasUserReview, userId);
             viewModel.Rating = bookRating;
 
+            // Set role-based capabilities
+            var userRole = User.IsInRole("SuperAdmin") ? "SuperAdmin" :
+                          User.IsInRole("Admin") ? "Admin" :
+                          User.IsInRole("User") ? "User" : "Guest";
+
+            // Update capabilities based on role
+            switch (userRole)
+            {
+                case "SuperAdmin":
+                    viewModel.Capabilities.CanEdit = true;
+                    viewModel.Capabilities.CanDelete = true;
+                    viewModel.Capabilities.CanViewTechnicalDetails = true;
+                    viewModel.Capabilities.CanAddToCart = false; // SuperAdmin should not see cart/favorite buttons
+                    viewModel.Capabilities.CanFavorite = false;
+                    viewModel.Capabilities.BackLinkUrl = "/SuperAdmin/Dashboard";
+                    break;
+                case "Admin":
+                    viewModel.Capabilities.CanEdit = true;
+                    viewModel.Capabilities.CanDelete = true;
+                    viewModel.Capabilities.CanViewTechnicalDetails = true;
+                    viewModel.Capabilities.CanAddToCart = false; // Admin should not see cart/favorite buttons
+                    viewModel.Capabilities.CanFavorite = false;
+                    viewModel.Capabilities.BackLinkUrl = "/Admin/Books";
+                    break;
+                case "User":
+                    viewModel.Capabilities.CanAddToCart = book.StockQuantity > 0; // Only Users can add to cart
+                    viewModel.Capabilities.CanFavorite = true; // Only Users can favorite
+                    viewModel.Capabilities.BackLinkUrl = "/User/UserBookList";
+                    break;
+                case "Guest":
+                default:
+                    viewModel.Capabilities.CanAddToCart = false;
+                    viewModel.Capabilities.CanFavorite = false;
+                    viewModel.Capabilities.BackLinkUrl = "/Public/Browse";
+                    break;
+            }
+
             return View(viewModel);
         }
 
@@ -235,7 +272,7 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
             ViewBag.MaxPrice = maxPrice;
             ViewBag.InStock = inStock;
 
-            return View("Admin/Books", model);
+            return View("~/Presentation/Views/Admin/Books.cshtml", model);
         }
 
         // Chart Data Endpoints for Admin Dashboard

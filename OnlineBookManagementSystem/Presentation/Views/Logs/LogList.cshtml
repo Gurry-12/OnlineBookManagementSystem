@@ -1,0 +1,169 @@
+@model OnlineBookManagementSystem.Presentation.ViewModels.Logs.LogListViewModel
+
+@{
+    ViewData["Title"] = "Activity Logs";
+}
+
+<div class="view-logs-list">
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold">
+            <i class="bi bi-clock-history me-2"></i>Activity Logs
+            <span class="badge bg-secondary ms-2">Audit Trail</span>
+        </h2>
+        
+        <div class="btn-group">
+            @if (Model.Capabilities.CanExport)
+            {
+                <button type="button" class="btn btn-outline-primary" onclick="exportLogs()">
+                    <i class="bi bi-download me-2"></i>Export Logs
+                </button>
+            }
+            <button type="button" class="btn btn-outline-secondary" onclick="refreshLogs()">
+                <i class="bi bi-arrow-clockwise me-2"></i>Refresh
+            </button>
+        </div>
+    </div>
+
+    @if (Model.Capabilities.CanView)
+    {
+        <!-- Basic Stats (Not Analytics) -->
+        <div class="row g-3 mb-4">
+            <div class="col-md-4">
+                <div class="card bg-primary text-white">
+                    <div class="card-body text-center">
+                        <i class="bi bi-journal-text fs-2 mb-2"></i>
+                        <h4 class="mb-0">@Model.TotalLogs.ToString("N0")</h4>
+                        <small>Total Log Entries</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card bg-info text-white">
+                    <div class="card-body text-center">
+                        <i class="bi bi-calendar-day fs-2 mb-2"></i>
+                        <h4 class="mb-0">@Model.LogsToday.ToString("N0")</h4>
+                        <small>Today's Entries</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card bg-success text-white">
+                    <div class="card-body text-center">
+                        <i class="bi bi-calendar-week fs-2 mb-2"></i>
+                        <h4 class="mb-0">@Model.LogsThisWeek.ToString("N0")</h4>
+                        <small>This Week's Entries</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        @await Html.PartialAsync("_LogFilters", Model.Filters)
+
+        <!-- Logs Table -->
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-list-ul me-2"></i>Activity Timeline
+                    @if (Model.Logs.Any())
+                    {
+                        <span class="badge bg-light text-dark ms-2">
+                            @Model.Logs.Count of @Model.TotalLogs.ToString("N0") entries
+                        </span>
+                    }
+                </h5>
+            </div>
+            <div class="card-body p-0">
+                @await Html.PartialAsync("_LogTable", (Model.Logs, Model.Capabilities))
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        @if (Model.TotalPages > 1)
+        {
+            <nav class="mt-4" aria-label="Log pagination">
+                <ul class="pagination justify-content-center">
+                    @if (Model.CurrentPage > 1)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" href="@GetPageUrl(1)">First</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="@GetPageUrl(Model.CurrentPage - 1)">Previous</a>
+                        </li>
+                    }
+
+                    @{
+                        var startPage = Math.Max(1, Model.CurrentPage - 2);
+                        var endPage = Math.Min(Model.TotalPages, Model.CurrentPage + 2);
+                    }
+
+                    @for (int i = startPage; i <= endPage; i++)
+                    {
+                        <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                            <a class="page-link" href="@GetPageUrl(i)">@i</a>
+                        </li>
+                    }
+
+                    @if (Model.CurrentPage < Model.TotalPages)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" href="@GetPageUrl(Model.CurrentPage + 1)">Next</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="@GetPageUrl(Model.TotalPages)">Last</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        }
+    }
+    else
+    {
+        <div class="alert alert-warning">
+            <i class="bi bi-exclamation-triangle me-2"></i>
+            You don't have permission to view activity logs.
+        </div>
+    }
+</div>
+</div>
+
+@section Scripts {
+    <script>
+        function exportLogs() {
+            const params = new URLSearchParams(window.location.search);
+            params.append('export', 'true');
+            
+            const url = '@Url.Action("ExportLogs", "Logs")';
+            window.open(`${url}?${params.toString()}`, '_blank');
+        }
+
+        function refreshLogs() {
+            window.location.reload();
+        }
+
+        // Auto-refresh for today's logs only
+        @if (Model.Filters.DateFrom?.Date == DateTime.Today && Model.Filters.DateTo?.Date == DateTime.Today)
+        {
+            <text>
+            setInterval(function() {
+                if (!document.hidden) {
+                    refreshLogs();
+                }
+            }, 60000); // Refresh every minute for today's logs
+            </text>
+        }
+    </script>
+}
+
+@functions {
+    private string GetPageUrl(int page)
+    {
+        var query = Context.Request.Query.ToDictionary(x => x.Key, x => x.Value.ToString());
+        query["page"] = page.ToString();
+        
+        var queryString = string.Join("&", query.Select(x => $"{x.Key}={Uri.EscapeDataString(x.Value)}"));
+        return $"{Context.Request.Path}?{queryString}";
+    }
+}

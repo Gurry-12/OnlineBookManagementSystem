@@ -150,7 +150,7 @@ namespace OnlineBookManagementSystem.Core.Application.Mappings
         /// </summary>
         public static BookRatingViewModel ToRatingViewModel(this BookReview review)
         {
-            if (review == null) 
+            if (review == null)
                 return new BookRatingViewModel { AverageRating = 0, TotalReviews = 0 };
 
             return new BookRatingViewModel

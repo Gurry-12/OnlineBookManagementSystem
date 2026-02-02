@@ -1,6 +1,5 @@
 using OnlineBookManagementSystem.Core.Domain.Entities;
 using OnlineBookManagementSystem.Presentation.ViewModels.Admin;
-using OnlineBookManagementSystem.Presentation.ViewModels.ChartViewModel;
 
 namespace OnlineBookManagementSystem.Presentation.ViewModels.SuperAdmin;
 
@@ -18,13 +17,13 @@ public class SuperAdminDashboardViewModel
     public int ActiveSessions { get; set; }
     public List<ActivityLog> RecentActivities { get; set; } = new();
     public List<ActivityLog> RecentActivity { get; set; } = new(); // For backward compatibility
-    
+
     // Additional properties for analytics
     public List<MonthlyRevenueViewModel> MonthlyRevenue { get; set; } = new();
     public List<AdminOrderItemViewModel> RecentOrders { get; set; } = new();
     public List<OrderStatusViewModel> OrderStatusDistribution { get; set; } = new();
     public AdminMonthlyStatsViewModel MonthlyStats { get; set; } = new();
-    
+
     // Additional properties
     public int PendingUsersCount { get; set; }
     public List<Core.Domain.Entities.User> PendingUsers { get; set; } = new();

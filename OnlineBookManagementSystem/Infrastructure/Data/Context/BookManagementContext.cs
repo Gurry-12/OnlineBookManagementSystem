@@ -67,7 +67,7 @@ public partial class BookManagementContext : IdentityDbContext<User, IdentityRol
         modelBuilder.Entity<Order>(entity =>
         {
             entity.HasKey(e => e.Id);
-            
+
             // Configure Money value object
             entity.OwnsOne(o => o.TotalAmount, money =>
             {
@@ -75,7 +75,7 @@ public partial class BookManagementContext : IdentityDbContext<User, IdentityRol
                     .HasColumnName("TotalAmount")
                     .HasColumnType("decimal(10,2)")
                     .HasDefaultValue(0);
-                    
+
                 money.Property(m => m.Currency)
                     .HasColumnName("Currency")
                     .HasMaxLength(3)
@@ -103,12 +103,12 @@ public partial class BookManagementContext : IdentityDbContext<User, IdentityRol
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("DateTime('now')");
             entity.Property(e => e.UpdatedAt).HasDefaultValueSql("DateTime('now')");
             entity.Property(e => e.ConcurrencyToken).IsConcurrencyToken();
-            
+
             entity.HasOne(o => o.User)
                 .WithMany(u => u.Orders)
                 .HasForeignKey(o => o.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
-                
+
             entity.HasIndex(e => e.UserId);
             entity.HasQueryFilter(e => !e.IsDeleted);
 
@@ -126,14 +126,14 @@ public partial class BookManagementContext : IdentityDbContext<User, IdentityRol
         modelBuilder.Entity<OrderDetail>(entity =>
         {
             entity.HasKey(e => e.Id);
-            
+
             // Configure Money value objects
             entity.OwnsOne(od => od.UnitPrice, price =>
             {
                 price.Property(p => p.Amount)
                     .HasColumnName("UnitPrice")
                     .HasColumnType("decimal(10,2)");
-                    
+
                 price.Property(p => p.Currency)
                     .HasColumnName("UnitPriceCurrency")
                     .HasMaxLength(3)
@@ -146,7 +146,7 @@ public partial class BookManagementContext : IdentityDbContext<User, IdentityRol
                     .HasColumnName("Subtotal")
                     .HasColumnType("decimal(10,2)")
                     .HasDefaultValue(0);
-                    
+
                 subtotal.Property(s => s.Currency)
                     .HasColumnName("SubtotalCurrency")
                     .HasMaxLength(3)
@@ -158,24 +158,24 @@ public partial class BookManagementContext : IdentityDbContext<User, IdentityRol
             entity.Property(e => e.UpdatedAt).HasDefaultValueSql("DateTime('now')");
             entity.Property(e => e.ConcurrencyToken).IsConcurrencyToken();
             entity.Property(e => e.IsDeleted).HasDefaultValue(false);
-            
+
             entity.HasOne(od => od.Book)
                 .WithMany()
                 .HasForeignKey(od => od.BookId)
                 .OnDelete(DeleteBehavior.Restrict);
-                
+
             entity.HasOne(od => od.Order)
                 .WithMany(o => o.OrderDetails)
                 .HasForeignKey(od => od.OrderId)
                 .OnDelete(DeleteBehavior.Cascade);
-                
+
             entity.HasIndex(e => e.OrderId);
             entity.HasIndex(e => e.BookId);
-            
+
             // Ignore computed properties
             entity.Ignore(e => e.Price);
             entity.Ignore(e => e.TotalPrice);
-            
+
             // Query filter for soft delete
             entity.HasQueryFilter(e => !e.IsDeleted);
         });

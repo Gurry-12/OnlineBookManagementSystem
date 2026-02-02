@@ -1,4 +1,3 @@
-using OnlineBookManagementSystem.Core.Domain.Entities;
 using OnlineBookManagementSystem.Presentation.ViewModels.User;
 
 namespace OnlineBookManagementSystem.Presentation.ViewModels.Admin

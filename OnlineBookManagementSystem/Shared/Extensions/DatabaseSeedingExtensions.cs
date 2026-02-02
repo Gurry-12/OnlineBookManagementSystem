@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OnlineBookManagementSystem.Core.Domain.Entities;
-using OnlineBookManagementSystem.Core.Domain.ValueObjects;
 using OnlineBookManagementSystem.Core.Domain.Enums;
+using OnlineBookManagementSystem.Core.Domain.ValueObjects;
 using OnlineBookManagementSystem.Infrastructure.Data.Context;
 
 namespace OnlineBookManagementSystem.Shared.Extensions;
@@ -648,7 +648,7 @@ public static class DatabaseSeedingExtensions
                     Subtotal = unitPrice.Multiply(quantity), // Explicitly set subtotal
                     Order = order // Set navigation property
                 };
-                
+
                 orderDetails.Add(orderDetail);
             }
 

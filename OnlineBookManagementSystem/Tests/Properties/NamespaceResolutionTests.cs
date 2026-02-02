@@ -46,7 +46,7 @@ public class NamespaceResolutionTests
                     if (!File.Exists(file)) continue;
 
                     var content = File.ReadAllText(file);
-                    
+
                     // Check for old namespace references that should not exist
                     if (HasOldNamespaceReferences(content))
                     {
@@ -73,13 +73,13 @@ public class NamespaceResolutionTests
     private static string? GetProjectRoot()
     {
         var currentDir = Directory.GetCurrentDirectory();
-        
+
         // Look for the project root by finding the .csproj file
         while (currentDir != null && !Directory.GetFiles(currentDir, "*.csproj").Any())
         {
             currentDir = Directory.GetParent(currentDir)?.FullName;
         }
-        
+
         return currentDir;
     }
 
@@ -99,7 +99,7 @@ public class NamespaceResolutionTests
             if (Regex.IsMatch(content, pattern))
             {
                 // Allow Controllers namespace only for inheritance (: BaseController)
-                if (pattern.Contains("Controllers") && 
+                if (pattern.Contains("Controllers") &&
                     Regex.IsMatch(content, @":\s*BaseController"))
                 {
                     continue;
@@ -120,43 +120,43 @@ public class NamespaceResolutionTests
             ["BookListViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.Books",
             ["BookDetailsViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.Books",
             ["CategoryClassifyViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.Books",
-            
+
             ["LoginViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.AuthViewModels",
             ["RegisterViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.AuthViewModels",
             ["ForgotPasswordViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.AuthViewModels",
             ["ResetPasswordViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.AuthViewModels",
-            
+
             ["CartViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.Cart",
             ["CartSummaryViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.Cart",
             ["CheckOutViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.Cart",
             ["CheckOutRequestViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.Cart",
             ["ShoppingCartViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.Cart",
             ["AdminCartViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.Admin",
-            
+
             ["AdminViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.Admin",
             ["AdminDashboardViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.Admin",
             ["AdminOrderListViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.Admin",
             ["AdminUsersViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.Admin",
-            
+
             ["UserViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.User",
             ["UserDashboardViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.User",
             ["UserProfileViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.User",
             ["ProfileViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.User",
-            
+
             ["SuperAdminDashboardViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.SuperAdmin",
             ["ManageUsersViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.SuperAdmin",
             ["SystemSettingsViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.SuperAdmin",
             ["UserWithRoleViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.SuperAdmin",
-            
+
             ["ActivityLogViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.Activity",
             ["ActivityLogsViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.Activity",
-            
+
             ["ReviewDisplayViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.Reviews",
             ["ReviewModerationViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.Reviews",
             ["ReviewAnalyticsViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.Reviews",
             ["BookRatingViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.Reviews",
             ["PaginatedResult"] = "OnlineBookManagementSystem.Presentation.ViewModels.Reviews",
-            
+
             ["CategoryViewModel"] = "OnlineBookManagementSystem.Presentation.ViewModels.Shared",
             ["CategoryWithCount"] = "OnlineBookManagementSystem.Presentation.ViewModels.Shared"
         };

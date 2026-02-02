@@ -16,10 +16,10 @@ namespace OnlineBookManagementSystem.Presentation.Models
         /// <summary>
         /// Checks if any filters are applied
         /// </summary>
-        public bool HasFilters => 
-            !string.IsNullOrEmpty(Search) || 
-            CategoryId.HasValue || 
-            !string.IsNullOrEmpty(SortBy) || 
+        public bool HasFilters =>
+            !string.IsNullOrEmpty(Search) ||
+            CategoryId.HasValue ||
+            !string.IsNullOrEmpty(SortBy) ||
             InStock.HasValue;
     }
 }

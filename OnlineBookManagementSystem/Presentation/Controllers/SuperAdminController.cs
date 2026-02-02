@@ -1,13 +1,12 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using OnlineBookManagementSystem.Core.Domain.Entities;
-using OnlineBookManagementSystem.Presentation.ViewModels.SuperAdmin;
-using System.Security.Claims;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Orders;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Users;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure.Logging;
+using OnlineBookManagementSystem.Presentation.ViewModels.SuperAdmin;
+using System.Security.Claims;
 
 namespace OnlineBookManagementSystem.Presentation.Controllers
 {
@@ -100,12 +99,61 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
 
             var viewModel = await _usersService.GetManageUsersDataAsync(page, 20, search, role, status);
 
+            // Convert to unified ViewModel with SuperAdmin capabilities
+            var unifiedViewModel = new OnlineBookManagementSystem.Presentation.ViewModels.Users.UserManagementViewModel
+            {
+                Users = viewModel.Users.Select(u => new OnlineBookManagementSystem.Presentation.ViewModels.Users.UserManagementItem
+                {
+                    Id = u.Id,
+                    Name = u.Name,
+                    UserName = u.UserName,
+                    Email = u.Email,
+                    Role = u.Role,
+                    RequestedRole = u.RequestedRole,
+                    IsDeleted = u.IsDeleted,
+                    IsPendingApproval = u.IsPendingApproval,
+                    EmailConfirmed = u.EmailConfirmed,
+                    LockoutEnd = u.LockoutEnd,
+                    LastLoginDate = u.LastLoginDate,
+                    CreatedDate = u.CreatedDate
+                }).ToList(),
+
+                Filters = new OnlineBookManagementSystem.Presentation.ViewModels.Users.UserManagementFilters
+                {
+                    SearchTerm = search,
+                    RoleFilter = role,
+                    StatusFilter = status
+                },
+
+                Capabilities = new OnlineBookManagementSystem.Presentation.ViewModels.Users.UserManagementCapabilities
+                {
+                    CanView = true,
+                    CanCreate = true, // SuperAdmin can create users
+                    CanEdit = true,
+                    CanDelete = true, // SuperAdmin can delete users
+                    CanChangeRoles = true, // SuperAdmin can change roles
+                    CanLockUnlock = true, // SuperAdmin can lock/unlock
+                    CanViewSensitiveData = true, // SuperAdmin has full access
+                    CanExport = true, // SuperAdmin can export
+                    CanViewAllUsers = true, // SuperAdmin sees all users
+                    CanManageSuperAdmins = true // SuperAdmin can manage other SuperAdmins
+                },
+
+                CurrentPage = viewModel.CurrentPage,
+                TotalPages = viewModel.TotalPages,
+                TotalUsers = viewModel.TotalUsers,
+                PageSize = 20,
+                ActiveUsers = viewModel.Users.Count(u => !u.IsDeleted && u.LockoutEnd <= DateTimeOffset.UtcNow),
+                InactiveUsers = viewModel.Users.Count(u => u.IsDeleted || u.LockoutEnd > DateTimeOffset.UtcNow),
+                PendingUsers = viewModel.Users.Count(u => u.IsPendingApproval)
+            };
+
             ViewBag.Search = search;
             ViewBag.Role = role;
             ViewBag.Status = status;
 
             await _activityLogger.LogAsync("ManageUsers", "User management page accessed", userId);
-            return View(viewModel);
+            return View("~/Presentation/Views/Users/UserManagement.cshtml", unifiedViewModel);
         }
 
         [Authorize(Policy = "SuperAdminOnly")]
@@ -204,6 +252,49 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
             var fileName = $"ActivityLogs_{DateTime.Now:yyyyMMddHHmmss}.csv";
 
             return File(bytes, "text/csv", fileName);
+        }
+
+        [Authorize(Policy = "SuperAdminOnly")]
+        [HttpGet]
+        public async Task<IActionResult> ExportUsers(string? search = null, string? role = null, string? status = null)
+        {
+            var userId = GetUserIdFromClaims();
+            if (userId == 0) return Json(new { success = false, message = "Unauthorized" });
+
+            try
+            {
+                var viewModel = await _usersService.GetManageUsersDataAsync(1, 100000, search, role, status); // Get all matching
+
+                var csv = new System.Text.StringBuilder();
+                csv.AppendLine("ID,Name,Username,Email,Role,Status,Email Confirmed,Created Date,Last Login");
+
+                foreach (var user in viewModel.Users)
+                {
+                    var name = EscapeCsv(user.Name ?? "");
+                    var username = EscapeCsv(user.UserName ?? "");
+                    var email = EscapeCsv(user.Email ?? "");
+                    var userRole = EscapeCsv(user.Role ?? "");
+                    var userStatus = user.IsDeleted ? "Deleted" :
+                                   user.LockoutEnd > DateTimeOffset.UtcNow ? "Locked" :
+                                   user.IsPendingApproval ? "Pending" : "Active";
+                    var emailConfirmed = user.EmailConfirmed ? "Yes" : "No";
+                    var createdDate = user.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss");
+                    var lastLogin = user.LastLoginDate?.ToString("yyyy-MM-dd HH:mm:ss") ?? "Never";
+
+                    csv.AppendLine($"{user.Id},{name},{username},{email},{userRole},{userStatus},{emailConfirmed},{createdDate},{lastLogin}");
+                }
+
+                var bytes = System.Text.Encoding.UTF8.GetBytes(csv.ToString());
+                var fileName = $"Users_{DateTime.Now:yyyyMMddHHmmss}.csv";
+
+                await _activityLogger.LogAsync("ExportUsers", "User data exported", userId);
+                return File(bytes, "text/csv", fileName);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to export users");
+                return Json(new { success = false, message = "Failed to export user data" });
+            }
         }
 
         [HttpPost]

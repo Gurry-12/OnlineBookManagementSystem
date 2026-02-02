@@ -1,4 +1,4 @@
-using OnlineBookManagementSystem.Core.Domain.Enums;
+﻿using OnlineBookManagementSystem.Core.Domain.Enums;
 
 namespace OnlineBookManagementSystem.Presentation.ViewModels.Reviews
 {
@@ -16,7 +16,7 @@ namespace OnlineBookManagementSystem.Presentation.ViewModels.Reviews
         public DateTime UpdatedAt { get; set; }
         public ReviewStatus Status { get; set; }
         public bool IsAnonymous { get; set; }
-        
+
         // Computed properties
         public string RatingStars => new string('★', Rating) + new string('☆', 5 - Rating);
         public string StatusDisplay => Status.ToDisplayString();
@@ -25,15 +25,15 @@ namespace OnlineBookManagementSystem.Presentation.ViewModels.Reviews
         public bool IsApproved => Status == ReviewStatus.Approved;
         public bool IsPending => Status == ReviewStatus.Pending;
         public bool IsRejected => Status == ReviewStatus.Rejected;
-        
+
         // User interaction properties
         public bool CanEdit { get; set; }
         public bool IsEdited { get; set; }
-        
+
         private string CalculateTimeAgo(DateTime dateTime)
         {
             var timeSpan = DateTime.UtcNow - dateTime;
-            
+
             return timeSpan.TotalMinutes switch
             {
                 < 1 => "Just now",

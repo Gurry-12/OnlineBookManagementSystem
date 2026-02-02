@@ -20,23 +20,23 @@ public class BookDetailsViewModel
     public string? ISBN { get; set; }
     public string? CategoryName { get; set; }
     public DateTime? PublicationDate { get; set; }
-    
+
     // Admin-Only Properties (Nullable for other roles)
     public DateTime? CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
     public bool? IsDeleted { get; set; }
-    
+
     // User-Specific Properties (Nullable for non-authenticated users)
     public bool? IsFavorite { get; set; }
     public bool? CanReview { get; set; }
-    
+
     // Review Information (Always Present but may be empty)
     public BookRatingViewModel Rating { get; set; } = new();
     public ReviewSubmissionViewModel? ReviewForm { get; set; }
-    
-    // Role-Based Metadata
-    public RoleContext RoleContext { get; set; } = new();
-    
+
+    // Capability-Based Metadata (NO ROLES)
+    public BookDetailsCapabilities Capabilities { get; set; } = new();
+
     // Computed Properties using FormattingExtensions
     public string FormattedPrice => FormattingExtensions.FormatCurrency(Price);
     public bool IsInStock => StockQuantity > 0;
@@ -52,17 +52,30 @@ public class BookDetailsViewModel
 }
 
 /// <summary>
-/// Role-based context metadata for conditional rendering
+/// Capability-based context for conditional rendering - NO ROLE CHECKS IN VIEWS
 /// </summary>
-public class RoleContext
+public class BookDetailsCapabilities
 {
-    public string UserRole { get; set; } = "Public";
-    public bool IsAuthenticated { get; set; } = false;
+    // View Capabilities
+    public bool CanView { get; set; } = true;
+    public bool CanViewTechnicalDetails { get; set; } = false;
+    public bool CanViewMetadata { get; set; } = false;
+
+    // Action Capabilities  
     public bool CanEdit { get; set; } = false;
     public bool CanDelete { get; set; } = false;
     public bool CanAddToCart { get; set; } = false;
-    public bool CanToggleFavorite { get; set; } = false;
-    public bool ShowAdminMetadata { get; set; } = false;
-    public bool ShowTechnicalDetails { get; set; } = false;
-    public string ViewMode { get; set; } = "Browse"; // Browse, Edit, Admin, Demo
+    public bool CanFavorite { get; set; } = false;
+    public bool CanReview { get; set; } = false;
+
+    // Navigation Capabilities
+    public bool CanViewReviews { get; set; } = true;
+    public bool CanModerateReviews { get; set; } = false;
+
+    // UI Context (NOT roles)
+    public bool IsAuthenticated { get; set; } = false;
+    public string BackLinkText { get; set; } = "Back to Books";
+    public string BackLinkUrl { get; set; } = "/Public/Browse";
+    public string PageTitle { get; set; } = "Book Details";
+    public string LayoutClass { get; set; } = "public-layout";
 }

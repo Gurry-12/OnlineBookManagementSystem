@@ -13,7 +13,7 @@ namespace OnlineBookManagementSystem.Presentation.Mappers
             IEnumerable<Category> categories)
         {
             var categoryList = categories.ToList();
-            
+
             return new CategoryManagementViewModel
             {
                 Categories = categoryList.Select(MapToCategoryItemViewModel).ToList(),

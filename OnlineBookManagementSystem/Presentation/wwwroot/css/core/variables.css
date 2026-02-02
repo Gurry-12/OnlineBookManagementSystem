@@ -1,76 +1,23 @@
 /**
- * CSS Variables - Design System Foundation
- * Purpose: Centralized design tokens for consistency
- * Usage: Import this file first in all CSS modules
+ * CSS VARIABLES - DESIGN SYSTEM FOUNDATION
+ * Single source of truth for all design tokens
+ * Import this file first in all CSS modules
  */
 
 :root {
     /* ========================================
-       COLOR PALETTE
-       ======================================== */
-    
-    /* Primary Colors */
-    --color-primary: #007bff;
-    --color-primary-dark: #0056b3;
-    --color-primary-light: #4da3ff;
-    --color-primary-alpha: rgba(0, 123, 255, 0.1);
-    
-    /* Secondary Colors */
-    --color-secondary: #6c757d;
-    --color-secondary-dark: #545b62;
-    --color-secondary-light: #868e96;
-    
-    /* Semantic Colors */
-    --color-success: #28a745;
-    --color-success-dark: #1e7e34;
-    --color-success-light: #5cb85c;
-    --color-success-alpha: rgba(40, 167, 69, 0.1);
-    
-    --color-danger: #dc3545;
-    --color-danger-dark: #c82333;
-    --color-danger-light: #e4606d;
-    --color-danger-alpha: rgba(220, 53, 69, 0.1);
-    
-    --color-warning: #ffc107;
-    --color-warning-dark: #e0a800;
-    --color-warning-light: #ffcd39;
-    --color-warning-alpha: rgba(255, 193, 7, 0.1);
-    
-    --color-info: #17a2b8;
-    --color-info-dark: #117a8b;
-    --color-info-light: #3ab0c3;
-    --color-info-alpha: rgba(23, 162, 184, 0.1);
-    
-    /* Neutral Colors */
-    --color-white: #ffffff;
-    --color-black: #000000;
-    --color-gray-100: #f8f9fa;
-    --color-gray-200: #e9ecef;
-    --color-gray-300: #dee2e6;
-    --color-gray-400: #ced4da;
-    --color-gray-500: #adb5bd;
-    --color-gray-600: #6c757d;
-    --color-gray-700: #495057;
-    --color-gray-800: #343a40;
-    --color-gray-900: #212529;
-    
-    /* ========================================
        TYPOGRAPHY
        ======================================== */
+    --font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    --font-size-xs: 0.75rem;
+    --font-size-sm: 0.875rem;
+    --font-size-base: 1rem;
+    --font-size-lg: 1.125rem;
+    --font-size-xl: 1.25rem;
+    --font-size-2xl: 1.5rem;
+    --font-size-3xl: 1.875rem;
+    --font-size-4xl: 2.25rem;
     
-    --font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    
-    --font-size-xs: 0.75rem;      /* 12px */
-    --font-size-sm: 0.875rem;     /* 14px */
-    --font-size-base: 1rem;       /* 16px */
-    --font-size-lg: 1.125rem;     /* 18px */
-    --font-size-xl: 1.25rem;      /* 20px */
-    --font-size-2xl: 1.5rem;      /* 24px */
-    --font-size-3xl: 1.875rem;    /* 30px */
-    --font-size-4xl: 2.25rem;     /* 36px */
-    
-    --font-weight-light: 300;
     --font-weight-normal: 400;
     --font-weight-medium: 500;
     --font-weight-semibold: 600;
@@ -79,112 +26,204 @@
     --line-height-tight: 1.25;
     --line-height-normal: 1.5;
     --line-height-relaxed: 1.75;
-    
+
     /* ========================================
        SPACING
        ======================================== */
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-5: 1.25rem;
+    --space-6: 1.5rem;
+    --space-8: 2rem;
+    --space-10: 2.5rem;
+    --space-12: 3rem;
+    --space-16: 4rem;
+    --space-20: 5rem;
+    --space-24: 6rem;
+
+    /* ========================================
+       COLORS - NEUTRAL PALETTE
+       ======================================== */
+    --color-white: #ffffff;
+    --color-black: #000000;
+    --color-gray-50: #f9fafb;
+    --color-gray-100: #f3f4f6;
+    --color-gray-200: #e5e7eb;
+    --color-gray-300: #d1d5db;
+    --color-gray-400: #9ca3af;
+    --color-gray-500: #6b7280;
+    --color-gray-600: #4b5563;
+    --color-gray-700: #374151;
+    --color-gray-800: #1f2937;
+    --color-gray-900: #111827;
+
+    /* ========================================
+       COLORS - ELEGANT PASTEL PALETTE
+       Soft, sophisticated pastels with perfect contrast
+       Inspired by modern design aesthetics and readability
+       ======================================== */
+    --color-primary: #8b7cf6;        /* Soft Lavender - gentle yet confident */
+    --color-primary-dark: #7c6df0;   /* Medium Lavender */
+    --color-primary-light: #c4b5fd;  /* Light Lavender */
     
-    --spacing-xs: 0.25rem;    /* 4px */
-    --spacing-sm: 0.5rem;     /* 8px */
-    --spacing-md: 1rem;       /* 16px */
-    --spacing-lg: 1.5rem;     /* 24px */
-    --spacing-xl: 2rem;       /* 32px */
-    --spacing-2xl: 3rem;      /* 48px */
-    --spacing-3xl: 4rem;      /* 64px */
+    --color-secondary: #64748b;      /* Slate Gray - professional and modern */
+    --color-secondary-dark: #475569; /* Dark Slate */
+    --color-secondary-light: #94a3b8; /* Light Slate */
     
+    --color-accent: #f59e0b;         /* Amber - warm accent color */
+    --color-accent-dark: #d97706;    /* Dark Amber */
+    --color-accent-light: #fbbf24;   /* Light Amber */
+    
+    --color-success: #6ee7b7;        /* Mint Green - fresh and positive */
+    --color-success-dark: #34d399;   /* Medium Mint */
+    --color-success-light: #a7f3d0;  /* Pale Mint */
+    
+    --color-danger: #fca5a5;         /* Soft Rose - gentle warning */
+    --color-danger-dark: #f87171;    /* Medium Rose */
+    --color-danger-light: #fecaca;   /* Pale Rose */
+    
+    --color-warning: #fcd34d;        /* Soft Gold - warm and inviting */
+    --color-warning-dark: #f59e0b;   /* Medium Gold */
+    --color-warning-light: #fef3c7;  /* Pale Gold */
+    
+    --color-info: #7dd3fc;           /* Sky Blue - calm and trustworthy */
+    --color-info-dark: #38bdf8;      /* Medium Sky */
+    --color-info-light: #bae6fd;     /* Pale Sky */
+
+    /* ========================================
+       ROLE-BASED COLOR THEMES
+       Elegant pastel themes with perfect contrast for readability
+       Role-based theming variables (Layout-scoped)
+       ======================================== */
+    
+    /* Auth Theme - Lavender Dreams (Gentle & Welcoming) */
+    --auth-bg-primary: hsl(250, 60%, 97%);      /* Soft Lavender Mist */
+    --auth-bg-secondary: hsl(250, 50%, 94%);    /* Deeper Lavender */
+    --auth-accent: hsl(250, 70%, 75%);          /* Pastel Purple */
+    --auth-accent-hover: hsl(250, 75%, 70%);    /* Medium Purple */
+    --auth-text: hsl(250, 40%, 25%);            /* Deep Purple for contrast */
+    --auth-text-muted: hsl(250, 30%, 45%);      /* Medium Purple-Grey */
+    --auth-border: hsl(250, 40%, 85%);          /* Light Purple Border */
+    
+    /* Public Theme - Sky Serenity (Calm & Trustworthy) */
+    --public-bg-primary: hsl(200, 60%, 97%);    /* Soft Sky Mist */
+    --public-bg-secondary: hsl(200, 50%, 94%);  /* Deeper Sky */
+    --public-accent: hsl(200, 70%, 75%);        /* Pastel Blue */
+    --public-accent-hover: hsl(200, 75%, 70%);  /* Medium Blue */
+    --public-text: hsl(200, 50%, 25%);          /* Deep Blue for contrast */
+    --public-text-muted: hsl(200, 40%, 45%);    /* Medium Blue-Grey */
+    --public-border: hsl(200, 40%, 85%);        /* Light Blue Border */
+    
+    /* User Theme - Peach Blossom (Warm & Personal) */
+    --user-bg-primary: hsl(15, 60%, 97%);       /* Soft Peach Mist */
+    --user-bg-secondary: hsl(15, 50%, 94%);     /* Deeper Peach */
+    --user-accent: hsl(15, 70%, 75%);           /* Pastel Coral */
+    --user-accent-hover: hsl(15, 75%, 70%);     /* Medium Coral */
+    --user-text: hsl(15, 50%, 25%);             /* Deep Brown for contrast */
+    --user-text-muted: hsl(15, 40%, 45%);       /* Medium Brown-Grey */
+    --user-border: hsl(15, 40%, 85%);           /* Light Peach Border */
+    
+    /* Admin Theme - Mint Garden (Fresh & Professional) */
+    --admin-bg-primary: hsl(150, 60%, 97%);     /* Soft Mint Mist */
+    --admin-bg-secondary: hsl(150, 50%, 94%);   /* Deeper Mint */
+    --admin-accent: hsl(150, 70%, 75%);         /* Pastel Green */
+    --admin-accent-hover: hsl(150, 75%, 70%);   /* Medium Green */
+    --admin-text: hsl(150, 50%, 25%);           /* Deep Green for contrast */
+    --admin-text-muted: hsl(150, 40%, 45%);     /* Medium Green-Grey */
+    --admin-border: hsl(150, 40%, 85%);         /* Light Mint Border */
+    
+    /* SuperAdmin Theme - Rose Gold (Elegant & Authoritative) */
+    --superadmin-bg-primary: hsl(340, 60%, 97%); /* Soft Rose Mist */
+    --superadmin-bg-secondary: hsl(340, 50%, 94%); /* Deeper Rose */
+    --superadmin-accent: hsl(340, 70%, 75%);     /* Pastel Rose */
+    --superadmin-accent-hover: hsl(340, 75%, 70%); /* Medium Rose */
+    --superadmin-text: hsl(340, 50%, 25%);       /* Deep Rose for contrast */
+    --superadmin-text-muted: hsl(340, 40%, 45%); /* Medium Rose-Grey */
+    --superadmin-border: hsl(340, 40%, 85%);     /* Light Rose Border */
+
+    /* ========================================
+       ACCENT COLORS - SOFT PASTEL COLLECTION
+       Beautiful pastels for highlights and special elements
+       ======================================== */
+    --color-lavender: #c4b5fd;       /* Soft Lavender - elegance */
+    --color-sky: #7dd3fc;            /* Soft Sky - serenity */
+    --color-mint: #6ee7b7;           /* Soft Mint - freshness */
+    --color-rose: #fca5a5;           /* Soft Rose - warmth */
+    --color-gold: #fcd34d;           /* Soft Gold - luxury */
+    --color-sage: #a7f3d0;           /* Soft Sage - nature */
+    --color-peach: #fed7aa;          /* Soft Peach - comfort */
+    --color-lilac: #e9d5ff;          /* Soft Lilac - dreams */
+
+    /* ========================================
+       TEXT COLORS - OPTIMIZED FOR CONTRAST
+       Carefully chosen for perfect readability on pastel backgrounds
+       ======================================== */
+    --text-on-light: hsl(220, 30%, 20%);        /* Dark blue-grey for light backgrounds */
+    --text-on-pastel: hsl(220, 40%, 25%);       /* Darker for pastel backgrounds */
+    --text-muted-on-light: hsl(220, 20%, 45%);  /* Muted text on light */
+    --text-muted-on-pastel: hsl(220, 30%, 50%); /* Muted text on pastels */
+    --text-on-white: hsl(220, 35%, 15%);        /* Very dark for white backgrounds */
+
     /* ========================================
        BORDERS & RADIUS
        ======================================== */
-    
     --border-width: 1px;
-    --border-width-thick: 2px;
-    --border-color: var(--color-gray-300);
-    --border-color-dark: var(--color-gray-400);
+    --border-width-2: 2px;
+    --border-width-4: 4px;
     
-    --border-radius-sm: 0.25rem;   /* 4px */
-    --border-radius-md: 0.375rem;  /* 6px */
-    --border-radius-lg: 0.5rem;    /* 8px */
-    --border-radius-xl: 0.75rem;   /* 12px */
-    --border-radius-2xl: 1rem;     /* 16px */
-    --border-radius-full: 9999px;
-    
+    --radius-sm: 0.375rem;
+    --radius: 0.5rem;
+    --radius-md: 0.75rem;
+    --radius-lg: 1rem;
+    --radius-xl: 1.5rem;
+    --radius-full: 9999px;
+
     /* ========================================
        SHADOWS
        ======================================== */
-    
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
     --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-    --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
-    
+
     /* ========================================
        TRANSITIONS
        ======================================== */
-    
     --transition-fast: 150ms ease-in-out;
-    --transition-base: 250ms ease-in-out;
+    --transition-normal: 250ms ease-in-out;
     --transition-slow: 350ms ease-in-out;
-    
-    --transition-property-common: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
-    
-    /* ========================================
-       Z-INDEX LAYERS
-       ======================================== */
-    
-    --z-index-dropdown: 1000;
-    --z-index-sticky: 1020;
-    --z-index-fixed: 1030;
-    --z-index-modal-backdrop: 1040;
-    --z-index-modal: 1050;
-    --z-index-popover: 1060;
-    --z-index-tooltip: 1070;
-    --z-index-toast: 1100;
-    
-    /* ========================================
-       COMPONENT-SPECIFIC
-       ======================================== */
-    
-    /* Cards */
-    --card-bg: var(--color-white);
-    --card-border-color: var(--border-color);
-    --card-border-radius: var(--border-radius-lg);
-    --card-shadow: var(--shadow-md);
-    --card-shadow-hover: var(--shadow-lg);
-    --card-padding: var(--spacing-lg);
-    
-    /* Buttons */
-    --btn-padding-y: 0.5rem;
-    --btn-padding-x: 1rem;
-    --btn-font-size: var(--font-size-base);
-    --btn-border-radius: var(--border-radius-md);
-    --btn-transition: var(--transition-base);
-    
-    /* Forms */
-    --input-bg: var(--color-white);
-    --input-border-color: var(--border-color);
-    --input-border-radius: var(--border-radius-md);
-    --input-padding-y: 0.5rem;
-    --input-padding-x: 0.75rem;
-    --input-focus-border-color: var(--color-primary);
-    --input-focus-shadow: 0 0 0 0.2rem var(--color-primary-alpha);
-    
-    /* Loading States */
-    --loading-overlay-bg: rgba(255, 255, 255, 0.9);
-    --loading-spinner-color: var(--color-primary);
-    
-    /* Empty States */
-    --empty-state-icon-size: 4rem;
-    --empty-state-icon-color: var(--color-gray-400);
-}
 
-/* Dark Mode Support (Optional) */
-@media (prefers-color-scheme: dark) {
-    :root {
-        --card-bg: var(--color-gray-800);
-        --input-bg: var(--color-gray-700);
-        --border-color: var(--color-gray-600);
-        --loading-overlay-bg: rgba(0, 0, 0, 0.9);
-    }
+    /* ========================================
+       Z-INDEX SCALE
+       ======================================== */
+    --z-dropdown: 1000;
+    --z-sticky: 1020;
+    --z-fixed: 1030;
+    --z-modal-backdrop: 1040;
+    --z-modal: 1050;
+    --z-popover: 1060;
+    --z-tooltip: 1070;
+
+    /* ========================================
+       COMPONENT-SPECIFIC VARIABLES
+       ======================================== */
+    
+    /* Sticky Positioning */
+    --sticky-top-default: 80px;
+    --sticky-top-with-navbar: 100px;
+    
+    /* Component Sizing */
+    --book-image-height: 280px;
+    --quantity-selector-width: 250px;
+    --cart-item-image-size: 120px;
+    --order-item-image-size: 80px;
+    --dashboard-carousel-height: 400px;
+    --dashboard-stats-icon-size: 50px;
+    --dashboard-activity-icon-size: 40px;
+    
+    /* Font Families */
+    --font-family-mono: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Consolas', monospace;
 }

@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Html;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure;
-using System.Text;
-using System.Text.Json;
 using System.IO.Compression;
 using System.Security.Cryptography;
+using System.Text;
+using System.Text.Json;
 
 namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Performance
 {
@@ -106,7 +106,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Perf
                     parameters.Add($"f={format}");
 
                 // Add quality parameter for JPEG images
-                if (imageUrl.Contains(".jpg", StringComparison.OrdinalIgnoreCase) || 
+                if (imageUrl.Contains(".jpg", StringComparison.OrdinalIgnoreCase) ||
                     imageUrl.Contains(".jpeg", StringComparison.OrdinalIgnoreCase))
                 {
                     parameters.Add("q=85"); // 85% quality for good balance
@@ -136,10 +136,10 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Perf
 
                 // Use data-src for lazy loading
                 sb.Append($" data-src=\"{OptimizeImageUrl(src, width, height)}\"");
-                
+
                 // Placeholder image (1x1 transparent pixel)
                 sb.Append(" src=\"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7\"");
-                
+
                 sb.Append($" alt=\"{alt}\"");
 
                 if (!string.IsNullOrEmpty(cssClass))
@@ -304,7 +304,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Perf
                 {
                     var resourceType = GetResourceType(resource);
                     var crossorigin = resourceType == "font" ? " crossorigin" : "";
-                    
+
                     sb.AppendLine($"<link rel=\"preload\" href=\"{resource}\" as=\"{resourceType}\"{crossorigin}>");
                 }
 
@@ -328,7 +328,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Perf
                 // This is a simplified implementation - in production, you'd use tools like Critical or Penthouse
                 var criticalSelectors = new[]
                 {
-                    "body", "html", "h1", "h2", "h3", ".hero", ".navbar", ".container", 
+                    "body", "html", "h1", "h2", "h3", ".hero", ".navbar", ".container",
                     ".btn", ".card", ".showcase", ".header", ".main", ".footer"
                 };
 
@@ -340,7 +340,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Perf
                 foreach (var line in lines)
                 {
                     var trimmedLine = line.Trim();
-                    
+
                     if (!inCriticalRule)
                     {
                         // Check if this line starts a critical rule
@@ -355,7 +355,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Perf
                     {
                         criticalCss.AppendLine(line);
                         braceCount += line.Count(c => c == '{') - line.Count(c => c == '}');
-                        
+
                         if (braceCount <= 0)
                         {
                             inCriticalRule = false;
@@ -365,7 +365,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Perf
                 }
 
                 var minifiedCriticalCss = MinifyCssAsync(criticalCss.ToString()).Result;
-                
+
                 return new HtmlString($"<style>{minifiedCriticalCss}</style>");
             }
             catch (Exception ex)
@@ -382,7 +382,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Perf
                 _logger.LogInformation("Starting static asset optimization...");
 
                 var wwwrootPath = Path.Combine(_environment.ContentRootPath, "Presentation", "wwwroot");
-                
+
                 if (!Directory.Exists(wwwrootPath))
                 {
                     _logger.LogWarning("wwwroot directory not found: {Path}", wwwrootPath);
@@ -421,10 +421,10 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Perf
                 {
                     var content = await File.ReadAllTextAsync(cssFile);
                     var minified = await MinifyCssAsync(content);
-                    
+
                     var minifiedPath = cssFile.Replace(".css", ".min.css");
                     await File.WriteAllTextAsync(minifiedPath, minified);
-                    
+
                     _logger.LogDebug("Minified CSS: {File}", Path.GetFileName(cssFile));
                 }
             }
@@ -449,10 +449,10 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Perf
                 {
                     var content = await File.ReadAllTextAsync(jsFile);
                     var minified = await MinifyJavaScriptAsync(content);
-                    
+
                     var minifiedPath = jsFile.Replace(".js", ".min.js");
                     await File.WriteAllTextAsync(minifiedPath, minified);
-                    
+
                     _logger.LogDebug("Minified JavaScript: {File}", Path.GetFileName(jsFile));
                 }
             }
@@ -477,7 +477,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Perf
                 {
                     var relativePath = Path.GetRelativePath(wwwrootPath, file).Replace('\\', '/');
                     var fileInfo = new FileInfo(file);
-                    
+
                     assets.Add(new
                     {
                         path = "/" + relativePath,

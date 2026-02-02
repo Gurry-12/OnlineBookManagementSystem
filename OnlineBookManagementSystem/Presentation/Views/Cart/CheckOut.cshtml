@@ -1,129 +1,208 @@
-﻿@using OnlineBookManagementSystem.Presentation.ViewModels.Cart
-@model CheckOutViewModel
-
+﻿@model OnlineBookManagementSystem.Presentation.ViewModels.Cart.UnifiedCheckoutViewModel
 @{
-    ViewData["Title"] = "Checkout    ";
-    Layout = ViewData["Layout"]?.ToString() ?? "_LayoutUser";
+    ViewData["Title"] = Model.Capabilities.PageTitle;
+    // Layout will be determined by role-based logic in _ViewStart.cshtml
 }
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
+<div class="view-checkout">
+<div class="container py-4">
+    <!-- Page Header -->
+    <div class="row mb-4">
+        <div class="col-12 text-center">
+            <h2 class="mb-1">
+                <i class="bi bi-check2-circle me-2 text-success"></i>@Model.Capabilities.PageTitle
+            </h2>
+            <p class="text-muted">Review your order and complete your purchase</p>
+        </div>
+    </div>
 
-<div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-lg-10">
-            <h2 class="text-center mb-5 display-5 fw-bold text-success">
-                <i class="bi bi-check2-circle me-3"></i>Checkout
-            </h2>
-
-            <div class="row g-5">
+            <div class="row g-4">
                 <!-- Order Summary -->
                 <div class="col-lg-5 order-lg-2">
-                    <div class="card shadow-sm border-0 rounded-4 sticky-top" style="top: 100px;">
-                        <div class="card-header bg-success text-white">
-                            <h5 class="mb-0"><i class="bi bi-receipt me-2"></i>Order Summary</h5>
-                        </div>
-                        <div class="card-body">
-                            @foreach (var item in Model.CartItems)
-                            {
-                                <div class="d-flex justify-content-between mb-2">
-                                    <span>@item.BookTitle <small class="text-muted">× @item.Quantity</small></span>
-                                    <span>₹@item.Subtotal.ToString("F2")</span>
+                    @if (Model.Capabilities.CanViewOrderSummary)
+                    {
+                        <div class="cart-summary cart-summary--sticky">
+                            <div class="cart-summary__header">
+                                <h6 class="cart-summary__title">
+                                    <i class="bi bi-receipt me-2"></i>Order Summary
+                                </h6>
+                            </div>
+                            <div class="cart-summary__body">
+                                @foreach (var item in Model.CartItems)
+                                {
+                                    <div class="cart-summary__row">
+                                        <span class="cart-summary__label">
+                                            @item.BookTitle 
+                                            <small class="text-muted">× @item.Quantity</small>
+                                        </span>
+                                        <span class="cart-summary__value">@item.FormattedSubtotal</span>
+                                    </div>
+                                }
+                                <div class="cart-summary__divider"></div>
+                                <div class="cart-summary__row">
+                                    <span class="cart-summary__label">Subtotal</span>
+                                    <span class="cart-summary__value">@Model.Summary.FormattedSubtotal</span>
                                 </div>
-                            }
-                            <hr>
-                            <div class="d-flex justify-content-between mb-2">
-                                <span>Subtotal</span>
-                                <span>₹@Model.Subtotal.ToString("F2")</span>
-                            </div>
-                            <div class="d-flex justify-content-between mb-2">
-                                <span>Tax (10%)</span>
-                                <span>₹@Model.Tax.ToString("F2")</span>
-                            </div>
-                            <div class="d-flex justify-content-between mb-3 text-success fw-bold">
-                                <span>Shipping</span>
-                                <span>@(Model.Shipping == 0 ? "FREE" : $"₹{Model.Shipping}")</span>
-                            </div>
-                            <hr class="border-2">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h4 class="mb-0">Total</h4>
-                                <h4 class="text-success mb-0">₹@Model.GrandTotal.ToString("F2")</h4>
+                                <div class="cart-summary__row">
+                                    <span class="cart-summary__label">Tax (@(Model.Summary.TaxRate * 100)%)</span>
+                                    <span class="cart-summary__value">@Model.Summary.FormattedTax</span>
+                                </div>
+                                <div class="cart-summary__row">
+                                    <span class="cart-summary__label cart-summary__shipping">Shipping</span>
+                                    <span class="cart-summary__value cart-summary__shipping">@(Model.Shipping == 0 ? "FREE" : Model.Summary.FormattedShipping)</span>
+                                </div>
+                                <div class="cart-summary__total">
+                                    <div class="cart-summary__row">
+                                        <span class="cart-summary__label">Total</span>
+                                        <span class="cart-summary__value">@Model.FormattedGrandTotal</span>
+                                    </div>
+                                </div>
+                                
+                                @if (Model.QualifiesForFreeShipping)
+                                {
+                                    <div class="cart-summary__free-shipping">
+                                        <i class="bi bi-truck me-2"></i>
+                                        <strong>Free Shipping Applied!</strong>
+                                    </div>
+                                }
                             </div>
                         </div>
-                    </div>
+                    }
                 </div>
 
                 <!-- Checkout Form -->
                 <div class="col-lg-7 order-lg-1">
-                    <div class="card shadow-sm border-0 rounded-4">
-                        <div class="card-body p-5">
+                    @if (Model.Capabilities.CanConfirmCheckout)
+                    {
+                        <div class="checkout-form">
                             <form asp-action="ProcessCheckout" method="post">
                                 @Html.AntiForgeryToken()
 
-                                <h4 class="mb-4"><i class="bi bi-truck me-2"></i>Shipping Address</h4>
-                                <div class="row g-3">
-                                    <div class="col-12">
-                                        <label class="form-label">Full Name</label>
-                                        <input type="text" name="Name" class="form-control form-control-lg" required />
-                                    </div>
-                                    <div class="col-12">
-                                        <label class="form-label">Phone Number</label>
-                                        <input type="tel" name="Phone" class="form-control form-control-lg" placeholder="10-digit mobile" />
-                                    </div>
-                                    <div class="col-12">
-                                        <label class="form-label">Shipping Address</label>
-                                        <textarea name="Address" class="form-control" rows="3" required></textarea>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label">City</label>
-                                        <input type="text" name="City" class="form-control" required />
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label">PIN Code</label>
-                                        <input type="text" name="PinCode" class="form-control" required />
-                                    </div>
-                                </div>
-
-                                <hr class="my-5">
-
-                                <h4 class="mb-4"><i class="bi bi-credit-card me-2"></i>Payment Method</h4>
-                                <div class="row g-3">
-                                    <div class="col-12">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="PaymentMethod" value="COD" checked>
-                                            <label class="form-check-label">
-                                                <i class="bi bi-cash-stack me-2 text-success"></i>
-                                                Cash on Delivery (COD)
-                                            </label>
+                                @if (Model.Capabilities.CanViewShippingForm)
+                                {
+                                    <div class="checkout-form__section">
+                                        <h5 class="checkout-form__section-title">
+                                            <i class="bi bi-truck me-2"></i>Shipping Address
+                                        </h5>
+                                        <div class="checkout-form__field-group">
+                                            <div class="checkout-form__field">
+                                                <label class="checkout-form__label checkout-form__label--required">Full Name</label>
+                                                <input type="text" name="Name" class="checkout-form__input" value="@Model.Name" required />
+                                            </div>
+                                            <div class="checkout-form__field">
+                                                <label class="checkout-form__label">Phone Number</label>
+                                                <input type="tel" name="PhoneNumber" class="checkout-form__input" value="@Model.PhoneNumber" 
+                                                       placeholder="10-digit mobile number" />
+                                            </div>
+                                            <div class="checkout-form__field">
+                                                <label class="checkout-form__label checkout-form__label--required">Shipping Address</label>
+                                                <textarea name="Address" class="checkout-form__input checkout-form__textarea" required>@Model.Address</textarea>
+                                            </div>
+                                            <div class="checkout-form__field-group--two-columns">
+                                                <div class="checkout-form__field">
+                                                    <label class="checkout-form__label checkout-form__label--required">City</label>
+                                                    <input type="text" name="City" class="checkout-form__input" value="@Model.City" required />
+                                                </div>
+                                                <div class="checkout-form__field">
+                                                    <label class="checkout-form__label checkout-form__label--required">PIN Code</label>
+                                                    <input type="text" name="ZipCode" class="checkout-form__input" value="@Model.ZipCode" 
+                                                           pattern="[0-9]{6}" title="6-digit PIN code" required />
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-12">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="PaymentMethod" value="UPI">
-                                            <label class="form-check-label">
-                                                <i class="bi bi-phone me-2 text-info"></i>
-                                                UPI / Card / Net Banking
-                                            </label>
+                                }
+
+                                @if (Model.Capabilities.CanViewPaymentOptions)
+                                {
+                                    <div class="checkout-form__section">
+                                        <h5 class="checkout-form__section-title">
+                                            <i class="bi bi-credit-card me-2"></i>Payment Method
+                                        </h5>
+                                        <div class="payment-method-selector">
+                                            @if (Model.Capabilities.ShowCODOption)
+                                            {
+                                                <div class="payment-method-option @(Model.PaymentMethod == "COD" ? "payment-method-option--selected" : "")">
+                                                    <input class="payment-method-option__radio" type="radio" name="PaymentMethod" 
+                                                           value="COD" id="cod" checked="@(Model.PaymentMethod == "COD")">
+                                                    <i class="payment-method-option__icon payment-method-option__icon--cod bi bi-cash-stack"></i>
+                                                    <label class="payment-method-option__label" for="cod">
+                                                        Cash on Delivery (COD)
+                                                    </label>
+                                                </div>
+                                            }
+                                            @if (Model.Capabilities.ShowOnlinePayment)
+                                            {
+                                                <div class="payment-method-option @(Model.PaymentMethod == "UPI" ? "payment-method-option--selected" : "")">
+                                                    <input class="payment-method-option__radio" type="radio" name="PaymentMethod" 
+                                                           value="UPI" id="upi" checked="@(Model.PaymentMethod == "UPI")">
+                                                    <i class="payment-method-option__icon payment-method-option__icon--upi bi bi-phone"></i>
+                                                    <label class="payment-method-option__label" for="upi">
+                                                        UPI / Card / Net Banking
+                                                    </label>
+                                                </div>
+                                            }
                                         </div>
                                     </div>
-                                </div>
+                                }
 
-                                <div class="mt-5 text-center">
-                                    <button type="submit" class="btn btn-success btn-lg px-5 rounded-pill shadow">
+                                <div class="checkout-actions">
+                                    <button type="submit" class="checkout-actions__submit">
                                         <i class="bi bi-lock-fill me-2"></i>
-                                        Place Order – ₹@Model.GrandTotal.ToString("F2")
+                                        @Model.Capabilities.ConfirmButtonText – @Model.FormattedGrandTotal
                                     </button>
-                                    <p class="text-muted mt-3">
+                                    <p class="checkout-actions__security-note">
                                         <i class="bi bi-shield-check me-2"></i>
                                         Your payment is secure and encrypted.
                                     </p>
                                 </div>
                             </form>
                         </div>
-                    </div>
+                    }
+                    else
+                    {
+                        <div class="checkout-form">
+                            <div class="checkout-form__section text-center py-5">
+                                <i class="bi bi-exclamation-triangle display-4 text-warning mb-3"></i>
+                                <h5>Checkout Not Available</h5>
+                                <p class="text-muted">You don't have permission to complete this checkout.</p>
+                            </div>
+                        </div>
+                    }
                 </div>
+            </div>
+            
+            <!-- Back to Cart Link -->
+            <div class="text-center mt-4">
+                <a href="@Model.Capabilities.BackLinkUrl" class="checkout-actions__back-link">
+                    <i class="bi bi-arrow-left me-2"></i>@Model.Capabilities.BackLinkText
+                </a>
             </div>
         </div>
     </div>
 </div>
+</div>
 
-@await Html.PartialAsync("_Notification")
+<style>
+    .card {
+        border: none;
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    }
+    
+    .form-check-label {
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: 0.375rem;
+        transition: background-color 0.15s ease-in-out;
+    }
+    
+    .form-check-input:checked + .form-check-label {
+        background-color: rgba(25, 135, 84, 0.1);
+    }
+    
+    .sticky-top {
+        z-index: 1020;
+    }
+</style>

@@ -1,7 +1,6 @@
 using OnlineBookManagementSystem.Core.Application.DTOs;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Repositories;
 using OnlineBookManagementSystem.Core.Domain.Entities;
-using OnlineBookManagementSystem.Core.Domain.ValueObjects;
 
 namespace OnlineBookManagementSystem.Core.Application.UseCases.Books
 {
@@ -35,10 +34,10 @@ namespace OnlineBookManagementSystem.Core.Application.UseCases.Books
 
                 // Get books with pagination
                 var books = await _unitOfWork.Books.GetByConditionAsync(predicate, cancellationToken);
-                
+
                 // Apply sorting
                 books = ApplySorting(books, searchDto.SortBy, searchDto.SortDirection);
-                
+
                 // Apply pagination
                 var pagedBooks = books
                     .Skip((searchDto.Page - 1) * searchDto.PageSize)
@@ -59,7 +58,7 @@ namespace OnlineBookManagementSystem.Core.Application.UseCases.Books
                     HasPreviousPage = searchDto.Page > 1
                 };
 
-                _logger.LogInformation("Advanced book search completed. Found {TotalCount} books, returning page {Page} of {TotalPages}", 
+                _logger.LogInformation("Advanced book search completed. Found {TotalCount} books, returning page {Page} of {TotalPages}",
                     totalCount, searchDto.Page, result.TotalPages);
 
                 return result;
@@ -73,7 +72,7 @@ namespace OnlineBookManagementSystem.Core.Application.UseCases.Books
 
         private static System.Linq.Expressions.Expression<Func<Book, bool>> BuildSearchPredicate(AdvancedBookSearchDto searchDto)
         {
-            return book => 
+            return book =>
                 !book.IsDeleted &&
                 (string.IsNullOrEmpty(searchDto.Title) || book.Title.Contains(searchDto.Title)) &&
                 (string.IsNullOrEmpty(searchDto.Author) || book.Author.Contains(searchDto.Author)) &&

@@ -1,0 +1,269 @@
+/**
+ * Component: Table
+ * Purpose: Consistent table styling across all views
+ * Uses: Design tokens only - NO hardcoded colors
+ * BEM Methodology: .table__element--modifier
+ */
+
+/* ========================================
+   BLOCK: table
+   ======================================== */
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--color-surface-elevated);
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+.table--striped .table__row:nth-child(even) {
+    background: var(--color-surface);
+}
+
+.table--bordered {
+    border: 1px solid var(--color-border);
+}
+
+.table--hover .table__row:hover {
+    background: var(--color-hover);
+}
+
+/* ========================================
+   ELEMENT: table__header
+   ======================================== */
+
+.table__header {
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.table__header-cell {
+    padding: var(--space-md);
+    text-align: left;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.table__header-cell--sortable {
+    cursor: pointer;
+    user-select: none;
+    transition: background-color var(--transition-fast);
+}
+
+.table__header-cell--sortable:hover {
+    background: var(--color-gray-200);
+}
+
+.table__header-cell--center {
+    text-align: center;
+}
+
+.table__header-cell--right {
+    text-align: right;
+}
+
+/* ========================================
+   ELEMENT: table__body
+   ======================================== */
+
+.table__body {
+    background: var(--color-white);
+}
+
+.table__row {
+    border-bottom: var(--border-width) solid var(--color-gray-200);
+    transition: background-color var(--transition-fast);
+}
+
+.table__row:last-child {
+    border-bottom: none;
+}
+
+.table__cell {
+    padding: var(--space-4);
+    vertical-align: middle;
+    color: var(--color-gray-900);
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-base);
+}
+
+.table__cell--center {
+    text-align: center;
+}
+
+.table__cell--right {
+    text-align: right;
+}
+
+.table__cell--nowrap {
+    white-space: nowrap;
+}
+
+.table__cell--truncate {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* ========================================
+   ELEMENT: table__actions
+   ======================================== */
+
+.table__actions {
+    display: flex;
+    gap: var(--space-2);
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.table__action-btn {
+    padding: var(--space-1) var(--space-2);
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+}
+
+.table__action-btn--primary {
+    background: var(--color-primary);
+    color: var(--color-white);
+}
+
+.table__action-btn--primary:hover {
+    background: var(--color-primary-dark);
+}
+
+.table__action-btn--secondary {
+    background: var(--color-gray-100);
+    color: var(--color-gray-700);
+}
+
+.table__action-btn--secondary:hover {
+    background: var(--color-gray-200);
+}
+
+.table__action-btn--danger {
+    background: var(--color-danger);
+    color: var(--color-white);
+}
+
+.table__action-btn--danger:hover {
+    background: var(--color-danger-dark);
+}
+
+/* ========================================
+   ELEMENT: table__status
+   ======================================== */
+
+.table__status {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.table__status--success {
+    background: var(--color-success-light);
+    color: var(--color-success-dark);
+}
+
+.table__status--warning {
+    background: var(--color-warning-light);
+    color: var(--color-warning-dark);
+}
+
+.table__status--danger {
+    background: var(--color-danger-light);
+    color: var(--color-danger-dark);
+}
+
+.table__status--info {
+    background: var(--color-info-light);
+    color: var(--color-info-dark);
+}
+
+.table__status--neutral {
+    background: var(--color-gray-100);
+    color: var(--color-gray-700);
+}
+
+/* ========================================
+   MODIFIERS: table sizes
+   ======================================== */
+
+.table--compact .table__header-cell,
+.table--compact .table__cell {
+    padding: var(--space-2) var(--space-3);
+}
+
+.table--large .table__header-cell,
+.table--large .table__cell {
+    padding: var(--space-6);
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 768px) {
+    .table {
+        font-size: var(--font-size-sm);
+    }
+    
+    .table__header-cell,
+    .table__cell {
+        padding: var(--space-2) var(--space-3);
+    }
+    
+    .table__actions {
+        flex-direction: column;
+        gap: var(--space-1);
+    }
+    
+    .table__action-btn {
+        font-size: var(--font-size-xs);
+        padding: var(--space-1);
+    }
+    
+    .table__cell--truncate {
+        max-width: 120px;
+    }
+}
+
+/* ========================================
+   RESPONSIVE TABLE WRAPPER
+   ======================================== */
+
+.table-wrapper {
+    overflow-x: auto;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+.table-wrapper .table {
+    min-width: 600px;
+    box-shadow: none;
+}
+
+@media (max-width: 768px) {
+    .table-wrapper .table {
+        min-width: 500px;
+    }
+}

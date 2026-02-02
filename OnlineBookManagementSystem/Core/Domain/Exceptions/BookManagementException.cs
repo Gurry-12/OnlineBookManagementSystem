@@ -14,7 +14,7 @@ namespace OnlineBookManagementSystem.Core.Domain.Exceptions
             ErrorData = new Dictionary<string, object>();
         }
 
-        protected BookManagementException(string errorCode, string message, Exception innerException) 
+        protected BookManagementException(string errorCode, string message, Exception innerException)
             : base(message, innerException)
         {
             ErrorCode = errorCode;
@@ -34,7 +34,7 @@ namespace OnlineBookManagementSystem.Core.Domain.Exceptions
     {
         public int BookId { get; }
 
-        public BookNotFoundException(int bookId) 
+        public BookNotFoundException(int bookId)
             : base("BOOK_NOT_FOUND", $"Book with ID {bookId} was not found")
         {
             BookId = bookId;
@@ -49,7 +49,7 @@ namespace OnlineBookManagementSystem.Core.Domain.Exceptions
     {
         public int CategoryId { get; }
 
-        public CategoryNotFoundException(int categoryId) 
+        public CategoryNotFoundException(int categoryId)
             : base("CATEGORY_NOT_FOUND", $"Category with ID {categoryId} was not found")
         {
             CategoryId = categoryId;
@@ -83,7 +83,7 @@ namespace OnlineBookManagementSystem.Core.Domain.Exceptions
     /// </summary>
     public class InvalidOrderStateException : BookManagementException
     {
-        public InvalidOrderStateException(string message) 
+        public InvalidOrderStateException(string message)
             : base("INVALID_ORDER_STATE", message)
         {
         }
@@ -96,7 +96,7 @@ namespace OnlineBookManagementSystem.Core.Domain.Exceptions
     {
         public int UserId { get; }
 
-        public UserNotFoundException(int userId) 
+        public UserNotFoundException(int userId)
             : base("USER_NOT_FOUND", $"User with ID {userId} was not found")
         {
             UserId = userId;
@@ -111,7 +111,7 @@ namespace OnlineBookManagementSystem.Core.Domain.Exceptions
     {
         public int OrderId { get; }
 
-        public OrderNotFoundException(int orderId) 
+        public OrderNotFoundException(int orderId)
             : base("ORDER_NOT_FOUND", $"Order with ID {orderId} was not found")
         {
             OrderId = orderId;
@@ -126,7 +126,7 @@ namespace OnlineBookManagementSystem.Core.Domain.Exceptions
     {
         public string RuleName { get; }
 
-        public BusinessRuleViolationException(string ruleName, string message) 
+        public BusinessRuleViolationException(string ruleName, string message)
             : base("BUSINESS_RULE_VIOLATION", message)
         {
             RuleName = ruleName;
@@ -142,7 +142,7 @@ namespace OnlineBookManagementSystem.Core.Domain.Exceptions
         public string EntityType { get; }
         public int EntityId { get; }
 
-        public ConcurrencyConflictException(string entityType, int entityId) 
+        public ConcurrencyConflictException(string entityType, int entityId)
             : base("CONCURRENCY_CONFLICT", $"The {entityType} with ID {entityId} has been modified by another user. Please refresh and try again.")
         {
             EntityType = entityType;

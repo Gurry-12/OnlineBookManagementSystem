@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
 namespace OnlineBookManagementSystem.Shared.Extensions
@@ -57,9 +56,9 @@ namespace OnlineBookManagementSystem.Shared.Extensions
                 context.Response.Headers.Add("X-XSS-Protection", "1; mode=block");
                 context.Response.Headers.Add("Referrer-Policy", "strict-origin-when-cross-origin");
                 context.Response.Headers.Add("Permissions-Policy", "geolocation=(), microphone=(), camera=()");
-                
+
                 // Content Security Policy
-                context.Response.Headers.Add("Content-Security-Policy", 
+                context.Response.Headers.Add("Content-Security-Policy",
                     "default-src 'self'; " +
                     "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net; " +
                     "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; " +
@@ -223,8 +222,8 @@ namespace OnlineBookManagementSystem.Shared.Extensions
             if (string.IsNullOrEmpty(input))
                 return true;
 
-            return input.Length <= maxLength && 
-                   !ContainsSqlInjection(input) && 
+            return input.Length <= maxLength &&
+                   !ContainsSqlInjection(input) &&
                    !ContainsXssAttempt(input);
         }
 

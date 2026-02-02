@@ -13,7 +13,8 @@ namespace OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Users
         Task<bool> UpdateUserRoleAsync(int userId, string newRole);
         Task<bool> ToggleUserStatusAsync(int userId, bool isActive);
         Task<bool> SoftDeleteUserAsync(int userId);
-        
+        Task<bool> UpdateUserProfileAsync(int userId, object profileModel);
+
         // Approval workflow operations (delegated from IUserApprovalService)
         Task<(bool Success, string Message)> ApproveUserAsync(int userId, string role);
         Task<(bool Success, string Message)> RejectUserAsync(int userId);

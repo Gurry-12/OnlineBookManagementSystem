@@ -21,6 +21,11 @@ public class AdminDashboardViewModel
     public int LowStockBooks { get; set; }
     public int OutOfStockBooks { get; set; }
     public List<MonthlyStatsViewModel> MonthlyStats { get; set; } = new();
+
+    // Additional properties for carousel
+    public int RecentBooksCount { get; set; }
+    public int NewUsersThisWeek { get; set; }
+    public int ActiveUsersToday { get; set; }
 }
 
 public class MonthlyStatsViewModel

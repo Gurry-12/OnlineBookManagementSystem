@@ -39,8 +39,8 @@ namespace OnlineBookManagementSystem.Shared.Utilities
         }
 
         public static async Task<(bool Success, T? Result, string ErrorMessage)> SafeExecuteAsync<T>(
-            Func<Task<T>> operation, 
-            ILogger? logger = null, 
+            Func<Task<T>> operation,
+            ILogger? logger = null,
             string operationName = "Operation")
         {
             try
@@ -94,11 +94,11 @@ namespace OnlineBookManagementSystem.Shared.Utilities
 
             var invalidChars = Path.GetInvalidFileNameChars();
             var safeName = string.Join("_", fileName.Split(invalidChars, StringSplitOptions.RemoveEmptyEntries));
-            
+
             if (!Path.HasExtension(safeName))
                 safeName += fallbackExtension;
 
-            return safeName.Length > 100 
+            return safeName.Length > 100
                 ? Path.GetFileNameWithoutExtension(safeName)[..^Path.GetExtension(safeName).Length] + Path.GetExtension(safeName)
                 : safeName;
         }

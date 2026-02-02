@@ -44,11 +44,6 @@
    MODIFIERS
    ======================================== */
 
-.loading-state--inline {
-    min-height: auto;
-    padding: var(--spacing-md);
-}
-
 .loading-state--inline .loading-state__content {
     display: flex;
     align-items: center;
@@ -63,17 +58,6 @@
     width: 1.5rem;
     height: 1.5rem;
     border-width: 0.2rem;
-}
-
-.loading-state--overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: var(--z-index-modal);
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(2px);
 }
 
 /* ========================================

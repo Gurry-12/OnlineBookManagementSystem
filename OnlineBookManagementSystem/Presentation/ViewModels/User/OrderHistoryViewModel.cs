@@ -1,5 +1,3 @@
-using OnlineBookManagementSystem.Core.Domain.Entities;
-
 namespace OnlineBookManagementSystem.Presentation.ViewModels.User
 {
     public class OrderHistoryViewModel

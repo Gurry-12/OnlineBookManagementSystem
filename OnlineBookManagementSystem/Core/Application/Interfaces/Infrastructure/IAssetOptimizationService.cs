@@ -1,5 +1,3 @@
-using System.Threading.Tasks;
-
 namespace OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure
 {
     /// <summary>

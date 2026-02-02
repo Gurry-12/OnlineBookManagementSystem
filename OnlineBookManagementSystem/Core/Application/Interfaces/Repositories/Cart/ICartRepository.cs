@@ -11,6 +11,7 @@ namespace OnlineBookManagementSystem.Core.Application.Interfaces.Repositories.Ca
         Task ClearUserCartAsync(int userId);
         Task<bool> HasCartItemAsync(int userId, int bookId);
         Task<List<ShoppingCart>> GetCartItemsWithBooksAsync(int userId);
+        Task<List<ShoppingCart>> GetAllCartsAsync();
         Task<ShoppingCart> UpdateAsync(ShoppingCart entity);
     }
 }

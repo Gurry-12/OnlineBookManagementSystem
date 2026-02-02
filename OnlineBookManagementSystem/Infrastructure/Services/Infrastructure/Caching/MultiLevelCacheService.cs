@@ -1,10 +1,7 @@
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Logging;
-using System;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Caching
 {
@@ -47,11 +44,11 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Cach
                 if (distributedValue != null)
                 {
                     _logger.LogDebug("Cache hit (Distributed): {Key}", key);
-                    
+
                     // Store in memory cache for faster subsequent access
                     var memoryCacheDuration = expiry > _defaultMemoryCacheDuration ? _defaultMemoryCacheDuration : expiry;
                     _memoryCache.Set(key, distributedValue, memoryCacheDuration);
-                    
+
                     return distributedValue;
                 }
 
@@ -63,7 +60,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Cach
                 {
                     // Store in both caches
                     await SetInDistributedCacheAsync(key, freshValue, expiry);
-                    
+
                     var memoryCacheDuration = expiry > _defaultMemoryCacheDuration ? _defaultMemoryCacheDuration : expiry;
                     _memoryCache.Set(key, freshValue, memoryCacheDuration);
                 }
@@ -73,7 +70,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Cach
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error in GetOrSetAsync for key: {Key}", key);
-                
+
                 // Fallback to factory method
                 try
                 {
@@ -103,7 +100,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Cach
                 if (distributedValue != null)
                 {
                     _logger.LogDebug("Cache hit (Distributed): {Key}", key);
-                    
+
                     // Store in memory cache
                     _memoryCache.Set(key, distributedValue, _defaultMemoryCacheDuration);
                     value = distributedValue;
@@ -239,7 +236,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Cach
             {
                 var serializedValue = JsonSerializer.Serialize(value);
                 var cachedBytes = Encoding.UTF8.GetBytes(serializedValue);
-                
+
                 var options = new DistributedCacheEntryOptions
                 {
                     AbsoluteExpirationRelativeToNow = expiry

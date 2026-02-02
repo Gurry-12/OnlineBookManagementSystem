@@ -26,7 +26,7 @@ namespace OnlineBookManagementSystem.Core.Domain.Enums
         {
             if (Enum.TryParse<ReviewStatus>(value, true, out var result))
                 return result;
-            
+
             throw new ArgumentException($"Invalid ReviewStatus value: {value}");
         }
 
@@ -34,10 +34,10 @@ namespace OnlineBookManagementSystem.Core.Domain.Enums
         {
             if (string.IsNullOrWhiteSpace(value))
                 return null;
-            
+
             if (Enum.TryParse<ReviewStatus>(value, true, out var result))
                 return result;
-            
+
             return null;
         }
     }

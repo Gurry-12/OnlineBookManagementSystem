@@ -8,6 +8,7 @@ namespace OnlineBookManagementSystem.Core.Application.Interfaces.Repositories.Or
         Task<Order?> GetOrderWithDetailsAsync(int orderId);
         Task<List<Order>> GetUserOrdersAsync(int userId, int page = 1, int pageSize = 10);
         Task<List<Order>> GetOrdersByStatusAsync(OrderStatus status);
+        Task<int> GetOrdersCountByStatusAsync(OrderStatus status);
         Task<decimal> GetTotalRevenueAsync();
         Task<decimal> GetMonthlyRevenueAsync(int year, int month);
         Task<int> GetTotalOrdersCountAsync();

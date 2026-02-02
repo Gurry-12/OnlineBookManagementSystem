@@ -1,0 +1,224 @@
+@model OnlineBookManagementSystem.Presentation.ViewModels.Logs.LogDetailViewModel
+
+@{
+    ViewData["Title"] = $"Log Entry #{Model.Log.Id}";
+}
+
+<div class="view-logs-details">
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold">
+            <i class="bi bi-file-text me-2"></i>Log Entry Details
+        </h2>
+        
+        <div class="btn-group">
+            <a href="@Url.Action("LogList", "Logs")" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-2"></i>Back to Logs
+            </a>
+            @if (Model.Capabilities.CanExport)
+            {
+                <button type="button" class="btn btn-outline-primary" onclick="exportLogEntry()">
+                    <i class="bi bi-download me-2"></i>Export Entry
+                </button>
+            }
+        </div>
+    </div>
+
+    @if (Model.Capabilities.CanView)
+    {
+        <!-- Log Entry Details -->
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">
+                            <i class="bi bi-info-circle me-2"></i>Log Entry Information
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <dl class="row">
+                            <dt class="col-sm-3">Entry ID:</dt>
+                            <dd class="col-sm-9"><code>@Model.Log.Id</code></dd>
+                            
+                            <dt class="col-sm-3">Timestamp:</dt>
+                            <dd class="col-sm-9">
+                                @Model.Log.Timestamp.ToString("dddd, MMMM dd, yyyy 'at' HH:mm:ss")
+                                <small class="text-muted">(@Model.Log.Timestamp.ToString("yyyy-MM-dd HH:mm:ss UTC"))</small>
+                            </dd>
+                            
+                            <dt class="col-sm-3">Action Type:</dt>
+                            <dd class="col-sm-9">
+                                <span class="badge @GetActionBadgeClass(Model.Log.ActionType) fs-6">
+                                    @Model.Log.ActionType
+                                </span>
+                            </dd>
+                            
+                            <dt class="col-sm-3">Description:</dt>
+                            <dd class="col-sm-9">@Model.Log.Description</dd>
+                            
+                            <dt class="col-sm-3">User:</dt>
+                            <dd class="col-sm-9">
+                                @if (Model.Log.User != null)
+                                {
+                                    <div>
+                                        <strong>@Model.Log.User.Name</strong>
+                                        @if (Model.Capabilities.CanViewSensitiveData)
+                                        {
+                                            <br><small class="text-muted">@Model.Log.User.Email</small>
+                                            <br><small class="text-muted">User ID: @Model.Log.UserId</small>
+                                        }
+                                    </div>
+                                }
+                                else
+                                {
+                                    <span class="text-muted fst-italic">System Generated</span>
+                                }
+                            </dd>
+                            
+                            @if (Model.Capabilities.CanViewSensitiveData)
+                            {
+                                <dt class="col-sm-3">IP Address:</dt>
+                                <dd class="col-sm-9">
+                                    @if (!string.IsNullOrEmpty(Model.Log.IpAddress))
+                                    {
+                                        <code>@Model.Log.IpAddress</code>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">Not recorded</span>
+                                    }
+                                </dd>
+                                
+                                <dt class="col-sm-3">User Agent:</dt>
+                                <dd class="col-sm-9">
+                                    @if (!string.IsNullOrEmpty(Model.Log.UserAgent))
+                                    {
+                                        <small class="text-break">@Model.Log.UserAgent</small>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">Not recorded</span>
+                                    }
+                                </dd>
+                            }
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <!-- Audit Information -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h6 class="card-title mb-0">
+                            <i class="bi bi-shield-check me-2"></i>Audit Information
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <small class="text-muted">
+                            <strong>Immutable Record:</strong> This log entry cannot be modified or deleted.
+                            It represents a permanent audit trail of system activity.
+                        </small>
+                        
+                        <hr class="my-3">
+                        
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Entry Age:</span>
+                            <span>@GetTimeAgo(Model.Log.Timestamp)</span>
+                        </div>
+                        
+                        @if (Model.Capabilities.CanViewSensitiveData)
+                        {
+                            <div class="d-flex justify-content-between mt-2">
+                                <span class="text-muted">Retention:</span>
+                                <span class="text-success">Permanent</span>
+                            </div>
+                        }
+                    </div>
+                </div>
+                
+                <!-- Related Logs -->
+                @if (Model.RelatedLogs.Any())
+                {
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="card-title mb-0">
+                                <i class="bi bi-link-45deg me-2"></i>Related Log Entries
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="list-group list-group-flush">
+                                @foreach (var relatedLog in Model.RelatedLogs.Take(5))
+                                {
+                                    <a href="@Url.Action("LogDetails", new { id = relatedLog.Id })" 
+                                       class="list-group-item list-group-item-action">
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <div>
+                                                <span class="badge @GetActionBadgeClass(relatedLog.ActionType) me-2">
+                                                    @relatedLog.ActionType
+                                                </span>
+                                                <small class="text-truncate d-block">@relatedLog.Description</small>
+                                            </div>
+                                            <small class="text-muted">@GetTimeAgo(relatedLog.Timestamp)</small>
+                                        </div>
+                                    </a>
+                                }
+                            </div>
+                            
+                            @if (Model.RelatedLogs.Count > 5)
+                            {
+                                <div class="text-center mt-3">
+                                    <small class="text-muted">
+                                        And @(Model.RelatedLogs.Count - 5) more related entries...
+                                    </small>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning">
+            <i class="bi bi-exclamation-triangle me-2"></i>
+            You don't have permission to view log details.
+        </div>
+    }
+</div>
+</div>
+
+@section Scripts {
+    <script>
+        function exportLogEntry() {
+            const url = '@Url.Action("ExportLogEntry", "Logs", new { id = Model.Log.Id })';
+            window.open(url, '_blank');
+        }
+    </script>
+}
+
+@functions {
+    private string GetActionBadgeClass(string actionType) => actionType?.ToLower() switch
+    {
+        "login" => "bg-success",
+        "logout" => "bg-secondary", 
+        "create" or "add" => "bg-primary",
+        "update" or "edit" => "bg-warning text-dark",
+        "delete" or "remove" => "bg-danger",
+        "view" or "read" => "bg-info",
+        "error" => "bg-danger",
+        _ => "bg-secondary"
+    };
+
+    private string GetTimeAgo(DateTime timestamp)
+    {
+        var span = DateTime.Now.Subtract(timestamp);
+        if (span.TotalMinutes < 1) return "Just now";
+        if (span.TotalMinutes < 60) return $"{(int)span.TotalMinutes} minute{(span.TotalMinutes >= 2 ? "s" : "")} ago";
+        if (span.TotalHours < 24) return $"{(int)span.TotalHours} hour{(span.TotalHours >= 2 ? "s" : "")} ago";
+        if (span.TotalDays < 7) return $"{(int)span.TotalDays} day{(span.TotalDays >= 2 ? "s" : "")} ago";
+        if (span.TotalDays < 30) return $"{(int)(span.TotalDays / 7)} week{(span.TotalDays >= 14 ? "s" : "")} ago";
+        return timestamp.ToString("MMM dd, yyyy");
+    }
+}

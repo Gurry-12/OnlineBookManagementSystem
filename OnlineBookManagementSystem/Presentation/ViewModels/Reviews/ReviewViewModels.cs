@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using OnlineBookManagementSystem.Core.Domain.Enums;
 
 namespace OnlineBookManagementSystem.Presentation.ViewModels.Reviews;

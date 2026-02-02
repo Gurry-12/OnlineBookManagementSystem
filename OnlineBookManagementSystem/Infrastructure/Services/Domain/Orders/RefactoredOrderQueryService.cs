@@ -114,7 +114,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Orders
                 // Apply filters
                 if (!string.IsNullOrEmpty(search))
                 {
-                    orders = orders.Where(o => 
+                    orders = orders.Where(o =>
                         o.User.Name.Contains(search, StringComparison.OrdinalIgnoreCase) ||
                         o.User.Email.Contains(search, StringComparison.OrdinalIgnoreCase) ||
                         o.Id.ToString().Contains(search)).ToList();
@@ -261,6 +261,19 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Orders
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting order details for order {OrderId}", orderId);
+                throw;
+            }
+        }
+
+        public async Task<int> GetPendingOrdersCountAsync()
+        {
+            try
+            {
+                return await _orderRepository.GetOrdersCountByStatusAsync(OrderStatus.Pending);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting pending orders count");
                 throw;
             }
         }

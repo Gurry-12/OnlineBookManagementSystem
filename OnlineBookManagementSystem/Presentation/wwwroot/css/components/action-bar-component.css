@@ -1,0 +1,504 @@
+/**
+ * Component: Action Bar Component
+ * Purpose: Search bars, filters, action buttons for list views
+ * Uses: core/variables.css tokens only
+ * BEM Methodology: .action-bar__element--modifier
+ */
+
+/* ========================================
+   BLOCK: action-bar
+   ======================================== */
+
+.action-bar {
+    background: var(--color-white);
+    border: var(--border-width) solid var(--color-gray-200);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: var(--space-4);
+    overflow: hidden;
+}
+
+.action-bar__header {
+    padding: var(--space-4);
+    background: var(--color-gray-50);
+    border-bottom: var(--border-width) solid var(--color-gray-200);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.action-bar__title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-gray-900);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.action-bar__header-actions {
+    display: flex;
+    gap: var(--space-2);
+}
+
+.action-bar__body {
+    padding: var(--space-4);
+}
+
+/* ========================================
+   ELEMENT: action-bar__search
+   ======================================== */
+
+.action-bar__search {
+    display: flex;
+    gap: var(--space-3);
+    align-items: center;
+    margin-bottom: var(--space-4);
+}
+
+.search-bar {
+    position: relative;
+    flex: 1;
+    max-width: 400px;
+}
+
+.search-bar__input {
+    width: 100%;
+    padding: var(--space-3) var(--space-3) var(--space-3) var(--space-10);
+    border: var(--border-width) solid var(--color-gray-300);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-base);
+    color: var(--color-gray-900);
+    background: var(--color-white);
+    transition: all var(--transition-fast);
+}
+
+.search-bar__input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--color-primary-light);
+}
+
+.search-bar__input::placeholder {
+    color: var(--color-gray-500);
+}
+
+.search-bar__icon {
+    position: absolute;
+    left: var(--space-3);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-gray-500);
+    font-size: var(--font-size-lg);
+    pointer-events: none;
+}
+
+.search-bar__clear {
+    position: absolute;
+    right: var(--space-3);
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--color-gray-500);
+    font-size: var(--font-size-lg);
+    cursor: pointer;
+    padding: var(--space-1);
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
+}
+
+.search-bar__clear:hover {
+    color: var(--color-gray-700);
+    background: var(--color-gray-100);
+}
+
+/* ========================================
+   ELEMENT: action-bar__filters
+   ======================================== */
+
+.action-bar__filters {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: var(--space-3);
+    align-items: end;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-group__label {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-gray-700);
+    margin-bottom: var(--space-2);
+}
+
+.filter-group__input {
+    padding: var(--space-2) var(--space-3);
+    border: var(--border-width) solid var(--color-gray-300);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-base);
+    color: var(--color-gray-900);
+    background: var(--color-white);
+    transition: all var(--transition-fast);
+}
+
+.filter-group__input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--color-primary-light);
+}
+
+.filter-group__select {
+    padding: var(--space-2) var(--space-3);
+    border: var(--border-width) solid var(--color-gray-300);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-base);
+    color: var(--color-gray-900);
+    background: var(--color-white);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.filter-group__select:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--color-primary-light);
+}
+
+/* ========================================
+   ELEMENT: action-bar__actions
+   ======================================== */
+
+.action-bar__actions {
+    display: flex;
+    gap: var(--space-2);
+    justify-content: flex-start;
+    margin-top: var(--space-4);
+    flex-wrap: wrap;
+}
+
+.action-bar__button {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    border: var(--border-width) solid var(--color-gray-300);
+    border-radius: var(--radius-md);
+    background: var(--color-white);
+    color: var(--color-gray-700);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.action-bar__button:hover {
+    background: var(--color-gray-50);
+    border-color: var(--color-gray-400);
+    color: var(--color-gray-900);
+    text-decoration: none;
+}
+
+.action-bar__button--primary {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--color-white);
+}
+
+.action-bar__button--primary:hover {
+    background: var(--color-primary-dark);
+    border-color: var(--color-primary-dark);
+    color: var(--color-white);
+}
+
+.action-bar__button--secondary {
+    background: var(--color-white);
+    border-color: var(--color-gray-300);
+    color: var(--color-gray-700);
+}
+
+.action-bar__button--success {
+    background: var(--color-success);
+    border-color: var(--color-success);
+    color: var(--color-white);
+}
+
+.action-bar__button--success:hover {
+    background: var(--color-success-dark);
+    border-color: var(--color-success-dark);
+    color: var(--color-white);
+}
+
+.action-bar__button--danger {
+    background: var(--color-danger);
+    border-color: var(--color-danger);
+    color: var(--color-white);
+}
+
+.action-bar__button--danger:hover {
+    background: var(--color-danger-dark);
+    border-color: var(--color-danger-dark);
+    color: var(--color-white);
+}
+
+.action-bar__button--info {
+    background: var(--color-info);
+    border-color: var(--color-info);
+    color: var(--color-white);
+}
+
+.action-bar__button--info:hover {
+    background: var(--color-info-dark);
+    border-color: var(--color-info-dark);
+    color: var(--color-white);
+}
+
+.action-bar__button--icon-only {
+    padding: var(--space-2);
+    width: 36px;
+    justify-content: center;
+}
+
+/* ========================================
+   ELEMENT: filter-tags
+   ======================================== */
+
+.filter-tags {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+    margin-top: var(--space-3);
+    padding-top: var(--space-3);
+    border-top: var(--border-width) solid var(--color-gray-200);
+}
+
+.filter-tags__label {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-gray-600);
+    align-self: center;
+}
+
+.filter-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-1) var(--space-2);
+    background: var(--color-primary-light);
+    color: var(--color-primary-dark);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+}
+
+.filter-tag__remove {
+    background: none;
+    border: none;
+    color: var(--color-primary-dark);
+    cursor: pointer;
+    padding: 0;
+    margin-left: var(--space-1);
+    border-radius: var(--radius-full);
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+}
+
+.filter-tag__remove:hover {
+    background: var(--color-primary-dark);
+    color: var(--color-white);
+}
+
+/* ========================================
+   ELEMENT: action-bar__results
+   ======================================== */
+
+.action-bar__results {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-3) var(--space-4);
+    background: var(--color-gray-50);
+    border-top: var(--border-width) solid var(--color-gray-200);
+    font-size: var(--font-size-sm);
+    color: var(--color-gray-600);
+}
+
+.action-bar__results-count {
+    font-weight: var(--font-weight-medium);
+    color: var(--color-gray-900);
+}
+
+.action-bar__results-actions {
+    display: flex;
+    gap: var(--space-2);
+}
+
+.action-bar__results-button {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-1) var(--space-2);
+    background: var(--color-white);
+    border: var(--border-width) solid var(--color-gray-300);
+    border-radius: var(--radius-sm);
+    color: var(--color-gray-700);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+    cursor: pointer;
+}
+
+.action-bar__results-button:hover {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-400);
+    color: var(--color-gray-900);
+    text-decoration: none;
+}
+
+/* ========================================
+   MODIFIERS: action-bar variants
+   ======================================== */
+
+.action-bar--compact .action-bar__header,
+.action-bar--compact .action-bar__body {
+    padding: var(--space-3);
+}
+
+.action-bar--compact .action-bar__search {
+    margin-bottom: var(--space-3);
+}
+
+.action-bar--compact .action-bar__actions {
+    margin-top: var(--space-3);
+}
+
+.action-bar--simple .action-bar__header {
+    display: none;
+}
+
+.action-bar--inline {
+    display: flex;
+    align-items: center;
+    padding: var(--space-3) var(--space-4);
+    background: var(--color-gray-50);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-3);
+}
+
+.action-bar--inline .action-bar__body {
+    padding: 0;
+    flex: 1;
+}
+
+.action-bar--inline .action-bar__search {
+    margin-bottom: 0;
+    flex: 1;
+}
+
+.action-bar--inline .action-bar__actions {
+    margin-top: 0;
+    margin-left: var(--space-3);
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 768px) {
+    .action-bar__header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-3);
+    }
+    
+    .action-bar__search {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .search-bar {
+        max-width: none;
+    }
+    
+    .action-bar__filters {
+        grid-template-columns: 1fr;
+    }
+    
+    .action-bar__actions {
+        flex-direction: column;
+    }
+    
+    .action-bar__button {
+        justify-content: center;
+    }
+    
+    .action-bar__button--icon-only {
+        width: auto;
+        padding: var(--space-2) var(--space-3);
+    }
+    
+    .action-bar__results {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-2);
+    }
+    
+    .filter-tags {
+        justify-content: flex-start;
+    }
+    
+    .action-bar--inline {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .action-bar--inline .action-bar__actions {
+        margin-left: 0;
+        margin-top: var(--space-3);
+    }
+}
+
+@media (max-width: 480px) {
+    .action-bar__header,
+    .action-bar__body {
+        padding: var(--space-3);
+    }
+    
+    .action-bar__results {
+        padding: var(--space-2) var(--space-3);
+    }
+    
+    .search-bar__input {
+        padding: var(--space-2) var(--space-2) var(--space-2) var(--space-8);
+    }
+    
+    .search-bar__icon {
+        left: var(--space-2);
+    }
+    
+    .search-bar__clear {
+        right: var(--space-2);
+    }
+    
+    .filter-group__input,
+    .filter-group__select {
+        padding: var(--space-2);
+    }
+    
+    .action-bar__button {
+        padding: var(--space-2);
+        font-size: var(--font-size-xs);
+    }
+}

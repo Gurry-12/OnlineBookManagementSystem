@@ -1,5 +1,3 @@
-using OnlineBookManagementSystem.Core.Domain.Entities;
-
 namespace OnlineBookManagementSystem.Core.Domain.Entities
 {
     /// <summary>

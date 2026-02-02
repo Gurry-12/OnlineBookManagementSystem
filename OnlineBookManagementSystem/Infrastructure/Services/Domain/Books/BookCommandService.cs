@@ -1,15 +1,14 @@
 using Microsoft.EntityFrameworkCore;
+using OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Books;
+using OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure.Logging;
 using OnlineBookManagementSystem.Core.Domain.Entities;
 using OnlineBookManagementSystem.Infrastructure.Data.Context;
-using OnlineBookManagementSystem.Presentation.ViewModels.User;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Jpeg;
 using SixLabors.ImageSharp.Processing;
 using System.Security.Cryptography;
 using System.Text;
 using Image = SixLabors.ImageSharp.Image;
-using OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Books;
-using OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure.Logging;
 
 namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Books
 {
@@ -250,81 +249,6 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Books
             {
                 _logger.LogError(ex, "Failed to save image for book {BookId}", bookId);
                 return null;
-            }
-        }
-
-        public async Task<bool> ToggleFavoriteAsync(int bookId, int userId)
-        {
-            var book = await _context.Books.FirstOrDefaultAsync(b => b.Id == bookId && b.IsDeleted == false);
-            if (book == null) return false;
-
-            book.IsFavorite = !book.IsFavorite;
-            book.UpdatedAt = DateTime.UtcNow;
-
-            await _context.SaveChangesAsync();
-            _logger.LogInformation("Favorite toggled for book {BookId} by {UserId}", bookId, userId);
-            await _activityLogger.LogAsync("FavoriteToggled", $"Book '{book.Title}' favorited/unfavorited.", userId);
-            return true;
-        }
-
-        public async Task<(bool Success, string Message, bool IsFavorite)> ToggleUserFavoriteAsync(int bookId, int userId)
-        {
-            try
-            {
-                var book = await _context.Books.FirstOrDefaultAsync(b => b.Id == bookId && !b.IsDeleted);
-                if (book == null)
-                    return (false, "Book not found", false);
-
-                var existingFavorite = await _context.UserFavorites
-                    .FirstOrDefaultAsync(uf => uf.UserId == userId && uf.BookId == bookId);
-
-                bool isFavorite;
-                if (existingFavorite != null)
-                {
-                    _context.UserFavorites.Remove(existingFavorite);
-                    isFavorite = false;
-                    await _activityLogger.LogAsync("FavoriteRemoved", $"Removed '{book.Title}' from favorites", userId);
-                }
-                else
-                {
-                    _context.UserFavorites.Add(new UserFavorite
-                    {
-                        UserId = userId,
-                        BookId = bookId,
-                        CreatedAt = DateTime.UtcNow
-                    });
-                    isFavorite = true;
-                    await _activityLogger.LogAsync("FavoriteAdded", $"Added '{book.Title}' to favorites", userId);
-                }
-
-                await _context.SaveChangesAsync();
-                return (true, isFavorite ? "Added to favorites" : "Removed from favorites", isFavorite);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Failed to toggle favorite for book {BookId} and user {UserId}", bookId, userId);
-                return (false, "An error occurred", false);
-            }
-        }
-
-        public async Task<bool> UpdateUserProfileAsync(int userId, UserProfileViewModel model)
-        {
-            try
-            {
-                var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId && u.IsDeleted != true);
-                if (user == null) return false;
-
-                user.Name = model.Name;
-                user.UpdatedAt = DateTime.UtcNow;
-
-                await _context.SaveChangesAsync();
-                await _activityLogger.LogAsync("ProfileUpdated", "User profile updated", userId);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Failed to update user profile for user {UserId}", userId);
-                return false;
             }
         }
 

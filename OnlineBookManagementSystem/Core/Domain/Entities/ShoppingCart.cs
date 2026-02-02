@@ -6,9 +6,9 @@ namespace OnlineBookManagementSystem.Core.Domain.Entities
 
         public int UserId { get; set; }
         public int BookId { get; set; }
-        
-        public int Quantity 
-        { 
+
+        public int Quantity
+        {
             get => _quantity;
             set
             {
@@ -50,7 +50,7 @@ namespace OnlineBookManagementSystem.Core.Domain.Entities
         {
             if (amount <= 0)
                 throw new ArgumentException("Amount must be positive", nameof(amount));
-            
+
             Quantity += amount;
             UpdateTimestamp();
         }
@@ -61,7 +61,7 @@ namespace OnlineBookManagementSystem.Core.Domain.Entities
                 throw new ArgumentException("Amount must be positive", nameof(amount));
             if (amount >= Quantity)
                 throw new ArgumentException("Cannot decrease quantity below 1", nameof(amount));
-            
+
             Quantity -= amount;
             UpdateTimestamp();
         }

@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using OnlineBookManagementSystem.Core.Application.Interfaces.Repositories;
 using OnlineBookManagementSystem.Core.Domain.Entities;
 using OnlineBookManagementSystem.Infrastructure.Data.Context;
-using OnlineBookManagementSystem.Core.Application.Interfaces.Repositories;
 using System.Linq.Expressions;
 
 namespace OnlineBookManagementSystem.Infrastructure.Data.Repositories
@@ -51,7 +51,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Data.Repositories
         {
             if (predicate == null)
                 return await _dbSet.CountAsync(e => !e.IsDeleted, cancellationToken);
-            
+
             return await _dbSet.CountAsync(predicate, cancellationToken);
         }
 
@@ -116,13 +116,13 @@ namespace OnlineBookManagementSystem.Infrastructure.Data.Repositories
                         // 1. Client wins - use current values
                         // 2. Database wins - reload from database
                         // 3. Merge - combine changes intelligently
-                        
+
                         // Option 2: Database wins (safest approach)
                         await entry.ReloadAsync(cancellationToken);
-                        
+
                         // Update the timestamp to reflect the reload
                         entity.UpdateTimestamp();
-                        
+
                         // Log the concurrency conflict for monitoring
                         // Note: We can't use ILogger here as it would create circular dependency
                         System.Diagnostics.Debug.WriteLine($"Concurrency conflict resolved for {entity.GetType().Name} with ID {entity.Id}");
@@ -133,7 +133,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Data.Repositories
                         entry.OriginalValues.SetValues(entry.GetDatabaseValues());
                     }
                 }
-                
+
                 // Try to save again after resolving conflicts
                 try
                 {

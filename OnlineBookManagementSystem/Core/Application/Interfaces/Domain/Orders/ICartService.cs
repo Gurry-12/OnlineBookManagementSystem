@@ -11,7 +11,7 @@ namespace OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Orders
         Task<bool> RemoveCartItemAsync(int userId, int bookId);
         Task<List<AdminCartViewModel>> GetAllCartsAsync(int? adminUserId = null);
         Task<CheckOutViewModel> CheckoutDetailsAsync(int userId);
-        Task<bool> ProcessCheckoutAsync(int userId, CheckOutRequestViewModel request);
+        Task<(bool Success, int OrderId, string Message)> ProcessCheckoutAsync(int userId, CheckOutRequestViewModel request);
         Task<bool> DeductInventoryAsync(int orderId);
 
         // New methods for enhanced functionality

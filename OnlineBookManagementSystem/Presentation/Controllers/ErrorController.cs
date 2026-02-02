@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Helpers;
+using System.Diagnostics;
 
 namespace OnlineBookManagementSystem.Presentation.Controllers
 {
@@ -36,7 +36,7 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
             }
 
             var viewModel = _errorFactory.Create(statusCode, requestId);
-            return View("Error", viewModel);
+            return View("~/Presentation/Views/Shared/Error.cshtml", viewModel);
         }
 
         [Route("Error")]
@@ -53,7 +53,7 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
                 // Return 500 status code explicitly for unhandled exceptions
                 HttpContext.Response.StatusCode = 500;
 
-                return View("Error", viewModel);
+                return View("~/Presentation/Views/Shared/Error.cshtml", viewModel);
             }
 
             // Fallback if accessed directly without an exception

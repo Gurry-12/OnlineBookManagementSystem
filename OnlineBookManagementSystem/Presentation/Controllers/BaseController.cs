@@ -5,33 +5,31 @@ using System.Security.Claims;
 public class BaseController : Controller
 {
     private ILogger<BaseController>? _logger;
+
     protected ILogger<BaseController> Logger => _logger ??= HttpContext.RequestServices.GetService<ILogger<BaseController>>()!;
 
     public override void OnActionExecuting(ActionExecutingContext context)
     {
-        ViewData["Layout"] = DetermineLayout();
-        base.OnActionExecuting(context);
-    }
-
-    private string DetermineLayout()
-    {
         try
         {
-            var primaryRole = GetPrimaryRole();
-            return primaryRole switch
-            {
-                "SuperAdmin" => "_LayoutSuperAdmin",
-                "Admin" => "_LayoutAdmin",
-                "User" => "_LayoutUser",
-                "Guest" => "_LayoutPublic",
-                _ => "_LayoutAuth"
-            };
+            var controllerName = ControllerContext.ActionDescriptor.ControllerName;
+            var actionName = ControllerContext.ActionDescriptor.ActionName;
+            
+            // Simplified: Set basic view data without layout service
+            ViewData["IsAuthenticated"] = User.Identity?.IsAuthenticated ?? false;
+            ViewData["UserRoles"] = User.FindAll(ClaimTypes.Role).Select(c => c.Value).ToList();
+            ViewData["CurrentController"] = controllerName;
+            ViewData["CurrentAction"] = actionName;
+            ViewData["ThemeClass"] = "theme-public"; // Default theme
+            
+            Logger.LogDebug("Basic view data set for {Controller}/{Action}", controllerName, actionName);
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex, "Error determining user layout");
-            return "_LayoutAuth";
+            Logger.LogError(ex, "Error in OnActionExecuting");
         }
+        
+        base.OnActionExecuting(context);
     }
 
     private string GetPrimaryRole()
@@ -46,11 +44,31 @@ public class BaseController : Controller
                userRoles.Contains("User") ? "User" : "Guest";
     }
 
+    protected List<string> GetUserRoles()
+    {
+        return User.FindAll(ClaimTypes.Role).Select(c => c.Value).ToList();
+    }
+
+    protected bool HasRole(string role)
+    {
+        return User.IsInRole(role);
+    }
+
+    protected bool CanAccessAdmin()
+    {
+        return User.IsInRole("Admin") || User.IsInRole("SuperAdmin");
+    }
+
+    protected bool CanAccessSuperAdmin()
+    {
+        return User.IsInRole("SuperAdmin");
+    }
+
     public IActionResult SessionExpired()
     {
         HttpContext.Session?.Clear();
         ViewData["Message"] = "Your session has expired. Please log in again.";
-        return View("SessionExpired");
+        return View("~/Presentation/Views/Shared/SessionExpired.cshtml");
     }
 
     protected string GetCurrentRole() => User.FindFirst(ClaimTypes.Role)?.Value ?? "Guest";
@@ -77,7 +95,7 @@ public class BaseController : Controller
     {
         var currentUserId = GetUserIdFromClaims();
         if (currentUserId == 0) return false;
-        
+
         return expectedUserId == 0 || currentUserId == expectedUserId;
     }
 }

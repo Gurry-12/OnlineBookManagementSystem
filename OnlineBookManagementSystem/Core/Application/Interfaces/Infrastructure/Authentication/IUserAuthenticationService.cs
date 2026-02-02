@@ -12,16 +12,16 @@ namespace OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure.
         Task<AuthenticationResult> RefreshTokenAsync(string refreshToken);
         Task<bool> ValidateTokenAsync(string token);
         Task<bool> RevokeTokenAsync(string token);
-        
+
         // Password operations
         Task<bool> ChangePasswordAsync(int userId, string currentPassword, string newPassword);
         Task<(bool Success, string Message)> ResetPasswordAsync(string email);
         Task<(bool Success, string Message)> ConfirmPasswordResetAsync(string token, string email, string newPassword);
-        
+
         // Email confirmation
         Task<(bool Success, string Message)> SendEmailConfirmationAsync(int userId);
         Task<(bool Success, string Message)> ConfirmEmailAsync(string token, string email);
-        
+
         // Account lockout
         Task<bool> LockAccountAsync(int userId, TimeSpan lockoutDuration);
         Task<bool> UnlockAccountAsync(int userId);

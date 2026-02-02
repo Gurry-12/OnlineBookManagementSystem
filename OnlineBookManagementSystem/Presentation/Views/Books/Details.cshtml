@@ -1,204 +1,356 @@
 @model OnlineBookManagementSystem.Presentation.ViewModels.Books.BookDetailsViewModel
 @{
     ViewData["Title"] = Model.Title;
-    Layout = "_UniversalLayout";
+    // Layout will be determined by role-based logic in _ViewStart.cshtml
 }
 
-@* Use the universal book details template *@
-@await Html.PartialAsync("_UniversalBookDetails", Model)
-                                            {
-                                                <i class="far fa-star text-warning"></i>
-                                            }
-                                        }
-                                    </div>
-                                    <span class="text-muted">
-                                        @if (Model.Rating.TotalReviews > 0)
-                                        {
-                                            @Model.Rating.AverageRating.ToString("F1") 
-                                            
-                                        }
-                                        else
-                                        {
-                                            <text>No reviews yet</text>
-                                        }
-                                    </span>
-                                </div>
-                            </div>
+<div class="view-book-details">
+<div class="book-details">
+    <div class="book-details__container">
+        <!-- Breadcrumb Navigation -->
+        <nav aria-label="breadcrumb" class="book-details__breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="@Model.Capabilities.BackLinkUrl">@Model.Capabilities.BackLinkText</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">@Model.Title</li>
+            </ol>
+        </nav>
 
-                            <!-- Stock Status -->
-                            @if (Model.StockQuantity > 0)
-                            {
-                                <p class="text-success mb-3"><i class="fas fa-check-circle"></i> In Stock (@Model.StockQuantity available)</p>
-                            }
-                            else
-                            {
-                                <p class="text-danger mb-3"><i class="fas fa-times-circle"></i> Out of Stock</p>
-                            }
+        <div class="book-details__layout">
+            <!-- Book Image -->
+            <div class="book-details__image-section">
+                <div class="book-details__image-card">
+                    <img src="@(Model.ImageUrl ?? Url.Content("~/images/default-book-improved.svg"))" 
+                         alt="@Model.Title by @Model.Author" 
+                         class="book-details__image">
+                    
+                    <!-- Stock Status -->
+                    <div class="book-details__stock-section">
+                        <span class="book-details__stock-badge @(Model.IsInStock ? "book-details__stock-badge--in-stock" : "book-details__stock-badge--out-of-stock")">
+                            <i class="bi bi-@(Model.IsInStock ? "check-circle" : "x-circle")"></i>
+                            @Model.StockStatus
+                        </span>
+                    </div>
+                </div>
+            </div>
 
-                            <!-- Action Buttons -->
-                            @if (User.Identity?.IsAuthenticated == true && User.IsInRole("User"))
+            <!-- Book Details -->
+            <div class="book-details__content-section">
+                <div class="book-details__header">
+                    <h1 class="book-details__title">@Model.Title</h1>
+                    <p class="book-details__author">
+                        <i class="bi bi-person-fill"></i>by <strong>@Model.Author</strong>
+                    </p>
+
+                    <!-- Category and ISBN -->
+                    <div class="book-details__meta">
+                        @if (!string.IsNullOrEmpty(Model.CategoryName))
+                        {
+                            <span class="book-details__category-badge">
+                                <i class="bi bi-tag"></i>@Model.CategoryName
+                            </span>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.ISBN))
+                        {
+                            <span class="book-details__isbn-badge">
+                                <i class="bi bi-upc"></i>ISBN: @Model.ISBN
+                            </span>
+                        }
+                    </div>
+                </div>
+
+                <!-- Price -->
+                <div class="book-details__price-section">
+                    <div class="book-details__price-header">
+                        <div class="book-details__price-info">
+                            <small class="book-details__price-label">Price</small>
+                            <h2 class="book-details__price">@Model.FormattedPrice</h2>
+                        </div>
+                        
+                        <!-- Action Buttons -->
+                        <div class="book-details__actions">
+                            <!-- User-Only Actions (Cart and Favorites) -->
+                            @if (Model.Capabilities.CanAddToCart && Model.IsInStock)
                             {
-                                <div class="d-flex gap-2 mb-3">
-                                    @if (Model.StockQuantity > 0)
-                                    {
-                                        <button class="btn btn-primary" onclick="addToCart(@Model.Id)">
-                                            <i class="fas fa-shopping-cart"></i> Add to Cart
-                                        </button>
-                                    }
-                                    <button class="btn btn-outline-secondary" onclick="toggleFavorite(@Model.Id)">
-                                        <i class="far fa-heart"></i> Add to Favorites
+                                <div class="book-details__quantity-selector">
+                                    <button class="quantity-selector__button" type="button" onclick="decrementQuantity()">
+                                        <i class="bi bi-dash"></i>
+                                    </button>
+                                    <input type="number" id="quantity" class="quantity-selector__input" value="1" min="1" max="@Model.StockQuantity">
+                                    <button class="quantity-selector__button" type="button" onclick="incrementQuantity()">
+                                        <i class="bi bi-plus"></i>
                                     </button>
                                 </div>
+                                <button class="book-details__action-button book-details__action-button--primary" onclick="addToCart(@Model.Id)">
+                                    <i class="bi bi-cart-plus"></i>Add to Cart
+                                </button>
+                            }
+                            else if (Model.Capabilities.CanAddToCart && !Model.IsInStock)
+                            {
+                                <button class="book-details__action-button" disabled>
+                                    <i class="bi bi-x-circle"></i>Out of Stock
+                                </button>
+                            }
+                            
+                            @if (Model.Capabilities.CanFavorite)
+                            {
+                                <button class="book-details__action-button book-details__action-button--favorite" onclick="toggleFavorite(@Model.Id)">
+                                    <i class="bi bi-heart@(Model.IsFavorite == true ? "-fill" : "")" id="fav-icon-@Model.Id"></i>
+                                    <span id="fav-text-@Model.Id">@(Model.IsFavorite == true ? "Remove from Favorites" : "Add to Favorites")</span>
+                                </button>
+                            }
+                            
+                            <!-- Admin Actions -->
+                            @if (Model.Capabilities.CanEdit)
+                            {
+                                <a asp-controller="Admin" asp-action="EditBook" asp-route-id="@Model.Id" class="book-details__action-button book-details__action-button--warning">
+                                    <i class="bi bi-pencil-square"></i>Edit Book
+                                </a>
+                            }
+                            
+                            @if (Model.Capabilities.CanDelete)
+                            {
+                                <button class="book-details__action-button book-details__action-button--danger" onclick="deleteBook(@Model.Id)">
+                                    <i class="bi bi-trash"></i>Delete Book
+                                </button>
+                            }
+                            
+                            <!-- Guest Login Prompt -->
+                            @if (!Model.Capabilities.IsAuthenticated)
+                            {
+                                <a asp-controller="Auth" asp-action="Login" class="book-details__action-button book-details__action-button--primary">
+                                    <i class="bi bi-box-arrow-in-right"></i>Login to Purchase
+                                </a>
+                                <a asp-controller="Auth" asp-action="Registration" class="book-details__action-button book-details__action-button--secondary">
+                                    <i class="bi bi-person-plus"></i>Sign Up
+                                </a>
                             }
                         </div>
                     </div>
-                    
-                    <!-- Description -->
-                    @if (!string.IsNullOrEmpty(Model.Description))
-                    {
-                        <div class="mt-4">
-                            <h5>Description</h5>
-                            <p class="text-muted">@Model.Description</p>
+                </div>
+
+                <!-- Description -->
+                @if (!string.IsNullOrEmpty(Model.Description))
+                {
+                    <div class="book-details__description">
+                        <h4 class="book-details__section-title">
+                            <i class="bi bi-book"></i>About This Book
+                        </h4>
+                        <p class="book-details__description-text">@Model.Description</p>
+                    </div>
+                }
+
+                <!-- Technical Details (Admin/SuperAdmin only) -->
+                @if (Model.Capabilities.CanViewTechnicalDetails)
+                {
+                    <div class="book-details__info-table">
+                        <div class="book-details__info-table-header">
+                            <h4 class="book-details__section-title">
+                                <i class="bi bi-gear"></i>Technical Details
+                            </h4>
                         </div>
-                    }
+                        <div class="book-details__info-table-body">
+                            <div class="book-details__info-row">
+                                <div class="book-details__info-label">Created:</div>
+                                <div class="book-details__info-value">@Model.FormattedCreatedAt</div>
+                            </div>
+                            <div class="book-details__info-row">
+                                <div class="book-details__info-label">Updated:</div>
+                                <div class="book-details__info-value">@Model.FormattedUpdatedAt</div>
+                            </div>
+                            <div class="book-details__info-row">
+                                <div class="book-details__info-label">Status:</div>
+                                <div class="book-details__info-value"><span class="@Model.DeletedBadgeClass">@Model.DeletedStatus</span></div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                <!-- Book Details Table -->
+                <div class="book-details__info-table">
+                    <div class="book-details__info-table-header">
+                        <h4 class="book-details__section-title">
+                            <i class="bi bi-info-circle"></i>Book Information
+                        </h4>
+                    </div>
+                    <div class="book-details__info-table-body">
+                        <div class="book-details__info-row">
+                            <div class="book-details__info-label">Author:</div>
+                            <div class="book-details__info-value">@Model.Author</div>
+                        </div>
+                        @if (!string.IsNullOrEmpty(Model.ISBN))
+                        {
+                            <div class="book-details__info-row">
+                                <div class="book-details__info-label">ISBN:</div>
+                                <div class="book-details__info-value">@Model.ISBN</div>
+                            </div>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.CategoryName))
+                        {
+                            <div class="book-details__info-row">
+                                <div class="book-details__info-label">Category:</div>
+                                <div class="book-details__info-value">@Model.CategoryName</div>
+                            </div>
+                        }
+                        <div class="book-details__info-row">
+                            <div class="book-details__info-label">Price:</div>
+                            <div class="book-details__info-value book-details__info-value--price">@Model.FormattedPrice</div>
+                        </div>
+                        <div class="book-details__info-row">
+                            <div class="book-details__info-label">Availability:</div>
+                            <div class="book-details__info-value">
+                                <span class="book-details__stock-badge @(Model.IsInStock ? "book-details__stock-badge--in-stock" : "book-details__stock-badge--out-of-stock")">
+                                    <i class="bi bi-@(Model.IsInStock ? "check-circle" : "x-circle")"></i>
+                                    @Model.StockStatus
+                                </span>
+                            </div>
+                        </div>
+                        @if (Model.PublicationDate.HasValue)
+                        {
+                            <div class="book-details__info-row">
+                                <div class="book-details__info-label">Published:</div>
+                                <div class="book-details__info-value">@Model.FormattedPublicationDate</div>
+                            </div>
+                        }
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- Reviews Section -->
-        <div class="col-lg-4">
-            <div class="card shadow-sm">
-                <div class="card-header">
-                    <h5 class="mb-0">Reviews</h5>
-                </div>
-                <div class="card-body">
-                    <!-- Review Submission Form -->
-                    @if (Model.CanReview == true)
-                    {
-                        <div class="mb-4">
-                            <h6>Write a Review</h6>
-                            <form asp-controller="Review" asp-action="Submit" method="post">
-                                <input type="hidden" name="BookId" value="@Model.Id" />
-                                
-                                <div class="mb-3">
-                                    <label class="form-label">Rating</label>
-                                    <div class="star-input" data-rating="0">
-                                        @for (int i = 1; i <= 5; i++)
-                                        {
-                                            <i class="far fa-star" data-value="@i"></i>
-                                        }
-                                    </div>
-                                    <input type="hidden" name="Rating" id="rating-input" value="0" />
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <label class="form-label">Review</label>
-                                    <textarea name="ReviewText" class="form-control" rows="4" 
-                                              placeholder="Share your thoughts about this book..." 
-                                              minlength="10" maxlength="1000" required></textarea>
-                                    <div class="form-text">10-1000 characters</div>
-                                </div>
-                                
-                                <button type="submit" class="btn btn-primary btn-sm">Submit Review</button>
-                            </form>
-                        </div>
-                    }
-                    else if (Model.Rating.HasUserReview)
-                    {
-                        <div class="mb-4">
-                            <h6>Your Review</h6>
-                            <div class="border rounded p-3">
-                                <div class="d-flex align-items-center mb-2">
-                                    <div class="star-rating me-2">
-                                        @for (int i = 1; i <= 5; i++)
-                                        {
-                                            @if (i <= Model.Rating.UserReview!.Rating)
-                                            {
-                                                <i class="fas fa-star text-warning"></i>
-                                            }
-                                            else
-                                            {
-                                                <i class="far fa-star text-warning"></i>
-                                            }
-                                        }
-                                    </div>
-                                    <small class="text-muted">@Model.Rating.UserReview.CreatedAt.ToString("MMM dd, yyyy")</small>
-                                </div>
-                                <p class="mb-2">@Model.Rating.UserReview.ReviewText</p>
-                                <div class="d-flex gap-2">
-                                    <button class="btn btn-outline-primary btn-sm" onclick="editReview(@Model.Rating.UserReview.Id)">
-                                        <i class="fas fa-edit"></i> Edit
-                                    </button>
-                                    <form asp-controller="Review" asp-action="Delete" method="post" class="d-inline">
-                                        <input type="hidden" name="id" value="@Model.Rating.UserReview.Id" />
-                                        <input type="hidden" name="bookId" value="@Model.Id" />
-                                        <button type="submit" class="btn btn-outline-danger btn-sm" 
-                                                onclick="return confirm('Are you sure you want to delete your review?')">
-                                            <i class="fas fa-trash"></i> Delete
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                    else if (User.Identity?.IsAuthenticated != true)
-                    {
-                        <div class="mb-4 text-center">
-                            <p class="text-muted">Please <a asp-controller="Auth" asp-action="Login">login</a> to write a review.</p>
-                        </div>
-                    }
-
-                    <!-- Reviews List -->
-                    <div id="reviews-container">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h6>All Reviews</h6>
-                            <div class="dropdown">
-                                <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" 
-                                        data-bs-toggle="dropdown">
-                                    Sort by
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#" onclick="loadReviews('NewestFirst')">Newest First</a></li>
-                                    <li><a class="dropdown-item" href="#" onclick="loadReviews('OldestFirst')">Oldest First</a></li>
-                                    <li><a class="dropdown-item" href="#" onclick="loadReviews('HighestRating')">Highest Rating</a></li>
-                                    <li><a class="dropdown-item" href="#" onclick="loadReviews('LowestRating')">Lowest Rating</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        
-                        <!-- Rating Filter -->
-                        <div class="mb-3">
-                            <div class="btn-group btn-group-sm" role="group">
-                                <button type="button" class="btn btn-outline-secondary active" onclick="filterByRating(null)">All</button>
-                                @for (int i = 5; i >= 1; i--)
+        @if (Model.Capabilities.CanViewReviews)
+        {
+            <div class="book-details__reviews">
+                <div class="book-details__reviews-card">
+                    <div class="book-details__reviews-header">
+                        <h5 class="book-details__reviews-title">
+                            <i class="bi bi-star"></i>Reviews & Ratings
+                        </h5>
+                    </div>
+                    <div class="book-details__reviews-body">
+                        <!-- Rating Summary -->
+                        <div class="book-details__rating-summary">
+                            <div class="book-details__star-rating">
+                                @for (int i = 1; i <= 5; i++)
                                 {
-                                    <button type="button" class="btn btn-outline-secondary" onclick="filterByRating(@i)">
-                                        @i <i class="fas fa-star"></i>
-                                    </button>
+                                    @if (i <= Math.Round(Model.Rating.AverageRating))
+                                    {
+                                        <i class="bi bi-star-fill"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="bi bi-star"></i>
+                                    }
+                                }
+                            </div>
+                            <div class="book-details__rating-info">
+                                @if (Model.Rating.TotalReviews > 0)
+                                {
+                                    <span class="book-details__rating-score">@Model.Rating.AverageRating.ToString("F1")</span>
+                                    <small class="book-details__rating-count">@Model.Rating.TotalReviews review@(Model.Rating.TotalReviews != 1 ? "s" : "")</small>
+                                }
+                                else
+                                {
+                                    <span class="book-details__rating-count">No reviews yet</span>
                                 }
                             </div>
                         </div>
 
-                        <div id="reviews-list">
-                            <!-- Reviews will be loaded here via AJAX -->
+                        <!-- Review Submission Form -->
+                        @if (Model.Capabilities.CanReview && Model.CanReview == true)
+                        {
+                            <div class="book-details__review-form">
+                                <h6 class="book-details__review-form-title">Write a Review</h6>
+                                <form asp-controller="Review" asp-action="Submit" method="post">
+                                    <input type="hidden" name="BookId" value="@Model.Id" />
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">Rating</label>
+                                        <div class="book-details__star-input" data-rating="0">
+                                            @for (int i = 1; i <= 5; i++)
+                                            {
+                                                <i class="bi bi-star" data-value="@i"></i>
+                                            }
+                                        </div>
+                                        <input type="hidden" name="Rating" id="rating-input" value="0" />
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">Review</label>
+                                        <textarea name="ReviewText" class="book-details__review-textarea" 
+                                                  placeholder="Share your thoughts about this book..." 
+                                                  minlength="10" maxlength="1000" required></textarea>
+                                        <div class="book-details__form-text">10-1000 characters</div>
+                                    </div>
+                                    
+                                    <button type="submit" class="book-details__action-button book-details__action-button--primary">Submit Review</button>
+                                </form>
+                            </div>
+                        }
+                        else if (!Model.Capabilities.IsAuthenticated)
+                        {
+                            <div class="mb-4 text-center">
+                                <p class="text-muted">Please <a asp-controller="Auth" asp-action="Login">login</a> to write a review.</p>
+                            </div>
+                        }
+
+                        <!-- Reviews List -->
+                        <div id="reviews-container">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h6>All Reviews</h6>
+                                @if (Model.Rating.TotalReviews > 0)
+                                {
+                                    <div class="dropdown">
+                                        <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" 
+                                                data-bs-toggle="dropdown">
+                                            Sort by
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="#" onclick="loadReviews('NewestFirst')">Newest First</a></li>
+                                            <li><a class="dropdown-item" href="#" onclick="loadReviews('OldestFirst')">Oldest First</a></li>
+                                            <li><a class="dropdown-item" href="#" onclick="loadReviews('HighestRating')">Highest Rating</a></li>
+                                            <li><a class="dropdown-item" href="#" onclick="loadReviews('LowestRating')">Lowest Rating</a></li>
+                                        </ul>
+                                    </div>
+                                }
+                            </div>
+                            
+                            <div id="reviews-list">
+                                @if (Model.Rating.TotalReviews == 0)
+                                {
+                                    <div class="empty-state">
+                                        <div class="empty-state__icon">
+                                            <i class="bi bi-chat-quote"></i>
+                                        </div>
+                                        <h6 class="empty-state__title">No reviews yet</h6>
+                                        <p class="empty-state__description">Be the first to share your thoughts about this book!</p>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <p class="text-muted">Reviews will be loaded here...</p>
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        }
     </div>
+</div>
 </div>
 
 @section Scripts {
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
         let currentSort = 'NewestFirst';
         let currentFilter = null;
         let currentPage = 1;
 
-        $(document).ready(function() {
-            loadReviews();
+        document.addEventListener('DOMContentLoaded', function() {
+            if (@Model.Rating.TotalReviews > 0) {
+                loadReviews();
+            }
             initializeStarInput();
         });
 
@@ -207,118 +359,426 @@
             if (ratingFilter !== undefined) currentFilter = ratingFilter;
             currentPage = page;
 
-            $.get('@Url.Action("GetBookReviews", "Review")', {
+            fetch('@Url.Action("GetBookReviews", "Review")?' + new URLSearchParams({
                 bookId: @Model.Id,
                 page: currentPage,
                 pageSize: 10,
                 sortOrder: currentSort,
                 ratingFilter: currentFilter
+            }))
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('reviews-list').innerHTML = data;
             })
-            .done(function(data) {
-                $('#reviews-list').html(data);
-            })
-            .fail(function() {
-                $('#reviews-list').html('<p class="text-danger">Error loading reviews.</p>');
+            .catch(error => {
+                document.getElementById('reviews-list').innerHTML = '<p class="text-danger">Error loading reviews.</p>';
             });
-        }
-
-        function filterByRating(rating) {
-            $('.btn-group .btn').removeClass('active');
-            if (rating === null) {
-                $('.btn-group .btn:first').addClass('active');
-            } else {
-                $(`.btn-group .btn:contains('${rating}')`).addClass('active');
-            }
-            loadReviews(null, rating, 1);
         }
 
         function initializeStarInput() {
-            $('.star-input i').on('click', function() {
-                const rating = $(this).data('value');
-                $('#rating-input').val(rating);
-                
-                $('.star-input i').removeClass('fas').addClass('far');
-                for (let i = 1; i <= rating; i++) {
-                    $(`.star-input i[data-value="${i}"]`).removeClass('far').addClass('fas');
-                }
+            const starInput = document.querySelector('.book-details__star-input');
+            if (!starInput) return;
+
+            const stars = starInput.querySelectorAll('i');
+            const ratingInput = document.getElementById('rating-input');
+
+            stars.forEach(star => {
+                star.addEventListener('click', function() {
+                    const rating = parseInt(this.dataset.value);
+                    ratingInput.value = rating;
+                    updateStars(rating);
+                });
+
+                star.addEventListener('mouseenter', function() {
+                    const rating = parseInt(this.dataset.value);
+                    updateStars(rating);
+                });
             });
 
-            $('.star-input i').on('mouseenter', function() {
-                const rating = $(this).data('value');
-                $('.star-input i').removeClass('fas').addClass('far');
-                for (let i = 1; i <= rating; i++) {
-                    $(`.star-input i[data-value="${i}"]`).removeClass('far').addClass('fas');
-                }
+            starInput.addEventListener('mouseleave', function() {
+                const currentRating = parseInt(ratingInput.value);
+                updateStars(currentRating);
             });
 
-            $('.star-input').on('mouseleave', function() {
-                const currentRating = $('#rating-input').val();
-                $('.star-input i').removeClass('fas').addClass('far');
-                for (let i = 1; i <= currentRating; i++) {
-                    $(`.star-input i[data-value="${i}"]`).removeClass('far').addClass('fas');
-                }
-            });
+            function updateStars(rating) {
+                stars.forEach((star, index) => {
+                    if (index < rating) {
+                        star.classList.remove('bi-star');
+                        star.classList.add('bi-star-fill');
+                    } else {
+                        star.classList.remove('bi-star-fill');
+                        star.classList.add('bi-star');
+                    }
+                });
+            }
         }
 
         function addToCart(bookId) {
-            const userId = @(User.Identity?.IsAuthenticated == true ? User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "null" : "null");
-            
-            if (!userId || userId === "null") {
+            if (!@Model.Capabilities.IsAuthenticated.ToString().ToLower()) {
                 window.location.href = '@Url.Action("Login", "Auth")';
                 return;
             }
 
-            $.post('@Url.Action("AddToCart", "User")', {
-                bookId: bookId,
-                quantity: 1
+            const quantity = document.getElementById('quantity')?.value || 1;
+
+            fetch('/Cart/Add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
+                },
+                body: JSON.stringify({ bookId: bookId, quantity: parseInt(quantity) })
             })
-            .done(function(response) {
-                if (response.success) {
-                    toastr.success(response.message);
-                    // Update cart count in navbar if exists
-                    if ($('#cart-count').length) {
-                        $('#cart-count').text(response.cartCount);
-                    }
-                    // Trigger cart updated event
-                    $(document).trigger('cartUpdated');
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showNotification('Book added to cart!', 'success');
+                    updateCartCount(data.cartCount);
                 } else {
-                    toastr.error(response.message);
+                    showNotification(data.message || 'Failed to add book to cart', 'error');
                 }
             })
-            .fail(function() {
-                toastr.error('Error adding item to cart');
+            .catch(error => {
+                showNotification('Error adding book to cart', 'error');
+                console.error('Error:', error);
             });
+        }
+
+        function incrementQuantity() {
+            const quantityInput = document.getElementById('quantity');
+            if (quantityInput) {
+                const currentValue = parseInt(quantityInput.value);
+                const maxValue = parseInt(quantityInput.max);
+                if (currentValue < maxValue) {
+                    quantityInput.value = currentValue + 1;
+                }
+            }
+        }
+
+        function decrementQuantity() {
+            const quantityInput = document.getElementById('quantity');
+            if (quantityInput) {
+                const currentValue = parseInt(quantityInput.value);
+                const minValue = parseInt(quantityInput.min);
+                if (currentValue > minValue) {
+                    quantityInput.value = currentValue - 1;
+                }
+            }
         }
 
         function toggleFavorite(bookId) {
-            const userId = @(User.Identity?.IsAuthenticated == true ? User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "null" : "null");
-            
-            if (!userId || userId === "null") {
+            if (!@Model.Capabilities.IsAuthenticated.ToString().ToLower()) {
                 window.location.href = '@Url.Action("Login", "Auth")';
                 return;
             }
 
-            $.post('@Url.Action("ToggleFavorite", "Books")', {
-                bookId: bookId
+            fetch('/Books/ToggleFavorite', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
+                },
+                body: JSON.stringify({ bookId: bookId })
             })
-            .done(function(response) {
-                if (response.success) {
-                    toastr.success('Favorites updated');
-                    // Toggle heart icon
-                    const heartIcon = $(`button[onclick="toggleFavorite(${bookId})"] i`);
-                    heartIcon.toggleClass('far fas');
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showNotification('Favorites updated!', 'success');
+                    // Update heart icon
+                    const heartIcon = document.querySelector(`#fav-icon-${bookId}`);
+                    const heartText = document.querySelector(`#fav-text-${bookId}`);
+                    if (heartIcon && heartText) {
+                        if (data.isFavorite) {
+                            heartIcon.classList.remove('bi-heart');
+                            heartIcon.classList.add('bi-heart-fill');
+                            heartText.textContent = 'Remove from Favorites';
+                        } else {
+                            heartIcon.classList.remove('bi-heart-fill');
+                            heartIcon.classList.add('bi-heart');
+                            heartText.textContent = 'Add to Favorites';
+                        }
+                    }
                 } else {
-                    toastr.error('Error updating favorites');
+                    showNotification(data.message || 'Failed to update favorites', 'error');
                 }
             })
-            .fail(function() {
-                toastr.error('Error updating favorites');
+            .catch(error => {
+                showNotification('Error updating favorites', 'error');
+                console.error('Error:', error);
             });
         }
 
-        function editReview(reviewId) {
-            // Implementation for edit review
-            console.log('Edit review:', reviewId);
+        function deleteBook(bookId) {
+            if (confirm('Are you sure you want to delete this book? This action cannot be undone.')) {
+                fetch(`/Admin/DeleteBook/${bookId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showNotification('Book deleted successfully!', 'success');
+                        setTimeout(() => {
+                            window.location.href = '@Model.Capabilities.BackLinkUrl';
+                        }, 1500);
+                    } else {
+                        showNotification(data.message || 'Failed to delete book', 'error');
+                    }
+                })
+                .catch(error => {
+                    showNotification('Error deleting book', 'error');
+                    console.error('Error:', error);
+                });
+            }
+        }
+
+        function updateCartCount(count) {
+            const cartBadge = document.querySelector('#cart-count');
+            if (cartBadge) {
+                cartBadge.textContent = count;
+                cartBadge.style.display = count > 0 ? 'inline' : 'none';
+            }
+        }
+
+        function showNotification(message, type) {
+            // Create toast notification
+            const toast = document.createElement('div');
+            toast.className = `alert alert-${type === 'error' ? 'danger' : type} alert-dismissible fade show position-fixed`;
+            toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+            toast.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            document.body.appendChild(toast);
+
+            // Auto remove after 3 seconds
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.parentNode.removeChild(toast);
+                }
+            }, 3000);
+        }
+  
+        let currentSort = 'NewestFirst';
+        let currentFilter = null;
+        let currentPage = 1;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (@Model.Rating.TotalReviews > 0) {
+                loadReviews();
+            }
+            initializeStarInput();
+        });
+
+        function loadReviews(sortOrder = null, ratingFilter = null, page = 1) {
+            if (sortOrder) currentSort = sortOrder;
+            if (ratingFilter !== undefined) currentFilter = ratingFilter;
+            currentPage = page;
+
+            fetch('@Url.Action("GetBookReviews", "Review")?' + new URLSearchParams({
+                bookId: @Model.Id,
+                page: currentPage,
+                pageSize: 10,
+                sortOrder: currentSort,
+                ratingFilter: currentFilter
+            }))
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('reviews-list').innerHTML = data;
+            })
+            .catch(error => {
+                document.getElementById('reviews-list').innerHTML = '<p class="text-danger">Error loading reviews.</p>';
+            });
+        }
+
+        function initializeStarInput() {
+            const starInput = document.querySelector('.star-input');
+            if (!starInput) return;
+
+            const stars = starInput.querySelectorAll('i');
+            const ratingInput = document.getElementById('rating-input');
+
+            stars.forEach(star => {
+                star.addEventListener('click', function() {
+                    const rating = parseInt(this.dataset.value);
+                    ratingInput.value = rating;
+                    updateStars(rating);
+                });
+
+                star.addEventListener('mouseenter', function() {
+                    const rating = parseInt(this.dataset.value);
+                    updateStars(rating);
+                });
+            });
+
+            starInput.addEventListener('mouseleave', function() {
+                const currentRating = parseInt(ratingInput.value);
+                updateStars(currentRating);
+            });
+
+            function updateStars(rating) {
+                stars.forEach((star, index) => {
+                    if (index < rating) {
+                        star.classList.remove('bi-star');
+                        star.classList.add('bi-star-fill');
+                    } else {
+                        star.classList.remove('bi-star-fill');
+                        star.classList.add('bi-star');
+                    }
+                });
+            }
+        }
+
+        function addToCart(bookId) {
+            if (!@Model.Capabilities.IsAuthenticated.ToString().ToLower()) {
+                window.location.href = '@Url.Action("Login", "Auth")';
+                return;
+            }
+
+            const quantity = document.getElementById('quantity')?.value || 1;
+
+            fetch('/Cart/Add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
+                },
+                body: JSON.stringify({ bookId: bookId, quantity: parseInt(quantity) })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showNotification('Book added to cart!', 'success');
+                    updateCartCount(data.cartCount);
+                } else {
+                    showNotification(data.message || 'Failed to add book to cart', 'error');
+                }
+            })
+            .catch(error => {
+                showNotification('Error adding book to cart', 'error');
+                console.error('Error:', error);
+            });
+        }
+
+        function incrementQuantity() {
+            const quantityInput = document.getElementById('quantity');
+            if (quantityInput) {
+                const currentValue = parseInt(quantityInput.value);
+                const maxValue = parseInt(quantityInput.max);
+                if (currentValue < maxValue) {
+                    quantityInput.value = currentValue + 1;
+                }
+            }
+        }
+
+        function decrementQuantity() {
+            const quantityInput = document.getElementById('quantity');
+            if (quantityInput) {
+                const currentValue = parseInt(quantityInput.value);
+                const minValue = parseInt(quantityInput.min);
+                if (currentValue > minValue) {
+                    quantityInput.value = currentValue - 1;
+                }
+            }
+        }
+
+        function toggleFavorite(bookId) {
+            if (!@Model.Capabilities.IsAuthenticated.ToString().ToLower()) {
+                window.location.href = '@Url.Action("Login", "Auth")';
+                return;
+            }
+
+            fetch('/Books/ToggleFavorite', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
+                },
+                body: JSON.stringify({ bookId: bookId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showNotification('Favorites updated!', 'success');
+                    // Update heart icon
+                    const heartIcon = document.querySelector(`#fav-icon-${bookId}`);
+                    const heartText = document.querySelector(`#fav-text-${bookId}`);
+                    if (heartIcon && heartText) {
+                        if (data.isFavorite) {
+                            heartIcon.classList.remove('bi-heart');
+                            heartIcon.classList.add('bi-heart-fill');
+                            heartText.textContent = 'Remove from Favorites';
+                        } else {
+                            heartIcon.classList.remove('bi-heart-fill');
+                            heartIcon.classList.add('bi-heart');
+                            heartText.textContent = 'Add to Favorites';
+                        }
+                    }
+                } else {
+                    showNotification(data.message || 'Failed to update favorites', 'error');
+                }
+            })
+            .catch(error => {
+                showNotification('Error updating favorites', 'error');
+                console.error('Error:', error);
+            });
+        }
+
+        function deleteBook(bookId) {
+            if (confirm('Are you sure you want to delete this book? This action cannot be undone.')) {
+                fetch(`/Admin/DeleteBook/${bookId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showNotification('Book deleted successfully!', 'success');
+                        setTimeout(() => {
+                            window.location.href = '@Model.Capabilities.BackLinkUrl';
+                        }, 1500);
+                    } else {
+                        showNotification(data.message || 'Failed to delete book', 'error');
+                    }
+                })
+                .catch(error => {
+                    showNotification('Error deleting book', 'error');
+                    console.error('Error:', error);
+                });
+            }
+        }
+
+        function updateCartCount(count) {
+            const cartBadge = document.querySelector('#cart-count');
+            if (cartBadge) {
+                cartBadge.textContent = count;
+                cartBadge.style.display = count > 0 ? 'inline' : 'none';
+            }
+        }
+
+        function showNotification(message, type) {
+            // Create toast notification
+            const toast = document.createElement('div');
+            toast.className = `alert alert-${type === 'error' ? 'danger' : type} alert-dismissible fade show position-fixed`;
+            toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+            toast.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            document.body.appendChild(toast);
+
+            // Auto remove after 3 seconds
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.parentNode.removeChild(toast);
+                }
+            }, 3000);
         }
     </script>
 }
@@ -327,6 +787,7 @@
     .star-rating i, .star-input i {
         cursor: pointer;
         font-size: 1.1em;
+        transition: color 0.2s ease;
     }
     
     .star-input i:hover {
@@ -336,9 +797,95 @@
     .card {
         border: none;
         box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        border-radius: 12px;
     }
     
-    .btn-group-sm .btn {
-        font-size: 0.75rem;
+    .price-section {
+        border-left: 4px solid var(--bs-primary);
+        border-radius: 8px;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    }
+    
+    .details-table td {
+        padding: 0.75rem 0;
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    
+    .details-table tr:last-child td {
+        border-bottom: none;
+    }
+    
+    .book-image {
+        border-radius: 12px;
+        transition: transform 0.3s ease;
+    }
+    
+    .book-image:hover {
+        transform: scale(1.02);
+    }
+    
+    .favorite-detail-btn {
+        transition: all 0.3s ease;
+        border-width: 2px;
+    }
+    
+    .favorite-detail-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+    }
+    
+    .input-group .btn {
+        border-color: #dee2e6;
+    }
+    
+    .input-group .form-control {
+        border-left: none;
+        border-right: none;
+        font-weight: 600;
+    }
+    
+    .input-group .btn:hover {
+        background-color: #e9ecef;
+        border-color: #adb5bd;
+    }
+    
+    .badge {
+        font-size: 0.85rem;
+        padding: 0.5rem 0.75rem;
+        border-radius: 8px;
+    }
+    
+    .btn-lg {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+        border-radius: 8px;
+        font-weight: 500;
+    }
+    
+    .breadcrumb-item a {
+        text-decoration: none;
+        color: var(--bs-primary);
+        transition: color 0.2s ease;
+    }
+    
+    .breadcrumb-item a:hover {
+        color: var(--bs-primary);
+        text-decoration: underline;
+    }
+    
+    @@media (max-width: 768px) {
+        .input-group {
+            max-width: 100% !important;
+            margin-bottom: 1rem;
+        }
+        
+        .d-flex.gap-2.flex-wrap {
+            flex-direction: column;
+        }
+        
+        .btn-lg {
+            width: 100%;
+            margin-bottom: 0.5rem;
+        }
     }
 </style>

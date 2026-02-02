@@ -1,0 +1,32 @@
+/* Public Theme - Neutral, Light, Welcoming */
+.theme-public {
+    /* Background Colors - Light and welcoming */
+    --color-bg: var(--public-bg-primary);
+    --color-surface: #f8fafc;
+    --color-surface-elevated: #ffffff;
+    /* Text Colors - Soft and readable */
+    --color-text: #334155;
+    --color-text-muted: #64748b;
+    --color-text-subtle: #94a3b8;
+    /* Brand Colors - Friendly blues and greens */
+    --color-primary: #0ea5e9;
+    --color-primary-hover: #0284c7;
+    --color-secondary: #06b6d4;
+    --color-accent: #10b981;
+    /* Status Colors - Gentle tones */
+    --color-success: #059669;
+    --color-success-bg: #ecfdf5;
+    --color-warning: #d97706;
+    --color-warning-bg: #fffbeb;
+    --color-danger: #dc2626;
+    --color-danger-bg: #fef2f2;
+    --color-info: #0284c7;
+    --color-info-bg: #f0f9ff;
+    /* Border Colors - Subtle */
+    --color-border: #e2e8f0;
+    --color-border-subtle: #f1f5f9;
+    --color-border-focus: #0ea5e9;
+    /* Interactive States - Light and airy */
+    --color-hover: #f1f5f9;
+    --color-active: #e2e8f0;
+}

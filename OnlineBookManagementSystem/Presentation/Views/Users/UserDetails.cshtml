@@ -1,0 +1,426 @@
+@model OnlineBookManagementSystem.Presentation.ViewModels.Users.UserDetailViewModel
+
+@{
+    ViewData["Title"] = $"User Details - {Model.User.Name}";
+}
+
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold">
+            <i class="bi bi-person me-2"></i>User Details
+        </h2>
+        
+        <div class="btn-group">
+            <a href="@Url.Action("UserManagement", "Users")" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-2"></i>Back to Users
+            </a>
+            @if (Model.Capabilities.CanEdit)
+            {
+                <button type="button" class="btn btn-outline-primary" onclick="editUser()">
+                    <i class="bi bi-pencil me-2"></i>Edit User
+                </button>
+            }
+        </div>
+    </div>
+
+    @if (Model.Capabilities.CanViewSensitiveData)
+    {
+        <div class="row g-4">
+            <!-- User Information -->
+            <div class="col-lg-8">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">
+                            <i class="bi bi-person-badge me-2"></i>User Information
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-2 text-center">
+                                <div class="avatar-large mb-3">
+                                    @Model.User.Name?.Substring(0, 1).ToUpper()
+                                </div>
+                            </div>
+                            <div class="col-md-10">
+                                <dl class="row">
+                                    <dt class="col-sm-3">Full Name:</dt>
+                                    <dd class="col-sm-9">@Model.User.Name</dd>
+                                    
+                                    <dt class="col-sm-3">Username:</dt>
+                                    <dd class="col-sm-9">@Model.User.UserName</dd>
+                                    
+                                    <dt class="col-sm-3">Email:</dt>
+                                    <dd class="col-sm-9">
+                                        @Model.User.Email
+                                        @if (Model.User.EmailConfirmed)
+                                        {
+                                            <span class="badge bg-success ms-2">Verified</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-warning ms-2">Unverified</span>
+                                        }
+                                    </dd>
+                                    
+                                    <dt class="col-sm-3">Role:</dt>
+                                    <dd class="col-sm-9">
+                                        <span class="badge @GetRoleBadgeClass(Model.User.Role) fs-6">
+                                            @Model.User.Role
+                                        </span>
+                                    </dd>
+                                    
+                                    <dt class="col-sm-3">Status:</dt>
+                                    <dd class="col-sm-9">
+                                        <span class="badge @GetStatusBadgeClass() fs-6">
+                                            @GetUserStatus()
+                                        </span>
+                                    </dd>
+                                    
+                                    <dt class="col-sm-3">Created:</dt>
+                                    <dd class="col-sm-9">
+                                        @Model.User.CreatedAt.ToString("dddd, MMMM dd, yyyy 'at' HH:mm:ss")
+                                    </dd>
+                                    
+                                    <dt class="col-sm-3">Last Login:</dt>
+                                    <dd class="col-sm-9">
+                                        @if (Model.User.LastLoginDate.HasValue)
+                                        {
+                                            <span>@Model.User.LastLoginDate.Value.ToString("dddd, MMMM dd, yyyy 'at' HH:mm:ss")</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted fst-italic">Never logged in</span>
+                                        }
+                                    </dd>
+                                    
+                                    <dt class="col-sm-3">Last Activity:</dt>
+                                    <dd class="col-sm-9">
+                                        @if (Model.LastActivity.HasValue)
+                                        {
+                                            <span>@Model.LastActivity.Value.ToString("dddd, MMMM dd, yyyy 'at' HH:mm:ss")</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted fst-italic">No recent activity</span>
+                                        }
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Activity Summary -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">
+                            <i class="bi bi-graph-up me-2"></i>Activity Summary
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <div class="text-center">
+                                    <i class="bi bi-cart fs-2 text-primary"></i>
+                                    <h4 class="mt-2">@Model.TotalOrders</h4>
+                                    <small class="text-muted">Total Orders</small>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="text-center">
+                                    <i class="bi bi-chat-square-text fs-2 text-success"></i>
+                                    <h4 class="mt-2">@Model.TotalReviews</h4>
+                                    <small class="text-muted">Reviews Written</small>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="text-center">
+                                    <i class="bi bi-heart fs-2 text-danger"></i>
+                                    <h4 class="mt-2">@Model.FavoriteBooks</h4>
+                                    <small class="text-muted">Favorite Books</small>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="text-center">
+                                    <i class="bi bi-calendar-event fs-2 text-info"></i>
+                                    <h4 class="mt-2">@((DateTime.Now - Model.User.CreatedAt).Days)</h4>
+                                    <small class="text-muted">Days Active</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                @if (Model.RecentActivity.Any())
+                {
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">
+                                <i class="bi bi-clock-history me-2"></i>Recent Activity
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="list-group list-group-flush">
+                                @foreach (var activity in Model.RecentActivity.Take(10))
+                                {
+                                    <div class="list-group-item border-0 px-0">
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <div>
+                                                <span class="badge @GetActionBadgeClass(activity.ActionType) me-2">
+                                                    @activity.ActionType
+                                                </span>
+                                                <span>@activity.Description</span>
+                                            </div>
+                                            <small class="text-muted">@GetTimeAgo(activity.Timestamp)</small>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <!-- Quick Actions -->
+                @if (Model.Capabilities.CanEdit || Model.Capabilities.CanChangeRoles || Model.Capabilities.CanLockUnlock)
+                {
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h6 class="card-title mb-0">
+                                <i class="bi bi-lightning me-2"></i>Quick Actions
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-grid gap-2">
+                                @if (Model.Capabilities.CanChangeRoles)
+                                {
+                                    <button class="btn btn-outline-warning btn-sm" onclick="changeRole()">
+                                        <i class="bi bi-shield me-2"></i>Change Role
+                                    </button>
+                                }
+                                
+                                @if (Model.Capabilities.CanLockUnlock)
+                                {
+                                    @if (Model.User.LockoutEnd > DateTimeOffset.UtcNow)
+                                    {
+                                        <button class="btn btn-outline-success btn-sm" onclick="unlockUser()">
+                                            <i class="bi bi-unlock me-2"></i>Unlock User
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-outline-warning btn-sm" onclick="lockUser()">
+                                            <i class="bi bi-lock me-2"></i>Lock User
+                                        </button>
+                                    }
+                                }
+                                
+                                @if (!Model.User.EmailConfirmed && Model.Capabilities.CanEdit)
+                                {
+                                    <button class="btn btn-outline-info btn-sm" onclick="confirmEmail()">
+                                        <i class="bi bi-envelope-check me-2"></i>Confirm Email
+                                    </button>
+                                }
+                                
+                                <button class="btn btn-outline-primary btn-sm" onclick="sendPasswordReset()">
+                                    <i class="bi bi-key me-2"></i>Send Password Reset
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                <!-- Role History -->
+                @if (Model.RoleHistory.Any() && Model.Capabilities.CanViewSensitiveData)
+                {
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="card-title mb-0">
+                                <i class="bi bi-shield-check me-2"></i>Role History
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="timeline">
+                                @foreach (var change in Model.RoleHistory.Take(5))
+                                {
+                                    <div class="timeline-item">
+                                        <div class="timeline-marker"></div>
+                                        <div class="timeline-content">
+                                            <div class="d-flex justify-content-between">
+                                                <span class="fw-medium">@change.FromRole → @change.ToRole</span>
+                                                <small class="text-muted">@change.ChangedAt.ToString("MMM dd")</small>
+                                            </div>
+                                            <small class="text-muted">by @change.ChangedBy</small>
+                                            @if (!string.IsNullOrEmpty(change.Reason))
+                                            {
+                                                <div class="mt-1">
+                                                    <small class="text-info">@change.Reason</small>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning">
+            <i class="bi bi-exclamation-triangle me-2"></i>
+            You don't have permission to view user details.
+        </div>
+    }
+</div>
+
+@section Styles {
+    <style>
+        .avatar-large {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #007bff, #6610f2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 2rem;
+            margin: 0 auto;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 20px;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        .timeline-marker {
+            position: absolute;
+            left: -25px;
+            top: 5px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #007bff;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: -21px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #dee2e6;
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        function editUser() {
+            // Implementation for editing user
+            alert('Edit user functionality would be implemented here');
+        }
+
+        function changeRole() {
+            const currentRole = '@Model.User.Role';
+            const newRole = prompt(`Change role for user (current: ${currentRole}):`, currentRole);
+            if (newRole && newRole !== currentRole) {
+                // Implementation for changing role
+                alert(`Would change role from ${currentRole} to ${newRole}`);
+            }
+        }
+
+        function lockUser() {
+            if (confirm('Are you sure you want to lock this user?')) {
+                // Implementation for locking user
+                alert('Would lock user');
+            }
+        }
+
+        function unlockUser() {
+            if (confirm('Are you sure you want to unlock this user?')) {
+                // Implementation for unlocking user
+                alert('Would unlock user');
+            }
+        }
+
+        function confirmEmail() {
+            if (confirm('Are you sure you want to manually confirm this user\'s email?')) {
+                // Implementation for confirming email
+                alert('Would confirm email');
+            }
+        }
+
+        function sendPasswordReset() {
+            if (confirm('Send password reset email to this user?')) {
+                // Implementation for sending password reset
+                alert('Would send password reset email');
+            }
+        }
+    </script>
+}
+
+@functions {
+    private string GetRoleBadgeClass(string role) => role switch
+    {
+        "SuperAdmin" => "bg-danger",
+        "Admin" => "bg-warning text-dark",
+        "User" => "bg-primary",
+        _ => "bg-secondary"
+    };
+
+    private string GetUserStatus()
+    {
+        if (Model.User.IsDeleted) return "Deleted";
+        if (Model.User.LockoutEnd > DateTimeOffset.UtcNow) return "Locked";
+        if (!Model.User.EmailConfirmed) return "Unverified";
+        return "Active";
+    }
+
+    private string GetStatusBadgeClass()
+    {
+        var status = GetUserStatus();
+        return status switch
+        {
+            "Active" => "bg-success",
+            "Unverified" => "bg-warning",
+            "Locked" => "bg-danger",
+            "Deleted" => "bg-secondary",
+            _ => "bg-secondary"
+        };
+    }
+
+    private string GetActionBadgeClass(string actionType) => actionType?.ToLower() switch
+    {
+        "login" => "bg-success",
+        "logout" => "bg-secondary", 
+        "create" or "add" => "bg-primary",
+        "update" or "edit" => "bg-warning text-dark",
+        "delete" or "remove" => "bg-danger",
+        "view" or "read" => "bg-info",
+        _ => "bg-secondary"
+    };
+
+    private string GetTimeAgo(DateTime timestamp)
+    {
+        var span = DateTime.Now.Subtract(timestamp);
+        if (span.TotalMinutes < 1) return "Just now";
+        if (span.TotalMinutes < 60) return $"{(int)span.TotalMinutes}m ago";
+        if (span.TotalHours < 24) return $"{(int)span.TotalHours}h ago";
+        if (span.TotalDays < 7) return $"{(int)span.TotalDays}d ago";
+        return timestamp.ToString("MMM dd");
+    }
+}

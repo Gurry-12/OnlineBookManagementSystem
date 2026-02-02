@@ -89,11 +89,11 @@ namespace OnlineBookManagementSystem.Presentation.Helpers
         {
             if (IsAjaxRequest(request))
             {
-                return controller.Json(new 
-                { 
-                    success = false, 
-                    message, 
-                    errors 
+                return controller.Json(new
+                {
+                    success = false,
+                    message,
+                    errors
                 });
             }
 

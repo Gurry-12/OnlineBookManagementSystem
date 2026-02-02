@@ -1,6 +1,5 @@
-using OnlineBookManagementSystem.Infrastructure.Data.Context;
-using OnlineBookManagementSystem.Presentation.ViewModels.Activity;
 using OnlineBookManagementSystem.Core.Domain.Entities;
+using OnlineBookManagementSystem.Presentation.ViewModels.Activity;
 
 namespace OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure.Logging
 {

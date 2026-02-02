@@ -17,10 +17,10 @@ namespace OnlineBookManagementSystem.Core.Application.Interfaces.Repositories.Bo
         Task<IEnumerable<Book>> GetLowStockBooksAsync(CancellationToken cancellationToken = default);
         Task<IEnumerable<Book>> SearchBooksAsync(string searchTerm, CancellationToken cancellationToken = default);
         Task<(IEnumerable<Book> Books, int TotalCount)> GetPagedBooksAsync(
-            int page, 
-            int pageSize, 
-            string? searchTerm = null, 
-            int? categoryId = null, 
+            int page,
+            int pageSize,
+            string? searchTerm = null,
+            int? categoryId = null,
             string? sortBy = null,
             CancellationToken cancellationToken = default);
     }

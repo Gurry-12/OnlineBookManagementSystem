@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure.Logging;
 using OnlineBookManagementSystem.Core.Domain.Entities;
 using OnlineBookManagementSystem.Infrastructure.Data.Context;
 using OnlineBookManagementSystem.Presentation.ViewModels.Activity;
-using OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure.Logging;
 
 namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Logging
 {

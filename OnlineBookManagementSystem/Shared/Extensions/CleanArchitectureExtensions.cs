@@ -30,7 +30,7 @@ namespace OnlineBookManagementSystem.Shared.Extensions
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ICartRepository, CartRepository>();
             services.AddScoped<IAnalyticsRepository, AnalyticsRepository>();
-            
+
             // Scoped: Unit of Work manages database transactions per request
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
@@ -46,7 +46,6 @@ namespace OnlineBookManagementSystem.Shared.Extensions
             services.AddScoped<ICreateBookUseCase, CreateBookUseCase>();
             services.AddScoped<IGetBookByIdUseCase, GetBookByIdUseCase>();
             services.AddScoped<ISearchBooksUseCase, SearchBooksUseCase>();
-            services.AddScoped<IAdvancedBookSearchUseCase, AdvancedBookSearchUseCase>();
 
             return services;
         }

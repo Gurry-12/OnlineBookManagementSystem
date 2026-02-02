@@ -1,11 +1,10 @@
 using OnlineBookManagementSystem.Core.Domain.Entities;
-using OnlineBookManagementSystem.Presentation.ViewModels.User;
 
 namespace OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Books
 {
     /// <summary>
     /// Service interface for book write operations and commands
-    /// Follows SRP - Only handles book CRUD, not favorites
+    /// Follows SRP - Only handles book CRUD operations
     /// </summary>
     public interface IBookCommandService
     {
@@ -16,8 +15,5 @@ namespace OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Books
 
         // Image handling
         Task<string?> SaveImageAsync(IFormFile image, string bookId);
-
-        // User profile management
-        Task<bool> UpdateUserProfileAsync(int userId, UserProfileViewModel model);
     }
 }

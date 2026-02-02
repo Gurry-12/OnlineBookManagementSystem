@@ -37,9 +37,9 @@ namespace OnlineBookManagementSystem.Core.Application.UseCases.Books
             if (categoryIds.Any())
             {
                 var categoryEntities = await _unitOfWork.Categories.FindAsync(
-                    c => categoryIds.Contains(c.Id) && !c.IsDeleted, 
+                    c => categoryIds.Contains(c.Id) && !c.IsDeleted,
                     cancellationToken);
-                
+
                 categories = categoryEntities.ToDictionary(c => c.Id, c => c.Name);
             }
 
@@ -56,8 +56,8 @@ namespace OnlineBookManagementSystem.Core.Application.UseCases.Books
                 book.LowStockThreshold,
                 book.Description,
                 book.CategoryId,
-                book.CategoryId.HasValue && categories.ContainsKey(book.CategoryId.Value) 
-                    ? categories[book.CategoryId.Value] 
+                book.CategoryId.HasValue && categories.ContainsKey(book.CategoryId.Value)
+                    ? categories[book.CategoryId.Value]
                     : null,
                 book.IsFeatured,
                 book.AverageRating,

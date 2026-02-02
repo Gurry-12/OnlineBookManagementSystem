@@ -15,7 +15,7 @@ public class CheckOutViewModel
     public int Shipping { get; set; }
     public decimal GrandTotal { get; set; }
     public int UserId { get; set; }
-    
+
     // Extended address fields
     public string FullName { get; set; } = string.Empty;
     public string ShippingAddress { get; set; } = string.Empty;

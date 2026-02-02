@@ -1,0 +1,277 @@
+/**
+ * Component: Book List Component
+ * Purpose: Book list page layout, grid, header, pagination
+ * Uses: core/variables.css tokens only
+ * BEM Methodology: .book-list__element--modifier
+ */
+
+/* ========================================
+   BLOCK: book-list
+   ======================================== */
+
+.book-list {
+    padding: var(--space-4) 0;
+    min-height: 100vh;
+}
+
+.book-list__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-4);
+}
+
+/* ========================================
+   ELEMENT: book-list__header
+   ======================================== */
+
+.book-list__header {
+    margin-bottom: var(--space-6);
+}
+
+.book-list__header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--space-4);
+}
+
+.book-list__title-section {
+    flex: 1;
+}
+
+.book-list__title {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-gray-900);
+    margin: 0 0 var(--space-2) 0;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.book-list__subtitle {
+    font-size: var(--font-size-base);
+    color: var(--color-gray-600);
+    margin: 0;
+}
+
+/* ========================================
+   ELEMENT: book-list__grid
+   ======================================== */
+
+.book-list__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--space-6);
+    margin-bottom: var(--space-8);
+}
+
+/* ========================================
+   ELEMENT: book-list__pagination
+   ======================================== */
+
+.book-list__pagination {
+    margin-top: var(--space-8);
+    padding-top: var(--space-6);
+    border-top: var(--border-width) solid var(--color-gray-200);
+}
+
+.book-list__pagination .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.book-list__pagination .page-item {
+    display: flex;
+}
+
+.book-list__pagination .page-link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-2) var(--space-3);
+    border: var(--border-width) solid var(--color-gray-300);
+    border-radius: var(--radius-md);
+    background: var(--color-white);
+    color: var(--color-gray-700);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+    cursor: pointer;
+    min-width: 40px;
+    justify-content: center;
+}
+
+.book-list__pagination .page-link:hover {
+    background: var(--color-gray-50);
+    border-color: var(--color-gray-400);
+    color: var(--color-gray-900);
+    text-decoration: none;
+}
+
+.book-list__pagination .page-item.active .page-link {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--color-white);
+}
+
+.book-list__pagination .page-item.active .page-link:hover {
+    background: var(--color-primary-dark);
+    border-color: var(--color-primary-dark);
+    color: var(--color-white);
+}
+
+.book-list__pagination .page-item.disabled .page-link {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-200);
+    color: var(--color-gray-400);
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 1024px) {
+    .book-list__grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: var(--space-5);
+    }
+}
+
+@media (max-width: 768px) {
+    .book-list__container {
+        padding: 0 var(--space-3);
+    }
+    
+    .book-list__header-content {
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--space-4);
+    }
+    
+    .book-list__title {
+        font-size: var(--font-size-2xl);
+    }
+    
+    .book-list__grid {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: var(--space-4);
+    }
+    
+    .book-list__pagination .page-link {
+        padding: var(--space-2);
+        font-size: var(--font-size-xs);
+        min-width: 36px;
+    }
+}
+
+@media (max-width: 480px) {
+    .book-list {
+        padding: var(--space-3) 0;
+    }
+    
+    .book-list__container {
+        padding: 0 var(--space-2);
+    }
+    
+    .book-list__title {
+        font-size: var(--font-size-xl);
+    }
+    
+    .book-list__grid {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: var(--space-3);
+    }
+    
+    .book-list__pagination {
+        margin-top: var(--space-6);
+        padding-top: var(--space-4);
+    }
+    
+    .book-list__pagination .pagination {
+        flex-wrap: wrap;
+        gap: var(--space-1);
+    }
+    
+    .book-list__pagination .page-link {
+        padding: var(--space-1) var(--space-2);
+        min-width: 32px;
+    }
+}
+
+/* ========================================
+   LOADING STATE
+   ======================================== */
+
+.book-list--loading .book-list__grid {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.book-list--loading .book-card {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* ========================================
+   EMPTY STATE INTEGRATION
+   ======================================== */
+
+.book-list .empty-state {
+    margin: var(--space-12) 0;
+    text-align: center;
+}
+
+.book-list .empty-state__icon {
+    font-size: 4rem;
+    color: var(--color-gray-400);
+    margin-bottom: var(--space-4);
+}
+
+.book-list .empty-state__title {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-gray-700);
+    margin-bottom: var(--space-3);
+}
+
+.book-list .empty-state__description {
+    font-size: var(--font-size-base);
+    color: var(--color-gray-600);
+    line-height: var(--line-height-relaxed);
+    margin-bottom: var(--space-4);
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.book-list .empty-state__link {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: var(--font-weight-medium);
+}
+
+.book-list .empty-state__link:hover {
+    color: var(--color-primary-dark);
+    text-decoration: underline;
+}
+
+.book-list .empty-state__action {
+    margin-top: var(--space-4);
+}

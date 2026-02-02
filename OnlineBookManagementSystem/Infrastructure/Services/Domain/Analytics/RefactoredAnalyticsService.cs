@@ -29,7 +29,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Analytics
             {
                 var currentYear = DateTime.Now.Year;
                 var data = await _analyticsRepository.GetMonthlyBookUploadsAsync(currentYear);
-                
+
                 return data.Select(kvp => new MonthlyBookUploadViewModel
                 {
                     Month = kvp.Key,
@@ -49,7 +49,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Analytics
             try
             {
                 var data = await _analyticsRepository.GetCategoryDistributionAsync();
-                
+
                 return data.Select(kvp => new CategoryBookCountViewModel
                 {
                     CategoryName = kvp.Key,
@@ -68,7 +68,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Analytics
             try
             {
                 var data = await _analyticsRepository.GetAuthorBookCountAsync();
-                
+
                 return data.Select(kvp => new AuthorBookCountViewModel
                 {
                     AuthorName = kvp.Key,
@@ -87,7 +87,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Analytics
             try
             {
                 var data = await _analyticsRepository.GetFavoriteStatsAsync();
-                
+
                 return new FavoriteStatsViewModel
                 {
                     FavoriteData = data,
@@ -109,7 +109,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Analytics
                 var currentYear = DateTime.Now.Year;
                 var monthlyRevenue = await _analyticsRepository.GetMonthlyRevenueAsync(currentYear);
                 var monthlyBooks = await _analyticsRepository.GetMonthlyBookUploadsAsync(currentYear);
-                
+
                 return new AdminMonthlyStatsViewModel
                 {
                     Year = currentYear,

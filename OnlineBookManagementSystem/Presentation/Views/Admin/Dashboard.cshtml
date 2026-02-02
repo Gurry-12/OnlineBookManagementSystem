@@ -4,18 +4,19 @@
 }
 @model OnlineBookManagementSystem.Presentation.ViewModels.Admin.AdminDashboardViewModel;
 
-<div class="container-fluid py-4">
+<div class="view-admin-dashboard">
+<div class="dashboard-grid dashboard-grid--admin">
     <!-- Stats Section -->
     <div class="row g-3 mb-4">
         <div class="col-xl-3 col-md-6">
-            <div class="card stats-card books-card">
-                <div class="card-body text-center p-3">
-                    <div class="stats-icon">
+            <div class="stats-card stats-card--books">
+                <div class="stats-card__body">
+                    <div class="stats-card__icon">
                         <i class="bi bi-book"></i>
                     </div>
-                    <h3 class="stats-number">@Model.TotalBooks</h3>
-                    <p class="stats-label">Total Books</p>
-                    <a asp-action="Books" class="btn btn-primary btn-sm">
+                    <h3 class="stats-card__number">@Model.TotalBooks</h3>
+                    <p class="stats-card__label">Total Books</p>
+                    <a asp-action="Books" class="stats-card__action">
                         <i class="bi bi-arrow-right me-1"></i>Manage Books
                     </a>
                 </div>
@@ -23,14 +24,14 @@
         </div>
         
         <div class="col-xl-3 col-md-6">
-            <div class="card stats-card categories-card">
-                <div class="card-body text-center p-3">
-                    <div class="stats-icon">
+            <div class="stats-card stats-card--categories">
+                <div class="stats-card__body">
+                    <div class="stats-card__icon">
                         <i class="bi bi-tags"></i>
                     </div>
-                    <h3 class="stats-number">@Model.TotalCategories</h3>
-                    <p class="stats-label">Categories</p>
-                    <a asp-action="CategoryManagement" class="btn btn-primary btn-sm">
+                    <h3 class="stats-card__number">@Model.TotalCategories</h3>
+                    <p class="stats-card__label">Categories</p>
+                    <a asp-action="CategoryManagement" class="stats-card__action">
                         <i class="bi bi-arrow-right me-1"></i>Manage Categories
                     </a>
                 </div>
@@ -38,14 +39,14 @@
         </div>
         
         <div class="col-xl-3 col-md-6">
-            <div class="card stats-card users-card">
-                <div class="card-body text-center p-3">
-                    <div class="stats-icon">
+            <div class="stats-card stats-card--users">
+                <div class="stats-card__body">
+                    <div class="stats-card__icon">
                         <i class="bi bi-people"></i>
                     </div>
-                    <h3 class="stats-number">@Model.TotalUsers</h3>
-                    <p class="stats-label">Total Users</p>
-                    <a asp-action="UserList" class="btn btn-primary btn-sm">
+                    <h3 class="stats-card__number">@Model.TotalUsers</h3>
+                    <p class="stats-card__label">Total Users</p>
+                    <a asp-action="UserList" class="stats-card__action">
                         <i class="bi bi-arrow-right me-1"></i>Manage Users
                     </a>
                 </div>
@@ -53,16 +54,175 @@
         </div>
         
         <div class="col-xl-3 col-md-6">
-            <div class="card stats-card orders-card">
-                <div class="card-body text-center p-3">
-                    <div class="stats-icon">
+            <div class="stats-card stats-card--orders">
+                <div class="stats-card__body">
+                    <div class="stats-card__icon">
                         <i class="bi bi-cart-check"></i>
                     </div>
-                    <h3 class="stats-number">@Model.TotalOrders</h3>
-                    <p class="stats-label">Total Orders</p>
-                    <a asp-controller="Order" asp-action="AdminIndex" class="btn btn-primary btn-sm">
+                    <h3 class="stats-card__number">@Model.TotalOrders</h3>
+                    <p class="stats-card__label">Total Orders</p>
+                    <a asp-action="OrderManagement" class="stats-card__action">
                         <i class="bi bi-arrow-right me-1"></i>View Orders
                     </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Featured Content Carousel -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="bi bi-star me-2"></i>Featured Content
+                        <span class="badge bg-primary ms-2">Highlights</span>
+                    </h5>
+                </div>
+                <div class="card-body p-0">
+                    <div id="adminCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#adminCarousel" data-bs-slide-to="0" class="active"></button>
+                            <button type="button" data-bs-target="#adminCarousel" data-bs-slide-to="1"></button>
+                            <button type="button" data-bs-target="#adminCarousel" data-bs-slide-to="2"></button>
+                            <button type="button" data-bs-target="#adminCarousel" data-bs-slide-to="3"></button>
+                        </div>
+                        <div class="carousel-inner">
+                            <!-- Slide 1: Recent Books -->
+                            <div class="carousel-item active">
+                                <div class="carousel-slide-content">
+                                    <div class="carousel-text">
+                                        <h4 class="carousel-title">
+                                            <i class="bi bi-book-half text-primary me-2"></i>
+                                            Recent Book Additions
+                                        </h4>
+                                        <p class="carousel-description">
+                                            Stay updated with the latest books added to your catalog. Monitor new arrivals and ensure quality content for your users.
+                                        </p>
+                                        <div class="carousel-stats">
+                                            <span class="badge bg-success me-2">
+                                                <i class="bi bi-plus-circle me-1"></i>@Model.RecentBooksCount New This Week
+                                            </span>
+                                            <span class="badge bg-info">
+                                                <i class="bi bi-eye me-1"></i>@Model.TotalBooks Total Books
+                                            </span>
+                                        </div>
+                                        <a asp-action="Books" class="btn btn-primary mt-3">
+                                            <i class="bi bi-arrow-right me-2"></i>Manage Books
+                                        </a>
+                                    </div>
+                                    <div class="carousel-visual">
+                                        <div class="feature-icon-large">
+                                            <i class="bi bi-collection text-primary"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Slide 2: User Activity -->
+                            <div class="carousel-item">
+                                <div class="carousel-slide-content">
+                                    <div class="carousel-text">
+                                        <h4 class="carousel-title">
+                                            <i class="bi bi-people text-success me-2"></i>
+                                            User Engagement
+                                        </h4>
+                                        <p class="carousel-description">
+                                            Track user activity and engagement metrics. Monitor registrations, active users, and platform growth.
+                                        </p>
+                                        <div class="carousel-stats">
+                                            <span class="badge bg-success me-2">
+                                                <i class="bi bi-person-plus me-1"></i>@Model.NewUsersThisWeek New Users
+                                            </span>
+                                            <span class="badge bg-warning">
+                                                <i class="bi bi-activity me-1"></i>@Model.ActiveUsersToday Active Today
+                                            </span>
+                                        </div>
+                                        <a asp-action="UserList" class="btn btn-success mt-3">
+                                            <i class="bi bi-arrow-right me-2"></i>View Users
+                                        </a>
+                                    </div>
+                                    <div class="carousel-visual">
+                                        <div class="feature-icon-large">
+                                            <i class="bi bi-graph-up-arrow text-success"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Slide 3: Order Management -->
+                            <div class="carousel-item">
+                                <div class="carousel-slide-content">
+                                    <div class="carousel-text">
+                                        <h4 class="carousel-title">
+                                            <i class="bi bi-cart-check text-warning me-2"></i>
+                                            Order Management
+                                        </h4>
+                                        <p class="carousel-description">
+                                            Monitor and manage customer orders efficiently. Track pending orders, revenue, and fulfillment status.
+                                        </p>
+                                        <div class="carousel-stats">
+                                            <span class="badge bg-warning me-2">
+                                                <i class="bi bi-clock me-1"></i>@Model.PendingOrders Pending
+                                            </span>
+                                            <span class="badge bg-success">
+                                                <i class="bi bi-currency-dollar me-1"></i>@Model.TotalRevenue.ToString("C") Revenue
+                                            </span>
+                                        </div>
+                                        <a asp-action="OrderManagement" class="btn btn-warning mt-3">
+                                            <i class="bi bi-arrow-right me-2"></i>Manage Orders
+                                        </a>
+                                    </div>
+                                    <div class="carousel-visual">
+                                        <div class="feature-icon-large">
+                                            <i class="bi bi-bag-check text-warning"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Slide 4: Analytics & Reports -->
+                            <div class="carousel-item">
+                                <div class="carousel-slide-content">
+                                    <div class="carousel-text">
+                                        <h4 class="carousel-title">
+                                            <i class="bi bi-bar-chart text-info me-2"></i>
+                                            Analytics & Insights
+                                        </h4>
+                                        <p class="carousel-description">
+                                            Access comprehensive analytics and reports. Make data-driven decisions with detailed insights and trends.
+                                        </p>
+                                        <div class="carousel-stats">
+                                            <span class="badge bg-info me-2">
+                                                <i class="bi bi-graph-up me-1"></i>Growth Tracking
+                                            </span>
+                                            <span class="badge bg-primary">
+                                                <i class="bi bi-clipboard-data me-1"></i>Detailed Reports
+                                            </span>
+                                        </div>
+                                        <a asp-controller="Analytics" asp-action="BooksAnalytics" class="btn btn-info mt-3">
+                                            <i class="bi bi-arrow-right me-2"></i>View Analytics
+                                        </a>
+                                    </div>
+                                    <div class="carousel-visual">
+                                        <div class="feature-icon-large">
+                                            <i class="bi bi-pie-chart text-info"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Carousel Controls -->
+                        <button class="carousel-control-prev" type="button" data-bs-target="#adminCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#adminCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -186,7 +346,7 @@
                                     </a>
                                 </div>
                                 <div class="col-6">
-                                    <a asp-controller="Order" asp-action="AdminIndex" class="btn btn-outline-primary w-100 quick-action-btn">
+                                    <a asp-action="OrderManagement" class="btn btn-outline-primary w-100 quick-action-btn">
                                         <i class="bi bi-cart-check d-block mb-2"></i>
                                         <span>View Orders</span>
                                     </a>
@@ -219,174 +379,11 @@
         </div>
     </div>
 </div>
+</div>
 
 @await Html.PartialAsync("_Notification")
 
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="~/js/books/ChartsAdmin.js"></script>
-   
-}
-
-@section Styles {
-    <style>
-        /* ===== CONSISTENT STATS CARDS ===== */
-        .stats-card {
-            transition: all 0.3s ease;
-            border-left: 4px solid transparent;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-        
-        .stats-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-        
-        .books-card {
-            border-left-color: #10b981;
-        }
-        
-        .categories-card {
-            border-left-color: #3b82f6;
-        }
-        
-        .users-card {
-            border-left-color: #f59e0b;
-        }
-        
-        .orders-card {
-            border-left-color: #ef4444;
-        }
-        
-        /* ===== CONSISTENT TYPOGRAPHY ===== */
-        .stats-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: #6366f1;
-        }
-        
-        .stats-number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #1f2937;
-            margin-bottom: 0.5rem;
-        }
-        
-        .stats-label {
-            color: #6b7280;
-            font-weight: 500;
-            margin-bottom: 1rem;
-        }
-        
-        /* ===== CONSISTENT QUICK ACTIONS ===== */
-        .quick-action-btn {
-            display: block;
-            text-decoration: none;
-            color: inherit;
-            height: 100px;
-            text-align: center;
-            padding: 1rem;
-            transition: all 0.3s ease;
-        }
-        
-        .quick-action-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            text-decoration: none;
-        }
-        
-        .quick-action-btn i {
-            font-size: 1.5rem;
-        }
-        
-        .quick-action-btn span {
-            font-weight: 500;
-            font-size: 0.9rem;
-        }
-        
-        /* ===== CONSISTENT CHARTS ===== */
-        .chart-container {
-            position: relative;
-            height: 250px;
-        }
-        
-        .chart-title {
-            color: #374151;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-        
-        /* ===== CONSISTENT ACTIVITY LIST ===== */
-        .activity-list {
-            max-height: 400px;
-            overflow-y: auto;
-        }
-        
-        .activity-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
-            padding: 0.75rem 0;
-            border-bottom: 1px solid #e5e7eb;
-            transition: all 0.3s ease;
-        }
-        
-        .activity-item:last-child {
-            border-bottom: none;
-        }
-        
-        .activity-item:hover {
-            background-color: #f9fafb;
-            border-radius: 4px;
-            padding-left: 0.5rem;
-            padding-right: 0.5rem;
-        }
-        
-        .activity-icon {
-            flex-shrink: 0;
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #f3f4f6;
-            border-radius: 50%;
-        }
-        
-        .activity-content {
-            flex: 1;
-        }
-        
-        .activity-description {
-            margin: 0;
-            font-size: 0.9rem;
-            color: #1f2937;
-        }
-        
-        .activity-time {
-            color: #6b7280;
-            font-size: 0.8rem;
-        }
-        
-        .activity-badge {
-            flex-shrink: 0;
-        }
-        
-        /* ===== CARD IMPROVEMENTS ===== */
-        .card {
-            border: none;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-        }
-        
-        .card-header {
-            background-color: #f8f9fa;
-            border-bottom: 1px solid #e9ecef;
-            font-weight: 600;
-        }
-        
-       
-    </style>
 }

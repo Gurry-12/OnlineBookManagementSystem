@@ -11,7 +11,7 @@ public interface IBookAnalyticsService
     Task<List<AuthorBookCountViewModel>> GetBooksByAuthorAsync();
     Task<FavoriteStatsViewModel> GetFavoriteStatsAsync();
     Task<AdminMonthlyStatsViewModel> GetMonthlyStatsAsync();
-    
+
     // Additional methods for SuperAdmin analytics
     Task<List<UserGrowthDataViewModel>> GetUserGrowthDataAsync();
     Task<List<RevenueGrowthDataViewModel>> GetRevenueGrowthDataAsync();

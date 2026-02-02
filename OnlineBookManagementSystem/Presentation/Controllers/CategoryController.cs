@@ -1,12 +1,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Categories;
 using OnlineBookManagementSystem.Core.Domain.Entities;
 using OnlineBookManagementSystem.Infrastructure.Data.Context;
-using OnlineBookManagementSystem.Presentation.ViewModels.Books;
-using OnlineBookManagementSystem.Presentation.ViewModels.Shared;
+using OnlineBookManagementSystem.Presentation.ViewModels.Categories;
 using System.Security.Claims;
-using OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Categories;
 
 namespace OnlineBookManagementSystem.Presentation.Controllers
 {
@@ -15,26 +13,61 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
     {
         private readonly BookManagementContext _context;
         private readonly ICategoryInterface _categoryInterface;
+        private readonly ICategoryInterface _categoryService;
 
         public CategoryController(BookManagementContext context, ICategoryInterface categoryInterface)
         {
             _context = context;
             _categoryInterface = categoryInterface;
+            _categoryService = categoryInterface; // Use the same service for both
         }
 
         [Authorize(Policy = "AdminOrHigher")]
         public IActionResult DisplayCategory()
         {
-            CategoryViewModel CategoryList = _categoryInterface.GetAllCategories();
-            return View("Admin/DisplayCategory", CategoryList);
+            var CategoryList = _categoryInterface.GetAllCategories();
+            return View("~/Presentation/Views/Categories/CategoryList.cshtml", CategoryList);
         }
 
         [AllowAnonymous]
-        public IActionResult CategoryClassify()
+        public async Task<IActionResult> CategoryList()
         {
-            // Fix: Adjust the type to match the method's return type
-            List<CategoryClassifyViewModel> categoryClassification = _categoryInterface.GetAllCategoriesClassified();
-            return View("User/CategoryClassify", categoryClassification);
+            var categories = await _categoryService.GetAllCategoriesAsync();
+
+            // Create unified CategoryViewModel for public browsing
+            var categoryViewModel = new ViewModels.Categories.CategoryViewModel
+            {
+                Categories = categories.Select(c => new CategoryItemViewModel
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    Description = c.Description,
+                    BookCount = c.Books?.Count ?? 0,
+                    CreatedAt = c.CreatedAt,
+                    UpdatedAt = c.UpdatedAt,
+                    Books = c.Books?.Take(6).Select(b => new CategoryBookViewModel
+                    {
+                        Id = b.Id,
+                        Title = b.Title,
+                        Author = b.Author,
+                        Price = b.Price,
+                        StockQuantity = b.StockQuantity,
+                        ImageUrl = b.ImageUrl,
+                        CategoryId = b.CategoryId ?? 0
+                    }).ToList()
+                }).ToList(),
+                TotalCategories = categories.Count(),
+                Capabilities = new CategoryCapabilities
+                {
+                    CanViewBookDetails = true,
+                    CanAddToCart = User.Identity?.IsAuthenticated == true,
+                    ViewMode = "list",
+                    PageTitle = "Browse Categories",
+                    IsAuthenticated = User.Identity?.IsAuthenticated == true
+                }
+            };
+
+            return View("~/Presentation/Views/Categories/CategoryList.cshtml", categoryViewModel);
         }
 
         [HttpPost]
@@ -68,7 +101,7 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
                 {
                     return Json(new { success = false, message = "Category not found" });
                 }
-                
+
                 return Json(new { success = true, message = "Category deleted successfully" });
             }
             catch (Exception ex)
@@ -88,7 +121,7 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
                 {
                     return Json(new { success = false, message = "Category not found" });
                 }
-                
+
                 return Json(new { success = true, getCategory, message = "Category found" });
             }
             catch (Exception ex)
@@ -113,7 +146,7 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
                 {
                     return Json(new { success = false, message = "Category not found or update failed" });
                 }
-              
+
                 return Json(new { success = true, message = "Update successful", data });
             }
             catch (Exception ex)

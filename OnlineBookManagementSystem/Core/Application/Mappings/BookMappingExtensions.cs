@@ -104,6 +104,8 @@ namespace OnlineBookManagementSystem.Core.Application.Mappings
         {
             if (book == null) return null;
 
+            var isAuthenticated = userId.HasValue && userId.Value > 0;
+
             return new BookDetailsViewModel
             {
                 Id = book.Id,
@@ -130,6 +132,22 @@ namespace OnlineBookManagementSystem.Core.Application.Mappings
                 ReviewForm = new ReviewSubmissionViewModel
                 {
                     BookId = book.Id
+                },
+                Capabilities = new BookDetailsCapabilities
+                {
+                    CanView = true,
+                    CanViewTechnicalDetails = false, // Will be set based on role
+                    CanEdit = false, // Will be set based on role
+                    CanDelete = false, // Will be set based on role
+                    CanAddToCart = isAuthenticated && book.StockQuantity > 0,
+                    CanFavorite = isAuthenticated,
+                    CanReview = canReview,
+                    CanViewReviews = true,
+                    IsAuthenticated = isAuthenticated,
+                    BackLinkText = "Back to Books",
+                    BackLinkUrl = "/Public/Browse",
+                    PageTitle = "Book Details",
+                    LayoutClass = "public-layout"
                 }
             };
         }
@@ -226,6 +244,22 @@ namespace OnlineBookManagementSystem.Core.Application.Mappings
                 {
                     AverageRating = book.AverageRating,
                     TotalReviews = book.TotalReviews
+                },
+                Capabilities = new BookDetailsCapabilities
+                {
+                    CanView = true,
+                    CanViewTechnicalDetails = false,
+                    CanEdit = false,
+                    CanDelete = false,
+                    CanAddToCart = false, // Not authenticated by default
+                    CanFavorite = false, // Not authenticated by default
+                    CanReview = false, // Not authenticated by default
+                    CanViewReviews = true,
+                    IsAuthenticated = false, // Not authenticated by default
+                    BackLinkText = "Back to Books",
+                    BackLinkUrl = "/Public/Browse",
+                    PageTitle = "Book Details",
+                    LayoutClass = "public-layout"
                 }
             };
         }

@@ -4,8 +4,8 @@ namespace OnlineBookManagementSystem.Core.Domain.Entities
     {
         private string _name = string.Empty;
 
-        public string Name 
-        { 
+        public string Name
+        {
             get => _name;
             set
             {
@@ -42,7 +42,7 @@ namespace OnlineBookManagementSystem.Core.Domain.Entities
         {
             if (!string.IsNullOrWhiteSpace(description) && description.Length > 500)
                 throw new ArgumentException("Description cannot exceed 500 characters", nameof(description));
-            
+
             Description = description?.Trim();
             UpdateTimestamp();
         }
@@ -62,7 +62,7 @@ namespace OnlineBookManagementSystem.Core.Domain.Entities
         {
             if (book == null)
                 throw new ArgumentNullException(nameof(book));
-            
+
             if (!_books.Contains(book))
             {
                 _books.Add(book);

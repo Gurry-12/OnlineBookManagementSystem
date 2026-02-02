@@ -1,0 +1,60 @@
+@model OnlineBookManagementSystem.Presentation.ViewModels.Analytics.AnalyticsFilters
+
+<div class="analytics-filters">
+    <div class="analytics-filters__header">
+        <h5 class="analytics-filters__title">
+            <i class="bi bi-funnel me-2"></i>Analytics Filters
+        </h5>
+    </div>
+    <div class="analytics-filters__body">
+        <form method="get" class="analytics-filters__form">
+            <div class="analytics-filters__group">
+                <label for="startDate" class="analytics-filters__label">Start Date</label>
+                <input type="date" class="analytics-filters__date-input" id="startDate" name="startDate" 
+                       value="@Model.StartDate.ToString("yyyy-MM-dd")" />
+            </div>
+            <div class="analytics-filters__group">
+                <label for="endDate" class="analytics-filters__label">End Date</label>
+                <input type="date" class="analytics-filters__date-input" id="endDate" name="endDate" 
+                       value="@Model.EndDate.ToString("yyyy-MM-dd")" />
+            </div>
+            <div class="analytics-filters__group">
+                <label for="period" class="analytics-filters__label">Quick Period</label>
+                <select class="analytics-filters__select" id="period" name="period">
+                    <option value="Last 7 Days" selected="@(Model.Period == "Last 7 Days")">Last 7 Days</option>
+                    <option value="Last 30 Days" selected="@(Model.Period == "Last 30 Days")">Last 30 Days</option>
+                    <option value="Last 90 Days" selected="@(Model.Period == "Last 90 Days")">Last 90 Days</option>
+                    <option value="This Year" selected="@(Model.Period == "This Year")">This Year</option>
+                    <option value="Custom" selected="@(Model.Period == "Custom")">Custom Range</option>
+                </select>
+            </div>
+            
+            @if (!string.IsNullOrEmpty(Model.Category))
+            {
+                <div class="analytics-filters__group">
+                    <label for="category" class="analytics-filters__label">Category</label>
+                    <input type="text" class="analytics-filters__input" id="category" name="category" 
+                           value="@Model.Category" placeholder="Filter by category..." />
+                </div>
+            }
+            
+            @if (!string.IsNullOrEmpty(Model.Status))
+            {
+                <div class="analytics-filters__group">
+                    <label for="status" class="analytics-filters__label">Status</label>
+                    <input type="text" class="analytics-filters__input" id="status" name="status" 
+                           value="@Model.Status" placeholder="Filter by status..." />
+                </div>
+            }
+            
+            <div class="analytics-filters__actions">
+                <button type="submit" class="analytics-filters__button analytics-filters__button--primary">
+                    <i class="bi bi-search me-2"></i>Apply Filters
+                </button>
+                <a href="@Context.Request.Path" class="analytics-filters__button analytics-filters__button--secondary">
+                    <i class="bi bi-arrow-clockwise me-2"></i>Reset
+                </a>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,5 +1,5 @@
-using System.Diagnostics;
 using System.Collections.Concurrent;
+using System.Diagnostics;
 
 namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Performance
 {
@@ -39,9 +39,9 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Perf
         {
             try
             {
-                _requestDurations.AddOrUpdate(endpoint, 
+                _requestDurations.AddOrUpdate(endpoint,
                     new List<TimeSpan> { duration },
-                    (key, existing) => 
+                    (key, existing) =>
                     {
                         lock (_lockObject)
                         {
@@ -58,7 +58,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Perf
                 // Log slow requests
                 if (duration.TotalSeconds > 2.0)
                 {
-                    _logger.LogWarning("Slow request detected: {Endpoint} took {Duration}ms", 
+                    _logger.LogWarning("Slow request detected: {Endpoint} took {Duration}ms",
                         endpoint, duration.TotalMilliseconds);
                 }
             }
@@ -91,7 +91,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Perf
                 // Log slow queries
                 if (duration.TotalMilliseconds > 500)
                 {
-                    _logger.LogWarning("Slow database query detected: {Query} took {Duration}ms", 
+                    _logger.LogWarning("Slow database query detected: {Query} took {Duration}ms",
                         queryKey, duration.TotalMilliseconds);
                 }
             }
@@ -197,7 +197,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Perf
             try
             {
                 var metrics = await GetMetricsAsync();
-                
+
                 var report = new PerformanceReport
                 {
                     GeneratedAt = DateTime.UtcNow,
@@ -211,8 +211,8 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Perf
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error generating performance report");
-                return new PerformanceReport 
-                { 
+                return new PerformanceReport
+                {
                     GeneratedAt = DateTime.UtcNow,
                     Summary = "Error generating performance report"
                 };
@@ -222,7 +222,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Perf
         private RequestMetrics CalculateRequestMetrics()
         {
             var allDurations = _requestDurations.Values.SelectMany(list => list).ToList();
-            
+
             if (!allDurations.Any())
             {
                 return new RequestMetrics();
@@ -242,7 +242,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Perf
         private DatabaseMetrics CalculateDatabaseMetrics()
         {
             var allDurations = _queryDurations.Values.SelectMany(list => list).ToList();
-            
+
             if (!allDurations.Any())
             {
                 return new DatabaseMetrics();
@@ -292,7 +292,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Perf
             try
             {
                 var process = Process.GetCurrentProcess();
-                
+
                 return new SystemMetrics
                 {
                     MemoryUsageMB = process.WorkingSet64 / (1024 * 1024),
@@ -327,11 +327,11 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Perf
         private TimeSpan GetMedian(List<TimeSpan> durations)
         {
             if (!durations.Any()) return TimeSpan.Zero;
-            
+
             var sorted = durations.OrderBy(d => d.TotalMilliseconds).ToList();
             var mid = sorted.Count / 2;
-            
-            return sorted.Count % 2 == 0 
+
+            return sorted.Count % 2 == 0
                 ? TimeSpan.FromMilliseconds((sorted[mid - 1].TotalMilliseconds + sorted[mid].TotalMilliseconds) / 2)
                 : sorted[mid];
         }
@@ -339,11 +339,11 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Perf
         private TimeSpan GetPercentile(List<TimeSpan> durations, int percentile)
         {
             if (!durations.Any()) return TimeSpan.Zero;
-            
+
             var sorted = durations.OrderBy(d => d.TotalMilliseconds).ToList();
             var index = (int)Math.Ceiling(percentile / 100.0 * sorted.Count) - 1;
             index = Math.Max(0, Math.Min(index, sorted.Count - 1));
-            
+
             return sorted[index];
         }
 
@@ -351,7 +351,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Perf
         {
             // Simplify query for grouping (remove parameters, etc.)
             if (string.IsNullOrEmpty(query)) return "unknown";
-            
+
             // Take first 50 characters and remove parameters for grouping
             var simplified = query.Length > 50 ? query.Substring(0, 50) : query;
             return simplified.Split('?')[0]; // Remove query parameters

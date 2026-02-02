@@ -5,9 +5,9 @@ namespace OnlineBookManagementSystem.Core.Domain.Entities
         private double _averageRating;
 
         public int BookId { get; set; }
-        
-        public double AverageRating 
-        { 
+
+        public double AverageRating
+        {
             get => _averageRating;
             set
             {
@@ -76,7 +76,7 @@ namespace OnlineBookManagementSystem.Core.Domain.Entities
                 TotalReviews--;
                 AverageRating = totalRatingPoints / TotalReviews;
             }
-            
+
             LastUpdated = DateTime.UtcNow;
         }
 

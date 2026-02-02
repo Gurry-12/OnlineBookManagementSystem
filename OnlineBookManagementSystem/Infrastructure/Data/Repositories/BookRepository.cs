@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using OnlineBookManagementSystem.Core.Application.Interfaces.Repositories;
+using OnlineBookManagementSystem.Core.Application.Interfaces.Repositories.Books;
 using OnlineBookManagementSystem.Core.Domain.Entities;
 using OnlineBookManagementSystem.Infrastructure.Data.Context;
-using OnlineBookManagementSystem.Core.Application.Interfaces.Repositories.Books;
-using OnlineBookManagementSystem.Core.Application.Interfaces.Repositories;
 
 namespace OnlineBookManagementSystem.Infrastructure.Data.Repositories
 {

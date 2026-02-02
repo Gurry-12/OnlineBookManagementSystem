@@ -14,7 +14,7 @@ namespace OnlineBookManagementSystem.Core.Domain.ValueObjects
                 throw new ArgumentException("ISBN cannot be null or empty", nameof(value));
 
             var cleanValue = CleanIsbn(value);
-            
+
             if (!IsValidIsbn(cleanValue))
                 throw new ArgumentException("Invalid ISBN format", nameof(value));
 

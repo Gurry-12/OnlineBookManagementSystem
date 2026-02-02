@@ -12,26 +12,26 @@ namespace OnlineBookManagementSystem.Core.Domain.Entities
         private PaymentStatus _paymentStatus;
 
         public int? UserId { get; set; }
-        public Money TotalAmount 
-        { 
+        public Money TotalAmount
+        {
             get => _totalAmount;
             set => _totalAmount = value ?? throw new ArgumentNullException(nameof(value));
         }
-        
+
         public DateTime? OrderDate { get; set; }
-        
-        public OrderStatus Status 
-        { 
+
+        public OrderStatus Status
+        {
             get => _status;
             set => _status = value;
         }
-        
-        public PaymentStatus PaymentStatus 
-        { 
+
+        public PaymentStatus PaymentStatus
+        {
             get => _paymentStatus;
             set => _paymentStatus = value;
         }
-        
+
         public string PaymentMethod { get; set; } = "Unpaid";
         public Address? ShippingAddress { get; set; }
 
@@ -56,7 +56,7 @@ namespace OnlineBookManagementSystem.Core.Domain.Entities
         public string? ZipCode { get; private set; }
 
         // Private constructor for EF Core
-        public Order() 
+        public Order()
         {
             _totalAmount = new Money(0);
             _status = OrderStatus.Pending;
@@ -78,10 +78,10 @@ namespace OnlineBookManagementSystem.Core.Domain.Entities
         {
             if (book == null)
                 throw new ArgumentNullException(nameof(book));
-            
+
             if (quantity <= 0)
                 throw new ArgumentException("Quantity must be positive", nameof(quantity));
-            
+
             if (!book.CanFulfillOrder(quantity))
                 throw new InsufficientStockException(book.Title, quantity, book.StockQuantity);
 
@@ -138,7 +138,7 @@ namespace OnlineBookManagementSystem.Core.Domain.Entities
         public void UpdatePaymentStatus(PaymentStatus newPaymentStatus, string? paymentMethod = null)
         {
             _paymentStatus = newPaymentStatus;
-            
+
             if (!string.IsNullOrWhiteSpace(paymentMethod))
             {
                 PaymentMethod = paymentMethod;

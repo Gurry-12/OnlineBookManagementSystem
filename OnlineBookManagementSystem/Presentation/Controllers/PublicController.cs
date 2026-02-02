@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Caching.Memory;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Analytics;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Books;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Showcase;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure.Authentication;
+using OnlineBookManagementSystem.Presentation.ViewModels.Books;
 using OnlineBookManagementSystem.Presentation.ViewModels.Showcase;
 
 namespace OnlineBookManagementSystem.Presentation.Controllers
@@ -196,9 +198,44 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
                     ? await _publicDemoService.SearchBooksAsync(search, page, 12)
                     : await _publicDemoService.GetFeaturedBooksAsync(12);
 
+            // Create unified BookListViewModel with public capabilities
+            var model = new BookListViewModel
+            {
+                Books = books.Books,
+                CurrentPage = books.CurrentPage,
+                TotalPages = books.TotalPages,
+                TotalBooks = books.TotalBooks,
+                SearchTerm = search,
+                CategoryId = categoryId,
+                SortBy = sortBy,
+                Capabilities = new BookListCapabilities
+                {
+                    CanCreate = false,
+                    CanEdit = false,
+                    CanDelete = false,
+                    CanSearch = true,
+                    CanFilter = true,
+                    CanSort = true,
+                    CanPaginate = true,
+                    CanViewTechnicalInfo = false,
+                    CanViewBookDetails = true,
+                    CanAddToCart = false,
+                    CanFavorite = false,
+                    PageTitle = "Browse Books - Interactive Demo",
+                    DetailsControllerName = "Public",
+                    DetailsActionName = "BookDetails",
+                    IsAuthenticated = false
+                }
+            };
+
             var categories = await _publicDemoService.GetCategoriesWithCountsAsync();
 
-            ViewBag.Categories = categories;
+            // Convert to SelectListItem for the dropdown
+            ViewBag.Categories = categories.Select(c => new SelectListItem
+            {
+                Value = c.Id.ToString(),
+                Text = $"{c.Name} ({c.BookCount})"
+            }).ToList();
             ViewBag.Search = search;
             ViewBag.CategoryId = categoryId;
             ViewBag.SortBy = sortBy;
@@ -208,7 +245,7 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
             ViewBag.Title = "Browse Books - Interactive Demo";
             ViewBag.MetaDescription = "Browse our comprehensive book collection with advanced search and filtering capabilities.";
 
-            return View(books);
+            return View("~/Presentation/Views/Books/BookList.cshtml", model);
         }
 
         /// <summary>
@@ -233,7 +270,8 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
             ViewBag.Title = $"{bookDetails.Title} - Book Details";
             ViewBag.MetaDescription = $"View details for {bookDetails.Title} by {bookDetails.Author} in our interactive book management demo.";
 
-            return View(bookDetails);
+            // Use canonical Books/Details view
+            return View("~/Presentation/Views/Books/Details.cshtml", bookDetails);
         }
 
         /// <summary>

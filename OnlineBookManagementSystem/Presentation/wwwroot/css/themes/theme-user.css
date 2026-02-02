@@ -1,0 +1,37 @@
+/* User Theme - Calm, Productive */
+.theme-user {
+  /* Background Colors - Calm and focused */
+  --color-bg: #fefefe;
+  --color-surface: #f1f5f9;
+  --color-surface-elevated: #ffffff;
+  
+  /* Text Colors - Clear and readable */
+  --color-text: #1e293b;
+  --color-text-muted: #475569;
+  --color-text-subtle: #64748b;
+  
+  /* Brand Colors - Productive blues and purples */
+  --color-primary: #3b82f6;
+  --color-primary-hover: #2563eb;
+  --color-secondary: #6366f1;
+  --color-accent: #8b5cf6;
+  
+  /* Status Colors - Clear indicators */
+  --color-success: #10b981;
+  --color-success-bg: #ecfdf5;
+  --color-warning: #f59e0b;
+  --color-warning-bg: #fffbeb;
+  --color-danger: #ef4444;
+  --color-danger-bg: #fef2f2;
+  --color-info: #06b6d4;
+  --color-info-bg: #f0f9ff;
+  
+  /* Border Colors - Defined but not harsh */
+  --color-border: #cbd5e1;
+  --color-border-subtle: #e2e8f0;
+  --color-border-focus: #3b82f6;
+  
+  /* Interactive States - Responsive */
+  --color-hover: #e2e8f0;
+  --color-active: #cbd5e1;
+}

@@ -14,26 +14,14 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
     
-    <!-- Unified Role-Based Theme Engine -->
-    <link href="~/css/role-based-color-system.css" rel="stylesheet" asp-append-version="true" />
-    <link href="~/css/role-based-theme-engine.css" rel="stylesheet" asp-append-version="true" />
-    
-    <!-- Role Color Palette Fix -->
-    <link href="~/css/role-color-palette-fix.css" rel="stylesheet" asp-append-version="true" />
-    
-    <link href="~/css/auth.css" rel="stylesheet" asp-append-version="true" />
-    
-    <!-- Essential Effects CSS -->
-    <link href="~/css/essential-effects.css" rel="stylesheet" asp-append-version="true" />
-    
-    <!-- UI Consistency Fixes -->
-    <link href="~/css/ui-consistency-fixes.css" rel="stylesheet" asp-append-version="true" />
+    <!-- Main CSS System -->
+    <link href="~/css/main.css" rel="stylesheet" asp-append-version="true" />
 
     @RenderSection("Styles", required: false)
 </head>
-<body class="auth-theme">
+<body class="@(ViewData["ThemeClass"] ?? "theme-auth")">
     <div class="auth-layout">
-        <main class="wp-main-content">@RenderBody()</main>
+        <main>@RenderBody()</main>
     </div>
 
     <footer class="wp-footer text-center py-4 text-muted">

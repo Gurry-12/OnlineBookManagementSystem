@@ -3,9 +3,7 @@ using OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Books;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Reviews;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Repositories;
 using OnlineBookManagementSystem.Core.Application.Mappings;
-using OnlineBookManagementSystem.Core.Domain.Entities;
 using OnlineBookManagementSystem.Presentation.ViewModels.Books;
-using OnlineBookManagementSystem.Shared.Utilities;
 
 namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Books;
 
@@ -41,10 +39,10 @@ public class UnifiedBookService : IUnifiedBookService
         if (book == null) throw new ArgumentException("Book not found", nameof(bookId));
 
         var viewModel = book.ToDetailsViewModel();
-        
-        // Set role-based context
-        viewModel.RoleContext = BuildRoleContext(userId, userRole);
-        
+
+        // Set capability-based context
+        viewModel.Capabilities = BuildCapabilities(userId, userRole);
+
         // Load user-specific data if authenticated
         if (userId.HasValue && userId > 0)
         {
@@ -57,15 +55,7 @@ public class UnifiedBookService : IUnifiedBookService
         viewModel.Rating = rating;
 
         // Set admin-only properties
-        if (viewModel.RoleContext.ShowAdminMetadata)
-        {
-            viewModel.CreatedAt = book.CreatedAt;
-            viewModel.UpdatedAt = book.UpdatedAt;
-            viewModel.IsDeleted = book.IsDeleted;
-        }
 
-        // Set technical details for public demo
-        viewModel.RoleContext.ShowTechnicalDetails = userRole == "Public";
 
         return viewModel;
     }
@@ -73,15 +63,15 @@ public class UnifiedBookService : IUnifiedBookService
     /// <summary>
     /// Get paginated books with role-based filtering
     /// </summary>
-    public async Task<PagedBooksDto> GetBooksAsync(int page, int pageSize, string? search = null, 
-        int? categoryId = null, string? sortBy = null, decimal? minPrice = null, 
+    public async Task<PagedBooksDto> GetBooksAsync(int page, int pageSize, string? search = null,
+        int? categoryId = null, string? sortBy = null, decimal? minPrice = null,
         decimal? maxPrice = null, int? userId = null, string? userRole = null)
     {
         var (books, totalCount) = await _bookRepository.GetPagedBooksAsync(
             page, pageSize, search, categoryId, sortBy);
 
         var bookDtos = books.Select(b => b.ToDto()).ToList();
-        
+
         var pagedResult = new PagedBooksDto
         {
             Books = bookDtos,
@@ -206,7 +196,7 @@ public class UnifiedBookService : IUnifiedBookService
     {
         if (userRole == "SuperAdmin") return true;
         if (userRole == "Admin") return true;
-        
+
         // Regular users cannot edit books
         return false;
     }
@@ -217,7 +207,7 @@ public class UnifiedBookService : IUnifiedBookService
     public async Task<bool> CanUserDeleteBookAsync(int bookId, int userId, string userRole)
     {
         if (userRole == "SuperAdmin") return true;
-        
+
         // Only SuperAdmin can delete books for safety
         return false;
     }
@@ -244,24 +234,52 @@ public class UnifiedBookService : IUnifiedBookService
     }
 
     /// <summary>
-    /// Build role context for ViewModels
+    /// Build capabilities context for ViewModels based on user role
     /// </summary>
-    private RoleContext BuildRoleContext(int? userId, string? userRole)
+    private BookDetailsCapabilities BuildCapabilities(int? userId, string? userRole)
     {
         userRole ??= "Public";
         var isAuthenticated = userId.HasValue && userId > 0;
 
-        return new RoleContext
+        return new BookDetailsCapabilities
         {
-            UserRole = userRole,
-            IsAuthenticated = isAuthenticated,
+            // View Capabilities
+            CanView = true,
+            CanViewTechnicalDetails = userRole == "Public",
+            CanViewMetadata = userRole == "Admin" || userRole == "SuperAdmin",
+
+            // Action Capabilities
             CanEdit = userRole == "Admin" || userRole == "SuperAdmin",
             CanDelete = userRole == "SuperAdmin",
             CanAddToCart = userRole == "User",
-            CanToggleFavorite = isAuthenticated && userRole != "Public",
-            ShowAdminMetadata = userRole == "Admin" || userRole == "SuperAdmin",
-            ShowTechnicalDetails = userRole == "Public",
-            ViewMode = userRole == "Public" ? "Demo" : "Browse"
+            CanFavorite = isAuthenticated && userRole != "Public",
+            CanReview = userRole == "User",
+
+            // Navigation Capabilities
+            CanViewReviews = true,
+            CanModerateReviews = userRole == "Admin" || userRole == "SuperAdmin",
+
+            // UI Context
+            IsAuthenticated = isAuthenticated,
+            BackLinkText = userRole switch
+            {
+                "Admin" or "SuperAdmin" => "Back to Admin Books",
+                "User" => "Back to My Books",
+                _ => "Back to Browse"
+            },
+            BackLinkUrl = userRole switch
+            {
+                "Admin" or "SuperAdmin" => "/Admin/Books",
+                "User" => "/User/UserBookList",
+                _ => "/Public/Browse"
+            },
+            PageTitle = userRole == "Public" ? "Book Showcase" : "Book Details",
+            LayoutClass = userRole switch
+            {
+                "Admin" or "SuperAdmin" => "admin-layout",
+                "User" => "user-layout",
+                _ => "public-layout"
+            }
         };
     }
 
@@ -294,4 +312,6 @@ public class UnifiedBookService : IUnifiedBookService
         // This is a placeholder
         return 0.0;
     }
+
+
 }

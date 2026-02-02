@@ -4,12 +4,10 @@ using Microsoft.Extensions.Caching.Memory;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Books;
 using OnlineBookManagementSystem.Core.Application.Mappings;
 using OnlineBookManagementSystem.Core.Domain.Entities;
-using OnlineBookManagementSystem.Core.Domain.Enums;
 using OnlineBookManagementSystem.Infrastructure.Data.Context;
 using OnlineBookManagementSystem.Presentation.ViewModels.Admin;
 using OnlineBookManagementSystem.Presentation.ViewModels.Books;
 using OnlineBookManagementSystem.Presentation.ViewModels.ChartViewModel;
-using OnlineBookManagementSystem.Presentation.ViewModels.User;
 
 namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Books
 {
@@ -437,30 +435,6 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Books
             };
         }
 
-        public async Task<UserProfileViewModel?> GetUserProfileAsync(int userId)
-        {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId && u.IsDeleted != true);
-            if (user == null) return null;
-
-            var favoritesCount = await _context.UserFavorites.CountAsync(uf => uf.UserId == userId);
-            var ordersCount = await _context.Orders.CountAsync(o => o.UserId == userId && !o.IsDeleted);
-            var totalSpent = await _context.Orders
-                .Where(o => o.UserId == userId && !o.IsDeleted && o.PaymentStatus == PaymentStatus.Paid)
-                .SumAsync(o => o.TotalAmount.Amount);
-
-            return new UserProfileViewModel
-            {
-                Id = user.Id,
-                Name = user.Name,
-                Email = user.Email,
-                MemberSince = user.CreatedAt,
-                LastLoginDate = user.LastLoginDate,
-                TotalFavorites = favoritesCount,
-                TotalOrders = ordersCount,
-                TotalSpent = totalSpent
-            };
-        }
-
         public string GetTimeAgo(DateTime time)
         {
             var now = DateTime.UtcNow;
@@ -492,9 +466,9 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Books
 
                 return await _context.Books
                     .Include(b => b.Category)
-                    .Where(b => !b.IsDeleted && 
-                               (b.Title.Contains(query) || 
-                                b.Author.Contains(query) || 
+                    .Where(b => !b.IsDeleted &&
+                               (b.Title.Contains(query) ||
+                                b.Author.Contains(query) ||
                                 b.Category.Name.Contains(query)))
                     .Take(count)
                     .ToListAsync();
@@ -503,6 +477,22 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Books
             {
                 _logger.LogError(ex, "Error getting book suggestions for query: {Query}", query);
                 return new List<Book>();
+            }
+        }
+
+        public async Task<int> GetBooksAddedInLastDaysAsync(int days)
+        {
+            try
+            {
+                var cutoffDate = DateTime.UtcNow.AddDays(-days);
+                return await _context.Books
+                    .Where(b => !b.IsDeleted && b.CreatedAt >= cutoffDate)
+                    .CountAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting books added in last {Days} days", days);
+                return 0;
             }
         }
 

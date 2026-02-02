@@ -71,7 +71,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Data.Repositories.Users
                 .ToListAsync();
 
             return await _context.Users
-                .Where(u => roleUsers.Contains(u.Id) && 
+                .Where(u => roleUsers.Contains(u.Id) &&
                            (u.IsDeleted == null || !(bool)u.IsDeleted))
                 .ToListAsync();
         }
@@ -86,7 +86,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Data.Repositories.Users
         {
             var thirtyDaysAgo = DateTime.UtcNow.AddDays(-30);
             return await _context.Users
-                .CountAsync(u => (u.IsDeleted == null || !(bool)u.IsDeleted) && 
+                .CountAsync(u => (u.IsDeleted == null || !(bool)u.IsDeleted) &&
                                 u.LastLoginDate >= thirtyDaysAgo);
         }
 
@@ -129,7 +129,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Data.Repositories.Users
 
             if (!string.IsNullOrWhiteSpace(searchTerm))
             {
-                query = query.Where(u => u.Name.Contains(searchTerm) || 
+                query = query.Where(u => u.Name.Contains(searchTerm) ||
                                         u.Email.Contains(searchTerm));
             }
 

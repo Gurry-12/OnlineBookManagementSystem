@@ -9,7 +9,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Data.Configurations
         public void Configure(EntityTypeBuilder<OrderDetail> builder)
         {
             builder.HasKey(e => e.Id);
-            
+
             // Configure Money value objects
             builder.OwnsOne(od => od.UnitPrice, price =>
             {
@@ -17,7 +17,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Data.Configurations
                     .HasColumnName("UnitPrice")
                     .HasColumnType("decimal(10,2)")
                     .IsRequired();
-                    
+
                 price.Property(p => p.Currency)
                     .HasColumnName("UnitPriceCurrency")
                     .HasMaxLength(3)
@@ -31,7 +31,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Data.Configurations
                     .HasColumnName("Subtotal")
                     .HasColumnType("decimal(10,2)")
                     .IsRequired();
-                    
+
                 subtotal.Property(s => s.Currency)
                     .HasColumnName("SubtotalCurrency")
                     .HasMaxLength(3)
@@ -46,7 +46,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Data.Configurations
 
             builder.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("DateTime('now')");
-                
+
             builder.Property(e => e.IsDeleted)
                 .HasDefaultValue(false);
 

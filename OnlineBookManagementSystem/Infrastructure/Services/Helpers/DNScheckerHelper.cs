@@ -1,10 +1,8 @@
-using System.Linq;
-using System.Threading.Tasks;
 using DnsClient;
 
 namespace OnlineBookManagementSystem.Infrastructure.Services.Helpers
 {
-     class DNSCheckerHelper : IDnsChecker
+    class DNSCheckerHelper : IDnsChecker
     {
         public async Task<bool> DomainHasMxRecordAsync(string email)
         {

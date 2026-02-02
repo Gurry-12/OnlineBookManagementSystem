@@ -153,7 +153,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Orders
                 // Create order details and calculate total
                 decimal totalAmount = 0;
                 var orderDetails = new List<OrderDetail>();
-                
+
                 foreach (var item in request.Items)
                 {
                     var book = await _bookRepository.GetByIdAsync(item.BookId);
@@ -185,7 +185,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Orders
                 }
 
                 order.TotalAmount = new Money(totalAmount);
-                
+
                 // Add order details to the order
                 foreach (var detail in orderDetails)
                 {
