@@ -5,14 +5,23 @@
  */
 
 /* ========================================
+   GLOBAL LAYOUT FIXES
+   ======================================== */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* ========================================
    SIDEBAR NAVIGATION
    ======================================== */
 
 .wp-sidebar {
     width: 280px;
     height: 100vh;
-    background: var(--color-white);
-    border-right: var(--border-width) solid var(--color-gray-200);
+    background: var(--bg-sidebar);
+    border-right: var(--border-width) solid var(--border-color);
     display: flex;
     flex-direction: column;
     position: fixed;
@@ -28,8 +37,8 @@
 
 .wp-sidebar__header {
     padding: var(--space-6) var(--space-4);
-    border-bottom: var(--border-width) solid var(--color-gray-200);
-    background: var(--color-gray-50);
+    border-bottom: var(--border-width) solid var(--border-color);
+    background: var(--bg-sidebar);
 }
 
 .wp-sidebar__logo {
@@ -37,7 +46,7 @@
     align-items: center;
     gap: var(--space-3);
     text-decoration: none;
-    color: var(--color-gray-900);
+    color: var(--text-color);
 }
 
 .wp-sidebar__logo-icon {
@@ -65,7 +74,7 @@
     padding: 0 var(--space-4) var(--space-2);
     font-size: var(--font-size-xs);
     font-weight: var(--font-weight-semibold);
-    color: var(--color-gray-500);
+    color: var(--color-text-muted);
     text-transform: uppercase;
     letter-spacing: 0.05em;
 }
@@ -79,7 +88,7 @@
     align-items: center;
     gap: var(--space-3);
     padding: var(--space-3) var(--space-4);
-    color: var(--color-gray-700);
+    color: var(--text-color);
     text-decoration: none;
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-medium);
@@ -88,12 +97,12 @@
 }
 
 .wp-sidebar__nav-link:hover {
-    background: var(--color-gray-100);
-    color: var(--color-gray-900);
+    background: var(--color-hover);
+    color: var(--text-color);
 }
 
 .wp-sidebar__nav-link.active {
-    background: rgba(59, 130, 246, 0.1);
+    background: var(--color-active);
     color: var(--color-primary);
     font-weight: var(--font-weight-semibold);
 }
@@ -136,8 +145,8 @@
 
 .wp-top-bar {
     height: 4rem;
-    background: var(--color-white);
-    border-bottom: var(--border-width) solid var(--color-gray-200);
+    background: var(--bg-header);
+    border-bottom: var(--border-width) solid var(--border-color);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -145,6 +154,13 @@
     position: sticky;
     top: 0;
     z-index: var(--z-sticky);
+}
+
+/* Fix for Public Navbar conflict with Bootstrap */
+.wp-top-bar.navbar {
+    height: auto;
+    min-height: 4rem;
+    padding: 0.5rem 1rem; /* Restore Bootstrap-like padding */
 }
 
 .wp-top-bar__left {
@@ -165,21 +181,21 @@
     background: transparent;
     border: none;
     border-radius: var(--radius);
-    color: var(--color-gray-600);
+    color: var(--color-text-muted);
     cursor: pointer;
     transition: all var(--transition-fast);
 }
 
 .wp-top-bar__toggle:hover {
-    background: var(--color-gray-100);
-    color: var(--color-gray-900);
+    background: var(--color-hover);
+    color: var(--text-color);
 }
 
 .wp-top-bar__breadcrumb {
     display: flex;
     align-items: center;
     gap: var(--space-2);
-    color: var(--color-gray-600);
+    color: var(--color-text-muted);
     font-size: var(--font-size-sm);
 }
 
@@ -190,7 +206,7 @@
 }
 
 .wp-top-bar__breadcrumb-link {
-    color: var(--color-gray-600);
+    color: var(--color-text-muted);
     text-decoration: none;
     transition: color var(--transition-fast);
 }
@@ -211,17 +227,18 @@
 .wp-top-bar__search-input {
     width: 100%;
     padding: var(--space-2) var(--space-3) var(--space-2) var(--space-10);
-    border: var(--border-width) solid var(--color-gray-300);
+    border: var(--border-width) solid var(--border-color);
     border-radius: var(--radius-full);
     font-size: var(--font-size-sm);
-    background: var(--color-gray-50);
+    background: var(--bg-color);
+    color: var(--text-color);
     transition: all var(--transition-fast);
 }
 
 .wp-top-bar__search-input:focus {
     outline: none;
     border-color: var(--color-primary);
-    background: var(--color-white);
+    background: var(--bg-surface);
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
@@ -230,7 +247,7 @@
     left: var(--space-3);
     top: 50%;
     transform: translateY(-50%);
-    color: var(--color-gray-400);
+    color: var(--color-text-muted);
     pointer-events: none;
 }
 
@@ -245,7 +262,7 @@
 }
 
 .wp-top-bar__user:hover {
-    background: var(--color-gray-100);
+    background: var(--color-hover);
 }
 
 .wp-top-bar__avatar {
@@ -253,7 +270,7 @@
     height: 2rem;
     border-radius: var(--radius-full);
     object-fit: cover;
-    border: var(--border-width) solid var(--color-gray-200);
+    border: var(--border-width) solid var(--border-color);
 }
 
 .wp-top-bar__user-info {
@@ -265,13 +282,13 @@
 .wp-top-bar__user-name {
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-medium);
-    color: var(--color-gray-900);
+    color: var(--text-color);
     line-height: 1;
 }
 
 .wp-top-bar__user-role {
     font-size: var(--font-size-xs);
-    color: var(--color-gray-600);
+    color: var(--color-text-muted);
     line-height: 1;
 }
 
@@ -282,7 +299,7 @@
 .wp-main-content {
     margin-left: 280px;
     min-height: 100vh;
-    background: var(--color-gray-50);
+    background: var(--bg-color);
     transition: margin-left var(--transition-normal);
 }
 
@@ -302,7 +319,7 @@
 .wp-content__title {
     font-size: var(--font-size-2xl);
     font-weight: var(--font-weight-bold);
-    color: var(--color-gray-900);
+    color: var(--text-color);
     margin-bottom: var(--space-2);
     display: flex;
     align-items: center;
@@ -310,7 +327,7 @@
 }
 
 .wp-content__subtitle {
-    color: var(--color-gray-600);
+    color: var(--color-text-muted);
     font-size: var(--font-size-base);
     line-height: var(--line-height-relaxed);
 }
@@ -327,8 +344,8 @@
    ======================================== */
 
 .wp-footer {
-    background: var(--color-white);
-    border-top: var(--border-width) solid var(--color-gray-200);
+    background: var(--bg-surface);
+    border-top: var(--border-width) solid var(--border-color);
     padding: var(--space-8) 0;
     margin-top: auto;
 }
@@ -354,12 +371,12 @@
 .wp-footer__title {
     font-size: var(--font-size-base);
     font-weight: var(--font-weight-semibold);
-    color: var(--color-gray-900);
+    color: var(--text-color);
     margin-bottom: var(--space-4);
 }
 
 .wp-footer__link {
-    color: var(--color-gray-600);
+    color: var(--color-text-muted);
     text-decoration: none;
     font-size: var(--font-size-sm);
     margin-bottom: var(--space-2);
@@ -372,11 +389,11 @@
 
 .wp-footer__bottom {
     padding-top: var(--space-6);
-    border-top: var(--border-width) solid var(--color-gray-200);
+    border-top: var(--border-width) solid var(--border-color);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: var(--color-gray-600);
+    color: var(--color-text-muted);
     font-size: var(--font-size-sm);
 }
 
@@ -393,7 +410,7 @@
 }
 
 .wp-footer__social-link {
-    color: var(--color-gray-500);
+    color: var(--color-text-muted);
     transition: color var(--transition-fast);
 }
 
@@ -411,8 +428,8 @@
     gap: var(--space-2);
     margin-bottom: var(--space-6);
     padding: var(--space-3) var(--space-4);
-    background: var(--color-white);
-    border: var(--border-width) solid var(--color-gray-200);
+    background: var(--bg-surface);
+    border: var(--border-width) solid var(--border-color);
     border-radius: var(--radius);
     font-size: var(--font-size-sm);
 }
@@ -424,7 +441,7 @@
 }
 
 .wp-breadcrumb__link {
-    color: var(--color-gray-600);
+    color: var(--color-text-muted);
     text-decoration: none;
     transition: color var(--transition-fast);
 }
@@ -438,7 +455,7 @@
 }
 
 .wp-breadcrumb__current {
-    color: var(--color-gray-900);
+    color: var(--text-color);
     font-weight: var(--font-weight-medium);
 }
 

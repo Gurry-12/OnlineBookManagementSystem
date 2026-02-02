@@ -1,5 +1,22 @@
 /* SuperAdmin Theme - High-Contrast, Critical */
 .theme-superadmin {
+  /* ========================================
+     CORE THEME MAPPING (REQUIRED)
+     ======================================== */
+  --bg-color: #000000;
+  --text-color: #ffffff;
+  --primary-color: #dc2626;
+  --accent-color: #facc15;
+
+  /* Structural Variables */
+  --bg-sidebar: #18181b;
+  --bg-surface: #18181b;
+  --bg-header: #18181b;
+  --border-color: #52525b;
+
+  /* ========================================
+     LEGACY / DETAILED MAPPING
+     ======================================== */
   /* Background Colors - High contrast for critical operations */
   --color-bg: #000000;
   --color-surface: #18181b;
