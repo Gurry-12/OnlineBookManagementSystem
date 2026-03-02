@@ -1,0 +1,135 @@
+/**
+ * Admin Theme Enhancements
+ * Structural/visual overrides scoped to .theme-admin
+ * Extracted from theme-admin.css to comply with Rule 6:
+ * Theme files must ONLY contain token overrides.
+ */
+
+/* Sidebar Enhancements for Admin Theme */
+.theme-admin .wp-sidebar {
+  background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+  border-right: none;
+}
+
+.theme-admin .wp-sidebar__nav-link {
+  color: #cbd5e1;
+}
+
+.theme-admin .wp-sidebar__nav-link:hover {
+  background: rgba(13, 148, 136, 0.2);
+  color: #5eead4;
+}
+
+.theme-admin .wp-sidebar__nav-link.active {
+  background: linear-gradient(90deg, #0d9488 0%, #0f766e 100%);
+  color: #ffffff;
+}
+
+.theme-admin .wp-sidebar__section-header {
+  color: #64748b;
+}
+
+/* Top Bar Enhancements */
+.theme-admin .wp-top-bar {
+  background: #ffffff;
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* Card Enhancements */
+.theme-admin .wp-card,
+.theme-admin .stats-card,
+.theme-admin .book-card {
+  border: 1px solid var(--color-border-subtle);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.theme-admin .wp-card:hover,
+.theme-admin .stats-card:hover,
+.theme-admin .book-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+/* Button Enhancements */
+.theme-admin .wp-btn-primary {
+  background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);
+  border: none;
+  box-shadow: 0 2px 4px rgba(13, 148, 136, 0.2);
+}
+
+.theme-admin .wp-btn-primary:hover {
+  background: linear-gradient(135deg, #0f766e 0%, #0d9488 100%);
+  box-shadow: 0 4px 8px rgba(13, 148, 136, 0.3);
+}
+
+/* Stats Card Enhancements */
+.theme-admin .stats-card {
+  background: #ffffff;
+}
+
+.theme-admin .stats-card__icon {
+  background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%);
+  box-shadow: 0 4px 12px rgba(13, 148, 136, 0.2);
+}
+
+/* Quick Action Buttons */
+.theme-admin .quick-action-btn {
+  background: #ffffff;
+  border: 1px solid var(--color-border);
+}
+
+.theme-admin .quick-action-btn:hover {
+  border-color: var(--color-primary);
+  background: var(--color-hover);
+}
+
+/* Activity Items */
+.theme-admin .activity-item:hover {
+  background: var(--color-hover);
+}
+
+/* Form Enhancements */
+.theme-admin .form__input,
+.theme-admin .form__select {
+  background: #ffffff;
+  border-color: var(--color-border);
+}
+
+.theme-admin .form__input:focus,
+.theme-admin .form__select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
+}
+
+/* Search Bar Enhancements */
+.theme-admin .search-bar__input {
+  background: #f8fafc;
+  border-color: var(--color-border);
+}
+
+.theme-admin .search-bar__input:focus {
+  background: #ffffff;
+  border-color: var(--color-primary);
+}
+
+/* Pagination Enhancements */
+.theme-admin .page-item.active .page-link {
+  background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);
+  border-color: #0d9488;
+}
+
+.theme-admin .page-link:hover {
+  background: var(--color-hover);
+  border-color: var(--color-primary);
+}
+
+/* Carousel Enhancements */
+.theme-admin .carousel-slide-content {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid var(--color-border);
+}
+
+.theme-admin .quote-slide {
+  background: linear-gradient(135deg, #f0fdfa 0%, #f8fafc 50%, #f0f9ff 100%);
+}

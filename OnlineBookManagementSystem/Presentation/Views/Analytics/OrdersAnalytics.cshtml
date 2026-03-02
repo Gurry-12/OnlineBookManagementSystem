@@ -13,11 +13,11 @@
         
         @if (Model.Capabilities.CanExport)
         {
-            <div class="btn-group">
-                <button type="button" class="btn btn-outline-primary" onclick="exportAnalytics('csv')">
+            <div class="wp-btn-group">
+                <button type="button" class="wp-btn-outline-primary" onclick="exportAnalytics('csv')">
                     <i class="bi bi-file-earmark-spreadsheet me-2"></i>Export CSV
                 </button>
-                <button type="button" class="btn btn-outline-primary" onclick="exportAnalytics('pdf')">
+                <button type="button" class="wp-btn-outline-primary" onclick="exportAnalytics('pdf')">
                     <i class="bi bi-file-earmark-pdf me-2"></i>Export PDF
                 </button>
             </div>
@@ -32,11 +32,11 @@
         <!-- Summary Cards -->
         <div class="row g-4 mb-4">
             <div class="col-lg-3 col-md-6">
-                <div class="card bg-primary text-white">
-                    <div class="card-body">
+                <div class="wp-card bg-primary text-white">
+                    <div class="wp-card-body">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <h6 class="card-title">Total Orders</h6>
+                                <h6 class="wp-card-title">Total Orders</h6>
                                 <h3 class="mb-0">@Model.Data.TotalOrders.ToString("N0")</h3>
                             </div>
                             <div class="align-self-center">
@@ -48,11 +48,11 @@
             </div>
             
             <div class="col-lg-3 col-md-6">
-                <div class="card bg-success text-white">
-                    <div class="card-body">
+                <div class="wp-card bg-success text-white">
+                    <div class="wp-card-body">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <h6 class="card-title">Total Revenue</h6>
+                                <h6 class="wp-card-title">Total Revenue</h6>
                                 <h3 class="mb-0">@Model.Data.TotalRevenue.ToString("C")</h3>
                             </div>
                             <div class="align-self-center">
@@ -64,11 +64,11 @@
             </div>
             
             <div class="col-lg-3 col-md-6">
-                <div class="card bg-info text-white">
-                    <div class="card-body">
+                <div class="wp-card bg-info text-white">
+                    <div class="wp-card-body">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <h6 class="card-title">Average Order Value</h6>
+                                <h6 class="wp-card-title">Average Order Value</h6>
                                 <h3 class="mb-0">@Model.Data.AverageOrderValue.ToString("C")</h3>
                             </div>
                             <div class="align-self-center">
@@ -80,11 +80,11 @@
             </div>
             
             <div class="col-lg-3 col-md-6">
-                <div class="card bg-warning text-white">
-                    <div class="card-body">
+                <div class="wp-card bg-warning text-white">
+                    <div class="wp-card-body">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <h6 class="card-title">Pending Orders</h6>
+                                <h6 class="wp-card-title">Pending Orders</h6>
                                 <h3 class="mb-0">@Model.Data.PendingOrders.ToString("N0")</h3>
                             </div>
                             <div class="align-self-center">
@@ -101,18 +101,18 @@
         {
             <div class="row g-4 mb-4">
                 <div class="col-md-6">
-                    <div class="card border-success">
-                        <div class="card-body text-center">
-                            <h6 class="card-title text-success">Revenue Growth Rate</h6>
+                    <div class="wp-card border-success">
+                        <div class="wp-card-body text-center">
+                            <h6 class="wp-card-title text-success">Revenue Growth Rate</h6>
                             <h4 class="text-success">@Model.Data.RevenueGrowthRate.ToString("P1")</h4>
                             <small class="text-muted">vs Previous Period</small>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="card border-info">
-                        <div class="card-body text-center">
-                            <h6 class="card-title text-info">Order Growth Rate</h6>
+                    <div class="wp-card border-info">
+                        <div class="wp-card-body text-center">
+                            <h6 class="wp-card-title text-info">Order Growth Rate</h6>
                             <h4 class="text-info">@Model.Data.OrderGrowthRate.ToString("P1")</h4>
                             <small class="text-muted">vs Previous Period</small>
                         </div>
@@ -219,3 +219,5 @@
         }
     </script>
 }
+
+

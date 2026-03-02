@@ -472,7 +472,7 @@
             toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
             toast.innerHTML = `
                 ${message}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <button type="button" class="wp-btn-close" data-bs-dismiss="alert"></button>
             `;
             document.body.appendChild(toast);
 
@@ -557,7 +557,7 @@
             toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
             toast.innerHTML = `
                 ${message}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <button type="button" class="wp-btn-close" data-bs-dismiss="alert"></button>
             `;
             document.body.appendChild(toast);
 
@@ -571,21 +571,4 @@
     </script>
 }
 
-<style>
-    .table-hover tbody tr:hover {
-        background-color: rgba(0,0,0,0.02);
-    }
-    
-    .badge {
-        font-size: 0.75rem;
-    }
-    
-    .dropdown-toggle::after {
-        display: none;
-    }
-    
-    .card {
-        border: none;
-        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-    }
-</style>
+

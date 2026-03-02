@@ -134,7 +134,7 @@
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title">Reject Review</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                    <button type="button" class="wp-btn-close" data-bs-dismiss="modal"></button>
                                                 </div>
                                                 <div class="modal-body">
                                                     <p>Are you sure you want to reject this review?</p>
@@ -145,8 +145,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                                    <button type="button" class="btn btn-danger" onclick="rejectReview(@review.Id)">Reject Review</button>
+                                                    <button type="button" class="wp-btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                    <button type="button" class="wp-btn-danger" onclick="rejectReview(@review.Id)">Reject Review</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -161,7 +161,7 @@
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title">Flag Review</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                    <button type="button" class="wp-btn-close" data-bs-dismiss="modal"></button>
                                                 </div>
                                                 <div class="modal-body">
                                                     <p>Flag this review for further investigation?</p>
@@ -172,8 +172,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                                    <button type="button" class="btn btn-warning" onclick="flagReview(@review.Id)">Flag Review</button>
+                                                    <button type="button" class="wp-btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                    <button type="button" class="wp-btn-warning" onclick="flagReview(@review.Id)">Flag Review</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -496,7 +496,7 @@ else
         toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
         toast.innerHTML = `
             ${message}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <button type="button" class="wp-btn-close" data-bs-dismiss="alert"></button>
         `;
         document.body.appendChild(toast);
 
@@ -509,39 +509,5 @@ else
     }
 </script>
 
-<style>
-    .review-item:last-child {
-        border-bottom: none !important;
-        margin-bottom: 0 !important;
-        padding-bottom: 0 !important;
-    }
-    
-    .star-rating i {
-        font-size: 0.9em;
-    }
-    
-    .pagination-sm .page-link {
-        font-size: 0.75rem;
-    }
-    
-    .btn-group-vertical .btn {
-        margin-bottom: 2px;
-    }
-    
-    .btn-group-vertical .btn:last-child {
-        margin-bottom: 0;
-    }
-    
-    .review-text {
-        word-wrap: break-word;
-    }
-    
-    .toggle-review {
-        font-size: 0.8em;
-        text-decoration: none;
-    }
-    
-    .toggle-review:hover {
-        text-decoration: underline;
-    }
-</style>
+
+

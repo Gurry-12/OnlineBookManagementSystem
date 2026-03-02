@@ -4,20 +4,18 @@
     Layout = "/Presentation/Views/Shared/_LayoutSuperAdmin.cshtml";
 }
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
-
 <div class="dashboard-grid dashboard-grid--superadmin">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="mb-0 text-danger fw-bold">
-            <i class="bi bi-crown me-2"></i>Super Admin Dashboard
+        <h2 class="mb-0 fw-bold" style="color: var(--text-color);">
+            <i class="bi bi-crown me-2" style="color: var(--color-danger);"></i>Super Admin Dashboard
         </h2>
         <div class="d-flex gap-2">
-            <span class="badge bg-@(Model.SystemInfo.Environment == "Production" ? "success" : "warning") fs-6">
+            <span class="wp-badge bg-@(Model.SystemInfo.Environment == "Production" ? "success" : "warning") fs-6">
                 @Model.SystemInfo.Environment
             </span>
             @if (Model.SystemInfo.MaintenanceMode)
             {
-                <span class="badge bg-danger fs-6">
+                <span class="wp-badge bg-danger fs-6">
                     <i class="bi bi-exclamation-triangle"></i> Maintenance Mode
                 </span>
             }
@@ -30,77 +28,69 @@
         <div class="alert alert-warning alert-dismissible fade show mb-4" role="alert">
             <i class="bi bi-exclamation-triangle-fill me-2"></i>
             <strong>Maintenance Mode Active:</strong> The system is currently in maintenance mode.
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <button type="button" class="wp-btn-close" data-bs-dismiss="alert"></button>
         </div>
     }
 
     <!-- Quick Stats Row -->
-    <div class="row g-4 mb-4">
-        <div class="col-xl-3 col-md-6">
-            <div class="stats-card stats-card--danger">
-                <div class="stats-card__body">
-                    <div class="stats-card__icon">
-                        <i class="bi bi-people"></i>
-                    </div>
-                    <h3 class="stats-card__number">@Model.TotalUsers.ToString("N0")</h3>
-                    <p class="stats-card__label">Total Users</p>
-                    <small class="stats-card__meta">+@Model.NewUsersToday today</small>
-                    <a asp-controller="SuperAdmin" asp-action="ManageUsers" class="stats-card__action">Manage Users</a>
+    <div class="stats-row">
+        <div class="stats-card stats-card--danger">
+            <div class="stats-card__body">
+                <div class="stats-card__icon">
+                    <i class="bi bi-people"></i>
                 </div>
+                <h3 class="stats-card__number">@Model.TotalUsers.ToString("N0")</h3>
+                <p class="stats-card__label">Total Users</p>
+                <small class="stats-card__meta">+@Model.NewUsersToday today</small>
+                <a asp-controller="SuperAdmin" asp-action="ManageUsers" class="stats-card__action">Manage Users</a>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6">
-            <div class="stats-card stats-card--primary">
-                <div class="stats-card__body">
-                    <div class="stats-card__icon">
-                        <i class="bi bi-book"></i>
-                    </div>
-                    <h3 class="stats-card__number">@Model.TotalBooks.ToString("N0")</h3>
-                    <p class="stats-card__label">Total Books</p>
-                    <small class="stats-card__meta">+@Model.BooksAddedThisMonth this month</small>
-                    <a asp-controller="Admin" asp-action="Books" class="stats-card__action">View Books</a>
+        <div class="stats-card stats-card--books">
+            <div class="stats-card__body">
+                <div class="stats-card__icon">
+                    <i class="bi bi-book"></i>
                 </div>
+                <h3 class="stats-card__number">@Model.TotalBooks.ToString("N0")</h3>
+                <p class="stats-card__label">Total Books</p>
+                <small class="stats-card__meta">+@Model.BooksAddedThisMonth this month</small>
+                <a asp-controller="Admin" asp-action="Books" class="stats-card__action">View Books</a>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6">
-            <div class="stats-card stats-card--warning">
-                <div class="stats-card__body">
-                    <div class="stats-card__icon">
-                        <i class="bi bi-receipt-cutoff"></i>
-                    </div>
-                    <h3 class="stats-card__number">@Model.TotalOrders.ToString("N0")</h3>
-                    <p class="stats-card__label">Total Orders</p>
-                    <small class="stats-card__meta">@Model.OrdersToday today</small>
-                    <a asp-controller="Orders" asp-action="List" class="stats-card__action">Manage Orders</a>
+        <div class="stats-card stats-card--orders">
+            <div class="stats-card__body">
+                <div class="stats-card__icon">
+                    <i class="bi bi-receipt-cutoff"></i>
                 </div>
+                <h3 class="stats-card__number">@Model.TotalOrders.ToString("N0")</h3>
+                <p class="stats-card__label">Total Orders</p>
+                <small class="stats-card__meta">@Model.OrdersToday today</small>
+                <a asp-controller="Orders" asp-action="List" class="stats-card__action">Manage Orders</a>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6">
-            <div class="stats-card stats-card--success">
-                <div class="stats-card__body">
-                    <div class="stats-card__icon">
-                        <i class="bi bi-currency-rupee"></i>
-                    </div>
-                    <h3 class="stats-card__number">₹@Model.TotalRevenue.ToString("N0")</h3>
-                    <p class="stats-card__label">Total Revenue</p>
-                    <small class="stats-card__meta">₹@Model.RevenueToday.ToString("N0") today</small>
-                    <a asp-controller="Orders" asp-action="List" class="stats-card__action">View Orders</a>
+        <div class="stats-card stats-card--revenue">
+            <div class="stats-card__body">
+                <div class="stats-card__icon">
+                    <i class="bi bi-currency-rupee"></i>
                 </div>
+                <h3 class="stats-card__number">₹@Model.TotalRevenue.ToString("N0")</h3>
+                <p class="stats-card__label">Total Revenue</p>
+                <small class="stats-card__meta">₹@Model.RevenueToday.ToString("N0") today</small>
+                <a asp-controller="Orders" asp-action="List" class="stats-card__action">View Orders</a>
             </div>
         </div>
     </div>
 
     <!-- System Status & Quick Actions Row -->
-    <div class="row g-4 mb-4">
-        <!-- System Status -->
-        <div class="col-md-6">
-            <div class="card border-0 shadow-sm rounded-4 h-100">
-                <div class="card-header bg-transparent border-0 py-3">
-                    <h5 class="mb-0 fw-semibold text-dark">
-                        <i class="bi bi-heart-pulse me-2"></i>System Status
+    <div class="view-section">
+        <div class="view-grid view-grid--2-cols">
+            <!-- System Status -->
+            <div class="view-card">
+                <div class="view-card__header">
+                    <h5 class="view-card__title">
+                        <i class="bi bi-heart-pulse"></i>System Status
                     </h5>
                 </div>
-                <div class="card-body">
+                <div class="view-card__body">
                     <div class="system-status-grid">
                         <div class="status-item">
                             <div class="status-badge success">
@@ -131,45 +121,39 @@
                             <small class="status-subtitle">@Model.ActiveSessions active</small>
                         </div>
                     </div>
-                    <div class="mt-3 pt-3 border-top">
-                        <small class="text-muted">
+                    <div class="mt-3 pt-3" style="border-top: 1px solid var(--border-color);">
+                        <small style="color: var(--color-text-muted);">
                             <i class="bi bi-clock me-1"></i>Uptime: @Model.SystemInfo.ServerUptime
                         </small>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Quick Actions -->
-        <div class="col-md-6">
-            <div class="card border-0 shadow-sm rounded-4 h-100">
-                <div class="card-header bg-transparent border-0 py-3">
-                    <h5 class="mb-0 fw-semibold text-dark">
-                        <i class="bi bi-lightning-charge me-2"></i>Quick Actions
+            <!-- Quick Actions -->
+            <div class="view-card">
+                <div class="view-card__header">
+                    <h5 class="view-card__title">
+                        <i class="bi bi-lightning-charge"></i>Quick Actions
                     </h5>
                 </div>
-                <div class="card-body">
-                    <div class="row g-2">
+                <div class="view-card__body">
+                    <div class="quick-actions-grid">
                         @foreach (var action in Model.QuickActions)
                         {
-                            <div class="col-12">
-                                @if (action.Action.StartsWith("javascript:"))
-                                {
-                                    <button onclick="@action.Action.Replace("javascript:", "")" class="btn btn-outline-primary w-100 text-start">
-                                        <i class="@action.Icon me-2"></i>
-                                        <span class="fw-semibold">@action.Title</span>
-                                        <small class="text-muted d-block">@action.Description</small>
-                                    </button>
-                                }
-                                else
-                                {
-                                    <a href="@Url.Action(action.Action, "SuperAdmin")" class="btn btn-outline-primary w-100 text-start">
-                                        <i class="@action.Icon me-2"></i>
-                                        <span class="fw-semibold">@action.Title</span>
-                                        <small class="text-muted d-block">@action.Description</small>
-                                    </a>
-                                }
-                            </div>
+                            @if (action.Action.StartsWith("javascript:"))
+                            {
+                                <button onclick="@action.Action.Replace("javascript:", "")" class="quick-action-btn">
+                                    <i class="@action.Icon"></i>
+                                    <span>@action.Title</span>
+                                </button>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action(action.Action, "SuperAdmin")" class="quick-action-btn">
+                                    <i class="@action.Icon"></i>
+                                    <span>@action.Title</span>
+                                </a>
+                            }
                         }
                     </div>
                 </div>
@@ -178,19 +162,19 @@
     </div>
 
     <!-- Pending Users & Recent Activity Row -->
-    <div class="row g-4">
-        <!-- Pending Users -->
-        @if (Model.PendingUsersCount > 0)
-        {
-            <div class="col-md-6">
-                <div class="card border-0 shadow-sm rounded-4">
-                    <div class="card-header bg-transparent border-0 py-3 d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0 fw-semibold text-dark">
-                            <i class="bi bi-person-plus me-2"></i>Pending Approvals
+    <div class="view-section">
+        <div class="view-grid view-grid--2-cols">
+            <!-- Pending Users -->
+            @if (Model.PendingUsersCount > 0)
+            {
+                <div class="view-card">
+                    <div class="view-card__header">
+                        <h5 class="view-card__title">
+                            <i class="bi bi-person-plus"></i>Pending Approvals
                         </h5>
-                        <span class="badge bg-warning">@Model.PendingUsersCount</span>
+                        <span class="wp-badge bg-warning">@Model.PendingUsersCount</span>
                     </div>
-                    <div class="card-body">
+                    <div class="view-card__body">
                         @foreach (var user in Model.PendingUsers)
                         {
                             <div class="pending-user-item">
@@ -199,10 +183,10 @@
                                     <small class="pending-user-email">@user.Email</small>
                                 </div>
                                 <div class="pending-user-actions">
-                                    <button class="btn btn-success btn-sm" onclick="executeQuickAction('approveuser', {userId: @user.Id, role: 'User'})">
+                                    <button class="wp-btn-primary wp-btn-sm" onclick="executeQuickAction('approveuser', {userId: @user.Id, role: 'User'})">
                                         <i class="bi bi-check"></i>
                                     </button>
-                                    <button class="btn btn-danger btn-sm" onclick="executeQuickAction('rejectuser', {userId: @user.Id})">
+                                    <button class="wp-btn-secondary wp-btn-sm" onclick="executeQuickAction('rejectuser', {userId: @user.Id})">
                                         <i class="bi bi-x"></i>
                                     </button>
                                 </div>
@@ -210,27 +194,25 @@
                         }
                         @if (Model.PendingUsersCount > 5)
                         {
-                            <div class="text-center">
-                                <a href="@Url.Action("PendingUsers", "SuperAdmin")" class="btn btn-sm btn-outline-primary">
+                            <div class="text-center mt-3">
+                                <a href="@Url.Action("PendingUsers", "SuperAdmin")" class="wp-btn-secondary wp-btn-sm">
                                     View All (@Model.PendingUsersCount)
                                 </a>
                             </div>
                         }
                     </div>
                 </div>
-            </div>
-        }
+            }
 
-        <!-- Recent Activity -->
-        <div class="col-md-@(Model.PendingUsersCount > 0 ? "6" : "12")">
-            <div class="card border-0 shadow-sm rounded-4">
-                <div class="card-header bg-transparent border-0 py-3 d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0 fw-semibold text-dark">
-                        <i class="bi bi-clock me-2"></i>Recent Activity
+            <!-- Recent Activity -->
+            <div class="view-card" style="@(Model.PendingUsersCount <= 0 ? "grid-column: 1 / -1;" : "")">
+                <div class="view-card__header">
+                    <h5 class="view-card__title">
+                        <i class="bi bi-clock"></i>Recent Activity
                     </h5>
-                    <a href="@Url.Action("ActivityLogs", "SuperAdmin")" class="btn btn-sm btn-outline-primary">View All</a>
+                    <a href="@Url.Action("ActivityLogs", "SuperAdmin")" class="wp-btn-secondary wp-btn-sm">View All</a>
                 </div>
-                <div class="card-body p-0">
+                <div class="view-card__body" style="padding: 0;">
                     <div class="table-responsive">
                         <table class="table table-hover mb-0">
                             <thead class="table-light">
@@ -245,10 +227,10 @@
                                 @foreach (var log in Model.RecentActivities.Take(10))
                                 {
                                     <tr>
-                                        <td><span class="badge bg-primary">@log.ActionType</span></td>
+                                        <td><span class="wp-badge bg-primary">@log.ActionType</span></td>
                                         <td>@(log.User?.Name ?? "System")</td>
                                         <td>@log.Description</td>
-                                        <td><small class="text-muted">@GetTimeAgo(log.Timestamp)</small></td>
+                                        <td><small style="color: var(--color-text-muted);">@GetTimeAgo(log.Timestamp)</small></td>
                                     </tr>
                                 }
                             </tbody>
@@ -335,14 +317,6 @@
         function updateDashboardStats(data) {
             // Update stats cards if needed
             // This could be enhanced to update specific elements
-        }
-
-        function GetTimeAgo(time) {
-            const span = new Date() - new Date(time);
-            if (span < 60000) return 'Just now';
-            if (span < 3600000) return Math.floor(span / 60000) + ' min ago';
-            if (span < 86400000) return Math.floor(span / 3600000) + ' hrs ago';
-            return Math.floor(span / 86400000) + ' days ago';
         }
 
         // Initialize tooltips

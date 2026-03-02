@@ -1,0 +1,52 @@
+/**
+ * Component: Badge
+ * Purpose: Standardised badge styling (.wp-badge).
+ */
+
+.wp-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1, 0.25rem);
+  padding: var(--space-1, 0.25rem) var(--space-2, 0.5rem);
+  font-size: var(--font-size-xs, 0.75rem);
+  font-weight: var(--font-weight-semibold, 600);
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: var(--radius-full, 9999px);
+  background-color: var(--color-gray-100, #f3f4f6);
+  color: var(--color-gray-800, #1f2937);
+  border: 1px solid transparent;
+}
+
+.wp-badge-primary {
+  background-color: var(--color-primary-light, #c4b5fd);
+  color: var(--color-primary-dark, #7c6df0);
+}
+
+.wp-badge-secondary {
+  background-color: var(--color-secondary-light, #94a3b8);
+  color: var(--color-secondary-dark, #475569);
+}
+
+.wp-badge-success {
+  background-color: var(--color-success-light, #a7f3d0);
+  color: var(--color-success-dark, #34d399);
+}
+
+.wp-badge-danger, .wp-badge-error {
+  background-color: var(--color-danger-light, #fecaca);
+  color: var(--color-danger-dark, #f87171);
+}
+
+.wp-badge-warning {
+  background-color: var(--color-warning-light, #fef3c7);
+  color: var(--color-warning-dark, #f59e0b);
+}
+
+.wp-badge-info {
+  background-color: var(--color-info-light, #bae6fd);
+  color: var(--color-info-dark, #38bdf8);
+}

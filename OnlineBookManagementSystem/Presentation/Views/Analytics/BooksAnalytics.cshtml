@@ -13,11 +13,11 @@
         
         @if (Model.Capabilities.CanExport)
         {
-            <div class="btn-group">
-                <button type="button" class="btn btn-outline-primary" onclick="exportAnalytics('csv')">
+            <div class="wp-btn-group">
+                <button type="button" class="wp-btn-outline-primary" onclick="exportAnalytics('csv')">
                     <i class="bi bi-file-earmark-spreadsheet me-2"></i>Export CSV
                 </button>
-                <button type="button" class="btn btn-outline-primary" onclick="exportAnalytics('pdf')">
+                <button type="button" class="wp-btn-outline-primary" onclick="exportAnalytics('pdf')">
                     <i class="bi bi-file-earmark-pdf me-2"></i>Export PDF
                 </button>
             </div>
@@ -32,11 +32,11 @@
         <!-- Summary Cards -->
         <div class="row g-4 mb-4">
             <div class="col-lg-3 col-md-6">
-                <div class="card bg-primary text-white">
-                    <div class="card-body">
+                <div class="wp-card bg-primary text-white">
+                    <div class="wp-card-body">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <h6 class="card-title">Total Books</h6>
+                                <h6 class="wp-card-title">Total Books</h6>
                                 <h3 class="mb-0">@Model.Data.TotalBooks.ToString("N0")</h3>
                             </div>
                             <div class="align-self-center">
@@ -48,11 +48,11 @@
             </div>
             
             <div class="col-lg-3 col-md-6">
-                <div class="card bg-success text-white">
-                    <div class="card-body">
+                <div class="wp-card bg-success text-white">
+                    <div class="wp-card-body">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <h6 class="card-title">Active Books</h6>
+                                <h6 class="wp-card-title">Active Books</h6>
                                 <h3 class="mb-0">@Model.Data.ActiveBooks.ToString("N0")</h3>
                             </div>
                             <div class="align-self-center">
@@ -64,11 +64,11 @@
             </div>
             
             <div class="col-lg-3 col-md-6">
-                <div class="card bg-info text-white">
-                    <div class="card-body">
+                <div class="wp-card bg-info text-white">
+                    <div class="wp-card-body">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <h6 class="card-title">Books This Month</h6>
+                                <h6 class="wp-card-title">Books This Month</h6>
                                 <h3 class="mb-0">@Model.Data.BooksThisMonth.ToString("N0")</h3>
                             </div>
                             <div class="align-self-center">
@@ -80,11 +80,11 @@
             </div>
             
             <div class="col-lg-3 col-md-6">
-                <div class="card bg-warning text-white">
-                    <div class="card-body">
+                <div class="wp-card bg-warning text-white">
+                    <div class="wp-card-body">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <h6 class="card-title">Categories</h6>
+                                <h6 class="wp-card-title">Categories</h6>
                                 <h3 class="mb-0">@Model.Data.TotalCategories.ToString("N0")</h3>
                             </div>
                             <div class="align-self-center">
@@ -196,13 +196,13 @@
         <!-- Popular Books Tables -->
         <div class="row g-4">
             <div class="col-lg-6">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="card-title mb-0">
+                <div class="wp-card">
+                    <div class="wp-card-header">
+                        <h5 class="wp-card-title mb-0">
                             <i class="bi bi-star me-2"></i>Most Popular Books
                         </h5>
                     </div>
-                    <div class="card-body">
+                    <div class="wp-card-body">
                         <div class="table-responsive">
                             <table class="table table-sm">
                                 <thead>
@@ -231,13 +231,13 @@
             </div>
             
             <div class="col-lg-6">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="card-title mb-0">
+                <div class="wp-card">
+                    <div class="wp-card-header">
+                        <h5 class="wp-card-title mb-0">
                             <i class="bi bi-heart me-2"></i>Most Favorited Books
                         </h5>
                     </div>
-                    <div class="card-body">
+                    <div class="wp-card-body">
                         <div class="table-responsive">
                             <table class="table table-sm">
                                 <thead>
@@ -288,3 +288,5 @@
         }
     </script>
 }
+
+

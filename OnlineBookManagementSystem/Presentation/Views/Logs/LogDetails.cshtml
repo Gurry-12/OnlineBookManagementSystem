@@ -11,13 +11,13 @@
             <i class="bi bi-file-text me-2"></i>Log Entry Details
         </h2>
         
-        <div class="btn-group">
-            <a href="@Url.Action("LogList", "Logs")" class="btn btn-outline-secondary">
+        <div class="wp-btn-group">
+            <a href="@Url.Action("LogList", "Logs")" class="wp-btn-secondary">
                 <i class="bi bi-arrow-left me-2"></i>Back to Logs
             </a>
             @if (Model.Capabilities.CanExport)
             {
-                <button type="button" class="btn btn-outline-primary" onclick="exportLogEntry()">
+                <button type="button" class="wp-btn-primary" onclick="exportLogEntry()">
                     <i class="bi bi-download me-2"></i>Export Entry
                 </button>
             }
@@ -29,13 +29,13 @@
         <!-- Log Entry Details -->
         <div class="row g-4">
             <div class="col-lg-8">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="card-title mb-0">
+                <div class="wp-card">
+                    <div class="wp-card-header">
+                        <h5 class="wp-card-title mb-0">
                             <i class="bi bi-info-circle me-2"></i>Log Entry Information
                         </h5>
                     </div>
-                    <div class="card-body">
+                    <div class="wp-card-body">
                         <dl class="row">
                             <dt class="col-sm-3">Entry ID:</dt>
                             <dd class="col-sm-9"><code>@Model.Log.Id</code></dd>
@@ -48,7 +48,7 @@
                             
                             <dt class="col-sm-3">Action Type:</dt>
                             <dd class="col-sm-9">
-                                <span class="badge @GetActionBadgeClass(Model.Log.ActionType) fs-6">
+                                <span class="wp-badge fs-6 @GetActionBadgeClass(Model.Log.ActionType)">
                                     @Model.Log.ActionType
                                 </span>
                             </dd>
@@ -108,13 +108,13 @@
             
             <div class="col-lg-4">
                 <!-- Audit Information -->
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h6 class="card-title mb-0">
+                <div class="wp-card mb-4">
+                    <div class="wp-card-header">
+                        <h6 class="wp-card-title mb-0">
                             <i class="bi bi-shield-check me-2"></i>Audit Information
                         </h6>
                     </div>
-                    <div class="card-body">
+                    <div class="wp-card-body">
                         <small class="text-muted">
                             <strong>Immutable Record:</strong> This log entry cannot be modified or deleted.
                             It represents a permanent audit trail of system activity.
@@ -140,13 +140,13 @@
                 <!-- Related Logs -->
                 @if (Model.RelatedLogs.Any())
                 {
-                    <div class="card">
-                        <div class="card-header">
-                            <h6 class="card-title mb-0">
+                    <div class="wp-card">
+                        <div class="wp-card-header">
+                            <h6 class="wp-card-title mb-0">
                                 <i class="bi bi-link-45deg me-2"></i>Related Log Entries
                             </h6>
                         </div>
-                        <div class="card-body">
+                        <div class="wp-card-body">
                             <div class="list-group list-group-flush">
                                 @foreach (var relatedLog in Model.RelatedLogs.Take(5))
                                 {
@@ -154,7 +154,7 @@
                                        class="list-group-item list-group-item-action">
                                         <div class="d-flex justify-content-between align-items-start">
                                             <div>
-                                                <span class="badge @GetActionBadgeClass(relatedLog.ActionType) me-2">
+                                                <span class="wp-badge @GetActionBadgeClass(relatedLog.ActionType) me-2">
                                                     @relatedLog.ActionType
                                                 </span>
                                                 <small class="text-truncate d-block">@relatedLog.Description</small>
@@ -201,14 +201,14 @@
 @functions {
     private string GetActionBadgeClass(string actionType) => actionType?.ToLower() switch
     {
-        "login" => "bg-success",
-        "logout" => "bg-secondary", 
-        "create" or "add" => "bg-primary",
-        "update" or "edit" => "bg-warning text-dark",
-        "delete" or "remove" => "bg-danger",
-        "view" or "read" => "bg-info",
-        "error" => "bg-danger",
-        _ => "bg-secondary"
+        "login" => "wp-badge-success",
+        "logout" => "wp-badge-secondary", 
+        "create" or "add" => "wp-badge-primary",
+        "update" or "edit" => "wp-badge-warning text-dark",
+        "delete" or "remove" => "wp-badge-danger",
+        "view" or "read" => "wp-badge-info",
+        "error" => "wp-badge-danger",
+        _ => "wp-badge-secondary"
     };
 
     private string GetTimeAgo(DateTime timestamp)
@@ -222,3 +222,6 @@
         return timestamp.ToString("MMM dd, yyyy");
     }
 }
+
+
+

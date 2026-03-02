@@ -9,17 +9,17 @@
    ======================================== */
 
 .view-auth-login {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--space-4);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
 }
 
 .view-auth-login .auth-grid {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 /* ========================================
@@ -27,17 +27,17 @@
    ======================================== */
 
 .view-auth-register {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--space-4);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
 }
 
 .view-auth-register .auth-grid {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 /* ========================================
@@ -45,17 +45,17 @@
    ======================================== */
 
 .view-auth-forgot-password {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--space-4);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
 }
 
 .view-auth-forgot-password .auth-container {
-    width: 100%;
-    max-width: 500px;
-    margin: 0 auto;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
 }
 
 /* ========================================
@@ -63,17 +63,17 @@
    ======================================== */
 
 .view-auth-reset-password {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--space-4);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
 }
 
 .view-auth-reset-password .auth-container {
-    width: 100%;
-    max-width: 500px;
-    margin: 0 auto;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
 }
 
 /* ========================================
@@ -81,10 +81,10 @@
    ======================================== */
 
 @media (max-width: 768px) {
-    .view-auth-login,
-    .view-auth-register,
-    .view-auth-forgot-password,
-    .view-auth-reset-password {
-        padding: var(--space-3);
-    }
+  .view-auth-login,
+  .view-auth-register,
+  .view-auth-forgot-password,
+  .view-auth-reset-password {
+    padding: var(--space-3);
+  }
 }

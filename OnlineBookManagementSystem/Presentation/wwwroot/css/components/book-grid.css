@@ -10,20 +10,20 @@
    ======================================== */
 
 .book-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: var(--space-6);
-    padding: var(--space-4) 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-6);
+  padding: var(--space-4) 0;
 }
 
 .book-grid--compact {
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: var(--space-4);
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: var(--space-4);
 }
 
 .book-grid--wide {
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: var(--space-8);
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--space-8);
 }
 
 /* ========================================
@@ -31,26 +31,26 @@
    ======================================== */
 
 @media (max-width: 768px) {
-    .book-grid {
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-        gap: var(--space-4);
-        padding: var(--space-3) 0;
-    }
-    
-    .book-grid--compact {
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        gap: var(--space-3);
-    }
+  .book-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: var(--space-4);
+    padding: var(--space-3) 0;
+  }
+
+  .book-grid--compact {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: var(--space-3);
+  }
 }
 
 @media (max-width: 480px) {
-    .book-grid {
-        grid-template-columns: 1fr;
-        gap: var(--space-3);
-    }
-    
-    .book-grid--compact,
-    .book-grid--wide {
-        grid-template-columns: 1fr;
-    }
+  .book-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+
+  .book-grid--compact,
+  .book-grid--wide {
+    grid-template-columns: 1fr;
+  }
 }

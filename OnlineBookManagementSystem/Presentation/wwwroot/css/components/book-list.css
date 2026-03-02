@@ -1,0 +1,72 @@
+/**
+ * Component: Book List
+ * Purpose: Book listing layout with header, title, subtitle, and grid
+ * Used by Books/BookList.cshtml
+ * Migrated from views/books.css to comply with Rule 5
+ * BEM Methodology: .book-list__element
+ */
+
+/* ========================================
+   BLOCK: book-list
+   ======================================== */
+
+.book-list__header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.book-list__title-section {
+  flex: 1;
+  min-width: 200px;
+}
+
+.book-list__title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-color);
+  margin: 0 0 var(--space-2) 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.book-list__title i {
+  color: var(--color-primary);
+}
+
+.book-list__subtitle {
+  font-size: var(--font-size-base);
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.book-list__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-6);
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 768px) {
+  .book-list__header-content {
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .book-list__title {
+    font-size: var(--font-size-xl);
+  }
+}
+
+@media (max-width: 640px) {
+  .book-list__grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+}

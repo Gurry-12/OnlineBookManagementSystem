@@ -9,16 +9,16 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="fw-bold text-danger">
             <i class="bi bi-people me-2"></i>Users Analytics
-            <span class="badge bg-danger ms-2">Sensitive Data</span>
+            <span class="wp-badge bg-danger ms-2">Sensitive Data</span>
         </h2>
         
         @if (Model.Capabilities.CanExport)
         {
-            <div class="btn-group">
-                <button type="button" class="btn btn-outline-danger" onclick="exportAnalytics('csv')">
+            <div class="wp-btn-group">
+                <button type="button" class="wp-btn-outline-danger" onclick="exportAnalytics('csv')">
                     <i class="bi bi-file-earmark-spreadsheet me-2"></i>Export CSV
                 </button>
-                <button type="button" class="btn btn-outline-danger" onclick="exportAnalytics('pdf')">
+                <button type="button" class="wp-btn-outline-danger" onclick="exportAnalytics('pdf')">
                     <i class="bi bi-file-earmark-pdf me-2"></i>Export PDF
                 </button>
             </div>
@@ -33,11 +33,11 @@
         <!-- Summary Cards -->
         <div class="row g-4 mb-4">
             <div class="col-lg-3 col-md-6">
-                <div class="card bg-danger text-white">
-                    <div class="card-body">
+                <div class="wp-card bg-danger text-white">
+                    <div class="wp-card-body">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <h6 class="card-title">Total Users</h6>
+                                <h6 class="wp-card-title">Total Users</h6>
                                 <h3 class="mb-0">@Model.Data.TotalUsers.ToString("N0")</h3>
                             </div>
                             <div class="align-self-center">
@@ -49,11 +49,11 @@
             </div>
             
             <div class="col-lg-3 col-md-6">
-                <div class="card bg-success text-white">
-                    <div class="card-body">
+                <div class="wp-card bg-success text-white">
+                    <div class="wp-card-body">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <h6 class="card-title">Active Users</h6>
+                                <h6 class="wp-card-title">Active Users</h6>
                                 <h3 class="mb-0">@Model.Data.ActiveUsers.ToString("N0")</h3>
                             </div>
                             <div class="align-self-center">
@@ -65,11 +65,11 @@
             </div>
             
             <div class="col-lg-3 col-md-6">
-                <div class="card bg-info text-white">
-                    <div class="card-body">
+                <div class="wp-card bg-info text-white">
+                    <div class="wp-card-body">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <h6 class="card-title">New This Month</h6>
+                                <h6 class="wp-card-title">New This Month</h6>
                                 <h3 class="mb-0">@Model.Data.NewUsersThisMonth.ToString("N0")</h3>
                             </div>
                             <div class="align-self-center">
@@ -81,11 +81,11 @@
             </div>
             
             <div class="col-lg-3 col-md-6">
-                <div class="card bg-warning text-white">
-                    <div class="card-body">
+                <div class="wp-card bg-warning text-white">
+                    <div class="wp-card-body">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <h6 class="card-title">Inactive Users</h6>
+                                <h6 class="wp-card-title">Inactive Users</h6>
                                 <h3 class="mb-0">@Model.Data.InactiveUsers.ToString("N0")</h3>
                             </div>
                             <div class="align-self-center">
@@ -100,27 +100,27 @@
         <!-- Growth Metrics -->
         <div class="row g-4 mb-4">
             <div class="col-md-4">
-                <div class="card border-success">
-                    <div class="card-body text-center">
-                        <h6 class="card-title text-success">User Growth Rate</h6>
+                <div class="wp-card border-success">
+                    <div class="wp-card-body text-center">
+                        <h6 class="wp-card-title text-success">User Growth Rate</h6>
                         <h4 class="text-success">@Model.Data.UserGrowthRate.ToString("P1")</h4>
                         <small class="text-muted">vs Previous Period</small>
                     </div>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card border-info">
-                    <div class="card-body text-center">
-                        <h6 class="card-title text-info">Activity Rate</h6>
+                <div class="wp-card border-info">
+                    <div class="wp-card-body text-center">
+                        <h6 class="wp-card-title text-info">Activity Rate</h6>
                         <h4 class="text-info">@Model.Data.ActivityRate.ToString("P1")</h4>
                         <small class="text-muted">Active vs Total Users</small>
                     </div>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card border-warning">
-                    <div class="card-body text-center">
-                        <h6 class="card-title text-warning">Retention Rate</h6>
+                <div class="wp-card border-warning">
+                    <div class="wp-card-body text-center">
+                        <h6 class="wp-card-title text-warning">Retention Rate</h6>
                         <h4 class="text-warning">@Model.Data.RetentionRate.ToString("P1")</h4>
                         <small class="text-muted">30-Day Retention</small>
                     </div>
@@ -240,3 +240,6 @@
         }
     </script>
 }
+
+
+

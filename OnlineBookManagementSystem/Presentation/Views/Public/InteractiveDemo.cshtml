@@ -11,7 +11,7 @@
             <div class="col-lg-8 mx-auto text-center" data-fade-in>
                 <div class="hero-content">
                     <div class="hero-badge mb-3">
-                        <span class="badge bg-success bg-opacity-20 text-success px-4 py-2 rounded-pill fs-6">
+                        <span class="wp-badge bg-success bg-opacity-20 text-success px-4 py-2 rounded-pill fs-6">
                             <i class="bi bi-play-circle me-2"></i>Live Interactive Demo
                         </span>
                     </div>
@@ -61,7 +61,7 @@
                             <input type="text" id="demoSearch" class="form-control border-0 bg-transparent" 
                                    placeholder="Search books by title, author, or category..." 
                                    autocomplete="off">
-                            <button class="btn btn-primary" type="button" onclick="performDemoSearch()">
+                            <button class="wp-btn-primary" type="button" onclick="performDemoSearch()">
                                 <i class="bi bi-search me-2"></i>Search
                             </button>
                         </div>
@@ -106,7 +106,7 @@
                         <h5 class="category-name fw-bold mb-2">@category.Name</h5>
                         <p class="category-description text-muted small mb-2">@category.Description</p>
                         <div class="category-stats">
-                            <span class="badge bg-primary bg-opacity-20 text-primary">
+                            <span class="wp-badge bg-primary bg-opacity-20 text-primary">
                                 @category.BookCount books
                             </span>
                         </div>
@@ -146,31 +146,29 @@
                             <div class="book-image-wrapper position-relative">
                                 <img src="@(book.ImageUrl ?? Url.Content("~/images/default-book-improved.svg"))" 
                                      alt="@book.Title" 
-                                     class="book-cover w-100" 
-                                     style="height: 300px; object-fit: cover; border-radius: 12px 12px 0 0;">
+                                     class="demo-book-cover w-100">
                                 
-                                <div class="demo-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
-                                     style="background: rgba(0,0,0,0.7); opacity: 0; transition: opacity 0.3s ease; border-radius: 12px 12px 0 0;">
-                                    <button class="btn btn-light btn-sm" onclick="viewBookDemo(@book.Id)">
+                                <div class="demo-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center">
+                                    <button class="wp-btn-light wp-btn-sm" onclick="viewBookDemo(@book.Id)">
                                         <i class="bi bi-eye me-1"></i>View Details
                                     </button>
                                 </div>
                                 
                                 <div class="demo-badge position-absolute top-0 start-0 m-2">
-                                    <span class="badge bg-success bg-opacity-90">
+                                    <span class="wp-badge bg-success bg-opacity-90">
                                         <i class="bi bi-play-circle me-1"></i>Demo
                                     </span>
                                 </div>
                                 
                                 @if (book.StockQuantity > 0)
                                 {
-                                    <span class="badge bg-success position-absolute top-0 end-0 m-2">
+                                    <span class="wp-badge bg-success position-absolute top-0 end-0 m-2">
                                         <i class="bi bi-check-circle me-1"></i>In Stock
                                     </span>
                                 }
                                 else
                                 {
-                                    <span class="badge bg-danger position-absolute top-0 end-0 m-2">
+                                    <span class="wp-badge bg-danger position-absolute top-0 end-0 m-2">
                                         <i class="bi bi-x-circle me-1"></i>Out of Stock
                                     </span>
                                 }
@@ -184,7 +182,7 @@
                                 
                                 @if (!string.IsNullOrEmpty(book.Category?.Name))
                                 {
-                                    <span class="badge bg-info mb-2">
+                                    <span class="wp-badge bg-info mb-2">
                                         <i class="bi bi-tag me-1"></i>@book.Category.Name
                                     </span>
                                 }
@@ -317,7 +315,7 @@
                     <div class="feature-showcase-card glass spotlight-card hover-lift h-100 p-4">
                         <div class="feature-header mb-3">
                             <div class="feature-category mb-2">
-                                <span class="badge bg-primary bg-opacity-20 text-primary">@feature.Category</span>
+                                <span class="wp-badge bg-primary bg-opacity-20 text-primary">@feature.Category</span>
                             </div>
                             <h4 class="feature-title fw-bold mb-2">@feature.FeatureName</h4>
                         </div>
@@ -325,7 +323,7 @@
                         @if (feature.IsInteractive)
                         {
                             <div class="feature-demo mb-3">
-                                <button class="btn btn-outline-primary btn-sm" onclick="demonstrateFeature('@feature.FeatureName')">
+                                <button class="wp-btn-outline-primary wp-btn-sm" onclick="demonstrateFeature('@feature.FeatureName')">
                                     <i class="bi bi-play-circle me-1"></i>Try Feature
                                 </button>
                             </div>
@@ -346,7 +344,7 @@
                 <div class="feature-showcase-card glass spotlight-card hover-lift h-100 p-4">
                     <div class="feature-header mb-3">
                         <div class="feature-category mb-2">
-                            <span class="badge bg-success bg-opacity-20 text-success">Architecture</span>
+                            <span class="wp-badge bg-success bg-opacity-20 text-success">Architecture</span>
                         </div>
                         <h4 class="feature-title fw-bold mb-2">Clean Architecture</h4>
                     </div>
@@ -354,7 +352,7 @@
                         Implements Uncle Bob's Clean Architecture with clear separation of concerns and dependency inversion.
                     </p>
                     <div class="feature-demo mb-3">
-                        <button class="btn btn-outline-success btn-sm" onclick="showArchitectureDemo()">
+                        <button class="wp-btn-outline-success wp-btn-sm" onclick="showArchitectureDemo()">
                             <i class="bi bi-diagram-3 me-1"></i>View Architecture
                         </button>
                     </div>
@@ -372,7 +370,7 @@
                 <div class="feature-showcase-card glass spotlight-card hover-lift h-100 p-4">
                     <div class="feature-header mb-3">
                         <div class="feature-category mb-2">
-                            <span class="badge bg-warning bg-opacity-20 text-warning">Security</span>
+                            <span class="wp-badge bg-warning bg-opacity-20 text-warning">Security</span>
                         </div>
                         <h4 class="feature-title fw-bold mb-2">Role-Based Security</h4>
                     </div>
@@ -380,7 +378,7 @@
                         Comprehensive security with JWT authentication, role-based authorization, and data protection.
                     </p>
                     <div class="feature-demo mb-3">
-                        <button class="btn btn-outline-warning btn-sm" onclick="showSecurityDemo()">
+                        <button class="wp-btn-outline-warning wp-btn-sm" onclick="showSecurityDemo()">
                             <i class="bi bi-shield-lock me-1"></i>Security Features
                         </button>
                     </div>
@@ -398,7 +396,7 @@
                 <div class="feature-showcase-card glass spotlight-card hover-lift h-100 p-4">
                     <div class="feature-header mb-3">
                         <div class="feature-category mb-2">
-                            <span class="badge bg-info bg-opacity-20 text-info">UI/UX</span>
+                            <span class="wp-badge bg-info bg-opacity-20 text-info">UI/UX</span>
                         </div>
                         <h4 class="feature-title fw-bold mb-2">Modern UI Effects</h4>
                     </div>
@@ -406,7 +404,7 @@
                         Glass morphism, aurora backgrounds, and smooth animations create an engaging user experience.
                     </p>
                     <div class="feature-demo mb-3">
-                        <button class="btn btn-outline-info btn-sm" onclick="showUIDemo()">
+                        <button class="wp-btn-outline-info wp-btn-sm" onclick="showUIDemo()">
                             <i class="bi bi-palette me-1"></i>UI Showcase
                         </button>
                     </div>
@@ -578,15 +576,15 @@
                 </p>
                 <div class="d-flex gap-3 justify-content-center flex-wrap">
                     <a asp-controller="Auth" asp-action="Registration" 
-                       class="wp-btn wp-btn-primary magnetic-btn holographic btn-lg">
+                       class="wp-btn-primary magnetic-btn holographic wp-btn-lg">
                         <i class="bi bi-person-plus me-2"></i>Create Account
                     </a>
                     <a asp-controller="Auth" asp-action="Login" 
-                       class="wp-btn wp-btn-secondary magnetic-btn btn-lg">
+                       class="wp-btn-secondary magnetic-btn wp-btn-lg">
                         <i class="bi bi-box-arrow-in-right me-2"></i>Login
                     </a>
                     <a asp-action="TechnicalDetails" 
-                       class="wp-btn wp-btn-outline-light magnetic-btn btn-lg">
+                       class="wp-btn-outline-light magnetic-btn wp-btn-lg">
                         <i class="bi bi-gear me-2"></i>Technical Details
                     </a>
                 </div>
@@ -606,186 +604,7 @@
 </div>
 
 @section Styles {
-    <style>
-        .demo-hero {
-            min-height: 50vh;
-        }
-        
-        .min-vh-50 {
-            min-height: 50vh;
-        }
-        
-        .search-container {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(0,0,0,0.1);
-        }
-        
-        .search-container .form-control:focus {
-            box-shadow: none;
-            border-color: transparent;
-        }
-        
-        .category-demo-card, .feature-showcase-card {
-            background: white;
-            border-radius: 16px;
-            border: 1px solid rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        
-        .category-demo-card:hover, .feature-showcase-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
-        }
-        
-        .demo-book-card {
-            background: white;
-            border-radius: 16px;
-            overflow: hidden;
-            border: 1px solid rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-        }
-        
-        .demo-book-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
-        }
-        
-        .demo-book-card:hover .demo-overlay {
-            opacity: 1 !important;
-        }
-        
-        .book-cover {
-            transition: transform 0.3s ease;
-        }
-        
-        .demo-book-card:hover .book-cover {
-            transform: scale(1.05);
-        }
-        
-        .loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.7);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-        }
-        
-        .loading-content {
-            text-align: center;
-            color: white;
-        }
-        
-        .search-results, .category-results {
-            animation: fadeInUp 0.5s ease;
-        }
-        
-        @@keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .cursor-pointer {
-            cursor: pointer;
-        }
-        
-        .workflow-step {
-            transition: all 0.3s ease;
-        }
-        
-        .workflow-step:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-        }
-        
-        .step-number {
-            font-weight: bold;
-            font-size: 1.25rem;
-        }
-        
-        .table-hover tbody tr:hover {
-            background-color: rgba(0,0,0,0.02);
-        }
-        
-        .feature-showcase-card .tech-highlights {
-            border-top: 1px solid rgba(0,0,0,0.1);
-            padding-top: 1rem;
-            margin-top: 1rem;
-        }
-        
-        .workflow-section {
-            border-left: 4px solid var(--bs-primary);
-        }
-        
-        .architecture-diagram .layer {
-            transition: all 0.3s ease;
-        }
-        
-        .architecture-diagram .layer:hover {
-            transform: translateX(10px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-        
-        .security-feature, .admin-feature {
-            transition: all 0.3s ease;
-        }
-        
-        .security-feature:hover, .admin-feature:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        
-        .ui-example.glass {
-            backdrop-filter: blur(10px);
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        /* Responsive adjustments */
-        @@media (max-width: 768px) {
-            .display-3 {
-                font-size: 2.5rem;
-            }
-            
-            .demo-stats {
-                flex-direction: column;
-                gap: 1rem !important;
-            }
-            
-            .demo-actions .d-flex {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            
-            .demo-actions .wp-btn {
-                text-align: center;
-            }
-            
-            .workflow-steps .row {
-                text-align: center;
-            }
-            
-            .workflow-steps .col-md-2 {
-                margin-bottom: 1rem;
-            }
-            
-            .table-responsive {
-                font-size: 0.875rem;
-            }
-        }
-    </style>
+    
 }
 
 @section Scripts {
@@ -1015,7 +834,7 @@
                         </div>
                     </div>
                     <div class="mt-3">
-                        <a href="/Auth/Login" class="btn btn-primary">
+                        <a href="/Auth/Login" class="wp-btn-primary">
                             <i class="bi bi-box-arrow-in-right me-2"></i>Login to Access Admin Features
                         </a>
                     </div>
@@ -1032,10 +851,10 @@
                         This feature would be demonstrated with live functionality in the full system.
                     </p>
                     <div class="demo-actions">
-                        <a href="/Auth/Registration" class="btn btn-primary me-2">
+                        <a href="/Auth/Registration" class="wp-btn-primary me-2">
                             <i class="bi bi-person-plus me-1"></i>Create Account
                         </a>
-                        <a href="/Auth/Login" class="btn btn-outline-primary">
+                        <a href="/Auth/Login" class="wp-btn-outline-primary">
                             <i class="bi bi-box-arrow-in-right me-1"></i>Login
                         </a>
                     </div>
@@ -1057,13 +876,13 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="demoModalLabel">${title}</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <button type="button" class="wp-btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                                 ${content}
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="wp-btn-secondary" data-bs-dismiss="modal">Close</button>
                             </div>
                         </div>
                     </div>
@@ -1151,22 +970,20 @@
             
             const imageUrl = book.imageUrl || '/images/default-book-improved.svg';
             const stockBadge = book.stockQuantity > 0 
-                ? '<span class="badge bg-success position-absolute top-0 end-0 m-2"><i class="bi bi-check-circle me-1"></i>In Stock</span>'
-                : '<span class="badge bg-danger position-absolute top-0 end-0 m-2"><i class="bi bi-x-circle me-1"></i>Out of Stock</span>';
+                ? '<span class="wp-badge bg-success position-absolute top-0 end-0 m-2"><i class="bi bi-check-circle me-1"></i>In Stock</span>'
+                : '<span class="wp-badge bg-danger position-absolute top-0 end-0 m-2"><i class="bi bi-x-circle me-1"></i>Out of Stock</span>';
             
             col.innerHTML = `
                 <div class="demo-book-card spotlight-card hover-lift h-100">
                     <div class="book-image-wrapper position-relative">
-                        <img src="${imageUrl}" alt="${book.title}" class="book-cover w-100" 
-                             style="height: 300px; object-fit: cover; border-radius: 12px 12px 0 0;">
-                        <div class="demo-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
-                             style="background: rgba(0,0,0,0.7); opacity: 0; transition: opacity 0.3s ease; border-radius: 12px 12px 0 0;">
-                            <button class="btn btn-light btn-sm" onclick="viewBookDemo(${book.id})">
+                        <img src="${imageUrl}" alt="${book.title}" class="demo-book-cover w-100">
+                        <div class="demo-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center">
+                            <button class="wp-btn-light wp-btn-sm" onclick="viewBookDemo(${book.id})">
                                 <i class="bi bi-eye me-1"></i>View Details
                             </button>
                         </div>
                         <div class="demo-badge position-absolute top-0 start-0 m-2">
-                            <span class="badge bg-success bg-opacity-90">
+                            <span class="wp-badge bg-success bg-opacity-90">
                                 <i class="bi bi-play-circle me-1"></i>Demo
                             </span>
                         </div>
@@ -1177,7 +994,7 @@
                         <p class="book-author text-muted mb-2">
                             <i class="bi bi-person me-1"></i>${book.author}
                         </p>
-                        ${book.category ? `<span class="badge bg-info mb-2"><i class="bi bi-tag me-1"></i>${book.category.name}</span>` : ''}
+                        ${book.category ? `<span class="wp-badge bg-info mb-2"><i class="bi bi-tag me-1"></i>${book.category.name}</span>` : ''}
                         <div class="d-flex justify-content-between align-items-center mt-3">
                             <span class="book-price fw-bold text-primary fs-5">₹${book.price.amount.toFixed(2)}</span>
                             <div class="book-rating">
@@ -1218,3 +1035,5 @@
         }
     </script>
 }
+
+

@@ -25,7 +25,7 @@
                 </div>
                 @if (Model.Capabilities.CanClearCart && Model.HasItems)
                 {
-                    <button class="btn btn-outline-danger" onclick="clearCart()">
+                    <button class="wp-btn-outline-danger" onclick="clearCart()">
                         <i class="bi bi-trash me-2"></i>Clear Cart
                     </button>
                 }
@@ -60,7 +60,7 @@
             </p>
             @if (!Model.Capabilities.IsReadOnly)
             {
-                <a href="@Model.Capabilities.BackLinkUrl" class="btn btn-primary btn-lg">
+                <a href="@Model.Capabilities.BackLinkUrl" class="wp-btn-primary wp-btn-lg">
                     <i class="bi bi-arrow-left me-2"></i>@Model.Capabilities.BackLinkText
                 </a>
             }
@@ -71,8 +71,8 @@
         <div class="row g-4">
             <!-- Cart Items -->
             <div class="col-lg-8">
-                <div class="card shadow-sm border-0">
-                    <div class="card-body">
+                <div class="wp-card shadow-sm border-0">
+                    <div class="wp-card-body">
                         @foreach (var item in Model.CartItems)
                         {
                             <div class="cart-item" data-book-id="@item.BookId">
@@ -114,7 +114,7 @@
                                         }
                                         else
                                         {
-                                            <span class="badge bg-secondary">Qty: @item.Quantity</span>
+                                            <span class="wp-badge bg-secondary">Qty: @item.Quantity</span>
                                         }
                                         
                                         <span class="cart-item__price">@item.FormattedBookPrice</span>
@@ -288,7 +288,7 @@
                 toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
                 toast.innerHTML = `
                     ${message}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    <button type="button" class="wp-btn-close" data-bs-dismiss="alert"></button>
                 `;
                 document.body.appendChild(toast);
 
@@ -302,23 +302,7 @@
     }
 }
 
-<style>
-    .cart-item:last-child {
-        border-bottom: none !important;
-        margin-bottom: 0 !important;
-        padding-bottom: 0 !important;
-    }
-    
-    .card {
-        border: none;
-        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-    }
-    
-    .input-group .btn {
-        border-color: #dee2e6;
-    }
-    
-    .sticky-top {
-        z-index: 1020;
-    }
-</style>
+
+
+
+

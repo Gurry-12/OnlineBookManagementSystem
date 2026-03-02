@@ -1,0 +1,51 @@
+/**
+ * Component: Card
+ * Purpose: Standardised card container using custom classes (.wp-card).
+ * Replaces older Bootstrap class dependencies.
+ */
+
+.wp-card {
+  background-color: var(--bg-surface, var(--color-white));
+  border: 1px solid var(--border-color, var(--color-gray-200));
+  border-radius: var(--radius-md, 0.75rem);
+  box-shadow: var(--shadow-sm, 0 1px 2px 0 rgba(0, 0, 0, 0.05));
+  overflow: hidden;
+  transition: transform var(--transition-fast, 150ms ease-in-out), box-shadow var(--transition-fast, 150ms ease-in-out);
+}
+
+.wp-card:hover {
+  box-shadow: var(--shadow, 0 1px 3px 0 rgba(0, 0, 0, 0.1));
+}
+
+.wp-card-header {
+  padding: var(--space-4, 1rem) var(--space-5, 1.25rem);
+  border-bottom: 1px solid var(--border-color, var(--color-gray-200));
+  background-color: var(--color-gray-50, #f9fafb);
+  font-weight: var(--font-weight-medium, 500);
+  font-size: var(--font-size-lg, 1.125rem);
+}
+
+.wp-card-body {
+  padding: var(--space-5, 1.25rem);
+}
+
+.wp-card-footer {
+  padding: var(--space-4, 1rem) var(--space-5, 1.25rem);
+  border-top: 1px solid var(--border-color, var(--color-gray-200));
+  background-color: var(--color-gray-50, #f9fafb);
+}
+
+.wp-card-title {
+  margin-bottom: var(--space-2, 0.5rem);
+  font-size: var(--font-size-xl, 1.25rem);
+  font-weight: var(--font-weight-semibold, 600);
+  color: var(--color-gray-900, #111827);
+}
+
+.wp-card-text {
+  margin-top: 0;
+  margin-bottom: var(--space-3, 0.75rem);
+  color: var(--color-gray-600, #4b5563);
+  font-size: var(--font-size-base, 1rem);
+  line-height: var(--line-height-normal, 1.5);
+}

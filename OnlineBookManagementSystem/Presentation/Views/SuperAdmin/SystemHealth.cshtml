@@ -11,7 +11,7 @@
                     <i class="fas fa-heartbeat text-success me-2"></i>
                     System Health Monitor
                 </h2>
-                <button id="refreshBtn" class="btn btn-outline-primary">
+                <button id="refreshBtn" class="wp-btn-outline-primary">
                     <i class="fas fa-sync-alt"></i> Refresh
                 </button>
             </div>
@@ -21,8 +21,8 @@
     <!-- System Status Cards -->
     <div class="row mb-4">
         <div class="col-md-3">
-            <div class="card bg-success text-white">
-                <div class="card-body text-center">
+            <div class="wp-card bg-success text-white">
+                <div class="wp-card-body text-center">
                     <i class="fas fa-server fa-2x mb-2"></i>
                     <h4 id="systemStatus">Loading...</h4>
                     <p class="mb-0">System Status</p>
@@ -30,8 +30,8 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div class="card bg-info text-white">
-                <div class="card-body text-center">
+            <div class="wp-card bg-info text-white">
+                <div class="wp-card-body text-center">
                     <i class="fas fa-database fa-2x mb-2"></i>
                     <h4 id="dbStatus">Loading...</h4>
                     <p class="mb-0">Database</p>
@@ -39,8 +39,8 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div class="card bg-warning text-white">
-                <div class="card-body text-center">
+            <div class="wp-card bg-warning text-white">
+                <div class="wp-card-body text-center">
                     <i class="fas fa-memory fa-2x mb-2"></i>
                     <h4 id="memoryUsage">Loading...</h4>
                     <p class="mb-0">Memory (MB)</p>
@@ -48,8 +48,8 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div class="card bg-primary text-white">
-                <div class="card-body text-center">
+            <div class="wp-card bg-primary text-white">
+                <div class="wp-card-body text-center">
                     <i class="fas fa-users fa-2x mb-2"></i>
                     <h4 id="activeUsers">Loading...</h4>
                     <p class="mb-0">Active Users (24h)</p>
@@ -61,11 +61,11 @@
     <!-- Detailed Information -->
     <div class="row">
         <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
+            <div class="wp-card">
+                <div class="wp-card-header">
                     <h5 class="mb-0">Database Information</h5>
                 </div>
-                <div class="card-body">
+                <div class="wp-card-body">
                     <div id="databaseInfo">
                         <div class="text-center">
                             <div class="spinner-border text-primary" role="status">
@@ -78,11 +78,11 @@
         </div>
 
         <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
+            <div class="wp-card">
+                <div class="wp-card-header">
                     <h5 class="mb-0">System Information</h5>
                 </div>
-                <div class="card-body">
+                <div class="wp-card-body">
                     <div id="systemInfo">
                         <div class="text-center">
                             <div class="spinner-border text-primary" role="status">
@@ -98,11 +98,11 @@
     <!-- Uptime Information -->
     <div class="row mt-4">
         <div class="col-12">
-            <div class="card">
-                <div class="card-header">
+            <div class="wp-card">
+                <div class="wp-card-header">
                     <h5 class="mb-0">System Uptime</h5>
                 </div>
-                <div class="card-body">
+                <div class="wp-card-body">
                     <div id="uptimeInfo">
                         <div class="text-center">
                             <div class="spinner-border text-primary" role="status">
@@ -222,14 +222,6 @@
     </script>
 }
 
-<style>
-    .card {
-        border: none;
-        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-    }
-    
-    .spinner-border {
-        width: 2rem;
-        height: 2rem;
-    }
-</style>
+
+
+

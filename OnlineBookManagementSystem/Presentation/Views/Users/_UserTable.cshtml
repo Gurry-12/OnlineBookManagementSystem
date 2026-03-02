@@ -41,20 +41,20 @@
                                     </div>
                                     @if (!user.EmailConfirmed)
                                     {
-                                        <span class="badge bg-warning text-dark small">Email Not Confirmed</span>
+                                        <span class="wp-badge-warning small">Email Not Confirmed</span>
                                     }
                                     @if (!string.IsNullOrEmpty(user.RequestedRole))
                                     {
-                                        <br><span class="badge bg-info small">Requested: @user.RequestedRole</span>
+                                        <br><span class="wp-badge-info small">Requested: @user.RequestedRole</span>
                                     }
                                 </div>
                             </div>
                         </td>
                         <td>
-                            <span class="badge @user.RoleBadgeClass">@user.Role</span>
+                            <span class="wp-badge @user.RoleBadgeClass">@user.Role</span>
                         </td>
                         <td>
-                            <span class="badge @user.StatusBadgeClass">@user.Status</span>
+                            <span class="wp-badge @user.StatusBadgeClass">@user.Status</span>
                             @if (user.LockoutEnd > DateTimeOffset.UtcNow)
                             {
                                 <br><small class="text-muted">Until @user.LockoutEnd?.ToString("MMM dd, yyyy")</small>
@@ -78,17 +78,17 @@
                         @if (capabilities.CanEdit || capabilities.CanDelete || capabilities.CanChangeRoles || capabilities.CanLockUnlock)
                         {
                             <td>
-                                <div class="btn-group btn-group-sm">
+                                <div class="wp-btn-group wp-btn-group-sm">
                                     @if (capabilities.CanViewSensitiveData)
                                     {
-                                        <button type="button" class="btn btn-outline-primary" onclick="editUser(@user.Id)" title="Edit User">
+                                        <button type="button" class="wp-btn-secondary" onclick="editUser(@user.Id)" title="Edit User">
                                             <i class="bi bi-pencil"></i>
                                         </button>
                                     }
                                     
                                     @if (capabilities.CanChangeRoles && !user.IsDeleted)
                                     {
-                                        <button type="button" class="btn btn-outline-warning" onclick="changeRole(@user.Id, '@user.Role')" title="Change Role">
+                                        <button type="button" class="wp-btn-secondary" onclick="changeRole(@user.Id, '@user.Role')" title="Change Role">
                                             <i class="bi bi-person-gear"></i>
                                         </button>
                                     }
@@ -97,13 +97,13 @@
                                     {
                                         @if (user.LockoutEnd > DateTimeOffset.UtcNow)
                                         {
-                                            <button type="button" class="btn btn-outline-success" onclick="unlockUser(@user.Id)" title="Unlock User">
+                                            <button type="button" class="wp-btn-secondary" onclick="unlockUser(@user.Id)" title="Unlock User">
                                                 <i class="bi bi-unlock"></i>
                                             </button>
                                         }
                                         else
                                         {
-                                            <button type="button" class="btn btn-outline-danger" onclick="lockUser(@user.Id)" title="Lock User">
+                                            <button type="button" class="wp-btn-secondary" onclick="lockUser(@user.Id)" title="Lock User">
                                                 <i class="bi bi-lock"></i>
                                             </button>
                                         }
@@ -113,13 +113,13 @@
                                     {
                                         @if (user.IsDeleted)
                                         {
-                                            <button type="button" class="btn btn-outline-success" onclick="restoreUser(@user.Id)" title="Restore User">
+                                            <button type="button" class="wp-btn-secondary" onclick="restoreUser(@user.Id)" title="Restore User">
                                                 <i class="bi bi-arrow-clockwise"></i>
                                             </button>
                                         }
                                         else
                                         {
-                                            <button type="button" class="btn btn-outline-danger" onclick="deleteUser(@user.Id)" title="Delete User">
+                                            <button type="button" class="wp-btn-secondary" onclick="deleteUser(@user.Id)" title="Delete User">
                                                 <i class="bi bi-trash"></i>
                                             </button>
                                         }
@@ -141,3 +141,5 @@ else
         <p class="text-muted">No users match the current filters.</p>
     </div>
 }
+
+

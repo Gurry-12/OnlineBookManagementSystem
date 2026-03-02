@@ -9,35 +9,35 @@
    ======================================== */
 
 .loading-state {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--spacing-3xl) var(--spacing-md);
-    background: var(--loading-overlay-bg);
-    border-radius: var(--border-radius-lg);
-    min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-3xl) var(--spacing-md);
+  background: var(--loading-overlay-bg);
+  border-radius: var(--border-radius-lg);
+  min-height: 200px;
 }
 
 .loading-state__content {
-    text-align: center;
+  text-align: center;
 }
 
 .loading-state__spinner {
-    margin-bottom: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
 }
 
 .loading-state__spinner .spinner-border {
-    width: 3rem;
-    height: 3rem;
-    border-width: 0.3rem;
-    color: var(--loading-spinner-color);
+  width: 3rem;
+  height: 3rem;
+  border-width: 0.3rem;
+  color: var(--loading-spinner-color);
 }
 
 .loading-state__text {
-    margin: 0;
-    font-size: var(--font-size-base);
-    color: var(--color-gray-600);
-    font-weight: var(--font-weight-medium);
+  margin: 0;
+  font-size: var(--font-size-base);
+  color: var(--color-gray-600);
+  font-weight: var(--font-weight-medium);
 }
 
 /* ========================================
@@ -45,19 +45,19 @@
    ======================================== */
 
 .loading-state--inline .loading-state__content {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-md);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
 }
 
 .loading-state--inline .loading-state__spinner {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .loading-state--inline .loading-state__spinner .spinner-border {
-    width: 1.5rem;
-    height: 1.5rem;
-    border-width: 0.2rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-width: 0.2rem;
 }
 
 /* ========================================
@@ -65,14 +65,14 @@
    ======================================== */
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .loading-state {
-    animation: fadeIn var(--transition-base);
+  animation: fadeIn var(--transition-base);
 }

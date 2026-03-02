@@ -9,17 +9,17 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="fw-bold">
             <i class="bi bi-clock-history me-2"></i>Activity Logs
-            <span class="badge bg-secondary ms-2">Audit Trail</span>
+            <span class="wp-badge-secondary ms-2">Audit Trail</span>
         </h2>
         
-        <div class="btn-group">
+        <div class="wp-btn-group">
             @if (Model.Capabilities.CanExport)
             {
-                <button type="button" class="btn btn-outline-primary" onclick="exportLogs()">
+                <button type="button" class="wp-btn-primary" onclick="exportLogs()">
                     <i class="bi bi-download me-2"></i>Export Logs
                 </button>
             }
-            <button type="button" class="btn btn-outline-secondary" onclick="refreshLogs()">
+            <button type="button" class="wp-btn-secondary" onclick="refreshLogs()">
                 <i class="bi bi-arrow-clockwise me-2"></i>Refresh
             </button>
         </div>
@@ -30,8 +30,8 @@
         <!-- Basic Stats (Not Analytics) -->
         <div class="row g-3 mb-4">
             <div class="col-md-4">
-                <div class="card bg-primary text-white">
-                    <div class="card-body text-center">
+                <div class="wp-card bg-primary text-white">
+                    <div class="wp-card-body text-center">
                         <i class="bi bi-journal-text fs-2 mb-2"></i>
                         <h4 class="mb-0">@Model.TotalLogs.ToString("N0")</h4>
                         <small>Total Log Entries</small>
@@ -39,8 +39,8 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card bg-info text-white">
-                    <div class="card-body text-center">
+                <div class="wp-card bg-info text-white">
+                    <div class="wp-card-body text-center">
                         <i class="bi bi-calendar-day fs-2 mb-2"></i>
                         <h4 class="mb-0">@Model.LogsToday.ToString("N0")</h4>
                         <small>Today's Entries</small>
@@ -48,8 +48,8 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card bg-success text-white">
-                    <div class="card-body text-center">
+                <div class="wp-card bg-success text-white">
+                    <div class="wp-card-body text-center">
                         <i class="bi bi-calendar-week fs-2 mb-2"></i>
                         <h4 class="mb-0">@Model.LogsThisWeek.ToString("N0")</h4>
                         <small>This Week's Entries</small>
@@ -62,19 +62,19 @@
         @await Html.PartialAsync("_LogFilters", Model.Filters)
 
         <!-- Logs Table -->
-        <div class="card">
-            <div class="card-header">
-                <h5 class="card-title mb-0">
+        <div class="wp-card">
+            <div class="wp-card-header">
+                <h5 class="wp-card-title mb-0">
                     <i class="bi bi-list-ul me-2"></i>Activity Timeline
                     @if (Model.Logs.Any())
                     {
-                        <span class="badge bg-light text-dark ms-2">
+                        <span class="wp-badge-secondary ms-2">
                             @Model.Logs.Count of @Model.TotalLogs.ToString("N0") entries
                         </span>
                     }
                 </h5>
             </div>
-            <div class="card-body p-0">
+            <div class="wp-card-body p-0">
                 @await Html.PartialAsync("_LogTable", (Model.Logs, Model.Capabilities))
             </div>
         </div>
@@ -167,3 +167,6 @@
         return $"{Context.Request.Path}?{queryString}";
     }
 }
+
+
+

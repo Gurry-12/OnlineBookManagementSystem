@@ -1,4 +1,4 @@
-﻿@model OnlineBookManagementSystem.Presentation.ViewModels.Showcase.ShowcaseViewModel
+@model OnlineBookManagementSystem.Presentation.ViewModels.Showcase.ShowcaseViewModel
 @{
     ViewData["Title"] = "Online Book Management System - Clean Architecture Showcase";
     ViewData["Description"] = "Experience a comprehensive book management system built with Clean Architecture, SOLID principles, and modern web technologies. Interactive demo, technical insights, and professional portfolio showcase.";
@@ -39,50 +39,46 @@
     </script>";
 }
 
-<!-- Hero Section with Portfolio Focus -->
-<section class="hero-section aurora-bg enhanced noise-overlay particles-bg py-5" data-parallax="0.3" role="banner" aria-labelledby="hero-heading">
+<!-- Hero Section - Clean & Modern -->
+<section class="hero-section py-5" role="banner" aria-labelledby="hero-heading">
     <div class="container">  
-        <div class="row align-items-center min-vh-60">
-            <div class="col-lg-8 cascade-animation" data-fade-in>
+        <div class="row align-items-center min-vh-50">
+            <div class="col-lg-8">
                 <div class="hero-content">
-                    <div class="hero-badge mb-3 floating">
-                        <span class="badge bg-primary bg-opacity-20 text-success px-3 py-2 rounded-pill holographic">
-                            <i class="bi bi-code-slash me-2" aria-hidden="true"></i>Clean Architecture Portfolio
+                    <div class="hero-badge mb-4">
+                        <span class="wp-badge bg-primary text-white rounded-pill px-3 py-2 border-0 shadow-sm">
+                            <i class="bi bi-code-slash me-2"></i>Clean Architecture Portfolio
                         </span>
                     </div>
-                    <h1 id="hero-heading" class="display-2 fw-bold text-dark mb-4 gradient-text" data-text-reveal>
+                    <h1 id="hero-heading" class="display-3 fw-bold mb-3 text-dark">
                         @Model.ProjectOverview.HeroTitle
                     </h1>
-                    <h2 class="display-6 text-white-75 mb-4">
+                    <h2 class="h4 mb-4 text-secondary">
                         @Model.ProjectOverview.HeroSubtitle
                     </h2>
-                    <p class="lead text-white-50 mb-4 fs-5">
+                    <p class="lead mb-4 text-muted mx-auto" style="max-width: 600px;">
                         @Model.ProjectOverview.Vision
                     </p>
-                    <div class="hero-actions d-flex flex-wrap gap-3 mb-4" role="group" aria-label="Main navigation actions">
-                        <a asp-action="InteractiveDemo" class="wp-btn wp-btn-primary magnetic-btn holographic rainbow btn-lg pulse-glow" 
-                           aria-label="Try the interactive demo with live book data">
-                            <i class="bi bi-play-circle me-2" aria-hidden="true"></i>Live Demo
+                    <div class="d-flex flex-wrap gap-3 mb-4" role="group" aria-label="Main navigation actions">
+                        <a asp-action="InteractiveDemo" class="wp-btn-outline-primary wp-btn-lg">
+                            <i class="bi bi-play-circle me-2"></i>Live Demo
                         </a>
-                        <a asp-action="TechnicalDetails" class="wp-btn wp-btn-secondary magnetic-btn btn-lg glass-deep"
-                           aria-label="View technical architecture and implementation details">
-                            <i class="bi bi-gear me-2" aria-hidden="true"></i>Architecture
+                        <a asp-action="TechnicalDetails" class="wp-btn-outline-primary wp-btn-lg">
+                            <i class="bi bi-gear me-2"></i>Architecture
                         </a>
-                        <a asp-controller="Auth" asp-action="Login" class="wp-btn wp-btn-success btn-lg glass-deep"
-                           aria-label="Login to access full system features">
-                            <i class="bi bi-box-arrow-in-right me-2" aria-hidden="true"></i>Login
+                        <a asp-controller="Auth" asp-action="Login" class="wp-btn-outline-primary wp-btn-lg">
+                            <i class="bi bi-box-arrow-in-right me-2"></i>Login
                         </a>
-                        <a asp-controller="Auth" asp-action="Registration" class="wp-btn wp-btn-light btn-lg glass-deep"
-                           aria-label="Create new account to get started">
-                            <i class="bi bi-person-plus me-2" aria-hidden="true"></i>Register
+                        <a asp-controller="Auth" asp-action="Registration" class="wp-btn-outline-primary wp-btn-lg">
+                            <i class="bi bi-person-plus me-2"></i>Register
                         </a>
                     </div>
-                    <div class="hero-tech-stack floating slow" aria-labelledby="tech-stack-heading">
-                        <p id="tech-stack-heading" class="text-white-50 small mb-2">Built with:</p>
+                    <div class="mb-4">
+                        <p class="small mb-2 text-muted">Built with:</p>
                         <div class="d-flex flex-wrap gap-2" role="list" aria-label="Technology stack">
                             @foreach (var tech in Model.TechnicalStack.BackendTechnologies.Take(4))
                             {
-                                <span class="badge bg-white bg-opacity-20 text-white px-2 py-1 " role="listitem">
+                                <span class="wp-badge bg-primary bg-opacity-10 text-primary border-0" role="listitem">
                                     @tech.Name
                                 </span>
                             }
@@ -90,21 +86,17 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 text-center" data-fade-in>
-                <div class="hero-visual position-relative floating" role="img" aria-labelledby="architecture-diagram-heading">
-                    <div class="architecture-diagram glass-deep p-4 rounded-4 card-3d">
-                        <div class="layer-stack">
-                            <h3 id="architecture-diagram-heading" class="sr-only">Clean Architecture Layers Diagram</h3>
-                            @foreach (var layer in Model.Architecture.Layers)
-                            {
-                                <div class="architecture-layer mb-2 p-2 rounded text-center text-white morph-shape" 
-                                     style="background: @layer.Color; opacity: 0.9;"
-                                     role="img" aria-label="@layer.Name layer">
-                                    <small class="fw-semibold">@layer.Name</small>
-                                </div>
-                            }
-                        </div>
-                        <p class="text-white-75 small mt-3 mb-0 iridescent">@Model.Architecture.ArchitectureType</p>
+            <div class="col-lg-4 text-center">
+                <div class="wp-card p-4 rounded-4 shadow-sm border-0">
+                    <div class="text-center">
+                        @foreach (var layer in Model.Architecture.Layers)
+                        {
+                            <div class="mb-2 p-2 rounded text-center text-white" 
+                                 style="background-color: @layer.Color; opacity: 0.9;">
+                                <small class="fw-semibold">@layer.Name</small>
+                            </div>
+                        }
+                        <p class="small mt-3 mb-0 text-muted">@Model.Architecture.ArchitectureType</p>
                     </div>
                 </div>
             </div>
@@ -113,107 +105,56 @@
 </section>
 
 <!-- System Statistics Section -->
-<section class="stats-section py-5 bg-light liquid-bg" data-parallax="0.2" aria-labelledby="stats-heading">
+<section class="py-5 bg-light" aria-labelledby="stats-heading">
     <div class="container">
-        <div class="text-center mb-5 cascade-animation">
-            <h2 id="stats-heading" class="display-6 fw-bold mb-3 gradient-text">Live System Statistics</h2>
-            <p class="lead text-muted">Real-time data from the production system</p>
+        <div class="text-center mb-5">
+            <h2 id="stats-heading" class="h3 fw-bold mb-3 text-dark">Live System Statistics</h2>
+            <p class="text-muted">Real-time data from the production system</p>
         </div>
-        <div class="row g-4 cascade-animation" role="group" aria-label="System statistics">
-            <div class="col-lg-2 col-md-4 col-6" data-fade-in>
-                <div class="stat-card glass-deep text-center p-4 spotlight-card feature-highlight hover-lift card-3d floating" 
-                     role="img" aria-labelledby="books-stat">
-                    <div class="stat-icon mb-3">
-                        <i class="bi bi-book text-primary pulse-glow" style="font-size: 2.5rem;" aria-hidden="true"></i>
+        <div class="row g-4" role="group" aria-label="System statistics">
+            <div class="col-lg-2 col-md-4 col-6">
+                <div class="wp-card text-center p-4 border-0 shadow-sm">
+                    <div class="mb-3">
+                        <i class="bi bi-book display-4 text-primary"></i>
                     </div>
-                    <h3 id="books-stat" class="stat-number fw-bold neon-glow">@Model.Statistics.TotalBooks</h3>
-                    <p class="stat-label text-muted mb-0">Books</p>
+                    <h3 class="fw-bold text-dark">@Model.Statistics.TotalBooks</h3>
+                    <p class="text-muted mb-0">Books</p>
                 </div>
             </div>
-            <div class="col-lg-2 col-md-4 col-6" data-fade-in>
-                <div class="stat-card glass-deep text-center p-4 spotlight-card feature-highlight hover-lift card-3d floating slow"
-                     role="img" aria-labelledby="categories-stat">
-                    <div class="stat-icon mb-3">
-                        <i class="bi bi-tags text-success pulse-glow" style="font-size: 2.5rem;" aria-hidden="true"></i>
+            <div class="col-lg-2 col-md-4 col-6">
+                <div class="wp-card text-center p-4 border-0 shadow-sm">
+                    <div class="mb-3">
+                        <i class="bi bi-tags display-4 text-success"></i>
                     </div>
-                    <h3 id="categories-stat" class="stat-number fw-bold neon-glow">@Model.Statistics.TotalCategories</h3>
-                    <p class="stat-label text-muted mb-0">Categories</p>
+                    <h3 class="fw-bold text-dark">@Model.Statistics.TotalCategories</h3>
+                    <p class="text-muted mb-0">Categories</p>
                 </div>
             </div>
-            <div class="col-lg-2 col-md-4 col-6" data-fade-in>
-                <div class="stat-card glass-deep text-center p-4 spotlight-card feature-highlight hover-lift card-3d floating fast"
-                     role="img" aria-labelledby="users-stat">
-                    <div class="stat-icon mb-3">
-                        <i class="bi bi-people text-info pulse-glow" style="font-size: 2.5rem;" aria-hidden="true"></i>
+            <div class="col-lg-2 col-md-4 col-6">
+                <div class="wp-card text-center p-4 border-0 shadow-sm">
+                    <div class="mb-3">
+                        <i class="bi bi-people display-4 text-info"></i>
                     </div>
-                    <h3 id="users-stat" class="stat-number fw-bold neon-glow">@Model.Statistics.TotalUsers</h3>
-                    <p class="stat-label text-muted mb-0">Users</p>
+                    <h3 class="fw-bold text-dark">@Model.Statistics.TotalUsers</h3>
+                    <p class="text-muted mb-0">Users</p>
                 </div>
             </div>
-            <div class="col-lg-2 col-md-4 col-6" data-fade-in>
-                <div class="stat-card glass-deep text-center p-4 spotlight-card feature-highlight hover-lift card-3d floating"
-                     role="img" aria-labelledby="rating-stat">
-                    <div class="stat-icon mb-3">
-                        <i class="bi bi-star text-warning pulse-glow" style="font-size: 2.5rem;" aria-hidden="true"></i>
+            <div class="col-lg-2 col-md-4 col-6">
+                <div class="wp-card text-center p-4 border-0 shadow-sm">
+                    <div class="mb-3">
+                        <i class="bi bi-star display-4 text-warning"></i>
                     </div>
-                    <h3 id="rating-stat" class="stat-number fw-bold neon-glow">@Model.Statistics.AverageRating.ToString("F1")</h3>
-                    <p class="stat-label text-muted mb-0">Avg Rating</p>
+                    <h3 class="fw-bold text-dark">@Model.Statistics.AverageRating.ToString("F1")</h3>
+                    <p class="text-muted mb-0">Avg Rating</p>
                 </div>
             </div>
-            <div class="col-lg-2 col-md-4 col-6" data-fade-in>
-                <div class="stat-card glass-deep text-center p-4 spotlight-card feature-highlight hover-lift card-3d floating slow"
-                     role="img" aria-labelledby="orders-stat">
-                    <div class="stat-icon mb-3">
-                        <i class="bi bi-cart-check text-success pulse-glow" style="font-size: 2.5rem;" aria-hidden="true"></i>
+            <div class="col-lg-2 col-md-4 col-6">
+                <div class="wp-card text-center p-4 border-0 shadow-sm">
+                    <div class="mb-3">
+                        <i class="bi bi-cart-check display-4 text-success"></i>
                     </div>
-                    <h3 id="orders-stat" class="stat-number fw-bold neon-glow">@Model.Statistics.CompletedOrders</h3>
-                    <p class="stat-label text-muted mb-0">Orders</p>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-4 col-6" data-fade-in>
-                <div class="stat-card glass-deep text-center p-4 spotlight-card feature-highlight hover-lift card-3d floating fast"
-                     role="img" aria-labelledby="performance-stat">
-                    <div class="stat-icon mb-3">
-                        <i class="bi bi-speedometer2 text-primary pulse-glow" style="font-size: 2.5rem;" aria-hidden="true"></i>
-                    </div>
-                    <h3 id="performance-stat" class="stat-number fw-bold neon-glow">@Model.Statistics.Performance.PerformanceScore</h3>
-                    <p class="stat-label text-muted mb-0">Performance</p>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Technical Stats Row -->
-        <div class="row g-4 mt-4 cascade-animation" role="group" aria-label="Technical statistics">
-            <div class="col-md-3" data-fade-in>
-                <div class="tech-stat-card glass-deep p-4 text-center spotlight-card hover-lift card-3d"
-                     role="img" aria-labelledby="loc-stat">
-                    <i class="bi bi-code-slash text-primary mb-2 pulse-glow" style="font-size: 2rem;" aria-hidden="true"></i>
-                    <h4 id="loc-stat" class="fw-bold gradient-text">@Model.Statistics.Technical.LinesOfCode.ToString("N0")</h4>
-                    <p class="text-muted small mb-0">Lines of Code</p>
-                </div>
-            </div>
-            <div class="col-md-3" data-fade-in>
-                <div class="tech-stat-card glass-deep p-4 text-center spotlight-card hover-lift card-3d"
-                     role="img" aria-labelledby="coverage-stat">
-                    <i class="bi bi-shield-check text-success mb-2 pulse-glow" style="font-size: 2rem;" aria-hidden="true"></i>
-                    <h4 id="coverage-stat" class="fw-bold gradient-text">@Model.Statistics.Technical.TestCoverage%</h4>
-                    <p class="text-muted small mb-0">Test Coverage</p>
-                </div>
-            </div>
-            <div class="col-md-3" data-fade-in>
-                <div class="tech-stat-card glass-deep p-4 text-center spotlight-card hover-lift card-3d"
-                     role="img" aria-labelledby="quality-stat">
-                    <i class="bi bi-award text-warning mb-2 pulse-glow" style="font-size: 2rem;" aria-hidden="true"></i>
-                    <h4 id="quality-stat" class="fw-bold gradient-text">@Model.Statistics.Technical.CodeQualityScore</h4>
-                    <p class="text-muted small mb-0">Code Quality</p>
-                </div>
-            </div>
-            <div class="col-md-3" data-fade-in>
-                <div class="tech-stat-card glass-deep p-4 text-center spotlight-card hover-lift card-3d"
-                     role="img" aria-labelledby="security-stat">
-                    <i class="bi bi-lock text-danger mb-2 pulse-glow" style="font-size: 2rem;" aria-hidden="true"></i>
-                    <h4 id="security-stat" class="fw-bold gradient-text">@Model.Statistics.Technical.SecurityScore</h4>
-                    <p class="text-muted small mb-0">Security Score</p>
+                    <h3 class="fw-bold text-dark">@Model.Statistics.TotalOrders</h3>
+                    <p class="text-muted mb-0">Orders</p>
                 </div>
             </div>
         </div>
@@ -221,34 +162,32 @@
 </section>
 
 <!-- Feature Highlights Section -->
-<section class="features-section py-5 parallax-container" data-parallax="0.1">
+<section class="py-5 bg-light">
     <div class="container">
-        <div class="text-center mb-5 cascade-animation">
-            <h2 class="display-5 fw-bold mb-3 gradient-text">Technical Highlights</h2>
-            <p class="lead text-muted">Key architectural and implementation achievements</p>
+        <div class="text-center mb-5">
+            <h2 class="h3 fw-bold mb-3 text-dark">Technical Highlights</h2>
+            <p class="text-muted">Key architectural and implementation achievements</p>
         </div>
 
-        <div class="row g-4 cascade-animation">
+        <div class="row g-4">
             @foreach (var feature in Model.FeatureHighlights)
             {
-                <div class="col-lg-4 col-md-6" data-fade-in>
-                    <div class="feature-card glass-deep spotlight-card feature-highlight hover-lift h-100 p-4 card-3d floating">
-                        <div class="feature-header mb-3">
-                            <div class="feature-category mb-2">
-                                <span class="badge bg-primary bg-opacity-20 text-primary holographic continuous">@feature.Category</span>
-                            </div>
-                            <h4 class="feature-title fw-bold mb-2 gradient-text">@feature.FeatureName</h4>
+                <div class="col-lg-4 col-md-6">
+                    <div class="wp-card p-4 h-100 border-0 shadow-sm">
+                        <div class="mb-3">
+                            <span class="wp-badge bg-info bg-opacity-10 text-primary rounded px-2 py-1">@feature.Category</span>
                         </div>
-                        <p class="feature-description text-muted mb-3">@feature.Description</p>
+                        <h4 class="fw-bold mb-2 text-dark">@feature.FeatureName</h4>
+                        <p class="text-muted mb-3">@feature.Description</p>
                         @if (feature.TechnicalDetails.Any())
                         {
-                            <div class="technical-details">
-                                <h6 class="fw-semibold mb-2 iridescent">Technical Details:</h6>
+                            <div>
+                                <h6 class="fw-semibold mb-2 text-muted">Technical Details:</h6>
                                 <ul class="list-unstyled">
                                     @foreach (var detail in feature.TechnicalDetails)
                                     {
                                         <li class="mb-1">
-                                            <i class="bi bi-check-circle text-success me-2 pulse-glow"></i>
+                                            <i class="bi bi-check-circle text-success me-2"></i>
                                             <small>@detail</small>
                                         </li>
                                     }
@@ -261,7 +200,7 @@
         </div>
 
         <div class="text-center mt-5">
-            <a asp-action="TechnicalDetails" class="wp-btn wp-btn-primary magnetic-btn btn-lg holographic rainbow pulse-glow">
+            <a asp-action="TechnicalDetails" class="wp-btn-primary wp-btn-lg">
                 <i class="bi bi-gear me-2"></i>View Technical Details
             </a>
         </div>
@@ -269,11 +208,11 @@
 </section>
 
 <!-- Featured Books Demo Section -->
-<section class="demo-books py-5 bg-light" aria-labelledby="featured-books-heading">
+<section class="py-5 bg-white">
     <div class="container">
         <div class="text-center mb-5">
-            <h2 id="featured-books-heading" class="display-5 fw-bold mb-3">Interactive Book Demo</h2>
-            <p class="lead text-muted">Experience the live system with real data</p>
+            <h2 class="h3 fw-bold mb-3 text-dark">Interactive Book Demo</h2>
+            <p class="text-muted">Experience the live system with real data</p>
         </div>
 
         <div class="row g-4" role="group" aria-label="Featured books collection">
@@ -281,58 +220,23 @@
             {
                 @foreach (var book in Model.FeaturedBooks.Books.Take(8))
                 {
-                    <div class="col-lg-3 col-md-4 col-sm-6" data-fade-in>
-                        <article class="book-card spotlight-card hover-lift h-100" role="article" aria-labelledby="book-@book.Id-title">
-                            <div class="book-image-wrapper position-relative">
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <article class="wp-card h-100 border-0 shadow-sm overflow-hidden">
+                            <div>
                                 <img src="@(book.ImageUrl ?? Url.Content("~/images/default-book-improved.svg"))" 
                                      alt="Cover image of @book.Title by @book.Author" 
-                                     class="book-cover w-100" 
-                                     style="height: 300px; object-fit: cover; border-radius: 12px 12px 0 0;"
+                                     class="w-100" style="height: 200px; object-fit: cover;"
                                      loading="lazy">
-                                
-                                <div class="demo-badge position-absolute top-0 start-0 m-2">
-                                    <span class="badge bg-info bg-opacity-90" aria-label="Demo mode indicator">
-                                        <i class="bi bi-play-circle me-1" aria-hidden="true"></i>Demo
-                                    </span>
-                                </div>
-                                
-                                @if (book.StockQuantity > 0)
-                                {
-                                    <span class="badge bg-success position-absolute top-0 end-0 m-2" aria-label="@book.StockQuantity units in stock">
-                                        <i class="bi bi-check-circle me-1" aria-hidden="true"></i>In Stock
-                                    </span>
-                                }
-                                else
-                                {
-                                    <span class="badge bg-danger position-absolute top-0 end-0 m-2" aria-label="Currently out of stock">
-                                        <i class="bi bi-x-circle me-1" aria-hidden="true"></i>Out of Stock
-                                    </span>
-                                }
                             </div>
-                            
-                            <div class="book-details p-3 glass-deep">
-                                <h3 id="book-@book.Id-title" class="book-title mb-2 text-truncate">@book.Title</h3>
-                                <p class="book-author text-muted mb-2">
-                                    <i class="bi bi-person me-1 pulse-glow" aria-hidden="true"></i>
-                                    <span class="sr-only">Author: </span>@book.Author
-                                </p>
-                                
-                                @if (!string.IsNullOrEmpty(book.Category?.Name))
-                                {
-                                    <span class="badge bg-info mb-2 holographic" aria-label="Category: @book.Category.Name">
-                                        <i class="bi bi-tag me-1" aria-hidden="true"></i>@book.Category.Name
-                                    </span>
-                                }
-                                
-                                <div class="d-flex justify-content-between align-items-center mt-3">
-                                    <span class="book-price fw-bold text-primary fs-5 neon-glow" aria-label="Price: ₹@book.Price.Amount.ToString("N2")">
-                                        ₹@book.Price.Amount.ToString("N2")
-                                    </span>
-                                    <a asp-action="BookDetails" asp-route-id="@book.Id" 
-                                       class="btn btn-primary magnetic-btn holographic"
-                                       aria-label="View details for @book.Title">
-                                        <i class="bi bi-eye me-1" aria-hidden="true"></i>View
-                                    </a>
+                            <div class="p-3">
+                                <span class="wp-badge bg-info bg-opacity-10 text-primary" style="font-size: 0.7rem;">
+                                    <i class="bi bi-play-circle me-1"></i>Demo
+                                </span>
+                                <h5 class="mt-2 mb-1 text-dark fs-6">@book.Title</h5>
+                                <p class="text-muted mb-2 small">@book.Author</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="fw-bold text-primary">₹@book.Price</span>
+                                    <a asp-action="InteractiveDemo" class="wp-btn-secondary wp-btn-sm">View</a>
                                 </div>
                             </div>
                         </article>
@@ -341,20 +245,15 @@
             }
             else
             {
-                <div class="col-12">
-                    <div class="text-center py-5" role="status" aria-live="polite">
-                        <i class="bi bi-book display-1 text-muted floating" aria-hidden="true"></i>
-                        <h4 class="mt-3 gradient-text">Loading demo content...</h4>
-                        <p class="text-muted mb-4">Please wait while we prepare the interactive demo</p>
-                    </div>
+                <div class="col-12 text-center py-5">
+                    <p class="text-muted">No books available at the moment.</p>
                 </div>
             }
         </div>
 
-        <div class="text-center mt-5">
-            <a asp-action="InteractiveDemo" class="wp-btn wp-btn-primary magnetic-btn btn-lg"
-               aria-label="Access full interactive demo with all features">
-                <i class="bi bi-play-circle me-2" aria-hidden="true"></i>Full Interactive Demo
+        <div class="text-center mt-4">
+            <a asp-action="InteractiveDemo" class="wp-btn-primary wp-btn-lg">
+                <i class="bi bi-play-circle me-2"></i>Explore Full Demo
             </a>
         </div>
     </div>
@@ -385,7 +284,7 @@
                         </div>
                     }
                     
-                    <a asp-action="DeveloperStory" class="wp-btn wp-btn-primary magnetic-btn">
+                    <a asp-action="DeveloperStory" class="wp-btn-primary magnetic-btn">
                         <i class="bi bi-person-circle me-2"></i>Read Full Story
                     </a>
                 </div>
@@ -400,7 +299,7 @@
                                 <div class="d-flex flex-wrap gap-2">
                                     @foreach (var tech in Model.TechnicalStack.BackendTechnologies.Take(3))
                                     {
-                                        <span class="badge bg-primary bg-opacity-20 text-primary">@tech.Name</span>
+                                        <span class="wp-badge bg-primary bg-opacity-20 text-primary">@tech.Name</span>
                                     }
                                 </div>
                             </div>
@@ -409,7 +308,7 @@
                                 <div class="d-flex flex-wrap gap-2">
                                     @foreach (var tech in Model.TechnicalStack.FrontendTechnologies.Take(3))
                                     {
-                                        <span class="badge bg-success bg-opacity-20 text-success">@tech.Name</span>
+                                        <span class="wp-badge bg-success bg-opacity-20 text-success">@tech.Name</span>
                                     }
                                 </div>
                             </div>
@@ -418,7 +317,7 @@
                                 <div class="d-flex flex-wrap gap-2">
                                     @foreach (var tech in Model.TechnicalStack.TestingTechnologies.Take(2))
                                     {
-                                        <span class="badge bg-info bg-opacity-20 text-info">@tech.Name</span>
+                                        <span class="wp-badge bg-info bg-opacity-20 text-info">@tech.Name</span>
                                     }
                                 </div>
                             </div>
@@ -441,7 +340,7 @@
         <div class="row g-4">
             <!-- Contact Information -->
             <div class="col-lg-6">
-                <div class="contact-info-card glass-deep p-4 h-100 spotlight-card hover-lift card-3d">
+                <div class="contact-info-card glass-deep p-4 h-100 spotlight-card hover-lift wp-card-3d">
                     <h4 class="fw-bold mb-4 gradient-text">
                         <i class="bi bi-person-circle me-2"></i>Contact Information
                     </h4>
@@ -458,7 +357,7 @@
                             <div class="mt-2">
                                 @foreach (var role in Model.ContactInfo.AvailableForRoles)
                                 {
-                                    <span class="badge bg-primary bg-opacity-20 text-primary me-2 mb-1">@role</span>
+                                    <span class="wp-badge bg-primary bg-opacity-20 text-primary me-2 mb-1">@role</span>
                                 }
                             </div>
                         </div>
@@ -481,7 +380,7 @@
                             @if (!string.IsNullOrEmpty(Model.ContactInfo.Email))
                             {
                                 <div class="col-md-6">
-                                    <a href="mailto:@Model.ContactInfo.Email" class="contact-method-btn wp-btn wp-btn-outline-primary w-100 magnetic-btn">
+                                    <a href="mailto:@Model.ContactInfo.Email" class="contact-method-btn wp-btn-outline-primary w-100 magnetic-btn">
                                         <i class="bi bi-envelope-fill me-2"></i>Email
                                     </a>
                                 </div>
@@ -489,7 +388,7 @@
                             @if (!string.IsNullOrEmpty(Model.ContactInfo.LinkedIn))
                             {
                                 <div class="col-md-6">
-                                    <a href="@Model.ContactInfo.LinkedIn" target="_blank" class="contact-method-btn wp-btn wp-btn-outline-primary w-100 magnetic-btn">
+                                    <a href="@Model.ContactInfo.LinkedIn" target="_blank" class="contact-method-btn wp-btn-outline-primary w-100 magnetic-btn">
                                         <i class="bi bi-linkedin me-2"></i>LinkedIn
                                     </a>
                                 </div>
@@ -518,7 +417,7 @@
             
             <!-- Technical Resources & Documentation -->
             <div class="col-lg-6">
-                <div class="technical-resources-card glass-deep p-4 h-100 spotlight-card hover-lift card-3d">
+                <div class="technical-resources-card glass-deep p-4 h-100 spotlight-card hover-lift wp-card-3d">
                     <h4 class="fw-bold mb-4 gradient-text">
                         <i class="bi bi-code-slash me-2"></i>Technical Resources
                     </h4>
@@ -540,7 +439,7 @@
                                                 </a>
                                             </h6>
                                             <p class="resource-description text-muted small mb-2">@resource.Description</p>
-                                            <span class="badge bg-info bg-opacity-20 text-info">@resource.Category</span>
+                                            <span class="wp-badge bg-info bg-opacity-20 text-info">@resource.Category</span>
                                         </div>
                                     </div>
                                 </div>
@@ -551,13 +450,13 @@
                     <div class="quick-links mt-4">
                         <h6 class="fw-semibold mb-3">Quick Access:</h6>
                         <div class="d-flex flex-wrap gap-2">
-                            <a href="@Model.ContactInfo.GitHub" target="_blank" class="wp-btn wp-btn-sm wp-btn-outline-secondary magnetic-btn">
+                            <a href="@Model.ContactInfo.GitHub" target="_blank" class="wp-btn-sm wp-btn-outline-secondary magnetic-btn">
                                 <i class="bi bi-github me-1"></i>Repository
                             </a>
-                            <a asp-action="TechnicalDetails" class="wp-btn wp-btn-sm wp-btn-outline-secondary magnetic-btn">
+                            <a asp-action="TechnicalDetails" class="wp-btn-sm wp-btn-outline-secondary magnetic-btn">
                                 <i class="bi bi-gear me-1"></i>Architecture
                             </a>
-                            <a asp-action="InteractiveDemo" class="wp-btn wp-btn-sm wp-btn-outline-secondary magnetic-btn">
+                            <a asp-action="InteractiveDemo" class="wp-btn-sm wp-btn-outline-secondary magnetic-btn">
                                 <i class="bi bi-play-circle me-1"></i>Live Demo
                             </a>
                         </div>
@@ -569,7 +468,7 @@
         <!-- Collaboration Inquiry Form -->
         <div class="row mt-5">
             <div class="col-lg-8 mx-auto">
-                <div class="collaboration-form-card glass-deep p-5 spotlight-card card-3d">
+                <div class="collaboration-form-card glass-deep p-5 spotlight-card wp-card-3d">
                     <div class="text-center mb-4">
                         <h4 class="fw-bold gradient-text">
                             <i class="bi bi-chat-dots me-2"></i>Collaboration Inquiry
@@ -659,7 +558,7 @@
                         </div>
                         
                         <div class="text-center mt-4">
-                            <button type="submit" class="wp-btn wp-btn-primary magnetic-btn btn-lg holographic rainbow pulse-glow">
+                            <button type="submit" class="wp-btn-primary magnetic-btn wp-btn-lg holographic rainbow pulse-glow">
                                 <i class="bi bi-send me-2"></i>Send Inquiry
                             </button>
                         </div>
@@ -673,212 +572,7 @@
 </section>
 
 @section Styles {
-    <style>
-        .hero-section {
-            min-height: 70vh;
-        }
-        
-        .min-vh-60 {
-            min-height: 60vh;
-        }
-        
-        .hero-badge .badge {
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-        
-        .text-white-75 {
-            color: rgba(255, 255, 255, 0.75) !important;
-        }
-        
-        .architecture-diagram {
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .architecture-layer {
-            transition: all 0.3s ease;
-        }
-        
-        .architecture-layer:hover {
-            transform: translateX(5px);
-        }
-        
-        .stat-card, .tech-stat-card {
-            border-radius: 16px;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(0,0,0,0.1);
-        }
-        
-        .stat-number {
-            font-size: 2.5rem;
-            color: #1a1a1a;
-        }
-        
-        .feature-card {
-            background: white;
-            border-radius: 16px;
-            border: 1px solid rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
-        }
-        
-        .book-card {
-            background: white;
-            border-radius: 16px;
-            overflow: hidden;
-            border: 1px solid rgba(0,0,0,0.1);
-        }
-        
-        .book-cover {
-            transition: transform 0.3s ease;
-        }
-        
-        .book-card:hover .book-cover {
-            transform: scale(1.05);
-        }
-        
-        .demo-badge {
-            z-index: 2;
-        }
-        
-        .story-visual .glass {
-            backdrop-filter: blur(10px);
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(0,0,0,0.1);
-        }
-        
-        .tech-category .badge {
-            font-size: 0.8rem;
-        }
-        
-        .contact-card {
-            background: white;
-            border-radius: 20px;
-            border: 1px solid rgba(0,0,0,0.1);
-        }
-        
-        .contact-info-card, .technical-resources-card, .collaboration-form-card {
-            background: white;
-            border-radius: 16px;
-            border: 1px solid rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-        }
-        
-        .contact-info-card:hover, .technical-resources-card:hover, .collaboration-form-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-        }
-        
-        .contact-item {
-            display: flex;
-            align-items-center;
-            flex-wrap: wrap;
-        }
-        
-        .contact-method-btn {
-            transition: all 0.3s ease;
-        }
-        
-        .contact-method-btn:hover {
-            transform: translateY(-2px);
-        }
-        
-        .social-link {
-            display: inline-flex;
-            align-items-center;
-            padding: 0.5rem 1rem;
-            background: rgba(0,0,0,0.05);
-            border-radius: 8px;
-            color: #6c757d;
-            transition: all 0.3s ease;
-        }
-        
-        .social-link:hover {
-            background: rgba(var(--bs-primary-rgb), 0.1);
-            color: var(--bs-primary);
-            transform: translateY(-2px);
-        }
-        
-        .resource-item {
-            background: rgba(255, 255, 255, 0.7);
-            border: 1px solid rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
-        }
-        
-        .resource-item:hover {
-            background: rgba(255, 255, 255, 0.9);
-            transform: translateY(-2px);
-        }
-        
-        .resource-title a {
-            color: inherit;
-            transition: color 0.3s ease;
-        }
-        
-        .resource-title a:hover {
-            color: var(--bs-primary);
-        }
-        
-        .collaboration-form-card .form-control, 
-        .collaboration-form-card .form-select {
-            border-radius: 8px;
-            border: 1px solid rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-        }
-        
-        .collaboration-form-card .form-control:focus, 
-        .collaboration-form-card .form-select:focus {
-            border-color: var(--bs-primary);
-            box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.25);
-        }
-        
-        .collaboration-form-card .form-label {
-            font-weight: 600;
-            color: #495057;
-        }
-        
-        #formMessage.alert {
-            border-radius: 8px;
-        }
-        
-        .contact-link {
-            color: #6c757d;
-            transition: color 0.3s ease;
-        }
-        
-        .contact-link:hover {
-            color: var(--bs-primary);
-        }
-        
-        /* Responsive adjustments */
-        @@media (max-width: 768px) {
-            .hero-section {
-                min-height: 50vh;
-            }
-            
-            .display-2 {
-                font-size: 2.5rem;
-            }
-            
-            .display-6 {
-                font-size: 1.5rem;
-            }
-            
-            .hero-actions {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            
-            .hero-actions .wp-btn {
-                text-align: center;
-            }
-        }
-    </style>
+    
 }
 
 @section Scripts {
@@ -1144,3 +838,7 @@
         });
     </script>
 }
+
+
+
+

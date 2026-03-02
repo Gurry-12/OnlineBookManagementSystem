@@ -1,4 +1,4 @@
-﻿@using OnlineBookManagementSystem.Presentation.ViewModels.Books
+@using OnlineBookManagementSystem.Presentation.ViewModels.Books
 @model BookFormViewModel
 
 @{
@@ -185,15 +185,15 @@
 
                         <!-- Action Buttons -->
                         <div class="form-actions d-flex justify-content-between align-items-center pt-4 border-top">
-                            <a asp-controller="Admin" asp-action="Books" class="wp-btn wp-btn-secondary">
+                            <a asp-controller="Admin" asp-action="Books" class="wp-btn-secondary">
                                 <i class="bi bi-arrow-left me-2"></i>Back to Books
                             </a>
                             
                             <div class="d-flex gap-3">
-                                <button type="button" class="wp-btn wp-btn-secondary" onclick="resetForm()">
+                                <button type="button" class="wp-btn-secondary" onclick="resetForm()">
                                     <i class="bi bi-arrow-clockwise me-2"></i>Reset Changes
                                 </button>
-                                <button type="submit" class="wp-btn wp-btn-primary">
+                                <button type="submit" class="wp-btn-primary">
                                     <i class="bi bi-save me-2"></i>Update Book
                                 </button>
                             </div>
@@ -269,96 +269,7 @@
 }
 
 @section Styles {
-    <style>
-        .form-section {
-            position: relative;
-        }
-        
-        .section-header h5 {
-            color: var(--role-primary);
-            font-weight: 600;
-        }
-        
-        .wp-divider {
-            border: none;
-            height: 2px;
-            background: linear-gradient(90deg, var(--role-primary), transparent);
-            margin: 0;
-        }
-        
-        .current-image-container {
-            height: auto;
-            min-height: 200px;
-        }
-        
-        .current-image-wrapper,
-        .new-image-wrapper {
-            position: relative;
-            display: inline-block;
-            border-radius: var(--wp-radius-lg);
-            overflow: hidden;
-            box-shadow: var(--wp-shadow);
-        }
-        
-        .current-book-image {
-            max-height: 200px;
-            width: auto;
-            display: block;
-        }
-        
-        .image-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(transparent, rgba(0,0,0,0.7));
-            padding: 0.5rem;
-            text-align: center;
-        }
-        
-        .no-image-placeholder {
-            width: 150px;
-            height: 200px;
-            border: 2px dashed var(--wp-gray-300);
-            border-radius: var(--wp-radius-lg);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: var(--wp-gray-50);
-        }
-        
-        .new-image-preview {
-            padding-top: 1rem;
-            border-top: 1px solid var(--wp-gray-200);
-        }
-        
-        .form-actions {
-            background: rgba(255, 255, 255, 0.5);
-            margin: 0 -2rem -2rem -2rem;
-            padding: 1.5rem 2rem;
-            border-radius: 0 0 var(--wp-radius-lg) var(--wp-radius-lg);
-        }
-        
-        .wp-btn {
-            padding: 0.75rem 1.5rem;
-            font-weight: 500;
-            border-radius: var(--wp-radius);
-            transition: all var(--wp-transition-fast);
-        }
-        
-        .wp-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--wp-shadow-md);
-        }
-        
-        /* Enhanced form controls */
-        .wp-form-control:focus {
-            border-left-width: 4px;
-            transform: translateX(2px);
-        }
-        
-        /* Responsive adjustments */
-        
-    </style>
+    
 }
+
+

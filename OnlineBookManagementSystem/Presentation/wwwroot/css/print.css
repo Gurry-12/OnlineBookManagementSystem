@@ -5,365 +5,391 @@
  */
 
 @media print {
-    /* ========================================
+  /* ========================================
        RESET & BASICS
        ======================================== */
-    
-    * {
-        background: transparent !important;
-        color: black !important;
-        box-shadow: none !important;
-        text-shadow: none !important;
-    }
 
-    body {
-        font-size: 12pt;
-        line-height: 1.4;
-        font-family: "Times New Roman", serif;
-        margin: 0;
-        padding: 0;
-    }
+  * {
+    background: transparent !important;
+    color: black !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
 
-    /* ========================================
+  body {
+    font-size: 12pt;
+    line-height: 1.4;
+    font-family: "Times New Roman", serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* ========================================
        HIDE NON-ESSENTIAL ELEMENTS
        ======================================== */
-    
-    .wp-sidebar,
-    .wp-top-bar,
-    .wp-footer,
-    .btn,
-    .button,
-    .form-control,
-    .form-select,
-    .pagination,
-    .breadcrumb,
-    .alert,
-    .toast,
-    .modal,
-    .dropdown,
-    .tooltip,
-    .popover,
-    nav,
-    .navbar,
-    .sidebar,
-    .wp-sidebar__nav,
-    .table-actions,
-    .table-actions__bulk,
-    .table-search,
-    .stats-card__action,
-    .book-card__actions,
-    .book-card__footer,
-    .table-actions-dropdown,
-    .wp-content__actions {
-        display: none !important;
-    }
 
-    /* ========================================
+  .wp-sidebar,
+  .wp-top-bar,
+  .wp-footer,
+  .wp-btn,
+  .button,
+  .form-control,
+  .form-select,
+  .pagination,
+  .breadcrumb,
+  .alert,
+  .toast,
+  .modal,
+  .dropdown,
+  .tooltip,
+  .popover,
+  nav,
+  .navbar,
+  .sidebar,
+  .wp-sidebar__nav,
+  .table-actions,
+  .table-actions__bulk,
+  .table-search,
+  .stats-card__action,
+  .book-card__actions,
+  .book-card__footer,
+  .table-actions-dropdown,
+  .wp-content__actions {
+    display: none !important;
+  }
+
+  /* ========================================
        LAYOUT ADJUSTMENTS
        ======================================== */
-    
-    .wp-main-content {
-        margin-left: 0 !important;
-        width: 100% !important;
-    }
 
-    .wp-content {
-        padding: 0 !important;
-        max-width: 100% !important;
-    }
+  .wp-main-content {
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
 
-    .container,
-    .container-fluid {
-        width: 100% !important;
-        max-width: 100% !important;
-        padding: 0 !important;
-        margin: 0 !important;
-    }
+  .wp-content {
+    padding: 0 !important;
+    max-width: 100% !important;
+  }
 
-    /* ========================================
+  .container,
+  .container-fluid {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* ========================================
        TYPOGRAPHY
        ======================================== */
-    
-    h1, h2, h3, h4, h5, h6 {
-        page-break-after: avoid;
-        font-weight: bold;
-        margin-top: 0;
-        margin-bottom: 0.5em;
-    }
 
-    h1 { font-size: 18pt; }
-    h2 { font-size: 16pt; }
-    h3 { font-size: 14pt; }
-    h4 { font-size: 13pt; }
-    h5 { font-size: 12pt; }
-    h6 { font-size: 11pt; }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    page-break-after: avoid;
+    font-weight: bold;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+  }
 
-    p {
-        margin: 0 0 0.5em 0;
-        orphans: 3;
-        widows: 3;
-    }
+  h1 {
+    font-size: 18pt;
+  }
+  h2 {
+    font-size: 16pt;
+  }
+  h3 {
+    font-size: 14pt;
+  }
+  h4 {
+    font-size: 13pt;
+  }
+  h5 {
+    font-size: 12pt;
+  }
+  h6 {
+    font-size: 11pt;
+  }
 
-    /* ========================================
+  p {
+    margin: 0 0 0.5em 0;
+    orphans: 3;
+    widows: 3;
+  }
+
+  /* ========================================
        LINKS
        ======================================== */
-    
-    a {
-        color: black !important;
-        text-decoration: underline;
-    }
 
-    a[href]:after {
-        content: " (" attr(href) ")";
-        font-size: 10pt;
-        color: #666;
-    }
+  a {
+    color: black !important;
+    text-decoration: underline;
+  }
 
-    a[href^="#"]:after,
-    a[href^="javascript:"]:after,
-    a[href^="mailto:"]:after,
-    a[href^="tel:"]:after {
-        content: "";
-    }
+  a[href]:after {
+    content: " (" attr(href) ")";
+    font-size: 10pt;
+    color: #666;
+  }
 
-    /* ========================================
+  a[href^="#"]:after,
+  a[href^="javascript:"]:after,
+  a[href^="mailto:"]:after,
+  a[href^="tel:"]:after {
+    content: "";
+  }
+
+  /* ========================================
        TABLES
        ======================================== */
-    
-    .table-wrapper,
-    .wp-table {
-        border-collapse: collapse;
-        width: 100% !important;
-        margin-bottom: 1em;
+
+  .table-wrapper,
+  .wp-table {
+    border-collapse: collapse;
+    width: 100% !important;
+    margin-bottom: 1em;
+  }
+
+  .wp-table th,
+  .wp-table td {
+    border: 1pt solid black !important;
+    padding: 4pt 6pt !important;
+    text-align: left;
+    vertical-align: top;
+    font-size: 10pt;
+  }
+
+  .wp-table th {
+    background: #f0f0f0 !important;
+    font-weight: bold;
+  }
+
+  .wp-table tbody tr:nth-child(even) {
+    background: #f9f9f9 !important;
+  }
+
+  /* ========================================
+       CARDS & COMPONENTS
+       ======================================== */
+
+  .wp-card,
+  .stats-card,
+  .book-card,
+  .table-wrapper {
+    border: 1pt solid black !important;
+    margin-bottom: 1em;
+    page-break-inside: avoid;
+  }
+
+  .card-header,
+  .stats-card__body,
+  .book-card__body {
+    border-bottom: 1pt solid black !important;
+    padding: 6pt !important;
+    font-weight: bold;
+  }
+
+  .card-body,
+  .book-card__details {
+    padding: 6pt !important;
+  }
+
+  /* ========================================
+       IMAGES
+       ======================================== */
+
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+    page-break-inside: avoid;
+  }
+
+  .book-card__image,
+  .table-avatar,
+  .wp-top-bar__avatar {
+    max-width: 2cm !important;
+    max-height: 2cm !important;
+  }
+
+  /* ========================================
+       PAGE BREAKS
+       ======================================== */
+
+  .page-break-before {
+    page-break-before: always;
+  }
+
+  .page-break-after {
+    page-break-after: always;
+  }
+
+  .page-break-inside-avoid {
+    page-break-inside: avoid;
+  }
+
+  .stats-card,
+  .book-card,
+  .table-wrapper,
+  .form-section,
+  .chart-container {
+    page-break-inside: avoid;
+  }
+
+  /* ========================================
+       BADGES & STATUS
+       ======================================== */
+
+  .badge,
+  .table-badge,
+  .wp-badge {
+    border: 1pt solid black !important;
+    padding: 2pt 4pt !important;
+    font-size: 9pt !important;
+    font-weight: bold;
+  }
+
+  .table-badge--success:before {
+    content: "✓ ";
+  }
+  .table-badge--danger:before {
+    content: "✗ ";
+  }
+  .table-badge--warning:before {
+    content: "⚠ ";
+  }
+  .table-badge--info:before {
+    content: "ℹ ";
+  }
+
+  /* ========================================
+       FORMS (if needed for printing)
+       ======================================== */
+
+  .wp-form-control,
+  .wp-form-select,
+  .wp-form-textarea {
+    border: 1pt solid black !important;
+    padding: 2pt !important;
+    background: white !important;
+  }
+
+  .wp-form-label {
+    font-weight: bold;
+    margin-bottom: 2pt;
+  }
+
+  /* ========================================
+       UTILITY CLASSES
+       ======================================== */
+
+  .d-print-none {
+    display: none !important;
+  }
+
+  .d-print-block {
+    display: block !important;
+  }
+
+  .d-print-inline {
+    display: inline !important;
+  }
+
+  .d-print-inline-block {
+    display: inline-block !important;
+  }
+
+  .d-print-flex {
+    display: flex !important;
+  }
+
+  .d-print-grid {
+    display: grid !important;
+  }
+
+  /* ========================================
+       HEADER & FOOTER FOR PAGES
+       ======================================== */
+
+  @page {
+    margin: 2cm;
+    size: A4;
+
+    @top-center {
+      content: "Whispering Pages - " attr(title);
+      font-size: 10pt;
+      font-weight: bold;
+    }
+
+    @bottom-center {
+      content: "Page " counter(page) " of " counter(pages);
+      font-size: 9pt;
+    }
+
+    @bottom-right {
+      content: "Generated on " date();
+      font-size: 9pt;
+    }
+  }
+
+  /* ========================================
+       SPECIFIC CONTENT TYPES
+       ======================================== */
+
+  /* Book Details */
+  .book-details-print {
+    display: block !important;
+  }
+
+  .book-cover {
+    float: left;
+    margin: 0 1em 1em 0;
+    max-width: 4cm;
+    max-height: 5cm;
+  }
+
+  /* Order Details */
+  .order-summary {
+    border: 2pt solid black !important;
+    padding: 6pt !important;
+    margin-bottom: 1em;
+    font-weight: bold;
+  }
+
+  /* Analytics Charts - show data tables instead */
+  .chart-container canvas,
+  .chart-container svg {
+    display: none !important;
+  }
+
+  .chart-data-table {
+    display: table !important;
+  }
+
+  /* User Information */
+  .user-info-print {
+    border: 1pt solid black !important;
+    padding: 6pt !important;
+    margin-bottom: 1em;
+  }
+
+  /* ========================================
+       RESPONSIVE PRINT
+       ======================================== */
+
+  @media print and (max-width: 21cm) {
+    body {
+      font-size: 11pt;
     }
 
     .wp-table th,
     .wp-table td {
-        border: 1pt solid black !important;
-        padding: 4pt 6pt !important;
-        text-align: left;
-        vertical-align: top;
-        font-size: 10pt;
+      font-size: 9pt;
+      padding: 3pt 4pt !important;
     }
-
-    .wp-table th {
-        background: #f0f0f0 !important;
-        font-weight: bold;
-    }
-
-    .wp-table tbody tr:nth-child(even) {
-        background: #f9f9f9 !important;
-    }
-
-    /* ========================================
-       CARDS & COMPONENTS
-       ======================================== */
-    
-    .card,
-    .stats-card,
-    .book-card,
-    .table-wrapper {
-        border: 1pt solid black !important;
-        margin-bottom: 1em;
-        page-break-inside: avoid;
-    }
-
-    .card-header,
-    .stats-card__body,
-    .book-card__body {
-        border-bottom: 1pt solid black !important;
-        padding: 6pt !important;
-        font-weight: bold;
-    }
-
-    .card-body,
-    .book-card__details {
-        padding: 6pt !important;
-    }
-
-    /* ========================================
-       IMAGES
-       ======================================== */
-    
-    img {
-        max-width: 100% !important;
-        height: auto !important;
-        page-break-inside: avoid;
-    }
-
-    .book-card__image,
-    .table-avatar,
-    .wp-top-bar__avatar {
-        max-width: 2cm !important;
-        max-height: 2cm !important;
-    }
-
-    /* ========================================
-       PAGE BREAKS
-       ======================================== */
-    
-    .page-break-before {
-        page-break-before: always;
-    }
-
-    .page-break-after {
-        page-break-after: always;
-    }
-
-    .page-break-inside-avoid {
-        page-break-inside: avoid;
-    }
-
-    .stats-card,
-    .book-card,
-    .table-wrapper,
-    .form-section,
-    .chart-container {
-        page-break-inside: avoid;
-    }
-
-    /* ========================================
-       BADGES & STATUS
-       ======================================== */
-    
-    .badge,
-    .table-badge,
-    .wp-badge {
-        border: 1pt solid black !important;
-        padding: 2pt 4pt !important;
-        font-size: 9pt !important;
-        font-weight: bold;
-    }
-
-    .table-badge--success:before { content: "✓ "; }
-    .table-badge--danger:before { content: "✗ "; }
-    .table-badge--warning:before { content: "⚠ "; }
-    .table-badge--info:before { content: "ℹ "; }
-
-    /* ========================================
-       FORMS (if needed for printing)
-       ======================================== */
-    
-    .wp-form-control,
-    .wp-form-select,
-    .wp-form-textarea {
-        border: 1pt solid black !important;
-        padding: 2pt !important;
-        background: white !important;
-    }
-
-    .wp-form-label {
-        font-weight: bold;
-        margin-bottom: 2pt;
-    }
-
-    /* ========================================
-       UTILITY CLASSES
-       ======================================== */
-    
-    .d-print-none {
-        display: none !important;
-    }
-
-    .d-print-block {
-        display: block !important;
-    }
-
-    .d-print-inline {
-        display: inline !important;
-    }
-
-    .d-print-inline-block {
-        display: inline-block !important;
-    }
-
-    .d-print-flex {
-        display: flex !important;
-    }
-
-    .d-print-grid {
-        display: grid !important;
-    }
-
-    /* ========================================
-       HEADER & FOOTER FOR PAGES
-       ======================================== */
-    
-    @page {
-        margin: 2cm;
-        size: A4;
-        
-        @top-center {
-            content: "Whispering Pages - " attr(title);
-            font-size: 10pt;
-            font-weight: bold;
-        }
-        
-        @bottom-center {
-            content: "Page " counter(page) " of " counter(pages);
-            font-size: 9pt;
-        }
-        
-        @bottom-right {
-            content: "Generated on " date();
-            font-size: 9pt;
-        }
-    }
-
-    /* ========================================
-       SPECIFIC CONTENT TYPES
-       ======================================== */
-    
-    /* Book Details */
-    .book-details-print {
-        display: block !important;
-    }
-
-    .book-cover {
-        float: left;
-        margin: 0 1em 1em 0;
-        max-width: 4cm;
-        max-height: 5cm;
-    }
-
-    /* Order Details */
-    .order-summary {
-        border: 2pt solid black !important;
-        padding: 6pt !important;
-        margin-bottom: 1em;
-        font-weight: bold;
-    }
-
-    /* Analytics Charts - show data tables instead */
-    .chart-container canvas,
-    .chart-container svg {
-        display: none !important;
-    }
-
-    .chart-data-table {
-        display: table !important;
-    }
-
-    /* User Information */
-    .user-info-print {
-        border: 1pt solid black !important;
-        padding: 6pt !important;
-        margin-bottom: 1em;
-    }
-
-    /* ========================================
-       RESPONSIVE PRINT
-       ======================================== */
-    
-    @media print and (max-width: 21cm) {
-        body {
-            font-size: 11pt;
-        }
-        
-        .wp-table th,
-        .wp-table td {
-            font-size: 9pt;
-            padding: 3pt 4pt !important;
-        }
-    }
+  }
 }
+

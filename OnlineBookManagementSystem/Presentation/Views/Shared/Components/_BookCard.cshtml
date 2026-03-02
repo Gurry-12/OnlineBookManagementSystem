@@ -77,7 +77,7 @@
             @if (!string.IsNullOrEmpty(Model.Category?.Name))
             {
                 <div class="book-card__category">
-                    <span class="badge badge--category">
+                    <span class="wp-badge--category">
                         <i class="bi bi-tag me-1"></i>@Model.Category.Name
                     </span>
                 </div>
@@ -85,12 +85,15 @@
         </div>
         
         <div class="book-card__footer">
-            <button class="btn btn--primary btn--sm" data-action="view" data-book-id="@Model.Id">
+            <button class="wp-btn btn--primary wp-btn--sm" data-action="view" data-book-id="@Model.Id">
                 <i class="bi bi-eye me-1"></i>View
             </button>
-            <button class="btn btn--secondary btn--sm" data-action="edit" data-book-id="@Model.Id">
+            <button class="wp-btn btn--secondary wp-btn--sm" data-action="edit" data-book-id="@Model.Id">
                 <i class="bi bi-pencil"></i>
             </button>
         </div>
     </div>
 </div>
+
+
+

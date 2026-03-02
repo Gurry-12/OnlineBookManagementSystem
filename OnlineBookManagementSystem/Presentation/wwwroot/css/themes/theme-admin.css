@@ -1,56 +1,81 @@
-/* Admin Theme - Focused, Professional, Dark */
+/* Admin Theme - Focused, Professional, Clean */
+/* Enhanced color palette for better admin experience */
 .theme-admin {
   /* ========================================
      CORE THEME MAPPING (REQUIRED)
      ======================================== */
-  --bg-color: #0f172a;
-  --text-color: #f1f5f9;
-  --primary-color: #7c3aed;
+  --bg-color: #f8fafc;
+  --text-color: #1e293b;
+  --primary-color: #0d9488;
   --accent-color: #22c55e;
 
   /* Structural Variables */
-  --bg-sidebar: #1e293b;
-  --bg-surface: #1e293b;
-  --bg-header: #1e293b;
-  --border-color: #475569;
+  --bg-sidebar: #0f172a;
+  --bg-surface: #ffffff;
+  --bg-header: #ffffff;
+  --border-color: #e2e8f0;
 
   /* ========================================
      LEGACY / DETAILED MAPPING
      ======================================== */
-  /* Background Colors - Professional dark */
-  --color-bg: #0f172a;
-  --color-surface: #1e293b;
-  --color-surface-elevated: #334155;
-  
+  /* Background Colors - Clean light theme */
+  --color-bg: #f8fafc;
+  --color-surface: #ffffff;
+  --color-surface-elevated: #f1f5f9;
+
   /* Text Colors - High contrast for readability */
-  --color-text: #f1f5f9;
-  --color-text-muted: #cbd5e1;
+  --color-text: #1e293b;
+  --color-text-muted: #64748b;
   --color-text-subtle: #94a3b8;
-  
-  /* Brand Colors - Professional purples and greens */
-  --color-primary: #7c3aed;
-  --color-primary-hover: #6d28d9;
-  --color-secondary: #8b5cf6;
+
+  /* Brand Colors - Teal/Green professional combo */
+  --color-primary: #0d9488;
+  --color-primary-hover: #0f766e;
+  --color-primary-light: #5eead4;
+  --color-secondary: #6366f1;
   --color-accent: #22c55e;
-  
-  /* Status Colors - Clear in dark theme */
-  --color-success: #22c55e;
-  --color-success-bg: #052e16;
-  --color-warning: #eab308;
-  --color-warning-bg: #1e1b00;
-  --color-danger: #f87171;
-  --color-danger-bg: #2d1b1b;
-  --color-info: #38bdf8;
-  --color-info-bg: #0c1e2e;
-  
-  /* Border Colors - Visible in dark theme */
-  --color-border: #475569;
-  --color-border-subtle: #334155;
-  --color-border-focus: #7c3aed;
-  
-  /* Interactive States - Dark theme appropriate */
-  --color-hover: #334155;
-  --color-active: #475569;
-  --color-disabled: #1e293b;
-  --color-disabled-text: #64748b;
+
+  /* Status Colors - Clear indicators */
+  --color-success: #10b981;
+  --color-success-bg: #ecfdf5;
+  --color-success-dark: #059669;
+  --color-warning: #f59e0b;
+  --color-warning-bg: #fffbeb;
+  --color-warning-dark: #d97706;
+  --color-danger: #ef4444;
+  --color-danger-bg: #fef2f2;
+  --color-danger-dark: #dc2626;
+  --color-info: #0ea5e9;
+  --color-info-bg: #f0f9ff;
+  --color-info-dark: #0284c7;
+
+  /* Border Colors - Clean and subtle */
+  --color-border: #e2e8f0;
+  --color-border-subtle: #f1f5f9;
+  --color-border-focus: #0d9488;
+
+  /* Interactive States */
+  --color-hover: #f1f5f9;
+  --color-active: #e2e8f0;
+  --color-disabled: #f1f5f9;
+  --color-disabled-text: #94a3b8;
+
+  /* Card & Surface Enhancements */
+  --card-bg: #ffffff;
+  --shadow-color: rgba(13, 148, 136, 0.1);
+  --shadow-lg: 0 10px 25px -5px var(--shadow-color), 0 8px 10px -6px var(--shadow-color);
+
+  /* Grayscale for admin theme */
+  --color-white: #ffffff;
+  --color-gray-50: #f8fafc;
+  --color-gray-100: #f1f5f9;
+  --color-gray-200: #e2e8f0;
+  --color-gray-300: #cbd5e1;
+  --color-gray-400: #94a3b8;
+  --color-gray-500: #64748b;
+  --color-gray-600: #475569;
+  --color-gray-700: #334155;
+  --color-gray-800: #1e293b;
+  --color-gray-900: #0f172a;
 }
+

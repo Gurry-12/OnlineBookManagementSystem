@@ -10,13 +10,13 @@
             <i class="bi bi-person me-2"></i>User Details
         </h2>
         
-        <div class="btn-group">
-            <a href="@Url.Action("UserManagement", "Users")" class="btn btn-outline-secondary">
+        <div class="wp-btn-group">
+            <a href="@Url.Action("UserManagement", "Users")" class="wp-btn-secondary">
                 <i class="bi bi-arrow-left me-2"></i>Back to Users
             </a>
             @if (Model.Capabilities.CanEdit)
             {
-                <button type="button" class="btn btn-outline-primary" onclick="editUser()">
+                <button type="button" class="wp-btn-primary" onclick="editUser()">
                     <i class="bi bi-pencil me-2"></i>Edit User
                 </button>
             }
@@ -28,13 +28,13 @@
         <div class="row g-4">
             <!-- User Information -->
             <div class="col-lg-8">
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h5 class="card-title mb-0">
+                <div class="wp-card mb-4">
+                    <div class="wp-card-header">
+                        <h5 class="wp-card-title mb-0">
                             <i class="bi bi-person-badge me-2"></i>User Information
                         </h5>
                     </div>
-                    <div class="card-body">
+                    <div class="wp-card-body">
                         <div class="row">
                             <div class="col-md-2 text-center">
                                 <div class="avatar-large mb-3">
@@ -54,24 +54,24 @@
                                         @Model.User.Email
                                         @if (Model.User.EmailConfirmed)
                                         {
-                                            <span class="badge bg-success ms-2">Verified</span>
+                                            <span class="wp-badge bg-success ms-2">Verified</span>
                                         }
                                         else
                                         {
-                                            <span class="badge bg-warning ms-2">Unverified</span>
+                                            <span class="wp-badge bg-warning ms-2">Unverified</span>
                                         }
                                     </dd>
                                     
                                     <dt class="col-sm-3">Role:</dt>
                                     <dd class="col-sm-9">
-                                        <span class="badge @GetRoleBadgeClass(Model.User.Role) fs-6">
+                                        <span class="wp-badge @GetRoleBadgeClass(Model.User.Role) fs-6">
                                             @Model.User.Role
                                         </span>
                                     </dd>
                                     
                                     <dt class="col-sm-3">Status:</dt>
                                     <dd class="col-sm-9">
-                                        <span class="badge @GetStatusBadgeClass() fs-6">
+                                        <span class="wp-badge @GetStatusBadgeClass() fs-6">
                                             @GetUserStatus()
                                         </span>
                                     </dd>
@@ -111,13 +111,13 @@
                 </div>
 
                 <!-- Activity Summary -->
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h5 class="card-title mb-0">
+                <div class="wp-card mb-4">
+                    <div class="wp-card-header">
+                        <h5 class="wp-card-title mb-0">
                             <i class="bi bi-graph-up me-2"></i>Activity Summary
                         </h5>
                     </div>
-                    <div class="card-body">
+                    <div class="wp-card-body">
                         <div class="row g-3">
                             <div class="col-md-3">
                                 <div class="text-center">
@@ -154,20 +154,20 @@
                 <!-- Recent Activity -->
                 @if (Model.RecentActivity.Any())
                 {
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="card-title mb-0">
+                    <div class="wp-card">
+                        <div class="wp-card-header">
+                            <h5 class="wp-card-title mb-0">
                                 <i class="bi bi-clock-history me-2"></i>Recent Activity
                             </h5>
                         </div>
-                        <div class="card-body">
+                        <div class="wp-card-body">
                             <div class="list-group list-group-flush">
                                 @foreach (var activity in Model.RecentActivity.Take(10))
                                 {
                                     <div class="list-group-item border-0 px-0">
                                         <div class="d-flex justify-content-between align-items-start">
                                             <div>
-                                                <span class="badge @GetActionBadgeClass(activity.ActionType) me-2">
+                                                <span class="wp-badge @GetActionBadgeClass(activity.ActionType) me-2">
                                                     @activity.ActionType
                                                 </span>
                                                 <span>@activity.Description</span>
@@ -187,17 +187,17 @@
                 <!-- Quick Actions -->
                 @if (Model.Capabilities.CanEdit || Model.Capabilities.CanChangeRoles || Model.Capabilities.CanLockUnlock)
                 {
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <h6 class="card-title mb-0">
+                    <div class="wp-card mb-4">
+                        <div class="wp-card-header">
+                            <h6 class="wp-card-title mb-0">
                                 <i class="bi bi-lightning me-2"></i>Quick Actions
                             </h6>
                         </div>
-                        <div class="card-body">
+                        <div class="wp-card-body">
                             <div class="d-grid gap-2">
                                 @if (Model.Capabilities.CanChangeRoles)
                                 {
-                                    <button class="btn btn-outline-warning btn-sm" onclick="changeRole()">
+                                    <button class="wp-btn-secondary wp-btn-sm" onclick="changeRole()">
                                         <i class="bi bi-shield me-2"></i>Change Role
                                     </button>
                                 }
@@ -206,13 +206,13 @@
                                 {
                                     @if (Model.User.LockoutEnd > DateTimeOffset.UtcNow)
                                     {
-                                        <button class="btn btn-outline-success btn-sm" onclick="unlockUser()">
+                                        <button class="wp-btn-secondary wp-btn-sm" onclick="unlockUser()">
                                             <i class="bi bi-unlock me-2"></i>Unlock User
                                         </button>
                                     }
                                     else
                                     {
-                                        <button class="btn btn-outline-warning btn-sm" onclick="lockUser()">
+                                        <button class="wp-btn-secondary wp-btn-sm" onclick="lockUser()">
                                             <i class="bi bi-lock me-2"></i>Lock User
                                         </button>
                                     }
@@ -220,12 +220,12 @@
                                 
                                 @if (!Model.User.EmailConfirmed && Model.Capabilities.CanEdit)
                                 {
-                                    <button class="btn btn-outline-info btn-sm" onclick="confirmEmail()">
+                                    <button class="wp-btn-secondary wp-btn-sm" onclick="confirmEmail()">
                                         <i class="bi bi-envelope-check me-2"></i>Confirm Email
                                     </button>
                                 }
                                 
-                                <button class="btn btn-outline-primary btn-sm" onclick="sendPasswordReset()">
+                                <button class="wp-btn-secondary wp-btn-sm" onclick="sendPasswordReset()">
                                     <i class="bi bi-key me-2"></i>Send Password Reset
                                 </button>
                             </div>
@@ -236,13 +236,13 @@
                 <!-- Role History -->
                 @if (Model.RoleHistory.Any() && Model.Capabilities.CanViewSensitiveData)
                 {
-                    <div class="card">
-                        <div class="card-header">
-                            <h6 class="card-title mb-0">
+                    <div class="wp-card">
+                        <div class="wp-card-header">
+                            <h6 class="wp-card-title mb-0">
                                 <i class="bi bi-shield-check me-2"></i>Role History
                             </h6>
                         </div>
-                        <div class="card-body">
+                        <div class="wp-card-body">
                             <div class="timeline">
                                 @foreach (var change in Model.RoleHistory.Take(5))
                                 {
@@ -280,51 +280,7 @@
 </div>
 
 @section Styles {
-    <style>
-        .avatar-large {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, #007bff, #6610f2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 2rem;
-            margin: 0 auto;
-        }
-        
-        .timeline {
-            position: relative;
-            padding-left: 20px;
-        }
-        
-        .timeline-item {
-            position: relative;
-            margin-bottom: 20px;
-        }
-        
-        .timeline-marker {
-            position: absolute;
-            left: -25px;
-            top: 5px;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: #007bff;
-        }
-        
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: -21px;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: #dee2e6;
-        }
-    </style>
+    
 }
 
 @section Scripts {
@@ -424,3 +380,6 @@
         return timestamp.ToString("MMM dd");
     }
 }
+
+
+

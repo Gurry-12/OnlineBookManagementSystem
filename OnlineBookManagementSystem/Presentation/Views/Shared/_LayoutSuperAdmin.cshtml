@@ -86,7 +86,7 @@
         <!-- Top Bar -->
         <header class="wp-top-bar d-flex align-items-center justify-content-between px-4 py-3 bg-white shadow-sm border-bottom sticky-top">
             <div class="d-flex align-items-center gap-4">
-                <button class="wp-btn wp-btn-secondary btn btn-light rounded-pill"><i class="bi bi-briefcase-fill me-2"></i>SuperAdmin Workspace </button>
+                <button class="wp-btn-secondary wp-btn-light rounded-pill"><i class="bi bi-briefcase-fill me-2"></i>SuperAdmin Workspace </button>
                 
                 <!-- Role Switcher Dropdown - Pure CSS Implementation -->
                 
@@ -101,10 +101,10 @@
                     <input type="search" class="form-control rounded-pill ps-5" placeholder="Search...">
                     <i class="bi bi-search position-absolute top-50 start-3 ps-3 translate-middle-y text-muted"></i>
                 </div>
-                <a class="wp-btn wp-btn-secondary btn btn-outline-secondary rounded-circle p-2" asp-controller="Auth" asp-action="ProfileView"><i class="bi bi-person-fill fs-5"></i></a>
+                <a class="wp-btn-secondary wp-btn-outline-secondary rounded-circle p-2" asp-controller="Auth" asp-action="ProfileView"><i class="bi bi-person-fill fs-5"></i></a>
                 <form asp-controller="Auth" asp-action="Logout" method="post" class="d-inline">
                     @Html.AntiForgeryToken()
-                    <button type="submit" class="wp-btn wp-btn-secondary btn btn-outline-danger rounded-circle p-2"><i class="bi bi-box-arrow-right fs-5"></i></button>
+                    <button type="submit" class="wp-btn-secondary wp-btn-outline-danger rounded-circle p-2"><i class="bi bi-box-arrow-right fs-5"></i></button>
                 </form>
             </div>
         </header>
@@ -121,7 +121,7 @@
     </div>
 
     <!-- Toast Container -->
-    <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1100">
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
         <!-- Toasts will be inserted here -->
     </div>
 
@@ -158,3 +158,5 @@
 
 </body>
 </html>
+
+

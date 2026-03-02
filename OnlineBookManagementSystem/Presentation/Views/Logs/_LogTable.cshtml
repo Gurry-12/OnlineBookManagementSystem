@@ -29,14 +29,14 @@
         <table class="log-table__table">
             <thead class="log-table__header">
                 <tr>
-                    <th class="log-table__header-cell" style="width: 15%;">Timestamp</th>
-                    <th class="log-table__header-cell" style="width: 10%;">Action</th>
-                    <th class="log-table__header-cell" style="width: 40%;">Description</th>
-                    <th class="log-table__header-cell" style="width: 15%;">User</th>
+                    <th class="log-table__header-cell">Timestamp</th>
+                    <th class="log-table__header-cell">Action</th>
+                    <th class="log-table__header-cell">Description</th>
+                    <th class="log-table__header-cell">User</th>
                     @if (Model.Capabilities.CanViewSensitiveData)
                     {
-                        <th class="log-table__header-cell" style="width: 10%;">IP Address</th>
-                        <th class="log-table__header-cell" style="width: 10%;">Details</th>
+                        <th class="log-table__header-cell">IP Address</th>
+                        <th class="log-table__header-cell">Details</th>
                     }
                 </tr>
             </thead>

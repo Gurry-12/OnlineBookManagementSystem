@@ -11,7 +11,7 @@
             <div class="col-lg-8 mx-auto text-center cascade-animation" data-fade-in>
                 <div class="hero-content">
                     <div class="hero-badge mb-3 floating">
-                        <span class="badge bg-info bg-opacity-20 text-info px-4 py-2 rounded-pill fs-6 holographic continuous">
+                        <span class="wp-badge bg-info bg-opacity-20 text-info px-4 py-2 rounded-pill fs-6 holographic continuous">
                             <i class="bi bi-person-circle me-2"></i>Developer Journey
                         </span>
                     </div>
@@ -23,10 +23,10 @@
                         this comprehensive book management system.
                     </p>
                     <div class="hero-actions d-flex flex-wrap justify-content-center gap-3">
-                        <a asp-action="TechnicalDetails" class="wp-btn wp-btn-primary magnetic-btn holographic rainbow btn-lg pulse-glow">
+                        <a asp-action="TechnicalDetails" class="wp-btn-primary magnetic-btn holographic rainbow wp-btn-lg pulse-glow">
                             <i class="bi bi-gear me-2"></i>Technical Details
                         </a>
-                        <a asp-action="InteractiveDemo" class="wp-btn wp-btn-secondary magnetic-btn btn-lg glass-deep">
+                        <a asp-action="InteractiveDemo" class="wp-btn-secondary magnetic-btn wp-btn-lg glass-deep">
                             <i class="bi bi-play-circle me-2"></i>Live Demo
                         </a>
                     </div>
@@ -76,21 +76,21 @@
                         <div class="stats-grid">
                             <div class="stat-item text-center mb-3">
                                 <div class="stat-icon mb-2">
-                                    <i class="bi bi-calendar-event text-primary" style="font-size: 2rem;"></i>
+                                    <i class="bi bi-calendar-event text-primary fs-1"></i>
                                 </div>
                                 <div class="stat-value fw-bold">2024-2026</div>
                                 <div class="stat-label text-muted small">Development Period</div>
                             </div>
                             <div class="stat-item text-center mb-3">
                                 <div class="stat-icon mb-2">
-                                    <i class="bi bi-layers text-success" style="font-size: 2rem;"></i>
+                                    <i class="bi bi-layers text-success fs-1"></i>
                                 </div>
                                 <div class="stat-value fw-bold">Clean Architecture</div>
                                 <div class="stat-label text-muted small">Design Pattern</div>
                             </div>
                             <div class="stat-item text-center mb-3">
                                 <div class="stat-icon mb-2">
-                                    <i class="bi bi-code-slash text-info" style="font-size: 2rem;"></i>
+                                    <i class="bi bi-code-slash text-info fs-1"></i>
                                 </div>
                                 <div class="stat-value fw-bold">ASP.NET Core</div>
                                 <div class="stat-label text-muted small">Primary Framework</div>
@@ -145,11 +145,10 @@
                 {
                     var decision = Model.DeveloperStory.TechnicalDecisions[i];
                     <div class="col-lg-6" data-fade-in>
-                        <div class="decision-card glass-deep spotlight-card feature-highlight hover-lift h-100 p-4 card-3d floating">
+                        <div class="decision-card glass-deep spotlight-card feature-highlight hover-lift h-100 p-4 wp-card-3d floating">
                             <div class="decision-header d-flex align-items-center mb-3">
                                 <div class="decision-number me-3">
-                                    <div class="number-circle bg-primary text-white d-flex align-items-center justify-content-center fw-bold pulse-glow" 
-                                         style="width: 40px; height: 40px; border-radius: 50%;">
+                                    <div class="number-circle bg-primary text-white d-flex align-items-center justify-content-center fw-bold pulse-glow">
                                         @(i + 1)
                                     </div>
                                 </div>
@@ -180,7 +179,7 @@
                     <div class="col-lg-6" data-fade-in>
                         <div class="lesson-card glass spotlight-card hover-lift h-100 p-4">
                             <div class="lesson-icon mb-3">
-                                <i class="bi bi-lightbulb text-warning" style="font-size: 2.5rem;"></i>
+                                <i class="bi bi-lightbulb text-warning display-5"></i>
                             </div>
                             <p class="lesson-text mb-0">@lesson</p>
                         </div>
@@ -206,7 +205,7 @@
                     <div class="achievement-card glass spotlight-card hover-lift h-100 p-4">
                         <div class="achievement-header mb-3">
                             <div class="achievement-category mb-2">
-                                <span class="badge bg-success bg-opacity-20 text-success">@achievement.Category</span>
+                                <span class="wp-badge bg-success bg-opacity-20 text-success">@achievement.Category</span>
                             </div>
                             <h4 class="achievement-title fw-bold mb-2">@achievement.FeatureName</h4>
                         </div>
@@ -319,7 +318,7 @@
                         <div class="d-flex flex-wrap justify-content-center gap-2 mb-4">
                             @foreach (var role in Model.ContactInfo.AvailableForRoles)
                             {
-                                <span class="badge bg-primary bg-opacity-20 text-primary px-3 py-2">@role</span>
+                                <span class="wp-badge bg-primary bg-opacity-20 text-primary px-3 py-2">@role</span>
                             }
                         </div>
                     </div>
@@ -331,7 +330,7 @@
                                 <div class="col-md-4">
                                     <a href="mailto:@Model.ContactInfo.Email" class="contact-method text-decoration-none">
                                         <div class="method-card glass p-3 rounded">
-                                            <i class="bi bi-envelope-fill text-primary mb-2" style="font-size: 2rem;"></i>
+                                            <i class="bi bi-envelope-fill text-primary mb-2 fs-1"></i>
                                             <h6 class="fw-semibold">Email</h6>
                                             <small class="text-muted">Get in touch</small>
                                         </div>
@@ -343,7 +342,7 @@
                                 <div class="col-md-4">
                                     <a href="@Model.ContactInfo.LinkedIn" target="_blank" class="contact-method text-decoration-none">
                                         <div class="method-card glass p-3 rounded">
-                                            <i class="bi bi-linkedin text-primary mb-2" style="font-size: 2rem;"></i>
+                                            <i class="bi bi-linkedin text-primary mb-2 fs-1"></i>
                                             <h6 class="fw-semibold">LinkedIn</h6>
                                             <small class="text-muted">Professional network</small>
                                         </div>
@@ -355,7 +354,7 @@
                                 <div class="col-md-4">
                                     <a href="@Model.ContactInfo.GitHub" target="_blank" class="contact-method text-decoration-none">
                                         <div class="method-card glass p-3 rounded">
-                                            <i class="bi bi-github text-primary mb-2" style="font-size: 2rem;"></i>
+                                            <i class="bi bi-github text-primary mb-2 fs-1"></i>
                                             <h6 class="fw-semibold">GitHub</h6>
                                             <small class="text-muted">Code repository</small>
                                         </div>
@@ -377,7 +376,7 @@
                                         <a href="@resource.Url" target="_blank" class="text-decoration-none d-flex align-items-center">
                                             <i class="@resource.IconClass text-primary me-2"></i>
                                             <span class="fw-semibold">@resource.Title</span>
-                                            <span class="badge bg-info bg-opacity-20 text-info ms-auto">@resource.Category</span>
+                                            <span class="wp-badge bg-info bg-opacity-20 text-info ms-auto">@resource.Category</span>
                                         </a>
                                     </div>
                                 }
@@ -412,10 +411,10 @@
                     </div>
                     
                     <div class="cta-actions mt-4">
-                        <a asp-action="TechnicalDetails" class="wp-btn wp-btn-primary magnetic-btn me-3">
+                        <a asp-action="TechnicalDetails" class="wp-btn-primary magnetic-btn me-3">
                             <i class="bi bi-gear me-2"></i>Technical Details
                         </a>
-                        <a asp-action="InteractiveDemo" class="wp-btn wp-btn-outline-primary magnetic-btn">
+                        <a asp-action="InteractiveDemo" class="wp-btn-outline-primary magnetic-btn">
                             <i class="bi bi-play-circle me-2"></i>Live Demo
                         </a>
                     </div>
@@ -426,158 +425,7 @@
 </section>
 
 @section Styles {
-    <style>
-        .story-hero {
-            min-height: 50vh;
-        }
-        
-        .min-vh-50 {
-            min-height: 50vh;
-        }
-        
-        .project-stats, .motivation-card, .roadmap-card, .contact-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(0,0,0,0.1);
-        }
-        
-        .decision-card, .lesson-card, .achievement-card {
-            background: white;
-            border-radius: 16px;
-            border: 1px solid rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-        }
-        
-        .decision-card:hover, .lesson-card:hover, .achievement-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
-        }
-        
-        .number-circle {
-            transition: transform 0.3s ease;
-        }
-        
-        .decision-card:hover .number-circle {
-            transform: scale(1.1);
-        }
-        
-        .lesson-card .lesson-icon {
-            transition: transform 0.3s ease;
-        }
-        
-        .lesson-card:hover .lesson-icon {
-            transform: scale(1.1);
-        }
-        
-        .timeline-item {
-            position: relative;
-            padding-left: 2rem;
-        }
-        
-        .timeline-marker {
-            position: absolute;
-            left: 0;
-            top: 0.25rem;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-        }
-        
-        .timeline-item:not(:last-child)::before {
-            content: '';
-            position: absolute;
-            left: 5px;
-            top: 1rem;
-            width: 2px;
-            height: calc(100% + 0.5rem);
-            background: #dee2e6;
-        }
-        
-        .contact-method {
-            color: inherit;
-            transition: all 0.3s ease;
-        }
-        
-        .contact-method:hover {
-            color: inherit;
-            transform: translateY(-4px);
-        }
-        
-        .method-card {
-            background: rgba(255, 255, 255, 0.8);
-            border: 1px solid rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-        }
-        
-        .contact-method:hover .method-card {
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-        }
-        
-        .resource-link-item a {
-            color: inherit;
-            padding: 0.5rem;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-        
-        .resource-link-item a:hover {
-            background: rgba(var(--bs-primary-rgb), 0.1);
-            color: var(--bs-primary);
-        }
-        
-        .social-links-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-        
-        .social-link-item {
-            display: inline-flex;
-            align-items: center;
-            padding: 0.5rem 1rem;
-            background: rgba(0,0,0,0.05);
-            border-radius: 8px;
-            color: #6c757d;
-            transition: all 0.3s ease;
-        }
-        
-        .social-link-item:hover {
-            background: rgba(var(--bs-primary-rgb), 0.1);
-            color: var(--bs-primary);
-            transform: translateY(-2px);
-        }
-        
-        /* Responsive adjustments */
-        @@media (max-width: 768px) {
-            .display-3 {
-                font-size: 2.5rem;
-            }
-            
-            .hero-actions {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            
-            .hero-actions .wp-btn {
-                text-align: center;
-            }
-            
-            .stats-grid {
-                display: flex;
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .timeline-item {
-                padding-left: 1.5rem;
-            }
-            
-            .contact-methods .row {
-                flex-direction: column;
-            }
-        }
-    </style>
+    
 }
 
 @section Scripts {
@@ -628,3 +476,6 @@
         });
     </script>
 }
+
+
+

@@ -1,0 +1,179 @@
+/**
+ * VIEW SHARED STYLES
+ * Unified layout and spacing for all views
+ * ADDITIVE ONLY — no component definitions (Rule 5)
+ * Component patterns (.view-card, .view-empty-state, .view-loading)
+ * are in /components/view-card.css
+ */
+
+/* ========================================
+   UNIFIED PAGE HEADER
+   ======================================== */
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--border-color);
+  flex-wrap: wrap;
+}
+
+.page-header__content {
+  flex: 1;
+  min-width: 200px;
+}
+
+.page-header__title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-color);
+  margin: 0 0 var(--space-1) 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.page-header__title i {
+  color: var(--color-primary);
+}
+
+.page-header__subtitle {
+  font-size: var(--font-size-base);
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.page-header__actions {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* ========================================
+   UNIFIED CONTENT WRAPPER
+   ======================================== */
+
+.view-wrapper {
+  min-height: calc(100vh - 4rem);
+  padding: var(--space-4);
+}
+
+.view-wrapper--compact {
+  padding: var(--space-3);
+}
+
+.view-wrapper--spacious {
+  padding: var(--space-6);
+}
+
+.view-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* ========================================
+   UNIFIED STATS GRID
+   ======================================== */
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.stats-grid--compact {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--space-3);
+}
+
+.stats-grid--spacious {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-6);
+}
+
+/* ========================================
+   UNIFIED SECTION
+   ======================================== */
+
+.view-section {
+  margin-bottom: var(--space-6);
+}
+
+.view-section__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.view-section__title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-color);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* ========================================
+   UNIFIED GRID
+   ======================================== */
+
+.view-grid {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.view-grid--2-cols {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.view-grid--3-cols {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.view-grid--4-cols {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.view-grid--auto-fill {
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+
+@media (max-width: 1200px) {
+  .view-grid--4-cols {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 992px) {
+  .view-grid--4-cols,
+  .view-grid--3-cols {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .view-grid--4-cols,
+  .view-grid--3-cols,
+  .view-grid--2-cols {
+    grid-template-columns: 1fr;
+  }
+  
+  .page-header {
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  
+  .page-header__actions {
+    width: 100%;
+  }
+}

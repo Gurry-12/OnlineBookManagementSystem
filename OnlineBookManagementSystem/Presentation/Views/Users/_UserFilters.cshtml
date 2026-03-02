@@ -1,15 +1,15 @@
 @model OnlineBookManagementSystem.Presentation.ViewModels.Users.UserManagementFilters
 
-<div class="card mb-4">
-    <div class="card-header">
-        <h6 class="card-title mb-0">
+<div class="wp-card mb-4">
+    <div class="wp-card-header">
+        <h6 class="wp-card-title mb-0">
             <i class="bi bi-funnel me-2"></i>Filters
-            <button type="button" class="btn btn-sm btn-outline-secondary float-end" onclick="clearFilters()">
+            <button type="button" class="wp-btn-secondary wp-btn-sm float-end" onclick="clearFilters()">
                 <i class="bi bi-x-circle me-1"></i>Clear All
             </button>
         </h6>
     </div>
-    <div class="card-body">
+    <div class="wp-card-body">
         <form id="userFiltersForm" method="get">
             <div class="row g-3">
                 <!-- Search Term -->
@@ -73,11 +73,11 @@
                 
                 <!-- Filter Actions -->
                 <div class="col-md-8 d-flex align-items-end">
-                    <div class="btn-group">
-                        <button type="submit" class="btn btn-primary">
+                    <div class="wp-btn-group">
+                        <button type="submit" class="wp-btn-primary">
                             <i class="bi bi-search me-2"></i>Apply Filters
                         </button>
-                        <button type="button" class="btn btn-outline-secondary" onclick="clearFilters()">
+                        <button type="button" class="wp-btn-secondary" onclick="clearFilters()">
                             <i class="bi bi-x-circle me-2"></i>Clear
                         </button>
                     </div>
@@ -103,3 +103,5 @@
         }
     });
 </script>
+
+

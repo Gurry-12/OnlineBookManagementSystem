@@ -9,29 +9,29 @@
    ======================================== */
 
 .view-order-list {
-    min-height: 100vh;
-    padding: var(--space-4);
+  min-height: 100vh;
+  padding: var(--space-4);
 }
 
 .view-order-list .order-list__container {
-    max-width: 1200px;
-    margin: 0 auto;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .view-order-list .order-list__header {
-    margin-bottom: var(--space-6);
+  margin-bottom: var(--space-6);
 }
 
 .view-order-list .order-list__filters {
-    margin-bottom: var(--space-6);
+  margin-bottom: var(--space-6);
 }
 
 .view-order-list .order-list__table {
-    margin-bottom: var(--space-6);
+  margin-bottom: var(--space-6);
 }
 
 .view-order-list .order-list__pagination {
-    margin-top: var(--space-6);
+  margin-top: var(--space-6);
 }
 
 /* ========================================
@@ -39,34 +39,34 @@
    ======================================== */
 
 .view-order-details {
-    min-height: 100vh;
-    padding: var(--space-4);
+  min-height: 100vh;
+  padding: var(--space-4);
 }
 
 .view-order-details .order-details__container {
-    max-width: 1000px;
-    margin: 0 auto;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 .view-order-details .order-details__header {
-    margin-bottom: var(--space-6);
+  margin-bottom: var(--space-6);
 }
 
 .view-order-details .order-details__content {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: var(--space-6);
-    margin-bottom: var(--space-6);
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--space-6);
+  margin-bottom: var(--space-6);
 }
 
 .view-order-details .order-details__items {
-    margin-bottom: var(--space-6);
+  margin-bottom: var(--space-6);
 }
 
 .view-order-details .order-details__summary {
-    position: sticky;
-    top: var(--space-4);
-    height: fit-content;
+  position: sticky;
+  top: var(--space-4);
+  height: fit-content;
 }
 
 /* ========================================
@@ -74,17 +74,17 @@
    ======================================== */
 
 @media (max-width: 768px) {
-    .view-order-list,
-    .view-order-details {
-        padding: var(--space-3);
-    }
-    
-    .view-order-details .order-details__content {
-        grid-template-columns: 1fr;
-        gap: var(--space-4);
-    }
-    
-    .view-order-details .order-details__summary {
-        position: static;
-    }
+  .view-order-list,
+  .view-order-details {
+    padding: var(--space-3);
+  }
+
+  .view-order-details .order-details__content {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  .view-order-details .order-details__summary {
+    position: static;
+  }
 }

@@ -1,54 +1,67 @@
-﻿
 @{
     ViewData["Title"] = "My Favorites";
     Layout = ViewData["Layout"]?.ToString() ?? "_LayoutUser";
 }
 
-<div class="container">
-    <div class="wp-card mb-4">
-        <div class="wp-card-header">
-            <h2 class="mb-0 user-text-on-primary">
-                <i class="bi bi-heart-fill me-2"></i>❤️ My Favorite Books
+<div class="view-wrapper">
+<div class="view-container">
+    <!-- Unified Page Header -->
+    <div class="page-header">
+        <div class="page-header__content">
+            <h2 class="page-header__title">
+                <i class="bi bi-heart-fill"></i>My Favorite Books
             </h2>
+            <p class="page-header__subtitle">
+                @(Model.HasFavorites ? $"{Model.FavoriteBooks.Count()} books in your favorites" : "No favorites yet")
+            </p>
         </div>
     </div>
 
     @if (!Model.HasFavorites)
     {
-        <div class="wp-card text-center py-5">
-            <div class="wp-card-body">
-                <i class="bi bi-heart fs-1 mb-2 user-text-muted"></i>
-                <h4 class="user-text-primary">No favorites yet!</h4>
-                <p class="user-text-muted">Browse books and add some to your favorites.</p>
-                <a asp-controller="User" asp-action="Dashboard" class="wp-btn wp-btn-primary">Start Browsing</a>
+        <div class="view-card">
+            <div class="view-card__body">
+                <div class="view-empty-state">
+                    <div class="view-empty-state__icon">
+                        <i class="bi bi-heart"></i>
+                    </div>
+                    <h4 class="view-empty-state__title">No favorites yet!</h4>
+                    <p class="view-empty-state__description">Browse books and add some to your favorites.</p>
+                    <div class="view-empty-state__actions">
+                        <a asp-controller="User" asp-action="Dashboard" class="action-bar__button action-bar__button--primary">
+                            <i class="bi bi-search me-2"></i>Start Browsing
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     }
     else
     {
-        <div class="row g-4">
+        <div class="view-grid view-grid--4-cols">
             @foreach (var book in Model.FavoriteBooks)
             {
-                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                    <div class="wp-card h-100 book-card position-relative">
-                        <div class="wp-card-body">
-                            <img src="@(book.ImageUrl ?? Url.Content("~/images/default-book-improved.svg"))" alt="@book.Title" class="wp-book-image mb-3" />
-                            <h6 class="mt-2 user-text-primary">@book.Title</h6>
-                            <small class="user-text-muted">@book.Author</small>
-                            <p class="user-text-secondary fw-bold">₹@book.Price</p>
-                            <div class="d-flex justify-content-between align-items-center mt-2">
-                                <button onclick="ToggleFavorite(@book.Id)" class="wp-btn wp-btn-secondary btn-sm" style="z-index: 2;">
-                                    <i class="bi bi-heart-fill"></i> Remove
-                                </button>
-                                <button onclick="AddToCart(@book.Id)" class="wp-btn wp-btn-primary btn-sm" style="z-index: 2;">Add to Cart</button>
-                            </div>
-                            <a asp-controller="User" asp-action="BookDetails" asp-route-id="@book.Id" class="stretched-link"></a>
+                <div class="view-card">
+                    <div class="view-card__body">
+                        <img src="@(book.ImageUrl ?? Url.Content("~/images/default-book-improved.svg"))" alt="@book.Title" class="fav-card__image" />
+                        <h6 class="fav-card__title">@book.Title</h6>
+                        <small class="fav-card__author">@book.Author</small>
+                        <p class="fav-card__price">₹@book.Price</p>
+                        <div class="d-flex gap-2">
+                            <button onclick="ToggleFavorite(@book.Id)" class="action-bar__button action-bar__button--secondary flex-fill">
+                                <i class="bi bi-heart-fill me-1"></i>Remove
+                            </button>
+                            <button onclick="AddToCart(@book.Id)" class="action-bar__button action-bar__button--primary flex-fill">
+                                <i class="bi bi-cart-plus me-1"></i>Add
+                            </button>
                         </div>
+                        <a asp-controller="User" asp-action="BookDetails" asp-route-id="@book.Id" class="stretched-link"></a>
                     </div>
                 </div>
             }
         </div>
     }
+</div>
 </div>
 </div>
 
@@ -108,3 +121,5 @@
         }
     </script>
 }
+
+

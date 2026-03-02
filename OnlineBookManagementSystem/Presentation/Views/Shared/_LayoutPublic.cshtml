@@ -100,7 +100,7 @@
 </head>
 <body class="@(ViewData["ThemeClass"] ?? "theme-public")" data-authenticated="false">
     <!-- Skip to main content for screen readers -->
-    <a href="#main-content" class="visually-hidden-focusable btn btn-primary position-absolute" style="top: 10px; left: 10px; z-index: 9999;">
+    <a href="#main-content" class="visually-hidden-focusable wp-btn-primary wp-skip-link">
         Skip to main content
     </a>
     <!-- Public Navigation Bar -->
@@ -119,32 +119,32 @@
             <div class="collapse navbar-collapse" id="publicNavbar">
                 <ul class="navbar-nav ms-auto align-items-center" role="menubar">
                     <li class="nav-item" role="none">
-                        <a class="wp-btn wp-btn-secondary btn " href="/" role="menuitem" aria-label="Go to homepage">
+                        <a class="nav-link" href="/" role="menuitem" aria-label="Go to homepage">
                             <i class="bi bi-house-door me-1" aria-hidden="true"></i>Home
                         </a>
                     </li>
                     <li class="nav-item" role="none">
-                        <a class=" wp-btn wp-btn-secondary btn " asp-controller="Public" asp-action="Browse" role="menuitem" aria-label="Browse book collection">
+                        <a class="nav-link" asp-controller="Public" asp-action="Browse" role="menuitem" aria-label="Browse book collection">
                             <i class="bi bi-book me-1" aria-hidden="true"></i>Browse Books
                         </a>
                     </li>
                     <li class="nav-item" role="none">
-                        <a class="wp-btn wp-btn-secondary btn " asp-controller="Public" asp-action="TechnicalDetails" role="menuitem" aria-label="View technical details and architecture">
+                        <a class="nav-link" asp-controller="Public" asp-action="TechnicalDetails" role="menuitem" aria-label="View technical details and architecture">
                             <i class="bi bi-gear me-1" aria-hidden="true"></i>Technical Details
                         </a>
                     </li>
                     <li class="nav-item" role="none">
-                        <a class=" wp-btn wp-btn-secondary btn " asp-controller="Public" asp-action="DeveloperStory" role="menuitem" aria-label="Read developer story and project journey">
+                        <a class="nav-link" asp-controller="Public" asp-action="DeveloperStory" role="menuitem" aria-label="Read developer story and project journey">
                             <i class="bi bi-person-circle me-1" aria-hidden="true"></i>Developer Story
                         </a>
                     </li>
                     <li class="nav-item ms-3" role="none">
-                        <a class="wp-btn wp-btn-secondary btn " asp-controller="Auth" asp-action="Login" role="menuitem" aria-label="Login to your account">
+                        <a class="wp-btn-outline-primary wp-btn-sm" asp-controller="Auth" asp-action="Login" role="menuitem" aria-label="Login to your account">
                             <i class="bi bi-box-arrow-in-right me-1" aria-hidden="true"></i>Login
                         </a>
                     </li>
                     <li class="nav-item ms-2" role="none">
-                        <a class="wp-btn wp-btn-secondary btn " asp-controller="Auth" asp-action="Registration" role="menuitem" aria-label="Create new account">
+                        <a class="wp-btn-outline-primary wp-btn-sm" asp-controller="Auth" asp-action="Registration" role="menuitem" aria-label="Create new account">
                             <i class="bi bi-person-plus me-1" aria-hidden="true"></i>Sign Up
                         </a>
                     </li>
@@ -154,7 +154,7 @@
     </nav>
 
     <!-- Main Content -->
-    <main id="main-content" class="container-fluid py-4" role="main">
+    <main id="main-content" role="main">
         @RenderBody()
     </main>
 
@@ -203,7 +203,7 @@
     </footer>
 
     <!-- Bootstrap Toast Container -->
-    <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1100">
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
         <!-- Toasts injected via JS -->
     </div>
 
@@ -261,96 +261,8 @@
     </script>
     
     <!-- Accessibility Styles -->
-    <style>
-        /* Enhanced focus indicators for keyboard navigation */
-        .keyboard-navigation *:focus {
-            outline: 3px solid #0066cc !important;
-            outline-offset: 2px !important;
-        }
-        
-        /* Skip link styling */
-        .visually-hidden-focusable:focus {
-            position: absolute !important;
-            width: auto !important;
-            height: auto !important;
-            padding: 0.5rem 1rem !important;
-            margin: 0 !important;
-            overflow: visible !important;
-            clip: auto !important;
-            white-space: nowrap !important;
-        }
-        
-        /* High contrast mode support */
-        @@media (prefers-contrast: high) {
-            .glass, .glass-deep {
-                background: rgba(255, 255, 255, 0.95) !important;
-                border: 2px solid #000 !important;
-            }
-            
-            .aurora-bg {
-                background: #000 !important;
-            }
-            
-            .text-white-75, .text-white-50 {
-                color: #fff !important;
-            }
-        }
-        
-        /* Reduced motion support */
-        @@media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-                scroll-behavior: auto !important;
-            }
-            
-            .floating, .pulse-glow, .holographic {
-                animation: none !important;
-            }
-        }
-        
-        /* Screen reader only content */
-        .sr-only  {
-            position: absolute !important;
-            width: 1px !important;
-            height: 1px !important;
-            padding: 0 !important;
-            margin: -1px !important;
-            overflow: hidden !important;
-            clip: rect(0, 0, 0, 0) !important;
-            white-space: nowrap !important;
-            border: 0 !important;
-        }
-        
-        /* Ensure sufficient color contrast */
-        .text-muted {
-            color: #6c757d !important;
-        }
-        
-        /* Focus management for modals and interactive elements */
-        .modal:focus {
-            outline: none;
-        }
-        
-        .btn:focus, .form-control:focus, .form-select:focus {
-            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25) !important;
-        }
-        
-        /* Ensure clickable areas are large enough */
-        .btn-sm {
-            min-height: 44px;
-            min-width: 44px;
-        }
-        
-        /* Improve link visibility */
-        a:not(.btn):not(.nav-link):not(.navbar-brand) {
-            text-decoration: underline;
-        }
-        
-        a:not(.btn):not(.nav-link):not(.navbar-brand):hover {
-            text-decoration: none;
-        }
-    </style>
+    
 </body>
 </html>
+
+

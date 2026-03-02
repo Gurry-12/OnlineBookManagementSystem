@@ -7,79 +7,122 @@
 <div class="view-admin-dashboard">
 <div class="dashboard-grid dashboard-grid--admin">
     <!-- Stats Section -->
-    <div class="row g-3 mb-4">
-        <div class="col-xl-3 col-md-6">
-            <div class="stats-card stats-card--books">
-                <div class="stats-card__body">
-                    <div class="stats-card__icon">
-                        <i class="bi bi-book"></i>
-                    </div>
-                    <h3 class="stats-card__number">@Model.TotalBooks</h3>
-                    <p class="stats-card__label">Total Books</p>
-                    <a asp-action="Books" class="stats-card__action">
-                        <i class="bi bi-arrow-right me-1"></i>Manage Books
-                    </a>
+    <div class="stats-row">
+        <div class="stats-card stats-card--books">
+            <div class="stats-card__body">
+                <div class="stats-card__icon">
+                    <i class="bi bi-book"></i>
                 </div>
+                <h3 class="stats-card__number">@Model.TotalBooks</h3>
+                <p class="stats-card__label">Total Books</p>
+                <a asp-action="Books" class="stats-card__action">
+                    <i class="bi bi-arrow-right me-1"></i>Manage
+                </a>
             </div>
         </div>
         
-        <div class="col-xl-3 col-md-6">
-            <div class="stats-card stats-card--categories">
-                <div class="stats-card__body">
-                    <div class="stats-card__icon">
-                        <i class="bi bi-tags"></i>
-                    </div>
-                    <h3 class="stats-card__number">@Model.TotalCategories</h3>
-                    <p class="stats-card__label">Categories</p>
-                    <a asp-action="CategoryManagement" class="stats-card__action">
-                        <i class="bi bi-arrow-right me-1"></i>Manage Categories
-                    </a>
+        <div class="stats-card stats-card--categories">
+            <div class="stats-card__body">
+                <div class="stats-card__icon">
+                    <i class="bi bi-tags"></i>
                 </div>
+                <h3 class="stats-card__number">@Model.TotalCategories</h3>
+                <p class="stats-card__label">Categories</p>
+                <a asp-action="CategoryManagement" class="stats-card__action">
+                    <i class="bi bi-arrow-right me-1"></i>Manage
+                </a>
             </div>
         </div>
         
-        <div class="col-xl-3 col-md-6">
-            <div class="stats-card stats-card--users">
-                <div class="stats-card__body">
-                    <div class="stats-card__icon">
-                        <i class="bi bi-people"></i>
-                    </div>
-                    <h3 class="stats-card__number">@Model.TotalUsers</h3>
-                    <p class="stats-card__label">Total Users</p>
-                    <a asp-action="UserList" class="stats-card__action">
-                        <i class="bi bi-arrow-right me-1"></i>Manage Users
-                    </a>
+        <div class="stats-card stats-card--users">
+            <div class="stats-card__body">
+                <div class="stats-card__icon">
+                    <i class="bi bi-people"></i>
                 </div>
+                <h3 class="stats-card__number">@Model.TotalUsers</h3>
+                <p class="stats-card__label">Total Users</p>
+                <a asp-action="UserList" class="stats-card__action">
+                    <i class="bi bi-arrow-right me-1"></i>Manage
+                </a>
             </div>
         </div>
         
-        <div class="col-xl-3 col-md-6">
-            <div class="stats-card stats-card--orders">
-                <div class="stats-card__body">
-                    <div class="stats-card__icon">
-                        <i class="bi bi-cart-check"></i>
-                    </div>
-                    <h3 class="stats-card__number">@Model.TotalOrders</h3>
-                    <p class="stats-card__label">Total Orders</p>
-                    <a asp-action="OrderManagement" class="stats-card__action">
-                        <i class="bi bi-arrow-right me-1"></i>View Orders
-                    </a>
+        <div class="stats-card stats-card--orders">
+            <div class="stats-card__body">
+                <div class="stats-card__icon">
+                    <i class="bi bi-cart-check"></i>
                 </div>
+                <h3 class="stats-card__number">@Model.TotalOrders</h3>
+                <p class="stats-card__label">Total Orders</p>
+                <a asp-action="OrderManagement" class="stats-card__action">
+                    <i class="bi bi-arrow-right me-1"></i>View
+                </a>
+            </div>
+        </div>
+        
+        <div class="stats-card stats-card--revenue">
+            <div class="stats-card__body">
+                <div class="stats-card__icon">
+                    <i class="bi bi-currency-dollar"></i>
+                </div>
+                <h3 class="stats-card__number">@Model.TotalRevenue.ToString("C")</h3>
+                <p class="stats-card__label">Total Revenue</p>
+                <a asp-controller="Analytics" asp-action="OrdersAnalytics" class="stats-card__action">
+                    <i class="bi bi-arrow-right me-1"></i>Analytics
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="view-section">
+        <div class="view-card">
+            <div class="view-card__header">
+                <h5 class="view-card__title">
+                    <i class="bi bi-lightning"></i>Quick Actions
+                </h5>
+            </div>
+            <div class="view-card__body">
+                <div class="quick-actions-grid">
+                        <a asp-action="CreateBook" class="quick-action-btn">
+                            <i class="bi bi-plus-circle"></i>
+                            <span>Add Book</span>
+                        </a>
+                        <a asp-action="UserList" class="quick-action-btn">
+                            <i class="bi bi-person-plus"></i>
+                            <span>Manage Users</span>
+                        </a>
+                        <a asp-action="OrderManagement" class="quick-action-btn">
+                            <i class="bi bi-cart-check"></i>
+                            <span>View Orders</span>
+                        </a>
+                        <a asp-controller="Category" asp-action="CategoryList" class="quick-action-btn">
+                            <i class="bi bi-tags"></i>
+                            <span>Categories</span>
+                        </a>
+                        <a asp-controller="Analytics" asp-action="BooksAnalytics" class="quick-action-btn">
+                            <i class="bi bi-graph-up"></i>
+                            <span>Analytics</span>
+                        </a>
+                        <a asp-action="ActivityLogs" class="quick-action-btn">
+                            <i class="bi bi-clock-history"></i>
+                            <span>Activity Logs</span>
+                        </a>
+                    </div>
             </div>
         </div>
     </div>
 
     <!-- Featured Content Carousel -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0">
-                        <i class="bi bi-star me-2"></i>Featured Content
-                        <span class="badge bg-primary ms-2">Highlights</span>
-                    </h5>
-                </div>
-                <div class="card-body p-0">
+    <div class="view-section">
+        <div class="view-card">
+            <div class="view-card__header">
+                <h5 class="view-card__title">
+                    <i class="bi bi-star"></i>Featured Content
+                    <span class="wp-badge ms-2">Highlights</span>
+                </h5>
+            </div>
+            <div class="view-card__body p-0">
                     <div id="adminCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
                         <div class="carousel-indicators">
                             <button type="button" data-bs-target="#adminCarousel" data-bs-slide-to="0" class="active"></button>
@@ -100,14 +143,14 @@
                                             Stay updated with the latest books added to your catalog. Monitor new arrivals and ensure quality content for your users.
                                         </p>
                                         <div class="carousel-stats">
-                                            <span class="badge bg-success me-2">
+                                            <span class="wp-badge bg-success me-2">
                                                 <i class="bi bi-plus-circle me-1"></i>@Model.RecentBooksCount New This Week
                                             </span>
-                                            <span class="badge bg-info">
+                                            <span class="wp-badge bg-info">
                                                 <i class="bi bi-eye me-1"></i>@Model.TotalBooks Total Books
                                             </span>
                                         </div>
-                                        <a asp-action="Books" class="btn btn-primary mt-3">
+                                        <a asp-action="Books" class="wp-btn-primary mt-3">
                                             <i class="bi bi-arrow-right me-2"></i>Manage Books
                                         </a>
                                     </div>
@@ -131,14 +174,14 @@
                                             Track user activity and engagement metrics. Monitor registrations, active users, and platform growth.
                                         </p>
                                         <div class="carousel-stats">
-                                            <span class="badge bg-success me-2">
+                                            <span class="wp-badge bg-success me-2">
                                                 <i class="bi bi-person-plus me-1"></i>@Model.NewUsersThisWeek New Users
                                             </span>
-                                            <span class="badge bg-warning">
+                                            <span class="wp-badge bg-warning">
                                                 <i class="bi bi-activity me-1"></i>@Model.ActiveUsersToday Active Today
                                             </span>
                                         </div>
-                                        <a asp-action="UserList" class="btn btn-success mt-3">
+                                        <a asp-action="UserList" class="wp-btn-primary mt-3">
                                             <i class="bi bi-arrow-right me-2"></i>View Users
                                         </a>
                                     </div>
@@ -162,14 +205,14 @@
                                             Monitor and manage customer orders efficiently. Track pending orders, revenue, and fulfillment status.
                                         </p>
                                         <div class="carousel-stats">
-                                            <span class="badge bg-warning me-2">
+                                            <span class="wp-badge bg-warning me-2">
                                                 <i class="bi bi-clock me-1"></i>@Model.PendingOrders Pending
                                             </span>
-                                            <span class="badge bg-success">
+                                            <span class="wp-badge bg-success">
                                                 <i class="bi bi-currency-dollar me-1"></i>@Model.TotalRevenue.ToString("C") Revenue
                                             </span>
                                         </div>
-                                        <a asp-action="OrderManagement" class="btn btn-warning mt-3">
+                                        <a asp-action="OrderManagement" class="wp-btn-primary mt-3">
                                             <i class="bi bi-arrow-right me-2"></i>Manage Orders
                                         </a>
                                     </div>
@@ -193,14 +236,14 @@
                                             Access comprehensive analytics and reports. Make data-driven decisions with detailed insights and trends.
                                         </p>
                                         <div class="carousel-stats">
-                                            <span class="badge bg-info me-2">
+                                            <span class="wp-badge bg-info me-2">
                                                 <i class="bi bi-graph-up me-1"></i>Growth Tracking
                                             </span>
-                                            <span class="badge bg-primary">
+                                            <span class="wp-badge bg-primary">
                                                 <i class="bi bi-clipboard-data me-1"></i>Detailed Reports
                                             </span>
                                         </div>
-                                        <a asp-controller="Analytics" asp-action="BooksAnalytics" class="btn btn-info mt-3">
+                                        <a asp-controller="Analytics" asp-action="BooksAnalytics" class="wp-btn-primary mt-3">
                                             <i class="bi bi-arrow-right me-2"></i>View Analytics
                                         </a>
                                     </div>
@@ -229,32 +272,30 @@
     </div>
 
     <!-- Charts Row -->
-    <div class="row g-4 mb-4">
-        <!-- Monthly Book Uploads Chart -->
-        <div class="col-lg-6">
-            <div class="card">
-                <div class="card-header">
-                    <h6 class="mb-0">
-                        <i class="bi bi-graph-up me-2"></i>Monthly Book Uploads
+    <div class="view-section">
+        <div class="view-grid view-grid--2-cols">
+            <!-- Monthly Book Uploads Chart -->
+            <div class="view-card">
+                <div class="view-card__header">
+                    <h6 class="view-card__title">
+                        <i class="bi bi-graph-up"></i>Monthly Book Uploads
                     </h6>
                 </div>
-                <div class="card-body">
+                <div class="view-card__body">
                     <div class="chart-container">
                         <canvas id="monthlyChart"></canvas>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Books by Category Chart -->
-        <div class="col-lg-6">
-            <div class="card">
-                <div class="card-header">
-                    <h6 class="mb-0">
-                        <i class="bi bi-tags me-2"></i>Books by Category
+            <!-- Books by Category Chart -->
+            <div class="view-card">
+                <div class="view-card__header">
+                    <h6 class="view-card__title">
+                        <i class="bi bi-tags"></i>Books by Category
                     </h6>
                 </div>
-                <div class="card-body">
+                <div class="view-card__body">
                     <div class="chart-container">
                         <canvas id="categoryChart"></canvas>
                     </div>
@@ -264,16 +305,16 @@
     </div>
 
     <!-- Bottom Row -->
-    <div class="row g-4">
-        <!-- Recent Activities -->
-        <div class="col-lg-6">
-            <div class="card">
-                <div class="card-header">
-                    <h6 class="mb-0">
-                        <i class="bi bi-clock-history me-2"></i>Recent Activities
+    <div class="view-section">
+        <div class="view-grid view-grid--2-cols">
+            <!-- Recent Activities -->
+            <div class="view-card">
+                <div class="view-card__header">
+                    <h6 class="view-card__title">
+                        <i class="bi bi-clock-history"></i>Recent Activities
                     </h6>
                 </div>
-                <div class="card-body">
+                <div class="view-card__body">
                     <div class="activity-list">
                         @if (Model.RecentActivity != null && Model.RecentActivity.Any())
                         {
@@ -303,76 +344,34 @@
                                         </small>
                                     </div>
                                     <div class="activity-badge">
-                                        <span class="badge bg-info">@log.ActionType</span>
+                                        <span class="wp-badge bg-info">@log.ActionType</span>
                                     </div>
                                 </div>
                             }
                         }
                         else
                         {
-                            <div class="text-center py-4">
-                                <i class="bi bi-clock-history display-4 text-muted"></i>
-                                <p class="text-muted mt-2">No recent activity found.</p>
+                            <div class="view-empty-state">
+                                <div class="view-empty-state__icon">
+                                    <i class="bi bi-clock-history"></i>
+                                </div>
+                                <p class="view-empty-state__description">No recent activity found.</p>
                             </div>
                         }
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Quick Actions & Revenue Chart -->
-        <div class="col-lg-6">
-            <div class="row g-4">
-                <!-- Quick Actions -->
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h6 class="mb-0">
-                                <i class="bi bi-lightning me-2"></i>Quick Actions
-                            </h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="row g-3">
-                                <div class="col-6">
-                                    <a asp-action="CreateBook" class="btn btn-outline-primary w-100 quick-action-btn">
-                                        <i class="bi bi-plus-circle d-block mb-2"></i>
-                                        <span>Add Book</span>
-                                    </a>
-                                </div>
-                                <div class="col-6">
-                                    <a asp-action="UserList" class="btn btn-outline-primary w-100 quick-action-btn">
-                                        <i class="bi bi-person-lines-fill d-block mb-2"></i>
-                                        <span>Manage Users</span>
-                                    </a>
-                                </div>
-                                <div class="col-6">
-                                    <a asp-action="OrderManagement" class="btn btn-outline-primary w-100 quick-action-btn">
-                                        <i class="bi bi-cart-check d-block mb-2"></i>
-                                        <span>View Orders</span>
-                                    </a>
-                                </div>
-                                <div class="col-6">
-                                    <a asp-action="ActivityLogs" class="btn btn-outline-primary w-100 quick-action-btn">
-                                        <i class="bi bi-clock-history d-block mb-2"></i>
-                                        <span>Activity Logs</span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <!-- Revenue Chart -->
+            <div class="view-card">
+                <div class="view-card__header">
+                    <h6 class="view-card__title">
+                        <i class="bi bi-currency-dollar"></i>Revenue Trends
+                    </h6>
                 </div>
-
-                <!-- Revenue Chart -->
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h6 class="mb-0">
-                                <i class="bi bi-currency-dollar me-2"></i>Revenue Trends
-                            </h6>
-                        </div>
-                        <div class="card-body">
-                            <canvas id="revenueChart" height="200"></canvas>
-                        </div>
+                <div class="view-card__body">
+                    <div class="chart-container">
+                        <canvas id="revenueChart"></canvas>
                     </div>
                 </div>
             </div>
@@ -387,3 +386,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="~/js/books/ChartsAdmin.js"></script>
 }
+
+
+

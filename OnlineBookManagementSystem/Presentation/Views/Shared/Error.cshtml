@@ -7,12 +7,12 @@
 <div class="container-fluid d-flex align-items-center justify-content-center min-vh-100 bg-light">
     <div class="row justify-content-center w-100">
         <div class="col-md-8 col-lg-6">
-            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
-                <div class="card-header bg-danger text-white text-center py-4">
+            <div class="wp-card border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="wp-card-header bg-danger text-white text-center py-4">
                     <i class="bi bi-exclamation-triangle-fill display-4"></i>
                     <h2 class="mt-2 mb-0">@Model?.Title</h2>
                 </div>
-                <div class="card-body p-5 text-center">
+                <div class="wp-card-body p-5 text-center">
                     
                     <h1 class="display-1 fw-bold text-muted mb-4">@Model?.StatusCode</h1>
 
@@ -30,11 +30,11 @@
                     @if (!string.IsNullOrEmpty(Model?.Details))
                     {
                         <div class="text-start mb-4">
-                            <button class="btn btn-sm btn-outline-secondary w-100" type="button" data-bs-toggle="collapse" data-bs-target="#errorDetails" aria-expanded="false" aria-controls="errorDetails">
+                            <button class="wp-btn-sm wp-btn-outline-secondary w-100" type="button" data-bs-toggle="collapse" data-bs-target="#errorDetails" aria-expanded="false" aria-controls="errorDetails">
                                 Show Technical Details <i class="bi bi-chevron-down"></i>
                             </button>
                             <div class="collapse mt-2" id="errorDetails">
-                                <div class="card card-body bg-dark text-light font-monospace small" style="max-height: 300px; overflow-y: auto; white-space: pre-wrap;">
+                                <div class="wp-card-body bg-dark text-light font-monospace small error-page__details">
                                     @Model.Details
                                 </div>
                             </div>
@@ -42,10 +42,10 @@
                     }
                     
                     <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center mt-4">
-                        <button onclick="history.back()" class="btn btn-outline-dark px-4">
+                        <button onclick="history.back()" class="wp-btn-outline-dark px-4">
                             <i class="bi bi-arrow-left me-2"></i>Go Back
                         </button>
-                        <a asp-controller="Home" asp-action="Index" class="btn btn-primary px-4">
+                        <a asp-controller="Home" asp-action="Index" class="wp-btn-primary px-4">
                             <i class="bi bi-house me-2"></i>Go Home
                         </a>
                     </div>
@@ -68,3 +68,6 @@
         console.error("Error Page Loaded: @Model?.StatusCode - @Model?.Title");
     </script>
 }
+
+
+

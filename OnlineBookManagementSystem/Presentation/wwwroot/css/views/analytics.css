@@ -9,28 +9,28 @@
    ======================================== */
 
 .view-analytics-orders {
-    min-height: 100vh;
-    padding: var(--space-4);
+  min-height: 100vh;
+  padding: var(--space-4);
 }
 
 .view-analytics-orders .analytics__container {
-    max-width: 1400px;
-    margin: 0 auto;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .view-analytics-orders .analytics__header {
-    margin-bottom: var(--space-6);
+  margin-bottom: var(--space-6);
 }
 
 .view-analytics-orders .analytics__filters {
-    margin-bottom: var(--space-6);
+  margin-bottom: var(--space-6);
 }
 
 .view-analytics-orders .analytics__charts {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    gap: var(--space-6);
-    margin-bottom: var(--space-6);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: var(--space-6);
+  margin-bottom: var(--space-6);
 }
 
 /* ========================================
@@ -38,28 +38,28 @@
    ======================================== */
 
 .view-analytics-books {
-    min-height: 100vh;
-    padding: var(--space-4);
+  min-height: 100vh;
+  padding: var(--space-4);
 }
 
 .view-analytics-books .analytics__container {
-    max-width: 1400px;
-    margin: 0 auto;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .view-analytics-books .analytics__header {
-    margin-bottom: var(--space-6);
+  margin-bottom: var(--space-6);
 }
 
 .view-analytics-books .analytics__filters {
-    margin-bottom: var(--space-6);
+  margin-bottom: var(--space-6);
 }
 
 .view-analytics-books .analytics__charts {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    gap: var(--space-6);
-    margin-bottom: var(--space-6);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: var(--space-6);
+  margin-bottom: var(--space-6);
 }
 
 /* ========================================
@@ -67,28 +67,28 @@
    ======================================== */
 
 .view-analytics-users {
-    min-height: 100vh;
-    padding: var(--space-4);
+  min-height: 100vh;
+  padding: var(--space-4);
 }
 
 .view-analytics-users .analytics__container {
-    max-width: 1400px;
-    margin: 0 auto;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .view-analytics-users .analytics__header {
-    margin-bottom: var(--space-6);
+  margin-bottom: var(--space-6);
 }
 
 .view-analytics-users .analytics__filters {
-    margin-bottom: var(--space-6);
+  margin-bottom: var(--space-6);
 }
 
 .view-analytics-users .analytics__charts {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    gap: var(--space-6);
-    margin-bottom: var(--space-6);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: var(--space-6);
+  margin-bottom: var(--space-6);
 }
 
 /* ========================================
@@ -96,28 +96,28 @@
    ======================================== */
 
 .view-analytics-reviews {
-    min-height: 100vh;
-    padding: var(--space-4);
+  min-height: 100vh;
+  padding: var(--space-4);
 }
 
 .view-analytics-reviews .analytics__container {
-    max-width: 1400px;
-    margin: 0 auto;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .view-analytics-reviews .analytics__header {
-    margin-bottom: var(--space-6);
+  margin-bottom: var(--space-6);
 }
 
 .view-analytics-reviews .analytics__filters {
-    margin-bottom: var(--space-6);
+  margin-bottom: var(--space-6);
 }
 
 .view-analytics-reviews .analytics__charts {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    gap: var(--space-6);
-    margin-bottom: var(--space-6);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: var(--space-6);
+  margin-bottom: var(--space-6);
 }
 
 /* ========================================
@@ -125,18 +125,18 @@
    ======================================== */
 
 @media (max-width: 768px) {
-    .view-analytics-orders,
-    .view-analytics-books,
-    .view-analytics-users,
-    .view-analytics-reviews {
-        padding: var(--space-3);
-    }
-    
-    .view-analytics-orders .analytics__charts,
-    .view-analytics-books .analytics__charts,
-    .view-analytics-users .analytics__charts,
-    .view-analytics-reviews .analytics__charts {
-        grid-template-columns: 1fr;
-        gap: var(--space-4);
-    }
+  .view-analytics-orders,
+  .view-analytics-books,
+  .view-analytics-users,
+  .view-analytics-reviews {
+    padding: var(--space-3);
+  }
+
+  .view-analytics-orders .analytics__charts,
+  .view-analytics-books .analytics__charts,
+  .view-analytics-users .analytics__charts,
+  .view-analytics-reviews .analytics__charts {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
 }

@@ -1,0 +1,67 @@
+/**
+ * Component: Category Card & Category Book Card
+ * Purpose: Styles for category listing page
+ * Migrated from inline <style> block in CategoryList.cshtml
+ * BEM Methodology: .category-card__element, .category-book-card__element
+ */
+
+/* ========================================
+   BLOCK: category-card (Admin management card)
+   ======================================== */
+
+.category-card {
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.category-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.category-card__meta {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+/* ========================================
+   BLOCK: category-book-card (Public browse card)
+   ======================================== */
+
+.category-book-card {
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.category-book-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.category-book-card__image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.category-book-card__placeholder {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-gray-100);
+}
+
+.category-book-card__placeholder i {
+  font-size: 2rem;
+  color: var(--color-text-muted);
+}
+
+.category-book-card__price {
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+}
+
+.category-book-card__stock {
+  color: var(--color-success);
+  font-size: var(--font-size-sm);
+}

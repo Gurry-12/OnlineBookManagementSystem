@@ -1,0 +1,184 @@
+/**
+ * Component: View Card
+ * Purpose: Card container with header/body/footer pattern
+ * Used across multiple views (Admin Dashboard, User Dashboard, Favorites)
+ * Migrated from views/shared.css to comply with Rule 5
+ * BEM Methodology: .view-card__element
+ */
+
+/* ========================================
+   BLOCK: view-card
+   ======================================== */
+
+.view-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: all var(--transition-fast);
+}
+
+.view-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.view-card__header {
+  padding: var(--space-4) var(--space-5);
+  border-bottom: 1px solid var(--border-color);
+  background: var(--color-gray-50);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.view-card__title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-color);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.view-card__title i {
+  color: var(--color-primary);
+}
+
+.view-card__body {
+  padding: var(--space-5);
+}
+
+.view-card__footer {
+  padding: var(--space-4) var(--space-5);
+  border-top: 1px solid var(--border-color);
+  background: var(--color-gray-50);
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-2);
+}
+
+/* ========================================
+   BLOCK: view-empty-state
+   ======================================== */
+
+.view-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-8) var(--space-4);
+  text-align: center;
+  min-height: 300px;
+}
+
+.view-empty-state__icon {
+  font-size: 4rem;
+  color: var(--color-gray-300);
+  margin-bottom: var(--space-4);
+  animation: view-empty-state-float 3s ease-in-out infinite;
+}
+
+.view-empty-state__title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-color);
+  margin: 0 0 var(--space-2);
+}
+
+.view-empty-state__description {
+  font-size: var(--font-size-base);
+  color: var(--color-text-muted);
+  margin: 0 0 var(--space-4);
+  max-width: 400px;
+}
+
+.view-empty-state__actions {
+  display: flex;
+  gap: var(--space-3);
+}
+
+@keyframes view-empty-state-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* ========================================
+   BLOCK: view-loading
+   ======================================== */
+
+.view-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-8);
+  min-height: 200px;
+}
+
+.view-loading__spinner {
+  width: 3rem;
+  height: 3rem;
+  border: 3px solid var(--color-gray-200);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: view-loading-spin 0.8s linear infinite;
+}
+
+.view-loading__text {
+  margin-top: var(--space-3);
+  color: var(--color-text-muted);
+}
+
+@keyframes view-loading-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ========================================
+   BLOCK: fav-card (Favorite book card elements)
+   ======================================== */
+
+.fav-card__image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-3);
+}
+
+.fav-card__title {
+  color: var(--text-color);
+  margin: 0 0 var(--space-1);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+}
+
+.fav-card__author {
+  display: block;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-2);
+  font-size: var(--font-size-sm);
+}
+
+.fav-card__price {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--space-3);
+}
+
+/* ========================================
+   BLOCK: profile-avatar
+   ======================================== */
+
+.profile-avatar {
+  width: 80px;
+  height: 80px;
+}

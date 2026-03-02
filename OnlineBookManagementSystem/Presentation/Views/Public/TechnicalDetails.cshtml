@@ -42,7 +42,7 @@
             <div class="col-lg-8 mx-auto text-center" data-fade-in>
                 <div class="hero-content">
                     <div class="hero-badge mb-3">
-                        <span class="badge bg-primary bg-opacity-20 text-primary px-4 py-2 rounded-pill fs-6">
+                        <span class="wp-badge bg-primary bg-opacity-20 text-primary px-4 py-2 rounded-pill fs-6">
                             <i class="bi bi-gear me-2" aria-hidden="true"></i>Technical Deep Dive
                         </span>
                     </div>
@@ -54,11 +54,11 @@
                         behind this comprehensive book management system.
                     </p>
                     <div class="hero-actions d-flex flex-wrap justify-content-center gap-3" role="group" aria-label="Navigation actions">
-                        <a asp-action="InteractiveDemo" class="wp-btn wp-btn-primary magnetic-btn holographic btn-lg"
+                        <a asp-action="InteractiveDemo" class="wp-btn-primary magnetic-btn holographic wp-btn-lg"
                            aria-label="Try the interactive demo">
                             <i class="bi bi-play-circle me-2" aria-hidden="true"></i>Live Demo
                         </a>
-                        <a asp-action="Index" class="wp-btn wp-btn-outline-light magnetic-btn btn-lg"
+                        <a asp-action="Index" class="wp-btn-outline-light magnetic-btn wp-btn-lg"
                            aria-label="Return to main showcase">
                             <i class="bi bi-house me-2" aria-hidden="true"></i>Back to Showcase
                         </a>
@@ -84,9 +84,10 @@
                     <article class="architecture-layer-card glass spotlight-card hover-lift h-100 p-4 text-center"
                              role="article" aria-labelledby="layer-@layer.Name.Replace(" ", "-").ToLower()">
                         <div class="layer-visual mb-3">
-                            <div class="layer-circle mx-auto" style="background: @layer.Color; width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center;"
+                            <div class="layer-circle mx-auto d-flex align-items-center justify-content-center" 
+                                 style="background-color: @layer.Color;"
                                  role="img" aria-label="@layer.Name layer icon">
-                                <i class="bi bi-layers text-white" style="font-size: 2rem;" aria-hidden="true"></i>
+                                <i class="bi bi-layers text-white layer-icon" aria-hidden="true"></i>
                             </div>
                         </div>
                         <h3 id="layer-@layer.Name.Replace(" ", "-").ToLower()" class="layer-name fw-bold mb-3" style="color: @layer.Color;">@layer.Name</h3>
@@ -113,16 +114,15 @@
                             @for (int i = 0; i < Model.Architecture.Layers.Count; i++)
                             {
                                 var layer = Model.Architecture.Layers[i];
-                                <div class="diagram-layer mb-3 p-3 rounded text-center position-relative" 
-                                     style="background: @layer.Color; opacity: 0.9; color: white;"
+                                <div class="diagram-layer mb-3 p-3 rounded text-center position-relative text-white" 
+                                     style="background-color: @layer.Color; opacity: 0.9;"
                                      role="img" aria-label="@layer.Name layer in dependency flow">
                                     <h4 class="fw-bold mb-1 h5">@layer.Name Layer</h4>
                                     <p class="small mb-0">@layer.Description</p>
                                     @if (i < Model.Architecture.Layers.Count - 1)
                                     {
                                         <div class="dependency-arrow" aria-hidden="true">
-                                            <i class="bi bi-arrow-down text-white position-absolute" 
-                                               style="bottom: -20px; left: 50%; transform: translateX(-50%); font-size: 1.5rem;"></i>
+                                            <i class="bi bi-arrow-down text-white position-absolute layer-arrow"></i>
                                         </div>
                                     }
                                 </div>
@@ -154,8 +154,7 @@
                     <div class="principle-card glass spotlight-card hover-lift h-100 p-4">
                         <div class="principle-header d-flex align-items-center mb-3">
                             <div class="principle-icon me-3">
-                                <div class="icon-circle bg-primary bg-opacity-20 text-primary d-flex align-items-center justify-content-center" 
-                                     style="width: 50px; height: 50px; border-radius: 50%;">
+                                <div class="icon-circle bg-primary bg-opacity-20 text-primary d-flex align-items-center justify-content-center">
                                     <i class="bi bi-check-circle-fill"></i>
                                 </div>
                             </div>
@@ -193,7 +192,7 @@
                 <div class="tech-category-card glass spotlight-card hover-lift h-100 p-4">
                     <div class="category-header text-center mb-4">
                         <div class="category-icon mb-3">
-                            <i class="bi bi-server text-primary" style="font-size: 3rem;"></i>
+                            <i class="bi bi-server text-primary display-5"></i>
                         </div>
                         <h4 class="fw-bold text-primary">Backend</h4>
                     </div>
@@ -206,7 +205,7 @@
                                     <span class="fw-semibold">@tech.Name</span>
                                     @if (!string.IsNullOrEmpty(tech.Version))
                                     {
-                                        <span class="badge bg-primary bg-opacity-20 text-primary ms-auto">@tech.Version</span>
+                                        <span class="wp-badge bg-primary bg-opacity-20 text-primary ms-auto">@tech.Version</span>
                                     }
                                 </div>
                                 <p class="small text-muted mb-0">@tech.Description</p>
@@ -221,7 +220,7 @@
                 <div class="tech-category-card glass spotlight-card hover-lift h-100 p-4">
                     <div class="category-header text-center mb-4">
                         <div class="category-icon mb-3">
-                            <i class="bi bi-palette text-success" style="font-size: 3rem;"></i>
+                            <i class="bi bi-palette text-success display-5"></i>
                         </div>
                         <h4 class="fw-bold text-success">Frontend</h4>
                     </div>
@@ -234,7 +233,7 @@
                                     <span class="fw-semibold">@tech.Name</span>
                                     @if (!string.IsNullOrEmpty(tech.Version))
                                     {
-                                        <span class="badge bg-success bg-opacity-20 text-success ms-auto">@tech.Version</span>
+                                        <span class="wp-badge bg-success bg-opacity-20 text-success ms-auto">@tech.Version</span>
                                     }
                                 </div>
                                 <p class="small text-muted mb-0">@tech.Description</p>
@@ -249,7 +248,7 @@
                 <div class="tech-category-card glass spotlight-card hover-lift h-100 p-4">
                     <div class="category-header text-center mb-4">
                         <div class="category-icon mb-3">
-                            <i class="bi bi-database text-warning" style="font-size: 3rem;"></i>
+                            <i class="bi bi-database text-warning display-5"></i>
                         </div>
                         <h4 class="fw-bold text-warning">Database</h4>
                     </div>
@@ -262,7 +261,7 @@
                                     <span class="fw-semibold">@tech.Name</span>
                                     @if (!string.IsNullOrEmpty(tech.Version))
                                     {
-                                        <span class="badge bg-warning bg-opacity-20 text-warning ms-auto">@tech.Version</span>
+                                        <span class="wp-badge bg-warning bg-opacity-20 text-warning ms-auto">@tech.Version</span>
                                     }
                                 </div>
                                 <p class="small text-muted mb-0">@tech.Description</p>
@@ -277,7 +276,7 @@
                 <div class="tech-category-card glass spotlight-card hover-lift h-100 p-4">
                     <div class="category-header text-center mb-4">
                         <div class="category-icon mb-3">
-                            <i class="bi bi-check-circle text-info" style="font-size: 3rem;"></i>
+                            <i class="bi bi-check-circle text-info display-5"></i>
                         </div>
                         <h4 class="fw-bold text-info">Testing</h4>
                     </div>
@@ -290,7 +289,7 @@
                                     <span class="fw-semibold">@tech.Name</span>
                                     @if (!string.IsNullOrEmpty(tech.Version))
                                     {
-                                        <span class="badge bg-info bg-opacity-20 text-info ms-auto">@tech.Version</span>
+                                        <span class="wp-badge bg-info bg-opacity-20 text-info ms-auto">@tech.Version</span>
                                     }
                                 </div>
                                 <p class="small text-muted mb-0">@tech.Description</p>
@@ -319,7 +318,7 @@
                         <div class="highlight-header mb-3">
                             <div class="d-flex align-items-center justify-content-between mb-2">
                                 <h4 class="highlight-title fw-bold mb-0">@highlight.Title</h4>
-                                <span class="badge bg-primary bg-opacity-20 text-primary">@highlight.Category</span>
+                                <span class="wp-badge bg-primary bg-opacity-20 text-primary">@highlight.Category</span>
                             </div>
                         </div>
                         <p class="highlight-description text-muted mb-3">@highlight.Description</p>
@@ -333,7 +332,7 @@
                         @if (!string.IsNullOrEmpty(highlight.DocumentationUrl))
                         {
                             <div class="highlight-actions mt-3">
-                                <a href="@highlight.DocumentationUrl" target="_blank" class="btn btn-sm btn-outline-primary">
+                                <a href="@highlight.DocumentationUrl" target="_blank" class="wp-btn-sm wp-btn-outline-primary">
                                     <i class="bi bi-book me-1"></i>Documentation
                                 </a>
                             </div>
@@ -357,7 +356,7 @@
             <div class="col-lg-3 col-md-6" data-fade-in>
                 <div class="metric-card glass text-center p-4 spotlight-card hover-lift">
                     <div class="metric-icon mb-3">
-                        <i class="bi bi-speedometer2 text-primary" style="font-size: 3rem;"></i>
+                        <i class="bi bi-speedometer2 text-primary display-5"></i>
                     </div>
                     <h3 class="metric-value fw-bold text-primary">@Model.PerformanceMetrics.PageLoadTime.ToString("F1")s</h3>
                     <p class="metric-label text-muted mb-0">Page Load Time</p>
@@ -366,7 +365,7 @@
             <div class="col-lg-3 col-md-6" data-fade-in>
                 <div class="metric-card glass text-center p-4 spotlight-card hover-lift">
                     <div class="metric-icon mb-3">
-                        <i class="bi bi-graph-up text-success" style="font-size: 3rem;"></i>
+                        <i class="bi bi-graph-up text-success display-5"></i>
                     </div>
                     <h3 class="metric-value fw-bold text-success">@Model.PerformanceMetrics.PerformanceScore</h3>
                     <p class="metric-label text-muted mb-0">Performance Score</p>
@@ -375,7 +374,7 @@
             <div class="col-lg-3 col-md-6" data-fade-in>
                 <div class="metric-card glass text-center p-4 spotlight-card hover-lift">
                     <div class="metric-icon mb-3">
-                        <i class="bi bi-database text-warning" style="font-size: 3rem;"></i>
+                        <i class="bi bi-database text-warning display-5"></i>
                     </div>
                     <h3 class="metric-value fw-bold text-warning">@((Model.PerformanceMetrics.DatabaseResponseTime * 1000).ToString("F0"))ms</h3>
                     <p class="metric-label text-muted mb-0">DB Response</p>
@@ -384,7 +383,7 @@
             <div class="col-lg-3 col-md-6" data-fade-in>
                 <div class="metric-card glass text-center p-4 spotlight-card hover-lift">
                     <div class="metric-icon mb-3">
-                        <i class="bi bi-lightning text-info" style="font-size: 3rem;"></i>
+                        <i class="bi bi-lightning text-info display-5"></i>
                     </div>
                     <h3 class="metric-value fw-bold text-info">@Model.PerformanceMetrics.CacheHitRate%</h3>
                     <p class="metric-label text-muted mb-0">Cache Hit Rate</p>
@@ -405,15 +404,15 @@
                 </p>
                 <div class="d-flex gap-3 justify-content-center flex-wrap">
                     <a asp-action="InteractiveDemo" 
-                       class="wp-btn wp-btn-primary magnetic-btn holographic btn-lg">
+                       class="wp-btn-primary magnetic-btn holographic wp-btn-lg">
                         <i class="bi bi-play-circle me-2"></i>Interactive Demo
                     </a>
                     <a asp-action="DeveloperStory" 
-                       class="wp-btn wp-btn-secondary magnetic-btn btn-lg">
+                       class="wp-btn-secondary magnetic-btn wp-btn-lg">
                         <i class="bi bi-person-circle me-2"></i>Developer Story
                     </a>
                     <a asp-controller="Auth" asp-action="Registration" 
-                       class="wp-btn wp-btn-outline-light magnetic-btn btn-lg">
+                       class="wp-btn-outline-light magnetic-btn wp-btn-lg">
                         <i class="bi bi-person-plus me-2"></i>Try the System
                     </a>
                 </div>
@@ -423,105 +422,7 @@
 </section>
 
 @section Styles {
-    <style>
-        .technical-hero {
-            min-height: 50vh;
-        }
-        
-        .min-vh-50 {
-            min-height: 50vh;
-        }
-        
-        .architecture-layer-card {
-            background: white;
-            border-radius: 16px;
-            border: 1px solid rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-        }
-        
-        .architecture-layer-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
-        }
-        
-        .layer-circle {
-            transition: transform 0.3s ease;
-        }
-        
-        .architecture-layer-card:hover .layer-circle {
-            transform: scale(1.1);
-        }
-        
-        .architecture-diagram {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(0,0,0,0.1);
-        }
-        
-        .diagram-layer {
-            transition: all 0.3s ease;
-            margin-bottom: 2rem !important;
-        }
-        
-        .diagram-layer:hover {
-            transform: scale(1.02);
-        }
-        
-        .dependency-arrow {
-            position: relative;
-        }
-        
-        .principle-card, .tech-category-card, .highlight-card, .metric-card {
-            background: white;
-            border-radius: 16px;
-            border: 1px solid rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-        }
-        
-        .principle-card:hover, .tech-category-card:hover, .highlight-card:hover, .metric-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
-        }
-        
-        .tech-item {
-            padding: 0.5rem 0;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-        }
-        
-        .tech-item:last-child {
-            border-bottom: none;
-        }
-        
-        .code-example pre {
-            font-size: 0.8rem;
-            max-height: 200px;
-            overflow-y: auto;
-        }
-        
-        .metric-value {
-            font-size: 2.5rem;
-        }
-        
-        /* Responsive adjustments */
-        @@media (max-width: 768px) {
-            .display-3 {
-                font-size: 2.5rem;
-            }
-            
-            .hero-actions {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            
-            .hero-actions .wp-btn {
-                text-align: center;
-            }
-            
-            .diagram-layer {
-                margin-bottom: 1rem !important;
-            }
-        }
-    </style>
+    
 }
 
 @section Scripts {
@@ -597,3 +498,5 @@
         });
     </script>
 }
+
+

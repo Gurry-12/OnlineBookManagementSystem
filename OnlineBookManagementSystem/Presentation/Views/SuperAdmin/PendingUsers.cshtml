@@ -1,4 +1,4 @@
-﻿@using OnlineBookManagementSystem.Presentation.ViewModels.SuperAdmin
+@using OnlineBookManagementSystem.Presentation.ViewModels.SuperAdmin
 @model List<UserWithRoleViewModel>
 @{
     ViewData["Title"] = "Pending User Requests";
@@ -12,12 +12,12 @@
         <li class="breadcrumb-item active">Pending Users</li>
     </ol>
 
-    <div class="card mb-4 rounded-4">
-        <div class="card-header card-title">
+    <div class="wp-card mb-4 rounded-4">
+        <div class="wp-card-header wp-card-title">
             <i class="bi bi-person-exclamation me-1"></i>
             Requests Awaiting Approval
         </div>
-        <div class="card-body">
+        <div class="wp-card-body">
             @if (!Model.Any())
             {
                 <div class="alert alert-info">
@@ -45,23 +45,23 @@
                                 <td>
                                     @if(user.Role == "Admin")
                                     {
-                                        <span class="badge bg-warning text-dark">Retailer (Admin)</span>
+                                        <span class="wp-badge bg-warning text-dark">Retailer (Admin)</span>
                                     }
                                     else
                                     {
-                                        <span class="badge bg-primary">User</span>
+                                        <span class="wp-badge bg-primary">User</span>
                                     }
                                 </td>
                                 <td>@user.CreatedDate.ToString("g")</td>
                                 <td>
-                                    <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-success btn-sm approve-btn"
+                                    <div class="wp-btn-group" role="group">
+                                        <button type="button" class="wp-btn-success wp-btn-sm approve-btn"
                                                 data-id="@user.Id"
                                                 data-role="@user.Role"
                                                 data-name="@user.Name">
                                             <i class="bi bi-check-circle"></i> Approve
                                         </button>
-                                        <button type="button" class="btn btn-danger btn-sm reject-btn"
+                                        <button type="button" class="wp-btn-danger wp-btn-sm reject-btn"
                                                 data-id="@user.Id"
                                                 data-name="@user.Name">
                                             <i class="bi bi-x-circle"></i> Reject
@@ -83,7 +83,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Approve User</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                <button type="button" class="wp-btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
                 <p>Approve registration request for <strong id="approveUserName"></strong>?</p>
@@ -104,8 +104,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-success" id="confirmApprove">Approve</button>
+                <button type="button" class="wp-btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="wp-btn-success" id="confirmApprove">Approve</button>
             </div>
         </div>
     </div>
@@ -117,15 +117,15 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Reject User</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                <button type="button" class="wp-btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
                 <p>Are you sure you want to reject <strong id="rejectUserName"></strong>?</p>
                 <p class="text-danger small">This will effectively delete the request.</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-danger" id="confirmReject">Reject</button>
+                <button type="button" class="wp-btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="wp-btn-danger" id="confirmReject">Reject</button>
             </div>
         </div>
     </div>
@@ -248,3 +248,7 @@
         });
     </script>
 }
+
+
+
+

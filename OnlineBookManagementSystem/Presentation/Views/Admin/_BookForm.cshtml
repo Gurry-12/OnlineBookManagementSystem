@@ -163,10 +163,10 @@
 
     <!-- Action Buttons -->
     <div class="form-actions d-flex justify-content-end gap-2 pt-3 border-top">
-        <button type="button" class="wp-btn wp-btn-secondary" data-bs-dismiss="modal">
+        <button type="button" class="wp-btn-secondary" data-bs-dismiss="modal">
             <i class="bi bi-x-circle me-2"></i>Cancel
         </button>
-        <button type="submit" id="submit-btn" class="wp-btn wp-btn-primary">
+        <button type="submit" id="submit-btn" class="wp-btn-primary">
             <i class="bi bi-@(Model.Book?.Id > 0 ? "check-circle" : "plus-circle") me-2"></i>
             @(Model.Book?.Id > 0 ? "Update Book" : "Create Book")
         </button>
@@ -205,40 +205,5 @@
     });
 </script>
 
-<style>
-    .form-section {
-        position: relative;
-    }
-    
-    .section-header h6 {
-        color: var(--role-primary);
-        font-weight: 600;
-    }
-    
-    .wp-divider {
-        border: none;
-        height: 1px;
-        background: linear-gradient(90deg, var(--role-primary), transparent);
-        margin: 0;
-    }
-    
-    .image-preview-container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 150px;
-        border: 2px dashed rgba(255, 255, 255, 0.2);
-        border-radius: 8px;
-        background: rgba(255, 255, 255, 0.05);
-    }
-    
-    .image-preview-placeholder {
-        text-align: center;
-        padding: 20px;
-    }
-    
-    .wp-book-image {
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
-</style>
+
+

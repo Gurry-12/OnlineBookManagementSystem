@@ -1,4 +1,4 @@
-﻿@using OnlineBookManagementSystem.Presentation.ViewModels.Books
+@using OnlineBookManagementSystem.Presentation.ViewModels.Books
 @model BookFormViewModel
 
 @{
@@ -169,15 +169,15 @@
 
                         <!-- Action Buttons -->
                         <div class="form-actions d-flex justify-content-between align-items-center pt-4 border-top">
-                            <a asp-controller="Admin" asp-action="Books" class="wp-btn wp-btn-secondary">
+                            <a asp-controller="Admin" asp-action="Books" class="wp-btn-secondary">
                                 <i class="bi bi-arrow-left me-2"></i>Back to Books
                             </a>
                             
                             <div class="d-flex gap-3">
-                                <button type="reset" class="wp-btn wp-btn-secondary">
+                                <button type="reset" class="wp-btn-secondary">
                                     <i class="bi bi-arrow-clockwise me-2"></i>Reset Form
                                 </button>
-                                <button type="submit" class="wp-btn wp-btn-primary">
+                                <button type="submit" class="wp-btn-primary">
                                     <i class="bi bi-plus-circle me-2"></i>Create Book
                                 </button>
                             </div>
@@ -232,73 +232,7 @@
 }
 
 @section Styles {
-    <style>
-        .form-section {
-            position: relative;
-        }
-        
-        .section-header h5 {
-            color: var(--role-primary);
-            font-weight: 600;
-        }
-        
-        .wp-divider {
-            border: none;
-            height: 2px;
-            background: linear-gradient(90deg, var(--role-primary), transparent);
-            margin: 0;
-        }
-        
-        .image-preview-container {
-            height: 200px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .image-preview-placeholder {
-            width: 100%;
-            height: 100%;
-            border: 2px dashed var(--wp-gray-300);
-            border-radius: var(--wp-radius-lg);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: var(--wp-gray-50);
-            transition: all var(--wp-transition-fast);
-        }
-        
-        .image-preview-placeholder:hover {
-            border-color: var(--role-primary);
-            background: var(--role-accent);
-        }
-        
-        .form-actions {
-            background: rgba(255, 255, 255, 0.5);
-            margin: 0 -2rem -2rem -2rem;
-            padding: 1.5rem 2rem;
-            border-radius: 0 0 var(--wp-radius-lg) var(--wp-radius-lg);
-        }
-        
-        .wp-btn {
-            padding: 0.75rem 1.5rem;
-            font-weight: 500;
-            border-radius: var(--wp-radius);
-            transition: all var(--wp-transition-fast);
-        }
-        
-        .wp-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--wp-shadow-md);
-        }
-        
-        /* Enhanced form controls */
-        .wp-form-control:focus {
-            border-left-width: 4px;
-            transform: translateX(2px);
-        }
-        
-        
-    </style>
+    
 }
+
+

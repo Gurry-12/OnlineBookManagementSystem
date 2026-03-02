@@ -2,216 +2,336 @@
  * Component: Button
  * Purpose: Consistent button styling across all views
  * Uses: Design tokens only - NO hardcoded colors
- * BEM Methodology: .button__element--modifier
+ * BEM Methodology: .wp-btn__element--modifier
  */
 
 /* ========================================
    BLOCK: button
    ======================================== */
 
-.button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-sm);
-    padding: var(--space-sm) var(--space-md);
-    border: 1px solid transparent;
-    border-radius: var(--border-radius);
-    font-size: var(--font-size-base, 1rem);
-    font-weight: var(--font-weight-medium);
-    line-height: 1;
-    text-decoration: none;
-    cursor: pointer;
-    transition: all var(--transition-fast);
-    background: var(--color-surface);
-    color: var(--color-text);
-    border-color: var(--color-border);
+.wp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid transparent;
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-base, 1rem);
+  font-weight: var(--font-weight-medium);
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  background: var(--color-surface);
+  color: var(--color-text);
+  border-color: var(--color-border);
 }
 
-.button:hover {
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-md);
-    background: var(--color-hover);
+.wp-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+  background: var(--color-hover);
 }
 
-.button:focus {
-    outline: 2px solid var(--color-border-focus);
-    outline-offset: 2px;
+.wp-btn:focus {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
 }
 
-.button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
-    background: var(--color-disabled);
-    color: var(--color-disabled-text);
+.wp-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  background: var(--color-disabled);
+  color: var(--color-disabled-text);
 }
 
 /* ========================================
    MODIFIERS: button variants
    ======================================== */
 
-.button--primary {
-    background: var(--color-primary);
-    color: var(--color-bg);
-    border-color: var(--color-primary);
+.wp-btn-primary {
+  background: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
 }
 
-.button--primary:hover {
-    background: var(--color-primary-hover);
-    border-color: var(--color-primary-hover);
+.wp-btn-primary:hover {
+  background: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
 }
 
-.button--secondary {
-    background: var(--color-secondary);
-    color: var(--color-bg);
-    border-color: var(--color-secondary);
+.wp-btn-secondary {
+  background: var(--color-secondary);
+  color: #fff;
+  border-color: var(--color-secondary);
 }
 
-.button--secondary:hover {
-    background: var(--color-accent);
-    border-color: var(--color-accent);
+.wp-btn-secondary:hover {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
 }
 
-.button--success {
-    background: var(--color-success);
-    color: var(--color-bg);
-    border-color: var(--color-success);
+.wp-btn-success {
+  background: var(--color-success);
+  color: #fff;
+  border-color: var(--color-success);
 }
 
-.button--success:hover {
-    background: var(--color-success);
-    opacity: 0.9;
+.wp-btn-success:hover {
+  background: var(--color-success);
+  opacity: 0.9;
 }
 
-.button--danger {
-    background: var(--color-danger);
-    color: var(--color-bg);
-    border-color: var(--color-danger);
+.wp-btn-danger {
+  background: var(--color-danger);
+  color: #fff;
+  border-color: var(--color-danger);
 }
 
-.button--danger:hover {
-    background: var(--color-danger);
-    opacity: 0.9;
+.wp-btn-danger:hover {
+  background: var(--color-danger);
+  opacity: 0.9;
 }
 
-.button--warning {
-    background: var(--color-warning);
-    color: var(--color-text);
-    border-color: var(--color-warning);
+.wp-btn-warning {
+  background: var(--color-warning);
+  color: var(--color-text);
+  border-color: var(--color-warning);
 }
 
-.button--warning:hover {
-    background: var(--color-warning);
-    opacity: 0.9;
+.wp-btn-warning:hover {
+  background: var(--color-warning);
+  opacity: 0.9;
 }
 
-.button--info {
-    background: var(--color-info);
-    color: var(--color-bg);
-    border-color: var(--color-info);
+.wp-btn-info {
+  background: var(--color-info);
+  color: #fff;
+  border-color: var(--color-info);
 }
 
-.button--info:hover {
-    background: var(--color-info);
-    opacity: 0.9;
+.wp-btn-info:hover {
+  background: var(--color-info);
+  opacity: 0.9;
 }
 
 /* ========================================
    MODIFIERS: button sizes
    ======================================== */
 
-.button--small {
-    padding: var(--space-xs) var(--space-sm);
-    font-size: 0.875rem;
+.wp-btn-sm {
+  padding: var(--space-xs) var(--space-sm);
+  font-size: 0.875rem;
 }
 
-.button--large {
-    padding: var(--space-md) var(--space-lg);
-    font-size: 1.125rem;
+.wp-btn-lg {
+  padding: var(--space-md) var(--space-lg);
+  font-size: 1.125rem;
 }
 
-.button--full {
-    width: 100%;
+.wp-btn-full {
+  width: 100%;
 }
 
 /* ========================================
    MODIFIERS: button styles
    ======================================== */
 
-.button--outline {
-    background: transparent;
-    color: var(--color-primary);
-    border-color: var(--color-primary);
+.wp-btn-outline {
+  background: transparent;
+  color: var(--color-primary);
+  border-color: var(--color-primary);
 }
 
-.button--outline:hover {
-    background: var(--color-primary);
-    color: var(--color-bg);
+.wp-btn-outline:hover {
+  background: var(--color-primary);
+  color: #fff;
 }
 
-.button--ghost {
-    background: transparent;
-    color: var(--color-primary);
-    border-color: transparent;
+.wp-btn-ghost {
+  background: transparent;
+  color: var(--color-primary);
+  border-color: transparent;
 }
 
-.button--ghost:hover {
-    background: var(--color-hover);
-    border-color: var(--color-border);
+.wp-btn-ghost:hover {
+  background: var(--color-hover);
+  border-color: var(--color-border);
 }
 
-.button--icon-only {
-    padding: var(--space-sm);
-    width: auto;
-    aspect-ratio: 1;
+/* Outline Variant: Primary */
+.wp-btn-outline-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--color-primary);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-base, 1rem);
+  font-weight: var(--font-weight-medium);
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  background: transparent;
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.wp-btn-outline-primary:hover {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+/* Outline Variant: Secondary */
+.wp-btn-outline-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--color-secondary);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-base, 1rem);
+  font-weight: var(--font-weight-medium);
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  background: transparent;
+  color: var(--color-secondary);
+}
+
+.wp-btn-outline-secondary:hover {
+  background: var(--color-secondary);
+  color: #fff;
+}
+
+/* Outline Variant: Success */
+.wp-btn-outline-success {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--color-success);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-base, 1rem);
+  font-weight: var(--font-weight-medium);
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  background: transparent;
+  color: var(--color-success);
+}
+
+.wp-btn-outline-success:hover {
+  background: var(--color-success);
+  color: #fff;
+}
+
+/* Outline Variant: Danger */
+.wp-btn-outline-danger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--color-danger);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-base, 1rem);
+  font-weight: var(--font-weight-medium);
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  background: transparent;
+  color: var(--color-danger);
+}
+
+.wp-btn-outline-danger:hover {
+  background: var(--color-danger);
+  color: #fff;
+}
+
+/* Outline Variant: Dark */
+.wp-btn-outline-dark {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--color-text);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-base, 1rem);
+  font-weight: var(--font-weight-medium);
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  background: transparent;
+  color: var(--color-text);
+}
+
+.wp-btn-outline-dark:hover {
+  background: var(--color-text);
+  color: #fff;
+}
+
+.wp-btn-icon-only {
+  padding: var(--space-sm);
+  width: auto;
+  aspect-ratio: 1;
 }
 
 /* ========================================
    ELEMENT: button icon
    ======================================== */
 
-.button__icon {
-    font-size: 1em;
-    line-height: 1;
+.wp-btn__icon {
+  font-size: 1em;
+  line-height: 1;
 }
 
-.button__icon--left {
-    margin-right: var(--space-xs);
+.wp-btn__icon--left {
+  margin-right: var(--space-xs);
 }
 
-.button__icon--right {
-    margin-left: var(--space-xs);
+.wp-btn__icon--right {
+  margin-left: var(--space-xs);
 }
 
 /* ========================================
    LOADING STATE
    ======================================== */
 
-.button--loading {
-    position: relative;
-    color: transparent;
-    pointer-events: none;
+.wp-btn-loading {
+  position: relative;
+  color: transparent;
+  pointer-events: none;
 }
 
-.button--loading::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 1rem;
-    height: 1rem;
-    margin: -0.5rem 0 0 -0.5rem;
-    border: 2px solid transparent;
-    border-top: 2px solid currentColor;
-    border-radius: 50%;
-    animation: button-spin 1s linear infinite;
+.wp-btn-loading::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1rem;
+  height: 1rem;
+  margin: -0.5rem 0 0 -0.5rem;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: button-spin 1s linear infinite;
 }
 
 @keyframes button-spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* ========================================
@@ -219,18 +339,20 @@
    ======================================== */
 
 @media (max-width: 768px) {
-    .button {
-        padding: var(--space-xs) var(--space-sm);
-        font-size: 0.875rem;
-    }
-    
-    .button--large {
-        padding: var(--space-sm) var(--space-md);
-        font-size: 1rem;
-    }
-    
-    .button--small {
-        padding: var(--space-xs) var(--space-xs);
-        font-size: 0.75rem;
-    }
+  .wp-btn {
+    padding: var(--space-xs) var(--space-sm);
+    font-size: 0.875rem;
+  }
+
+  .wp-btn-lg {
+    padding: var(--space-sm) var(--space-md);
+    font-size: 1rem;
+  }
+
+  .wp-btn-sm {
+    padding: var(--space-xs) var(--space-xs);
+    font-size: 0.75rem;
+  }
 }
+
+
