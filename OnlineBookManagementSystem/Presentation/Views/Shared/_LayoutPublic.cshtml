@@ -62,7 +62,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
 
     <link href="~/css/main.css" rel="stylesheet" asp-append-version="true" />
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
 
     @RenderSection("Styles", required: false)
     
@@ -206,6 +206,12 @@
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
         <!-- Toasts injected via JS -->
     </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Toastr JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
     <!-- Bootstrap JS - Local First -->
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
