@@ -1,13 +1,11 @@
-<div align="center">
-
 # 📚 Whispering Pages
 ### *Online Book Management System*
 
-<img src="https://img.shields.io/badge/.NET-9.0-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt=".NET 9.0">
-<img src="https://img.shields.io/badge/ASP.NET_Core-MVC-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt="ASP.NET Core MVC">
-<img src="https://img.shields.io/badge/Entity_Framework-Core-512BD4?style=for-the-badge&logo=microsoft&logoColor=white" alt="EF Core">
-<img src="https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white" alt="SQLite">
-<img src="https://img.shields.io/badge/JWT-Authentication-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white" alt="JWT">
+![.NET 9.0](https://img.shields.io/badge/.NET-9.0-512BD4?style=for-the-badge&logo=dotnet&logoColor=white)
+![ASP.NET Core MVC](https://img.shields.io/badge/ASP.NET_Core-MVC-512BD4?style=for-the-badge&logo=dotnet&logoColor=white)
+![EF Core](https://img.shields.io/badge/Entity_Framework-Core-512BD4?style=for-the-badge&logo=microsoft&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-Authentication-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white)
 
 ---
 
@@ -15,15 +13,12 @@
 
 **✨ Where every book tells a story, and every story finds its reader ✨**
 
-</div>
 
 ## �️ Tech Stack
 
-<div align="center">
-
 ### Backend Technologies
 | Technology | Version | Purpose |
-|------------|---------|---------|
+|:---|:---:|:---|
 | ![.NET](https://img.shields.io/badge/.NET-9.0-512BD4?style=flat-square&logo=dotnet) | 9.0 | Core Framework |
 | ![Entity Framework](https://img.shields.io/badge/EF_Core-9.0.3-512BD4?style=flat-square&logo=microsoft) | 9.0.3 | ORM & Database |
 | ![SQLite](https://img.shields.io/badge/SQLite-Primary-003B57?style=flat-square&logo=sqlite) | Latest | Database Engine |
@@ -32,7 +27,7 @@
 
 ### Frontend Technologies
 | Technology | Purpose | Features |
-|------------|---------|----------|
+|:---|:---|:---|
 | ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white) | Markup | Semantic Structure |
 | ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white) | Styling | Unified Design System |
 | ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black) | Interactivity | Vanilla JS + jQuery |
@@ -40,7 +35,7 @@
 
 ### Enterprise Features
 | Feature | Technology | Benefit |
-|---------|------------|---------|
+|:---|:---|:---|
 | 📧 Email Service | MailKit 4.14.1 | Transactional Emails |
 | 📊 API Docs | Swagger/OpenAPI | Interactive Documentation |
 | 🏥 Health Checks | ASP.NET Core | System Monitoring |
@@ -48,58 +43,74 @@
 | 🗄️ Caching | In-Memory + Redis | Performance Optimization |
 | 🖼️ Image Processing | SixLabors.ImageSharp | Media Handling |
 
-</div>
 
 ## ✨ Key Features
 
-<div align="center">
-
 ### 🔐 Authentication & Security
-```
-🛡️ JWT-based Authentication    🔄 Refresh Token Support    🔒 Role-based Access Control
-🚫 Account Lockout Protection  🔀 SuperAdmin Role Switching  💾 Secure Session Management
-```
+- 🛡️ JWT-based Authentication
+- 🔄 Refresh Token Support
+- 🔒 Role-based Access Control
+- 🚫 Account Lockout Protection
+- 🔀 SuperAdmin Role Switching
+- 💾 Secure Session Management
 
-### � Book Management
-```
-📖 Complete CRUD Operations    🔍 Advanced Search & Filters   📂 Category Management
-📊 Stock Tracking & Alerts     ⭐ Featured Books System      🗑️ Soft Delete Support
-🔢 ISBN Validation             🚫 Duplicate Prevention       📈 Performance Optimization
-```
+### 📖 Book Management
+- 📖 Complete CRUD Operations
+- 🔍 Advanced Search & Filters
+- 📂 Category Management
+- 📊 Stock Tracking & Alerts
+- ⭐ Featured Books System
+- 🗑️ Soft Delete Support
+- 🔢 ISBN Validation
+- 🚫 Duplicate Prevention
+- 📈 Performance Optimization
 
 ### ⭐ Review & Rating System
-```
-⭐ 1-5 Star Rating System      📝 User Review Submission     🔍 Review Moderation Workflow
-👤 One Review Per User/Book    ⚡ Rating Cache Optimization   📊 Bulk Admin Operations
-💬 Rejection Reason Feedback   ✅ Approval/Rejection System   📈 Review Analytics
-```
+- ⭐ 1-5 Star Rating System
+- 📝 User Review Submission
+- 🔍 Review Moderation Workflow
+- 👤 One Review Per User/Book
+- ⚡ Rating Cache Optimization
+- 📊 Bulk Admin Operations
+- 💬 Rejection Reason Feedback
+- ✅ Approval/Rejection System
+- 📈 Review Analytics
 
 ### 🛒 E-Commerce Features
-```
-🛒 Persistent Shopping Cart    📦 Stock Validation           💳 Checkout Process
-📋 Order Status Tracking       💰 Payment Method Selection   📊 Order History & Details
-🔍 Admin Order Management      📈 Sales Analytics            📧 Order Notifications
-```
+- 🛒 Persistent Shopping Cart
+- 📦 Stock Validation
+- 💳 Checkout Process
+- 📋 Order Status Tracking
+- 💰 Payment Method Selection
+- 📊 Order History & Details
+- 🔍 Admin Order Management
+- 📈 Sales Analytics
+- 📧 Order Notifications
 
 ### 👤 User Experience
-```
-❤️ Favorites/Wishlist         👤 Profile Management         📊 Personal Dashboard
-📋 Activity Logging           📱 Responsive Design          🎨 Role-specific Theming
-🔔 Notification System        ⌨️ Keyboard Navigation        ♿ Accessibility Features
-```
+- ❤️ Favorites/Wishlist
+- 👤 Profile Management
+- 📊 Personal Dashboard
+- 📋 Activity Logging
+- 📱 Responsive Design
+- 🎨 Role-specific Theming
+- 🔔 Notification System
+- ⌨️ Keyboard Navigation
+- ♿ Accessibility Features
 
 ### 🎛️ Administrative Power
-```
-👥 Multi-level Admin System   📊 Comprehensive Dashboards   📋 User Management
-📈 Activity Logs & Audit      ⚙️ System Settings           🔍 Advanced Search & Filters
-📊 Statistics & Analytics     🔄 Bulk Operations            📧 Email Management
-```
+- 👥 Multi-level Admin System
+- 📊 Comprehensive Dashboards
+- 📋 User Management
+- 📈 Activity Logs & Audit
+- ⚙️ System Settings
+- 🔍 Advanced Search & Filters
+- 📊 Statistics & Analytics
+- 🔄 Bulk Operations
+- 📧 Email Management
 
-</div>
 
 ## 📁 Project Architecture
-
-<div align="center">
 
 ### 🏗️ Clean Architecture Structure
 
@@ -166,7 +177,7 @@
 ### 🎯 Key Architectural Patterns
 
 | Pattern | Implementation | Benefit |
-|---------|----------------|---------|
+|:---|:---|:---|
 | **Clean Architecture** | Layered separation of concerns | Maintainable & Testable |
 | **Repository Pattern** | Data access abstraction | Database independence |
 | **Unit of Work** | Transaction management | Data consistency |
@@ -174,7 +185,6 @@
 | **Dependency Injection** | IoC container | Loose coupling |
 | **Middleware Pipeline** | Request/Response processing | Cross-cutting concerns |
 
-</div>
 
 ## 🚀 Quick Start Guide
 
@@ -263,16 +273,13 @@ dotnet run
 
 ### 👤 Default Test Accounts
 
-<div align="center">
-
 | Role | 👤 Email | 🔑 Password | 🎯 Access Level |
-|------|----------|-------------|-----------------|
+|:---|:---|:---|:---|
 | **🔴 SuperAdmin** | `superadmin@gmail.com` | `SuperP@ssw0rd123!` | 🌟 Full system access + role switching |
 | **🟡 Admin** | `admin@gmail.com` | `Admin@123` | 📚 Book & user management |
 | **🔵 User** | `user@gmail.com` | `User@123@@` | 🛒 Shopping, reviews, favorites |
 | **🟢 Public** | `public@whisperingpages.com` | `Public123!` | 👁️ Browse books only |
 
-</div>
 
 ### 🐳 Docker Deployment
 
@@ -302,161 +309,103 @@ docker run -p 5000:80 -p 5001:443 whispering-pages
 
 ## 🎭 User Roles & Permissions Matrix
 
-<div align="center">
-
 ### 🔐 Role-Based Access Control
 
 | 🎯 **Feature** | 🔴 **SuperAdmin** | 🟡 **Admin** | 🔵 **User** | 🟢 **Public** |
-|----------------|:-----------------:|:------------:|:------------:|:--------------:|
-| **🔐 Authentication** |
+|:---|:---:|:---:|:---:|:---:|
+| **🔐 Authentication** | | | | |
 | Login/Register | ✅ | ✅ | ✅ | ✅ |
 | Role Switching | ✅ | ❌ | ❌ | ❌ |
-| **📚 Book Management** |
+| **📚 Book Management** | | | | |
 | View Books | ✅ | ✅ | ✅ | ✅ |
 | Create/Edit Books | ✅ | ✅ | ❌ | ❌ |
 | Delete Books | ✅ | ✅ | ❌ | ❌ |
 | Manage Categories | ✅ | ✅ | ❌ | ❌ |
-| **🛒 Shopping & Orders** |
+| **🛒 Shopping & Orders** | | | | |
 | Add to Cart | ✅ | ❌ | ✅ | ❌ |
 | Place Orders | ✅ | ❌ | ✅ | ❌ |
 | View Order History | ✅ | ✅ | ✅ | ❌ |
 | Manage All Orders | ✅ | ✅ | ❌ | ❌ |
-| **⭐ Reviews & Ratings** |
+| **⭐ Reviews & Ratings** | | | | |
 | Submit Reviews | ✅ | ❌ | ✅ | ❌ |
 | Moderate Reviews | ✅ | ✅ | ❌ | ❌ |
-| **👥 User Management** |
+| **👥 User Management** | | | | |
 | View All Users | ✅ | ✅ | ❌ | ❌ |
 | Manage User Roles | ✅ | ❌ | ❌ | ❌ |
-| **⚙️ System Administration** |
+| **⚙️ System Administration** | | | | |
 | Activity Logs | ✅ | ✅ | ❌ | ❌ |
 | System Settings | ✅ | ❌ | ❌ | ❌ |
-| **❤️ Personal Features** |
+| **❤️ Personal Features** | | | | |
 | Favorites/Wishlist | ✅ | ❌ | ✅ | ❌ |
 | Profile Management | ✅ | ✅ | ✅ | ❌ |
 
 ### 🎯 Role Descriptions
 
-<table>
-<tr>
-<td align="center">
+#### 🔴 SuperAdmin
+- 🌟 Complete system access
+- 🔄 Role switching capabilities
+- 🛠️ System configuration
+- 📊 Full analytics access
 
-**🔴 SuperAdmin**
-```
-🌟 Complete system access
-🔄 Role switching capabilities
-🛠️ System configuration
-📊 Full analytics access
-```
+#### 🟡 Admin
+- 📚 Book management
+- 👥 User administration
+- 📋 Order processing
+- ⭐ Review moderation
 
-</td>
-<td align="center">
+#### 🔵 User
+- 🛒 Shopping experience
+- ⭐ Reviews & ratings
+- ❤️ Favorites management
+- 📊 Personal dashboard
 
-**🟡 Admin**
-```
-📚 Book management
-👥 User administration
-📋 Order processing
-⭐ Review moderation
-```
+#### 🟢 Public
+- 👁️ Browse books
+- 🔍 Search functionality
+- 📖 View book details
+- ℹ️ Basic information
 
-</td>
-</tr>
-<tr>
-<td align="center">
-
-**🔵 User**
-```
-🛒 Shopping experience
-⭐ Reviews & ratings
-❤️ Favorites management
-📊 Personal dashboard
-```
-
-</td>
-<td align="center">
-
-**🟢 Public**
-```
-👁️ Browse books
-🔍 Search functionality
-📖 View book details
-ℹ️ Basic information
-```
-
-</td>
-</tr>
-</table>
-
-</div>
 
 ## 🎨 Design System & UI/UX
 
-<div align="center">
-
 ### 🌈 Unified Design Philosophy
-
-```
-🎯 Role-Specific Theming    🎨 Consistent Components    📱 Mobile-First Design
-♿ Accessibility Features   ⚡ Smooth Animations       🔔 Smart Notifications
-```
+- 🎯 Role-Specific Theming
+- 🎨 Consistent Components
+- 📱 Mobile-First Design
+- ♿ Accessibility Features
+- ⚡ Smooth Animations
+- 🔔 Smart Notifications
 
 ### 🎭 Role-Based Color Themes
 
-<table>
-<tr>
-<td align="center">
+#### 🔵 User Theme
+- Primary: `#007bff` (Blue)
+- Secondary: `#6c757d`
+- Success: `#28a745`
+- Accent: `#17a2b8`
 
-**🔵 User Theme**
-```css
-Primary: #007bff (Blue)
-Secondary: #6c757d
-Success: #28a745
-Accent: #17a2b8
-```
+#### 🟡 Admin Theme
+- Primary: `#ffc107` (Amber)
+- Secondary: `#6c757d`
+- Success: `#28a745`
+- Accent: `#fd7e14`
 
-</td>
-<td align="center">
+#### 🔴 SuperAdmin Theme
+- Primary: `#dc3545` (Red)
+- Secondary: `#6c757d`
+- Success: `#28a745`
+- Accent: `#e83e8c`
 
-**🟡 Admin Theme**
-```css
-Primary: #ffc107 (Amber)
-Secondary: #6c757d
-Success: #28a745
-Accent: #fd7e14
-```
-
-</td>
-</tr>
-<tr>
-<td align="center">
-
-**🔴 SuperAdmin Theme**
-```css
-Primary: #dc3545 (Red)
-Secondary: #6c757d
-Success: #28a745
-Accent: #e83e8c
-```
-
-</td>
-<td align="center">
-
-**🟢 Public Theme**
-```css
-Primary: #28a745 (Green)
-Secondary: #6c757d
-Success: #20c997
-Accent: #6f42c1
-```
-
-</td>
-</tr>
-</table>
+#### 🟢 Public Theme
+- Primary: `#28a745` (Green)
+- Secondary: `#6c757d`
+- Success: `#20c997`
+- Accent: `#6f42c1`
 
 ### 🧩 Component Library
 
 | Component | Features | Usage |
-|-----------|----------|-------|
+|:---|:---|:---|
 | **🔘 Buttons** | Role-themed, Loading states, Icon support | Primary actions |
 | **📝 Forms** | Validation, Error states, Auto-complete | Data input |
 | **🃏 Cards** | Shadows, Hover effects, Responsive | Content display |
@@ -466,26 +415,17 @@ Accent: #6f42c1
 
 ### 📱 Responsive Breakpoints
 
-```css
-📱 Mobile:    < 768px   (Stack layout, Touch-friendly)
-📟 Tablet:    768-1024px (Hybrid layout, Optimized spacing)
-💻 Desktop:   > 1024px   (Full layout, Rich interactions)
-🖥️ Large:     > 1440px   (Wide layout, Enhanced features)
-```
+- 📱 Mobile: < 768px (Stack layout, Touch-friendly)
+- 📟 Tablet: 768-1024px (Hybrid layout, Optimized spacing)
+- 💻 Desktop: > 1024px (Full layout, Rich interactions)
+- 🖥️ Large: > 1440px (Wide layout, Enhanced features)
 
-</div>
 
 ## ⚙️ Configuration & Environment
 
-<div align="center">
-
 ### 🔧 Environment Variables
 
-<table>
-<tr>
-<td>
-
-**🔐 JWT Configuration**
+#### 🔐 JWT Configuration
 ```bash
 JWT_KEY=Your-Super-Secret-256-bit-Key
 JWT_ISSUER=WhisperingPages
@@ -493,22 +433,14 @@ JWT_AUDIENCE=WhisperingPagesUsers
 JWT_EXPIRY_MINUTES=60
 ```
 
-</td>
-<td>
-
-**🗄️ Database Configuration**
+#### 🗄️ Database Configuration
 ```bash
 CONNECTION_STRING=Data Source=./db/whisperingpages.db
 DB_PROVIDER=SQLite
 ENABLE_SENSITIVE_DATA_LOGGING=false
 ```
 
-</td>
-</tr>
-<tr>
-<td>
-
-**📧 Email Configuration**
+#### 📧 Email Configuration
 ```bash
 SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
@@ -517,20 +449,13 @@ SMTP_PASSWORD=your-app-password
 SMTP_USE_SSL=true
 ```
 
-</td>
-<td>
-
-**🚦 Performance Settings**
+#### 🚦 Performance Settings
 ```bash
 RATE_LIMIT_REQUESTS=100
 RATE_LIMIT_WINDOW=00:01:00
 CACHE_EXPIRY_MINUTES=30
 MAX_REQUEST_SIZE=10MB
 ```
-
-</td>
-</tr>
-</table>
 
 ### 🎛️ Feature Flags (appsettings.json)
 
@@ -567,16 +492,13 @@ MAX_REQUEST_SIZE=10MB
 }
 ```
 
-</div>
 
 ## 📊 API Documentation & Endpoints
-
-<div align="center">
 
 ### 🔐 Authentication Endpoints
 
 | Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
+|:---|:---|:---|:---:|
 | `POST` | `/Auth/LoginData` | 🔑 User login with JWT response | ❌ |
 | `POST` | `/Auth/RegisterData` | 👤 User registration | ❌ |
 | `POST` | `/Auth/RefreshToken` | 🔄 Refresh JWT token | ✅ |
@@ -587,7 +509,7 @@ MAX_REQUEST_SIZE=10MB
 ### 📚 Book Management API
 
 | Method | Endpoint | Description | Role Required |
-|--------|----------|-------------|---------------|
+|:---|:---|:---|:---|
 | `GET` | `/Books/GetBooks` | 📖 Get books with filtering | Public |
 | `GET` | `/Books/Details/{id}` | 📋 Get book details | Public |
 | `POST` | `/Books/CreateBook` | ➕ Create new book | Admin+ |
@@ -598,7 +520,7 @@ MAX_REQUEST_SIZE=10MB
 ### 🛒 Shopping & Orders API
 
 | Method | Endpoint | Description | Role Required |
-|--------|----------|-------------|---------------|
+|:---|:---|:---|:---|
 | `POST` | `/Cart/AddOrUpdateCart` | 🛒 Add/update cart item | User |
 | `GET` | `/Cart/GetCart` | 📋 Get user's cart | User |
 | `DELETE` | `/Cart/RemoveItem/{id}` | ❌ Remove cart item | User |
@@ -609,7 +531,7 @@ MAX_REQUEST_SIZE=10MB
 ### ⭐ Review System API
 
 | Method | Endpoint | Description | Role Required |
-|--------|----------|-------------|---------------|
+|:---|:---|:---|:---|
 | `POST` | `/Review/Submit` | ⭐ Submit book review | User |
 | `GET` | `/Review/GetReviews/{bookId}` | 📝 Get book reviews | Public |
 | `POST` | `/Review/ApproveReview/{id}` | ✅ Approve review | Admin+ |
@@ -619,7 +541,7 @@ MAX_REQUEST_SIZE=10MB
 ### 👥 User Management API
 
 | Method | Endpoint | Description | Role Required |
-|--------|----------|-------------|---------------|
+|:---|:---|:---|:---|
 | `GET` | `/User/Profile` | 👤 Get user profile | User |
 | `PUT` | `/User/UpdateProfile` | ✏️ Update user profile | User |
 | `GET` | `/User/Favorites` | ❤️ Get user favorites | User |
@@ -629,7 +551,7 @@ MAX_REQUEST_SIZE=10MB
 ### 📊 Admin Analytics API
 
 | Method | Endpoint | Description | Role Required |
-|--------|----------|-------------|---------------|
+|:---|:---|:---|:---|
 | `GET` | `/Admin/Dashboard` | 📊 Admin dashboard data | Admin+ |
 | `GET` | `/Admin/Users` | 👥 Get all users | Admin+ |
 | `GET` | `/Admin/Orders` | 📦 Get all orders | Admin+ |
@@ -638,7 +560,6 @@ MAX_REQUEST_SIZE=10MB
 
 **🔗 Full interactive API documentation available at `/api-docs` when running the application.**
 
-</div>
 
 ## 🧪 Testing & Quality Assurance
 
@@ -693,28 +614,25 @@ dotnet test --collect:"XPlat Code Coverage" --results-directory ./TestResults
 
 ### 📊 Test Categories & Coverage
 
-```
-🧪 Unit Tests (85% Coverage)
-├── 📚 Book Services
-├── 🛒 Cart Operations  
-├── 👤 User Management
-├── ⭐ Review System
-└── 🔐 Authentication
+🧪 **Unit Tests (85% Coverage)**
+- 📚 Book Services
+- 🛒 Cart Operations
+- 👤 User Management
+- ⭐ Review System
+- 🔐 Authentication
 
-🔗 Integration Tests (70% Coverage)
-├── 🌐 API Endpoints
-├── 🗄️ Database Operations
-├── 🔐 Authentication Flow
-└── 📧 Email Services
+🔗 **Integration Tests (70% Coverage)**
+- 🌐 API Endpoints
+- 🗄️ Database Operations
+- 🔐 Authentication Flow
+- 📧 Email Services
 
-🎭 E2E Tests (60% Coverage)
-├── 👤 User Registration/Login
-├── 🛒 Shopping Cart Flow
-├── 📚 Book Management
-└── ⭐ Review Submission
-```
+🎭 **E2E Tests (60% Coverage)**
+- 👤 User Registration/Login
+- 🛒 Shopping Cart Flow
+- 📚 Book Management
+- ⭐ Review Submission
 
-</div>
 
 ## 🚀 Deployment & Production
 
@@ -722,52 +640,22 @@ dotnet test --collect:"XPlat Code Coverage" --results-directory ./TestResults
 
 ### ✅ Production Checklist
 
-<table>
-<tr>
-<td>
+| 🔐 Security | 🗄️ Database |
+|:---|:---|
+| - [ ] Update JWT secret key (256-bit min) | - [ ] Configure production database |
+| - [ ] Configure HTTPS certificates | - [ ] Set up backup strategy |
+| - [ ] Set up CORS policies | - [ ] Enable connection pooling |
+| - [ ] Enable rate limiting | - [ ] Configure migrations |
+| - [ ] Configure security headers | - [ ] Set up monitoring |
 
-**🔐 Security**
-- [ ] Update JWT secret key (256-bit minimum)
-- [ ] Configure HTTPS certificates
-- [ ] Set up CORS policies
-- [ ] Enable rate limiting
-- [ ] Configure security headers
+| 📧 Services | 🚀 Performance |
+|:---|:---|
+| - [ ] Configure email service (SMTP) | - [ ] Enable compression |
+| - [ ] Set up logging aggregation | - [ ] Configure CDN |
+| - [ ] Configure health checks | - [ ] Set up load balancing |
+| - [ ] Set up metrics collection | - [ ] Optimize images |
+| - [ ] Configure caching | - [ ] Configure caching headers |
 
-</td>
-<td>
-
-**🗄️ Database**
-- [ ] Configure production database
-- [ ] Set up backup strategy
-- [ ] Enable connection pooling
-- [ ] Configure migrations
-- [ ] Set up monitoring
-
-</td>
-</tr>
-<tr>
-<td>
-
-**📧 Services**
-- [ ] Configure email service (SMTP)
-- [ ] Set up logging aggregation
-- [ ] Configure health checks
-- [ ] Set up metrics collection
-- [ ] Configure caching
-
-</td>
-<td>
-
-**🚀 Performance**
-- [ ] Enable compression
-- [ ] Configure CDN
-- [ ] Set up load balancing
-- [ ] Optimize images
-- [ ] Configure caching headers
-
-</td>
-</tr>
-</table>
 
 ### 🐳 Docker Production Deployment
 
@@ -848,56 +736,20 @@ services:
 
 ### 🚀 Performance Optimizations
 
-<table>
-<tr>
-<td align="center">
+| 🗄️ Caching Strategy | ️ Database Optimization |
+|:---|:---|
+| - � In-Memory Cache | - �📊 Optimized Queries |
+| - � Redis Support | - �🔗 Lazy Loading |
+| - ⏱️ Sliding Expiration | - 📈 Connection Pooling |
+| - 🎯 Smart Cache Keys | - 🎯 Indexed Searches |
 
-**🗄️ Caching Strategy**
-```
-📦 In-Memory Cache
-🔄 Redis Support
-⏱️ Sliding Expiration
-🎯 Smart Cache Keys
-```
+| 🚦 Rate Limiting | 🖼️ Media Processing |
+|:---|:---|
+| - ⏱️ 100 requests/minute | - 📸 Image optimization |
+| - � Per-user tracking | - 🔄 Format conversion |
+| - 🛡️ DDoS protection | - 📏 Automatic resizing |
+| - 📊 Usage analytics | - 💾 Efficient storage |
 
-</td>
-<td align="center">
-
-**🗃️ Database Optimization**
-```
-📊 Optimized Queries
-🔗 Lazy Loading
-📈 Connection Pooling
-🎯 Indexed Searches
-```
-
-</td>
-</tr>
-<tr>
-<td align="center">
-
-**🚦 Rate Limiting**
-```
-⏱️ 100 requests/minute
-👤 Per-user tracking
-🛡️ DDoS protection
-📊 Usage analytics
-```
-
-</td>
-<td align="center">
-
-**🖼️ Media Processing**
-```
-📸 Image optimization
-🔄 Format conversion
-📏 Automatic resizing
-💾 Efficient storage
-```
-
-</td>
-</tr>
-</table>
 
 ### 🔒 Security Implementations
 
@@ -914,64 +766,39 @@ services:
 
 ### 📊 Monitoring & Logging
 
-```
-📈 Performance Metrics
-├── 🕐 Response Times
-├── 💾 Memory Usage
-├── 🔄 Request Throughput
-└── ❌ Error Rates
+#### 📈 Performance Metrics
+- 🕐 Response Times
+- 💾 Memory Usage
+- 🔄 Request Throughput
+- ❌ Error Rates
 
-📋 Structured Logging
-├── 🎯 Serilog Integration
-├── 📊 Log Levels (Debug → Fatal)
-├── 🔍 Contextual Information
-└── 📁 File + Console Output
+#### 📋 Structured Logging
+- 🎯 Serilog Integration
+- 📊 Log Levels (Debug → Fatal)
+- 🔍 Contextual Information
+- 📁 File + Console Output
 
-🏥 Health Checks
-├── 🗄️ Database Connectivity
-├── 📧 Email Service Status
-├── 💾 Memory Usage
-└── 🌐 External Dependencies
-```
+#### 🏥 Health Checks
+- 🗄️ Database Connectivity
+- 📧 Email Service Status
+- 💾 Memory Usage
+- 🌐 External Dependencies
 
-</div>
 
 ## 📝 Recent Updates & Roadmap
 
-<div align="center">
-
 ### 🎉 Version 2.0 - Major Feature Release
 
-<table>
-<tr>
-<td>
+| ✅ Completed Features | 🔄 In Progress |
+|:---|:---|
+| - 🔄 Role Switching | - 🌙 Dark Mode Support |
+| - ⭐ Review System | - 📊 Advanced Analytics |
+| - 🎨 UI Overhaul | - 📱 Mobile App (RN) |
+| - 🔐 Enhanced Security | - 🔍 Elasticsearch |
+| - 📦 Order Management | - 🎯 Recommendation Engine |
+| - 📧 Email Integration | - 📈 Real-time Notifications |
+| - ⚡ Performance Fixes | - 🌐 Multi-language |
 
-**✅ Completed Features**
-- 🔄 SuperAdmin Role Switching
-- ⭐ Complete Review System
-- 🎨 UI Consistency Overhaul
-- 🧩 Pure CSS Components
-- 🔐 Enhanced Security
-- 📦 Order Management
-- 📧 Email Integration
-- ⚡ Performance Improvements
-
-</td>
-<td>
-
-**🔄 In Progress**
-- 🌙 Dark Mode Support
-- � Advanced Analytics
-- � Mobile App (React Native)
-- � Elasticsearch Integration
-- 🎯 Recommendation Engine
-- 📈 Real-time Notifications
-- 🌐 Multi-language Support
-- 🔄 GraphQL API
-
-</td>
-</tr>
-</table>
 
 ### 🗺️ Upcoming Features Roadmap
 
@@ -1074,58 +901,30 @@ git push origin feature/amazing-feature
 
 ### 👥 Community Guidelines
 
-<table>
-<tr>
-<td align="center">
+#### 🤝 Be Respectful
+- 💬 Constructive feedback
+- 🌍 Inclusive language
+- 🤝 Collaborative spirit
+- 📚 Help others learn
 
-**🤝 Be Respectful**
-```
-💬 Constructive feedback
-🌍 Inclusive language
-🤝 Collaborative spirit
-📚 Help others learn
-```
+#### 📋 Issue Reporting
+- 🐛 Clear bug descriptions
+- 📸 Screenshots if applicable
+- 🔄 Steps to reproduce
+- 💻 Environment details
 
-</td>
-<td align="center">
+#### 🔄 Pull Requests
+- 📝 Descriptive titles
+- 📋 Detailed descriptions
+- 🧪 Include tests
+- 📚 Update documentation
 
-**📋 Issue Reporting**
-```
-🐛 Clear bug descriptions
-📸 Screenshots if applicable
-🔄 Steps to reproduce
-💻 Environment details
-```
+#### 💬 Discussions
+- 💡 Share ideas
+- ❓ Ask questions
+- 🎯 Stay on topic
+- 🤝 Be helpful
 
-</td>
-</tr>
-<tr>
-<td align="center">
-
-**🔄 Pull Requests**
-```
-📝 Descriptive titles
-📋 Detailed descriptions
-🧪 Include tests
-📚 Update documentation
-```
-
-</td>
-<td align="center">
-
-**💬 Discussions**
-```
-💡 Share ideas
-❓ Ask questions
-🎯 Stay on topic
-🤝 Be helpful
-```
-
-</td>
-</tr>
-</table>
-
-</div>
 
 ## 📄 License & Legal
 
@@ -1153,102 +952,50 @@ copies or substantial portions of the Software.
 
 ## 💬 Support & Contact
 
-<div align="center">
-
 ### 🤝 Get Help & Connect
 
-<table>
-<tr>
-<td align="center">
+- **📧 Email Support:** [work.gurpreetsw@gmail.com](mailto:work.gurpreetsw@gmail.com)
+- **🐛 Bug Reports:** [GitHub Issues](https://github.com/Gurry-12/OnlineBookManagementSystem/issues)
+- **📚 Documentation:** [docs/ Folder](./docs)
+- **💬 Discussions:** [GitHub Discussions](https://github.com/Gurry-12/OnlineBookManagementSystem/discussions)
 
-**📧 Email Support**
-[work.gurpreetsw@gmail.com](mailto:work.gurpreetsw@gmail.com)
-*For technical support and inquiries*
-
-</td>
-<td align="center">
-
-**🐛 Bug Reports**
-[GitHub Issues](https://github.com/Gurry-12/OnlineBookManagementSystem/issues)
-*Report bugs or request features*
-
-</td>
-</tr>
-<tr>
-<td align="center">
-
-**📚 Documentation**
-[/Markdowns Folder](./Markdowns)
-*Detailed guides and documentation*
-
-</td>
-<td align="center">
-
-**💬 Discussions**
-[GitHub Discussions](https://github.com/Gurry-12/OnlineBookManagementSystem/discussions)
-*Community discussions and Q&A*
-
-</td>
-</tr>
-</table>
 
 ### 🔗 Quick Links
 
 [![📧 Email](https://img.shields.io/badge/Email-work.gurpreetsw%40gmail.com-red?style=for-the-badge&logo=gmail)](mailto:work.gurpreetsw@gmail.com)
 [![🐛 Issues](https://img.shields.io/badge/Issues-GitHub-green?style=for-the-badge&logo=github)](https://github.com/Gurry-12/OnlineBookManagementSystem/issues)
-[![📚 Docs](https://img.shields.io/badge/Documentation-Markdowns-blue?style=for-the-badge&logo=markdown)](./Markdowns)
+[![📚 Docs](https://img.shields.io/badge/Documentation-Docs-blue?style=for-the-badge&logo=markdown)](./docs)
 [![⭐ Star](https://img.shields.io/badge/Star-Repository-yellow?style=for-the-badge&logo=github)](https://github.com/Gurry-12/OnlineBookManagementSystem)
 
-</div>
 
 ## 🙏 Acknowledgments
 
-<div align="center">
-
 ### 🌟 Special Thanks
 
-<table>
-<tr>
-<td align="center">
-
-**🏗️ Framework & Tools**
+#### 🏗️ Framework & Tools
 - ASP.NET Core Team
 - Entity Framework Core
 - Serilog Contributors
 - FluentValidation Team
 
-</td>
-<td align="center">
-
-**🎨 UI & Design**
+#### 🎨 UI & Design
 - Bootstrap Team
 - Font Awesome
 - Unsplash (Images)
 - CSS Grid Community
 
-</td>
-</tr>
-<tr>
-<td align="center">
-
-**🤝 Community**
+#### 🤝 Community
 - Stack Overflow Community
 - GitHub Open Source
 - .NET Developer Community
 - Code Review Contributors
 
-</td>
-<td align="center">
-
-**📚 Learning Resources**
+#### 📚 Learning Resources
 - Microsoft Documentation
 - Clean Architecture Guides
 - DDD Community
 - Testing Best Practices
 
-</td>
-</tr>
-</table>
 
 ### 💝 Contributors
 
@@ -1260,8 +1007,6 @@ Thanks to all the amazing people who have contributed to this project!
 
 ---
 
-<div align="center">
-
 ### ✨ **Whispering Pages** ✨
 *Where every book tells a story, and every story finds its reader.*
 
@@ -1271,5 +1016,4 @@ Thanks to all the amazing people who have contributed to this project!
 [![🍴 Fork this repo](https://img.shields.io/github/forks/Gurry-12/OnlineBookManagementSystem?style=social)](https://github.com/Gurry-12/OnlineBookManagementSystem/fork)
 [![👁️ Watch this repo](https://img.shields.io/github/watchers/Gurry-12/OnlineBookManagementSystem?style=social)](https://github.com/Gurry-12/OnlineBookManagementSystem)
 
-</div>
 
