@@ -1,5 +1,6 @@
 using OnlineBookManagementSystem.Presentation.ViewModels.Books;
 using OnlineBookManagementSystem.Presentation.ViewModels.Showcase;
+using TechnicalHighlight = OnlineBookManagementSystem.Presentation.ViewModels.Showcase.TechnicalHighlight;
 
 namespace OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Showcase
 {
@@ -63,7 +64,7 @@ namespace OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Showcase
         /// </summary>
         /// <param name="category">Optional category filter</param>
         /// <returns>List of technical highlights</returns>
-        Task<List<OnlineBookManagementSystem.Core.Domain.Entities.TechnicalHighlight>> GetTechnicalHighlightsAsync(string? category = null);
+        Task<List<TechnicalHighlight>> GetTechnicalHighlightsAsync(string? category = null);
 
         /// <summary>
         /// Gets feature showcases for demonstration

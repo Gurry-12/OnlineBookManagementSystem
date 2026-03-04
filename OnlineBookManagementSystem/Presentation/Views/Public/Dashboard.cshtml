@@ -39,287 +39,231 @@
     </script>";
 }
 
-<!-- Hero Section - Clean & Modern -->
-<section class="hero-section py-5" role="banner" aria-labelledby="hero-heading">
-    <div class="container">  
-        <div class="row align-items-center min-vh-50">
-            <div class="col-lg-8">
-                <div class="hero-content">
-                    <div class="hero-badge mb-4">
-                        <span class="wp-badge bg-primary text-white rounded-pill px-3 py-2 border-0 shadow-sm">
-                            <i class="bi bi-code-slash me-2"></i>Clean Architecture Portfolio
-                        </span>
-                    </div>
-                    <h1 id="hero-heading" class="display-3 fw-bold mb-3 text-dark">
-                        @Model.ProjectOverview.HeroTitle
-                    </h1>
-                    <h2 class="h4 mb-4 text-secondary">
-                        @Model.ProjectOverview.HeroSubtitle
-                    </h2>
-                    <p class="lead mb-4 text-muted mx-auto" style="max-width: 600px;">
-                        @Model.ProjectOverview.Vision
-                    </p>
-                    <div class="d-flex flex-wrap gap-3 mb-4" role="group" aria-label="Main navigation actions">
-                        <a asp-action="InteractiveDemo" class="wp-btn-outline-primary wp-btn-lg">
-                            <i class="bi bi-play-circle me-2"></i>Live Demo
-                        </a>
-                        <a asp-action="TechnicalDetails" class="wp-btn-outline-primary wp-btn-lg">
-                            <i class="bi bi-gear me-2"></i>Architecture
-                        </a>
-                        <a asp-controller="Auth" asp-action="Login" class="wp-btn-outline-primary wp-btn-lg">
-                            <i class="bi bi-box-arrow-in-right me-2"></i>Login
-                        </a>
-                        <a asp-controller="Auth" asp-action="Registration" class="wp-btn-outline-primary wp-btn-lg">
-                            <i class="bi bi-person-plus me-2"></i>Register
-                        </a>
-                    </div>
-                    <div class="mb-4">
-                        <p class="small mb-2 text-muted">Built with:</p>
-                        <div class="d-flex flex-wrap gap-2" role="list" aria-label="Technology stack">
-                            @foreach (var tech in Model.TechnicalStack.BackendTechnologies.Take(4))
-                            {
-                                <span class="wp-badge bg-primary bg-opacity-10 text-primary border-0" role="listitem">
-                                    @tech.Name
-                                </span>
-                            }
-                        </div>
-                    </div>
-                </div>
+@* Hero Section — CSS Grid .pub-hero replacing Bootstrap col-lg-8/col-lg-4 *@
+<section class="pub-section" style="padding-top: 0; padding-bottom: 0;" role="banner" aria-labelledby="hero-heading">
+    <div class="pub-hero">
+        <div class="pub-hero__content">
+            <div class="pub-hero__eyebrow">
+                <i class="bi bi-code-slash" aria-hidden="true"></i>
+                Clean Architecture Portfolio
             </div>
-            <div class="col-lg-4 text-center">
-                <div class="wp-card p-4 rounded-4 shadow-sm border-0">
-                    <div class="text-center">
-                        @foreach (var layer in Model.Architecture.Layers)
-                        {
-                            <div class="mb-2 p-2 rounded text-center text-white" 
-                                 style="background-color: @layer.Color; opacity: 0.9;">
-                                <small class="fw-semibold">@layer.Name</small>
-                            </div>
-                        }
-                        <p class="small mt-3 mb-0 text-muted">@Model.Architecture.ArchitectureType</p>
+            <h1 id="hero-heading" class="pub-hero__title">@Model.ProjectOverview.HeroTitle</h1>
+            <h2 class="pub-hero__subtitle">@Model.ProjectOverview.HeroSubtitle</h2>
+            <p class="pub-hero__description">@Model.ProjectOverview.Vision</p>
+            <div class="pub-hero__actions" role="group" aria-label="Main navigation actions">
+                <a asp-action="InteractiveDemo" class="wp-btn wp-btn-primary ">
+                    <i class="bi bi-play-circle me-2" aria-hidden="true"></i>Live Demo
+                </a>
+                <a asp-action="TechnicalDetails" class="wp-btn wp-btn-outline ">
+                    <i class="bi bi-gear me-2" aria-hidden="true"></i>Architecture
+                </a>
+                <a asp-controller="Auth" asp-action="Login" class="wp-btn wp-btn-outline ">
+                    <i class="bi bi-box-arrow-in-right me-2" aria-hidden="true"></i>Login
+                </a>
+                <a asp-controller="Auth" asp-action="Registration" class="wp-btn wp-btn-ghost ">
+                    <i class="bi bi-person-plus me-2" aria-hidden="true"></i>Register
+                </a>
+            </div>
+            <div class="pub-hero__tech-pills" role="list" aria-label="Technology stack">
+                <span class="pub-hero__tech-label">Built with:</span>
+                @foreach (var tech in Model.TechnicalStack.BackendTechnologies.Take(4))
+                {
+                    <span class="wp-badge bg-primary  text-white border-0" role="listitem">@tech.Name</span>
+                }
+            </div>
+        </div>
+        <div class="pub-hero__visual">
+            <div class="pub-hero__arch-card">
+                @foreach (var layer in Model.Architecture.Layers)
+                {
+                    <div class="pub-hero__arch-layer" style="background-color: @layer.Color;">
+                        <small>@layer.Name</small>
                     </div>
-                </div>
+                }
+                <p class="pub-hero__arch-label">@Model.Architecture.ArchitectureType</p>
             </div>
         </div>
     </div>
 </section>
 
-<!-- System Statistics Section -->
-<section class="py-5 bg-light" aria-labelledby="stats-heading">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 id="stats-heading" class="h3 fw-bold mb-3 text-dark">Live System Statistics</h2>
-            <p class="text-muted">Real-time data from the production system</p>
+@* Stats Section — CSS Grid .pub-stats-grid *@
+<section class="pub-section pub-section--alt" aria-labelledby="stats-heading">
+    <div class="pub-section__inner">
+        <div class="pub-section__header">
+            <span class="pub-section__overline">Live Data</span>
+            <h2 id="stats-heading" class="pub-section__title">System Statistics</h2>
+            <p class="pub-section__subtitle">Real-time data from the production system</p>
         </div>
-        <div class="row g-4" role="group" aria-label="System statistics">
-            <div class="col-lg-2 col-md-4 col-6">
-                <div class="wp-card text-center p-4 border-0 shadow-sm">
-                    <div class="mb-3">
-                        <i class="bi bi-book display-4 text-primary"></i>
-                    </div>
-                    <h3 class="fw-bold text-dark">@Model.Statistics.TotalBooks</h3>
-                    <p class="text-muted mb-0">Books</p>
-                </div>
+        <div class="pub-stats-grid" role="group" aria-label="System statistics">
+            <div class="pub-stat-card">
+                <i class="bi bi-book pub-stat-card__icon text-primary" aria-hidden="true"></i>
+                <span class="pub-stat-card__value">@Model.Statistics.TotalBooks</span>
+                <span class="pub-stat-card__label">Books</span>
             </div>
-            <div class="col-lg-2 col-md-4 col-6">
-                <div class="wp-card text-center p-4 border-0 shadow-sm">
-                    <div class="mb-3">
-                        <i class="bi bi-tags display-4 text-success"></i>
-                    </div>
-                    <h3 class="fw-bold text-dark">@Model.Statistics.TotalCategories</h3>
-                    <p class="text-muted mb-0">Categories</p>
-                </div>
+            <div class="pub-stat-card">
+                <i class="bi bi-tags pub-stat-card__icon text-success" aria-hidden="true"></i>
+                <span class="pub-stat-card__value">@Model.Statistics.TotalCategories</span>
+                <span class="pub-stat-card__label">Categories</span>
             </div>
-            <div class="col-lg-2 col-md-4 col-6">
-                <div class="wp-card text-center p-4 border-0 shadow-sm">
-                    <div class="mb-3">
-                        <i class="bi bi-people display-4 text-info"></i>
-                    </div>
-                    <h3 class="fw-bold text-dark">@Model.Statistics.TotalUsers</h3>
-                    <p class="text-muted mb-0">Users</p>
-                </div>
+            <div class="pub-stat-card">
+                <i class="bi bi-people pub-stat-card__icon text-info" aria-hidden="true"></i>
+                <span class="pub-stat-card__value">@Model.Statistics.TotalUsers</span>
+                <span class="pub-stat-card__label">Users</span>
             </div>
-            <div class="col-lg-2 col-md-4 col-6">
-                <div class="wp-card text-center p-4 border-0 shadow-sm">
-                    <div class="mb-3">
-                        <i class="bi bi-star display-4 text-warning"></i>
-                    </div>
-                    <h3 class="fw-bold text-dark">@Model.Statistics.AverageRating.ToString("F1")</h3>
-                    <p class="text-muted mb-0">Avg Rating</p>
-                </div>
+            <div class="pub-stat-card">
+                <i class="bi bi-star pub-stat-card__icon text-warning" aria-hidden="true"></i>
+                <span class="pub-stat-card__value">@Model.Statistics.AverageRating.ToString("F1")</span>
+                <span class="pub-stat-card__label">Avg Rating</span>
             </div>
-            <div class="col-lg-2 col-md-4 col-6">
-                <div class="wp-card text-center p-4 border-0 shadow-sm">
-                    <div class="mb-3">
-                        <i class="bi bi-cart-check display-4 text-success"></i>
-                    </div>
-                    <h3 class="fw-bold text-dark">@Model.Statistics.TotalOrders</h3>
-                    <p class="text-muted mb-0">Orders</p>
-                </div>
+            <div class="pub-stat-card">
+                <i class="bi bi-cart-check pub-stat-card__icon text-success" aria-hidden="true"></i>
+                <span class="pub-stat-card__value">@Model.Statistics.TotalOrders</span>
+                <span class="pub-stat-card__label">Orders</span>
             </div>
         </div>
     </div>
 </section>
-
-<!-- Feature Highlights Section -->
-<section class="py-5 bg-light">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="h3 fw-bold mb-3 text-dark">Technical Highlights</h2>
-            <p class="text-muted">Key architectural and implementation achievements</p>
+@* Feature Highlights — CSS Grid .pub-features-grid *@
+<section class="pub-section">
+    <div class="pub-section__inner">
+        <div class="pub-section__header">
+            <span class="pub-section__overline">Architecture</span>
+            <h2 class="pub-section__title">Technical Highlights</h2>
+            <p class="pub-section__subtitle">Key architectural and implementation achievements</p>
         </div>
-
-        <div class="row g-4">
+        <div class="pub-features-grid">
             @foreach (var feature in Model.FeatureHighlights)
             {
-                <div class="col-lg-4 col-md-6">
-                    <div class="wp-card p-4 h-100 border-0 shadow-sm">
-                        <div class="mb-3">
-                            <span class="wp-badge bg-info bg-opacity-10 text-primary rounded px-2 py-1">@feature.Category</span>
-                        </div>
-                        <h4 class="fw-bold mb-2 text-dark">@feature.FeatureName</h4>
-                        <p class="text-muted mb-3">@feature.Description</p>
-                        @if (feature.TechnicalDetails.Any())
-                        {
-                            <div>
-                                <h6 class="fw-semibold mb-2 text-muted">Technical Details:</h6>
-                                <ul class="list-unstyled">
-                                    @foreach (var detail in feature.TechnicalDetails)
-                                    {
-                                        <li class="mb-1">
-                                            <i class="bi bi-check-circle text-success me-2"></i>
-                                            <small>@detail</small>
-                                        </li>
-                                    }
-                                </ul>
-                            </div>
-                        }
+                <article class="pub-feature-card">
+                    <div class="pub-feature-card__category">
+                        <span class="wp-badge bg-info  text-primary">@feature.Category</span>
                     </div>
-                </div>
+                    <h3 class="pub-feature-card__title">@feature.FeatureName</h3>
+                    <p class="pub-feature-card__desc">@feature.Description</p>
+                    @if (feature.TechnicalDetails.Any())
+                    {
+                        <ul class="pub-feature-card__details">
+                            @foreach (var detail in feature.TechnicalDetails)
+                            {
+                                <li class="pub-feature-card__detail-item">
+                                    <i class="bi bi-check-circle pub-feature-card__check" aria-hidden="true"></i>
+                                    <small>@detail</small>
+                                </li>
+                            }
+                        </ul>
+                    }
+                </article>
             }
         </div>
-
         <div class="text-center mt-5">
-            <a asp-action="TechnicalDetails" class="wp-btn-primary wp-btn-lg">
-                <i class="bi bi-gear me-2"></i>View Technical Details
+            <a asp-action="TechnicalDetails" class="wp-btn wp-btn-primary wp-btn-lg">
+                <i class="bi bi-gear me-2" aria-hidden="true"></i>View Technical Details
             </a>
         </div>
     </div>
 </section>
-
-<!-- Featured Books Demo Section -->
-<section class="py-5 bg-white">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="h3 fw-bold mb-3 text-dark">Interactive Book Demo</h2>
-            <p class="text-muted">Experience the live system with real data</p>
+@* Interactive Book Demo — CSS Grid .pub-books-grid *@
+<section class="pub-section pub-section--alt">
+    <div class="pub-section__inner">
+        <div class="pub-section__header">
+            <span class="pub-section__overline">Live System</span>
+            <h2 class="pub-section__title">Interactive Book Demo</h2>
+            <p class="pub-section__subtitle">Experience the live system with real data</p>
         </div>
-
-        <div class="row g-4" role="group" aria-label="Featured books collection">
+        <div class="pub-books-grid" role="group" aria-label="Featured books collection">
             @if (Model.FeaturedBooks.Books.Any())
             {
                 @foreach (var book in Model.FeaturedBooks.Books.Take(8))
                 {
-                    <div class="col-lg-3 col-md-4 col-sm-6">
-                        <article class="wp-card h-100 border-0 shadow-sm overflow-hidden">
-                            <div>
-                                <img src="@(book.ImageUrl ?? Url.Content("~/images/default-book-improved.svg"))" 
-                                     alt="Cover image of @book.Title by @book.Author" 
-                                     class="w-100" style="height: 200px; object-fit: cover;"
-                                     loading="lazy">
+                    <article class="pub-book-card">
+                        <img src="@(book.ImageUrl ?? Url.Content("~/images/default-book-improved.svg"))"
+                             alt="Cover of @book.Title by @book.Author"
+                             class="pub-book-card__cover"
+                             loading="lazy" />
+                        <div class="pub-book-card__body">
+                            <span class="wp-badge bg-info  text-primary pub-book-card__badge">
+                                <i class="bi bi-play-circle me-1" aria-hidden="true"></i>Demo
+                            </span>
+                            <h3 class="pub-book-card__title">@book.Title</h3>
+                            <p class="pub-book-card__author">@book.Author</p>
+                            <div class="pub-book-card__footer">
+                                <span class="pub-book-card__price">₹@book.Price</span>
+                                <a asp-action="InteractiveDemo" class="wp-btn wp-btn-secondary ">View</a>
                             </div>
-                            <div class="p-3">
-                                <span class="wp-badge bg-info bg-opacity-10 text-primary" style="font-size: 0.7rem;">
-                                    <i class="bi bi-play-circle me-1"></i>Demo
-                                </span>
-                                <h5 class="mt-2 mb-1 text-dark fs-6">@book.Title</h5>
-                                <p class="text-muted mb-2 small">@book.Author</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <span class="fw-bold text-primary">₹@book.Price</span>
-                                    <a asp-action="InteractiveDemo" class="wp-btn-secondary wp-btn-sm">View</a>
-                                </div>
-                            </div>
-                        </article>
-                    </div>
+                        </div>
+                    </article>
                 }
             }
             else
             {
-                <div class="col-12 text-center py-5">
+                <div style="grid-column: 1 / -1; text-align: center; padding: var(--space-10) 0;">
                     <p class="text-muted">No books available at the moment.</p>
                 </div>
             }
         </div>
-
-        <div class="text-center mt-4">
-            <a asp-action="InteractiveDemo" class="wp-btn-primary wp-btn-lg">
-                <i class="bi bi-play-circle me-2"></i>Explore Full Demo
+        <div class="text-center mt-5">
+            <a asp-action="InteractiveDemo" class="wp-btn wp-btn-primary wp-btn-lg">
+                <i class="bi bi-play-circle me-2" aria-hidden="true"></i>Explore Full Demo
             </a>
         </div>
     </div>
 </section>
-
-<!-- Developer Story Preview Section -->
-<section class="developer-story py-5">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6" data-fade-in>
-                <div class="story-content">
-                    <h2 class="display-5 fw-bold mb-4">Developer Story</h2>
-                    <p class="lead text-muted mb-4">@Model.DeveloperStory.Motivation</p>
-                    <p class="mb-4">@Model.DeveloperStory.ChallengesSolved</p>
-                    
-                    @if (Model.DeveloperStory.TechnicalDecisions.Any())
-                    {
-                        <div class="technical-decisions mb-4">
-                            <h5 class="fw-semibold mb-3">Key Technical Decisions:</h5>
-                            <ul class="list-unstyled">
-                                @foreach (var decision in Model.DeveloperStory.TechnicalDecisions.Take(3))
-                                {
-                                    <li class="mb-2">
-                                        <i class="bi bi-arrow-right text-primary me-2"></i>@decision
-                                    </li>
-                                }
-                            </ul>
-                        </div>
-                    }
-                    
-                    <a asp-action="DeveloperStory" class="wp-btn-primary magnetic-btn">
-                        <i class="bi bi-person-circle me-2"></i>Read Full Story
-                    </a>
-                </div>
+@* Developer Story — CSS Grid .pub-split *@
+<section class="pub-section" aria-labelledby="story-heading">
+    <div class="pub-section__inner">
+        <div class="pub-split">
+            <div class="pub-split__content">
+                <h2 id="story-heading" class="pub-section__title">Developer Story</h2>
+                <p class="pub-hero__description">@Model.DeveloperStory.Motivation</p>
+                <p>@Model.DeveloperStory.ChallengesSolved</p>
+                @if (Model.DeveloperStory.TechnicalDecisions.Any())
+                {
+                    <div>
+                        <h5 class="pub-footer__col-title">Key Technical Decisions</h5>
+                        <ul class="pub-feature-card__details">
+                            @foreach (var decision in Model.DeveloperStory.TechnicalDecisions.Take(3))
+                            {
+                                <li class="pub-feature-card__detail-item">
+                                    <i class="bi bi-arrow-right text-primary pub-feature-card__check" aria-hidden="true"></i>
+                                    @decision
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                }
+                <a asp-action="DeveloperStory" class="wp-btn wp-btn-primary magnetic-btn">
+                    <i class="bi bi-person-circle me-2" aria-hidden="true"></i>Read Full Story
+                </a>
             </div>
-            <div class="col-lg-6" data-fade-in>
-                <div class="story-visual">
-                    <div class="tech-stack-preview glass p-4 rounded-4">
-                        <h5 class="fw-bold mb-3 text-center">Technology Stack</h5>
-                        <div class="tech-categories">
-                            <div class="tech-category mb-3">
-                                <h6 class="fw-semibold text-primary mb-2">Backend</h6>
-                                <div class="d-flex flex-wrap gap-2">
-                                    @foreach (var tech in Model.TechnicalStack.BackendTechnologies.Take(3))
-                                    {
-                                        <span class="wp-badge bg-primary bg-opacity-20 text-primary">@tech.Name</span>
-                                    }
-                                </div>
+            <div class="pub-split__visual">
+                <div class="pub-split__card">
+                    <h5 class="pub-footer__col-title text-center mb-4">Technology Stack</h5>
+                    <div style="display: flex; flex-direction: column; gap: var(--space-4);">
+                        <div>
+                            <h6 class="pub-footer__col-title text-primary">Backend</h6>
+                            <div style="display: flex; flex-wrap: wrap; gap: var(--space-2);">
+                                @foreach (var tech in Model.TechnicalStack.BackendTechnologies.Take(3))
+                                {
+                                    <span class="wp-badge bg-primary text-white">@tech.Name</span>
+                                }
                             </div>
-                            <div class="tech-category mb-3">
-                                <h6 class="fw-semibold text-success mb-2">Frontend</h6>
-                                <div class="d-flex flex-wrap gap-2">
-                                    @foreach (var tech in Model.TechnicalStack.FrontendTechnologies.Take(3))
-                                    {
-                                        <span class="wp-badge bg-success bg-opacity-20 text-success">@tech.Name</span>
-                                    }
-                                </div>
+                        </div>
+                        <div>
+                            <h6 class="pub-footer__col-title text-success">Frontend</h6>
+                            <div style="display: flex; flex-wrap: wrap; gap: var(--space-2);">
+                                @foreach (var tech in Model.TechnicalStack.FrontendTechnologies.Take(3))
+                                {
+                                    <span class="wp-badge bg-success  text-white">@tech.Name</span>
+                                }
                             </div>
-                            <div class="tech-category">
-                                <h6 class="fw-semibold text-info mb-2">Testing</h6>
-                                <div class="d-flex flex-wrap gap-2">
-                                    @foreach (var tech in Model.TechnicalStack.TestingTechnologies.Take(2))
-                                    {
-                                        <span class="wp-badge bg-info bg-opacity-20 text-info">@tech.Name</span>
-                                    }
-                                </div>
+                        </div>
+                        <div>
+                            <h6 class="pub-footer__col-title text-info">Testing</h6>
+                            <div style="display: flex; flex-wrap: wrap; gap: var(--space-2);">
+                                @foreach (var tech in Model.TechnicalStack.TestingTechnologies.Take(2))
+                                {
+                                    <span class="wp-badge bg-info  text-white">@tech.Name</span>
+                                }
                             </div>
                         </div>
                     </div>
@@ -329,250 +273,274 @@
     </div>
 </section>
 
-<!-- Contact & Collaboration Section -->
-<section class="contact-section py-5 bg-light">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="display-5 fw-bold mb-3">Let's Connect & Collaborate</h2>
-            <p class="lead text-muted">Interested in collaboration, have questions, or want to explore opportunities?</p>
+@* Contact & Collaboration — CSS Grid .pub-contact-grid + .pub-form-card *@
+<section class="pub-section pub-section--alt" aria-labelledby="contact-heading">
+    <div class="pub-section__inner">
+        <div class="pub-section__header">
+            <span class="pub-section__overline">Get in Touch</span>
+            <h2 id="contact-heading" class="pub-section__title">Let's Connect &amp; Collaborate</h2>
+            <p class="pub-section__subtitle">Interested in collaboration, have questions, or want to explore opportunities?</p>
         </div>
-        
-        <div class="row g-4">
-            <!-- Contact Information -->
-            <div class="col-lg-6">
-                <div class="contact-info-card glass-deep p-4 h-100 spotlight-card hover-lift wp-card-3d">
-                    <h4 class="fw-bold mb-4 gradient-text">
-                        <i class="bi bi-person-circle me-2"></i>Contact Information
-                    </h4>
-                    
-                    <div class="contact-details mb-4">
-                        <div class="contact-item mb-3">
-                            <i class="bi bi-geo-alt-fill text-primary me-2"></i>
-                            <span class="fw-semibold">Location:</span> @Model.ContactInfo.Location
+
+        <div class="pub-contact-grid">
+
+            @* Left Card: Contact Info *@
+            <div class="pub-contact-card">
+                <h3 class="pub-contact-card__title">
+                    <i class="bi bi-person-circle" aria-hidden="true"></i>Contact Information
+                </h3>
+
+                <div class="pub-contact-info-list">
+                    <div class="pub-contact-info-row">
+                        <span class="pub-contact-info-icon text-primary"><i class="bi bi-geo-alt-fill"></i></span>
+                        <div>
+                            <span class="pub-contact-info-label">Location</span>
+                            <span class="pub-contact-info-value">@Model.ContactInfo.Location</span>
                         </div>
-                        
-                        <div class="contact-item mb-3">
-                            <i class="bi bi-briefcase-fill text-success me-2"></i>
-                            <span class="fw-semibold">Available for:</span>
-                            <div class="mt-2">
+                    </div>
+
+                    <div class="pub-contact-info-row">
+                        <span class="pub-contact-info-icon text-success"><i class="bi bi-briefcase-fill"></i></span>
+                        <div>
+                            <span class="pub-contact-info-label">Available for</span>
+                            <div class="pub-contact-tags">
                                 @foreach (var role in Model.ContactInfo.AvailableForRoles)
                                 {
-                                    <span class="wp-badge bg-primary bg-opacity-20 text-primary me-2 mb-1">@role</span>
+                                    <span class="wp-badge bg-primary text-white">@role</span>
                                 }
                             </div>
                         </div>
-                        
-                        @if (Model.ContactInfo.OpenToCollaboration)
+                    </div>
+
+                    @if (Model.ContactInfo.OpenToCollaboration)
+                    {
+                        <div class="pub-contact-info-row pub-contact-info-row--alert">
+                            <span class="pub-contact-info-icon text-success"><i class="bi bi-check-circle-fill"></i></span>
+                            <span class="pub-contact-info-value">Open to collaboration &amp; new opportunities</span>
+                        </div>
+                    }
+                </div>
+
+                <div class="pub-contact-actions">
+                    <h6 class="pub-footer__col-title">Get in Touch</h6>
+                    <div class="pub-contact-actions__links">
+                        @if (!string.IsNullOrEmpty(Model.ContactInfo.Email))
                         {
-                            <div class="collaboration-status mb-3">
-                                <div class="alert alert-success d-flex align-items-center">
-                                    <i class="bi bi-check-circle-fill me-2"></i>
-                                    <span>Open to collaboration and new opportunities</span>
+                            <a href="mailto:@Model.ContactInfo.Email" class="wp-btn wp-btn-outline magnetic-btn">
+                                <i class="bi bi-envelope-fill me-2" aria-hidden="true"></i>Email
+                            </a>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.ContactInfo.LinkedIn))
+                        {
+                            <a href="@Model.ContactInfo.LinkedIn" target="_blank" rel="noopener" class="wp-btn wp-btn-outline magnetic-btn">
+                                <i class="bi bi-linkedin me-2" aria-hidden="true"></i>LinkedIn
+                            </a>
+                        }
+                    </div>
+                    @if (Model.ContactInfo.SocialMediaLinks.Any())
+                    {
+                        <h6 class="pub-footer__col-title mt-3">Professional Networks</h6>
+                        <div class="pub-contact-actions__links">
+                            @foreach (var social in Model.ContactInfo.SocialMediaLinks)
+                            {
+                                <a href="@social.Url" target="_blank" rel="noopener" class="wp-btn wp-btn-ghost" title="@social.DisplayName">
+                                    <i class="@social.IconClass me-1" aria-hidden="true"></i>@social.Platform
+                                </a>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+
+            @* Right Card: Technical Resources *@
+            <div class="pub-contact-card">
+                <h3 class="pub-contact-card__title">
+                    <i class="bi bi-code-slash" aria-hidden="true"></i>Technical Resources
+                </h3>
+
+                @if (Model.ContactInfo.TechnicalResources.Any())
+                {
+                    <div class="pub-contact-resources">
+                        @foreach (var resource in Model.ContactInfo.TechnicalResources)
+                        {
+                            <div class="pub-resource-row">
+                                <i class="@resource.IconClass text-primary pub-resource-row__icon" aria-hidden="true"></i>
+                                <div class="pub-resource-row__body">
+                                    <a href="@resource.Url" target="_blank" rel="noopener" class="pub-resource-row__title">@resource.Title</a>
+                                    <p class="pub-resource-row__desc">@resource.Description</p>
+                                    <span class="wp-badge bg-info text-white">@resource.Category</span>
                                 </div>
                             </div>
                         }
                     </div>
-                    
-                    <!-- Contact Methods -->
-                    <div class="contact-methods mb-4">
-                        <h6 class="fw-semibold mb-3">Get in Touch:</h6>
-                        <div class="row g-2">
-                            @if (!string.IsNullOrEmpty(Model.ContactInfo.Email))
-                            {
-                                <div class="col-md-6">
-                                    <a href="mailto:@Model.ContactInfo.Email" class="contact-method-btn wp-btn-outline-primary w-100 magnetic-btn">
-                                        <i class="bi bi-envelope-fill me-2"></i>Email
-                                    </a>
-                                </div>
-                            }
-                            @if (!string.IsNullOrEmpty(Model.ContactInfo.LinkedIn))
-                            {
-                                <div class="col-md-6">
-                                    <a href="@Model.ContactInfo.LinkedIn" target="_blank" class="contact-method-btn wp-btn-outline-primary w-100 magnetic-btn">
-                                        <i class="bi bi-linkedin me-2"></i>LinkedIn
-                                    </a>
-                                </div>
-                            }
-                        </div>
-                    </div>
-                    
-                    <!-- Professional Social Media -->
-                    @if (Model.ContactInfo.SocialMediaLinks.Any())
-                    {
-                        <div class="social-media-section">
-                            <h6 class="fw-semibold mb-3">Professional Networks:</h6>
-                            <div class="social-links d-flex flex-wrap gap-2">
-                                @foreach (var social in Model.ContactInfo.SocialMediaLinks)
-                                {
-                                    <a href="@social.Url" target="_blank" class="social-link text-decoration-none" title="@social.DisplayName">
-                                        <i class="@social.IconClass"></i>
-                                        <span class="ms-1">@social.Platform</span>
-                                    </a>
-                                }
-                            </div>
-                        </div>
-                    }
-                </div>
-            </div>
-            
-            <!-- Technical Resources & Documentation -->
-            <div class="col-lg-6">
-                <div class="technical-resources-card glass-deep p-4 h-100 spotlight-card hover-lift wp-card-3d">
-                    <h4 class="fw-bold mb-4 gradient-text">
-                        <i class="bi bi-code-slash me-2"></i>Technical Resources
-                    </h4>
-                    
-                    @if (Model.ContactInfo.TechnicalResources.Any())
-                    {
-                        <div class="resources-grid">
-                            @foreach (var resource in Model.ContactInfo.TechnicalResources)
-                            {
-                                <div class="resource-item mb-3 p-3 rounded glass hover-lift">
-                                    <div class="d-flex align-items-start">
-                                        <div class="resource-icon me-3">
-                                            <i class="@resource.IconClass text-primary" style="font-size: 1.5rem;"></i>
-                                        </div>
-                                        <div class="resource-content flex-grow-1">
-                                            <h6 class="resource-title fw-semibold mb-1">
-                                                <a href="@resource.Url" target="_blank" class="text-decoration-none">
-                                                    @resource.Title
-                                                </a>
-                                            </h6>
-                                            <p class="resource-description text-muted small mb-2">@resource.Description</p>
-                                            <span class="wp-badge bg-info bg-opacity-20 text-info">@resource.Category</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                        </div>
-                    }
-                    
-                    <div class="quick-links mt-4">
-                        <h6 class="fw-semibold mb-3">Quick Access:</h6>
-                        <div class="d-flex flex-wrap gap-2">
-                            <a href="@Model.ContactInfo.GitHub" target="_blank" class="wp-btn-sm wp-btn-outline-secondary magnetic-btn">
-                                <i class="bi bi-github me-1"></i>Repository
-                            </a>
-                            <a asp-action="TechnicalDetails" class="wp-btn-sm wp-btn-outline-secondary magnetic-btn">
-                                <i class="bi bi-gear me-1"></i>Architecture
-                            </a>
-                            <a asp-action="InteractiveDemo" class="wp-btn-sm wp-btn-outline-secondary magnetic-btn">
-                                <i class="bi bi-play-circle me-1"></i>Live Demo
-                            </a>
-                        </div>
+                }
+
+                <div class="pub-contact-actions mt-4">
+                    <h6 class="pub-footer__col-title">Quick Access</h6>
+                    <div class="pub-contact-actions__links">
+                        <a href="@Model.ContactInfo.GitHub" target="_blank" rel="noopener" class="wp-btn wp-btn-outline magnetic-btn">
+                            <i class="bi bi-github me-1" aria-hidden="true"></i>Repository
+                        </a>
+                        <a asp-action="TechnicalDetails" class="wp-btn wp-btn-outline magnetic-btn">
+                            <i class="bi bi-gear me-1" aria-hidden="true"></i>Architecture
+                        </a>
+                        <a asp-action="InteractiveDemo" class="wp-btn wp-btn-outline magnetic-btn">
+                            <i class="bi bi-play-circle me-1" aria-hidden="true"></i>Live Demo
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
-        
-        <!-- Collaboration Inquiry Form -->
-        <div class="row mt-5">
-            <div class="col-lg-8 mx-auto">
-                <div class="collaboration-form-card glass-deep p-5 spotlight-card wp-card-3d">
-                    <div class="text-center mb-4">
-                        <h4 class="fw-bold gradient-text">
-                            <i class="bi bi-chat-dots me-2"></i>Collaboration Inquiry
-                        </h4>
-                        <p class="text-muted">Have a project in mind or want to discuss opportunities? Let's talk!</p>
-                    </div>
-                    
-                    <form id="collaborationForm" class="needs-validation" novalidate>
-                        @Html.AntiForgeryToken()
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <label for="inquiryName" class="form-label">
-                                    <i class="bi bi-person me-1"></i>Full Name *
-                                </label>
-                                <input type="text" class="form-control" id="inquiryName" name="Name" required 
-                                       placeholder="Your full name">
-                                <div class="invalid-feedback">Please provide your name.</div>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="inquiryEmail" class="form-label">
-                                    <i class="bi bi-envelope me-1"></i>Email Address *
-                                </label>
-                                <input type="email" class="form-control" id="inquiryEmail" name="Email" required 
-                                       placeholder="your.email@example.com">
-                                <div class="invalid-feedback">Please provide a valid email address.</div>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="inquiryCompany" class="form-label">
-                                    <i class="bi bi-building me-1"></i>Company/Organization
-                                </label>
-                                <input type="text" class="form-control" id="inquiryCompany" name="Company" 
-                                       placeholder="Your company or organization">
-                            </div>
-                            <div class="col-md-6">
-                                <label for="inquiryType" class="form-label">
-                                    <i class="bi bi-tag me-1"></i>Inquiry Type *
-                                </label>
-                                <select class="form-select" id="inquiryType" name="InquiryType" required>
-                                    <option value="">Select inquiry type</option>
-                                    <option value="Job Opportunity">Job Opportunity</option>
-                                    <option value="Collaboration">Project Collaboration</option>
-                                    <option value="Technical Question">Technical Question</option>
-                                    <option value="Consulting">Consulting Services</option>
-                                    <option value="Other">Other</option>
-                                </select>
-                                <div class="invalid-feedback">Please select an inquiry type.</div>
-                            </div>
-                            <div class="col-12">
-                                <label for="inquirySubject" class="form-label">
-                                    <i class="bi bi-chat-text me-1"></i>Subject *
-                                </label>
-                                <input type="text" class="form-control" id="inquirySubject" name="Subject" required 
-                                       placeholder="Brief subject line">
-                                <div class="invalid-feedback">Please provide a subject.</div>
-                            </div>
-                            <div class="col-12">
-                                <label for="inquiryMessage" class="form-label">
-                                    <i class="bi bi-chat-dots me-1"></i>Message *
-                                </label>
-                                <textarea class="form-control" id="inquiryMessage" name="Message" rows="5" required 
-                                          placeholder="Tell me about your project, opportunity, or question. Include any relevant details like timeline, budget, or specific requirements."></textarea>
-                                <div class="invalid-feedback">Please provide a message.</div>
-                                <div class="form-text">Maximum 2000 characters</div>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="preferredContact" class="form-label">
-                                    <i class="bi bi-telephone me-1"></i>Preferred Contact Method
-                                </label>
-                                <select class="form-select" id="preferredContact" name="PreferredContactMethod">
-                                    <option value="Email">Email</option>
-                                    <option value="LinkedIn">LinkedIn</option>
-                                    <option value="Phone">Phone Call</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="timeline" class="form-label">
-                                    <i class="bi bi-calendar me-1"></i>Timeline
-                                </label>
-                                <select class="form-select" id="timeline" name="Timeline">
-                                    <option value="Flexible">Flexible</option>
-                                    <option value="Immediate">Immediate (ASAP)</option>
-                                    <option value="Within 1 week">Within 1 week</option>
-                                    <option value="Within 1 month">Within 1 month</option>
-                                    <option value="Within 3 months">Within 3 months</option>
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <div class="text-center mt-4">
-                            <button type="submit" class="wp-btn-primary magnetic-btn wp-btn-lg holographic rainbow pulse-glow">
-                                <i class="bi bi-send me-2"></i>Send Inquiry
-                            </button>
-                        </div>
-                        
-                        <div id="formMessage" class="mt-3" style="display: none;"></div>
-                    </form>
-                </div>
+
+        @* Full-width Inquiry Form *@
+        <div class="pub-form-card">
+            <div class="pub-form-card__header">
+                <h3 class="pub-section__title">
+                    <i class="bi bi-chat-dots me-2" aria-hidden="true"></i>Collaboration Inquiry
+                </h3>
+                <p class="pub-section__subtitle">Have a project in mind or want to discuss opportunities? Let's talk!</p>
             </div>
+            <form id="collaborationForm" class="pub-inquiry-form needs-validation" novalidate>
+                @Html.AntiForgeryToken()
+                <div class="pub-inquiry-grid">
+                    <div class="form__group">
+                        <label for="inquiryName" class="form__label"><i class="bi bi-person"></i>Full Name <span class="form__label--required"></span></label>
+                        <input type="text" class="form__input" id="inquiryName" name="Name" required placeholder="Your full name">
+                        <span class="form__error" hidden>Please provide your name.</span>
+                    </div>
+                    <div class="form__group">
+                        <label for="inquiryEmail" class="form__label"><i class="bi bi-envelope"></i>Email Address <span class="form__label--required"></span></label>
+                        <input type="email" class="form__input" id="inquiryEmail" name="Email" required placeholder="your.email@example.com">
+                        <span class="form__error" hidden>Please provide a valid email.</span>
+                    </div>
+                    <div class="form__group">
+                        <label for="inquiryCompany" class="form__label"><i class="bi bi-building"></i>Company / Organization</label>
+                        <input type="text" class="form__input" id="inquiryCompany" name="Company" placeholder="Your company or organization">
+                    </div>
+                    <div class="form__group">
+                        <label for="inquiryType" class="form__label"><i class="bi bi-tag"></i>Inquiry Type <span class="form__label--required"></span></label>
+                        <select class="form__select" id="inquiryType" name="InquiryType" required>
+                            <option value="">Select inquiry type</option>
+                            <option value="Job Opportunity">Job Opportunity</option>
+                            <option value="Collaboration">Project Collaboration</option>
+                            <option value="Technical Question">Technical Question</option>
+                            <option value="Consulting">Consulting Services</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <span class="form__error" hidden>Please select an inquiry type.</span>
+                    </div>
+                    <div class="form__group pub-inquiry-grid__full">
+                        <label for="inquirySubject" class="form__label"><i class="bi bi-chat-text"></i>Subject <span class="form__label--required"></span></label>
+                        <input type="text" class="form__input" id="inquirySubject" name="Subject" required placeholder="Brief subject line">
+                        <span class="form__error" hidden>Please provide a subject.</span>
+                    </div>
+                    <div class="form__group pub-inquiry-grid__full">
+                        <label for="inquiryMessage" class="form__label"><i class="bi bi-chat-dots"></i>Message <span class="form__label--required"></span></label>
+                        <textarea class="form__textarea" id="inquiryMessage" name="Message" rows="5" required
+                                  placeholder="Tell me about your project, opportunity, or question."></textarea>
+                        <span class="form__error" hidden>Please provide a message.</span>
+                        <span class="form__help"><i class="bi bi-info-circle"></i>Maximum 2000 characters</span>
+                    </div>
+                    <div class="form__group">
+                        <label for="preferredContact" class="form__label"><i class="bi bi-telephone"></i>Preferred Contact</label>
+                        <select class="form__select" id="preferredContact" name="PreferredContactMethod">
+                            <option value="Email">Email</option>
+                            <option value="LinkedIn">LinkedIn</option>
+                            <option value="Phone">Phone Call</option>
+                        </select>
+                    </div>
+                    <div class="form__group">
+                        <label for="timeline" class="form__label"><i class="bi bi-calendar"></i>Timeline</label>
+                        <select class="form__select" id="timeline" name="Timeline">
+                            <option value="Flexible">Flexible</option>
+                            <option value="Immediate">Immediate (ASAP)</option>
+                            <option value="Within 1 week">Within 1 week</option>
+                            <option value="Within 1 month">Within 1 month</option>
+                            <option value="Within 3 months">Within 3 months</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="pub-form-card__submit">
+                    <button type="submit" class="wp-btn wp-btn-primary wp-btn-lg magnetic-btn">
+                        <i class="bi bi-send me-2" aria-hidden="true"></i>Send Inquiry
+                    </button>
+                </div>
+                <div id="formMessage" class="mt-3" hidden></div>
+            </form>
         </div>
     </div>
 </section>
 
+
 @section Styles {
-    
+    <style>
+        /* Interactive Showcase Styles */
+        .pub-hero { position: relative; }
+        .pub-hero__arch-card { 
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            transform-style: preserve-3d;
+        }
+        .pub-hero__arch-card:hover {
+            transform: translateY(-10px) rotateX(5deg) rotateY(-5deg);
+            box-shadow: 0 25px 50px -12px rgba(var(--primary-color-rgb), 0.25);
+        }
+
+        .pub-stat-card, .pub-feature-card, .pub-book-card, .pub-contact-card, .pub-form-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            background: rgba(var(--surface-color-rgb), 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(var(--primary-color-rgb), 0.1);
+            border-radius: var(--radius-lg);
+        }
+
+        /* Hover glows */
+        .pub-stat-card::before, .pub-feature-card::before, .pub-contact-card::before, .pub-form-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at center, rgba(var(--primary-color-rgb), 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .pub-stat-card:hover, .pub-feature-card:hover, .pub-contact-card:hover, .pub-form-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1), 0 0 20px rgba(var(--primary-color-rgb), 0.05);
+            border-color: rgba(var(--primary-color-rgb), 0.3);
+        }
+
+        .pub-stat-card:hover::before, .pub-feature-card:hover::before, .pub-contact-card:hover::before, .pub-form-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Fun interaction for icons */
+        .pub-feature-card > i, .pub-stat-card > i { 
+            position: relative; 
+            z-index: 1; 
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .pub-feature-card:hover > i, .pub-stat-card:hover > i {
+            transform: scale(1.3) rotate(5deg);
+        }
+        
+        /* Book card extra interaction */
+        .pub-book-card__cover { transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+        .pub-book-card:hover .pub-book-card__cover { transform: scale(1.08); }
+        .pub-book-card__body { position: relative; z-index: 2; background: linear-gradient(to top, var(--surface-color) 70%, transparent); transition: transform 0.4s ease; }
+        .pub-book-card:hover .pub-book-card__body { transform: translateY(-5px); }
+
+        /* Floating Animation */
+        @@keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .pub-hero__visual { animation: float 6s ease-in-out infinite; }
+    </style>
 }
 
 @section Scripts {

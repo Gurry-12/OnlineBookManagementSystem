@@ -13,30 +13,56 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-sm);
-  padding: var(--space-sm) var(--space-md);
-  border: 1px solid transparent;
-  border-radius: var(--border-radius);
+  gap: var(--space-3);
+  padding: var(--space-3); /* Specific playful bounding padding */
+  border: none;
+  border-radius: 35px;
+  box-shadow: rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
   font-size: var(--font-size-base, 1rem);
-  font-weight: var(--font-weight-medium);
+  font-weight: 900;
+  font-family: var(--font-family-mono);
   line-height: 1;
   text-decoration: none;
   cursor: pointer;
-  transition: all var(--transition-fast);
+  transition: transform 400ms cubic-bezier(0.68, -0.55, 0.27, 2.5),
+              background-color var(--transition-fast),
+              border-color var(--transition-fast),
+              color var(--transition-fast),
+              box-shadow var(--transition-fast);
   background: var(--color-surface);
   color: var(--color-text);
   border-color: var(--color-border);
 }
 
 .wp-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
+  transform: scale(1.05);
+  /* Preserve the deeply inset shadow but add a strong drop shadow so it appears to float */
+  box-shadow: rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset, var(--shadow-lg);
   background: var(--color-hover);
+}
+
+/* Playful icon bounce on hover */
+.wp-btn i, .wp-btn svg {
+  transition: transform 250ms cubic-bezier(0.68, -0.55, 0.27, 2.5);
+}
+
+.wp-btn:hover i, .wp-btn:hover svg {
+  transform: scale(1.15) rotate(5deg);
 }
 
 .wp-btn:focus {
   outline: 2px solid var(--color-border-focus);
   outline-offset: 2px;
+}
+
+.wp-btn:focus:not(:focus-visible) {
+  outline: none; /* suppress on mouse click */
+}
+
+.wp-btn:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px var(--focus-ring-color);
 }
 
 .wp-btn:disabled {
@@ -55,67 +81,64 @@
 .wp-btn-primary {
   background: var(--color-primary);
   color: #fff;
-  border-color: var(--color-primary);
+  border-color: transparent;
 }
 
 .wp-btn-primary:hover {
-  background: var(--color-primary-hover);
-  border-color: var(--color-primary-hover);
+  background: color-mix(in srgb, var(--color-primary) 80%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .wp-btn-secondary {
   background: var(--color-secondary);
   color: #fff;
-  border-color: var(--color-secondary);
+  border-color: transparent;
 }
 
 .wp-btn-secondary:hover {
-  background: var(--color-accent);
-  border-color: var(--color-accent);
+  background: var(--color-secondary-dark);
 }
 
 .wp-btn-success {
   background: var(--color-success);
   color: #fff;
-  border-color: var(--color-success);
+  border-color: transparent;
 }
 
 .wp-btn-success:hover {
-  background: var(--color-success);
-  opacity: 0.9;
+  background: var(--color-success-dark);
 }
 
 .wp-btn-danger {
   background: var(--color-danger);
   color: #fff;
-  border-color: var(--color-danger);
+  border-color: transparent;
 }
 
 .wp-btn-danger:hover {
-  background: var(--color-danger);
-  opacity: 0.9;
+  background: var(--color-danger-dark);
 }
 
 .wp-btn-warning {
   background: var(--color-warning);
-  color: var(--color-text);
-  border-color: var(--color-warning);
+  color: #0f172a; /* Warning (amber) usually needs dark text */
+  border-color: transparent;
 }
 
 .wp-btn-warning:hover {
-  background: var(--color-warning);
-  opacity: 0.9;
+  background: var(--color-warning-dark);
+  color: #fff; /* Dark amber (T-800) supports white text */
 }
 
 .wp-btn-info {
   background: var(--color-info);
   color: #fff;
-  border-color: var(--color-info);
+  border-color: transparent;
 }
 
 .wp-btn-info:hover {
-  background: var(--color-info);
-  opacity: 0.9;
+  background: var(--color-info-dark);
 }
 
 /* ========================================
@@ -123,12 +146,12 @@
    ======================================== */
 
 .wp-btn-sm {
-  padding: var(--space-xs) var(--space-sm);
+  /* padding overrides removed to unify design */
   font-size: 0.875rem;
 }
 
 .wp-btn-lg {
-  padding: var(--space-md) var(--space-lg);
+  /* padding overrides removed to unify design */
   font-size: 1.125rem;
 }
 
@@ -166,10 +189,6 @@
 .wp-btn-outline-primary {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-sm);
-  padding: var(--space-sm) var(--space-md);
-  border: 1px solid var(--color-primary);
-  border-radius: var(--border-radius);
   font-size: var(--font-size-base, 1rem);
   font-weight: var(--font-weight-medium);
   line-height: 1;
@@ -190,10 +209,6 @@
 .wp-btn-outline-secondary {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-sm);
-  padding: var(--space-sm) var(--space-md);
-  border: 1px solid var(--color-secondary);
-  border-radius: var(--border-radius);
   font-size: var(--font-size-base, 1rem);
   font-weight: var(--font-weight-medium);
   line-height: 1;
@@ -213,10 +228,6 @@
 .wp-btn-outline-success {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-sm);
-  padding: var(--space-sm) var(--space-md);
-  border: 1px solid var(--color-success);
-  border-radius: var(--border-radius);
   font-size: var(--font-size-base, 1rem);
   font-weight: var(--font-weight-medium);
   line-height: 1;
@@ -236,10 +247,6 @@
 .wp-btn-outline-danger {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-sm);
-  padding: var(--space-sm) var(--space-md);
-  border: 1px solid var(--color-danger);
-  border-radius: var(--border-radius);
   font-size: var(--font-size-base, 1rem);
   font-weight: var(--font-weight-medium);
   line-height: 1;
@@ -259,10 +266,6 @@
 .wp-btn-outline-dark {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-sm);
-  padding: var(--space-sm) var(--space-md);
-  border: 1px solid var(--color-text);
-  border-radius: var(--border-radius);
   font-size: var(--font-size-base, 1rem);
   font-weight: var(--font-weight-medium);
   line-height: 1;
@@ -340,19 +343,53 @@
 
 @media (max-width: 768px) {
   .wp-btn {
-    padding: var(--space-xs) var(--space-sm);
+    /* Responsive padding size down slightly while maintaining playful aspect ratio */
+    padding: 16px 20px 16px 18px;
     font-size: 0.875rem;
   }
 
   .wp-btn-lg {
-    padding: var(--space-sm) var(--space-md);
     font-size: 1rem;
   }
 
   .wp-btn-sm {
-    padding: var(--space-xs) var(--space-xs);
     font-size: 0.75rem;
   }
 }
 
+/* specific playful block removed */
 
+/* ========================================
+   MODIFIERS: wp-btn-close (Modal close button)
+   ======================================== */
+.wp-btn-close {
+  box-sizing: content-box;
+  width: 1em;
+  height: 1em;
+  padding: 0.25em 0.25em;
+  color: var(--color-gray-900);
+  background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'%3e%3cpath d='M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z'/%3e%3c/svg%3e") center/1em auto no-repeat;
+  border: 0;
+  border-radius: var(--radius-sm);
+  opacity: 0.5;
+  cursor: pointer;
+  transition: opacity var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.wp-btn-close:hover {
+  opacity: 0.8;
+  text-decoration: none;
+}
+
+.wp-btn-close:focus {
+  outline: 0;
+  box-shadow: 0 0 0 0.25rem var(--focus-ring-color);
+  opacity: 1;
+}
+
+.wp-btn-close:disabled,
+.wp-btn-close.disabled {
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.25;
+}

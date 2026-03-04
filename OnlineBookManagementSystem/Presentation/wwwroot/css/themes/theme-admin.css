@@ -1,81 +1,62 @@
-/* Admin Theme - Focused, Professional, Clean */
-/* Enhanced color palette for better admin experience */
+/* Admin Theme - Slightly more professional */
 .theme-admin {
-  /* ========================================
-     CORE THEME MAPPING (REQUIRED)
-     ======================================== */
-  --bg-color: #f8fafc;
-  --text-color: #1e293b;
-  --primary-color: #0d9488;
-  --accent-color: #22c55e;
+  /* Unified Base */
+  --bg-color: #FFF6F4;
+  --color-bg: #FFF6F4;
+  --bg-gradient: #FFF6F4;
+  --color-surface: #FFFFFF;
+  --bg-surface: #FFFFFF;
+  --bg-sidebar: #FFFFFF;
+  --bg-header: #FFFFFF;
+  --card-bg: #FFFFFF;
+  --color-surface-elevated: #FFFFFF;
+  
+  --border-color: #E6EAF0;
+  --color-border: #E6EAF0;
+  --color-border-subtle: #F0F2F5;
+  --glass-border: rgba(230, 234, 240, 0.6);
+  
+  --text-color: #3B4252;
+  --color-text: #3B4252;
+  --color-text-muted: #6B7280;
+  --color-text-subtle: #9CA3AF;
+  
+  /* Layout Specific: Soft Coral */
+  --primary-color: #F8AD9D;
+  --color-primary: #F8AD9D;
+  --color-primary-hover: #F4978E;
+  --accent-color: #F8AD9D;
+  --color-accent: #F8AD9D;
+  
+  /* Glass Morphism */
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-bg-strong: rgba(255, 255, 255, 0.98);
+  --glass-blur: 16px;
+  --glass-shadow: 0 8px 32px rgba(248, 173, 157, 0.15);
 
-  /* Structural Variables */
-  --bg-sidebar: #0f172a;
-  --bg-surface: #ffffff;
-  --bg-header: #ffffff;
-  --border-color: #e2e8f0;
-
-  /* ========================================
-     LEGACY / DETAILED MAPPING
-     ======================================== */
-  /* Background Colors - Clean light theme */
-  --color-bg: #f8fafc;
-  --color-surface: #ffffff;
-  --color-surface-elevated: #f1f5f9;
-
-  /* Text Colors - High contrast for readability */
-  --color-text: #1e293b;
-  --color-text-muted: #64748b;
-  --color-text-subtle: #94a3b8;
-
-  /* Brand Colors - Teal/Green professional combo */
-  --color-primary: #0d9488;
-  --color-primary-hover: #0f766e;
-  --color-primary-light: #5eead4;
-  --color-secondary: #6366f1;
-  --color-accent: #22c55e;
-
-  /* Status Colors - Clear indicators */
-  --color-success: #10b981;
-  --color-success-bg: #ecfdf5;
-  --color-success-dark: #059669;
-  --color-warning: #f59e0b;
-  --color-warning-bg: #fffbeb;
-  --color-warning-dark: #d97706;
-  --color-danger: #ef4444;
-  --color-danger-bg: #fef2f2;
-  --color-danger-dark: #dc2626;
-  --color-info: #0ea5e9;
-  --color-info-bg: #f0f9ff;
-  --color-info-dark: #0284c7;
-
-  /* Border Colors - Clean and subtle */
-  --color-border: #e2e8f0;
-  --color-border-subtle: #f1f5f9;
-  --color-border-focus: #0d9488;
-
-  /* Interactive States */
-  --color-hover: #f1f5f9;
-  --color-active: #e2e8f0;
-  --color-disabled: #f1f5f9;
-  --color-disabled-text: #94a3b8;
-
-  /* Card & Surface Enhancements */
-  --card-bg: #ffffff;
-  --shadow-color: rgba(13, 148, 136, 0.1);
-  --shadow-lg: 0 10px 25px -5px var(--shadow-color), 0 8px 10px -6px var(--shadow-color);
-
-  /* Grayscale for admin theme */
-  --color-white: #ffffff;
-  --color-gray-50: #f8fafc;
-  --color-gray-100: #f1f5f9;
-  --color-gray-200: #e2e8f0;
-  --color-gray-300: #cbd5e1;
-  --color-gray-400: #94a3b8;
-  --color-gray-500: #64748b;
-  --color-gray-600: #475569;
-  --color-gray-700: #334155;
-  --color-gray-800: #1e293b;
-  --color-gray-900: #0f172a;
+  /* Unified Status Colors */
+  --color-success: #C2EEC7;
+  --color-warning: #F2E3C6;
+  --color-danger: #F6DBDB;
+  --color-info: #D3ECE1;
+  --color-success-bg: #E8F8EA;
+  --color-warning-bg: #FDF6E9;
+  --color-danger-bg: #FDF2F2;
+  --color-info-bg: #EDF7F3;
+  
+  /* Others */
+  --color-border-focus: #F8AD9D;
+  --color-hover: #F8F9FB;
+  --color-active: #E6EAF0;
+  
+  /* Grays */
+  --color-white: #FFFFFF;
+  --color-gray-50: #F8F9FB;
+  --color-gray-100: #F3F4F6;
+  --color-gray-200: #E5E7EB;
+  --color-gray-300: #D1D5DB;
+  --color-gray-400: #9CA3AF;
+  --color-gray-500: #6B7280;
+  --color-gray-600: #4B5563;
+  --color-gray-700: #3B4252;
 }
-

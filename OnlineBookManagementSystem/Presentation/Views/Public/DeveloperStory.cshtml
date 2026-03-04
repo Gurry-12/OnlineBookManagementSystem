@@ -4,97 +4,72 @@
     Layout = "_LayoutPublic";
 }
 
-<!-- Story Hero Section -->
-<section class="story-hero aurora-bg enhanced noise-overlay particles-bg py-5" data-parallax="0.4">
-    <div class="container">
-        <div class="row align-items-center min-vh-50">
-            <div class="col-lg-8 mx-auto text-center cascade-animation" data-fade-in>
-                <div class="hero-content">
-                    <div class="hero-badge mb-3 floating">
-                        <span class="wp-badge bg-info bg-opacity-20 text-info px-4 py-2 rounded-pill fs-6 holographic continuous">
-                            <i class="bi bi-person-circle me-2"></i>Developer Journey
-                        </span>
-                    </div>
-                    <h1 class="display-3 fw-bold text-white mb-4 gradient-text" data-text-reveal>
-                        The Story Behind the Code
-                    </h1>
-                    <p class="lead text-white-75 mb-4 fs-4 floating slow">
-                        Discover the motivation, challenges, and technical decisions that shaped 
-                        this comprehensive book management system.
-                    </p>
-                    <div class="hero-actions d-flex flex-wrap justify-content-center gap-3">
-                        <a asp-action="TechnicalDetails" class="wp-btn-primary magnetic-btn holographic rainbow wp-btn-lg pulse-glow">
-                            <i class="bi bi-gear me-2"></i>Technical Details
-                        </a>
-                        <a asp-action="InteractiveDemo" class="wp-btn-secondary magnetic-btn wp-btn-lg glass-deep">
-                            <i class="bi bi-play-circle me-2"></i>Live Demo
-                        </a>
-                    </div>
-                </div>
-            </div>
+<section class="story-hero aurora-bg enhanced noise-overlay particles-bg" data-parallax="0.4">
+    <div class="pub-hero--centered">
+        <div class="pub-hero__eyebrow floating holographic continuous">
+            <i class="bi bi-person-circle me-2" aria-hidden="true"></i>Developer Journey
+        </div>
+        <h1 class="pub-hero__title  gradient-text" data-text-reveal>
+            The Story Behind the Code
+        </h1>
+        <p class="pub-hero__description floating slow">
+            Discover the motivation, challenges, and technical decisions that shaped
+            this comprehensive book management system.
+        </p>
+        <div class="pub-hero__actions">
+            <a asp-action="TechnicalDetails" class="wp-btn wp-btn-primary magnetic-btn holographic rainbow wp-btn-lg pulse-glow">
+                <i class="bi bi-gear me-2" aria-hidden="true"></i>Technical Details
+            </a>
+            <a asp-action="InteractiveDemo" class="wp-btn wp-btn-secondary magnetic-btn wp-btn-lg glass-deep">
+                <i class="bi bi-play-circle me-2" aria-hidden="true"></i>Live Demo
+            </a>
         </div>
     </div>
 </section>
-
-<!-- Project Vision Section -->
-<section class="project-vision py-5">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6" data-fade-in>
-                <div class="vision-content">
-                    <h2 class="display-5 fw-bold mb-4">Project Vision</h2>
-                    <p class="lead text-muted mb-4">@Model.ProjectOverview.Vision</p>
-                    <p class="mb-4">@Model.ProjectOverview.ValueProposition</p>
-                    
-                    <div class="project-status mb-4">
-                        <div class="d-flex align-items-center">
-                            <i class="bi bi-check-circle-fill text-success me-2"></i>
-                            <span class="fw-semibold">Status: @Model.ProjectOverview.ProjectStatus</span>
-                        </div>
-                    </div>
-                    
-                    @if (Model.ProjectOverview.KeyFeatures.Any())
-                    {
-                        <div class="key-features">
-                            <h5 class="fw-semibold mb-3">Key Features Implemented:</h5>
-                            <ul class="list-unstyled">
-                                @foreach (var feature in Model.ProjectOverview.KeyFeatures)
-                                {
-                                    <li class="mb-2">
-                                        <i class="bi bi-arrow-right text-primary me-2"></i>@feature
-                                    </li>
-                                }
-                            </ul>
-                        </div>
-                    }
+<section class="pub-section">
+    <div class="pub-section__inner">
+        <div class="pub-split">
+            <div class="pub-split__content" data-fade-in>
+                <h2 class="pub-section__title">Project Vision</h2>
+                <p class="pub-hero__description">@Model.ProjectOverview.Vision</p>
+                <p>@Model.ProjectOverview.ValueProposition</p>
+                <div class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-success" aria-hidden="true"></i>
+                    <span class="fw-semibold">Status: @Model.ProjectOverview.ProjectStatus</span>
                 </div>
+                @if (Model.ProjectOverview.KeyFeatures.Any())
+                {
+                    <div>
+                        <h3 class="h5 fw-semibold mb-2">Key Features Implemented:</h3>
+                        <ul class="list-unstyled">
+                            @foreach (var feature in Model.ProjectOverview.KeyFeatures)
+                            {
+                                <li class="mb-2">
+                                    <i class="bi bi-arrow-right text-primary me-2" aria-hidden="true"></i>@feature
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                }
             </div>
-            <div class="col-lg-6" data-fade-in>
-                <div class="vision-visual">
-                    <div class="project-stats glass p-4 rounded-4">
-                        <h5 class="fw-bold mb-4 text-center">Project Overview</h5>
-                        <div class="stats-grid">
-                            <div class="stat-item text-center mb-3">
-                                <div class="stat-icon mb-2">
-                                    <i class="bi bi-calendar-event text-primary fs-1"></i>
-                                </div>
-                                <div class="stat-value fw-bold">2024-2026</div>
-                                <div class="stat-label text-muted small">Development Period</div>
-                            </div>
-                            <div class="stat-item text-center mb-3">
-                                <div class="stat-icon mb-2">
-                                    <i class="bi bi-layers text-success fs-1"></i>
-                                </div>
-                                <div class="stat-value fw-bold">Clean Architecture</div>
-                                <div class="stat-label text-muted small">Design Pattern</div>
-                            </div>
-                            <div class="stat-item text-center mb-3">
-                                <div class="stat-icon mb-2">
-                                    <i class="bi bi-code-slash text-info fs-1"></i>
-                                </div>
-                                <div class="stat-value fw-bold">ASP.NET Core</div>
-                                <div class="stat-label text-muted small">Primary Framework</div>
-                            </div>
+            <div class="pub-split__visual" data-fade-in>
+                <div class="pub-split__card">
+                    <h3 class="h5 fw-bold mb-4 text-center">Project Overview</h3>
+                    <div class="pub-stats-grid">
+                        <div class="pub-stat-card">
+                            <div class="pub-stat-card__icon"><i class="bi bi-calendar-event text-primary" aria-hidden="true"></i></div>
+                            <div class="pub-stat-card__value">2024–26</div>
+                            <div class="pub-stat-card__label">Development Period</div>
+                        </div>
+                        <div class="pub-stat-card">
+                            <div class="pub-stat-card__icon"><i class="bi bi-layers text-success" aria-hidden="true"></i></div>
+                            <div class="pub-stat-card__value">Clean Arch</div>
+                            <div class="pub-stat-card__label">Design Pattern</div>
+                        </div>
+                        <div class="pub-stat-card">
+                            <div class="pub-stat-card__icon"><i class="bi bi-code-slash text-info" aria-hidden="true"></i></div>
+                            <div class="pub-stat-card__value">ASP.NET</div>
+                            <div class="pub-stat-card__label">Primary Framework</div>
                         </div>
                     </div>
                 </div>
@@ -102,196 +77,149 @@
         </div>
     </div>
 </section>
-
-<!-- Developer Motivation Section -->
-<section class="developer-motivation py-5 bg-light">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="display-5 fw-bold mb-3">The Motivation</h2>
-            <p class="lead text-muted">What drove the creation of this project</p>
+<section class="pub-section pub-section--alt">
+    <div class="pub-section__inner">
+        <div class="pub-section__header">
+            <h2 class="pub-section__title">The Motivation</h2>
+            <p class="pub-section__subtitle">What drove the creation of this project</p>
         </div>
-        
-        <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <div class="motivation-card glass p-5 rounded-4" data-fade-in>
-                    <div class="motivation-content">
-                        <blockquote class="blockquote text-center mb-4">
-                            <p class="fs-4 fst-italic">"@Model.DeveloperStory.Motivation"</p>
-                        </blockquote>
-                        
-                        <div class="challenges-section mt-5">
-                            <h4 class="fw-bold mb-3 text-center">Challenges Solved</h4>
-                            <p class="text-muted text-center">@Model.DeveloperStory.ChallengesSolved</p>
-                        </div>
-                    </div>
+        <div class="pub-centered-narrow">
+            <div class="motivation-card glass p-5 rounded-4" data-fade-in>
+                <blockquote class="blockquote text-center mb-4">
+                    <p class="fs-4 fst-italic">"@Model.DeveloperStory.Motivation"</p>
+                </blockquote>
+                <div class="mt-5 text-center">
+                    <h3 class="h4 fw-bold mb-3">Challenges Solved</h3>
+                    <p class="text-muted">@Model.DeveloperStory.ChallengesSolved</p>
                 </div>
             </div>
         </div>
     </div>
 </section>
-
-<!-- Technical Decisions Section -->
-<section class="technical-decisions py-5 parallax-container" data-parallax="0.2">
-    <div class="container">
-        <div class="text-center mb-5 cascade-animation">
-            <h2 class="display-5 fw-bold mb-3 gradient-text">Technical Decisions</h2>
-            <p class="lead text-muted">Key architectural and implementation choices</p>
+<section class="pub-section technical-decisions parallax-container" data-parallax="0.2">
+    <div class="pub-section__inner">
+        <div class="pub-section__header cascade-animation">
+            <h2 class="pub-section__title gradient-text">Technical Decisions</h2>
+            <p class="pub-section__subtitle">Key architectural and implementation choices</p>
         </div>
-
-        <div class="row g-4 cascade-animation">
+        <div class="pub-2col-grid cascade-animation">
             @if (Model.DeveloperStory.TechnicalDecisions.Any())
             {
                 @for (int i = 0; i < Model.DeveloperStory.TechnicalDecisions.Count; i++)
                 {
                     var decision = Model.DeveloperStory.TechnicalDecisions[i];
-                    <div class="col-lg-6" data-fade-in>
-                        <div class="decision-card glass-deep spotlight-card feature-highlight hover-lift h-100 p-4 wp-card-3d floating">
-                            <div class="decision-header d-flex align-items-center mb-3">
-                                <div class="decision-number me-3">
-                                    <div class="number-circle bg-primary text-white d-flex align-items-center justify-content-center fw-bold pulse-glow">
-                                        @(i + 1)
-                                    </div>
-                                </div>
-                                <h5 class="decision-title fw-bold mb-0 gradient-text">Technical Decision @(i + 1)</h5>
-                            </div>
-                            <p class="decision-description text-muted">@decision</p>
+                    <div class="decision-card glass-deep spotlight-card pub-feature-card hover-lift floating" data-fade-in>
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="pub-step-number me-3">@(i + 1)</div>
+                            <h3 class="pub-feature-card__title mb-0 gradient-text">Technical Decision @(i + 1)</h3>
                         </div>
+                        <p class="pub-feature-card__desc">@decision</p>
                     </div>
                 }
             }
         </div>
     </div>
 </section>
-
-<!-- Lessons Learned Section -->
-<section class="lessons-learned py-5 bg-light">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="display-5 fw-bold mb-3">Lessons Learned</h2>
-            <p class="lead text-muted">Insights gained throughout the development journey</p>
+<section class="pub-section pub-section--alt">
+    <div class="pub-section__inner">
+        <div class="pub-section__header">
+            <h2 class="pub-section__title">Lessons Learned</h2>
+            <p class="pub-section__subtitle">Insights gained throughout the development journey</p>
         </div>
-
-        <div class="row g-4">
+        <div class="pub-2col-grid">
             @if (Model.DeveloperStory.LessonsLearned.Any())
             {
                 @foreach (var lesson in Model.DeveloperStory.LessonsLearned)
                 {
-                    <div class="col-lg-6" data-fade-in>
-                        <div class="lesson-card glass spotlight-card hover-lift h-100 p-4">
-                            <div class="lesson-icon mb-3">
-                                <i class="bi bi-lightbulb text-warning display-5"></i>
-                            </div>
-                            <p class="lesson-text mb-0">@lesson</p>
+                    <div class="lesson-card glass spotlight-card pub-feature-card hover-lift" data-fade-in>
+                        <div class="mb-3">
+                            <i class="bi bi-lightbulb text-warning" style="font-size: 2rem;" aria-hidden="true"></i>
                         </div>
+                        <p class="mb-0">@lesson</p>
                     </div>
                 }
             }
         </div>
     </div>
 </section>
-
-<!-- Technical Achievements Section -->
-<section class="technical-achievements py-5">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="display-5 fw-bold mb-3">Technical Achievements</h2>
-            <p class="lead text-muted">Notable implementations and innovations</p>
+<section class="pub-section">
+    <div class="pub-section__inner">
+        <div class="pub-section__header">
+            <h2 class="pub-section__title">Technical Achievements</h2>
+            <p class="pub-section__subtitle">Notable implementations and innovations</p>
         </div>
-
-        <div class="row g-4">
+        <div class="pub-features-grid">
             @foreach (var achievement in Model.TechnicalAchievements)
             {
-                <div class="col-lg-4 col-md-6" data-fade-in>
-                    <div class="achievement-card glass spotlight-card hover-lift h-100 p-4">
-                        <div class="achievement-header mb-3">
-                            <div class="achievement-category mb-2">
-                                <span class="wp-badge bg-success bg-opacity-20 text-success">@achievement.Category</span>
-                            </div>
-                            <h4 class="achievement-title fw-bold mb-2">@achievement.FeatureName</h4>
-                        </div>
-                        <p class="achievement-description text-muted mb-3">@achievement.Description</p>
-                        @if (achievement.TechnicalDetails.Any())
-                        {
-                            <div class="technical-details">
-                                <h6 class="fw-semibold mb-2">Technical Details:</h6>
-                                <ul class="list-unstyled">
-                                    @foreach (var detail in achievement.TechnicalDetails.Take(3))
-                                    {
-                                        <li class="mb-1">
-                                            <i class="bi bi-check-circle text-success me-2"></i>
-                                            <small>@detail</small>
-                                        </li>
-                                    }
-                                </ul>
-                            </div>
-                        }
+                <div class="pub-feature-card glass spotlight-card hover-lift" data-fade-in>
+                    <div class="pub-feature-card__category">
+                        <span class="wp-badge bg-success  text-white">@achievement.Category</span>
                     </div>
+                    <h3 class="pub-feature-card__title">@achievement.FeatureName</h3>
+                    <p class="pub-feature-card__desc">@achievement.Description</p>
+                    @if (achievement.TechnicalDetails.Any())
+                    {
+                        <ul class="pub-feature-card__details">
+                            @foreach (var detail in achievement.TechnicalDetails.Take(3))
+                            {
+                                <li class="pub-feature-card__detail-item">
+                                    <i class="bi bi-check-circle pub-feature-card__check" aria-hidden="true"></i>
+                                    <small>@detail</small>
+                                </li>
+                            }
+                        </ul>
+                    }
                 </div>
             }
         </div>
     </div>
 </section>
-
-<!-- Future Vision Section -->
-<section class="future-vision py-5 bg-light">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6" data-fade-in>
-                <div class="future-content">
-                    <h2 class="display-5 fw-bold mb-4">Future Vision</h2>
-                    <p class="lead text-muted mb-4">@Model.DeveloperStory.FutureVision</p>
-                    
-                    <div class="future-plans">
-                        <h5 class="fw-semibold mb-3">Planned Enhancements:</h5>
-                        <ul class="list-unstyled">
-                            <li class="mb-2">
-                                <i class="bi bi-arrow-right text-primary me-2"></i>Microservices Architecture Migration
-                            </li>
-                            <li class="mb-2">
-                                <i class="bi bi-arrow-right text-primary me-2"></i>Advanced Analytics Dashboard
-                            </li>
-                            <li class="mb-2">
-                                <i class="bi bi-arrow-right text-primary me-2"></i>Machine Learning Recommendations
-                            </li>
-                            <li class="mb-2">
-                                <i class="bi bi-arrow-right text-primary me-2"></i>Mobile Application Development
-                            </li>
-                        </ul>
-                    </div>
+<section class="pub-section pub-section--alt">
+    <div class="pub-section__inner">
+        <div class="pub-split">
+            <div class="pub-split__content" data-fade-in>
+                <h2 class="pub-section__title">Future Vision</h2>
+                <p class="pub-hero__description">@Model.DeveloperStory.FutureVision</p>
+                <div>
+                    <h3 class="h5 fw-semibold mb-3">Planned Enhancements:</h3>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="bi bi-arrow-right text-primary me-2" aria-hidden="true"></i>Microservices Architecture Migration</li>
+                        <li class="mb-2"><i class="bi bi-arrow-right text-primary me-2" aria-hidden="true"></i>Advanced Analytics Dashboard</li>
+                        <li class="mb-2"><i class="bi bi-arrow-right text-primary me-2" aria-hidden="true"></i>Machine Learning Recommendations</li>
+                        <li class="mb-2"><i class="bi bi-arrow-right text-primary me-2" aria-hidden="true"></i>Mobile Application Development</li>
+                    </ul>
                 </div>
             </div>
-            <div class="col-lg-6" data-fade-in>
-                <div class="future-visual">
-                    <div class="roadmap-card glass p-4 rounded-4">
-                        <h5 class="fw-bold mb-4 text-center">Development Roadmap</h5>
-                        <div class="roadmap-timeline">
-                            <div class="timeline-item mb-3">
-                                <div class="timeline-marker bg-success"></div>
-                                <div class="timeline-content">
-                                    <h6 class="fw-semibold">Phase 1: Foundation</h6>
-                                    <small class="text-muted">Clean Architecture Implementation</small>
-                                </div>
+            <div class="pub-split__visual" data-fade-in>
+                <div class="pub-split__card">
+                    <h3 class="h5 fw-bold mb-4 text-center">Development Roadmap</h3>
+                    <div class="roadmap-timeline">
+                        <div class="timeline-item mb-3">
+                            <div class="timeline-marker bg-success"></div>
+                            <div class="timeline-content">
+                                <h4 class="h6 fw-semibold">Phase 1: Foundation</h4>
+                                <small class="text-muted">Clean Architecture Implementation</small>
                             </div>
-                            <div class="timeline-item mb-3">
-                                <div class="timeline-marker bg-success"></div>
-                                <div class="timeline-content">
-                                    <h6 class="fw-semibold">Phase 2: Features</h6>
-                                    <small class="text-muted">Core Functionality & UI</small>
-                                </div>
+                        </div>
+                        <div class="timeline-item mb-3">
+                            <div class="timeline-marker bg-success"></div>
+                            <div class="timeline-content">
+                                <h4 class="h6 fw-semibold">Phase 2: Features</h4>
+                                <small class="text-muted">Core Functionality &amp; UI</small>
                             </div>
-                            <div class="timeline-item mb-3">
-                                <div class="timeline-marker bg-primary"></div>
-                                <div class="timeline-content">
-                                    <h6 class="fw-semibold">Phase 3: Enhancement</h6>
-                                    <small class="text-muted">Advanced Features & Analytics</small>
-                                </div>
+                        </div>
+                        <div class="timeline-item mb-3">
+                            <div class="timeline-marker bg-primary"></div>
+                            <div class="timeline-content">
+                                <h4 class="h6 fw-semibold">Phase 3: Enhancement</h4>
+                                <small class="text-muted">Advanced Features &amp; Analytics</small>
                             </div>
-                            <div class="timeline-item">
-                                <div class="timeline-marker bg-secondary"></div>
-                                <div class="timeline-content">
-                                    <h6 class="fw-semibold">Phase 4: Scale</h6>
-                                    <small class="text-muted">Microservices & Mobile</small>
-                                </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-marker bg-secondary"></div>
+                            <div class="timeline-content">
+                                <h4 class="h6 fw-semibold">Phase 4: Scale</h4>
+                                <small class="text-muted">Microservices &amp; Mobile</small>
                             </div>
                         </div>
                     </div>
@@ -300,132 +228,164 @@
         </div>
     </div>
 </section>
-
-<!-- Contact & Collaboration Section -->
-<section class="contact-collaboration py-5">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="display-5 fw-bold mb-3">Let's Connect</h2>
-            <p class="lead text-muted">Interested in collaboration or have questions about the project?</p>
+<section class="pub-section">
+    <div class="pub-section__inner">
+        <div class="pub-section__header">
+            <h2 class="pub-section__title">Let's Connect</h2>
+            <p class="pub-section__subtitle">Interested in collaboration or have questions about the project?</p>
         </div>
-        
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <div class="contact-card glass p-5 text-center" data-fade-in>
-                    <div class="contact-info mb-4">
-                        <h4 class="fw-bold mb-3">@Model.ContactInfo.Location</h4>
-                        <p class="text-muted mb-4">Available for opportunities in:</p>
-                        <div class="d-flex flex-wrap justify-content-center gap-2 mb-4">
-                            @foreach (var role in Model.ContactInfo.AvailableForRoles)
-                            {
-                                <span class="wp-badge bg-primary bg-opacity-20 text-primary px-3 py-2">@role</span>
-                            }
-                        </div>
-                    </div>
-                    
-                    <div class="contact-methods mb-4">
-                        <div class="row g-3">
-                            @if (!string.IsNullOrEmpty(Model.ContactInfo.Email))
-                            {
-                                <div class="col-md-4">
-                                    <a href="mailto:@Model.ContactInfo.Email" class="contact-method text-decoration-none">
-                                        <div class="method-card glass p-3 rounded">
-                                            <i class="bi bi-envelope-fill text-primary mb-2 fs-1"></i>
-                                            <h6 class="fw-semibold">Email</h6>
-                                            <small class="text-muted">Get in touch</small>
-                                        </div>
-                                    </a>
-                                </div>
-                            }
-                            @if (!string.IsNullOrEmpty(Model.ContactInfo.LinkedIn))
-                            {
-                                <div class="col-md-4">
-                                    <a href="@Model.ContactInfo.LinkedIn" target="_blank" class="contact-method text-decoration-none">
-                                        <div class="method-card glass p-3 rounded">
-                                            <i class="bi bi-linkedin text-primary mb-2 fs-1"></i>
-                                            <h6 class="fw-semibold">LinkedIn</h6>
-                                            <small class="text-muted">Professional network</small>
-                                        </div>
-                                    </a>
-                                </div>
-                            }
-                            @if (!string.IsNullOrEmpty(Model.ContactInfo.GitHub))
-                            {
-                                <div class="col-md-4">
-                                    <a href="@Model.ContactInfo.GitHub" target="_blank" class="contact-method text-decoration-none">
-                                        <div class="method-card glass p-3 rounded">
-                                            <i class="bi bi-github text-primary mb-2 fs-1"></i>
-                                            <h6 class="fw-semibold">GitHub</h6>
-                                            <small class="text-muted">Code repository</small>
-                                        </div>
-                                    </a>
-                                </div>
-                            }
-                        </div>
-                    </div>
-                    
-                    <!-- Technical Resources -->
-                    @if (Model.ContactInfo.TechnicalResources.Any())
+        <div class="pub-form-card text-center">
+            <h3 class="h4 fw-bold mb-3">@Model.ContactInfo.Location</h3>
+            <p class="text-muted mb-4">Available for opportunities in:</p>
+            <div class="d-flex flex-wrap justify-content-center gap-2 mb-5">
+                @foreach (var role in Model.ContactInfo.AvailableForRoles)
+                {
+                    <span class="wp-badge bg-primary  text-white px-3 py-2">@role</span>
+                }
+            </div>
+            @if (Model.ContactInfo.Email != null || Model.ContactInfo.LinkedIn != null || Model.ContactInfo.GitHub != null)
+            {
+                <div class="pub-contact-methods-grid mb-5">
+                    @if (!string.IsNullOrEmpty(Model.ContactInfo.Email))
                     {
-                        <div class="technical-resources mb-4">
-                            <h6 class="fw-semibold mb-3">Technical Resources:</h6>
-                            <div class="resources-list">
-                                @foreach (var resource in Model.ContactInfo.TechnicalResources.Take(4))
-                                {
-                                    <div class="resource-link-item mb-2">
-                                        <a href="@resource.Url" target="_blank" class="text-decoration-none d-flex align-items-center">
-                                            <i class="@resource.IconClass text-primary me-2"></i>
-                                            <span class="fw-semibold">@resource.Title</span>
-                                            <span class="wp-badge bg-info bg-opacity-20 text-info ms-auto">@resource.Category</span>
-                                        </a>
-                                    </div>
-                                }
-                            </div>
-                        </div>
+                        <a href="mailto:@Model.ContactInfo.Email" class="pub-contact-method-card">
+                            <i class="bi bi-envelope-fill text-primary pub-contact-method-card__icon" aria-hidden="true"></i>
+                            <h4 class="h6 fw-semibold">Email</h4>
+                            <small class="text-muted">Get in touch</small>
+                        </a>
                     }
-                    
-                    <!-- Professional Social Media -->
-                    @if (Model.ContactInfo.SocialMediaLinks.Any())
+                    @if (!string.IsNullOrEmpty(Model.ContactInfo.LinkedIn))
                     {
-                        <div class="social-media mb-4">
-                            <h6 class="fw-semibold mb-3">Professional Networks:</h6>
-                            <div class="social-links-grid">
-                                @foreach (var social in Model.ContactInfo.SocialMediaLinks)
-                                {
-                                    <a href="@social.Url" target="_blank" class="social-link-item text-decoration-none">
-                                        <i class="@social.IconClass me-2"></i>@social.Platform
-                                    </a>
-                                }
-                            </div>
-                        </div>
+                        <a href="@Model.ContactInfo.LinkedIn" target="_blank" rel="noopener" class="pub-contact-method-card">
+                            <i class="bi bi-linkedin text-primary pub-contact-method-card__icon" aria-hidden="true"></i>
+                            <h4 class="h6 fw-semibold">gurpreet-singh57</h4>
+                            <small class="text-muted">LinkedIn Profile</small>
+                        </a>
                     }
-                    
-                    <div class="collaboration-status">
-                        @if (Model.ContactInfo.OpenToCollaboration)
-                        {
-                            <div class="alert alert-success d-inline-flex align-items-center">
-                                <i class="bi bi-check-circle-fill me-2"></i>
-                                Open to collaboration and new opportunities
-                            </div>
-                        }
-                    </div>
-                    
-                    <div class="cta-actions mt-4">
-                        <a asp-action="TechnicalDetails" class="wp-btn-primary magnetic-btn me-3">
-                            <i class="bi bi-gear me-2"></i>Technical Details
+                    @if (!string.IsNullOrEmpty(Model.ContactInfo.GitHub))
+                    {
+                        <a href="@Model.ContactInfo.GitHub" target="_blank" rel="noopener" class="pub-contact-method-card">
+                            <i class="bi bi-github text-primary pub-contact-method-card__icon" aria-hidden="true"></i>
+                            <h4 class="h6 fw-semibold">Gurry-12</h4>
+                            <small class="text-muted">GitHub Profile</small>
                         </a>
-                        <a asp-action="InteractiveDemo" class="wp-btn-outline-primary magnetic-btn">
-                            <i class="bi bi-play-circle me-2"></i>Live Demo
-                        </a>
-                    </div>
+                    }
                 </div>
+            }
+            @if (Model.ContactInfo.TechnicalResources.Any())
+            {
+                <div class="text-start mb-4">
+                    <h4 class="h6 fw-semibold mb-3">Technical Resources:</h4>
+                    @foreach (var resource in Model.ContactInfo.TechnicalResources.Take(4))
+                    {
+                        <div class="mb-2">
+                            <a href="@resource.Url" target="_blank" rel="noopener" class="text-decoration-none d-flex align-items-center">
+                                <i class="@resource.IconClass text-primary me-2" aria-hidden="true"></i>
+                                <span class="fw-semibold">@resource.Title</span>
+                                <span class="wp-badge bg-info  text-white ms-auto">@resource.Category</span>
+                            </a>
+                        </div>
+                    }
+                </div>
+            }
+            @if (Model.ContactInfo.OpenToCollaboration)
+            {
+                <div class="alert alert-success d-inline-flex align-items-center mb-4">
+                    <i class="bi bi-check-circle-fill me-2" aria-hidden="true"></i>
+                    Open to collaboration and new opportunities
+                </div>
+            }
+            <div class="pub-hero__actions justify-content-center">
+                <a asp-action="TechnicalDetails" class="wp-btn wp-btn-primary magnetic-btn">
+                    <i class="bi bi-gear me-2" aria-hidden="true"></i>Technical Details
+                </a>
+                <a asp-action="InteractiveDemo" class="wp-btn wp-btn-outline magnetic-btn">
+                    <i class="bi bi-play-circle me-2" aria-hidden="true"></i>Live Demo
+                </a>
             </div>
         </div>
     </div>
 </section>
-
 @section Styles {
-    
+    <style>
+        .pub-stat-card, .motivation-card, .decision-card, .lesson-card, .pub-feature-card, .pub-contact-method-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(var(--primary-color-rgb), 0.1);
+            background: rgba(var(--surface-color-rgb), 0.7);
+            backdrop-filter: blur(12px);
+            border-radius: var(--radius-lg);
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        /* Hover lifting */
+        .pub-stat-card:hover, .motivation-card:hover, .decision-card:hover, .lesson-card:hover, .pub-feature-card:hover, .pub-contact-method-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgba(var(--primary-color-rgb), 0.15);
+            border-color: rgba(var(--primary-color-rgb), 0.3);
+        }
+
+        /* Background glow effect */
+        .pub-stat-card::after, .motivation-card::after, .decision-card::after, .lesson-card::after, .pub-feature-card::after, .pub-contact-method-card::after {
+             content: '';
+             position: absolute;
+             top: 0; left: 0; right: 0; bottom: 0;
+             background: radial-gradient(circle at top right, rgba(var(--primary-color-rgb), 0.1), transparent 70%);
+             opacity: 0;
+             transition: opacity 0.4s;
+             z-index: -1;
+             pointer-events: none;
+        }
+
+        .pub-stat-card:hover::after, .motivation-card:hover::after, .decision-card:hover::after, .lesson-card:hover::after, .pub-feature-card:hover::after, .pub-contact-method-card:hover::after {
+            opacity: 1;
+        }
+
+        /* Fun interaction for icons */
+        .pub-stat-card__icon i, .lesson-card i, .pub-contact-method-card__icon { 
+            position: relative; 
+            z-index: 1; 
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: inline-block;
+        }
+        .pub-stat-card:hover .pub-stat-card__icon i, .lesson-card:hover i, .pub-contact-method-card:hover .pub-contact-method-card__icon {
+            transform: scale(1.3) rotate(5deg);
+        }
+
+        /* Timeline hover effect */
+        .timeline-item {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 1rem;
+            border-radius: var(--radius-md);
+            border: 1px solid transparent;
+            cursor: default;
+        }
+        .timeline-item:hover {
+            background: rgba(var(--surface-color-rgb), 0.5);
+            backdrop-filter: blur(8px);
+            border-color: rgba(var(--primary-color-rgb), 0.2);
+            transform: translateX(10px) scale(1.02);
+            box-shadow: 0 10px 20px -5px rgba(0,0,0,0.1);
+        }
+        .timeline-marker {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .timeline-item:hover .timeline-marker {
+            transform: scale(1.5);
+            box-shadow: 0 0 15px currentColor;
+        }
+
+        /* 3D tilt floating */
+        @@keyframes float-tilt {
+            0%, 100% { transform: translateY(0) rotate(-1deg); }
+            50% { transform: translateY(-10px) rotate(1deg); }
+        }
+        .pub-split__visual .pub-split__card {
+            animation: float-tilt 5s ease-in-out infinite;
+        }
+    </style>
 }
 
 @section Scripts {

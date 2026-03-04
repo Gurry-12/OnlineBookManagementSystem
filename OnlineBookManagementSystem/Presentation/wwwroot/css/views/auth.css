@@ -8,36 +8,130 @@
    VIEW: view-auth-login
    ======================================== */
 
-.view-auth-login {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--space-4);
-}
-
-.view-auth-login .auth-grid {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-/* ========================================
-   VIEW: view-auth-register
-   ======================================== */
-
+.view-auth-login,
 .view-auth-register {
-  min-height: 100vh;
+  min-height: calc(100vh - 8rem);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--space-4);
+  padding: clamp(var(--space-4), 5vh, var(--space-8)) var(--space-4);
+  margin-top: 4rem;
 }
 
+.view-auth-login .auth-grid,
 .view-auth-register .auth-grid {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
+}
+
+
+/* ========================================
+   Onboarding Info Widget (Auth Views)
+   ======================================== */
+
+.onboarding-info {
+  border-radius: var(--radius-xl);
+  display: flex;
+  flex-direction: column;
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: var(--border-width) solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.onboarding-steps {
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3) var(--space-4);
+}
+
+.step-item {
+  padding: var(--space-2) 0;
+  opacity: 0.6;
+  transition: var(--transition-normal);
+  border-left: 2px solid transparent;
+  padding-left: var(--space-3);
+  margin-left: var(--space-2);
+}
+
+.step-item:hover {
+  opacity: 0.8;
+}
+
+.step-item.active {
+  opacity: 1;
+  border-left-color: var(--color-primary);
+}
+
+.step-item.active .step-icon {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.4); /* Based on --color-primary #8b5cf6 */
+  border-color: var(--color-primary);
+}
+
+.step-icon {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: var(--color-surface);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  transition: var(--transition-normal);
+  border: 1px solid var(--color-border);
+}
+
+.step-content {
+  flex: 1;
+}
+
+.step-description {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-subtle);
+  margin-top: var(--space-1);
+}
+
+.stat-card {
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-2);
+  transition: var(--transition-normal);
+  border: 1px solid var(--glass-border);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-primary-light);
+  background: var(--color-surface);
+}
+
+.stat-number {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  line-height: var(--line-height-tight);
+  margin-bottom: var(--space-1);
+}
+
+.stat-label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: var(--font-weight-medium);
 }
 
 /* ========================================
@@ -77,14 +171,127 @@
 }
 
 /* ========================================
-   RESPONSIVE
+   VIEW: view-auth-confirm (Email Confirmation)
+   Replaces inline min-height, max-width,
+   border-radius, and icon sizing
    ======================================== */
 
-@media (max-width: 768px) {
+.view-auth-confirm {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+}
+
+.auth-confirm-card {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.auth-confirm-card__icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: var(--space-4);
+  font-size: 4rem;
+  line-height: 1;
+}
+
+.auth-confirm-card__icon--success {
+  color: var(--color-success);
+}
+
+.auth-confirm-card__icon--danger {
+  color: var(--color-danger);
+}
+
+.auth-confirm-card__heading {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--space-3);
+}
+
+.auth-confirm-card__message {
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-5);
+  line-height: var(--line-height-relaxed);
+}
+
+
+/* ========================================
+   RESPONSIVE — Multi-Breakpoint Strategy
+   (Replaces single max-width:768px fallback)
+   ======================================== */
+
+/* XS — phones (< 480px): tighter padding, single-column layout */
+@media (max-width: 479px) {
+  .view-auth-login,
+  .view-auth-register,
+  .view-auth-forgot-password,
+  .view-auth-reset-password {
+    padding: var(--space-2);
+    align-items: flex-start;
+    padding-top: var(--space-6);
+  }
+
+  .view-auth-login .auth-grid,
+  .view-auth-register .auth-grid,
+  .view-auth-forgot-password .auth-container,
+  .view-auth-reset-password .auth-container {
+    max-width: 100%;
+  }
+}
+
+/* SM — small tablets / large phones (480px – 767px) */
+@media (min-width: 480px) and (max-width: 767px) {
   .view-auth-login,
   .view-auth-register,
   .view-auth-forgot-password,
   .view-auth-reset-password {
     padding: var(--space-3);
+  }
+
+  .view-auth-login .auth-grid,
+  .view-auth-register .auth-grid {
+    max-width: 480px;
+  }
+
+  .view-auth-forgot-password .auth-container,
+  .view-auth-reset-password .auth-container {
+    max-width: 440px;
+  }
+}
+
+/* MD — tablets (768px – 1023px): optional illustration hide */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .view-auth-login,
+  .view-auth-register {
+    padding: clamp(var(--space-4), 4vw, var(--space-8));
+  }
+
+  .view-auth-login .auth-grid,
+  .view-auth-register .auth-grid {
+    max-width: 860px;
+  }
+
+  /* Collapse illustration panel to save horizontal space on tablet */
+  .view-auth-login .auth-illustration,
+  .view-auth-register .auth-illustration {
+    display: none;
+  }
+}
+
+/* LG — desktops (1024px+): full two-column layout */
+@media (min-width: 1024px) {
+  .view-auth-login,
+  .view-auth-register {
+    padding: clamp(var(--space-6), 5vw, var(--space-12));
+  }
+
+  .view-auth-login .auth-grid,
+  .view-auth-register .auth-grid {
+    max-width: 1200px;
   }
 }

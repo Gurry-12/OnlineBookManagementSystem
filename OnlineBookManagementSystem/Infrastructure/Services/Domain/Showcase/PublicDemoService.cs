@@ -9,6 +9,7 @@ using OnlineBookManagementSystem.Infrastructure.Services.Infrastructure.Performa
 using OnlineBookManagementSystem.Presentation.ViewModels.Books;
 using OnlineBookManagementSystem.Presentation.ViewModels.Reviews;
 using OnlineBookManagementSystem.Presentation.ViewModels.Showcase;
+using TechnicalHighlight = OnlineBookManagementSystem.Presentation.ViewModels.Showcase.TechnicalHighlight;
 
 namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Showcase
 {
@@ -361,7 +362,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Showcase
             }
         }
 
-        public async Task<List<OnlineBookManagementSystem.Core.Domain.Entities.TechnicalHighlight>> GetTechnicalHighlightsAsync(string? category = null)
+        public async Task<List<TechnicalHighlight>> GetTechnicalHighlightsAsync(string? category = null)
         {
             await Task.CompletedTask; // Placeholder for future database implementation
 
@@ -645,13 +646,19 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Showcase
                 {
                     new() { Name = "ASP.NET Core 8", Description = "Modern web framework", IconClass = "fab fa-microsoft", Version = "8.0" },
                     new() { Name = "Entity Framework Core", Description = "ORM for data access", IconClass = "fas fa-database", Version = "8.0" },
-                    new() { Name = "SQLite", Description = "Lightweight database", IconClass = "fas fa-database", Version = "3.0" }
                 },
                 FrontendTechnologies = new List<TechnologyViewModel>
                 {
                     new() { Name = "HTML5", Description = "Modern markup", IconClass = "fab fa-html5", Version = "5.0" },
                     new() { Name = "CSS3", Description = "Advanced styling", IconClass = "fab fa-css3-alt", Version = "3.0" },
                     new() { Name = "JavaScript", Description = "Interactive functionality", IconClass = "fab fa-js-square", Version = "ES6+" }
+                },
+                DatabaseTechnologies = new List<TechnologyViewModel>
+                {
+                    new() { Name = "SQLite", Description = "Lightweight database", IconClass = "fas fa-database", Version = "3.0" },
+                    new() { Name = "PostgreSQL", Description = "Relational database", IconClass = "fas fa-database", Version = "15.0" },
+                    new() { Name = "MySQL", Description = "Relational database", IconClass = "fas fa-database", Version = "8.0" },
+                    new() { Name = "SQL Server", Description = "Relational database", IconClass = "fas fa-database", Version = "15.0" }
                 },
                 TestingTechnologies = new List<TechnologyViewModel>
                 {
@@ -742,30 +749,27 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Showcase
             return new ContactInformationViewModel
             {
                 Email = "developer@whispering-pages.com",
-                GitHub = "https://github.com/developer/online-book-management",
-                LinkedIn = "https://linkedin.com/in/developer",
-                Portfolio = "https://developer-portfolio.com",
+                GitHub = "https://github.com/Gurry-12/OnlineBookManagementSystem/",
+                LinkedIn = "https://www.linkedin.com/in/gurpreet-singh57/",
+                Portfolio = "https://gurpreetdev.netlify.app/",
                 Location = "Available Remotely",
                 AvailableForRoles = new List<string> { "Full Stack Developer", "Software Architect", "Technical Lead" },
                 OpenToCollaboration = true,
-                TechnicalDocumentationUrl = "https://github.com/developer/online-book-management/wiki",
-                ArchitectureDocumentationUrl = "https://github.com/developer/online-book-management/blob/main/docs/ARCHITECTURE.md",
-                ApiDocumentationUrl = "https://github.com/developer/online-book-management/blob/main/docs/API.md",
+                TechnicalDocumentationUrl = "https://github.com/Gurry-12/OnlineBookManagementSystem/wiki",
+                ArchitectureDocumentationUrl = "https://github.com/Gurry-12/OnlineBookManagementSystem/blob/main/docs/ARCHITECTURE.md",
+                ApiDocumentationUrl = "https://github.com/Gurry-12/OnlineBookManagementSystem/blob/main/docs/API.md",
                 SocialMediaLinks = new List<SocialMediaLinkViewModel>
                 {
-                    new() { Platform = "LinkedIn", Url = "https://linkedin.com/in/developer", IconClass = "bi bi-linkedin", DisplayName = "Professional Profile" },
-                    new() { Platform = "GitHub", Url = "https://github.com/developer", IconClass = "bi bi-github", DisplayName = "Code Repository" },
-                    new() { Platform = "Twitter", Url = "https://twitter.com/developer", IconClass = "bi bi-twitter", DisplayName = "Tech Updates" },
-                    new() { Platform = "Stack Overflow", Url = "https://stackoverflow.com/users/developer", IconClass = "bi bi-stack-overflow", DisplayName = "Technical Q&A" }
+                    new() { Platform = "LinkedIn", Url = "https://www.linkedin.com/in/gurpreet-singh57/", IconClass = "bi bi-linkedin", DisplayName = "Professional Profile" },
+                    new() { Platform = "GitHub", Url = "https://github.com/Gurry-12/", IconClass = "bi bi-github", DisplayName = "Code Repository" }
                 },
                 TechnicalResources = new List<TechnicalResourceViewModel>
                 {
-                    new() { Title = "Project Repository", Url = "https://github.com/developer/online-book-management", Description = "Complete source code with Clean Architecture implementation", IconClass = "bi bi-github", Category = "Repository" },
-                    new() { Title = "Architecture Documentation", Url = "https://github.com/developer/online-book-management/blob/main/docs/ARCHITECTURE.md", Description = "Detailed explanation of Clean Architecture principles and implementation", IconClass = "bi bi-diagram-3", Category = "Documentation" },
-                    new() { Title = "API Documentation", Url = "https://github.com/developer/online-book-management/blob/main/docs/API.md", Description = "RESTful API endpoints and usage examples", IconClass = "bi bi-code-slash", Category = "Documentation" },
+                    new() { Title = "Project Repository", Url = "https://github.com/Gurry-12/OnlineBookManagementSystem/", Description = "Complete source code with Clean Architecture implementation", IconClass = "bi bi-github", Category = "Repository" },
+                    new() { Title = "Architecture Documentation", Url = "https://github.com/Gurry-12/OnlineBookManagementSystem/blob/main/docs/ARCHITECTURE.md", Description = "Detailed explanation of Clean Architecture principles and implementation", IconClass = "bi bi-diagram-3", Category = "Documentation" },
+                    new() { Title = "API Documentation", Url = "https://github.com/Gurry-12/OnlineBookManagementSystem/blob/main/docs/API.md", Description = "RESTful API endpoints and usage examples", IconClass = "bi bi-code-slash", Category = "Documentation" },
                     new() { Title = "Live Demo", Url = "/Public/InteractiveDemo", Description = "Interactive demonstration with real data", IconClass = "bi bi-play-circle", Category = "Demo" },
-                    new() { Title = "Technical Blog", Url = "https://developer-blog.com/clean-architecture-series", Description = "Blog series on Clean Architecture implementation", IconClass = "bi bi-journal-text", Category = "Blog" },
-                    new() { Title = "Video Walkthrough", Url = "https://youtube.com/watch?v=architecture-demo", Description = "Video explanation of the architecture and key features", IconClass = "bi bi-play-btn", Category = "Video" }
+                    new() { Title = "Technical Blog", Url = "https://gurpreetdev.netlify.app/", Description = "Developer Portfolio & Blog", IconClass = "bi bi-journal-text", Category = "Portfolio" }
                 }
             };
         }
@@ -782,9 +786,9 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Showcase
             };
         }
 
-        private List<OnlineBookManagementSystem.Core.Domain.Entities.TechnicalHighlight> GetStaticTechnicalHighlights()
+        private List<TechnicalHighlight> GetStaticTechnicalHighlights()
         {
-            return new List<OnlineBookManagementSystem.Core.Domain.Entities.TechnicalHighlight>
+            return new List<TechnicalHighlight>
             {
                 new()
                 {

@@ -29,46 +29,46 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
             return View("~/Presentation/Views/Categories/CategoryList.cshtml", CategoryList);
         }
 
-        [AllowAnonymous]
-        public async Task<IActionResult> CategoryList()
-        {
-            var categories = await _categoryService.GetAllCategoriesAsync();
+        // [AllowAnonymous]
+        // public async Task<IActionResult> CategoryList()
+        // {
+        //     var categories = await _categoryService.GetAllCategoriesAsync();
 
-            // Create unified CategoryViewModel for public browsing
-            var categoryViewModel = new ViewModels.Categories.CategoryViewModel
-            {
-                Categories = categories.Select(c => new CategoryItemViewModel
-                {
-                    Id = c.Id,
-                    Name = c.Name,
-                    Description = c.Description,
-                    BookCount = c.Books?.Count ?? 0,
-                    CreatedAt = c.CreatedAt,
-                    UpdatedAt = c.UpdatedAt,
-                    Books = c.Books?.Take(6).Select(b => new CategoryBookViewModel
-                    {
-                        Id = b.Id,
-                        Title = b.Title,
-                        Author = b.Author,
-                        Price = b.Price,
-                        StockQuantity = b.StockQuantity,
-                        ImageUrl = b.ImageUrl,
-                        CategoryId = b.CategoryId ?? 0
-                    }).ToList()
-                }).ToList(),
-                TotalCategories = categories.Count(),
-                Capabilities = new CategoryCapabilities
-                {
-                    CanViewBookDetails = true,
-                    CanAddToCart = User.Identity?.IsAuthenticated == true,
-                    ViewMode = "list",
-                    PageTitle = "Browse Categories",
-                    IsAuthenticated = User.Identity?.IsAuthenticated == true
-                }
-            };
+        //     // Create unified CategoryViewModel for public browsing
+        //     var categoryViewModel = new ViewModels.Categories.CategoryViewModel
+        //     {
+        //         Categories = categories.Select(c => new CategoryItemViewModel
+        //         {
+        //             Id = c.Id,
+        //             Name = c.Name,
+        //             Description = c.Description,
+        //             BookCount = c.Books?.Count ?? 0,
+        //             CreatedAt = c.CreatedAt,
+        //             UpdatedAt = c.UpdatedAt,
+        //             Books = c.Books?.Take(6).Select(b => new CategoryBookViewModel
+        //             {
+        //                 Id = b.Id,
+        //                 Title = b.Title,
+        //                 Author = b.Author,
+        //                 Price = b.Price,
+        //                 StockQuantity = b.StockQuantity,
+        //                 ImageUrl = b.ImageUrl,
+        //                 CategoryId = b.CategoryId ?? 0
+        //             }).ToList()
+        //         }).ToList(),
+        //         TotalCategories = categories.Count(),
+        //         Capabilities = new CategoryCapabilities
+        //         {
+        //             CanViewBookDetails = true,
+        //             CanAddToCart = User.Identity?.IsAuthenticated == true,
+        //             ViewMode = "list",
+        //             PageTitle = "Browse Categories",
+        //             IsAuthenticated = User.Identity?.IsAuthenticated == true
+        //         }
+        //     };
 
-            return View("~/Presentation/Views/Categories/CategoryList.cshtml", categoryViewModel);
-        }
+        //     return View("~/Presentation/Views/Categories/CategoryList.cshtml", categoryViewModel);
+        // }
 
         [HttpPost]
         [Authorize(Policy = "AdminOrHigher")]

@@ -7,11 +7,11 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-1, 0.25rem);
-  padding: var(--space-1, 0.25rem) var(--space-2, 0.5rem);
-  font-size: var(--font-size-xs, 0.75rem);
-  font-weight: var(--font-weight-semibold, 600);
-  line-height: 1;
+  gap: var(--space-2, 0.5rem);
+  padding: 6px 14px; /* Slightly thicker, more modern pill */
+  font-size: var(--font-size-sm, 0.85rem);
+  font-weight: var(--font-weight-bold, 700);
+  line-height: 1.2;
   text-align: center;
   white-space: nowrap;
   vertical-align: baseline;
@@ -22,31 +22,52 @@
 }
 
 .wp-badge-primary {
-  background-color: var(--color-primary-light, #c4b5fd);
-  color: var(--color-primary-dark, #7c6df0);
+  background-color: var(--color-primary-light);
+  color: var(--color-primary-dark);
 }
 
 .wp-badge-secondary {
-  background-color: var(--color-secondary-light, #94a3b8);
-  color: var(--color-secondary-dark, #475569);
+  background-color: var(--color-secondary-light);
+  color: var(--color-secondary-dark);
 }
 
 .wp-badge-success {
-  background-color: var(--color-success-light, #a7f3d0);
-  color: var(--color-success-dark, #34d399);
+  background-color: var(--color-success-light);
+  color: var(--color-success-dark);
 }
 
 .wp-badge-danger, .wp-badge-error {
-  background-color: var(--color-danger-light, #fecaca);
-  color: var(--color-danger-dark, #f87171);
+  background-color: var(--color-danger-light);
+  color: var(--color-danger-dark);
 }
 
 .wp-badge-warning {
-  background-color: var(--color-warning-light, #fef3c7);
-  color: var(--color-warning-dark, #f59e0b);
+  background-color: var(--color-warning-light);
+  color: var(--color-warning-dark);
 }
 
 .wp-badge-info {
-  background-color: var(--color-info-light, #bae6fd);
-  color: var(--color-info-dark, #38bdf8);
+  background-color: var(--color-info-light);
+  color: var(--color-info-dark);
+}
+
+/* ========================================
+   UTILITY CLASS COMPATIBILITY
+   Ensures badges using naked bg-* utilities still have visible text
+   ======================================== */
+.wp-badge.bg-primary,
+.wp-badge.bg-secondary,
+.wp-badge.bg-success,
+.wp-badge.bg-danger,
+.wp-badge.bg-info,
+.wp-badge.bg-dark {
+  color: #ffffff; /* High contrast for base colors */
+}
+
+.wp-badge.bg-warning {
+  color: #0f172a; /* Dark text for amber/warning background */
+}
+
+.wp-badge.bg-light {
+  color: #1f2937; /* Dark text for light background */
 }

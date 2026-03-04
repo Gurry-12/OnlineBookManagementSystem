@@ -25,7 +25,7 @@
                 </div>
                 @if (Model.Capabilities.CanClearCart && Model.HasItems)
                 {
-                    <button class="wp-btn-outline-danger" onclick="clearCart()">
+                    <button class="wp-btn wp-btn-outline-danger" onclick="clearCart()">
                         <i class="bi bi-trash me-2"></i>Clear Cart
                     </button>
                 }
@@ -60,7 +60,7 @@
             </p>
             @if (!Model.Capabilities.IsReadOnly)
             {
-                <a href="@Model.Capabilities.BackLinkUrl" class="wp-btn-primary wp-btn-lg">
+                <a href="@Model.Capabilities.BackLinkUrl" class="wp-btn wp-btn-primary wp-btn-lg">
                     <i class="bi bi-arrow-left me-2"></i>@Model.Capabilities.BackLinkText
                 </a>
             }

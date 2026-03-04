@@ -35,394 +35,371 @@
     </script>";
 }
 
-<!-- Technical Hero Section -->
-<section class="technical-hero aurora-bg noise-overlay py-5" role="banner" aria-labelledby="technical-hero-heading">
-    <div class="container">
-        <div class="row align-items-center min-vh-50">
-            <div class="col-lg-8 mx-auto text-center" data-fade-in>
-                <div class="hero-content">
-                    <div class="hero-badge mb-3">
-                        <span class="wp-badge bg-primary bg-opacity-20 text-primary px-4 py-2 rounded-pill fs-6">
-                            <i class="bi bi-gear me-2" aria-hidden="true"></i>Technical Deep Dive
-                        </span>
-                    </div>
-                    <h1 id="technical-hero-heading" class="display-3 fw-bold text-white mb-4">
-                        Architecture & Implementation
-                    </h1>
-                    <p class="lead text-white-75 mb-4 fs-4">
-                        Explore the technical decisions, architectural patterns, and implementation details 
-                        behind this comprehensive book management system.
-                    </p>
-                    <div class="hero-actions d-flex flex-wrap justify-content-center gap-3" role="group" aria-label="Navigation actions">
-                        <a asp-action="InteractiveDemo" class="wp-btn-primary magnetic-btn holographic wp-btn-lg"
-                           aria-label="Try the interactive demo">
-                            <i class="bi bi-play-circle me-2" aria-hidden="true"></i>Live Demo
-                        </a>
-                        <a asp-action="Index" class="wp-btn-outline-light magnetic-btn wp-btn-lg"
-                           aria-label="Return to main showcase">
-                            <i class="bi bi-house me-2" aria-hidden="true"></i>Back to Showcase
-                        </a>
-                    </div>
-                </div>
-            </div>
+<section class="technical-hero aurora-bg noise-overlay" role="banner" aria-labelledby="technical-hero-heading">
+    <div class="pub-hero--centered">
+        <div class="pub-hero__eyebrow">
+            <i class="bi bi-gear me-2" aria-hidden="true"></i>Technical Deep Dive
+        </div>
+        <h1 id="technical-hero-heading" class="pub-hero__title ">
+            Architecture &amp; Implementation
+        </h1>
+        <p class="pub-hero__description ">
+            Explore the technical decisions, architectural patterns, and implementation details
+            behind this comprehensive book management system.
+        </p>
+        <div class="pub-hero__actions" role="group" aria-label="Navigation actions">
+            <a asp-action="InteractiveDemo" class="wp-btn wp-btn-primary magnetic-btn holographic wp-btn-lg"
+               aria-label="Try the interactive demo">
+                <i class="bi bi-play-circle me-2" aria-hidden="true"></i>Live Demo
+            </a>
+            <a asp-action="Index" class="wp-btn wp-btn-outline magnetic-btn wp-btn-lg"
+               aria-label="Return to main showcase">
+                <i class="bi bi-house me-2" aria-hidden="true"></i>Back to Showcase
+            </a>
         </div>
     </div>
 </section>
 
-<!-- Clean Architecture Section -->
-<section class="architecture-section py-5" aria-labelledby="architecture-heading">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 id="architecture-heading" class="display-5 fw-bold mb-3">@Model.Architecture.ArchitectureType</h2>
-            <p class="lead text-muted">@Model.Architecture.ArchitectureDescription</p>
-        </div>
 
-        <div class="row g-4 mb-5" role="group" aria-label="Architecture layers">
+<section class="pub-section" aria-labelledby="architecture-heading">
+    <div class="pub-section__inner">
+        <div class="pub-section__header">
+            <h2 id="architecture-heading" class="pub-section__title">@Model.Architecture.ArchitectureType</h2>
+            <p class="pub-section__subtitle">@Model.Architecture.ArchitectureDescription</p>
+        </div>
+        <div class="pub-4col-grid" role="group" aria-label="Architecture layers">
             @foreach (var layer in Model.Architecture.Layers)
             {
-                <div class="col-lg-3 col-md-6" data-fade-in>
-                    <article class="architecture-layer-card glass spotlight-card hover-lift h-100 p-4 text-center"
-                             role="article" aria-labelledby="layer-@layer.Name.Replace(" ", "-").ToLower()">
-                        <div class="layer-visual mb-3">
-                            <div class="layer-circle mx-auto d-flex align-items-center justify-content-center" 
-                                 style="background-color: @layer.Color;"
-                                 role="img" aria-label="@layer.Name layer icon">
-                                <i class="bi bi-layers text-white layer-icon" aria-hidden="true"></i>
-                            </div>
+                <article class="architecture-layer-card glass spotlight-card hover-lift p-4 text-center"
+                         role="article" aria-labelledby="layer-@layer.Name.Replace(" ", "-").ToLower()">
+                    <div class="mb-3">
+                        <div class="layer-circle mx-auto d-flex align-items-center justify-content-center"
+                             style="background-color: @layer.Color;"
+                             role="img" aria-label="@layer.Name layer icon">
+                            <i class="bi bi-layers  layer-icon" aria-hidden="true"></i>
                         </div>
-                        <h3 id="layer-@layer.Name.Replace(" ", "-").ToLower()" class="layer-name fw-bold mb-3" style="color: @layer.Color;">@layer.Name</h3>
-                        <p class="layer-description text-muted mb-3">@layer.Description</p>
-                        @if (!string.IsNullOrEmpty(layer.Responsibilities))
-                        {
-                            <div class="layer-responsibilities">
-                                <h4 class="fw-semibold mb-2 h6">Responsibilities:</h4>
-                                <p class="small text-muted">@layer.Responsibilities</p>
-                            </div>
-                        }
-                    </article>
-                </div>
+                    </div>
+                    <h3 id="layer-@layer.Name.Replace(" ", "-").ToLower()" class="layer-name fw-bold mb-3" style="color: @layer.Color;">@layer.Name</h3>
+                    <p class="text-muted mb-3">@layer.Description</p>
+                    @if (!string.IsNullOrEmpty(layer.Responsibilities))
+                    {
+                        <div>
+                            <h4 class="fw-semibold mb-2 h6">Responsibilities:</h4>
+                            <p class="small text-muted">@layer.Responsibilities</p>
+                        </div>
+                    }
+                </article>
             }
         </div>
 
-        <!-- Architecture Diagram -->
-        <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <figure class="architecture-diagram glass p-5 rounded-4" data-fade-in role="img" aria-labelledby="dependency-diagram-heading">
-                    <h3 id="dependency-diagram-heading" class="text-center fw-bold mb-4">Dependency Flow</h3>
-                    <div class="diagram-container">
-                        <div class="layer-stack">
-                            @for (int i = 0; i < Model.Architecture.Layers.Count; i++)
-                            {
-                                var layer = Model.Architecture.Layers[i];
-                                <div class="diagram-layer mb-3 p-3 rounded text-center position-relative text-white" 
-                                     style="background-color: @layer.Color; opacity: 0.9;"
-                                     role="img" aria-label="@layer.Name layer in dependency flow">
-                                    <h4 class="fw-bold mb-1 h5">@layer.Name Layer</h4>
-                                    <p class="small mb-0">@layer.Description</p>
-                                    @if (i < Model.Architecture.Layers.Count - 1)
-                                    {
-                                        <div class="dependency-arrow" aria-hidden="true">
-                                            <i class="bi bi-arrow-down text-white position-absolute layer-arrow"></i>
-                                        </div>
-                                    }
-                                </div>
-                            }
-                        </div>
+        <div class="pub-centered-narrow mt-5">
+            <figure class="architecture-diagram glass p-5 rounded-4" data-fade-in role="img" aria-labelledby="dependency-diagram-heading">
+                <h3 id="dependency-diagram-heading" class="text-center fw-bold mb-4">Dependency Flow</h3>
+                <div class="diagram-container">
+                    <div class="layer-stack">
+                        @for (int i = 0; i < Model.Architecture.Layers.Count; i++)
+                        {
+                            var layer = Model.Architecture.Layers[i];
+                            <div class="diagram-layer mb-3 p-3 rounded text-center position-relative "
+                                 style="background-color: @layer.Color; opacity: 0.9;"
+                                 role="img" aria-label="@layer.Name layer in dependency flow">
+                                <h4 class="fw-bold mb-1 h5">@layer.Name Layer</h4>
+                                <p class="small mb-0">@layer.Description</p>
+                                @if (i < Model.Architecture.Layers.Count - 1)
+                                {
+                                    <div class="dependency-arrow" aria-hidden="true">
+                                        <i class="bi bi-arrow-down  position-absolute layer-arrow"></i>
+                                    </div>
+                                }
+                            </div>
+                        }
                     </div>
-                    <figcaption class="sr-only">
-                        Clean Architecture dependency flow diagram showing the four layers: 
-                        Presentation, Application, Domain, and Infrastructure, with dependencies flowing inward.
-                    </figcaption>
-                </figure>
-            </div>
+                </div>
+                <figcaption class="sr-only">
+                    Clean Architecture dependency flow diagram showing Presentation, Application, Domain, and Infrastructure layers.
+                </figcaption>
+            </figure>
         </div>
     </div>
 </section>
 
-<!-- SOLID Principles Section -->
-<section class="solid-principles py-5 bg-light">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="display-5 fw-bold mb-3">SOLID Principles Implementation</h2>
-            <p class="lead text-muted">How each principle is applied throughout the codebase</p>
+<section class="pub-section pub-section--alt" aria-labelledby="solid-heading">
+    <div class="pub-section__inner">
+        <div class="pub-section__header">
+            <h2 id="solid-heading" class="pub-section__title">SOLID Principles Implementation</h2>
+            <p class="pub-section__subtitle">How each principle is applied throughout the codebase</p>
         </div>
-
-        <div class="row g-4">
+        <div class="pub-2col-grid">
             @foreach (var principle in Model.Architecture.SOLIDPrinciples)
             {
-                <div class="col-lg-6" data-fade-in>
-                    <div class="principle-card glass spotlight-card hover-lift h-100 p-4">
-                        <div class="principle-header d-flex align-items-center mb-3">
-                            <div class="principle-icon me-3">
-                                <div class="icon-circle bg-primary bg-opacity-20 text-primary d-flex align-items-center justify-content-center">
-                                    <i class="bi bi-check-circle-fill"></i>
-                                </div>
-                            </div>
-                            <div>
-                                <h4 class="principle-name fw-bold mb-1">@principle.Name</h4>
-                                <p class="principle-benefit text-primary small mb-0">@principle.Benefit</p>
-                            </div>
+                <div class="principle-card glass spotlight-card hover-lift p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="icon-circle bg-primary  text-primary d-flex align-items-center justify-content-center me-3">
+                            <i class="bi bi-check-circle-fill" aria-hidden="true"></i>
                         </div>
-                        <p class="principle-description text-muted mb-3">@principle.Description</p>
-                        @if (!string.IsNullOrEmpty(principle.Implementation))
-                        {
-                            <div class="implementation-details">
-                                <h6 class="fw-semibold mb-2">Implementation:</h6>
-                                <p class="small text-muted">@principle.Implementation</p>
-                            </div>
-                        }
+                        <div>
+                            <h3 class="pub-feature-card__title mb-1">@principle.Name</h3>
+                            <p class="text-primary small mb-0">@principle.Benefit</p>
+                        </div>
                     </div>
+                    <p class="pub-feature-card__desc">@principle.Description</p>
+                    @if (!string.IsNullOrEmpty(principle.Implementation))
+                    {
+                        <div>
+                            <h6 class="fw-semibold mb-2">Implementation:</h6>
+                            <p class="small text-muted">@principle.Implementation</p>
+                        </div>
+                    }
                 </div>
             }
         </div>
     </div>
 </section>
 
-<!-- Technical Stack Section -->
-<section class="tech-stack py-5">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="display-5 fw-bold mb-3">Technology Stack</h2>
-            <p class="lead text-muted">Modern technologies powering the application</p>
+
+<section class="pub-section" aria-labelledby="stack-heading">
+    <div class="pub-section__inner">
+        <div class="pub-section__header">
+            <h2 id="stack-heading" class="pub-section__title">Technology Stack</h2>
+            <p class="pub-section__subtitle">Modern technologies powering the application</p>
         </div>
-
-        <div class="row g-4">
-            <!-- Backend Technologies -->
-            <div class="col-lg-3 col-md-6" data-fade-in>
-                <div class="tech-category-card glass spotlight-card hover-lift h-100 p-4">
-                    <div class="category-header text-center mb-4">
-                        <div class="category-icon mb-3">
-                            <i class="bi bi-server text-primary display-5"></i>
-                        </div>
-                        <h4 class="fw-bold text-primary">Backend</h4>
-                    </div>
-                    <div class="tech-list">
-                        @foreach (var tech in Model.TechnicalStack.BackendTechnologies)
-                        {
-                            <div class="tech-item mb-3">
-                                <div class="d-flex align-items-center mb-2">
-                                    <i class="@tech.IconClass me-2 text-primary"></i>
-                                    <span class="fw-semibold">@tech.Name</span>
-                                    @if (!string.IsNullOrEmpty(tech.Version))
-                                    {
-                                        <span class="wp-badge bg-primary bg-opacity-20 text-primary ms-auto">@tech.Version</span>
-                                    }
-                                </div>
-                                <p class="small text-muted mb-0">@tech.Description</p>
+        <div class="pub-tech-stack-grid">
+            <div class="tech-category-card glass spotlight-card hover-lift p-4">
+                <div class="text-center mb-4">
+                    <i class="bi bi-server text-primary" style="font-size: 2.5rem;"></i>
+                    <h3 class="pub-feature-card__title mt-2">Backend</h3>
+                </div>
+                <div>
+                    @foreach (var tech in Model.TechnicalStack.BackendTechnologies)
+                    {
+                        <div class="mb-3">
+                            <div class="d-flex align-items-center mb-1">
+                                <i class="@tech.IconClass me-2 text-primary" aria-hidden="true"></i>
+                                <span class="fw-semibold">@tech.Name</span>
+                                @if (!string.IsNullOrEmpty(tech.Version))
+                                {
+                                    <span class="wp-badge bg-primary  text-white ms-auto">@tech.Version</span>
+                                }
                             </div>
-                        }
-                    </div>
+                            <p class="small text-muted mb-0">@tech.Description</p>
+                        </div>
+                    }
                 </div>
             </div>
-
-            <!-- Frontend Technologies -->
-            <div class="col-lg-3 col-md-6" data-fade-in>
-                <div class="tech-category-card glass spotlight-card hover-lift h-100 p-4">
-                    <div class="category-header text-center mb-4">
-                        <div class="category-icon mb-3">
-                            <i class="bi bi-palette text-success display-5"></i>
-                        </div>
-                        <h4 class="fw-bold text-success">Frontend</h4>
-                    </div>
-                    <div class="tech-list">
-                        @foreach (var tech in Model.TechnicalStack.FrontendTechnologies)
-                        {
-                            <div class="tech-item mb-3">
-                                <div class="d-flex align-items-center mb-2">
-                                    <i class="@tech.IconClass me-2 text-success"></i>
-                                    <span class="fw-semibold">@tech.Name</span>
-                                    @if (!string.IsNullOrEmpty(tech.Version))
-                                    {
-                                        <span class="wp-badge bg-success bg-opacity-20 text-success ms-auto">@tech.Version</span>
-                                    }
-                                </div>
-                                <p class="small text-muted mb-0">@tech.Description</p>
+            <div class="tech-category-card glass spotlight-card hover-lift p-4">
+                <div class="text-center mb-4">
+                    <i class="bi bi-palette text-success" style="font-size: 2.5rem;"></i>
+                    <h3 class="pub-feature-card__title mt-2">Frontend</h3>
+                </div>
+                <div>
+                    @foreach (var tech in Model.TechnicalStack.FrontendTechnologies)
+                    {
+                        <div class="mb-3">
+                            <div class="d-flex align-items-center mb-1">
+                                <i class="@tech.IconClass me-2 text-success" aria-hidden="true"></i>
+                                <span class="fw-semibold">@tech.Name</span>
+                                @if (!string.IsNullOrEmpty(tech.Version))
+                                {
+                                    <span class="wp-badge bg-success  text-white ms-auto">@tech.Version</span>
+                                }
                             </div>
-                        }
-                    </div>
+                            <p class="small text-muted mb-0">@tech.Description</p>
+                        </div>
+                    }
                 </div>
             </div>
-
-            <!-- Database Technologies -->
-            <div class="col-lg-3 col-md-6" data-fade-in>
-                <div class="tech-category-card glass spotlight-card hover-lift h-100 p-4">
-                    <div class="category-header text-center mb-4">
-                        <div class="category-icon mb-3">
-                            <i class="bi bi-database text-warning display-5"></i>
-                        </div>
-                        <h4 class="fw-bold text-warning">Database</h4>
-                    </div>
-                    <div class="tech-list">
-                        @foreach (var tech in Model.TechnicalStack.DatabaseTechnologies)
-                        {
-                            <div class="tech-item mb-3">
-                                <div class="d-flex align-items-center mb-2">
-                                    <i class="@tech.IconClass me-2 text-warning"></i>
-                                    <span class="fw-semibold">@tech.Name</span>
-                                    @if (!string.IsNullOrEmpty(tech.Version))
-                                    {
-                                        <span class="wp-badge bg-warning bg-opacity-20 text-warning ms-auto">@tech.Version</span>
-                                    }
-                                </div>
-                                <p class="small text-muted mb-0">@tech.Description</p>
+            <div class="tech-category-card glass spotlight-card hover-lift p-4">
+                <div class="text-center mb-4">
+                    <i class="bi bi-database text-warning" style="font-size: 2.5rem;"></i>
+                    <h3 class="pub-feature-card__title mt-2">Database</h3>
+                </div>
+                <div>
+                    @foreach (var tech in Model.TechnicalStack.DatabaseTechnologies)
+                    {
+                        <div class="mb-3">
+                            <div class="d-flex align-items-center mb-1">
+                                <i class="@tech.IconClass me-2 text-warning" aria-hidden="true"></i>
+                                <span class="fw-semibold">@tech.Name</span>
+                                @if (!string.IsNullOrEmpty(tech.Version))
+                                {
+                                    <span class="wp-badge bg-warning  text-white ms-auto">@tech.Version</span>
+                                }
                             </div>
-                        }
-                    </div>
+                            <p class="small text-muted mb-0">@tech.Description</p>
+                        </div>
+                    }
                 </div>
             </div>
-
-            <!-- Testing Technologies -->
-            <div class="col-lg-3 col-md-6" data-fade-in>
-                <div class="tech-category-card glass spotlight-card hover-lift h-100 p-4">
-                    <div class="category-header text-center mb-4">
-                        <div class="category-icon mb-3">
-                            <i class="bi bi-check-circle text-info display-5"></i>
-                        </div>
-                        <h4 class="fw-bold text-info">Testing</h4>
-                    </div>
-                    <div class="tech-list">
-                        @foreach (var tech in Model.TechnicalStack.TestingTechnologies)
-                        {
-                            <div class="tech-item mb-3">
-                                <div class="d-flex align-items-center mb-2">
-                                    <i class="@tech.IconClass me-2 text-info"></i>
-                                    <span class="fw-semibold">@tech.Name</span>
-                                    @if (!string.IsNullOrEmpty(tech.Version))
-                                    {
-                                        <span class="wp-badge bg-info bg-opacity-20 text-info ms-auto">@tech.Version</span>
-                                    }
-                                </div>
-                                <p class="small text-muted mb-0">@tech.Description</p>
+            <div class="tech-category-card glass spotlight-card hover-lift p-4">
+                <div class="text-center mb-4">
+                    <i class="bi bi-check-circle text-info" style="font-size: 2.5rem;"></i>
+                    <h3 class="pub-feature-card__title mt-2">Testing</h3>
+                </div>
+                <div>
+                    @foreach (var tech in Model.TechnicalStack.TestingTechnologies)
+                    {
+                        <div class="mb-3">
+                            <div class="d-flex align-items-center mb-1">
+                                <i class="@tech.IconClass me-2 text-info" aria-hidden="true"></i>
+                                <span class="fw-semibold">@tech.Name</span>
+                                @if (!string.IsNullOrEmpty(tech.Version))
+                                {
+                                    <span class="wp-badge bg-info  text-white ms-auto">@tech.Version</span>
+                                }
                             </div>
-                        }
-                    </div>
+                            <p class="small text-muted mb-0">@tech.Description</p>
+                        </div>
+                    }
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Technical Highlights Section -->
-<section class="technical-highlights py-5 bg-light">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="display-5 fw-bold mb-3">Technical Highlights</h2>
-            <p class="lead text-muted">Key implementation achievements and innovations</p>
+<section class="pub-section pub-section--alt" aria-labelledby="highlights-heading">
+    <div class="pub-section__inner">
+        <div class="pub-section__header">
+            <h2 id="highlights-heading" class="pub-section__title">Technical Highlights</h2>
+            <p class="pub-section__subtitle">Key implementation achievements and innovations</p>
         </div>
-
-        <div class="row g-4">
+        <div class="pub-2col-grid">
             @foreach (var highlight in Model.TechnicalHighlights)
             {
-                <div class="col-lg-6" data-fade-in>
-                    <div class="highlight-card glass spotlight-card hover-lift h-100 p-4">
-                        <div class="highlight-header mb-3">
-                            <div class="d-flex align-items-center justify-content-between mb-2">
-                                <h4 class="highlight-title fw-bold mb-0">@highlight.Title</h4>
-                                <span class="wp-badge bg-primary bg-opacity-20 text-primary">@highlight.Category</span>
-                            </div>
-                        </div>
-                        <p class="highlight-description text-muted mb-3">@highlight.Description</p>
-                        @if (!string.IsNullOrEmpty(highlight.CodeExample))
-                        {
-                            <div class="code-example">
-                                <h6 class="fw-semibold mb-2">Code Example:</h6>
-                                <pre class="bg-dark text-light p-3 rounded small"><code>@highlight.CodeExample</code></pre>
-                            </div>
-                        }
-                        @if (!string.IsNullOrEmpty(highlight.DocumentationUrl))
-                        {
-                            <div class="highlight-actions mt-3">
-                                <a href="@highlight.DocumentationUrl" target="_blank" class="wp-btn-sm wp-btn-outline-primary">
-                                    <i class="bi bi-book me-1"></i>Documentation
-                                </a>
-                            </div>
-                        }
+                <div class="highlight-card glass spotlight-card hover-lift p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <h3 class="pub-feature-card__title mb-0">@highlight.Title</h3>
+                        <span class="wp-badge bg-primary  text-white">@highlight.Category</span>
                     </div>
+                    <p class="pub-feature-card__desc">@highlight.Description</p>
+                    @if (!string.IsNullOrEmpty(highlight.CodeExample))
+                    {
+                        <div>
+                            <h6 class="fw-semibold mb-2">Code Example:</h6>
+                            <pre class="bg-dark text-light p-3 rounded small"><code>@highlight.CodeExample</code></pre>
+                        </div>
+                    }
+                    @if (!string.IsNullOrEmpty(highlight.DocumentationUrl))
+                    {
+                        <div class="mt-3">
+                            <a href="@highlight.DocumentationUrl" target="_blank" rel="noopener" class="wp-btn wp-btn-outline">
+                                <i class="bi bi-book me-1" aria-hidden="true"></i>Documentation
+                            </a>
+                        </div>
+                    }
                 </div>
             }
         </div>
     </div>
 </section>
 
-<!-- Performance Metrics Section -->
-<section class="performance-metrics py-5">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="display-5 fw-bold mb-3">Performance Metrics</h2>
-            <p class="lead text-muted">Real-time performance indicators</p>
+<section class="pub-section" aria-labelledby="metrics-heading">
+    <div class="pub-section__inner">
+        <div class="pub-section__header">
+            <h2 id="metrics-heading" class="pub-section__title">Performance Metrics</h2>
+            <p class="pub-section__subtitle">Real-time performance indicators</p>
         </div>
-
-        <div class="row g-4 justify-content-center">
-            <div class="col-lg-3 col-md-6" data-fade-in>
-                <div class="metric-card glass text-center p-4 spotlight-card hover-lift">
-                    <div class="metric-icon mb-3">
-                        <i class="bi bi-speedometer2 text-primary display-5"></i>
-                    </div>
-                    <h3 class="metric-value fw-bold text-primary">@Model.PerformanceMetrics.PageLoadTime.ToString("F1")s</h3>
-                    <p class="metric-label text-muted mb-0">Page Load Time</p>
-                </div>
+        <div class="pub-4col-grid">
+            <div class="metric-card glass text-center p-4 spotlight-card hover-lift">
+                <i class="bi bi-speedometer2 text-primary" style="font-size: 2.5rem;"></i>
+                <h3 class="metric-value fw-bold text-primary mt-3">@Model.PerformanceMetrics.PageLoadTime.ToString("F1")s</h3>
+                <p class="text-muted mb-0">Page Load Time</p>
             </div>
-            <div class="col-lg-3 col-md-6" data-fade-in>
-                <div class="metric-card glass text-center p-4 spotlight-card hover-lift">
-                    <div class="metric-icon mb-3">
-                        <i class="bi bi-graph-up text-success display-5"></i>
-                    </div>
-                    <h3 class="metric-value fw-bold text-success">@Model.PerformanceMetrics.PerformanceScore</h3>
-                    <p class="metric-label text-muted mb-0">Performance Score</p>
-                </div>
+            <div class="metric-card glass text-center p-4 spotlight-card hover-lift">
+                <i class="bi bi-graph-up text-success" style="font-size: 2.5rem;"></i>
+                <h3 class="metric-value fw-bold text-success mt-3">@Model.PerformanceMetrics.PerformanceScore</h3>
+                <p class="text-muted mb-0">Performance Score</p>
             </div>
-            <div class="col-lg-3 col-md-6" data-fade-in>
-                <div class="metric-card glass text-center p-4 spotlight-card hover-lift">
-                    <div class="metric-icon mb-3">
-                        <i class="bi bi-database text-warning display-5"></i>
-                    </div>
-                    <h3 class="metric-value fw-bold text-warning">@((Model.PerformanceMetrics.DatabaseResponseTime * 1000).ToString("F0"))ms</h3>
-                    <p class="metric-label text-muted mb-0">DB Response</p>
-                </div>
+            <div class="metric-card glass text-center p-4 spotlight-card hover-lift">
+                <i class="bi bi-database text-warning" style="font-size: 2.5rem;"></i>
+                <h3 class="metric-value fw-bold text-warning mt-3">@((Model.PerformanceMetrics.DatabaseResponseTime * 1000).ToString("F0"))ms</h3>
+                <p class="text-muted mb-0">DB Response</p>
             </div>
-            <div class="col-lg-3 col-md-6" data-fade-in>
-                <div class="metric-card glass text-center p-4 spotlight-card hover-lift">
-                    <div class="metric-icon mb-3">
-                        <i class="bi bi-lightning text-info display-5"></i>
-                    </div>
-                    <h3 class="metric-value fw-bold text-info">@Model.PerformanceMetrics.CacheHitRate%</h3>
-                    <p class="metric-label text-muted mb-0">Cache Hit Rate</p>
-                </div>
+            <div class="metric-card glass text-center p-4 spotlight-card hover-lift">
+                <i class="bi bi-lightning text-info" style="font-size: 2.5rem;"></i>
+                <h3 class="metric-value fw-bold text-info mt-3">@Model.PerformanceMetrics.CacheHitRate%</h3>
+                <p class="text-muted mb-0">Cache Hit Rate</p>
             </div>
         </div>
     </div>
 </section>
-
-<!-- Call to Action -->
 <section class="cta-section aurora-bg noise-overlay py-5">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-8 text-center text-white">
-                <h2 class="display-4 fw-bold mb-4">Ready to Explore?</h2>
-                <p class="lead mb-4">
-                    Experience the live system and see these technical implementations in action.
-                </p>
-                <div class="d-flex gap-3 justify-content-center flex-wrap">
-                    <a asp-action="InteractiveDemo" 
-                       class="wp-btn-primary magnetic-btn holographic wp-btn-lg">
-                        <i class="bi bi-play-circle me-2"></i>Interactive Demo
-                    </a>
-                    <a asp-action="DeveloperStory" 
-                       class="wp-btn-secondary magnetic-btn wp-btn-lg">
-                        <i class="bi bi-person-circle me-2"></i>Developer Story
-                    </a>
-                    <a asp-controller="Auth" asp-action="Registration" 
-                       class="wp-btn-outline-light magnetic-btn wp-btn-lg">
-                        <i class="bi bi-person-plus me-2"></i>Try the System
-                    </a>
-                </div>
-            </div>
+    <div class="pub-hero--centered">
+        <h2 class="pub-section__title ">Ready to Explore?</h2>
+        <p class="pub-hero__description ">
+            Experience the live system and see these technical implementations in action.
+        </p>
+        <div class="pub-hero__actions">
+            <a asp-action="InteractiveDemo" class="wp-btn wp-btn-primary magnetic-btn holographic wp-btn-lg">
+                <i class="bi bi-play-circle me-2" aria-hidden="true"></i>Interactive Demo
+            </a>
+            <a asp-action="DeveloperStory" class="wp-btn wp-btn-secondary magnetic-btn wp-btn-lg">
+                <i class="bi bi-person-circle me-2" aria-hidden="true"></i>Developer Story
+            </a>
+            <a asp-controller="Auth" asp-action="Registration" class="wp-btn wp-btn-outline magnetic-btn wp-btn-lg">
+                <i class="bi bi-person-plus me-2" aria-hidden="true"></i>Try the System
+            </a>
         </div>
     </div>
 </section>
-
 @section Styles {
-    
+    <style>
+        .architecture-layer-card, .principle-card, .tech-category-card, .highlight-card, .metric-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(var(--surface-color-rgb), 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(var(--primary-color-rgb), 0.1);
+            border-radius: var(--radius-lg);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .architecture-layer-card::before, .principle-card::before, .tech-category-card::before, .highlight-card::before, .metric-card::before {
+             content: '';
+             position: absolute;
+             top: 0; left: 0; right: 0; bottom: 0;
+             background: radial-gradient(circle at top right, rgba(var(--primary-color-rgb), 0.1), transparent 60%);
+             opacity: 0;
+             transition: opacity 0.4s;
+             z-index: -1;
+        }
+
+        .architecture-layer-card:hover, .principle-card:hover, .tech-category-card:hover, .highlight-card:hover, .metric-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1), 0 0 30px rgba(var(--primary-color-rgb), 0.1);
+            border-color: rgba(var(--primary-color-rgb), 0.4);
+        }
+        
+        .architecture-layer-card:hover::before, .principle-card:hover::before, .tech-category-card:hover::before, .highlight-card:hover::before, .metric-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Fun diagram interaction */
+        .diagram-layer {
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .diagram-layer:hover {
+            transform: translateX(15px) scale(1.05);
+            box-shadow: -10px 10px 30px rgba(0,0,0,0.15);
+            z-index: 10;
+        }
+
+        .icon-circle i, .metric-card i, .layer-icon {
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: inline-block;
+        }
+        .principle-card:hover .icon-circle i, .metric-card:hover i, .architecture-layer-card:hover .layer-icon {
+            transform: rotateY(180deg) scale(1.3);
+        }
+
+        @@keyframes pulse-subtle {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+        .diagram-container { animation: pulse-subtle 6s ease-in-out infinite; }
+    </style>
 }
 
 @section Scripts {

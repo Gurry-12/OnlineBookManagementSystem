@@ -197,3 +197,8 @@ body.public-theme,
   color: var(--color-info);
 }
 
+.text-white {
+  color: var(--text-white);
+}
+
+

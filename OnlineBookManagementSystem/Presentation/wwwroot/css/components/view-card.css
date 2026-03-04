@@ -23,6 +23,36 @@
   box-shadow: var(--shadow-md);
 }
 
+/* ========================================
+   MODIFIER: Glass variant
+   ======================================== */
+
+.view-card--glass {
+  background: var(--glass-bg, rgba(255, 255, 255, 0.75));
+  backdrop-filter: blur(var(--glass-blur, 14px));
+  -webkit-backdrop-filter: blur(var(--glass-blur, 14px));
+  border-color: var(--glass-border, rgba(226, 232, 240, 0.5));
+  box-shadow: var(--glass-shadow, var(--shadow-md));
+}
+
+.view-card--glass:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-1px);
+}
+
+/* ========================================
+   MODIFIER: Elevated variant
+   ======================================== */
+
+.view-card--elevated {
+  box-shadow: var(--shadow-lg);
+}
+
+.view-card--elevated:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-xl);
+}
+
 .view-card__header {
   padding: var(--space-4) var(--space-5);
   border-bottom: 1px solid var(--border-color);

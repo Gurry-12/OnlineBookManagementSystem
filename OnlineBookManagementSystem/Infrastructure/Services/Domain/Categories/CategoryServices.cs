@@ -116,6 +116,7 @@ namespace OnlineBookManagementSystem.Infrastructure.Services.Domain.Categories
         {
             return await _context.Categories
                 .Where(c => !c.IsDeleted)
+                .Include(c => c.Books.Where(b => !b.IsDeleted))
                 .OrderBy(c => c.Name)
                 .ToListAsync();
         }

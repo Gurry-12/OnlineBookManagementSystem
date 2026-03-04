@@ -433,8 +433,8 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
                     PageTitle = "Order Management",
                     BackLinkText = "Back to Dashboard",
                     BackLinkUrl = "/Admin/Dashboard",
-                    DetailsActionName = "Details",
-                    DetailsControllerName = "Orders",
+                    DetailsActionName = "AdminDetails",
+                    DetailsControllerName = "Order",
                     LayoutClass = "admin-layout"
                 }
             };

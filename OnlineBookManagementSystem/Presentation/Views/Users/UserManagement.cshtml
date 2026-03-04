@@ -14,17 +14,17 @@
         <div class="wp-btn-group">
             @if (Model.Capabilities.CanCreate)
             {
-                <button type="button" class="wp-btn-primary" data-bs-toggle="modal" data-bs-target="#createUserModal">
+                <button type="button" class="wp-btn wp-btn-primary" data-bs-toggle="modal" data-bs-target="#createUserModal">
                     <i class="bi bi-person-plus me-2"></i>Add User
                 </button>
             }
             @if (Model.Capabilities.CanExport)
             {
-                <button type="button" class="wp-btn-secondary" onclick="exportUsers()">
+                <button type="button" class="wp-btn wp-btn-secondary" onclick="exportUsers()">
                     <i class="bi bi-download me-2"></i>Export
                 </button>
             }
-            <button type="button" class="wp-btn-secondary" onclick="refreshUsers()">
+            <button type="button" class="wp-btn wp-btn-secondary" onclick="refreshUsers()">
                 <i class="bi bi-arrow-clockwise me-2"></i>Refresh
             </button>
         </div>
@@ -35,7 +35,7 @@
         <!-- Summary Stats -->
         <div class="row g-3 mb-4">
             <div class="col-md-3">
-                <div class="wp-card bg-primary text-white">
+                <div class="wp-card bg-primary ">
                     <div class="wp-card-body text-center">
                         <i class="bi bi-people fs-2 mb-2"></i>
                         <h4 class="mb-0">@Model.TotalUsers.ToString("N0")</h4>
@@ -44,7 +44,7 @@
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="wp-card bg-success text-white">
+                <div class="wp-card bg-success ">
                     <div class="wp-card-body text-center">
                         <i class="bi bi-person-check fs-2 mb-2"></i>
                         <h4 class="mb-0">@Model.ActiveUsers.ToString("N0")</h4>
@@ -53,7 +53,7 @@
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="wp-card bg-warning text-white">
+                <div class="wp-card bg-warning ">
                     <div class="wp-card-body text-center">
                         <i class="bi bi-person-plus fs-2 mb-2"></i>
                         <h4 class="mb-0">@Model.PendingUsers.ToString("N0")</h4>
@@ -62,7 +62,7 @@
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="wp-card bg-secondary text-white">
+                <div class="wp-card bg-danger ">
                     <div class="wp-card-body text-center">
                         <i class="bi bi-person-x fs-2 mb-2"></i>
                         <h4 class="mb-0">@Model.InactiveUsers.ToString("N0")</h4>
@@ -190,8 +190,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="wp-btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="wp-btn-primary">Create User</button>
+                        <button type="button" class="wp-btn wp-btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="wp-btn wp-btn-primary">Create User</button>
                     </div>
                 </form>
             </div>

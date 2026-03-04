@@ -12,12 +12,12 @@
         </h2>
         
         <div class="wp-btn-group">
-            <a href="@Url.Action("LogList", "Logs")" class="wp-btn-secondary">
+            <a href="@Url.Action("LogList", "Logs")" class="wp-btn wp-btn-secondary">
                 <i class="bi bi-arrow-left me-2"></i>Back to Logs
             </a>
             @if (Model.Capabilities.CanExport)
             {
-                <button type="button" class="wp-btn-primary" onclick="exportLogEntry()">
+                <button type="button" class="wp-btn wp-btn-primary" onclick="exportLogEntry()">
                     <i class="bi bi-download me-2"></i>Export Entry
                 </button>
             }
@@ -201,14 +201,14 @@
 @functions {
     private string GetActionBadgeClass(string actionType) => actionType?.ToLower() switch
     {
-        "login" => "wp-badge-success",
-        "logout" => "wp-badge-secondary", 
-        "create" or "add" => "wp-badge-primary",
-        "update" or "edit" => "wp-badge-warning text-dark",
-        "delete" or "remove" => "wp-badge-danger",
-        "view" or "read" => "wp-badge-info",
-        "error" => "wp-badge-danger",
-        _ => "wp-badge-secondary"
+        "login" => "wp-badge bg-success",
+        "logout" => "wp-badge bg-secondary", 
+        "create" or "add" => "wp-badge bg-primary",
+        "update" or "edit" => "wp-badge bg-warning text-dark",
+        "delete" or "remove" => "wp-badge bg-danger",
+        "view" or "read" => "wp-badge bg-info",
+        "error" => "wp-badge bg-danger",
+        _ => "wp-badge bg-secondary"
     };
 
     private string GetTimeAgo(DateTime timestamp)

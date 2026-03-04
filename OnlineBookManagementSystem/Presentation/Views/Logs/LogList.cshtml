@@ -4,22 +4,20 @@
     ViewData["Title"] = "Activity Logs";
 }
 
-<div class="view-logs-list">
-<div class="container-fluid py-4">
+<div class="view-content">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="fw-bold">
+        <h2 class="fw-bold mb-0">
             <i class="bi bi-clock-history me-2"></i>Activity Logs
-            <span class="wp-badge-secondary ms-2">Audit Trail</span>
         </h2>
         
-        <div class="wp-btn-group">
+        <div class="d-flex gap-2">
             @if (Model.Capabilities.CanExport)
             {
-                <button type="button" class="wp-btn-primary" onclick="exportLogs()">
+                <button type="button" class="wp-btn wp-btn-primary magnetic-btn" onclick="exportLogs()">
                     <i class="bi bi-download me-2"></i>Export Logs
                 </button>
             }
-            <button type="button" class="wp-btn-secondary" onclick="refreshLogs()">
+            <button type="button" class="wp-btn wp-btn-secondary magnetic-btn" onclick="refreshLogs()">
                 <i class="bi bi-arrow-clockwise me-2"></i>Refresh
             </button>
         </div>
@@ -28,32 +26,26 @@
     @if (Model.Capabilities.CanView)
     {
         <!-- Basic Stats (Not Analytics) -->
-        <div class="row g-3 mb-4">
-            <div class="col-md-4">
-                <div class="wp-card bg-primary text-white">
-                    <div class="wp-card-body text-center">
-                        <i class="bi bi-journal-text fs-2 mb-2"></i>
-                        <h4 class="mb-0">@Model.TotalLogs.ToString("N0")</h4>
-                        <small>Total Log Entries</small>
-                    </div>
+        <div class="stats-row mb-4">
+            <div class="stats-card stats-card--primary">
+                <div class="stats-card__body text-center">
+                    <div class="stats-card__icon"><i class="bi bi-journal-text"></i></div>
+                    <h3 class="stats-card__number mb-0">@Model.TotalLogs.ToString("N0")</h3>
+                    <p class="stats-card__label">Total Log Entries</p>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="wp-card bg-info text-white">
-                    <div class="wp-card-body text-center">
-                        <i class="bi bi-calendar-day fs-2 mb-2"></i>
-                        <h4 class="mb-0">@Model.LogsToday.ToString("N0")</h4>
-                        <small>Today's Entries</small>
-                    </div>
+            <div class="stats-card stats-card--info">
+                <div class="stats-card__body text-center">
+                    <div class="stats-card__icon"><i class="bi bi-calendar-day"></i></div>
+                    <h3 class="stats-card__number mb-0">@Model.LogsToday.ToString("N0")</h3>
+                    <p class="stats-card__label">Today's Entries</p>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="wp-card bg-success text-white">
-                    <div class="wp-card-body text-center">
-                        <i class="bi bi-calendar-week fs-2 mb-2"></i>
-                        <h4 class="mb-0">@Model.LogsThisWeek.ToString("N0")</h4>
-                        <small>This Week's Entries</small>
-                    </div>
+            <div class="stats-card stats-card--success">
+                <div class="stats-card__body text-center">
+                    <div class="stats-card__icon"><i class="bi bi-calendar-week"></i></div>
+                    <h3 class="stats-card__number mb-0">@Model.LogsThisWeek.ToString("N0")</h3>
+                    <p class="stats-card__label">This Week's Entries</p>
                 </div>
             </div>
         </div>
@@ -62,19 +54,19 @@
         @await Html.PartialAsync("_LogFilters", Model.Filters)
 
         <!-- Logs Table -->
-        <div class="wp-card">
-            <div class="wp-card-header">
-                <h5 class="wp-card-title mb-0">
+        <div class="view-card">
+            <div class="view-card__header">
+                <h5 class="view-card__title mb-0">
                     <i class="bi bi-list-ul me-2"></i>Activity Timeline
                     @if (Model.Logs.Any())
                     {
-                        <span class="wp-badge-secondary ms-2">
+                        <span class="wp-badge bg-secondary ms-2 text-white">
                             @Model.Logs.Count of @Model.TotalLogs.ToString("N0") entries
                         </span>
                     }
                 </h5>
             </div>
-            <div class="wp-card-body p-0">
+            <div class="view-card__body p-0">
                 @await Html.PartialAsync("_LogTable", (Model.Logs, Model.Capabilities))
             </div>
         </div>
@@ -126,7 +118,6 @@
             You don't have permission to view activity logs.
         </div>
     }
-</div>
 </div>
 
 @section Scripts {

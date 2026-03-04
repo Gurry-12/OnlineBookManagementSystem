@@ -17,6 +17,40 @@
   box-shadow: var(--shadow, 0 1px 3px 0 rgba(0, 0, 0, 0.1));
 }
 
+/* ========================================
+   MODIFIER: Glass variant
+   For dashboards, analytics panels, auth cards
+   Uses per-theme glass tokens for stable cross-role behavior
+   ======================================== */
+
+.wp-card--glass {
+  background: var(--glass-bg, rgba(255, 255, 255, 0.75));
+  backdrop-filter: blur(var(--glass-blur, 14px));
+  -webkit-backdrop-filter: blur(var(--glass-blur, 14px));
+  border-color: var(--glass-border, rgba(226, 232, 240, 0.5));
+  box-shadow: var(--glass-shadow, var(--shadow-md));
+}
+
+.wp-card--glass:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-1px);
+}
+
+/* ========================================
+   MODIFIER: Elevated variant
+   For highlighted / primary-prominence sections
+   ======================================== */
+
+.wp-card--elevated {
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-border-subtle);
+}
+
+.wp-card--elevated:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-xl);
+}
+
 .wp-card-header {
   padding: var(--space-4, 1rem) var(--space-5, 1.25rem);
   border-bottom: 1px solid var(--border-color, var(--color-gray-200));

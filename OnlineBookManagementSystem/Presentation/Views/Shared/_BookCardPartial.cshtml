@@ -2,37 +2,21 @@
 
 <div class="book-card @Model.CustomCssClass">
     <!-- Book Image -->
-    <div class="book-card__image-container">
-        <img src="@(Model.ImageUrl ?? Url.Content("~/images/default-book-improved.svg"))"
+    <div class="book-card__image-container position-relative">
+        <img src="@(Model.ImageUrl ?? Url.Content("~/images/demo-book-science.svg"))"
              alt="@Model.Title" 
-             class="book-card__image">
-        
-        <!-- Stock Badge -->
-        <div class="book-card__badge-container book-card__badge-container--top-right">
-            @if (Model.IsInStock)
-            {
-                <span class="wp-badge-success">
-                    <i class="bi bi-check-circle me-1"></i>In Stock
-                </span>
-            }
-            else
-            {
-                <span class="wp-badge-error">
-                    <i class="bi bi-x-circle me-1"></i>Out of Stock
-                </span>
-            }
-        </div>
-        
-        <!-- Admin Actions Dropdown -->
+             class="book-card__image"/>
+    
+        <!-- Admin Actions Dropdown (Top Left) -->
         @if (Model.CanEdit || Model.CanDelete)
         {
-            <div class="book-card__badge-container book-card__badge-container--top-left">
+            <div class="book-card__admin-actions position-absolute top-0 start-0 m-4">
                 <div class="dropdown">
-                    <button class="wp-btn-secondary wp-btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center" 
+                    <button class="wp-btn wp-btn-secondary rounded-circle p-3 d-flex align-items-center justify-content-center border-0" 
                             type="button" data-bs-toggle="dropdown">
-                        <i class="bi bi-three-dots"></i>
+                        <i class="bi bi-three-dots "></i>
                     </button>
-                    <ul class="dropdown-menu shadow">
+                    <ul class="dropdown-menu shadow border-1 border-white rounded-3">
                         @if (Model.CanEdit)
                         {
                             <li>
@@ -55,77 +39,86 @@
             </div>
         }
 
-        <!-- Favorite Button Overlay (User Role Only) -->
+        <!-- Favorite Button Overlay (Top Right) -->
         @if (Model.CanFavorite)
         {
-            <div class="book-card__badge-container book-card__badge-container--favorite">
-                <button class="wp-btn-secondary wp-btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center" 
+            <div class="position-absolute top-0 end-0 m-2 z-3">
+                <button class="wp-btn wp-btn-secondary rounded-circle p-0 d-flex align-items-center justify-content-center border-0 shadow-sm" 
                         onclick="toggleFavorite(@Model.Id)" 
-                        title="Add to Favorites">
-                    <i class="bi @(Model.IsFavorite ? "bi-heart-fill text-danger" : "bi-heart")"></i>
+                        title="Add to Favorites" style="width: 32px; height: 32px; background: rgba(255,255,255,0.85); backdrop-filter: blur(4px);">
+                    <i class="bi @(Model.IsFavorite ? "bi-heart-fill text-danger" : "bi-heart text-secondary")"></i>
                 </button>
             </div>
         }
     </div>
 
     <!-- Book Info -->
-    <div class="book-card__body">
-        <div class="book-card__header">
-            <h6 class="book-card__title" title="@Model.Title">@Model.Title</h6>
-            <p class="book-card__author">
+    <div class="book-card__body p-3 d-flex flex-column h-100">
+        <div class="book-card__header mb-2 flex-grow-1">
+            <h6 class="book-card__title mb-1 fw-bold text-dark" title="@Model.Title">@Model.Title</h6>
+            <p class="book-card__author mb-0 text-muted small">
                 <i class="bi bi-person me-1"></i>by @Model.Author
             </p>
         </div>
         
-        @if (!string.IsNullOrEmpty(Model.CategoryName))
-        {
-            <div class="book-card__category">
-                <span class="wp-badge-info">
-                    <i class="bi bi-tag me-1"></i>@Model.CategoryName
-                </span>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            @if (!string.IsNullOrEmpty(Model.CategoryName))
+            {
+                <div class="book-card__category">
+                    <span class="wp-badge text-white bg-info px-2 py-1 rounded-pill border-0" style="font-size: 0.70rem; letter-spacing: 0.02em;">
+                        <i class="bi bi-tag me-1"></i>@Model.CategoryName
+                    </span>
+                </div>
+            }
+            
+            <!-- Stock Badge -->
+            <div class="ms-auto">
+                @if (Model.IsInStock)
+                {
+                    <span class="wp-badge text-white bg-success px-2 py-1 rounded-pill border-0" style="font-size: 0.70rem; letter-spacing: 0.02em;">
+                        <i class="bi bi-check-circle me-1"></i>In Stock
+                    </span>
+                }
+                else
+                {
+                    <span class="wp-badge text-white bg-danger px-2 py-1 rounded-pill border-0" style="font-size: 0.70rem; letter-spacing: 0.02em;">
+                        <i class="bi bi-x-circle me-1"></i>Out
+                    </span>
+                }
             </div>
-        }
+        </div>
         
-        <div class="book-card__footer">
+        
+        <div class="book-card__footer mt-auto pt-2 border-top border-light">
             <!-- Price and Stock Info -->
-            <div class="book-card__price-section">
-                <div class="book-card__price-info">
-                    <span class="book-card__price text-primary fw-bold">@Model.FormattedPrice</span>
+            <div class="book-card__price-section d-flex justify-content-between align-items-center mb-2">
+                <div class="book-card__price-info d-flex align-items-baseline">
+                    <span class="book-card__price text-primary fw-bold" style="font-size: 1.15rem;">@Model.FormattedPrice</span>
                     @if (Model.CanViewTechnicalInfo)
                     {
-                        <small class="book-card__stock-info">Stock: @Model.StockQuantity units</small>
+                        <small class="book-card__stock-info text-muted ms-2 ps-2 border-start border-light" style="font-size: 0.75rem;">Qty: @Model.StockQuantity</small>
                     }
                 </div>
                 @if (Model.AverageRating > 0)
                 {
-                    <div class="book-card__rating">
-                        <div class="book-card__stars text-warning">
-                            @for (int i = 1; i <= 5; i++)
-                            {
-                                @if (i <= Math.Round(Model.AverageRating))
-                                {
-                                    <i class="bi bi-star-fill"></i>
-                                }
-                                else
-                                {
-                                    <i class="bi bi-star"></i>
-                                }
-                            }
+                    <div class="book-card__rating d-flex align-items-center gap-1">
+                        <div class="book-card__stars text-warning" style="font-size: 0.85rem;">
+                            <i class="bi bi-star-fill"></i>
                         </div>
-                        <small class="book-card__rating-score text-muted">@Model.AverageRating.ToString("F1")</small>
+                        <small class="book-card__rating-score text-dark fw-bold" style="font-size: 0.85rem;">@Model.AverageRating.ToString("F1")</small>
                     </div>
                 }
             </div>
             
             <!-- Action Buttons -->
-            <div class="book-card__actions mt-3 d-flex gap-2">
+            <div class="book-card__actions mt-2 d-flex gap-2">
                 <!-- View Details Button (Always Available) -->
                 @if (Model.CanViewDetails)
                 {
                     <a asp-controller="@Model.DetailsControllerName" 
                        asp-action="@Model.DetailsActionName" 
                        asp-route-id="@Model.Id" 
-                       class="wp-btn-secondary wp-btn-sm flex-grow-1">
+                       class="wp-btn wp-btn-secondary flex-grow-1 text-center py-2 border-0 shadow-sm" style="font-size: 0.85rem; background-color: var(--color-gray-100); color: var(--color-gray-800);">
                         <i class="bi bi-eye me-1"></i>View
                     </a>
                 }
@@ -133,13 +126,13 @@
                 <!-- Add to Cart -->
                 @if (Model.CanAddToCart && Model.StockQuantity > 0)
                 {
-                    <button class="wp-btn-primary wp-btn-sm flex-grow-1" onclick="addToCart(@Model.Id)">
+                    <button class="wp-btn wp-btn-primary flex-grow-1 py-2 border-0 shadow-sm" onclick="addToCart(@Model.Id)" style="font-size: 0.85rem;">
                         <i class="bi bi-cart-plus me-1"></i>Add
                     </button>
                 }
                 else if (Model.CanAddToCart && Model.StockQuantity == 0)
                 {
-                    <button class="wp-btn-secondary wp-btn-sm flex-grow-1" disabled>
+                    <button class="wp-btn wp-btn-secondary flex-grow-1 py-2 border-0" disabled style="opacity: 0.6; font-size: 0.85rem; background-color: var(--color-gray-200); color: var(--color-gray-600);">
                         <i class="bi bi-x-circle me-1"></i>Out
                     </button>
                 }

@@ -3,69 +3,56 @@
     Layout = "/Presentation/Views/Shared/_LayoutSuperAdmin.cshtml";
 }
 
-<div class="container-fluid py-4">
-    <div class="row">
-        <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2>
-                    <i class="fas fa-heartbeat text-success me-2"></i>
-                    System Health Monitor
-                </h2>
-                <button id="refreshBtn" class="wp-btn-outline-primary">
-                    <i class="fas fa-sync-alt"></i> Refresh
-                </button>
-            </div>
-        </div>
+<div class="view-content">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0 fw-bold" style="color: var(--text-color);">
+            <i class="bi bi-heart-pulse-fill text-success me-2"></i>System Health Monitor
+        </h2>
+        <button id="refreshBtn" class="wp-btn wp-btn-outline-primary  magnetic-btn">
+            <i class="bi bi-arrow-clockwise"></i> Refresh
+        </button>
     </div>
 
     <!-- System Status Cards -->
-    <div class="row mb-4">
-        <div class="col-md-3">
-            <div class="wp-card bg-success text-white">
-                <div class="wp-card-body text-center">
-                    <i class="fas fa-server fa-2x mb-2"></i>
-                    <h4 id="systemStatus">Loading...</h4>
-                    <p class="mb-0">System Status</p>
-                </div>
+    <div class="stats-row mb-4">
+        <div class="stats-card stats-card--success">
+            <div class="stats-card__body text-center">
+                <div class="stats-card__icon"><i class="bi bi-server"></i></div>
+                <h3 class="stats-card__number" id="systemStatus">Loading...</h3>
+                <p class="stats-card__label">System Status</p>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="wp-card bg-info text-white">
-                <div class="wp-card-body text-center">
-                    <i class="fas fa-database fa-2x mb-2"></i>
-                    <h4 id="dbStatus">Loading...</h4>
-                    <p class="mb-0">Database</p>
-                </div>
+        <div class="stats-card stats-card--info">
+            <div class="stats-card__body text-center">
+                <div class="stats-card__icon"><i class="bi bi-database"></i></div>
+                <h3 class="stats-card__number" id="dbStatus">Loading...</h3>
+                <p class="stats-card__label">Database</p>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="wp-card bg-warning text-white">
-                <div class="wp-card-body text-center">
-                    <i class="fas fa-memory fa-2x mb-2"></i>
-                    <h4 id="memoryUsage">Loading...</h4>
-                    <p class="mb-0">Memory (MB)</p>
-                </div>
+        <div class="stats-card stats-card--warning">
+            <div class="stats-card__body text-center">
+                <div class="stats-card__icon"><i class="bi bi-memory"></i></div>
+                <h3 class="stats-card__number" id="memoryUsage">Loading...</h3>
+                <p class="stats-card__label">Memory (MB)</p>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="wp-card bg-primary text-white">
-                <div class="wp-card-body text-center">
-                    <i class="fas fa-users fa-2x mb-2"></i>
-                    <h4 id="activeUsers">Loading...</h4>
-                    <p class="mb-0">Active Users (24h)</p>
-                </div>
+        <div class="stats-card stats-card--primary">
+            <div class="stats-card__body text-center">
+                <div class="stats-card__icon"><i class="bi bi-people"></i></div>
+                <h3 class="stats-card__number" id="activeUsers">Loading...</h3>
+                <p class="stats-card__label">Active Users (24h)</p>
             </div>
         </div>
     </div>
 
     <!-- Detailed Information -->
-    <div class="row">
-        <div class="col-md-6">
-            <div class="wp-card">
-                <div class="wp-card-header">
-                    <h5 class="mb-0">Database Information</h5>
+    <div class="view-section mb-4">
+        <div class="view-grid view-grid--2-cols">
+            <div class="view-card">
+                <div class="view-card__header">
+                    <h5 class="view-card__title"><i class="bi bi-database text-info me-2"></i>Database Information</h5>
                 </div>
-                <div class="wp-card-body">
+                <div class="view-card__body">
                     <div id="databaseInfo">
                         <div class="text-center">
                             <div class="spinner-border text-primary" role="status">
@@ -75,14 +62,12 @@
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="col-md-6">
-            <div class="wp-card">
-                <div class="wp-card-header">
-                    <h5 class="mb-0">System Information</h5>
+            <div class="view-card">
+                <div class="view-card__header">
+                    <h5 class="view-card__title"><i class="bi bi-cpu text-warning me-2"></i>System Information</h5>
                 </div>
-                <div class="wp-card-body">
+                <div class="view-card__body">
                     <div id="systemInfo">
                         <div class="text-center">
                             <div class="spinner-border text-primary" role="status">
@@ -96,18 +81,16 @@
     </div>
 
     <!-- Uptime Information -->
-    <div class="row mt-4">
-        <div class="col-12">
-            <div class="wp-card">
-                <div class="wp-card-header">
-                    <h5 class="mb-0">System Uptime</h5>
-                </div>
-                <div class="wp-card-body">
-                    <div id="uptimeInfo">
-                        <div class="text-center">
-                            <div class="spinner-border text-primary" role="status">
-                                <span class="visually-hidden">Loading...</span>
-                            </div>
+    <div class="view-section mb-4">
+        <div class="view-card">
+            <div class="view-card__header">
+                <h5 class="view-card__title"><i class="bi bi-clock-history text-success me-2"></i>System Uptime</h5>
+            </div>
+            <div class="view-card__body">
+                <div id="uptimeInfo">
+                    <div class="text-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
                         </div>
                     </div>
                 </div>
