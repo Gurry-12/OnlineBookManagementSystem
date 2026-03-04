@@ -1,151 +1,36 @@
 /**
- * UX ENHANCEMENTS
- * Modern micro-interactions, animations, and accessibility improvements
- * Adds next-level user experience without breaking existing functionality
+ * UX Enhancements
+ * Decorative classes for special interactive states and visuals
+ * Included at the end of main.css pipeline
  */
 
 /* ========================================
-   ENHANCED FOCUS STATES (Accessibility)
+   GLASSMORPHISM
    ======================================== */
-
-*:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
+.glass {
+  background: var(--glass-bg, rgba(255, 255, 255, 0.75));
+  backdrop-filter: blur(var(--glass-blur, 14px));
+  -webkit-backdrop-filter: blur(var(--glass-blur, 14px));
+  border: 1px solid var(--glass-border, rgba(226, 232, 240, 0.5));
+  box-shadow: var(--glass-shadow, 0 8px 32px rgba(0, 0, 0, 0.08));
 }
 
-a:focus-visible,
-button:focus-visible,
-input:focus-visible,
-select:focus-visible,
-textarea:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
-  border-radius: var(--radius-sm);
-}
-
-.btn:focus-visible,
-.wp-btn:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
-  box-shadow: 0 0 0 4px rgba(139, 124, 246, 0.2);
+.glass-strong {
+  background: var(--glass-bg-strong, rgba(255, 255, 255, 0.92));
+  backdrop-filter: blur(var(--glass-blur, 16px));
+  -webkit-backdrop-filter: blur(var(--glass-blur, 16px));
 }
 
 /* ========================================
-   SMOOTH SCROLL BEHAVIOR
+   HOLOGRAPHIC & METALLIC SHINES
    ======================================== */
-
-html {
-  scroll-behavior: smooth;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-  
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-
-/* ========================================
-   MICRO-INTERACTIONS: BUTTONS
-   ======================================== */
-
-.wp-btn {
+.holographic {
   position: relative;
   overflow: hidden;
-  transform: translateY(0);
+  z-index: 1;
 }
 
-.wp-btn::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  transition: width 0.3s ease, height 0.3s ease;
-}
-
-.wp-btn:active::before {
-  width: 200%;
-  height: 200%;
-}
-
-.wp-btn-primary:active,
-.wp-btn-success:active,
-.wp-btn-danger:active,
-.wp-btn-warning:active,
-.wp-btn-info:active {
-  transform: translateY(1px);
-}
-
-/* Button ripple effect */
-.wp-btn-with-ripple {
-  position: relative;
-  overflow: hidden;
-}
-
-.wp-btn-with-ripple::after {
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-  background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
-  transform: scale(0);
-  opacity: 0;
-}
-
-.wp-btn-with-ripple:active::after {
-  transform: scale(2);
-  opacity: 1;
-  transition: transform 0s, opacity 0.1s;
-}
-
-/* ========================================
-   MICRO-INTERACTIONS: CARDS
-   ======================================== */
-
-.wp-card,
-.book-card,
-.stats-card {
-  will-change: transform, box-shadow;
-}
-
-.wp-card:hover,
-.book-card:hover,
-.stats-card:hover {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-/* Card lift effect */
-.card-lift {
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.card-lift:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-xl);
-}
-
-/* Card shine effect */
-.card-shine {
-  position: relative;
-  overflow: hidden;
-}
-
-.card-shine::after {
+.holographic::after {
   content: "";
   position: absolute;
   top: -50%;
@@ -153,395 +38,98 @@ html {
   width: 200%;
   height: 200%;
   background: linear-gradient(
-    to right,
-    transparent 0%,
-    rgba(255, 255, 255, 0.1) 50%,
-    transparent 100%
+    115deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.3) 35%,
+    rgba(255, 255, 255, 0.6) 45%,
+    rgba(255, 255, 255, 0.3) 55%,
+    transparent 70%
   );
-  transform: rotate(30deg);
-  transition: transform 0.5s ease;
+  transform: rotate(25deg) translate(-100%, 0);
+  animation: hologram-sweep 4s ease-in-out infinite;
   pointer-events: none;
+  z-index: -1;
+  opacity: 0.6;
 }
 
-.card-shine:hover::after {
-  transform: rotate(30deg) translateX(100%);
-}
-
-/* ========================================
-   ENHANCED INPUT STATES
-   ======================================== */
-
-.form__input,
-.form__textarea,
-.form__select,
-.filter-group__input,
-.filter-group__select,
-.search-bar__input {
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
-}
-
-.form__input:hover,
-.form__textarea:hover,
-.form__select:hover,
-.filter-group__input:hover,
-.filter-group__select:hover,
-.search-bar__input:hover {
-  border-color: var(--color-gray-400);
-}
-
-.form__input:focus,
-.form__textarea:focus,
-.form__select:focus,
-.filter-group__input:focus,
-.filter-group__select:focus,
-.search-bar__input:focus {
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(139, 124, 246, 0.15);
-  background: var(--color-white);
-}
-
-/* Input with icon */
-.input-with-icon {
-  position: relative;
-}
-
-.input-with-icon .form__input,
-.input-with-icon .search-bar__input {
-  padding-left: 2.5rem;
-}
-
-.input-with-icon .input-icon {
-  position: absolute;
-  left: 0.75rem;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--color-gray-500);
-  pointer-events: none;
-  transition: color 0.2s ease;
-}
-
-.input-with-icon .form__input:focus + .input-icon,
-.input-with-icon .search-bar__input:focus ~ .input-icon {
-  color: var(--color-primary);
-}
-
-/* ========================================
-   ENHANCED SKELETON LOADING
-   ======================================== */
-
-@keyframes skeleton-pulse {
+@keyframes hologram-sweep {
   0% {
-    opacity: 1;
+    transform: rotate(25deg) translate(-100%, 0);
   }
-  50% {
-    opacity: 0.4;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-@keyframes skeleton-wave {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-}
-
-.skeleton {
-  background: linear-gradient(
-    90deg,
-    var(--color-gray-200) 25%,
-    var(--color-gray-100) 50%,
-    var(--color-gray-200) 75%
-  );
-  background-size: 200% 100%;
-  animation: skeleton-wave 1.5s ease-in-out infinite;
-  border-radius: var(--radius-sm);
-}
-
-.skeleton-text {
-  height: 1rem;
-  margin-bottom: 0.5rem;
-}
-
-.skeleton-text.short {
-  width: 60%;
-}
-
-.skeleton-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-full);
-}
-
-.skeleton-button {
-  width: 100px;
-  height: 36px;
-  border-radius: var(--radius);
-}
-
-/* ========================================
-   NOTIFICATION TOAST ENHANCEMENTS
-   ======================================== */
-
-.toast-notification {
-  position: fixed;
-  bottom: 1.5rem;
-  right: 1.5rem;
-  padding: 1rem 1.5rem;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg);
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  z-index: 9999;
-  animation: toast-slide-in 0.3s ease;
-  max-width: 400px;
-}
-
-@keyframes toast-slide-in {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-.toast-notification.success {
-  background: var(--color-success);
-  color: var(--color-gray-900);
-}
-
-.toast-notification.error {
-  background: var(--color-danger);
-  color: var(--color-white);
-}
-
-.toast-notification.warning {
-  background: var(--color-warning);
-  color: var(--color-gray-900);
-}
-
-.toast-notification.info {
-  background: var(--color-info);
-  color: var(--color-gray-900);
-}
-
-.toast-notification.hiding {
-  animation: toast-slide-out 0.3s ease forwards;
-}
-
-@keyframes toast-slide-out {
-  from {
-    transform: translateX(0);
-    opacity: 1;
-  }
-  to {
-    transform: translateX(100%);
-    opacity: 0;
+  50%, 100% {
+    transform: rotate(25deg) translate(100%, 0);
   }
 }
 
 /* ========================================
-   EMPTY STATE ENHANCEMENTS
+   MAGNETIC BUTTONS 
+   (Simulated hovering effect via pure CSS scale)
    ======================================== */
+.magnetic-btn {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+}
 
-.empty-state {
+.magnetic-btn:hover {
+  transform: scale(1.08); /* slight over-pop */
+}
+
+.magnetic-btn:active {
+  transform: scale(0.95);
+}
+
+/* ========================================
+   NOISE TEXTURE OVERLAYS
+   ======================================== */
+.noise-overlay {
   position: relative;
 }
 
-.empty-state__icon {
-  animation: empty-state-float 3s ease-in-out infinite;
-}
-
-@keyframes empty-state-float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-.empty-state__icon i {
-  opacity: 0.5;
-  transition: opacity 0.3s ease;
-}
-
-.empty-state:hover .empty-state__icon i {
-  opacity: 0.8;
-}
-
-/* ========================================
-   PAGINATION ENHANCEMENTS
-   ======================================== */
-
-.pagination {
-  gap: 0.25rem;
-}
-
-.page-link {
-  position: relative;
-  transition: all 0.2s ease;
-  border-radius: var(--radius) !important;
-  margin: 0 2px;
-}
-
-.page-link:hover {
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
-}
-
-.page-item.active .page-link {
-  box-shadow: 0 0 0 3px rgba(139, 124, 246, 0.3);
-}
-
-/* ========================================
-   SIDEBAR ENHANCEMENTS
-   ======================================== */
-
-.wp-sidebar__nav-link {
-  position: relative;
-}
-
-.wp-sidebar__nav-link::before {
+.noise-overlay::after {
   content: "";
   position: absolute;
-  left: 0;
+  inset: 0;
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 0;
+  /* SVG Data URI for simple noise */
+  background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
+}
+
+/* ========================================
+   SPOTLIGHT CARDS (Uses JS CSS Custom Properties)
+   ======================================== */
+.spotlight-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.spotlight-card::before {
+  content: "";
+  position: absolute;
   top: 0;
+  left: 0;
+  right: 0;
   bottom: 0;
-  width: 0;
-  background: var(--color-primary);
-  transition: width 0.2s ease;
-  opacity: 0.15;
+  background: radial-gradient(
+    600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(139, 92, 246, 0.1),
+    transparent 40%
+  );
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0.5s ease;
 }
 
-.wp-sidebar__nav-link:hover::before {
-  width: 3px;
-}
-
-.wp-sidebar__nav-link.active::before {
-  width: 3px;
+.spotlight-card:hover::before {
   opacity: 1;
 }
 
-/* Sidebar collapse animation */
-.wp-sidebar {
-  transition: width 0.3s ease, transform 0.3s ease;
+.spotlight-card > * {
+  position: relative;
+  z-index: 1;
 }
 
-/* ========================================
-   MODAL & OVERLAY ENHANCEMENTS
-   ======================================== */
-
-.modal-backdrop {
-  backdrop-filter: blur(4px);
-}
-
-.modal-content {
-  animation: modal-scale-in 0.2s ease;
-}
-
-@keyframes modal-scale-in {
-  from {
-    transform: scale(0.95);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-/* ========================================
-   LIST ITEMS ENHANCEMENTS
-   ======================================== */
-
-.list-item-hover {
-  transition: background-color 0.15s ease, transform 0.15s ease;
-}
-
-.list-item-hover:hover {
-  background-color: var(--color-gray-50);
-  transform: translateX(4px);
-}
-
-/* ========================================
-   BADGE ANIMATIONS
-   ======================================== */
-
-.wp-badge {
-  animation: badge-pop 0.3s ease;
-}
-
-@keyframes badge-pop {
-  0% {
-    transform: scale(0);
-  }
-  50% {
-    transform: scale(1.2);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-.wp-badge.pulse {
-  animation: badge-pulse 1s ease-in-out infinite;
-}
-
-@keyframes badge-pulse {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
-  }
-}
-
-/* ========================================
-   RESPONSIVE IMPROVEMENTS
-   ======================================== */
-
-@media (max-width: 768px) {
-  .toast-notification {
-    left: 1rem;
-    right: 1rem;
-    bottom: 1rem;
-    max-width: none;
-  }
-  
-  .empty-state {
-    min-height: 250px;
-    padding: var(--space-8) var(--space-4);
-  }
-  
-  .empty-state__icon i {
-    font-size: 3rem;
-  }
-}
-
-/* ========================================
-   PREFERS REDUCED MOTION
-   ======================================== */
-
-@media (prefers-reduced-motion: reduce) {
-  .wp-btn::before,
-  .wp-btn:active::before,
-  .card-lift:hover,
-  .card-shine::after,
-  .empty-state__icon,
-  .page-link:hover,
-  .list-item-hover:hover,
-  .wp-badge {
-    animation: none;
-    transform: none;
-    transition: none;
-  }
+.enhanced {
+  box-shadow: 0 20px 40px rgba(0,0,0,0.05);
 }

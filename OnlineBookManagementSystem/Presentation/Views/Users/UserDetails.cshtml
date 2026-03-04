@@ -11,12 +11,12 @@
         </h2>
         
         <div class="wp-btn-group">
-            <a href="@Url.Action("UserManagement", "Users")" class="wp-btn-secondary">
+            <a href="@Url.Action("UserManagement", "Users")" class="wp-btn wp-btn-secondary">
                 <i class="bi bi-arrow-left me-2"></i>Back to Users
             </a>
             @if (Model.Capabilities.CanEdit)
             {
-                <button type="button" class="wp-btn-primary" onclick="editUser()">
+                <button type="button" class="wp-btn wp-btn-primary" onclick="editUser()">
                     <i class="bi bi-pencil me-2"></i>Edit User
                 </button>
             }
@@ -197,7 +197,7 @@
                             <div class="d-grid gap-2">
                                 @if (Model.Capabilities.CanChangeRoles)
                                 {
-                                    <button class="wp-btn-secondary wp-btn-sm" onclick="changeRole()">
+                                    <button class="wp-btn wp-btn-secondary " onclick="changeRole()">
                                         <i class="bi bi-shield me-2"></i>Change Role
                                     </button>
                                 }
@@ -206,13 +206,13 @@
                                 {
                                     @if (Model.User.LockoutEnd > DateTimeOffset.UtcNow)
                                     {
-                                        <button class="wp-btn-secondary wp-btn-sm" onclick="unlockUser()">
+                                        <button class="wp-btn wp-btn-secondary " onclick="unlockUser()">
                                             <i class="bi bi-unlock me-2"></i>Unlock User
                                         </button>
                                     }
                                     else
                                     {
-                                        <button class="wp-btn-secondary wp-btn-sm" onclick="lockUser()">
+                                        <button class="wp-btn wp-btn-secondary " onclick="lockUser()">
                                             <i class="bi bi-lock me-2"></i>Lock User
                                         </button>
                                     }
@@ -220,12 +220,12 @@
                                 
                                 @if (!Model.User.EmailConfirmed && Model.Capabilities.CanEdit)
                                 {
-                                    <button class="wp-btn-secondary wp-btn-sm" onclick="confirmEmail()">
+                                    <button class="wp-btn wp-btn-secondary " onclick="confirmEmail()">
                                         <i class="bi bi-envelope-check me-2"></i>Confirm Email
                                     </button>
                                 }
                                 
-                                <button class="wp-btn-secondary wp-btn-sm" onclick="sendPasswordReset()">
+                                <button class="wp-btn wp-btn-secondary " onclick="sendPasswordReset()">
                                     <i class="bi bi-key me-2"></i>Send Password Reset
                                 </button>
                             </div>

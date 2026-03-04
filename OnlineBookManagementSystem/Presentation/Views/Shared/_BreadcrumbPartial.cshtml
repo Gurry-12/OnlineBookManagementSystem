@@ -1,0 +1,43 @@
+@using System.Text.RegularExpressions
+@{
+    var controller = ViewContext.RouteData.Values["controller"]?.ToString() ?? "Home";
+    var action = ViewContext.RouteData.Values["action"]?.ToString() ?? "Index";
+    
+    // Format controller and action names for better readability
+    var formattedController = Regex.Replace(controller, "([a-z])([A-Z])", "$1 $2");
+    var formattedAction = Regex.Replace(action, "([a-z])([A-Z])", "$1 $2");
+    
+    var title = ViewData["Title"]?.ToString() ?? formattedAction;
+
+    // Don't show breadcrumb on pure home pages where it looks redundant
+    bool showBreadcrumb = !string.Equals(controller, "Home", StringComparison.OrdinalIgnoreCase) || 
+                          (!string.Equals(action, "Index", StringComparison.OrdinalIgnoreCase) && 
+                           !string.Equals(action, "PublicDemo", StringComparison.OrdinalIgnoreCase));
+}
+
+@if (showBreadcrumb)
+{
+    <nav aria-label="breadcrumb" class="mb-4 wp-breadcrumb-container">
+        <ol class="breadcrumb bg-white blur-sm rounded-3 px-3 py-2 shadow-sm border border-white border-opacity-50 mb-0">
+            <li class="breadcrumb-item">
+                <a href="/" class="text-decoration-none text-primary fw-medium">
+                    <i class="bi bi-house-door-fill me-1"></i>Home
+                </a>
+            </li>
+            
+            @if (!string.Equals(controller, "Home", StringComparison.OrdinalIgnoreCase) && 
+                 !string.Equals(controller, "Public", StringComparison.OrdinalIgnoreCase))
+            {
+                <li class="breadcrumb-item">
+                    <a href="/@controller" class="text-decoration-none text-secondary">
+                        @formattedController
+                    </a>
+                </li>
+            }
+            
+            <li class="breadcrumb-item active text-dark fw-bold" aria-current="page">
+                @title
+            </li>
+        </ol>
+    </nav>
+}

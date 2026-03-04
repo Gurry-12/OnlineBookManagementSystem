@@ -26,19 +26,19 @@
                 @if (Model.Capabilities.CanViewModerationQueue)
                 {
                     <div class="wp-btn-group" role="group">
-                        <a href="?status=pending" class="wp-btn-outline-warning @(ViewBag.StatusFilter == "pending" ? "active" : "")">
+                        <a href="?status=pending" class="wp-btn wp-btn-outline-warning @(ViewBag.StatusFilter == "pending" ? "active" : "")">
                             <i class="bi bi-clock me-1"></i>Pending
                         </a>
-                        <a href="?status=approved" class="wp-btn-outline-success @(ViewBag.StatusFilter == "approved" ? "active" : "")">
+                        <a href="?status=approved" class="wp-btn wp-btn-outline-success @(ViewBag.StatusFilter == "approved" ? "active" : "")">
                             <i class="bi bi-check-circle me-1"></i>Approved
                         </a>
-                        <a href="?status=rejected" class="wp-btn-outline-danger @(ViewBag.StatusFilter == "rejected" ? "active" : "")">
+                        <a href="?status=rejected" class="wp-btn wp-btn-outline-danger @(ViewBag.StatusFilter == "rejected" ? "active" : "")">
                             <i class="bi bi-x-circle me-1"></i>Rejected
                         </a>
-                        <a href="?status=flagged" class="wp-btn-outline-info @(ViewBag.StatusFilter == "flagged" ? "active" : "")">
+                        <a href="?status=flagged" class="wp-btn wp-btn-outline-info @(ViewBag.StatusFilter == "flagged" ? "active" : "")">
                             <i class="bi bi-flag me-1"></i>Flagged
                         </a>
-                        <a href="?" class="wp-btn-outline-secondary @(string.IsNullOrEmpty(ViewBag.StatusFilter) ? "active" : "")">
+                        <a href="?" class="wp-btn wp-btn-outline-secondary @(string.IsNullOrEmpty(ViewBag.StatusFilter) ? "active" : "")">
                             <i class="bi bi-list me-1"></i>All
                         </a>
                     </div>

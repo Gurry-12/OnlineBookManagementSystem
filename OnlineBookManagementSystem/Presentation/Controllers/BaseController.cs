@@ -20,7 +20,9 @@ public class BaseController : Controller
             ViewData["UserRoles"] = User.FindAll(ClaimTypes.Role).Select(c => c.Value).ToList();
             ViewData["CurrentController"] = controllerName;
             ViewData["CurrentAction"] = actionName;
-            ViewData["ThemeClass"] = "theme-public"; // Default theme
+            
+            // Allow individual layouts to dictate their own theme via their fallback
+            // e.g. @(ViewData["ThemeClass"] ?? "theme-superadmin")
             
             Logger.LogDebug("Basic view data set for {Controller}/{Action}", controllerName, actionName);
         }

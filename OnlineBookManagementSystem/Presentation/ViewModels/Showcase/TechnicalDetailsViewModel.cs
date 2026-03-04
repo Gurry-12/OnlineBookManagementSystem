@@ -7,7 +7,7 @@ namespace OnlineBookManagementSystem.Presentation.ViewModels.Showcase
     {
         public ArchitectureViewModel Architecture { get; set; } = new();
         public TechnicalStackViewModel TechnicalStack { get; set; } = new();
-        public List<OnlineBookManagementSystem.Core.Domain.Entities.TechnicalHighlight> TechnicalHighlights { get; set; } = new();
+        public List<TechnicalHighlight> TechnicalHighlights { get; set; } = new();
         public PerformanceStatsViewModel PerformanceMetrics { get; set; } = new();
     }
 }

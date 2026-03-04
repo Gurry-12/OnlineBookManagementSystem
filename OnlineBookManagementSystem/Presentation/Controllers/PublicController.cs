@@ -60,26 +60,6 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
             return View(showcaseContent);
         }
 
-        /// <summary>
-        /// Main showcase page with comprehensive project portfolio
-        /// </summary>
-        [HttpGet]
-        public async Task<IActionResult> Showcase()
-        {
-            // Redirect authenticated users to their dashboard
-            if (_redirectionService.ShouldBypassPublicArea(User))
-            {
-                var redirectUrl = await _redirectionService.GetRedirectUrlForClaimsAsync(User);
-                return Redirect(redirectUrl);
-            }
-
-            var showcaseContent = await _publicDemoService.GetShowcaseContentAsync();
-
-            ViewBag.Title = "Project Showcase - Clean Architecture Implementation";
-            ViewBag.MetaDescription = "Comprehensive showcase of Clean Architecture principles, SOLID design patterns, and modern web development techniques.";
-
-            return View(showcaseContent);
-        }
 
         /// <summary>
         /// Technical details and architecture documentation

@@ -21,9 +21,9 @@ body {
   width: 280px;
   height: 100vh;
   background: var(--glass-bg, rgba(255, 255, 255, 0.85));
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-  border-right: var(--border-width) solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(var(--glass-blur, 15px));
+  -webkit-backdrop-filter: blur(var(--glass-blur, 15px));
+  border-right: var(--border-width) solid var(--glass-border, rgba(255, 255, 255, 0.3));
   display: flex;
   flex-direction: column;
   position: fixed;
@@ -31,6 +31,7 @@ body {
   top: 0;
   z-index: var(--z-fixed);
   transition: transform var(--transition-normal);
+  box-shadow: var(--glass-shadow, var(--shadow-sm));
 }
 
 .wp-sidebar.collapsed {
@@ -39,22 +40,24 @@ body {
 
 .wp-sidebar__header {
   padding: var(--space-6) var(--space-4);
-  border-bottom: var(--border-width) solid rgba(255, 255, 255, 0.3);
+  border-bottom: var(--border-width) solid var(--glass-border, rgba(255, 255, 255, 0.3));
   background: transparent;
+  display: flex;
+  justify-content: center;
 }
 
 .wp-sidebar__logo {
   display: flex;
   align-items: center;
-  gap: var(--space-3);
+  justify-content: center;
+  width: 100%;
   text-decoration: none;
-  color: var(--text-color);
 }
 
 .wp-sidebar__logo-icon {
-  width: 2rem;
-  height: 2rem;
-  color: var(--color-primary);
+  max-width: 180px; /* Adjust according to sidebar width */
+  height: auto;
+  object-fit: contain;
 }
 
 .wp-sidebar__logo-text {
@@ -180,9 +183,9 @@ body {
 .wp-top-bar {
   height: 4rem;
   background: var(--glass-bg, rgba(255, 255, 255, 0.85));
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-  border-bottom: var(--border-width) solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(var(--glass-blur, 15px));
+  -webkit-backdrop-filter: blur(var(--glass-blur, 15px));
+  border-bottom: var(--border-width) solid var(--glass-border, rgba(255, 255, 255, 0.3));
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -190,7 +193,7 @@ body {
   position: sticky;
   top: 0;
   z-index: var(--z-sticky);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--glass-shadow, var(--shadow-sm));
 }
 
 /* Fix for Public Navbar conflict with Bootstrap */
@@ -226,6 +229,11 @@ body {
 .wp-top-bar__toggle:hover {
   background: var(--color-hover);
   color: var(--text-color);
+}
+
+.wp-top-bar__toggle:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
 }
 
 .wp-top-bar__breadcrumb {
@@ -264,7 +272,7 @@ body {
 .wp-top-bar__search-input {
   width: 100%;
   padding: var(--space-2) var(--space-3) var(--space-2) var(--space-10);
-  border: var(--border-width) solid rgba(255, 255, 255, 0.3);
+  border: var(--border-width) solid var(--glass-border, rgba(255, 255, 255, 0.3));
   border-radius: var(--radius-full);
   font-size: var(--font-size-sm);
   background: rgba(255, 255, 255, 0.5);
@@ -275,7 +283,8 @@ body {
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-.wp-top-bar__search-input:focus {
+.wp-top-bar__search-input:focus,
+.wp-top-bar__search-input:focus-visible {
   outline: none;
   border-color: var(--color-accent, var(--color-primary));
   background: var(--bg-surface);
@@ -307,6 +316,82 @@ body {
 
 .wp-top-bar__user:hover {
   background: var(--color-hover);
+}
+
+/* ========================================
+   TOP-BAR BADGE & AVATAR MODIFIERS
+   Replaces inline sizing in layout files
+   ======================================== */
+
+.wp-top-bar__notification-bell {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: var(--color-text-muted);
+  transition: color var(--transition-fast);
+}
+
+.wp-top-bar__notification-bell:hover {
+  color: var(--color-primary);
+}
+
+.wp-top-bar__notification-bell:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+.wp-top-bar__badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%);
+  padding: 0.15rem 0.35rem;
+  font-size: 0.65rem;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.2;
+  border-radius: var(--radius-full);
+  background: var(--color-danger);
+  color: var(--color-white);
+  border: 2px solid var(--bg-surface, #fff);
+  min-width: 1.25rem;
+  text-align: center;
+}
+
+.wp-top-bar__avatar-ring {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(var(--color-success-rgb, 16, 185, 129), 0.15);
+  color: var(--color-success);
+  flex-shrink: 0;
+  transition: box-shadow var(--transition-fast);
+}
+
+.wp-top-bar__avatar-ring:hover,
+.wp-top-bar__user:hover .wp-top-bar__avatar-ring {
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+}
+
+/* Color variants — applied via modifier class on the ring element */
+.wp-top-bar__avatar-ring.bg-primary-subtle {
+  background: rgba(139, 124, 246, 0.15);
+  color: var(--color-primary);
+}
+
+.wp-top-bar__avatar-ring.bg-primary-subtle + .wp-top-bar__user-info,
+.wp-top-bar__user:hover .wp-top-bar__avatar-ring.bg-primary-subtle {
+  box-shadow: 0 0 0 3px rgba(139, 124, 246, 0.2);
+}
+
+.wp-top-bar__avatar-ring.bg-success-subtle {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--color-success);
 }
 
 .wp-top-bar__avatar {

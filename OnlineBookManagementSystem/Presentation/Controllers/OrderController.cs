@@ -64,14 +64,63 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
         {
             try
             {
-                var ordersModel = await _orderQueryService.GetOrdersForAdminAsync(1, 1000, id.ToString(), null, null, null);
-                var order = ordersModel.Orders.FirstOrDefault(o => o.Id == id);
+                var order = await _orderQueryService.GetOrderDetailsAsync(id);
 
                 if (order == null) return NotFound();
 
+                var isSuperAdmin = User.IsInRole("SuperAdmin");
+
+                var viewModel = new OrderDetailsViewModel
+                {
+                    OrderId = order.Id,
+                    OrderNumber = order.Id.ToString(),
+                    OrderDate = order.OrderDate ?? DateTime.UtcNow,
+                    Status = order.Status,
+                    PaymentStatus = order.PaymentStatus,
+                    Subtotal = order.GetItemsTotal().Amount,
+                    Tax = 0,
+                    ShippingCost = 0,
+                    TotalAmount = order.TotalAmount.Amount,
+                    PaymentMethod = order.PaymentMethod ?? "Unknown",
+                    FullName = order.FullName ?? order.User?.Name ?? "Unknown",
+                    PhoneNumber = order.Phone ?? order.PhoneNumber ?? "N/A",
+                    ShippingAddress = order.Address ?? "N/A",
+                    City = order.City ?? "N/A",
+                    PinCode = order.ZipCode ?? "N/A",
+                    CustomerEmail = order.User?.Email,
+                    CustomerId = order.User?.Id,
+                    CreatedAt = order.CreatedAt,
+                    Items = order.OrderDetails.Select(od => new OrderItemViewModel
+                    {
+                        BookId = od.BookId,
+                        BookTitle = od.Book?.Title ?? $"Book #{od.BookId}",
+                        BookImageUrl = od.Book?.ImageUrl,
+                        Quantity = od.Quantity,
+                        UnitPrice = od.UnitPrice.Amount,
+                        Subtotal = od.Subtotal.Amount
+                    }).ToList(),
+                    Capabilities = new OrderDetailsCapabilities
+                    {
+                        CanCancel = false,
+                        CanChangeStatus = true,
+                        CanMarkAsProcessing = order.Status == OrderStatus.Pending,
+                        CanMarkAsShipped = order.Status == OrderStatus.Processing,
+                        CanMarkAsCompleted = order.Status == OrderStatus.Shipped,
+                        CanMarkAsCancelled = order.Status != OrderStatus.Completed && order.Status != OrderStatus.Cancelled,
+                        CanViewCustomerInfo = true,
+                        CanViewPaymentDetails = true,
+                        CanViewTechnicalDetails = true,
+                        CanRefund = isSuperAdmin,
+                        IsAuthenticated = true,
+                        IsOwnOrder = false,
+                        BackLinkText = "Back to Order Management",
+                        BackLinkUrl = "/Order/List"
+                    }
+                };
+
                 await _logger.LogAsync("ViewOrderDetails", $"Viewed order #{id} details", CurrentUserId);
                 // Use canonical Orders/Details view
-                return View("~/Presentation/Views/Orders/Details.cshtml", order);
+                return View("~/Presentation/Views/Orders/Details.cshtml", viewModel);
             }
             catch (Exception)
             {
@@ -143,9 +192,54 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
 
                 if (order == null) return NotFound();
 
+                var viewModel = new OrderDetailsViewModel
+                {
+                    OrderId = order.Id,
+                    OrderNumber = order.Id.ToString(),
+                    OrderDate = order.OrderDate ?? DateTime.UtcNow,
+                    Status = order.Status,
+                    PaymentStatus = order.PaymentStatus,
+                    Subtotal = order.GetItemsTotal().Amount,
+                    Tax = 0,
+                    ShippingCost = 0,
+                    TotalAmount = order.TotalAmount.Amount,
+                    PaymentMethod = order.PaymentMethod ?? "Unknown",
+                    FullName = order.FullName ?? order.User?.Name ?? "Unknown",
+                    PhoneNumber = order.Phone ?? order.PhoneNumber ?? "N/A",
+                    ShippingAddress = order.Address ?? "N/A",
+                    City = order.City ?? "N/A",
+                    PinCode = order.ZipCode ?? "N/A",
+                    Items = order.OrderDetails.Select(od => new OrderItemViewModel
+                    {
+                        BookId = od.BookId,
+                        BookTitle = od.Book?.Title ?? $"Book #{od.BookId}",
+                        BookImageUrl = od.Book?.ImageUrl,
+                        Quantity = od.Quantity,
+                        UnitPrice = od.UnitPrice.Amount,
+                        Subtotal = od.Subtotal.Amount
+                    }).ToList(),
+                    Capabilities = new OrderDetailsCapabilities
+                    {
+                        CanCancel = order.Status == OrderStatus.Pending || order.Status == OrderStatus.Processing,
+                        CanChangeStatus = false,
+                        CanMarkAsProcessing = false,
+                        CanMarkAsShipped = false,
+                        CanMarkAsCompleted = false,
+                        CanMarkAsCancelled = false,
+                        CanViewCustomerInfo = false,
+                        CanViewPaymentDetails = false,
+                        CanViewTechnicalDetails = false,
+                        CanRefund = false,
+                        IsAuthenticated = true,
+                        IsOwnOrder = true,
+                        BackLinkText = "Back to My Orders",
+                        BackLinkUrl = "/Order/List"
+                    }
+                };
+
                 await _logger.LogAsync("ViewOrderDetails", $"Viewed order #{id} details", CurrentUserId);
                 // Use canonical Orders/Details view
-                return View("~/Presentation/Views/Orders/Details.cshtml", order);
+                return View("~/Presentation/Views/Orders/Details.cshtml", viewModel);
             }
             catch (Exception)
             {
@@ -299,8 +393,8 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
                             PageTitle = isAdmin ? "Order Management" : "All Orders",
                             BackLinkText = "Back to Dashboard",
                             BackLinkUrl = isAdmin ? "/Admin/Dashboard" : "/SuperAdmin/Dashboard",
-                            DetailsActionName = "Details",
-                            DetailsControllerName = "Orders",
+                            DetailsActionName = isAdmin ? "AdminDetails" : "Details",
+                            DetailsControllerName = "Order",
                             LayoutClass = isAdmin ? "admin-layout" : "superadmin-layout"
                         }
                     };
@@ -371,7 +465,7 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
                             BackLinkText = "Back to Dashboard",
                             BackLinkUrl = "/User/Dashboard",
                             DetailsActionName = "Details",
-                            DetailsControllerName = "Orders",
+                            DetailsControllerName = "Order",
                             LayoutClass = "user-layout"
                         }
                     };

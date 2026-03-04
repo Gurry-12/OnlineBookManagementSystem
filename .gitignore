@@ -1,15 +1,28 @@
 # Build results
 bin/
 obj/
+[Bb]in/
+[Oo]bj/
 
 # User-specific files
 .vs/
 *.user
 *.suo
+.vscode/
+.env
+.env.*
+!.env.example
+!.env.production
 
 # Auto-generated files
 *.cache
 *.log
+logs/
+*.txt
+
+# SQLite temp files
+*.db-shm
+*.db-wal
 
 # NuGet packages
 *.nupkg
@@ -18,3 +31,4 @@ packages/
 # Other temp files
 *.tmp
 *.dbmdl
+

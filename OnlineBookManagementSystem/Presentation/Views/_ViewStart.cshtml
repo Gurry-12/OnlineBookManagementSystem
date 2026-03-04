@@ -1,4 +1,29 @@
 @{
-    // Simplified: Use only public layout for now
-    Layout = "~/Presentation/Views/Shared/_LayoutPublic.cshtml";
+    var controllerName = ViewContext.RouteData.Values["controller"]?.ToString();
+    
+    // Auth controllers explicitly require the auth layout, regardless of logic
+    if (string.Equals(controllerName, "Auth", StringComparison.OrdinalIgnoreCase) || 
+        string.Equals(controllerName, "Account", StringComparison.OrdinalIgnoreCase))
+    {
+        Layout = "_LayoutAuth";
+    }
+    else if (User.Identity != null && User.Identity.IsAuthenticated)
+    {
+        if (User.IsInRole("SuperAdmin"))
+        {
+            Layout = "_LayoutSuperAdmin";
+        }
+        else if (User.IsInRole("Admin"))
+        {
+            Layout = "_LayoutAdmin";
+        }
+        else 
+        {
+            Layout = "_LayoutUser";
+        }
+    }
+    else
+    {
+        Layout = "_LayoutPublic";
+    }
 }

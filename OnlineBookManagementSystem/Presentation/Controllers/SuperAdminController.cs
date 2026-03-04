@@ -83,7 +83,10 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
                     new() { Title = "System Settings", Icon = "bi-sliders2", Action = "SystemSettings", Description = "Configure system" },
                     new() { Title = "Activity Logs", Icon = "bi-journal-text", Action = "ActivityLogs", Description = "View system logs" },
                     new() { Title = "Clear Cache", Icon = "bi-arrow-clockwise", Action = "javascript:clearCache()", Description = "Clear system cache" },
-                    new() { Title = "Backup Database", Icon = "bi-download", Action = "javascript:backupDatabase()", Description = "Create backup" }
+                    new() { Title = "Backup Database", Icon = "bi-download", Action = "javascript:backupDatabase()", Description = "Create backup" },
+                    new() { Title = "Test Email Config", Icon = "bi-envelope-check", Action = "javascript:testEmail()", Description = "Test email settings" },
+                    new() { Title = "Clear Old Logs", Icon = "bi-trash3", Action = "javascript:clearOldLogs()", Description = "Clear ancient logs" },
+                    new() { Title = "Pending Approvals", Icon = "bi-person-badge", Action = "PendingUsers", Description = "Manage pending users" }
                 }
             };
 
@@ -855,7 +858,7 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
         public SystemInfoSummary SystemInfo { get; set; } = new();
         public int PendingUsersCount { get; set; }
         public List<UserWithRoleViewModel> PendingUsers { get; set; } = new();
-        public List<QuickAction> QuickActions { get; set; } = new();
+        public new List<QuickAction> QuickActions { get; set; } = new();
 
 
     }

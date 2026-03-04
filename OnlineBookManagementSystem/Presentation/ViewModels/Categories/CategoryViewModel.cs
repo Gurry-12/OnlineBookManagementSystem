@@ -28,6 +28,8 @@ public class CategoryItemViewModel
     public int BookCount { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
+    
+    public string BookCountText => BookCount == 1 ? "1 book" : $"{BookCount} books";
 
     // Books in this category (for public display)
     public List<CategoryBookViewModel>? Books { get; set; }
@@ -36,7 +38,6 @@ public class CategoryItemViewModel
     public string FormattedCreatedDate => FormattingExtensions.FormatDate(CreatedAt, "MMM dd, yyyy");
     public string FormattedUpdatedDate => FormattingExtensions.FormatDate(UpdatedAt, "MMM dd, yyyy") ?? "Never";
     public bool HasBooks => BookCount > 0;
-    public string BookCountText => BookCount == 1 ? "1 book" : $"{BookCount} books";
     public bool CanDelete => BookCount == 0; // Can only delete empty categories
 }
 

@@ -64,33 +64,33 @@
        Soft, sophisticated pastels with perfect contrast
        Inspired by modern design aesthetics and readability
        ======================================== */
-  --color-primary: #8b7cf6; /* Soft Lavender - gentle yet confident */
-  --color-primary-dark: #7c6df0; /* Medium Lavender */
-  --color-primary-light: #c4b5fd; /* Light Lavender */
+  --color-primary: #8b5cf6; /* Lavender Base */
+  --color-primary-dark: #5b21b6; /* Lavender Dark */
+  --color-primary-light: #ede9fe; /* Lavender Light */
 
-  --color-secondary: #64748b; /* Slate Gray - professional and modern */
-  --color-secondary-dark: #475569; /* Dark Slate */
-  --color-secondary-light: #94a3b8; /* Light Slate */
+  --color-secondary: #64748b; /* Slate Base */
+  --color-secondary-dark: #1e293b; /* Slate Dark */
+  --color-secondary-light: #f1f5f9; /* Slate Light */
 
-  --color-accent: #f59e0b; /* Amber - warm accent color */
-  --color-accent-dark: #d97706; /* Dark Amber */
-  --color-accent-light: #fbbf24; /* Light Amber */
+  --color-accent: #f97316; /* Orange Base */
+  --color-accent-dark: #9a3412; /* Orange Dark */
+  --color-accent-light: #ffedd5; /* Orange Light */
 
-  --color-success: #6ee7b7; /* Mint Green - fresh and positive */
-  --color-success-dark: #34d399; /* Medium Mint */
-  --color-success-light: #a7f3d0; /* Pale Mint */
+  --color-success: #10b981; /* Emerald Base */
+  --color-success-dark: #064e3b; /* Emerald Dark */
+  --color-success-light: #d1fae5; /* Emerald Light */
 
-  --color-danger: #fca5a5; /* Soft Rose - gentle warning */
-  --color-danger-dark: #f87171; /* Medium Rose */
-  --color-danger-light: #fecaca; /* Pale Rose */
+  --color-danger: #ef4444; /* Red Base */
+  --color-danger-dark: #991b1b; /* Red Dark */
+  --color-danger-light: #fee2e2; /* Red Light */
 
-  --color-warning: #fcd34d; /* Soft Gold - warm and inviting */
-  --color-warning-dark: #f59e0b; /* Medium Gold */
-  --color-warning-light: #fef3c7; /* Pale Gold */
+  --color-warning: #f59e0b; /* Amber Base */
+  --color-warning-dark: #92400e; /* Amber Dark */
+  --color-warning-light: #fef3c7; /* Amber Light */
 
-  --color-info: #7dd3fc; /* Sky Blue - calm and trustworthy */
-  --color-info-dark: #38bdf8; /* Medium Sky */
-  --color-info-light: #bae6fd; /* Pale Sky */
+  --color-info: #0ea5e9; /* Sky Base */
+  --color-info-dark: #075985; /* Sky Dark */
+  --color-info-light: #e0f2fe; /* Sky Light */
 
   /* ========================================
        STRUCTURAL LAYOUT VARIABLES
@@ -261,4 +261,16 @@
   --focus-ring-color: rgba(139, 124, 246, 0.15);
   --focus-ring-color-danger: rgba(252, 165, 165, 0.2);
   --focus-ring-color-success: rgba(110, 231, 183, 0.2);
+
+  /* ========================================
+       GLASS MORPHISM TOKENS (Root Fallbacks)
+       Overridden by .theme-* scoped tokens
+       ======================================== */
+  --glass-bg: rgba(255, 255, 255, 0.75);
+  --glass-bg-strong: rgba(255, 255, 255, 0.92);
+  --glass-border: rgba(226, 232, 240, 0.5);
+  --glass-blur: 14px;
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+
+  --text-white: color-mix(in srgb, var(--color-white), var(--color-white) 50%);
 }

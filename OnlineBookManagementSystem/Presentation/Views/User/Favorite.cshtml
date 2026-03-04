@@ -1,3 +1,4 @@
+@model OnlineBookManagementSystem.Presentation.ViewModels.User.FavoritesBooksViewModel
 @{
     ViewData["Title"] = "My Favorites";
     Layout = ViewData["Layout"]?.ToString() ?? "_LayoutUser";
@@ -48,14 +49,14 @@
                         <small class="fav-card__author">@book.Author</small>
                         <p class="fav-card__price">₹@book.Price</p>
                         <div class="d-flex gap-2">
-                            <button onclick="ToggleFavorite(@book.Id)" class="action-bar__button action-bar__button--secondary flex-fill">
+                            <button onclick="ToggleFavorite(@book.BookId)" class="action-bar__button action-bar__button--secondary flex-fill">
                                 <i class="bi bi-heart-fill me-1"></i>Remove
                             </button>
-                            <button onclick="AddToCart(@book.Id)" class="action-bar__button action-bar__button--primary flex-fill">
+                            <button onclick="AddToCart(@book.BookId)" class="action-bar__button action-bar__button--primary flex-fill">
                                 <i class="bi bi-cart-plus me-1"></i>Add
                             </button>
                         </div>
-                        <a asp-controller="User" asp-action="BookDetails" asp-route-id="@book.Id" class="stretched-link"></a>
+                        <a asp-controller="User" asp-action="BookDetails" asp-route-id="@book.BookId" class="stretched-link"></a>
                     </div>
                 </div>
             }

@@ -45,7 +45,6 @@ public static class DatabaseSeedingExtensions
                 await SeedSampleOrdersAsync(context, userManager, logger);
                 await SeedSampleReviewsAsync(context, userManager, logger);
                 await SeedSampleFavoritesAsync(context, userManager, logger);
-                await SeedActivityLogsAsync(context, userManager, logger);
             }
 
             logger.LogInformation("Database seeding completed successfully");
@@ -113,6 +112,44 @@ public static class DatabaseSeedingExtensions
             publicConfig["Password"] ?? "Public123!",
             "Public",
             "Public User");
+
+        // --- Seed Extra Sample Users For Testing ---
+        string[] sampleNames = { "Emma Watson", "John Doe", "Alice Smith", "Robert Johnson", "Michael Brown" };
+        for (int i = 0; i < sampleNames.Length; i++)
+        {
+            await CreateUserIfNotExistsAsync(userManager, logger,
+                $"user{i + 1}@example.com",
+                "Testing123!",
+                "User",
+                sampleNames[i]);
+        }
+        
+        // Seed some pending users to show in the approval queue
+        string[] pendingNames = { "David Waiting", "Sarah Pending", "Mike Unapproved" };
+        for (int i = 0; i < pendingNames.Length; i++)
+        {
+            var pendingEmail = $"pending{i + 1}@example.com";
+            if (await userManager.FindByEmailAsync(pendingEmail) == null)
+            {
+                var user = new User
+                {
+                    UserName = pendingEmail,
+                    Email = pendingEmail,
+                    Name = pendingNames[i],
+                    EmailConfirmed = true,
+                    IsPendingApproval = true,
+                    RequestDate = DateTime.UtcNow.AddDays(-i - 1),
+                    RequestedRole = i % 2 == 0 ? "Admin" : "User",
+                    CreatedAt = DateTime.UtcNow.AddDays(-i - 1),
+                    UpdatedAt = DateTime.UtcNow.AddDays(-i - 1)
+                };
+                var res = await userManager.CreateAsync(user, "Testing123!");
+                if (res.Succeeded)
+                {
+                    logger.LogInformation("Created pending user: {Email}", pendingEmail);
+                }
+            }
+        }
     }
 
     private static async Task CreateSuperAdminWithMultipleRolesAsync(
@@ -599,8 +636,8 @@ public static class DatabaseSeedingExtensions
             return;
         }
 
-        var users = await userManager.Users.Where(u => !u.IsDeleted).Take(3).ToListAsync();
-        var books = await context.Books.Take(5).ToListAsync();
+        var users = await userManager.Users.Where(u => !u.IsDeleted).ToListAsync();
+        var books = await context.Books.ToListAsync();
 
         if (!users.Any() || !books.Any())
         {
@@ -609,35 +646,44 @@ public static class DatabaseSeedingExtensions
         }
 
         var sampleOrders = new List<Order>();
-
-        // Create sample orders for different users
-        foreach (var user in users)
+        
+        // Generate 40-50 random orders over the past 90 days
+        int orderCount = Random.Shared.Next(40, 55);
+        for (int i = 0; i < orderCount; i++)
         {
+            var user = users[Random.Shared.Next(users.Count)];
+            var statusArray = new[] { OrderStatus.Pending, OrderStatus.Processing, OrderStatus.Shipped, OrderStatus.Delivered, OrderStatus.Cancelled };
+            
+            // Bias heavily towards completed/delivered orders
+            var status = Random.Shared.Next(0, 10) > 7 ? statusArray[Random.Shared.Next(statusArray.Length)] : OrderStatus.Completed;
+            var paymentStatus = status == OrderStatus.Cancelled ? PaymentStatus.Refunded : (status == OrderStatus.Pending ? PaymentStatus.Pending : PaymentStatus.Paid);
+
             var order = new Order
             {
                 UserId = user.Id,
-                OrderDate = DateTime.UtcNow.AddDays(-Random.Shared.Next(1, 30)),
-                Status = OrderStatus.Completed,
-                PaymentStatus = PaymentStatus.Paid,
+                OrderDate = DateTime.UtcNow.AddDays(-Random.Shared.Next(0, 90)).AddHours(-Random.Shared.Next(1, 24)),
+                Status = status,
+                PaymentStatus = paymentStatus,
                 ShippingAddress = new Address(
-                    fullName: "Sample User",
-                    street: $"{Random.Shared.Next(100, 999)} Main St",
-                    city: "Sample City",
-                    state: "Sample State",
+                    fullName: user.Name,
+                    street: $"{Random.Shared.Next(100, 9999)} Bookish Lane",
+                    city: "Literary City",
+                    state: "Reader State",
                     zipCode: $"{Random.Shared.Next(10000, 99999)}",
                     country: "USA"
                 ),
-                TotalAmount = new Money(0) // Will be calculated from order details
+                TotalAmount = new Money(0)
             };
 
             var orderDetails = new List<OrderDetail>();
-            var selectedBooks = books.OrderBy(x => Random.Shared.Next()).Take(Random.Shared.Next(1, 4)).ToList();
+            int lines = Random.Shared.Next(1, 5);
+            var selectedBooks = books.OrderBy(x => Random.Shared.Next()).Take(lines).ToList();
             decimal totalAmount = 0;
 
             foreach (var book in selectedBooks)
             {
-                var quantity = Random.Shared.Next(1, 4);
-                var unitPrice = new Money(book.Price.Amount); // Create a new Money instance
+                var quantity = Random.Shared.Next(1, 3);
+                var unitPrice = new Money(book.Price.Amount);
                 totalAmount += unitPrice.Amount * quantity;
 
                 var orderDetail = new OrderDetail
@@ -645,8 +691,8 @@ public static class DatabaseSeedingExtensions
                     BookId = book.Id,
                     Quantity = quantity,
                     UnitPrice = unitPrice,
-                    Subtotal = unitPrice.Multiply(quantity), // Explicitly set subtotal
-                    Order = order // Set navigation property
+                    Subtotal = unitPrice.Multiply(quantity),
+                    Order = order
                 };
 
                 orderDetails.Add(orderDetail);
@@ -670,9 +716,9 @@ public static class DatabaseSeedingExtensions
             return;
         }
 
-        var users = await userManager.Users.Where(u => !u.IsDeleted).Take(3).ToListAsync();
-        var books = await context.Books.Take(10).ToListAsync();
-
+        var users = await userManager.Users.Where(u => !u.IsDeleted).ToListAsync();
+        var books = await context.Books.ToListAsync();
+    
         if (!users.Any() || !books.Any())
         {
             logger.LogWarning("No users or books found, cannot seed sample reviews");
@@ -696,8 +742,8 @@ public static class DatabaseSeedingExtensions
 
         foreach (var book in books)
         {
-            // Add 1-3 reviews per book
-            var reviewCount = Random.Shared.Next(1, 4);
+            // Add 1-8 reviews per book
+            var reviewCount = Random.Shared.Next(1, 9);
             var selectedUsers = users.OrderBy(x => Random.Shared.Next()).Take(reviewCount).ToList();
 
             foreach (var user in selectedUsers)
@@ -728,8 +774,8 @@ public static class DatabaseSeedingExtensions
             return;
         }
 
-        var users = await userManager.Users.Where(u => !u.IsDeleted).Take(3).ToListAsync();
-        var books = await context.Books.Take(15).ToListAsync();
+        var users = await userManager.Users.Where(u => !u.IsDeleted).ToListAsync();
+        var books = await context.Books.ToListAsync();
 
         if (!users.Any() || !books.Any())
         {
@@ -741,8 +787,8 @@ public static class DatabaseSeedingExtensions
 
         foreach (var user in users)
         {
-            // Each user favorites 3-7 random books
-            var favoriteCount = Random.Shared.Next(3, 8);
+            // Each user favorites 5-15 random books
+            var favoriteCount = Random.Shared.Next(5, 16);
             var selectedBooks = books.OrderBy(x => Random.Shared.Next()).Take(favoriteCount).ToList();
 
             foreach (var book in selectedBooks)
@@ -763,63 +809,4 @@ public static class DatabaseSeedingExtensions
         logger.LogInformation("Seeded {Count} sample user favorites", sampleFavorites.Count);
     }
 
-    private static async Task SeedActivityLogsAsync(BookManagementContext context, UserManager<User> userManager, ILogger logger)
-    {
-        if (await context.ActivityLogs.AnyAsync())
-        {
-            logger.LogInformation("Activity logs already exist, skipping sample activity log seeding");
-            return;
-        }
-
-        var users = await userManager.Users.Where(u => !u.IsDeleted).ToListAsync();
-
-        if (!users.Any())
-        {
-            logger.LogWarning("No users found, cannot seed sample activity logs");
-            return;
-        }
-
-        var sampleActivities = new List<ActivityLog>();
-        var activities = new[]
-        {
-            ("Login", "User logged into the system"),
-            ("Logout", "User logged out of the system"),
-            ("Book Search", "User searched for books"),
-            ("Book View", "User viewed book details"),
-            ("Add to Cart", "User added book to shopping cart"),
-            ("Remove from Cart", "User removed book from shopping cart"),
-            ("Place Order", "User placed an order"),
-            ("Add to Favorites", "User added book to favorites"),
-            ("Remove from Favorites", "User removed book from favorites"),
-            ("Submit Review", "User submitted a book review"),
-            ("Update Profile", "User updated their profile"),
-            ("Password Change", "User changed their password")
-        };
-
-        foreach (var user in users)
-        {
-            // Generate 5-15 activity logs per user
-            var activityCount = Random.Shared.Next(5, 16);
-
-            for (int i = 0; i < activityCount; i++)
-            {
-                var (action, description) = activities[Random.Shared.Next(activities.Length)];
-                var activity = new ActivityLog
-                {
-                    UserId = user.Id,
-                    Action = action,
-                    Message = description,
-                    IpAddress = $"192.168.1.{Random.Shared.Next(1, 255)}",
-                    UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-                    Timestamp = DateTime.UtcNow.AddDays(-Random.Shared.Next(1, 30)).AddHours(-Random.Shared.Next(0, 24))
-                };
-
-                sampleActivities.Add(activity);
-            }
-        }
-
-        context.ActivityLogs.AddRange(sampleActivities);
-        await context.SaveChangesAsync();
-        logger.LogInformation("Seeded {Count} sample activity logs", sampleActivities.Count);
-    }
 }

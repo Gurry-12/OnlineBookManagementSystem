@@ -27,7 +27,7 @@
                 </div>
                 @if (Model.Capabilities.CanCreate)
                 {
-                    <a asp-controller="Admin" asp-action="CreateBook" class="action-bar__button action-bar__button--primary">
+                    <a asp-controller="Admin" asp-action="CreateBook" class="wp-btn wp-btn-primary">
                         <i class="bi bi-plus-circle me-2"></i>@Model.Capabilities.CreateButtonText
                     </a>
                 }
@@ -37,23 +37,22 @@
         <!-- Search & Filters -->
         @if (Model.Capabilities.CanSearch || Model.Capabilities.CanFilter || Model.Capabilities.CanSort)
         {
-            <div class="action-bar">
-                <div class="action-bar__body">
+            <div class="view-card mb-4 border-0 shadow-sm rounded-4">
+                <div class="view-card__body p-4">
                     <form method="get" asp-action="BookList" id="filter-form">
-                        <div class="action-bar__filters">
+                        <div class="d-flex flex-wrap flex-md-nowrap gap-3 align-items-end">
                             @if (Model.Capabilities.CanSearch)
                             {
-                                <div class="filter-group">
-                                    <label class="filter-group__label">
+                                <div class="flex-grow-1">
+                                    <label class="form-label fw-semibold text-muted mb-2">
                                         <i class="bi bi-search me-1"></i>Search Books
                                     </label>
-                                    <div class="search-bar">
-                                        <i class="bi bi-search search-bar__icon"></i>
+                                    <div class="input-group">
                                         <input type="text" name="search" value="@Model.SearchTerm" 
-                                               class="search-bar__input" placeholder="Search by title or author..." />
+                                               class="form-control" placeholder="Search by title or author..." />
                                         @if (!string.IsNullOrEmpty(Model.SearchTerm))
                                         {
-                                            <button type="button" class="search-bar__clear" onclick="clearSearch()">
+                                            <button type="button" class="btn btn-outline-secondary" onclick="clearSearch()">
                                                 <i class="bi bi-x"></i>
                                             </button>
                                         }
@@ -63,20 +62,20 @@
                             
                             @if (Model.Capabilities.CanFilter)
                             {
-                                <div class="filter-group">
-                                    <label class="filter-group__label">
+                                <div>
+                                    <label class="form-label fw-semibold text-muted mb-2">
                                         <i class="bi bi-tags me-1"></i>Category
                                     </label>
-                                    <select name="categoryId" class="filter-group__select" asp-items="ViewBag.Categories">
+                                    <select name="categoryId" class="form-select" asp-items="ViewBag.Categories">
                                         <option value="">All Categories</option>
                                     </select>
                                 </div>
                                 
-                                <div class="filter-group">
-                                    <label class="filter-group__label">
+                                <div>
+                                    <label class="form-label fw-semibold text-muted mb-2">
                                         <i class="bi bi-box me-1"></i>Availability
                                     </label>
-                                    <select name="inStock" class="filter-group__select">
+                                    <select name="inStock" class="form-select">
                                         <option value="">All Books</option>
                                         <option value="true">In Stock</option>
                                         <option value="false">Out of Stock</option>
@@ -86,11 +85,11 @@
                             
                             @if (Model.Capabilities.CanSort)
                             {
-                                <div class="filter-group">
-                                    <label class="filter-group__label">
+                                <div>
+                                    <label class="form-label fw-semibold text-muted mb-2">
                                         <i class="bi bi-sort-down me-1"></i>Sort By
                                     </label>
-                                    <select name="sortBy" class="filter-group__select">
+                                    <select name="sortBy" class="form-select">
                                         <option value="">Default Order</option>
                                         <option value="priceAsc">Price: Low to High</option>
                                         <option value="priceDesc">Price: High to Low</option>
@@ -100,15 +99,14 @@
                                     </select>
                                 </div>
                             }
-                        </div>
-                        
-                        <div class="action-bar__actions">
-                            <button type="submit" class="action-bar__button action-bar__button--primary">
-                                <i class="bi bi-funnel me-1"></i>Filter
-                            </button>
-                            <button type="button" class="action-bar__button action-bar__button--secondary" onclick="clearFilters()">
-                                <i class="bi bi-x-circle me-1"></i>Clear
-                            </button>
+                            <div class="d-flex gap-2">
+                                <button type="submit" class="wp-btn wp-btn-primary">
+                                    <i class="bi bi-funnel"></i><span class="d-none d-md-inline ms-1">Filter</span>
+                                </button>
+                                <button type="button" class="wp-btn wp-btn-secondary" onclick="clearFilters()">
+                                    <i class="bi bi-x-circle"></i>
+                                </button>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -121,153 +119,26 @@
             <div class="book-list__grid">
                 @foreach (var book in Model.Books)
                 {
-                    <div class="book-card">
-                        <!-- Book Image -->
-                        <div class="book-card__image-container">
-                            <img src="@(book.ImageUrl ?? Url.Content("~/images/default-book-improved.svg"))"
-                                 alt="@book.Title" 
-                                 class="book-card__image">
-                            
-                            <!-- Stock Badge -->
-                            <div class="book-card__badge-container book-card__badge-container--top-right">
-                                @if (book.StockQuantity > 0)
-                                {
-                                    <span class="book-card__badge book-card__badge--success">
-                                        <i class="bi bi-check-circle me-1"></i>In Stock
-                                    </span>
-                                }
-                                else
-                                {
-                                    <span class="book-card__badge book-card__badge--danger">
-                                        <i class="bi bi-x-circle me-1"></i>Out of Stock
-                                    </span>
-                                }
-                            </div>
-                            
-                            <!-- Admin Actions Dropdown -->
-                            @if (Model.Capabilities.CanEdit || Model.Capabilities.CanDelete)
-                            {
-                                <div class="book-card__badge-container book-card__badge-container--top-left">
-                                    <div class="dropdown">
-                                        <button class="book-card__action-btn book-card__action-btn--dropdown" 
-                                                type="button" data-bs-toggle="dropdown">
-                                            <i class="bi bi-three-dots"></i>
-                                        </button>
-                                        <ul class="dropdown-menu shadow">
-                                            @if (Model.Capabilities.CanEdit)
-                                            {
-                                                <li>
-                                                    <a class="dropdown-item" asp-controller="Admin" asp-action="EditBook" asp-route-id="@book.Id">
-                                                        <i class="bi bi-pencil me-2 text-warning"></i>Edit Book
-                                                    </a>
-                                                </li>
-                                            }
-                                            @if (Model.Capabilities.CanDelete)
-                                            {
-                                                <li><hr class="dropdown-divider"></li>
-                                                <li>
-                                                    <a class="dropdown-item text-danger" href="#" onclick="deleteBook(@book.Id, '@book.Title')">
-                                                        <i class="bi bi-trash me-2"></i>Delete Book
-                                                    </a>
-                                                </li>
-                                            }
-                                        </ul>
-                                    </div>
-                                </div>
-                            }
-
-                            <!-- Favorite Button Overlay (User Role Only) -->
-                            @if (Model.Capabilities.CanFavorite)
-                            {
-                                <div class="book-card__badge-container book-card__badge-container--favorite">
-                                    <button class="book-card__action-btn book-card__action-btn--favorite" 
-                                            onclick="toggleFavorite(@book.Id)" 
-                                            title="Add to Favorites">
-                                        <i class="bi bi-heart"></i>
-                                    </button>
-                                </div>
-                            }
-                        </div>
-
-                        <!-- Book Info -->
-                        <div class="book-card__body">
-                            <div class="book-card__header">
-                                <h6 class="book-card__title" title="@book.Title">@book.Title</h6>
-                                <p class="book-card__author">
-                                    <i class="bi bi-person me-1"></i>by @book.Author
-                                </p>
-                            </div>
-                            
-                            @if (!string.IsNullOrEmpty(book.Category?.Name))
-                            {
-                                <div class="book-card__category">
-                                    <span class="book-card__category-badge">
-                                        <i class="bi bi-tag me-1"></i>@book.Category.Name
-                                    </span>
-                                </div>
-                            }
-                            
-                            <div class="book-card__footer">
-                                <!-- Price and Stock Info -->
-                                <div class="book-card__price-section">
-                                    <div class="book-card__price-info">
-                                        <span class="book-card__price">@book.Price.Amount.ToString("C")</span>
-                                        @if (Model.Capabilities.CanViewTechnicalInfo)
-                                        {
-                                            <small class="book-card__stock-info">Stock: @book.StockQuantity units</small>
-                                        }
-                                    </div>
-                                    @if (book.AverageRating > 0)
-                                    {
-                                        <div class="book-card__rating">
-                                            <div class="book-card__stars">
-                                                @for (int i = 1; i <= 5; i++)
-                                                {
-                                                    @if (i <= Math.Round(book.AverageRating))
-                                                    {
-                                                        <i class="bi bi-star-fill"></i>
-                                                    }
-                                                    else
-                                                    {
-                                                        <i class="bi bi-star"></i>
-                                                    }
-                                                }
-                                            </div>
-                                            <small class="book-card__rating-score">@book.AverageRating.ToString("F1")</small>
-                                        </div>
-                                    }
-                                </div>
-                                
-                                <!-- Action Buttons -->
-                                <div class="book-card__actions">
-                                    <!-- View Details Button (Always Available) -->
-                                    @if (Model.Capabilities.CanViewBookDetails)
-                                    {
-                                        <a asp-controller="@Model.Capabilities.DetailsControllerName" 
-                                           asp-action="@Model.Capabilities.DetailsActionName" 
-                                           asp-route-id="@book.Id" 
-                                           class="book-card__btn book-card__btn--secondary">
-                                            <i class="bi bi-eye me-1"></i>View Details
-                                        </a>
-                                    }
-                                    
-                                    <!-- User-Only Actions -->
-                                    @if (Model.Capabilities.CanAddToCart && book.StockQuantity > 0)
-                                    {
-                                        <button class="book-card__btn book-card__btn--primary" onclick="addToCart(@book.Id)">
-                                            <i class="bi bi-cart-plus me-1"></i>Add to Cart
-                                        </button>
-                                    }
-                                    else if (Model.Capabilities.CanAddToCart && book.StockQuantity == 0)
-                                    {
-                                        <button class="book-card__btn book-card__btn--disabled" disabled>
-                                            <i class="bi bi-x-circle me-1"></i>Out of Stock
-                                        </button>
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @await Html.PartialAsync("_BookCardPartial", new OnlineBookManagementSystem.Presentation.ViewModels.Shared.BookCardViewModel
+                    {
+                        Id = book.Id,
+                        Title = book.Title,
+                        Author = book.Author,
+                        ImageUrl = book.ImageUrl,
+                        StockQuantity = book.StockQuantity,
+                        CategoryName = book.Category?.Name,
+                        Price = book.Price.Amount,
+                        AverageRating = book.AverageRating,
+                        CanEdit = Model.Capabilities.CanEdit,
+                        CanDelete = Model.Capabilities.CanDelete,
+                        CanFavorite = Model.Capabilities.CanFavorite,
+                        IsFavorite = false, 
+                        CanViewTechnicalInfo = Model.Capabilities.CanViewTechnicalInfo,
+                        CanViewDetails = Model.Capabilities.CanViewBookDetails,
+                        DetailsControllerName = Model.Capabilities.DetailsControllerName,
+                        DetailsActionName = Model.Capabilities.DetailsActionName,
+                        CanAddToCart = Model.Capabilities.CanAddToCart
+                    })
                 }
             </div>
         }
@@ -296,8 +167,8 @@
                 </p>
                 @if (Model.Capabilities.CanCreate)
                 {
-                    <div class="empty-state__action">
-                        <a asp-controller="Admin" asp-action="CreateBook" class="action-bar__button action-bar__button--primary">
+                    <div class="empty-state__action mt-4">
+                        <a asp-controller="Admin" asp-action="CreateBook" class="wp-btn wp-btn-primary">
                             <i class="bi bi-plus-circle me-2"></i>Add First Book
                         </a>
                     </div>

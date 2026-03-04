@@ -6,9 +6,14 @@ using OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Orders;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Domain.Users;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure.Authentication;
 using OnlineBookManagementSystem.Core.Application.Interfaces.Infrastructure.Logging;
+using OnlineBookManagementSystem.Core.Domain.Enums;
 using OnlineBookManagementSystem.Presentation.ViewModels.Books;
 using OnlineBookManagementSystem.Presentation.ViewModels.Cart;
+using OnlineBookManagementSystem.Presentation.ViewModels.Orders;
 using OnlineBookManagementSystem.Presentation.ViewModels.User;
+using OrderDetailsViewModel = OnlineBookManagementSystem.Presentation.ViewModels.Orders.OrderDetailsViewModel;
+using OrderDetailsCapabilities = OnlineBookManagementSystem.Presentation.ViewModels.Orders.OrderDetailsCapabilities;
+using OrderItemViewModel = OnlineBookManagementSystem.Presentation.ViewModels.Orders.OrderItemViewModel;
 
 namespace OnlineBookManagementSystem.Presentation.Controllers
 {
@@ -166,7 +171,23 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
             var favoriteBooks = await _bookFavoriteService.GetUserFavoriteBooksAsync(userId);
             await _activityLogger.LogAsync("ViewFavorites", "User viewed favorite books", userId);
 
-            return View(favoriteBooks);
+            var viewModel = new FavoritesBooksViewModel
+            {
+                FavoriteBooks = favoriteBooks.Select(b => new FavoriteBookItemViewModel
+                {
+                    BookId = b.Id,
+                    Title = b.Title,
+                    Author = b.Author,
+                    Price = b.Price,
+                    ImageUrl = b.ImageUrl,
+                    CategoryName = b.Category?.Name,
+                    StockQuantity = b.StockQuantity,
+                    AddedToFavoritesDate = DateTime.Now
+                }).ToList(),
+                TotalFavorites = favoriteBooks.Count()
+            };
+
+            return View(viewModel);
         }
 
         [HttpPost]
@@ -198,7 +219,54 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
             var userId = GetUserIdFromClaims();
             if (userId == 0) return RedirectToAction("Login", "Auth");
 
-            var viewModel = await _orderQueryService.GetUserOrderHistoryAsync(userId, page, 10, status, dateFrom, dateTo);
+            var historyView = await _orderQueryService.GetUserOrderHistoryAsync(userId, page, 10, status, dateFrom, dateTo);
+
+            var viewModel = new OnlineBookManagementSystem.Presentation.ViewModels.Orders.OrderListViewModel
+            {
+                Orders = historyView.Orders.Select(o => new OnlineBookManagementSystem.Core.Domain.Entities.Order
+                {
+                    Id = o.Id,
+                    OrderDate = o.OrderDate,
+                    TotalAmount = o.TotalAmount,
+                    Status = o.Status,
+                    PaymentMethod = o.PaymentMethod,
+                    OrderDetails = o.OrderDetails?.Select(od => new OnlineBookManagementSystem.Core.Domain.Entities.OrderDetail
+                    {
+                        BookId = od.BookId,
+                        Quantity = od.Quantity,
+                        UnitPrice = od.UnitPrice,
+                        Book = new OnlineBookManagementSystem.Core.Domain.Entities.Book { Title = od.BookTitle }
+                    }).ToList() ?? new List<OnlineBookManagementSystem.Core.Domain.Entities.OrderDetail>()
+                }).ToList(),
+                CurrentPage = historyView.CurrentPage,
+                TotalPages = historyView.TotalPages,
+                TotalOrders = historyView.TotalOrders,
+                SearchTerm = historyView.SearchTerm,
+                StatusFilter = historyView.StatusFilter,
+                DateFrom = historyView.DateFrom,
+                DateTo = historyView.DateTo,
+                Capabilities = new OnlineBookManagementSystem.Presentation.ViewModels.Orders.OrderListCapabilities
+                {
+                    CanViewAllOrders = false,
+                    CanViewCustomerInfo = false,
+                    CanViewPaymentSummary = false,
+                    CanViewStatistics = false,
+                    CanChangeStatus = false,
+                    CanViewPaymentDetails = false,
+                    CanRefund = false,
+                    CanCancel = true,
+                    CanFilter = true,
+                    CanSearch = false,
+                    CanSort = false,
+                    CanPaginate = true,
+                    IsAuthenticated = true,
+                    PageTitle = "My Orders",
+                    BackLinkText = "Back to Dashboard",
+                    BackLinkUrl = "/User/Dashboard",
+                    DetailsControllerName = "User",
+                    DetailsActionName = "OrderDetails"
+                }
+            };
 
             ViewBag.Status = status;
             ViewBag.DateFrom = dateFrom?.ToString("yyyy-MM-dd");
@@ -222,9 +290,53 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
                 return RedirectToAction(nameof(OrderHistory));
             }
 
+            var viewModel = new OrderDetailsViewModel
+            {
+                OrderId = order.Id,
+                OrderNumber = order.Id.ToString(),
+                OrderDate = order.OrderDate ?? DateTime.UtcNow,
+                Status = order.Status,
+                PaymentStatus = order.PaymentStatus,
+                Subtotal = order.GetItemsTotal().Amount,
+                Tax = 0,
+                ShippingCost = 0,
+                TotalAmount = order.TotalAmount.Amount,
+                PaymentMethod = order.PaymentMethod ?? "Unknown",
+                FullName = order.FullName ?? order.User?.Name ?? "Unknown",
+                PhoneNumber = order.Phone ?? order.PhoneNumber ?? "N/A",
+                ShippingAddress = order.Address ?? "N/A",
+                City = order.City ?? "N/A",
+                PinCode = order.ZipCode ?? "N/A",
+                Items = order.OrderDetails.Select(od => new OrderItemViewModel
+                {
+                    BookId = od.BookId,
+                    BookTitle = od.Book?.Title ?? $"Book #{od.BookId}",
+                    BookImageUrl = od.Book?.ImageUrl,
+                    Quantity = od.Quantity,
+                    UnitPrice = od.UnitPrice.Amount,
+                    Subtotal = od.Subtotal.Amount
+                }).ToList(),
+                Capabilities = new OrderDetailsCapabilities
+                {
+                    CanCancel = order.Status == OrderStatus.Pending || order.Status == OrderStatus.Processing,
+                    CanChangeStatus = false,
+                    CanMarkAsProcessing = false,
+                    CanMarkAsShipped = false,
+                    CanMarkAsCompleted = false,
+                    CanMarkAsCancelled = false,
+                    CanViewCustomerInfo = false,
+                    CanViewPaymentDetails = false,
+                    CanViewTechnicalDetails = false,
+                    CanRefund = false,
+                    IsAuthenticated = true,
+                    IsOwnOrder = true,
+                    BackLinkText = "Back to My Orders",
+                    BackLinkUrl = "/User/OrderHistory"
+                }
+            };
+
             await _activityLogger.LogAsync("ViewOrderDetails", $"Viewed order details for order {id}", userId);
-            // Use canonical Orders/Details view
-            return View("~/Presentation/Views/Orders/Details.cshtml", order);
+            return View("~/Presentation/Views/Orders/Details.cshtml", viewModel);
         }
 
         [Authorize(Policy = "UserOrHigher")]
@@ -245,14 +357,14 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
 
         [HttpPost]
         [Authorize(Policy = "UserOrHigher")]
-        public async Task<IActionResult> UpdateProfile(UserProfileViewModel model)
+        public async Task<IActionResult> UpdateProfile(ProfileViewModel model)
         {
             var userId = GetUserIdFromClaims();
             if (userId == 0) return RedirectToAction("Login", "Auth");
 
             if (!ModelState.IsValid)
             {
-                return View("~/Presentation/Views/User/Profile.cshtml", model);
+                return View("~/Presentation/Views/Auth/ProfileView.cshtml", model);
             }
 
             try
@@ -273,7 +385,7 @@ namespace OnlineBookManagementSystem.Presentation.Controllers
                 ModelState.AddModelError("", "An error occurred while updating your profile.");
             }
 
-            return View("~/Presentation/Views/User/Profile.cshtml", model);
+            return View("~/Presentation/Views/Auth/ProfileView.cshtml", model);
         }
 
         [HttpPost]

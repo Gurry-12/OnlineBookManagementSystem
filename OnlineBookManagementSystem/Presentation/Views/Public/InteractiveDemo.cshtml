@@ -4,205 +4,153 @@
     Layout = "_LayoutPublic";
 }
 
-<!-- Demo Hero Section -->
-<section class="demo-hero aurora-bg noise-overlay py-5">
-    <div class="container">
-        <div class="row align-items-center min-vh-50">
-            <div class="col-lg-8 mx-auto text-center" data-fade-in>
-                <div class="hero-content">
-                    <div class="hero-badge mb-3">
-                        <span class="wp-badge bg-success bg-opacity-20 text-success px-4 py-2 rounded-pill fs-6">
-                            <i class="bi bi-play-circle me-2"></i>Live Interactive Demo
-                        </span>
-                    </div>
-                    <h1 class="display-3 fw-bold text-white mb-4">
-                        Experience the System Live
-                    </h1>
-                    <p class="lead text-white-75 mb-4 fs-4">
-                        Explore the full functionality with real data. Search, browse, and interact 
-                        with the book management system in read-only demo mode.
-                    </p>
-                    <div class="demo-stats d-flex justify-content-center gap-4 mb-4">
-                        <div class="stat-item text-center">
-                            <div class="stat-value text-white fw-bold fs-3">@Model.Statistics.TotalBooks</div>
-                            <div class="stat-label text-white-50 small">Books Available</div>
-                        </div>
-                        <div class="stat-item text-center">
-                            <div class="stat-value text-white fw-bold fs-3">@Model.Categories.Count</div>
-                            <div class="stat-label text-white-50 small">Categories</div>
-                        </div>
-                        <div class="stat-item text-center">
-                            <div class="stat-value text-white fw-bold fs-3">@Model.Statistics.AverageRating.ToString("F1")</div>
-                            <div class="stat-label text-white-50 small">Avg Rating</div>
-                        </div>
-                    </div>
-                </div>
+<section class="demo-hero aurora-bg noise-overlay">
+    <div class="pub-hero--centered">
+        <div class="pub-hero__eyebrow">
+            <i class="bi bi-play-circle me-2" aria-hidden="true"></i>Live Interactive Demo
+        </div>
+        <h1 class="pub-hero__title ">Experience the System Live</h1>
+        <p class="pub-hero__description ">
+            Explore the full functionality with real data. Search, browse, and interact
+            with the book management system in read-only demo mode.
+        </p>
+        <div class="pub-hero__mini-stats">
+            <div>
+                <div class="pub-hero__mini-stat-value ">@Model.Statistics.TotalBooks</div>
+                <div class="pub-hero__mini-stat-label ">Books Available</div>
+            </div>
+            <div>
+                <div class="pub-hero__mini-stat-value ">@Model.Categories.Count</div>
+                <div class="pub-hero__mini-stat-label ">Categories</div>
+            </div>
+            <div>
+                <div class="pub-hero__mini-stat-value ">@Model.Statistics.AverageRating.ToString("F1")</div>
+                <div class="pub-hero__mini-stat-label ">Avg Rating</div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Interactive Search Section -->
-<section class="search-demo py-5">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="display-5 fw-bold mb-3">Live Search Demo</h2>
-            <p class="lead text-muted">Search through our book collection in real-time</p>
+<section class="pub-section">
+    <div class="pub-section__inner">
+        <div class="pub-section__header">
+            <h2 class="pub-section__title">Live Search Demo</h2>
+            <p class="pub-section__subtitle">Search through our book collection in real-time</p>
         </div>
-
-        <div class="row justify-content-center mb-5">
-            <div class="col-lg-8">
-                <div class="search-container glass p-4 rounded-4" data-fade-in>
-                    <div class="search-form">
-                        <div class="input-group input-group-lg">
-                            <span class="input-group-text bg-transparent border-0">
-                                <i class="bi bi-search text-muted"></i>
-                            </span>
-                            <input type="text" id="demoSearch" class="form-control border-0 bg-transparent" 
-                                   placeholder="Search books by title, author, or category..." 
-                                   autocomplete="off">
-                            <button class="wp-btn-primary" type="button" onclick="performDemoSearch()">
-                                <i class="bi bi-search me-2"></i>Search
-                            </button>
-                        </div>
-                    </div>
-                    <div class="search-suggestions mt-3">
-                        <small class="text-muted">Try searching for: "fiction", "programming", "history", or any author name</small>
-                    </div>
+        <div class="pub-centered-narrow mb-5">
+            <div class="search-container glass p-4 rounded-4" data-fade-in>
+                <div class="input-group input-group-lg">
+                    <span class="input-group-text bg-transparent border-0">
+                        <i class="bi bi-search text-muted" aria-hidden="true"></i>
+                    </span>
+                    <input type="text" id="demoSearch" class="form-control border-0 bg-transparent"
+                           placeholder="Search books by title, author, or category..."
+                           autocomplete="off">
+                    <button class="wp-btn wp-btn-primary" type="button" onclick="performDemoSearch()">
+                        <i class="bi bi-search me-2" aria-hidden="true"></i>Search
+                    </button>
+                </div>
+                <div class="mt-3">
+                    <small class="text-muted">Try searching for: "fiction", "programming", "history", or any author name</small>
                 </div>
             </div>
         </div>
-
-        <!-- Search Results -->
         <div id="searchResults" class="search-results" style="display: none;">
             <div class="text-center mb-4">
-                <h4 class="fw-bold">Search Results</h4>
+                <h3 class="pub-feature-card__title">Search Results</h3>
                 <div id="searchResultsCount" class="text-muted"></div>
             </div>
-            <div id="searchResultsGrid" class="row g-4">
-                <!-- Results will be populated by JavaScript -->
-            </div>
+            <div id="searchResultsGrid" class="pub-books-grid"></div>
         </div>
     </div>
 </section>
 
-<!-- Category Browse Demo -->
-<section class="category-demo py-5 bg-light">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="display-5 fw-bold mb-3">Browse by Category</h2>
-            <p class="lead text-muted">Explore books organized by genre and topic</p>
+<section class="pub-section pub-section--alt">
+    <div class="pub-section__inner">
+        <div class="pub-section__header">
+            <h2 class="pub-section__title">Browse by Category</h2>
+            <p class="pub-section__subtitle">Explore books organized by genre and topic</p>
         </div>
-
-        <div class="row g-4">
+        <div class="pub-categories-grid">
             @foreach (var category in Model.Categories.Take(8))
             {
-                <div class="col-lg-3 col-md-4 col-sm-6" data-fade-in>
-                    <div class="category-demo-card glass spotlight-card hover-lift text-decoration-none d-block p-4 text-center cursor-pointer"
-                         onclick="browseCategoryDemo(@category.Id, '@category.Name')">
-                        <div class="category-icon mb-3">
-                            <i class="@category.IconClass text-primary" style="font-size: 2.5rem;"></i>
-                        </div>
-                        <h5 class="category-name fw-bold mb-2">@category.Name</h5>
-                        <p class="category-description text-muted small mb-2">@category.Description</p>
-                        <div class="category-stats">
-                            <span class="wp-badge bg-primary bg-opacity-20 text-primary">
-                                @category.BookCount books
-                            </span>
-                        </div>
-                    </div>
+                <div class="glass spotlight-card hover-lift p-4 text-center cursor-pointer"
+                     onclick="browseCategoryDemo(@category.Id, '@category.Name')" data-fade-in>
+                    <i class="@category.IconClass text-primary pub-contact-method-card__icon" aria-hidden="true"></i>
+                    <h3 class="pub-feature-card__title mt-3">@category.Name</h3>
+                    <p class="pub-feature-card__desc">@category.Description</p>
+                    <span class="wp-badge bg-primary bg-opacity-20 text-white">@category.BookCount books</span>
                 </div>
             }
         </div>
-
-        <!-- Category Results -->
-        <div id="categoryResults" class="category-results mt-5" style="display: none;">
+        <div id="categoryResults" class="mt-5" style="display: none;">
             <div class="text-center mb-4">
-                <h4 class="fw-bold">Category: <span id="categoryResultsTitle"></span></h4>
+                <h3 class="pub-feature-card__title">Category: <span id="categoryResultsTitle"></span></h3>
                 <div id="categoryResultsCount" class="text-muted"></div>
             </div>
-            <div id="categoryResultsGrid" class="row g-4">
-                <!-- Results will be populated by JavaScript -->
-            </div>
+            <div id="categoryResultsGrid" class="pub-books-grid"></div>
         </div>
     </div>
 </section>
 
-<!-- Featured Books Demo -->
-<section class="featured-demo py-5">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="display-5 fw-bold mb-3">Featured Books</h2>
-            <p class="lead text-muted">Handpicked selections from our collection</p>
+<section class="pub-section">
+    <div class="pub-section__inner">
+        <div class="pub-section__header">
+            <h2 class="pub-section__title">Featured Books</h2>
+            <p class="pub-section__subtitle">Handpicked selections from our collection</p>
         </div>
-
-        <div class="row g-4">
+        <div class="pub-books-grid">
             @if (Model.FeaturedBooks.Books.Any())
             {
                 @foreach (var book in Model.FeaturedBooks.Books)
                 {
-                    <div class="col-lg-3 col-md-4 col-sm-6" data-fade-in>
-                        <div class="demo-book-card spotlight-card hover-lift h-100">
-                            <div class="book-image-wrapper position-relative">
-                                <img src="@(book.ImageUrl ?? Url.Content("~/images/default-book-improved.svg"))" 
-                                     alt="@book.Title" 
-                                     class="demo-book-cover w-100">
-                                
-                                <div class="demo-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center">
-                                    <button class="wp-btn-light wp-btn-sm" onclick="viewBookDemo(@book.Id)">
-                                        <i class="bi bi-eye me-1"></i>View Details
-                                    </button>
-                                </div>
-                                
-                                <div class="demo-badge position-absolute top-0 start-0 m-2">
-                                    <span class="wp-badge bg-success bg-opacity-90">
-                                        <i class="bi bi-play-circle me-1"></i>Demo
-                                    </span>
-                                </div>
-                                
-                                @if (book.StockQuantity > 0)
-                                {
-                                    <span class="wp-badge bg-success position-absolute top-0 end-0 m-2">
-                                        <i class="bi bi-check-circle me-1"></i>In Stock
-                                    </span>
-                                }
-                                else
-                                {
-                                    <span class="wp-badge bg-danger position-absolute top-0 end-0 m-2">
-                                        <i class="bi bi-x-circle me-1"></i>Out of Stock
-                                    </span>
-                                }
+                    <div class="pub-book-card spotlight-card" data-fade-in>
+                        <div class="position-relative">
+                            <img src="@(book.ImageUrl ?? Url.Content("~/images/default-book-improved.svg"))"
+                                 alt="@book.Title" class="pub-book-card__cover">
+                            <div class="demo-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center">
+                                <button class="wp-btn wp-btn-primary" onclick="viewBookDemo(@book.Id)">
+                                    <i class="bi bi-eye me-1" aria-hidden="true"></i>View Details
+                                </button>
                             </div>
-                            
-                            <div class="book-details p-3">
-                                <h5 class="book-title mb-2 text-truncate">@book.Title</h5>
-                                <p class="book-author text-muted mb-2">
-                                    <i class="bi bi-person me-1"></i>@book.Author
-                                </p>
-                                
-                                @if (!string.IsNullOrEmpty(book.Category?.Name))
+                            <div class="demo-badge position-absolute top-0 start-0 m-2">
+                                <span class="wp-badge bg-success text-white">
+                                    <i class="bi bi-play-circle me-1" aria-hidden="true"></i>Demo
+                                </span>
+                            </div>
+                            @if (book.StockQuantity > 0)
+                            {
+                                <span class="wp-badge bg-success text-white position-absolute top-0 end-0 m-2">
+                                    <i class="bi bi-check-circle me-1" aria-hidden="true"></i>In Stock
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="wp-badge bg-danger text-white position-absolute top-0 end-0 m-2">
+                                    <i class="bi bi-x-circle me-1" aria-hidden="true"></i>Out of Stock
+                                </span>
+                            }
+                        </div>
+                        <div class="pub-book-card__body">
+                            @if (!string.IsNullOrEmpty(book.Category?.Name))
+                            {
+                                <span class="wp-badge bg-info text-white pub-book-card__badge">
+                                    <i class="bi bi-tag me-1" aria-hidden="true"></i>@book.Category.Name
+                                </span>
+                            }
+                            <h3 class="pub-book-card__title">@book.Title</h3>
+                            <p class="pub-book-card__author"><i class="bi bi-person me-1" aria-hidden="true"></i>@book.Author</p>
+                            <div class="pub-book-card__footer">
+                                <span class="pub-book-card__price">₹@book.Price.Amount.ToString("N2")</span>
+                                @if (book.AverageRating > 0)
                                 {
-                                    <span class="wp-badge bg-info mb-2">
-                                        <i class="bi bi-tag me-1"></i>@book.Category.Name
+                                    <span class="text-warning">
+                                        @for (int i = 1; i <= 5; i++)
+                                        {
+                                            <i class="bi @(i <= book.AverageRating ? "bi-star-fill" : "bi-star")" aria-hidden="true"></i>
+                                        }
                                     </span>
                                 }
-                                
-                                <div class="d-flex justify-content-between align-items-center mt-3">
-                                    <span class="book-price fw-bold text-primary fs-5">
-                                        ₹@book.Price.Amount.ToString("N2")
-                                    </span>
-                                    <div class="book-rating">
-                                        @if (book.AverageRating > 0)
-                                        {
-                                            <span class="text-warning">
-                                                @for (int i = 1; i <= 5; i++)
-                                                {
-                                                    <i class="bi @(i <= book.AverageRating ? "bi-star-fill" : "bi-star")"></i>
-                                                }
-                                            </span>
-                                        }
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -210,29 +158,26 @@
             }
             else
             {
-                <div class="col-12">
-                    <div class="text-center py-5">
-                        <i class="bi bi-book display-1 text-muted"></i>
-                        <h4 class="mt-3">Loading demo content...</h4>
-                        <p class="text-muted">Please wait while we prepare the interactive demo</p>
-                    </div>
+                <div style="grid-column: 1 / -1;" class="text-center py-5">
+                    <i class="bi bi-book display-1 text-muted" aria-hidden="true"></i>
+                    <h3 class="mt-3">Loading demo content...</h3>
+                    <p class="text-muted">Please wait while we prepare the interactive demo</p>
                 </div>
             }
         </div>
     </div>
 </section>
 
-<!-- Feature Showcases -->
-<section class="feature-showcases py-5 bg-light">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="display-5 fw-bold mb-3">System Features & Capabilities</h2>
-            <p class="lead text-muted">Comprehensive feature demonstrations with technical insights</p>
+<section class="pub-section pub-section--alt">
+    <div class="pub-section__inner">
+        <div class="pub-section__header">
+            <h2 class="pub-section__title">System Features &amp; Capabilities</h2>
+            <p class="pub-section__subtitle">Comprehensive feature demonstrations with technical insights</p>
         </div>
 
         <!-- Feature Comparison Table -->
-        <div class="row mb-5">
-            <div class="col-12">
+        <div class="mb-5">
+
                 <div class="glass p-4">
                     <h3 class="mb-4">
                         <i class="bi bi-table me-2"></i>Feature Comparison Matrix
@@ -304,259 +249,119 @@
                         </small>
                     </div>
                 </div>
-            </div>
         </div>
 
         <!-- Individual Feature Cards -->
-        <div class="row g-4">
+        <div class="pub-features-grid">
             @foreach (var feature in Model.FeatureShowcases)
             {
-                <div class="col-lg-4 col-md-6" data-fade-in>
-                    <div class="feature-showcase-card glass spotlight-card hover-lift h-100 p-4">
-                        <div class="feature-header mb-3">
-                            <div class="feature-category mb-2">
-                                <span class="wp-badge bg-primary bg-opacity-20 text-primary">@feature.Category</span>
-                            </div>
-                            <h4 class="feature-title fw-bold mb-2">@feature.FeatureName</h4>
-                        </div>
-                        <p class="feature-description text-muted mb-3">@feature.Description</p>
-                        @if (feature.IsInteractive)
-                        {
-                            <div class="feature-demo mb-3">
-                                <button class="wp-btn-outline-primary wp-btn-sm" onclick="demonstrateFeature('@feature.FeatureName')">
-                                    <i class="bi bi-play-circle me-1"></i>Try Feature
-                                </button>
-                            </div>
-                        }
-                        @if (!string.IsNullOrEmpty(feature.ScreenshotUrl))
-                        {
-                            <div class="feature-screenshot">
-                                <img src="@feature.ScreenshotUrl" alt="@feature.FeatureName Screenshot" 
-                                     class="img-fluid rounded">
-                            </div>
-                        }
+                <div class="pub-feature-card glass spotlight-card hover-lift" data-fade-in>
+                    <div class="pub-feature-card__category">
+                        <span class="wp-badge bg-primary bg-opacity-20 text-white">@feature.Category</span>
                     </div>
+                    <h3 class="pub-feature-card__title">@feature.FeatureName</h3>
+                    <p class="pub-feature-card__desc">@feature.Description</p>
+                    @if (feature.IsInteractive)
+                    {
+                        <button class="wp-btn  wp-btn-outline" onclick="demonstrateFeature('@feature.FeatureName')">
+                            <i class="bi bi-play-circle me-1" aria-hidden="true"></i>Try Feature
+                        </button>
+                    }
                 </div>
             }
-            
-            <!-- Additional Static Feature Cards -->
-            <div class="col-lg-4 col-md-6" data-fade-in>
-                <div class="feature-showcase-card glass spotlight-card hover-lift h-100 p-4">
-                    <div class="feature-header mb-3">
-                        <div class="feature-category mb-2">
-                            <span class="wp-badge bg-success bg-opacity-20 text-success">Architecture</span>
-                        </div>
-                        <h4 class="feature-title fw-bold mb-2">Clean Architecture</h4>
-                    </div>
-                    <p class="feature-description text-muted mb-3">
-                        Implements Uncle Bob's Clean Architecture with clear separation of concerns and dependency inversion.
-                    </p>
-                    <div class="feature-demo mb-3">
-                        <button class="wp-btn-outline-success wp-btn-sm" onclick="showArchitectureDemo()">
-                            <i class="bi bi-diagram-3 me-1"></i>View Architecture
-                        </button>
-                    </div>
-                    <div class="tech-highlights">
-                        <small class="text-muted">
-                            <i class="bi bi-check text-success me-1"></i>Domain-Driven Design<br>
-                            <i class="bi bi-check text-success me-1"></i>SOLID Principles<br>
-                            <i class="bi bi-check text-success me-1"></i>Testable Architecture
-                        </small>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-lg-4 col-md-6" data-fade-in>
-                <div class="feature-showcase-card glass spotlight-card hover-lift h-100 p-4">
-                    <div class="feature-header mb-3">
-                        <div class="feature-category mb-2">
-                            <span class="wp-badge bg-warning bg-opacity-20 text-warning">Security</span>
-                        </div>
-                        <h4 class="feature-title fw-bold mb-2">Role-Based Security</h4>
-                    </div>
-                    <p class="feature-description text-muted mb-3">
-                        Comprehensive security with JWT authentication, role-based authorization, and data protection.
-                    </p>
-                    <div class="feature-demo mb-3">
-                        <button class="wp-btn-outline-warning wp-btn-sm" onclick="showSecurityDemo()">
-                            <i class="bi bi-shield-lock me-1"></i>Security Features
-                        </button>
-                    </div>
-                    <div class="tech-highlights">
-                        <small class="text-muted">
-                            <i class="bi bi-check text-success me-1"></i>JWT Authentication<br>
-                            <i class="bi bi-check text-success me-1"></i>Claims-based Authorization<br>
-                            <i class="bi bi-check text-success me-1"></i>Data Protection
-                        </small>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-lg-4 col-md-6" data-fade-in>
-                <div class="feature-showcase-card glass spotlight-card hover-lift h-100 p-4">
-                    <div class="feature-header mb-3">
-                        <div class="feature-category mb-2">
-                            <span class="wp-badge bg-info bg-opacity-20 text-info">UI/UX</span>
-                        </div>
-                        <h4 class="feature-title fw-bold mb-2">Modern UI Effects</h4>
-                    </div>
-                    <p class="feature-description text-muted mb-3">
-                        Glass morphism, aurora backgrounds, and smooth animations create an engaging user experience.
-                    </p>
-                    <div class="feature-demo mb-3">
-                        <button class="wp-btn-outline-info wp-btn-sm" onclick="showUIDemo()">
-                            <i class="bi bi-palette me-1"></i>UI Showcase
-                        </button>
-                    </div>
-                    <div class="tech-highlights">
-                        <small class="text-muted">
-                            <i class="bi bi-check text-success me-1"></i>Glass Morphism<br>
-                            <i class="bi bi-check text-success me-1"></i>CSS3 Animations<br>
-                            <i class="bi bi-check text-success me-1"></i>Responsive Design
-                        </small>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </section>
 
-<!-- Workflow Demonstration -->
-<section class="workflow-demo py-5">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="display-5 fw-bold mb-3">System Workflows</h2>
-            <p class="lead text-muted">End-to-end process demonstrations</p>
+<section class="pub-section">
+    <div class="pub-section__inner">
+        <div class="pub-section__header">
+            <h2 class="pub-section__title">System Workflows</h2>
+            <p class="pub-section__subtitle">End-to-end process demonstrations</p>
         </div>
-        
         <!-- User Registration Workflow -->
-        <div class="workflow-section mb-5">
+        <div class="mb-5">
             <div class="glass p-4">
                 <h3 class="mb-4">
-                    <i class="bi bi-person-plus me-2"></i>User Registration Workflow
+                    <i class="bi bi-person-plus me-2" aria-hidden="true"></i>User Registration Workflow
                 </h3>
-                <div class="workflow-steps">
-                    <div class="row g-4">
-                        <div class="col-md-2">
-                            <div class="workflow-step text-center p-3 bg-light rounded">
-                                <div class="step-number bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
-                                    1
-                                </div>
-                                <h6 class="fw-bold">Registration</h6>
-                                <p class="small text-muted mb-0">User fills registration form</p>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="workflow-step text-center p-3 bg-light rounded">
-                                <div class="step-number bg-info text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
-                                    2
-                                </div>
-                                <h6 class="fw-bold">Validation</h6>
-                                <p class="small text-muted mb-0">Server-side validation and security checks</p>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="workflow-step text-center p-3 bg-light rounded">
-                                <div class="step-number bg-warning text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
-                                    3
-                                </div>
-                                <h6 class="fw-bold">Email Verification</h6>
-                                <p class="small text-muted mb-0">Confirmation email sent</p>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="workflow-step text-center p-3 bg-light rounded">
-                                <div class="step-number bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
-                                    4
-                                </div>
-                                <h6 class="fw-bold">Role Assignment</h6>
-                                <p class="small text-muted mb-0">Default User role assigned</p>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="workflow-step text-center p-3 bg-light rounded">
-                                <div class="step-number bg-dark text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
-                                    5
-                                </div>
-                                <h6 class="fw-bold">Admin Approval</h6>
-                                <p class="small text-muted mb-0">Admin reviews and approves</p>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="workflow-step text-center p-3 bg-light rounded">
-                                <div class="step-number bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
-                                    6
-                                </div>
-                                <h6 class="fw-bold">Access Granted</h6>
-                                <p class="small text-muted mb-0">User can access full system</p>
-                            </div>
-                        </div>
+                <div class="pub-workflow-steps">
+                    <div class="pub-workflow-step">
+                        <div class="pub-step-number bg-primary">1</div>
+                        <h4 class="h6 fw-bold">Registration</h4>
+                        <p class="small text-muted mb-0">User fills registration form</p>
+                    </div>
+                    <div class="pub-workflow-step">
+                        <div class="pub-step-number bg-info">2</div>
+                        <h4 class="h6 fw-bold">Validation</h4>
+                        <p class="small text-muted mb-0">Server-side validation and security checks</p>
+                    </div>
+                    <div class="pub-workflow-step">
+                        <div class="pub-step-number bg-warning">3</div>
+                        <h4 class="h6 fw-bold">Email Verification</h4>
+                        <p class="small text-muted mb-0">Confirmation email sent</p>
+                    </div>
+                    <div class="pub-workflow-step">
+                        <div class="pub-step-number" style="background: var(--color-success);">4</div>
+                        <h4 class="h6 fw-bold">Role Assignment</h4>
+                        <p class="small text-muted mb-0">Default User role assigned</p>
+                    </div>
+                    <div class="pub-workflow-step">
+                        <div class="pub-step-number" style="background: var(--color-text);">5</div>
+                        <h4 class="h6 fw-bold">Admin Approval</h4>
+                        <p class="small text-muted mb-0">Admin reviews and approves</p>
+                    </div>
+                    <div class="pub-workflow-step">
+                        <div class="pub-step-number" style="background: var(--color-success);">6</div>
+                        <h4 class="h6 fw-bold">Access Granted</h4>
+                        <p class="small text-muted mb-0">User can access full system</p>
                     </div>
                 </div>
                 <div class="mt-4 p-3 bg-dark text-light rounded">
-                    <h6 class="text-warning mb-2">
-                        <i class="bi bi-code me-1"></i>Technical Implementation
-                    </h6>
+                    <h4 class="h6 text-warning mb-2">
+                        <i class="bi bi-code me-1" aria-hidden="true"></i>Technical Implementation
+                    </h4>
                     <small>
-                        Uses ASP.NET Core Identity with custom user entity, email service integration, 
+                        Uses ASP.NET Core Identity with custom user entity, email service integration,
                         role-based authorization with claims, and admin approval workflow with notifications.
                     </small>
                 </div>
             </div>
         </div>
-        
         <!-- Book Purchase Workflow -->
-        <div class="workflow-section mb-5">
+        <div>
             <div class="glass p-4">
                 <h3 class="mb-4">
-                    <i class="bi bi-cart me-2"></i>Book Purchase Workflow
+                    <i class="bi bi-cart me-2" aria-hidden="true"></i>Book Purchase Workflow
                 </h3>
-                <div class="workflow-steps">
-                    <div class="row g-4">
-                        <div class="col-md-3">
-                            <div class="workflow-step text-center p-3 bg-light rounded">
-                                <div class="step-number bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
-                                    1
-                                </div>
-                                <h6 class="fw-bold">Browse & Select</h6>
-                                <p class="small text-muted mb-0">User browses and adds books to cart</p>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="workflow-step text-center p-3 bg-light rounded">
-                                <div class="step-number bg-info text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
-                                    2
-                                </div>
-                                <h6 class="fw-bold">Checkout</h6>
-                                <p class="small text-muted mb-0">Review cart and enter shipping details</p>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="workflow-step text-center p-3 bg-light rounded">
-                                <div class="step-number bg-warning text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
-                                    3
-                                </div>
-                                <h6 class="fw-bold">Payment</h6>
-                                <p class="small text-muted mb-0">Secure payment processing</p>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="workflow-step text-center p-3 bg-light rounded">
-                                <div class="step-number bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
-                                    4
-                                </div>
-                                <h6 class="fw-bold">Order Fulfillment</h6>
-                                <p class="small text-muted mb-0">Order processing and delivery</p>
-                            </div>
-                        </div>
+                <div class="pub-workflow-steps">
+                    <div class="pub-workflow-step">
+                        <div class="pub-step-number bg-primary">1</div>
+                        <h4 class="h6 fw-bold">Browse &amp; Select</h4>
+                        <p class="small text-muted mb-0">User browses and adds books to cart</p>
+                    </div>
+                    <div class="pub-workflow-step">
+                        <div class="pub-step-number bg-info">2</div>
+                        <h4 class="h6 fw-bold">Checkout</h4>
+                        <p class="small text-muted mb-0">Review cart and enter shipping details</p>
+                    </div>
+                    <div class="pub-workflow-step">
+                        <div class="pub-step-number bg-warning">3</div>
+                        <h4 class="h6 fw-bold">Payment</h4>
+                        <p class="small text-muted mb-0">Secure payment processing</p>
+                    </div>
+                    <div class="pub-workflow-step">
+                        <div class="pub-step-number" style="background: var(--color-success);">4</div>
+                        <h4 class="h6 fw-bold">Order Fulfillment</h4>
+                        <p class="small text-muted mb-0">Order processing and delivery</p>
                     </div>
                 </div>
                 <div class="mt-4 p-3 bg-dark text-light rounded">
-                    <h6 class="text-warning mb-2">
-                        <i class="bi bi-code me-1"></i>Technical Implementation
-                    </h6>
+                    <h4 class="h6 text-warning mb-2">
+                        <i class="bi bi-code me-1" aria-hidden="true"></i>Technical Implementation
+                    </h4>
                     <small>
-                        Order aggregate with domain events, state machine pattern for order status, 
+                        Order aggregate with domain events, state machine pattern for order status,
                         payment gateway integration, inventory management, and email notifications.
                     </small>
                 </div>
@@ -565,30 +370,22 @@
     </div>
 </section>
 
-<!-- Demo Actions -->
-<section class="demo-actions aurora-bg noise-overlay py-5">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-8 text-center text-white">
-                <h2 class="display-4 fw-bold mb-4">Ready to Get Started?</h2>
-                <p class="lead mb-4">
-                    Experience the full system by creating your account and accessing all features.
-                </p>
-                <div class="d-flex gap-3 justify-content-center flex-wrap">
-                    <a asp-controller="Auth" asp-action="Registration" 
-                       class="wp-btn-primary magnetic-btn holographic wp-btn-lg">
-                        <i class="bi bi-person-plus me-2"></i>Create Account
-                    </a>
-                    <a asp-controller="Auth" asp-action="Login" 
-                       class="wp-btn-secondary magnetic-btn wp-btn-lg">
-                        <i class="bi bi-box-arrow-in-right me-2"></i>Login
-                    </a>
-                    <a asp-action="TechnicalDetails" 
-                       class="wp-btn-outline-light magnetic-btn wp-btn-lg">
-                        <i class="bi bi-gear me-2"></i>Technical Details
-                    </a>
-                </div>
-            </div>
+<section class="demo-actions aurora-bg noise-overlay">
+    <div class="pub-hero--centered">
+        <h2 class="pub-section__title ">Ready to Get Started?</h2>
+        <p class="pub-hero__description ">
+            Experience the full system by creating your account and accessing all features.
+        </p>
+        <div class="pub-hero__actions">
+            <a asp-controller="Auth" asp-action="Registration" class="wp-btn wp-btn-primary magnetic-btn holographic wp-btn-lg">
+                <i class="bi bi-person-plus me-2" aria-hidden="true"></i>Create Account
+            </a>
+            <a asp-controller="Auth" asp-action="Login" class="wp-btn wp-btn-secondary magnetic-btn wp-btn-lg">
+                <i class="bi bi-box-arrow-in-right me-2" aria-hidden="true"></i>Login
+            </a>
+            <a asp-action="TechnicalDetails" class="wp-btn wp-btn-outline magnetic-btn wp-btn-lg">
+                <i class="bi bi-gear me-2" aria-hidden="true"></i>Technical Details
+            </a>
         </div>
     </div>
 </section>
@@ -782,8 +579,8 @@
                             <p class="mb-0">Translucent backgrounds with backdrop blur effects for modern, layered interfaces.</p>
                         </div>
                         <div class="ui-example mb-3 p-3 aurora-bg noise-overlay rounded">
-                            <h6 class="text-white"><i class="bi bi-stars me-2"></i>Aurora Backgrounds</h6>
-                            <p class="text-white-75 mb-0">Dynamic gradient animations creating immersive visual experiences.</p>
+                            <h6 class=""><i class="bi bi-stars me-2"></i>Aurora Backgrounds</h6>
+                            <p class=" mb-0">Dynamic gradient animations creating immersive visual experiences.</p>
                         </div>
                         <div class="ui-example mb-3 p-3 bg-light rounded spotlight-card">
                             <h6><i class="bi bi-magic me-2"></i>Interactive Elements</h6>
@@ -834,7 +631,7 @@
                         </div>
                     </div>
                     <div class="mt-3">
-                        <a href="/Auth/Login" class="wp-btn-primary">
+                        <a href="/Auth/Login" class="wp-btn wp-btn-primary">
                             <i class="bi bi-box-arrow-in-right me-2"></i>Login to Access Admin Features
                         </a>
                     </div>
@@ -851,10 +648,10 @@
                         This feature would be demonstrated with live functionality in the full system.
                     </p>
                     <div class="demo-actions">
-                        <a href="/Auth/Registration" class="wp-btn-primary me-2">
+                        <a href="/Auth/Registration" class="wp-btn wp-btn-primary me-2">
                             <i class="bi bi-person-plus me-1"></i>Create Account
                         </a>
-                        <a href="/Auth/Login" class="wp-btn-outline-primary">
+                        <a href="/Auth/Login" class="wp-btn wp-btn-outline-primary">
                             <i class="bi bi-box-arrow-in-right me-1"></i>Login
                         </a>
                     </div>
@@ -876,13 +673,13 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="demoModalLabel">${title}</h5>
-                                <button type="button" class="wp-btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <button type="button" class="wp-btn wp-btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                                 ${content}
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="wp-btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="wp-btn wp-btn-secondary" data-bs-dismiss="modal">Close</button>
                             </div>
                         </div>
                     </div>
@@ -970,20 +767,20 @@
             
             const imageUrl = book.imageUrl || '/images/default-book-improved.svg';
             const stockBadge = book.stockQuantity > 0 
-                ? '<span class="wp-badge bg-success position-absolute top-0 end-0 m-2"><i class="bi bi-check-circle me-1"></i>In Stock</span>'
-                : '<span class="wp-badge bg-danger position-absolute top-0 end-0 m-2"><i class="bi bi-x-circle me-1"></i>Out of Stock</span>';
+                ? '<span class="wp-badge text-white bg-success position-absolute top-0 end-0 m-2"><i class="bi bi-check-circle me-1"></i>In Stock</span>'
+                : '<span class="wp-badge text-white bg-danger position-absolute top-0 end-0 m-2"><i class="bi bi-x-circle me-1"></i>Out of Stock</span>';
             
             col.innerHTML = `
                 <div class="demo-book-card spotlight-card hover-lift h-100">
                     <div class="book-image-wrapper position-relative">
                         <img src="${imageUrl}" alt="${book.title}" class="demo-book-cover w-100">
                         <div class="demo-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center">
-                            <button class="wp-btn-light wp-btn-sm" onclick="viewBookDemo(${book.id})">
+                            <button class="wp-btn wp-btn-light" onclick="viewBookDemo(${book.id})">
                                 <i class="bi bi-eye me-1"></i>View Details
                             </button>
                         </div>
                         <div class="demo-badge position-absolute top-0 start-0 m-2">
-                            <span class="wp-badge bg-success bg-opacity-90">
+                            <span class="wp-badge text-white bg-success bg-opacity-90">
                                 <i class="bi bi-play-circle me-1"></i>Demo
                             </span>
                         </div>
@@ -1035,5 +832,4 @@
         }
     </script>
 }
-
 

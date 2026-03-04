@@ -712,43 +712,6 @@
   line-height: var(--line-height-relaxed) !important;
 }
 
-.text-muted {
-  color: var(--color-gray-600) !important;
-}
-.text-white {
-  color: var(--color-white) !important;
-}
-.text-white-75 {
-  color: rgba(255, 255, 255, 0.75) !important;
-}
-.text-white-50 {
-  color: rgba(255, 255, 255, 0.5) !important;
-}
-
-.text-primary {
-  color: var(--color-primary) !important;
-}
-.text-secondary {
-  color: var(--color-gray-600) !important;
-}
-.text-success {
-  color: var(--color-success) !important;
-}
-.text-danger {
-  color: var(--color-danger) !important;
-}
-.text-warning {
-  color: var(--color-warning) !important;
-}
-.text-info {
-  color: var(--color-info) !important;
-}
-.text-light {
-  color: var(--color-gray-100) !important;
-}
-.text-dark {
-  color: var(--color-gray-900) !important;
-}
 
 /* ========================================
    BACKGROUND UTILITIES

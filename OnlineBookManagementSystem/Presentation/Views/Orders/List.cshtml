@@ -34,10 +34,10 @@
         {
             <div class="order-list__stats">
                 <div class="stats-card stats-card--primary">
-                    <div class="stats-card__icon">
+                    <div class="stats-card__icon ">
                         <i class="bi bi-bag-check"></i>
                     </div>
-                    <div class="stats-card__content">
+                    <div class="stats-card__content text-center">
                         <div class="stats-card__value">@(Model.TotalOrders)</div>
                         <div class="stats-card__label">Total Orders</div>
                     </div>
@@ -46,7 +46,7 @@
                     <div class="stats-card__icon">
                         <i class="bi bi-clock-history"></i>
                     </div>
-                    <div class="stats-card__content">
+                    <div class="stats-card__content text-center">
                         <div class="stats-card__value">@(Model.PendingOrders ?? 0)</div>
                         <div class="stats-card__label">Pending</div>
                     </div>
@@ -55,7 +55,7 @@
                     <div class="stats-card__icon">
                         <i class="bi bi-truck"></i>
                     </div>
-                    <div class="stats-card__content">
+                    <div class="stats-card__content text-center">
                         <div class="stats-card__value">@(Model.ProcessingOrders ?? 0)</div>
                         <div class="stats-card__label">Processing</div>
                     </div>
@@ -64,7 +64,7 @@
                     <div class="stats-card__icon">
                         <i class="bi bi-check-circle"></i>
                     </div>
-                    <div class="stats-card__content">
+                    <div class="stats-card__content text-center">
                         <div class="stats-card__value">@(Model.CompletedOrders ?? 0)</div>
                         <div class="stats-card__label">Completed</div>
                     </div>
@@ -410,7 +410,7 @@
                 return;
             }
             
-            fetch('/Orders/Cancel', {
+            fetch('/Order/Cancel', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -440,7 +440,7 @@
                 return;
             }
             
-            fetch('/Orders/ChangeStatus', {
+            fetch('/Order/ChangeStatus', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -472,96 +472,10 @@
             toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
             toast.innerHTML = `
                 ${message}
-                <button type="button" class="wp-btn-close" data-bs-dismiss="alert"></button>
+                <button type="button" class="wp-btn wp-btn-close" data-bs-dismiss="alert"></button>
             `;
             document.body.appendChild(toast);
 
-            // Auto remove after 3 seconds
-            setTimeout(() => {
-                if (toast.parentNode) {
-                    toast.parentNode.removeChild(toast);
-                }
-            }, 3000);
-        }
-
-
-        function clearFilters() {
-            document.getElementById('filter-form').reset();
-            window.location.href = '@Url.Action("List")';
-        }
-
-        function cancelOrder(orderId) {
-            if (!confirm('Are you sure you want to cancel this order?')) {
-                return;
-            }
-            
-            fetch('/Orders/Cancel', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
-                },
-                body: JSON.stringify({ orderId: orderId })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    showNotification('Order cancelled successfully!', 'success');
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 1500);
-                } else {
-                    showNotification(data.message || 'Failed to cancel order', 'error');
-                }
-            })
-            .catch(error => {
-                showNotification('Error cancelling order', 'error');
-                console.error('Error:', error);
-            });
-        }
-
-        function changeOrderStatus(orderId, newStatus) {
-            if (!confirm(`Are you sure you want to change the order status to ${newStatus}?`)) {
-                return;
-            }
-            
-            fetch('/Orders/ChangeStatus', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
-                },
-                body: JSON.stringify({ orderId: orderId, status: newStatus })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    showNotification('Order status updated successfully!', 'success');
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 1500);
-                } else {
-                    showNotification(data.message || 'Failed to update order status', 'error');
-                }
-            })
-            .catch(error => {
-                showNotification('Error updating order status', 'error');
-                console.error('Error:', error);
-            });
-        }
-
-        function showNotification(message, type) {
-            // Create toast notification
-            const toast = document.createElement('div');
-            toast.className = `alert alert-${type === 'error' ? 'danger' : type} alert-dismissible fade show position-fixed`;
-            toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
-            toast.innerHTML = `
-                ${message}
-                <button type="button" class="wp-btn-close" data-bs-dismiss="alert"></button>
-            `;
-            document.body.appendChild(toast);
-
-            // Auto remove after 3 seconds
             setTimeout(() => {
                 if (toast.parentNode) {
                     toast.parentNode.removeChild(toast);

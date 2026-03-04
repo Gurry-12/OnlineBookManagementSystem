@@ -1,44 +1,42 @@
 @{
-    ViewData["Title"] = "Email Confirmation";
-// Ensure this matches your layout path
+    ViewData["Title"] = "Email Confirmation - Whispering Pages";
     bool isSuccess = ViewBag.IsSuccess ?? false;
     ViewData["Layout"] = "_LayoutAuth";
 }
 
-<div class="container d-flex justify-content-center align-items-center" style="min-height: 60vh;">
-    <div class="wp-card shadow-lg text-center" style="max-width: 500px; width: 100%; border-radius: 15px;">
-        <div class="wp-card-body p-5">
+@* Use semantic auth view wrapper for consistent min-height and centering *@
+<div class="view-auth-confirm">
+    <div class="auth-confirm-card wp-card wp-card--glass text-center">
+        <div class="wp-card-body">
 
             @if (isSuccess)
             {
-                <div class="mb-4">
-                    <i class="bi bi-check-circle-fill text-success" style="font-size: 4rem;"></i>
+                <div class="auth-confirm-card__icon auth-confirm-card__icon--success">
+                    <i class="bi bi-check-circle-fill"></i>
                 </div>
-                <h2 class="wp-card-title fw-bold text-success mb-3">Email Confirmed!</h2>
-                <p class="wp-card-text text-muted mb-4">
+                <h1 class="wp-card-title auth-confirm-card__heading text-success">Email Confirmed!</h1>
+                <p class="wp-card-text auth-confirm-card__message">
                     Your email address has been successfully verified. You now have full access to your account.
                 </p>
-                <a asp-controller="Auth" asp-action="Login" class="wp-btn-primary wp-btn-lg w-100 rounded-pill">
-                    <i class="bi bi-box-arrow-in-right me-2"></i> Click here to Login
+                <a asp-controller="Auth" asp-action="Login" class="wp-btn wp-btn-primary wp-btn-full"
+                   id="ConfirmEmailLoginBtn">
+                    <i class="bi bi-box-arrow-in-right me-2"></i> Sign In Now
                 </a>
             }
             else
             {
-                <div class="mb-4">
-                    <i class="bi bi-x-circle-fill text-danger" style="font-size: 4rem;"></i>
+                <div class="auth-confirm-card__icon auth-confirm-card__icon--danger">
+                    <i class="bi bi-x-circle-fill"></i>
                 </div>
-                <h2 class="wp-card-title fw-bold text-danger mb-3">Confirmation Failed</h2>
-                <p class="wp-card-text text-muted mb-4">
+                <h1 class="wp-card-title auth-confirm-card__heading text-danger">Confirmation Failed</h1>
+                <p class="wp-card-text auth-confirm-card__message">
                     We couldn't confirm your email. The link may be invalid or expired.
                 </p>
-                <div class="d-grid gap-2">
-                    <a asp-controller="Auth" asp-action="Login" class="wp-btn-outline-secondary rounded-pill">
-                        Go to Login
-                    </a>
-                </div>
+                <a asp-controller="Auth" asp-action="Login" class="wp-btn wp-btn-outline wp-btn-full"
+                   id="ConfirmEmailFallbackBtn">
+                    <i class="bi bi-arrow-left me-2"></i> Go to Login
+                </a>
             }
         </div>
     </div>
 </div>
-
-

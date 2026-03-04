@@ -1,209 +1,164 @@
 @using OnlineBookManagementSystem.Presentation.ViewModels.Books
 @model BookFormViewModel
 
-<form id="bookForm" enctype="multipart/form-data" class="needs-validation" novalidate>
-    @Html.AntiForgeryToken()
+<!-- Basic Information Section -->
+<div class="form-section mb-5">
+    <div class="section-header mb-4">
+        <h5 class="wp-heading-3 d-flex align-items-center">
+            <i class="bi bi-book me-2 text-primary"></i>
+            Basic Information
+        </h5>
+        <hr class="wp-divider">
+    </div>
     
-    @if (Model.Book?.Id > 0)
-    {
-        <input type="hidden" asp-for="Book.Id" />
-    }
-
-    <!-- Basic Information Section -->
-    <div class="form-section mb-4">
-        <div class="section-header mb-3">
-            <h6 class="d-flex align-items-center mb-2">
-                <i class="bi bi-book me-2 text-primary"></i>
-                Basic Information
-            </h6>
-            <hr class="wp-divider">
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="form__group">
+                <label asp-for="Book.Title" class="form__label">
+                    <i class="bi bi-book me-1"></i>Book Title
+                </label>
+                <input asp-for="Book.Title" class="form__input" placeholder="Enter book title" required />
+                <span asp-validation-for="Book.Title" class="form__error"></span>
+            </div>
         </div>
         
-        <div class="row g-3">
-            <div class="col-md-6">
-                <div class="wp-form-group">
-                    <label asp-for="Book.Title" class="wp-form-label">
-                        <i class="bi bi-book me-1"></i>Book Title
-                    </label>
-                    <input asp-for="Book.Title" class="wp-form-control" placeholder="Enter book title" required />
-                    <div class="invalid-feedback"></div>
-                </div>
+        <div class="col-md-6">
+            <div class="form__group">
+                <label asp-for="Book.Author" class="form__label">
+                    <i class="bi bi-person me-1"></i>Author Name
+                </label>
+                <input asp-for="Book.Author" class="form__input" placeholder="Enter author name" required />
+                <span asp-validation-for="Book.Author" class="form__error"></span>
             </div>
-            
-            <div class="col-md-6">
-                <div class="wp-form-group">
-                    <label asp-for="Book.Author" class="wp-form-label">
-                        <i class="bi bi-person me-1"></i>Author Name
-                    </label>
-                    <input asp-for="Book.Author" class="wp-form-control" placeholder="Enter author name" required />
-                    <div class="invalid-feedback"></div>
-                </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="form__group">
+                <label asp-for="Book.ISBN" class="form__label">
+                    <i class="bi bi-upc me-1"></i>ISBN
+                </label>
+                <input asp-for="Book.ISBN" class="form__input" placeholder="978-0-123456-78-9" />
+                <span asp-validation-for="Book.ISBN" class="form__error"></span>
             </div>
-            
-            <div class="col-md-4">
-                <div class="wp-form-group">
-                    <label asp-for="Book.ISBN" class="wp-form-label">
-                        <i class="bi bi-upc me-1"></i>ISBN
-                    </label>
-                    <input asp-for="Book.ISBN" class="wp-form-control" placeholder="978-0-123456-78-9" />
-                    <div class="invalid-feedback"></div>
-                </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="form__group">
+                <label asp-for="Book.Price" class="form__label">
+                    <i class="bi bi-currency-rupee me-1"></i>Price (₹)
+                </label>
+                <input asp-for="Book.Price" type="number" step="0.01" min="0" class="form__input" placeholder="0.00" required />
+                <span asp-validation-for="Book.Price" class="form__error"></span>
             </div>
-            
-            <div class="col-md-4">
-                <div class="wp-form-group">
-                    <label asp-for="Book.Price" class="wp-form-label">
-                        <i class="bi bi-currency-rupee me-1"></i>Price (₹)
-                    </label>
-                    <input asp-for="Book.Price" type="number" step="0.01" min="0" class="wp-form-control" placeholder="0.00" required />
-                    <div class="invalid-feedback"></div>
-                </div>
-            </div>
-            
-            <div class="col-md-4">
-                <div class="wp-form-group">
-                    <label asp-for="Book.CategoryId" class="wp-form-label">
-                        <i class="bi bi-tags me-1"></i>Category
-                    </label>
-                    <select asp-for="Book.CategoryId" asp-items="Model.Categories" class="wp-form-control" required>
-                        <option value="">-- Select Category --</option>
-                    </select>
-                    <div class="invalid-feedback"></div>
-                </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="form__group">
+                <label asp-for="Book.CategoryId" class="form__label">
+                    <i class="bi bi-tags me-1"></i>Category
+                </label>
+                <select asp-for="Book.CategoryId" asp-items="Model.Categories" class="form__select" required>
+                    <option value="">-- Select Category --</option>
+                </select>
+                <span asp-validation-for="Book.CategoryId" class="form__error"></span>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Inventory Management Section -->
-    <div class="form-section mb-4">
-        <div class="section-header mb-3">
-            <h6 class="d-flex align-items-center mb-2">
-                <i class="bi bi-boxes me-2 text-success"></i>
-                Inventory Management
-            </h6>
-            <hr class="wp-divider">
+<!-- Inventory Management Section -->
+<div class="form-section mb-5">
+    <div class="section-header mb-4">
+        <h5 class="wp-heading-3 d-flex align-items-center">
+            <i class="bi bi-boxes me-2 text-success"></i>
+            Inventory Management
+        </h5>
+        <hr class="wp-divider">
+    </div>
+    
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="form__group">
+                <label asp-for="Book.StockQuantity" class="form__label">
+                    <i class="bi bi-box me-1"></i>Stock Quantity
+                </label>
+                <input asp-for="Book.StockQuantity" type="number" min="0" class="form__input" placeholder="0" required />
+                <span asp-validation-for="Book.StockQuantity" class="form__error"></span>
+            </div>
         </div>
         
-        <div class="row g-3">
-            <div class="col-md-6">
-                <div class="wp-form-group">
-                    <label asp-for="Book.StockQuantity" class="wp-form-label">
-                        <i class="bi bi-box me-1"></i>Stock Quantity
-                    </label>
-                    <input asp-for="Book.StockQuantity" type="number" min="0" class="wp-form-control" placeholder="0" required />
-                    <div class="invalid-feedback"></div>
-                </div>
-            </div>
-            
-            <div class="col-md-6">
-                <div class="wp-form-group">
-                    <label asp-for="Book.LowStockThreshold" class="wp-form-label">
-                        <i class="bi bi-exclamation-triangle me-1"></i>Low Stock Alert Threshold
-                    </label>
-                    <input asp-for="Book.LowStockThreshold" type="number" min="0" class="wp-form-control" value="5" placeholder="5" />
-                    <div class="invalid-feedback"></div>
-                    <small class="text-muted">Alert when stock falls below this number</small>
-                </div>
+        <div class="col-md-6">
+            <div class="form__group">
+                <label asp-for="Book.LowStockThreshold" class="form__label">
+                    <i class="bi bi-exclamation-triangle me-1"></i>Low Stock Alert Threshold
+                </label>
+                <input asp-for="Book.LowStockThreshold" type="number" min="0" class="form__input" value="5" placeholder="5" />
+                <span asp-validation-for="Book.LowStockThreshold" class="form__error"></span>
+                <small class="form__help">Alert when stock falls below this number</small>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Media & Description Section -->
-    <div class="form-section mb-4">
-        <div class="section-header mb-3">
-            <h6 class="d-flex align-items-center mb-2">
-                <i class="bi bi-image me-2 text-info"></i>
-                Media & Description
-            </h6>
-            <hr class="wp-divider">
+<!-- Media & Description Section -->
+<div class="form-section mb-5">
+    <div class="section-header mb-4">
+        <h5 class="wp-heading-3 d-flex align-items-center">
+            <i class="bi bi-image me-2 text-info"></i>
+            Media &amp; Description
+        </h5>
+        <hr class="wp-divider">
+    </div>
+    
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="form__group">
+                <label asp-for="ImageFile" class="form__label">
+                    <i class="bi bi-camera me-1"></i>Book Cover Image
+                </label>
+                <input asp-for="ImageFile" type="file" accept="image/*" class="form__input" />
+                <small class="form__help">
+                    <i class="bi bi-info-circle me-1"></i>
+                    Recommended: JPG/PNG, Max 5MB, Aspect ratio 2:3
+                </small>
+            </div>
         </div>
         
-        <div class="row g-3">
-            <div class="col-md-6">
-                <div class="wp-form-group">
-                    <label for="imageFile" class="wp-form-label">
-                        <i class="bi bi-camera me-1"></i>Book Cover Image
+        <div class="col-md-6">
+            @if (Model.Book?.Id > 0 && !string.IsNullOrEmpty(Model.Book?.ImageUrl))
+            {
+                <div class="current-image-container">
+                    <label class="form__label">
+                        <i class="bi bi-image me-1"></i>Current Image
                     </label>
-                    <input name="imageFile" type="file" accept="image/*" class="wp-form-control" />
-                    <small class="text-muted">
-                        <i class="bi bi-info-circle me-1"></i>
-                        Recommended: JPG/PNG, Max 5MB, Aspect ratio 2:3
-                    </small>
-                </div>
-            </div>
-            
-            <div class="col-md-6">
-                <div class="image-preview-container">
-                    <div class="image-preview-placeholder">
-                        @if (!string.IsNullOrEmpty(Model.Book?.ImageUrl))
-                        {
-                            <img src="@Model.Book.ImageUrl" class="wp-book-image" alt="Current Image" style="max-height: 150px;" />
-                        }
-                        else
-                        {
-                            <i class="bi bi-image display-4 text-muted"></i>
-                            <p class="text-muted mt-2 small">Image Preview</p>
-                        }
+                    <div class="current-image-wrapper">
+                        <img src="@Model.Book.ImageUrl" alt="Current book cover" class="wp-book-image current-book-image" style="max-height: 200px;" />
+                        <div class="image-overlay">
+                            <small class="">Current Cover</small>
+                        </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="col-12">
-                <div class="wp-form-group">
-                    <label asp-for="Book.Description" class="wp-form-label">
-                        <i class="bi bi-text-paragraph me-1"></i>Book Description
-                    </label>
-                    <textarea asp-for="Book.Description" rows="4" class="wp-form-control" 
-                              placeholder="Enter a detailed description of the book..."></textarea>
-                    <div class="invalid-feedback"></div>
+            }
+            else
+            {
+                <div class="image-preview-container">
+                    <div class="image-preview-placeholder">
+                        <i class="bi bi-image display-1 text-muted"></i>
+                        <p class="text-muted mt-2">Image Preview</p>
+                    </div>
                 </div>
+            }
+        </div>
+        
+        <div class="col-12">
+            <div class="form__group">
+                <label asp-for="Book.Description" class="form__label">
+                    <i class="bi bi-text-paragraph me-1"></i>Book Description
+                </label>
+                <textarea asp-for="Book.Description" rows="5" class="form__textarea" 
+                          placeholder="Enter a detailed description of the book..."></textarea>
+                <span asp-validation-for="Book.Description" class="form__error"></span>
             </div>
         </div>
     </div>
-
-    <!-- Action Buttons -->
-    <div class="form-actions d-flex justify-content-end gap-2 pt-3 border-top">
-        <button type="button" class="wp-btn-secondary" data-bs-dismiss="modal">
-            <i class="bi bi-x-circle me-2"></i>Cancel
-        </button>
-        <button type="submit" id="submit-btn" class="wp-btn-primary">
-            <i class="bi bi-@(Model.Book?.Id > 0 ? "check-circle" : "plus-circle") me-2"></i>
-            @(Model.Book?.Id > 0 ? "Update Book" : "Create Book")
-        </button>
-    </div>
-</form>
-
-<script>
-    $(document).ready(function() {
-        // Image preview functionality
-        $('input[type="file"]').on('change', function(e) {
-            const file = e.target.files[0];
-            const preview = $('.image-preview-placeholder');
-            
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    preview.html(`<img src="${e.target.result}" class="wp-book-image" alt="Preview" style="max-height: 150px;">`);
-                };
-                reader.readAsDataURL(file);
-            } else {
-                preview.html(`
-                    <i class="bi bi-image display-4 text-muted"></i>
-                    <p class="text-muted mt-2 small">Image Preview</p>
-                `);
-            }
-        });
-
-        // Form validation enhancement
-        $('#bookForm').on('submit', function(e) {
-            if (!this.checkValidity()) {
-                e.preventDefault();
-                e.stopPropagation();
-            }
-            $(this).addClass('was-validated');
-        });
-    });
-</script>
-
-
-
+</div>

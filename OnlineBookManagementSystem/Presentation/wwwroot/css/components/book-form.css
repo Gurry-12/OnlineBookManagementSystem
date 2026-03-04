@@ -1,0 +1,108 @@
+/**
+ * Component: Book Form
+ * Purpose: Styling for book creation/editing forms and media preview elements
+ */
+
+/* Form Sections */
+.form-section {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  border: var(--border-width) solid var(--glass-border);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--transition-fast);
+}
+
+.form-section:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.section-header {
+  margin-bottom: var(--space-5);
+}
+
+.wp-heading-3 {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-900);
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+.wp-divider {
+  margin-top: var(--space-3);
+  margin-bottom: 0;
+  border-top: var(--border-width) solid var(--color-gray-200);
+  opacity: 1;
+}
+
+.wp-text-gradient {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+}
+
+/* Image Preview Components */
+.image-preview-container,
+.current-image-container,
+.new-image-preview {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.image-preview-placeholder {
+  background: var(--color-gray-50);
+  border: 2px dashed var(--color-gray-300);
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  text-align: center;
+  color: var(--color-gray-500);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.image-preview-placeholder:hover {
+  border-color: var(--color-primary);
+  background: var(--color-gray-100);
+  color: var(--color-primary);
+}
+
+.current-image-wrapper,
+.new-image-wrapper {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: var(--border-width) solid var(--color-gray-200);
+  display: inline-block;
+  box-shadow: var(--shadow-sm);
+}
+
+.wp-book-image {
+  max-width: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.image-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.6);
+  color: var(--color-white);
+  padding: var(--space-1) var(--space-2);
+  text-align: center;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  backdrop-filter: blur(2px);
+}

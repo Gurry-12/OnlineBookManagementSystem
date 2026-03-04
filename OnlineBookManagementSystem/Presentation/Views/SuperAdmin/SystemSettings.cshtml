@@ -4,21 +4,20 @@
     Layout = "/Presentation/Views/Shared/_LayoutSuperAdmin.cshtml";
 }
 
-<div class="container-fluid px-3 px-md-5 py-4">
-    <h2 class="text-danger fw-bold mb-4">
-        <i class="bi bi-gear me-2"></i>System Settings
-    </h2>
+<div class="view-content">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0 fw-bold" style="color: var(--text-color);">
+            <i class="bi bi-gear text-primary me-2"></i>System Settings
+        </h2>
+    </div>
 
-    <div class="row g-4">
+    <div class="view-grid view-grid--2-cols g-4">
         <!-- General Settings -->
-        <div class="col-md-6">
-            <div class="wp-card border-0 shadow-sm rounded-4">
-                <div class="wp-card-header bg-transparent border-0 py-3">
-                    <h5 class=" fw-semibold">
-                        <i class="bi bi-sliders me-2"></i>General Settings
-                    </h5>
-                </div>
-                <div class="wp-card-body">
+        <div class="view-card">
+            <div class="view-card__header">
+                <h5 class="view-card__title"><i class="bi bi-sliders text-primary me-2"></i>General Settings</h5>
+            </div>
+            <div class="view-card__body">
                     <form id="generalSettingsForm">
                         <div class="mb-3">
                             <label class="form-label">Site Name</label>
@@ -39,23 +38,19 @@
                                 <label class="form-check-label">Enable maintenance mode</label>
                             </div>
                         </div>
-                        <button type="submit" class="wp-btn-primary">
+                        <button type="submit" class="wp-btn wp-btn-primary">
                             <i class="bi bi-check-lg me-1"></i>Save Changes
                         </button>
                     </form>
                 </div>
             </div>
-        </div>
 
         <!-- Security Settings -->
-        <div class="col-md-6">
-            <div class="wp-card border-0 shadow-sm rounded-4">
-                <div class="wp-card-header bg-transparent border-0 py-3">
-                    <h5 class=" fw-semibold">
-                        <i class="bi bi-shield-check me-2"></i>Security Settings
-                    </h5>
-                </div>
-                <div class="wp-card-body">
+        <div class="view-card">
+            <div class="view-card__header">
+                <h5 class="view-card__title"><i class="bi bi-shield-check text-warning me-2"></i>Security Settings</h5>
+            </div>
+            <div class="view-card__body">
                     <form id="securitySettingsForm">
                         <div class="mb-3">
                             <label class="form-label">JWT Token Expiry (minutes)</label>
@@ -75,23 +70,19 @@
                                 <label class="form-check-label">Require email confirmation</label>
                             </div>
                         </div>
-                        <button type="submit" class="wp-btn-warning">
+                        <button type="submit" class="wp-btn wp-btn-warning">
                             <i class="bi bi-shield-check me-1"></i>Update Security
                         </button>
                     </form>
                 </div>
             </div>
-        </div>
 
         <!-- Email Settings -->
-        <div class="col-md-6">
-            <div class="wp-card border-0 shadow-sm rounded-4">
-                <div class="wp-card-header bg-transparent border-0 py-3">
-                    <h5 class=" fw-semibold">
-                        <i class="bi bi-envelope me-2"></i>Email Settings
-                    </h5>
-                </div>
-                <div class="wp-card-body">
+        <div class="view-card">
+            <div class="view-card__header">
+                <h5 class="view-card__title"><i class="bi bi-envelope text-info me-2"></i>Email Settings</h5>
+            </div>
+            <div class="view-card__body">
                     <form id="emailSettingsForm">
                         <div class="mb-3">
                             <label class="form-label">SMTP Host</label>
@@ -116,27 +107,23 @@
                             </div>
                         </div>
                         <div class="d-flex gap-2">
-                            <button type="submit" class="wp-btn-success">
+                            <button type="submit" class="wp-btn wp-btn-success">
                                 <i class="bi bi-envelope-check me-1"></i>Save Email Settings
                             </button>
-                            <button type="button" class="wp-btn-outline-info" onclick="testEmail()">
+                            <button type="button" class="wp-btn wp-btn-outline-info" onclick="testEmail()">
                                 <i class="bi bi-send me-1"></i>Test Email
                             </button>
                         </div>
                     </form>
                 </div>
             </div>
-        </div>
 
         <!-- System Information -->
-        <div class="col-md-6">
-            <div class="wp-card border-0 shadow-sm rounded-4">
-                <div class="wp-card-header bg-transparent border-0 py-3">
-                    <h5 class="fw-semibold">
-                        <i class="bi bi-info-circle me-2"></i>System Information
-                    </h5>
-                </div>
-                <div class="wp-card-body">
+        <div class="view-card">
+            <div class="view-card__header">
+                <h5 class="view-card__title"><i class="bi bi-info-circle text-primary me-2"></i>System Information</h5>
+            </div>
+            <div class="view-card__body">
                     <div class="row g-3">
                         <div class="col-12">
                             <div class="d-flex justify-content-between">
@@ -165,7 +152,7 @@
                         <div class="col-12">
                             <div class="d-flex justify-content-between">
                                 <span class="text-muted">Environment:</span>
-                                <span class="wp-badge bg-@(Model?.Environment == "Production" ? "success" : "warning")">
+                                <span class="wp-badge text-white bg-@(Model?.Environment == "Production" ? "success" : "warning")">
                                     @Model?.Environment
                                 </span>
                             </div>
@@ -175,13 +162,13 @@
                     <hr class="my-3">
                     
                     <div class="d-flex gap-2">
-                        <button class="wp-btn-outline-primary wp-btn-sm" onclick="clearCache()">
+                        <button class="wp-btn wp-btn-outline-primary " onclick="clearCache()">
                             <i class="bi bi-arrow-clockwise me-1"></i>Clear Cache
                         </button>
-                        <button class="wp-btn-outline-warning wp-btn-sm" onclick="backupDatabase()">
+                        <button class="wp-btn wp-btn-outline-warning " onclick="backupDatabase()">
                             <i class="bi bi-download me-1"></i>Backup DB
                         </button>
-                        <button class="wp-btn-outline-danger wp-btn-sm" onclick="restartApplication()">
+                        <button class="wp-btn wp-btn-outline-danger " onclick="restartApplication()">
                             <i class="bi bi-arrow-repeat me-1"></i>Restart App
                         </button>
                     </div>

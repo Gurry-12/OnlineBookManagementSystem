@@ -6,16 +6,6 @@
 
 <div class="view-order-details">
 <div class="container py-4">
-    <!-- Breadcrumb Navigation -->
-    <nav aria-label="breadcrumb" class="mb-4">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="@Model.Capabilities.BackLinkUrl">@Model.Capabilities.BackLinkText</a>
-            </li>
-            <li class="breadcrumb-item active" aria-current="page">Order @Model.OrderNumber</li>
-        </ol>
-    </nav>
-
     <div class="row mb-4">
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center">
@@ -28,17 +18,17 @@
                 <div class="d-flex gap-2">
                     @if (Model.Capabilities.CanCancel && (Model.Status == OnlineBookManagementSystem.Core.Domain.Enums.OrderStatus.Pending || Model.Status == OnlineBookManagementSystem.Core.Domain.Enums.OrderStatus.Processing))
                     {
-                        <button class="wp-btn-secondary" onclick="cancelOrder(@Model.OrderId)">
+                        <button class="wp-btn wp-btn-secondary" onclick="cancelOrder(@Model.OrderId)">
                             <i class="bi bi-x-circle me-1"></i>Cancel Order
                         </button>
                     }
                     @if (Model.Capabilities.CanReorder && Model.Status == OnlineBookManagementSystem.Core.Domain.Enums.OrderStatus.Completed)
                     {
-                        <button class="wp-btn-secondary" onclick="reorderItems(@Model.OrderId)">
+                        <button class="wp-btn wp-btn-secondary" onclick="reorderItems(@Model.OrderId)">
                             <i class="bi bi-arrow-repeat me-1"></i>Reorder Items
                         </button>
                     }
-                    <button class="wp-btn-secondary" onclick="window.print()">
+                    <button class="wp-btn wp-btn-secondary" onclick="window.print()">
                         <i class="bi bi-printer me-1"></i>Print Order
                     </button>
                 </div>
@@ -93,25 +83,25 @@
                                 <div class="d-grid gap-2">
                                     @if (Model.Capabilities.CanMarkAsProcessing && Model.Status == OnlineBookManagementSystem.Core.Domain.Enums.OrderStatus.Pending)
                                     {
-                                        <button class="wp-btn-secondary wp-btn-sm" onclick="changeOrderStatus(@Model.OrderId, 'Processing')">
+                                        <button class="wp-btn wp-btn-secondary" onclick="changeOrderStatus(@Model.OrderId, 'Processing')">
                                             Mark as Processing
                                         </button>
                                     }
                                     @if (Model.Capabilities.CanMarkAsShipped && Model.Status == OnlineBookManagementSystem.Core.Domain.Enums.OrderStatus.Processing)
                                     {
-                                        <button class="wp-btn-secondary wp-btn-sm" onclick="changeOrderStatus(@Model.OrderId, 'Shipped')">
+                                        <button class="wp-btn wp-btn-secondary " onclick="changeOrderStatus(@Model.OrderId, 'Shipped')">
                                             Mark as Shipped
                                         </button>
                                     }
                                     @if (Model.Capabilities.CanMarkAsCompleted && Model.Status == OnlineBookManagementSystem.Core.Domain.Enums.OrderStatus.Shipped)
                                     {
-                                        <button class="wp-btn-secondary wp-btn-sm" onclick="changeOrderStatus(@Model.OrderId, 'Completed')">
+                                        <button class="wp-btn wp-btn-secondary " onclick="changeOrderStatus(@Model.OrderId, 'Completed')">
                                             Mark as Completed
                                         </button>
                                     }
                                     @if (Model.Capabilities.CanMarkAsCancelled && Model.Status != OnlineBookManagementSystem.Core.Domain.Enums.OrderStatus.Cancelled && Model.Status != OnlineBookManagementSystem.Core.Domain.Enums.OrderStatus.Completed)
                                     {
-                                        <button class="wp-btn-secondary wp-btn-sm" onclick="changeOrderStatus(@Model.OrderId, 'Cancelled')">
+                                        <button class="wp-btn wp-btn-secondary" onclick="changeOrderStatus(@Model.OrderId, 'Cancelled')">
                                             Mark as Cancelled
                                         </button>
                                     }
@@ -261,7 +251,7 @@
                         @if (Model.Capabilities.CanRefund && Model.PaymentStatus == OnlineBookManagementSystem.Core.Domain.Enums.PaymentStatus.Paid)
                         {
                             <hr>
-                            <button class="wp-btn-secondary w-100" onclick="processRefund(@Model.OrderId)">
+                            <button class="wp-btn wp-btn-secondary w-100" onclick="processRefund(@Model.OrderId)">
                                 <i class="bi bi-arrow-counterclockwise me-2"></i>Process Refund
                             </button>
                         }
@@ -328,7 +318,7 @@
                                 <label class="form-label">Admin Notes:</label>
                                 <textarea id="adminNotes" class="form-control" rows="3" placeholder="Add internal notes...">@Model.AdminNotes</textarea>
                             </div>
-                            <button class="wp-btn-primary wp-btn-sm w-100" onclick="saveAdminNotes(@Model.OrderId)">
+                            <button class="wp-btn wp-btn-primary w-100" onclick="saveAdminNotes(@Model.OrderId)">
                                 <i class="bi bi-save me-1"></i>Save Notes
                             </button>
                         }
@@ -499,7 +489,7 @@
             toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
             toast.innerHTML = `
                 ${message}
-                <button type="button" class="wp-btn-close" data-bs-dismiss="alert"></button>
+                <button type="button" class="wp-btn wp-btn-close" data-bs-dismiss="alert"></button>
             `;
             document.body.appendChild(toast);
 

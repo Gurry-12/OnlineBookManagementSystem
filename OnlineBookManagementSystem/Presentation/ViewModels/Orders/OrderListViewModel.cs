@@ -59,6 +59,6 @@ public class OrderListCapabilities
     public string BackLinkText { get; set; } = "Back to Dashboard";
     public string BackLinkUrl { get; set; } = "/";
     public string DetailsActionName { get; set; } = "Details";
-    public string DetailsControllerName { get; set; } = "Orders";
+    public string DetailsControllerName { get; set; } = "Order";
     public string LayoutClass { get; set; } = "user-layout";
 }
